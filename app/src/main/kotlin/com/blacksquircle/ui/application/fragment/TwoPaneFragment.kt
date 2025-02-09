@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.application.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -25,36 +26,30 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.doOnLayout
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.R
 import com.blacksquircle.ui.application.navigation.AppScreen
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
 import com.blacksquircle.ui.core.delegate.viewBinding
-import com.blacksquircle.ui.core.extensions.*
-import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.extensions.activityViewModels
+import com.blacksquircle.ui.core.extensions.getColorAttr
+import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.postponeEnterTransition
+import com.blacksquircle.ui.core.extensions.setFadeTransition
 import com.blacksquircle.ui.core.navigation.BackPressedHandler
 import com.blacksquircle.ui.core.navigation.DrawerHandler
 import com.blacksquircle.ui.databinding.FragmentTwoPaneBinding
-import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
-import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
-import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
-import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
-import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerViewEvent
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import com.blacksquircle.ui.internal.di.AppComponent
+import javax.inject.Inject
+import javax.inject.Provider
 
-@AndroidEntryPoint
-class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
+internal class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
 
-    private val mainViewModel by activityViewModels<MainViewModel>()
-    private val explorerViewModel by activityViewModels<ExplorerViewModel>()
-    private val editorViewModel by activityViewModels<EditorViewModel>()
+    @Inject
+    lateinit var mainViewModelProvider: Provider<MainViewModel>
+
+    private val viewModel by activityViewModels<MainViewModel> { mainViewModelProvider.get() }
+
     private val navController by lazy { findNavController() }
     private val binding by viewBinding(FragmentTwoPaneBinding::bind)
 
@@ -74,16 +69,20 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
     private var editorBackPressedHandler: BackPressedHandler? = null
     private var explorerBackPressedHandler: BackPressedHandler? = null
 
+    override fun onAttach(context: Context) {
+        AppComponent.buildOrGet(context).inject(this)
+        super.onAttach(context)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setFadeTransition(binding.root as ViewGroup)
         postponeEnterTransition(view)
-        observeViewModel()
 
         editorBackPressedHandler = childFragmentManager
-            .fragment<EditorFragment>(R.id.fragment_editor)
+            .findFragmentById(R.id.fragment_editor) as? BackPressedHandler
         explorerBackPressedHandler = childFragmentManager
-            .fragment<ExplorerFragment>(R.id.fragment_explorer)
+            .findFragmentById(R.id.fragment_explorer) as? BackPressedHandler
 
         val alphaFiftyPercent = 0x80
         val scrimColor = ColorUtils.setAlphaComponent(
@@ -110,7 +109,7 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
                         }
                     } else {
                         if (editorBackPressedHandler?.handleOnBackPressed() == false) {
-                            if (mainViewModel.confirmExit) {
+                            if (viewModel.confirmExit) {
                                 navController.navigateTo(AppScreen.ConfirmExit)
                             } else {
                                 activity?.finish()
@@ -128,36 +127,5 @@ class TwoPaneFragment : Fragment(R.layout.fragment_two_pane), DrawerHandler {
 
     override fun closeDrawer() {
         binding.drawerLayout?.closeDrawer(GravityCompat.START)
-    }
-
-    private fun observeViewModel() {
-        mainViewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { event ->
-                when (event) {
-                    is ViewEvent.Toast -> context?.showToast(text = event.message)
-                    is ViewEvent.NewIntent -> {
-                        val fileUri = event.intent.data ?: return@onEach
-                        val editorIntent = EditorIntent.OpenFileUri(fileUri)
-                        editorViewModel.obtainEvent(editorIntent)
-                    }
-                }
-            }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        explorerViewModel.customEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { event ->
-                when (event) {
-                    is ExplorerViewEvent.OpenFile -> {
-                        editorViewModel.obtainEvent(EditorIntent.OpenFile(event.fileModel))
-                        closeDrawer()
-                    }
-                    is ExplorerViewEvent.OpenFileWith -> {
-                        context?.openFileWith(event.fileModel)
-                        closeDrawer()
-                    }
-                    else -> Unit
-                }
-            }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

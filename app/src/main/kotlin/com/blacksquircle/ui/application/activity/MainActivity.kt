@@ -19,7 +19,6 @@ package com.blacksquircle.ui.application.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.updatePadding
@@ -27,28 +26,33 @@ import com.blacksquircle.ui.R
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
 import com.blacksquircle.ui.core.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.extensions.fullscreenMode
+import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.databinding.ActivityMainBinding
+import com.blacksquircle.ui.internal.di.AppComponent
 import com.blacksquircle.ui.utils.InAppUpdate
 import com.google.android.material.snackbar.Snackbar
-import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import javax.inject.Provider
 
-@AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+internal class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var inAppUpdate: InAppUpdate
 
-    private val mainViewModel by viewModels<MainViewModel>()
+    @Inject
+    lateinit var viewModelProvider: Provider<MainViewModel>
+
+    private val viewModel by viewModels<MainViewModel> { viewModelProvider.get() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppComponent.buildOrGet(this).inject(this)
         installSplashScreen()
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         enableEdgeToEdge()
-        window.fullscreenMode(mainViewModel.fullScreenMode)
+        window.fullscreenMode(viewModel.fullScreenMode)
 
         binding.navHost.applySystemWindowInsets(false) { left, _, right, _ ->
             binding.navHost.updatePadding(left = left, right = right)
@@ -61,12 +65,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            mainViewModel.handleIntent(intent)
+            viewModel.handleIntent(intent)
         }
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        mainViewModel.handleIntent(intent)
+        viewModel.handleIntent(intent)
     }
 }

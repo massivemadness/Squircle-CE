@@ -21,9 +21,9 @@ import android.net.Uri
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.feature.fonts.api.model.FontModel
+import com.blacksquircle.ui.feature.fonts.api.model.InternalFont
 import com.blacksquircle.ui.feature.fonts.data.mapper.FontMapper
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
-import com.blacksquircle.ui.feature.fonts.domain.model.InternalFont
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import kotlinx.coroutines.withContext
 import java.io.File

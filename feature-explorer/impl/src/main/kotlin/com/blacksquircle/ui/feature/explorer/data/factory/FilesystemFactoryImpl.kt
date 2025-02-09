@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.feature.explorer.data.factory
 
 import android.os.Environment
-import com.blacksquircle.ui.feature.explorer.domain.factory.FilesystemFactory
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
+import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.FileServer
 import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
@@ -30,7 +30,7 @@ import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
 import java.io.File
 
 internal class FilesystemFactoryImpl(
-    private val serversRepository: ServersRepository,
+    private val serversInteractor: ServersInteractor,
     private val cacheDirectory: File,
 ) : FilesystemFactory {
 
@@ -39,7 +39,7 @@ internal class FilesystemFactoryImpl(
             LocalFilesystem.LOCAL_UUID -> LocalFilesystem(Environment.getExternalStorageDirectory())
             RootFilesystem.ROOT_UUID -> RootFilesystem()
             else -> {
-                val serverConfig = serversRepository.loadServer(uuid)
+                val serverConfig = serversInteractor.loadServer(uuid)
                 return when (serverConfig.scheme) {
                     FileServer.FTP -> FTPFilesystem(serverConfig, cacheDirectory)
                     FileServer.FTPS -> FTPSFilesystem(serverConfig, cacheDirectory)

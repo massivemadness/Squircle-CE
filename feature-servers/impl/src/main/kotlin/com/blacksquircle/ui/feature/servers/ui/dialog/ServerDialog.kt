@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.servers.ui.dialog
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +24,6 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -32,28 +32,25 @@ import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.OpenFileContract
 import com.blacksquircle.ui.core.extensions.extractFilePath
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.servers.internal.ServersComponent
 import com.blacksquircle.ui.feature.servers.ui.fragment.CloudFragment
 import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-@AndroidEntryPoint
 internal class ServerDialog : DialogFragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ServerViewModel.Factory
 
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<ServerDialogArgs>()
-    private val viewModel by viewModels<ServerViewModel>(
-        extrasProducer = {
-            defaultViewModelCreationExtras.withCreationCallback<ServerViewModel.Factory> { factory ->
-                factory.create(serverId = navArgs.id)
-            }
-        }
-    )
+    private val viewModel by viewModels<ServerViewModel> { viewModelFactory.create(navArgs.id) }
     private val openFileContract = OpenFileContract(this) { result ->
         when (result) {
             is ContractResult.Success -> {
@@ -62,6 +59,11 @@ internal class ServerDialog : DialogFragment() {
             }
             is ContractResult.Canceled -> Unit
         }
+    }
+
+    override fun onAttach(context: Context) {
+        ServersComponent.buildOrGet(context).inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(

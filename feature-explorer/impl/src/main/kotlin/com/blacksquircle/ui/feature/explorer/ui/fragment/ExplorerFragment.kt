@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.explorer.ui.fragment
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -28,7 +29,6 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -44,14 +44,17 @@ import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.*
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.BackPressedHandler
+import com.blacksquircle.ui.core.navigation.DrawerHandler
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.api.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.data.utils.FileKeyProvider
 import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
 import com.blacksquircle.ui.feature.explorer.data.utils.clipText
+import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.databinding.FragmentExplorerBinding
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.adapter.DirectoryAdapter
 import com.blacksquircle.ui.feature.explorer.ui.adapter.FileAdapter
 import com.blacksquircle.ui.feature.explorer.ui.adapter.ServerAdapter
@@ -63,16 +66,19 @@ import com.blacksquircle.ui.feature.explorer.ui.mvi.ToolbarViewState
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
+import javax.inject.Provider
 import com.blacksquircle.ui.ds.R as UiR
 
-@AndroidEntryPoint
-class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandler {
+internal class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandler {
 
-    private val viewModel by activityViewModels<ExplorerViewModel>()
+    @Inject
+    lateinit var viewModelProvider: Provider<ExplorerViewModel>
+
+    private val viewModel by activityViewModels<ExplorerViewModel> { viewModelProvider.get() }
     private val binding by viewBinding(FragmentExplorerBinding::bind)
     private val navController by lazy { findNavController() }
     private val storagePermission = StoragePermission(this) { result ->
@@ -172,6 +178,11 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
     private lateinit var serverAdapter: ServerAdapter
     private lateinit var tabAdapter: DirectoryAdapter
     private lateinit var fileAdapter: FileAdapter
+
+    override fun onAttach(context: Context) {
+        ExplorerComponent.buildOrGet(context).inject(this)
+        super.onAttach(context)
+    }
 
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -364,13 +375,9 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
                     is ViewEvent.Navigation -> navController.navigateTo(event.screen)
-                }
-            }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        viewModel.customEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { event ->
-                when (event) {
+                    is ExplorerViewEvent.OpenFileWith -> {
+                        context?.openFileWith(event.fileModel)
+                    }
                     is ExplorerViewEvent.SelectAll -> {
                         tracker.setItemsSelected(fileAdapter.currentList.map(FileModel::fileUri), true)
                         fileAdapter.notifyItemRangeChanged(0, fileAdapter.itemCount)
@@ -379,7 +386,9 @@ class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandle
                         event.fileModel.path.clipText(context)
                         context?.showToast(R.string.message_done)
                     }
-                    else -> Unit
+                    is ExplorerViewEvent.CloseDrawer -> {
+                        (parentFragment as? DrawerHandler)?.closeDrawer()
+                    }
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

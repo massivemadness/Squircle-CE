@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -24,7 +25,6 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -53,8 +53,9 @@ import com.blacksquircle.ui.editorkit.plugin.textscroller.textScroller
 import com.blacksquircle.ui.editorkit.widget.TextScroller
 import com.blacksquircle.ui.editorkit.widget.internal.UndoRedoEditText
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.data.utils.SettingsEvent
+import com.blacksquircle.ui.feature.editor.data.model.SettingsEvent
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
+import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.adapter.AutoCompleteAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.DocumentAdapter
 import com.blacksquircle.ui.feature.editor.ui.adapter.TabController
@@ -62,18 +63,21 @@ import com.blacksquircle.ui.feature.editor.ui.manager.KeyboardManager
 import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
 import com.blacksquircle.ui.feature.editor.ui.mvi.*
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
-import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
-import dagger.hilt.android.AndroidEntryPoint
+import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
+import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
+import javax.inject.Provider
 import com.blacksquircle.ui.ds.R as UiR
 
-@AndroidEntryPoint
-class EditorFragment : Fragment(R.layout.fragment_editor),
+internal class EditorFragment : Fragment(R.layout.fragment_editor),
     BackPressedHandler, ToolbarManager.Listener, KeyboardManager.Listener {
 
-    private val viewModel by activityViewModels<EditorViewModel>()
+    @Inject
+    lateinit var viewModelProvider: Provider<EditorViewModel>
+
+    private val viewModel by activityViewModels<EditorViewModel> { viewModelProvider.get() }
     private val binding by viewBinding(FragmentEditorBinding::bind)
 
     private val drawerHandler by lazy { parentFragment as DrawerHandler }
@@ -113,6 +117,11 @@ class EditorFragment : Fragment(R.layout.fragment_editor),
     }
 
     private lateinit var tabAdapter: DocumentAdapter
+
+    override fun onAttach(context: Context) {
+        EditorComponent.buildOrGet(context).inject(this)
+        super.onAttach(context)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

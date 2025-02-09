@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.feature.fonts
 
 import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
+import com.blacksquircle.ui.feature.fonts.api.model.FontModel
 import com.blacksquircle.ui.feature.fonts.data.mapper.FontMapper
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

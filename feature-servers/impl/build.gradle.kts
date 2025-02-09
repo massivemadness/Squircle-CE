@@ -58,8 +58,8 @@ dependencies {
     testImplementation(libs.coroutines.test)
 
     // DI
-    implementation(libs.hilt)
-    ksp(libs.hilt.compiler)
+    implementation(libs.dagger)
+    ksp(libs.dagger.compiler)
 
     // Modules
     implementation(project(":feature-servers:api"))

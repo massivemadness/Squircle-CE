@@ -22,19 +22,14 @@ import com.blacksquircle.ui.feature.changelog.data.repository.ChangelogRepositor
 import com.blacksquircle.ui.feature.changelog.domain.repository.ChangelogRepository
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
 internal object ChangelogModule {
 
     @Provides
-    @Singleton
+    @ChangelogScope
     fun provideChangelogRepository(
-        @ApplicationContext context: Context,
+        context: Context,
         dispatcherProvider: DispatcherProvider,
     ): ChangelogRepository {
         return ChangelogRepositoryImpl(dispatcherProvider, context)

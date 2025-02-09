@@ -39,8 +39,8 @@ import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.OutlinedButton
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.feature.fonts.R
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
-import com.blacksquircle.ui.feature.fonts.domain.model.InternalFont
+import com.blacksquircle.ui.feature.fonts.api.model.FontModel
+import com.blacksquircle.ui.feature.fonts.api.model.InternalFont
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable

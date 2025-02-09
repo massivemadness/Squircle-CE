@@ -19,11 +19,7 @@ plugins {
 }
 
 android {
-    namespace = "com.blacksquircle.ui.feature.servers.domain"
-
-    buildFeatures {
-        resValues = false
-    }
+    namespace = "com.blacksquircle.ui.feature.servers.api"
 }
 
 dependencies {

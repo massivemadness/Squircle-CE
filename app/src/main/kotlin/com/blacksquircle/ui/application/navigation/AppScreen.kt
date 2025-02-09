@@ -18,7 +18,7 @@ package com.blacksquircle.ui.application.navigation
 
 import com.blacksquircle.ui.core.navigation.Screen
 
-sealed class AppScreen(route: String) : Screen<String>(route) {
+internal sealed class AppScreen(route: String) : Screen<String>(route) {
 
     data object ConfirmExit : AppScreen("blacksquircle://exit")
 }

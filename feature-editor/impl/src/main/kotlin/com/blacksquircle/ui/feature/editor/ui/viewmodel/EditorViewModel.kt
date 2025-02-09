@@ -26,9 +26,11 @@ import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
+import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
 import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
 import com.blacksquircle.ui.feature.editor.data.model.KeyModel
-import com.blacksquircle.ui.feature.editor.data.utils.SettingsEvent
+import com.blacksquircle.ui.feature.editor.data.model.SettingsEvent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
@@ -37,10 +39,9 @@ import com.blacksquircle.ui.feature.editor.ui.manager.KeyboardManager
 import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
 import com.blacksquircle.ui.feature.editor.ui.mvi.*
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
-import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
-import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
-import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
+import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
+import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -48,14 +49,14 @@ import timber.log.Timber
 import javax.inject.Inject
 import com.blacksquircle.ui.ds.R as UiR
 
-@HiltViewModel
-class EditorViewModel @Inject constructor(
+internal class EditorViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
     private val documentRepository: DocumentRepository,
-    private val themesRepository: ThemesRepository,
-    private val fontsRepository: FontsRepository,
-    private val shortcutsRepository: ShortcutsRepository,
+    private val editorInteractor: EditorInteractor,
+    private val themesInteractor: ThemesInteractor,
+    private val fontsInteractor: FontsInteractor,
+    private val shortcutsInteractor: ShortcutsInteractor,
 ) : ViewModel() {
 
     private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.ActionBar())
@@ -82,6 +83,19 @@ class EditorViewModel @Inject constructor(
 
     init {
         loadFiles()
+
+        editorInteractor.eventBus
+            .onEach { event ->
+                when (event) {
+                    is EditorApiEvent.OpenFile -> {
+                        obtainEvent(EditorIntent.OpenFile(event.fileModel))
+                    }
+                    is EditorApiEvent.OpenFileUri -> {
+                        obtainEvent(EditorIntent.OpenFileUri(event.fileUri))
+                    }
+                }
+            }
+            .launchIn(viewModelScope)
     }
 
     fun obtainEvent(event: EditorIntent) {
@@ -641,13 +655,13 @@ class EditorViewModel @Inject constructor(
             try {
                 val settings = mutableListOf<SettingsEvent<*>>()
 
-                val themeModel = themesRepository.current()
+                val themeModel = themesInteractor.current()
                 settings.add(SettingsEvent.ColorScheme(themeModel))
 
                 val fontSize = settingsManager.fontSize.toFloat()
                 settings.add(SettingsEvent.FontSize(fontSize))
 
-                val fontModel = fontsRepository.current()
+                val fontModel = fontsInteractor.current()
                 settings.add(SettingsEvent.FontType(fontModel))
 
                 val wordWrap = settingsManager.wordWrap
@@ -701,7 +715,7 @@ class EditorViewModel @Inject constructor(
                 val tabWidth = settingsManager.tabWidth
                 settings.add(SettingsEvent.TabWidth(tabWidth))
 
-                val keybindings = shortcutsRepository.loadShortcuts()
+                val keybindings = shortcutsInteractor.loadShortcuts()
                 settings.add(SettingsEvent.Keybindings(keybindings))
 
                 _settings.value = settings

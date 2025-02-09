@@ -17,11 +17,9 @@
 package com.blacksquircle.ui.core.extensions
 
 import android.os.Bundle
-import androidx.annotation.IdRes
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentResultListener
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
@@ -57,11 +55,6 @@ fun NavController.navigateTo(
 
         else -> throw IllegalArgumentException("Can't handle route type")
     }
-}
-
-@Suppress("UNCHECKED_CAST")
-fun <T : Fragment> FragmentManager.fragment(@IdRes id: Int): T? {
-    return findFragmentById(id) as? T
 }
 
 fun Fragment.sendFragmentResult(resultKey: String, vararg pairs: Pair<String, Any?>) {

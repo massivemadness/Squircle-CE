@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.ui.dialog
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,19 +26,28 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringResource
 import androidx.core.graphics.toColorInt
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
+import com.blacksquircle.ui.core.extensions.activityViewModels
 import com.blacksquircle.ui.ds.dialog.ColorPickerDialog
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import javax.inject.Provider
 import com.blacksquircle.ui.ds.R as UiR
 
-@AndroidEntryPoint
-class InsertColorDialog : DialogFragment() {
+internal class InsertColorDialog : DialogFragment() {
 
-    private val viewModel by activityViewModels<EditorViewModel>()
+    @Inject
+    lateinit var viewModelProvider: Provider<EditorViewModel>
+
+    private val viewModel by activityViewModels<EditorViewModel> { viewModelProvider.get() }
+
+    override fun onAttach(context: Context) {
+        EditorComponent.buildOrGet(context).inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

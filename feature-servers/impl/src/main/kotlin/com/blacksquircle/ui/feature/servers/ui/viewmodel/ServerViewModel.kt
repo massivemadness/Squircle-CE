@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.servers.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.servers.domain.ServersRepository
 import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState
 import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState.Companion.DEFAULT_FTP_PORT
 import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState.Companion.DEFAULT_SFTP_PORT
@@ -32,7 +32,6 @@ import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -45,7 +44,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.UUID
 
-@HiltViewModel(assistedFactory = ServerViewModel.Factory::class)
 internal class ServerViewModel @AssistedInject constructor(
     private val serversRepository: ServersRepository,
     @Assisted private val serverId: String?,

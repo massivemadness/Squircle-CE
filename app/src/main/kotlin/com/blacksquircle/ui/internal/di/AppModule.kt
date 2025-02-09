@@ -23,14 +23,10 @@ import com.blacksquircle.ui.internal.provider.coroutine.DispatcherProviderImpl
 import com.blacksquircle.ui.internal.provider.resources.StringProviderImpl
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
-object AppModule {
+@Module(includes = [InAppUpdateModule::class])
+internal object AppModule {
 
     @Provides
     @Singleton
@@ -40,7 +36,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideStringProvider(@ApplicationContext context: Context): StringProvider {
+    fun provideStringProvider(context: Context): StringProvider {
         return StringProviderImpl(context)
     }
 }

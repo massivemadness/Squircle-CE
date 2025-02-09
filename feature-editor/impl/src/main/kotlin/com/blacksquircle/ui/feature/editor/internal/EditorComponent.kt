@@ -1,0 +1,100 @@
+/*
+ * Copyright 2025 Squircle CE contributors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.blacksquircle.ui.feature.editor.internal
+
+import android.content.Context
+import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
+import com.blacksquircle.ui.core.internal.CoreApiProvider
+import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider
+import com.blacksquircle.ui.feature.editor.api.internal.EditorApiProvider
+import com.blacksquircle.ui.feature.editor.ui.dialog.CloseModifiedDialog
+import com.blacksquircle.ui.feature.editor.ui.dialog.ForceSyntaxDialog
+import com.blacksquircle.ui.feature.editor.ui.dialog.GotoLineDialog
+import com.blacksquircle.ui.feature.editor.ui.dialog.InsertColorDialog
+import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
+import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvider
+import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiProvider
+import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiDepsProvider
+import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiProvider
+import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiDepsProvider
+import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiProvider
+import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiDepsProvider
+import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiProvider
+import dagger.Component
+
+@EditorScope
+@Component(
+    modules = [
+        EditorModule::class,
+    ],
+    dependencies = [
+        CoreApiDepsProvider::class,
+        EditorApiDepsProvider::class,
+        ExplorerApiDepsProvider::class,
+        FontsApiDepsProvider::class,
+        ShortcutsApiDepsProvider::class,
+        ThemesApiDepsProvider::class,
+    ]
+)
+internal interface EditorComponent {
+
+    fun inject(dialog: CloseModifiedDialog)
+    fun inject(dialog: ForceSyntaxDialog)
+    fun inject(dialog: GotoLineDialog)
+    fun inject(dialog: InsertColorDialog)
+    fun inject(fragment: EditorFragment)
+
+    @Component.Factory
+    interface Factory {
+        fun create(
+            coreApiDepsProvider: CoreApiDepsProvider,
+            editorApiDepsProvider: EditorApiDepsProvider,
+            explorerApiDepsProvider: ExplorerApiDepsProvider,
+            fontsApiDepsProvider: FontsApiDepsProvider,
+            shortcutsApiDepsProvider: ShortcutsApiDepsProvider,
+            themesApiDepsProvider: ThemesApiDepsProvider,
+        ): EditorComponent
+    }
+
+    companion object {
+
+        private var component: EditorComponent? = null
+
+        fun buildOrGet(context: Context): EditorComponent {
+            return component ?: DaggerEditorComponent.factory().create(
+                coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
+                    .provideCoreApiDepsProvider(),
+                editorApiDepsProvider = (context.applicationContext as EditorApiProvider)
+                    .provideEditorApiDepsProvider(),
+                explorerApiDepsProvider = (context.applicationContext as ExplorerApiProvider)
+                    .provideExplorerApiDepsProvider(),
+                fontsApiDepsProvider = (context.applicationContext as FontsApiProvider)
+                    .provideFontsApiDepsProvider(),
+                shortcutsApiDepsProvider = (context.applicationContext as ShortcutsApiProvider)
+                    .provideShortcutsApiDepsProvider(),
+                themesApiDepsProvider = (context.applicationContext as ThemesApiProvider)
+                    .provideThemesApiDepsProvider(),
+            ).also {
+                component = it
+            }
+        }
+
+        fun release() {
+            component = null
+        }
+    }
+}

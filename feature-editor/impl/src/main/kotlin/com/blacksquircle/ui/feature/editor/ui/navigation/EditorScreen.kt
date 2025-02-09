@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.editor.ui.navigation
 import com.blacksquircle.ui.core.extensions.encodeUri
 import com.blacksquircle.ui.core.navigation.Screen
 
-sealed class EditorScreen(route: String) : Screen<String>(route) {
+internal sealed class EditorScreen(route: String) : Screen<String>(route) {
 
     class ForceSyntaxDialog(languageName: String) : EditorScreen(
         route = "blacksquircle://editor/syntax?languageName=${languageName.encodeUri()}",

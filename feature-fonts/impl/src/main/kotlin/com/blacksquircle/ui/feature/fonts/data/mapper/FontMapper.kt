@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.fonts.data.mapper
 
 import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
+import com.blacksquircle.ui.feature.fonts.api.model.FontModel
 
 internal object FontMapper {
 

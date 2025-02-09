@@ -19,7 +19,7 @@ package com.blacksquircle.ui.internal.provider.resources
 import android.content.Context
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 
-class StringProviderImpl(private val context: Context) : StringProvider {
+internal class StringProviderImpl(private val context: Context) : StringProvider {
 
     override fun getString(resId: Int): String {
         return context.getString(resId)

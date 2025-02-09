@@ -28,7 +28,7 @@ import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 
-class ToolbarManager(
+internal class ToolbarManager(
     private val listener: Listener,
 ) : PopupMenu.OnMenuItemClickListener {
 

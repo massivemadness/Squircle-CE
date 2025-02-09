@@ -28,7 +28,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.*
 import timber.log.Timber
 
-class InAppUpdateImpl(context: Context) : InAppUpdate {
+internal class InAppUpdateImpl(context: Context) : InAppUpdate {
 
     companion object {
 

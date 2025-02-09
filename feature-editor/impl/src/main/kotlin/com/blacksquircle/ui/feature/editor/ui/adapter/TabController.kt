@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.blacksquircle.ui.core.adapter.TabAdapter
 
-class TabController : ItemTouchHelper(itemTouchCallback) {
+internal class TabController : ItemTouchHelper(itemTouchCallback) {
 
     companion object {
 

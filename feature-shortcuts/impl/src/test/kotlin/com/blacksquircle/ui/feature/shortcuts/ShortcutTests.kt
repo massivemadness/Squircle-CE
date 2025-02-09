@@ -19,10 +19,10 @@ package com.blacksquircle.ui.feature.shortcuts
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
-import com.blacksquircle.ui.feature.shortcuts.domain.model.KeyGroup
-import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
-import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
-import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
+import com.blacksquircle.ui.feature.shortcuts.api.model.KeyGroup
+import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
+import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
+import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutsRepository
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify

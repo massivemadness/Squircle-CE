@@ -21,15 +21,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.themes.R
+import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.data.model.CodePreview
-import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import com.blacksquircle.ui.feature.themes.ui.fragment.ThemesViewState
 import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesScreen
 import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesViewEvent
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -45,11 +44,10 @@ import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 import com.blacksquircle.ui.ds.R as UiR
 
-@HiltViewModel
 internal class ThemesViewModel @Inject constructor(
     private val stringProvider: StringProvider,
+    private val fontsInteractor: FontsInteractor,
     private val themesRepository: ThemesRepository,
-    private val settingsManager: SettingsManager,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(ThemesViewState())
@@ -106,7 +104,7 @@ internal class ThemesViewModel @Inject constructor(
             try {
                 themesRepository.selectTheme(themeModel)
                 _viewState.update {
-                    it.copy(currentTheme = themeModel.uuid)
+                    it.copy(currentTheme = themeModel)
                 }
                 _viewEvent.send(
                     ViewEvent.Toast(
@@ -174,7 +172,7 @@ internal class ThemesViewModel @Inject constructor(
                 _viewState.update { state ->
                     state.copy(
                         themes = state.themes.filterNot { it == themeModel },
-                        currentTheme = settingsManager.colorScheme,
+                        currentTheme = themesRepository.current(),
                     )
                 }
                 _viewEvent.send(
@@ -206,13 +204,14 @@ internal class ThemesViewModel @Inject constructor(
                     it.copy(isLoading = true)
                 }
                 val themes = themesRepository.loadThemes(query)
-                val currentTheme = settingsManager.colorScheme
+                val currentTheme = themesRepository.current()
+                val currentFont = fontsInteractor.current()
                 delay(300L) // too fast, avoid blinking
                 _viewState.update {
                     it.copy(
                         themes = themes,
                         currentTheme = currentTheme,
-                        fontPath = settingsManager.fontType,
+                        currentFont = currentFont,
                         isLoading = false,
                     )
                 }

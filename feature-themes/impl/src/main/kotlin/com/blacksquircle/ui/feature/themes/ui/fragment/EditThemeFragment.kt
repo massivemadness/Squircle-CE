@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.themes.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +24,6 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -33,32 +33,36 @@ import com.blacksquircle.ui.core.contract.OpenFileContract
 import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.themes.internal.ThemesComponent
 import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesViewEvent
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.EditThemeViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-@AndroidEntryPoint
 internal class EditThemeFragment : Fragment() {
+
+    @Inject
+    lateinit var viewModelFactory: EditThemeViewModel.Factory
 
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<EditThemeFragmentArgs>()
-    private val viewModel by viewModels<EditThemeViewModel>(
-        extrasProducer = {
-            defaultViewModelCreationExtras.withCreationCallback<EditThemeViewModel.Factory> { factory ->
-                factory.create(themeId = navArgs.id)
-            }
-        }
-    )
+    private val viewModel by viewModels<EditThemeViewModel> {
+        viewModelFactory.create(navArgs.id)
+    }
     private val openFileContract = OpenFileContract(this) { result ->
         when (result) {
             is ContractResult.Success -> viewModel.onThemeFileSelected(result.uri)
             is ContractResult.Canceled -> Unit
         }
+    }
+
+    override fun onAttach(context: Context) {
+        ThemesComponent.buildOrGet(context).inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(

@@ -20,6 +20,9 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
+import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
+import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.domain.model.Task
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerErrorAction
@@ -27,7 +30,7 @@ import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ToolbarViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileTree
 import io.mockk.*
@@ -50,8 +53,10 @@ class ListFilesTests {
 
     private val stringProvider = mockk<StringProvider>()
     private val settingsManager = mockk<SettingsManager>()
+    private val taskManager = mockk<TaskManager>()
     private val explorerRepository = mockk<ExplorerRepository>()
-    private val serversRepository = mockk<ServersRepository>()
+    private val editorInteractor = mockk<EditorInteractor>()
+    private val serversInteractor = mockk<ServersInteractor>()
 
     @Before
     fun setup() {
@@ -60,25 +65,27 @@ class ListFilesTests {
         every { stringProvider.getString(R.string.message_access_required) } returns "Access required"
 
         every { settingsManager.showHidden } returns true
-        every { settingsManager.showHidden = any() } returns Unit
+        every { settingsManager.showHidden = any() } just Runs
         every { settingsManager.foldersOnTop } returns true
-        every { settingsManager.foldersOnTop = any() } returns Unit
+        every { settingsManager.foldersOnTop = any() } just Runs
         every { settingsManager.viewMode } returns "0"
-        every { settingsManager.viewMode = any() } returns Unit
+        every { settingsManager.viewMode = any() } just Runs
         every { settingsManager.sortMode } returns "0"
-        every { settingsManager.sortMode = any() } returns Unit
+        every { settingsManager.sortMode = any() } just Runs
         every { settingsManager.filesystem } returns "local"
-        every { settingsManager.filesystem = any() } returns Unit
+        every { settingsManager.filesystem = any() } just Runs
 
-        coEvery { serversRepository.serverFlow } returns MutableStateFlow(emptyList())
-        coEvery { explorerRepository.selectFilesystem(any()) } returns Unit
-        coEvery { explorerRepository.createFile(any()) } returns Unit
-        coEvery { explorerRepository.renameFile(any(), any()) } returns Unit
-        coEvery { explorerRepository.deleteFiles(any()) } returns Unit
-        coEvery { explorerRepository.copyFiles(any(), any()) } returns Unit
-        coEvery { explorerRepository.cutFiles(any(), any()) } returns Unit
-        coEvery { explorerRepository.compressFiles(any(), any()) } returns Unit
-        coEvery { explorerRepository.extractFiles(any(), any()) } returns Unit
+        every { taskManager.monitor(any()) } returns MutableStateFlow(Task("", TaskType.CREATE))
+
+        coEvery { serversInteractor.serverFlow } returns MutableStateFlow(emptyList())
+        coEvery { explorerRepository.selectFilesystem(any()) } just Runs
+        every { explorerRepository.createFile(any()) } returns ""
+        every { explorerRepository.renameFile(any(), any()) } returns ""
+        every { explorerRepository.deleteFiles(any()) } returns ""
+        every { explorerRepository.copyFiles(any(), any()) } returns ""
+        every { explorerRepository.cutFiles(any(), any()) } returns ""
+        every { explorerRepository.compressFiles(any(), any()) } returns ""
+        every { explorerRepository.extractFiles(any(), any()) } returns ""
     }
 
     @Test
@@ -217,8 +224,10 @@ class ListFilesTests {
         return ExplorerViewModel(
             stringProvider = stringProvider,
             settingsManager = settingsManager,
+            taskManager = taskManager,
+            editorInteractor = editorInteractor,
             explorerRepository = explorerRepository,
-            serversRepository = serversRepository,
+            serversInteractor = serversInteractor,
         )
     }
 }

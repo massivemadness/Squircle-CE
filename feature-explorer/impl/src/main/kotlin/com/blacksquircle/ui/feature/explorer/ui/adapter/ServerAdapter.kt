@@ -23,7 +23,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.blacksquircle.ui.core.extensions.replaceList
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.api.model.FilesystemModel
 import com.google.android.material.textview.MaterialTextView
 
 internal class ServerAdapter(

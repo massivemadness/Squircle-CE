@@ -22,29 +22,23 @@ import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.editor.data.repository.DocumentRepositoryImpl
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.feature.explorer.domain.factory.FilesystemFactory
+import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ViewModelScoped
-import javax.inject.Named
 
 @Module
-@InstallIn(ViewModelComponent::class)
-object EditorModule {
+internal object EditorModule {
 
     @Provides
-    @ViewModelScoped
+    @EditorScope
     fun provideDocumentRepository(
-        @ApplicationContext context: Context,
+        context: Context,
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         appDatabase: AppDatabase,
         filesystemFactory: FilesystemFactory,
-        @Named("Cache") cacheFilesystem: Filesystem,
+        cacheFilesystem: Filesystem,
     ): DocumentRepository {
         return DocumentRepositoryImpl(
             dispatcherProvider = dispatcherProvider,

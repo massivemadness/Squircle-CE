@@ -29,7 +29,7 @@ import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.ItemSuggestionBinding
 import com.blacksquircle.ui.language.base.model.Suggestion
 
-class AutoCompleteAdapter(
+internal class AutoCompleteAdapter(
     context: Context,
     private val colorScheme: ColorScheme,
 ) : SuggestionAdapter(context, R.layout.item_suggestion) {

@@ -19,7 +19,7 @@ package com.blacksquircle.ui.utils
 import android.app.Activity
 import timber.log.Timber
 
-class InAppUpdateStub : InAppUpdate {
+internal class InAppUpdateStub : InAppUpdate {
 
     override fun checkForUpdates(activity: Activity, onComplete: () -> Unit) {
         Timber.d("checkForUpdates")

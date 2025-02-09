@@ -61,15 +61,15 @@ dependencies {
     testImplementation(libs.coroutines.test)
 
     // DI
-    implementation(libs.hilt)
-    ksp(libs.hilt.compiler)
+    implementation(libs.dagger)
+    ksp(libs.dagger.compiler)
 
     // Modules
     implementation(project(":feature-editor:api"))
     implementation(project(":feature-explorer:api"))
+    implementation(project(":feature-fonts:api"))
     implementation(project(":feature-shortcuts:api"))
     implementation(project(":feature-themes:api"))
-    implementation(project(":feature-fonts:api"))
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
 

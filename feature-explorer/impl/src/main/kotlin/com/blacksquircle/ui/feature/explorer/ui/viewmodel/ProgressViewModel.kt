@@ -28,15 +28,11 @@ import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerViewEvent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-@HiltViewModel(assistedFactory = ProgressViewModel.Factory::class)
 internal class ProgressViewModel @AssistedInject constructor(
     private val taskManager: TaskManager,
     @Assisted private val taskId: String,

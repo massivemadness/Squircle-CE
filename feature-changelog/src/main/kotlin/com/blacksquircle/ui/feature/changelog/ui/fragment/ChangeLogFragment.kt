@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.changelog.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,24 +24,38 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.extensions.viewModels
+import com.blacksquircle.ui.core.internal.ComponentHolder
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.changelog.internal.ChangelogComponent
 import com.blacksquircle.ui.feature.changelog.ui.viewmodel.ChangeLogViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
+import javax.inject.Provider
 
-@AndroidEntryPoint
 internal class ChangeLogFragment : Fragment() {
 
-    private val viewModel by viewModels<ChangeLogViewModel>()
+    @Inject
+    lateinit var viewModelProvider: Provider<ChangeLogViewModel>
+
+    private val viewModel by viewModels<ChangeLogViewModel> { viewModelProvider.get() }
+    private val componentHolder by viewModels {
+        val component = ChangelogComponent.buildOrGet(requireContext())
+        ComponentHolder(component) { ChangelogComponent.release() }
+    }
     private val navController by lazy { findNavController() }
+
+    override fun onAttach(context: Context) {
+        componentHolder.component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.shortcuts.ui.dialog
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
+import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 
 @Immutable
 internal data class KeybindingViewState(

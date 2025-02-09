@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.data.model
 
-data class KeyModel(
+internal data class KeyModel(
     val display: String,
     val value: Char,
 )

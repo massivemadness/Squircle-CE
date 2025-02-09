@@ -58,7 +58,7 @@ import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.fonts.R
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
+import com.blacksquircle.ui.feature.fonts.api.model.FontModel
 import com.blacksquircle.ui.feature.fonts.ui.composable.FontOverview
 import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
 import com.blacksquircle.ui.ds.R as UiR

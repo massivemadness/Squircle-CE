@@ -27,7 +27,7 @@ import com.blacksquircle.ui.ds.extensions.dpToPx
 import com.blacksquircle.ui.feature.editor.data.model.KeyModel
 import com.blacksquircle.ui.feature.editor.databinding.ItemKeyboardKeyBinding
 
-class KeyAdapter(
+internal class KeyAdapter(
     private val onKey: (KeyModel) -> Unit,
 ) : ListAdapter<KeyModel, KeyAdapter.KeyViewHolder>(diffCallback) {
 

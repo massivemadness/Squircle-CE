@@ -27,7 +27,7 @@ import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.ItemTabDocumentBinding
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 
-class DocumentAdapter(
+internal class DocumentAdapter(
     private val tabInteractor: TabInteractor,
 ) : TabAdapter<DocumentModel, DocumentAdapter.DocumentViewHolder>(diffCallback) {
 

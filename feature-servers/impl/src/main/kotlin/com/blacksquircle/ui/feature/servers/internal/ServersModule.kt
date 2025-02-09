@@ -20,19 +20,15 @@ import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.servers.data.repository.ServersRepositoryImpl
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.servers.domain.ServersRepository
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
 internal object ServersModule {
 
     @Provides
-    @Singleton
+    @ServersScope
     fun provideServersRepository(
         settingsManager: SettingsManager,
         dispatcherProvider: DispatcherProvider,

@@ -32,13 +32,12 @@ import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.domain.model.Task
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
-import dagger.hilt.android.AndroidEntryPoint
+import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import com.blacksquircle.ui.ds.R as UiR
 
-@AndroidEntryPoint
 internal class FileService : ComponentService() {
 
     @Inject
@@ -49,6 +48,7 @@ internal class FileService : ComponentService() {
     }
 
     override fun onCreate() {
+        ExplorerComponent.buildOrGet(this).inject(this)
         super.onCreate()
         createChannel(
             channelId = CHANNEL_ID,

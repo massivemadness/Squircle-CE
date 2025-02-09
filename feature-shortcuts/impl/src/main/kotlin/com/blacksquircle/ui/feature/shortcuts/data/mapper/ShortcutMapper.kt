@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.feature.shortcuts.data.mapper
 
 import android.os.Bundle
-import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
-import com.blacksquircle.ui.feature.shortcuts.domain.model.Shortcut
+import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
+import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 
 internal object ShortcutMapper {
 

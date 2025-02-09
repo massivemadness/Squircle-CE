@@ -27,9 +27,7 @@ import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragment
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 internal class ConflictKeyDialog : DialogFragment() {
 
     private val navController by lazy { findNavController() }

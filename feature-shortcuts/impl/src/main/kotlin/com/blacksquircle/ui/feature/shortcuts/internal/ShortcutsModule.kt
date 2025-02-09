@@ -19,19 +19,15 @@ package com.blacksquircle.ui.feature.shortcuts.internal
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.shortcuts.data.repository.ShortcutsRepositoryImpl
-import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
+import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutsRepository
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
 internal object ShortcutsModule {
 
     @Provides
-    @Singleton
+    @ShortcutsScope
     fun provideShortcutsRepository(
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,

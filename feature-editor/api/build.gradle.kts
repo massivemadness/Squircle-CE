@@ -19,11 +19,7 @@ plugins {
 }
 
 android {
-    namespace = "com.blacksquircle.ui.feature.editor.domain"
-
-    buildFeatures {
-        resValues = false
-    }
+    namespace = "com.blacksquircle.ui.feature.editor.api"
 }
 
 dependencies {
@@ -31,7 +27,9 @@ dependencies {
     // Core
     implementation(libs.kotlin.stdlib)
 
+    // Coroutines
+    implementation(libs.coroutines.core)
+
     // Modules
-    api(project(":editorkit:editorkit"))
     api(project(":filesystems:filesystem-base"))
 }

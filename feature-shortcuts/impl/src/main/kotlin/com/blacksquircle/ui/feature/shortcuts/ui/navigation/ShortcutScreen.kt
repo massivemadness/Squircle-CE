@@ -18,8 +18,8 @@ package com.blacksquircle.ui.feature.shortcuts.ui.navigation
 
 import androidx.navigation.NavDirections
 import com.blacksquircle.ui.core.navigation.Screen
+import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
-import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragmentDirections
 
 internal sealed class ShortcutScreen(route: NavDirections) : Screen<NavDirections>(route) {

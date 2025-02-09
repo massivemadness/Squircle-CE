@@ -23,16 +23,17 @@ import com.blacksquircle.ui.core.extensions.replaceList
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.api.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.mvi.*
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.exception.EncryptedArchiveException
 import com.blacksquircle.ui.filesystem.base.exception.FileAlreadyExistsException
@@ -45,7 +46,6 @@ import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -55,13 +55,13 @@ import timber.log.Timber
 import javax.inject.Inject
 import com.blacksquircle.ui.ds.R as UiR
 
-@HiltViewModel
-class ExplorerViewModel @Inject constructor(
+internal class ExplorerViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
     private val taskManager: TaskManager,
+    private val editorInteractor: EditorInteractor,
     private val explorerRepository: ExplorerRepository,
-    private val serversRepository: ServersRepository,
+    private val serversInteractor: ServersInteractor,
 ) : ViewModel() {
 
     private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.ActionBar())
@@ -76,10 +76,7 @@ class ExplorerViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private val _customEvent = MutableSharedFlow<ExplorerViewEvent>()
-    val customEvent: SharedFlow<ExplorerViewEvent> = _customEvent.asSharedFlow()
-
-    val filesystems = serversRepository.serverFlow
+    val filesystems = serversInteractor.serverFlow
         .map { servers -> explorerRepository.loadFilesystems() + servers.map(::FilesystemModel) }
         .catch { errorState(it) }
         .stateIn(
@@ -241,7 +238,7 @@ class ExplorerViewModel @Inject constructor(
     private fun authenticate(event: ExplorerIntent.Authenticate) {
         viewModelScope.launch {
             try {
-                serversRepository.authenticate(filesystem, event.password)
+                serversInteractor.authenticate(filesystem, event.password)
                 initialState()
                 listFiles(ExplorerIntent.OpenFolder())
             } catch (e: Exception) {
@@ -313,7 +310,7 @@ class ExplorerViewModel @Inject constructor(
 
     private fun selectAllButton() {
         viewModelScope.launch {
-            _customEvent.emit(ExplorerViewEvent.SelectAll)
+            _viewEvent.send(ExplorerViewEvent.SelectAll)
         }
     }
 
@@ -342,7 +339,7 @@ class ExplorerViewModel @Inject constructor(
     private fun copyPathButton() {
         viewModelScope.launch {
             val fileModel = selection.first()
-            _customEvent.emit(ExplorerViewEvent.CopyPath(fileModel))
+            _viewEvent.send(ExplorerViewEvent.CopyPath(fileModel))
             initialState()
         }
     }
@@ -362,7 +359,8 @@ class ExplorerViewModel @Inject constructor(
     private fun openFileAs(event: ExplorerIntent.OpenFileWith) {
         viewModelScope.launch {
             val fileModel = event.fileModel ?: selection.first()
-            _customEvent.emit(ExplorerViewEvent.OpenFileWith(fileModel))
+            _viewEvent.send(ExplorerViewEvent.OpenFileWith(fileModel))
+            _viewEvent.send(ExplorerViewEvent.CloseDrawer)
             initialState()
         }
     }
@@ -372,7 +370,10 @@ class ExplorerViewModel @Inject constructor(
             when (event.fileModel.type) {
                 FileType.ARCHIVE -> extractFile(ExplorerIntent.ExtractFile(event.fileModel))
                 FileType.DEFAULT,
-                FileType.TEXT -> _customEvent.emit(ExplorerViewEvent.OpenFile(event.fileModel))
+                FileType.TEXT -> {
+                    editorInteractor.openFile(event.fileModel)
+                    _viewEvent.send(ExplorerViewEvent.CloseDrawer)
+                }
                 else -> openFileAs(ExplorerIntent.OpenFileWith(event.fileModel))
             }
         }

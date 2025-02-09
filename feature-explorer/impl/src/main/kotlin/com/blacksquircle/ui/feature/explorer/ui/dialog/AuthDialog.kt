@@ -17,24 +17,34 @@
 package com.blacksquircle.ui.feature.explorer.ui.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.blacksquircle.ui.core.extensions.activityViewModels
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.databinding.DialogAuthBinding
+import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import javax.inject.Provider
 import com.blacksquircle.ui.ds.R as UiR
 
-@AndroidEntryPoint
 internal class AuthDialog : DialogFragment() {
 
-    private val viewModel by activityViewModels<ExplorerViewModel>()
+    @Inject
+    lateinit var viewModelProvider: Provider<ExplorerViewModel>
+
+    private val viewModel by activityViewModels<ExplorerViewModel> { viewModelProvider.get() }
     private val navArgs by navArgs<AuthDialogArgs>()
+
+    override fun onAttach(context: Context) {
+        ExplorerComponent.buildOrGet(context).inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val binding = DialogAuthBinding.inflate(layoutInflater)

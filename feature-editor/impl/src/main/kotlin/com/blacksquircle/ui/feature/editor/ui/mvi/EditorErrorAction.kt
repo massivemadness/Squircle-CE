@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.ui.mvi
 
-sealed class EditorErrorAction {
+internal sealed class EditorErrorAction {
     data object Undefined : EditorErrorAction()
     data object CloseDocument : EditorErrorAction()
 }

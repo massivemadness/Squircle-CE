@@ -34,7 +34,6 @@ class ApplicationModulePlugin : Plugin<Project> {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
                 apply("com.google.devtools.ksp")
-                apply("dagger.hilt.android.plugin")
             }
 
             configure<BaseAppModuleExtension> {

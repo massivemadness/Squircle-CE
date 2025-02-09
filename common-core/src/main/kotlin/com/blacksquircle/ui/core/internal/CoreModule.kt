@@ -25,30 +25,26 @@ import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.theme.ThemeManager
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
 object CoreModule {
 
     @Provides
     @Singleton
-    fun provideThemeManager(@ApplicationContext context: Context): ThemeManager {
+    fun provideThemeManager(context: Context): ThemeManager {
         return ThemeManager(context)
     }
 
     @Provides
     @Singleton
-    fun provideSettingsManager(@ApplicationContext context: Context): SettingsManager {
+    fun provideSettingsManager(context: Context): SettingsManager {
         return SettingsManager(context)
     }
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+    fun provideAppDatabase(context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabaseImpl::class.java, AppDatabaseImpl.DATABASE_NAME)
             .addMigrations(
                 Migrations.MIGRATION_1_2,

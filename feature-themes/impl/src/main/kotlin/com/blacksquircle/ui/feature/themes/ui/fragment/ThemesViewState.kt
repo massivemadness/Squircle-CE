@@ -18,15 +18,18 @@ package com.blacksquircle.ui.feature.themes.ui.fragment
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
+import com.blacksquircle.ui.feature.fonts.api.model.FontModel
+import com.blacksquircle.ui.feature.fonts.api.model.InternalFont
+import com.blacksquircle.ui.feature.themes.api.model.InternalTheme
+import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.data.model.CodePreview
-import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 @Immutable
 internal data class ThemesViewState(
     val query: String = "",
     val preview: CodePreview = CodePreview.HTML,
     val themes: List<ThemeModel> = emptyList(),
-    val currentTheme: String = "",
-    val fontPath: String = "",
+    val currentTheme: ThemeModel = InternalTheme.THEME_DARCULA.theme,
+    val currentFont: FontModel = InternalFont.JETBRAINS_MONO.font,
     val isLoading: Boolean = true,
 ) : ViewState()

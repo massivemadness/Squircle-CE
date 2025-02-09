@@ -26,11 +26,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.feature.explorer.R
-import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import com.blacksquircle.ui.ds.R as UiR
 
-@AndroidEntryPoint
 internal class NotificationDeniedDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

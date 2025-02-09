@@ -21,18 +21,14 @@ import com.blacksquircle.ui.utils.InAppUpdate
 import com.blacksquircle.ui.utils.InAppUpdateImpl
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-object InAppUpdateModule {
+internal object InAppUpdateModule {
 
     @Provides
     @Singleton
-    fun provideInAppUpdate(@ApplicationContext context: Context): InAppUpdate {
+    fun provideInAppUpdate(context: Context): InAppUpdate {
         return InAppUpdateImpl(context)
     }
 }

@@ -23,7 +23,7 @@ import com.blacksquircle.ui.feature.editor.data.model.KeyModel
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
 import com.blacksquircle.ui.feature.editor.ui.adapter.KeyAdapter
 
-class KeyboardManager(private val listener: Listener) {
+internal class KeyboardManager(private val listener: Listener) {
 
     var mode: Mode = Mode.NONE
         set(value) {

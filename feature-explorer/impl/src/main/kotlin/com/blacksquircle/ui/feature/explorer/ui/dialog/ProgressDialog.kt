@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.dialog
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -25,7 +26,6 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -33,29 +33,28 @@ import androidx.navigation.fragment.navArgs
 import com.blacksquircle.ui.core.contract.NotificationPermission
 import com.blacksquircle.ui.core.contract.PermissionResult
 import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.service.FileService
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ProgressViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-@AndroidEntryPoint
 internal class ProgressDialog : DialogFragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ProgressViewModel.Factory
 
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<ProgressDialogArgs>()
-    private val viewModel by viewModels<ProgressViewModel>(
-        extrasProducer = {
-            defaultViewModelCreationExtras.withCreationCallback<ProgressViewModel.Factory> { factory ->
-                factory.create(taskId = navArgs.taskId)
-            }
-        }
-    )
+    private val viewModel by viewModels<ProgressViewModel> {
+        viewModelFactory.create(navArgs.taskId)
+    }
     private val notificationPermission = NotificationPermission(this) { result ->
         when (result) {
             PermissionResult.DENIED,
@@ -71,6 +70,11 @@ internal class ProgressDialog : DialogFragment() {
                 navController.popBackStack()
             }
         }
+    }
+
+    override fun onAttach(context: Context) {
+        ExplorerComponent.buildOrGet(context).inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(

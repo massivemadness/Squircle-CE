@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.shortcuts.ui.dialog
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,35 +24,38 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
+import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
 import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragment
 import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutViewEvent
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.KeybindingViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-@AndroidEntryPoint
 internal class KeybindingDialog : DialogFragment() {
+
+    @Inject
+    lateinit var viewModelFactory: KeybindingViewModel.Factory
 
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<KeybindingDialogArgs>()
-    private val viewModel by viewModels<KeybindingViewModel>(
-        extrasProducer = {
-            defaultViewModelCreationExtras.withCreationCallback<KeybindingViewModel.Factory> { factory ->
-                factory.create(initial = navArgs.keybinding)
-            }
-        }
-    )
+    private val viewModel by viewModels<KeybindingViewModel> {
+        viewModelFactory.create(navArgs.keybinding)
+    }
+
+    override fun onAttach(context: Context) {
+        ShortcutsComponent.buildOrGet(context).inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

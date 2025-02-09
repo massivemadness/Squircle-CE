@@ -57,9 +57,9 @@ import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.editorkit.compose.CodeView
 import com.blacksquircle.ui.feature.themes.R
+import com.blacksquircle.ui.feature.themes.api.model.InternalTheme
+import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.data.model.CodePreview
-import com.blacksquircle.ui.feature.themes.domain.model.InternalTheme
-import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable

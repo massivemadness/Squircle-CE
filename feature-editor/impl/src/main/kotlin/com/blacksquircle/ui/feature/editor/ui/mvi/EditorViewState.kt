@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.editor.ui.mvi
 import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 
-sealed class EditorViewState : ViewState() {
+internal sealed class EditorViewState : ViewState() {
 
     data object Loading : EditorViewState()
 

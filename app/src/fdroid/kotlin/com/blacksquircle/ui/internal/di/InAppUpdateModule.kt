@@ -20,13 +20,10 @@ import com.blacksquircle.ui.utils.InAppUpdate
 import com.blacksquircle.ui.utils.InAppUpdateStub
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-object InAppUpdateModule {
+internal object InAppUpdateModule {
 
     @Provides
     @Singleton

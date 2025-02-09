@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.settings.ui.editor
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,22 +24,31 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
-import dagger.hilt.android.AndroidEntryPoint
+import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
+import javax.inject.Provider
 
-@AndroidEntryPoint
 internal class EditorHeaderFragment : Fragment() {
 
-    private val viewModel by viewModels<EditorHeaderViewModel>()
+    @Inject
+    lateinit var viewModelProvider: Provider<EditorHeaderViewModel>
+
+    private val viewModel by viewModels<EditorHeaderViewModel> { viewModelProvider.get() }
     private val navController by lazy { findNavController() }
+
+    override fun onAttach(context: Context) {
+        SettingsComponent.buildOrGet(context).inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

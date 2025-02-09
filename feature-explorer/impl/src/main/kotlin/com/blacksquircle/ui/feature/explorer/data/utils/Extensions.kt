@@ -31,7 +31,7 @@ import java.util.*
 import kotlin.math.log10
 import kotlin.math.pow
 
-fun Context.openFileWith(fileModel: FileModel) {
+internal fun Context.openFileWith(fileModel: FileModel) {
     try {
         val file = File(fileModel.path)
         if (!file.exists()) {

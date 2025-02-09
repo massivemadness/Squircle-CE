@@ -19,8 +19,9 @@ package com.blacksquircle.ui.feature.servers.data.repository
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.feature.servers.data.cache.ServerCredentials
 import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.servers.domain.ServersRepository
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import kotlinx.coroutines.flow.flowOn
@@ -37,11 +38,9 @@ internal class ServersRepositoryImpl(
         .map { it.map(ServerMapper::toModel) }
         .flowOn(dispatcherProvider.io())
 
-    private val credentials = HashMap<String, String>()
-
     override suspend fun authenticate(uuid: String, password: String) {
         withContext(dispatcherProvider.io()) {
-            credentials[uuid] = password
+            ServerCredentials.put(uuid, password)
         }
     }
 
@@ -58,10 +57,12 @@ internal class ServersRepositoryImpl(
             val serverConfig = ServerMapper.toModel(serverEntity)
             when (serverConfig.authMethod) {
                 AuthMethod.PASSWORD -> serverConfig.copy(
-                    password = credentials[uuid] ?: serverConfig.password
+                    password = ServerCredentials.get(uuid)
+                        ?: serverConfig.password
                 )
                 AuthMethod.KEY -> serverConfig.copy(
-                    passphrase = credentials[uuid] ?: serverConfig.passphrase
+                    passphrase = ServerCredentials.get(uuid)
+                        ?: serverConfig.passphrase
                 )
             }
         }
@@ -69,7 +70,7 @@ internal class ServersRepositoryImpl(
 
     override suspend fun upsertServer(serverConfig: ServerConfig) {
         withContext(dispatcherProvider.io()) {
-            credentials.remove(serverConfig.uuid)
+            ServerCredentials.remove(serverConfig.uuid)
             val entity = ServerMapper.toEntity(serverConfig)
             appDatabase.serverDao().insert(entity)
             if (settingsManager.filesystem == serverConfig.uuid) {
@@ -80,7 +81,7 @@ internal class ServersRepositoryImpl(
 
     override suspend fun deleteServer(serverConfig: ServerConfig) {
         withContext(dispatcherProvider.io()) {
-            credentials.remove(serverConfig.uuid)
+            ServerCredentials.remove(serverConfig.uuid)
             appDatabase.serverDao().delete(serverConfig.uuid)
             if (settingsManager.filesystem == serverConfig.uuid) {
                 settingsManager.remove(SettingsManager.KEY_FILESYSTEM)

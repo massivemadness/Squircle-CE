@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.explorer.ui.mvi
 import com.blacksquircle.ui.core.mvi.ViewIntent
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
-sealed class ExplorerIntent : ViewIntent() {
+internal sealed class ExplorerIntent : ViewIntent() {
 
     data class SearchFiles(val query: String) : ExplorerIntent()
     data class SelectFiles(val selection: List<FileModel>) : ExplorerIntent()

@@ -23,7 +23,6 @@ import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,9 +31,9 @@ import timber.log.Timber
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
-typealias TaskAction = suspend (suspend (TaskStatus) -> Unit) -> Unit
+internal typealias TaskAction = suspend (suspend (TaskStatus) -> Unit) -> Unit
 
-class TaskManager(dispatcherProvider: DispatcherProvider) {
+internal class TaskManager(dispatcherProvider: DispatcherProvider) {
 
     private val jobs = ConcurrentHashMap<String, Job>()
     private val tasks = ConcurrentHashMap<String, MutableStateFlow<Task>>()

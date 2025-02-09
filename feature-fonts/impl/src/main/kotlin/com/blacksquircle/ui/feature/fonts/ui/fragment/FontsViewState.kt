@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.fonts.ui.fragment
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
+import com.blacksquircle.ui.feature.fonts.api.model.FontModel
 
 @Immutable
 internal data class FontsViewState(

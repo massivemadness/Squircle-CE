@@ -60,8 +60,8 @@ dependencies {
     implementation(libs.coroutines.android)
 
     // DI
-    implementation(libs.hilt)
-    ksp(libs.hilt.compiler)
+    implementation(libs.dagger)
+    ksp(libs.dagger.compiler)
 
     // Modules
     implementation(project(":feature-changelog"))

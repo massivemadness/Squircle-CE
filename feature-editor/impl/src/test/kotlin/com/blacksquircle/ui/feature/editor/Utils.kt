@@ -22,7 +22,7 @@ import io.mockk.mockk
 
 private val language = mockk<Language>()
 
-fun createDocument(
+internal fun createDocument(
     position: Int,
     fileName: String,
     modified: Boolean = false,

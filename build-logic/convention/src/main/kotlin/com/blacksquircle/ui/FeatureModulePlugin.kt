@@ -38,7 +38,6 @@ class FeatureModulePlugin : Plugin<Project> {
                     apply("com.android.library")
                     apply("org.jetbrains.kotlin.android")
                     apply("com.google.devtools.ksp")
-                    apply("dagger.hilt.android.plugin")
                     apply("androidx.navigation.safeargs.kotlin")
                 }
             }

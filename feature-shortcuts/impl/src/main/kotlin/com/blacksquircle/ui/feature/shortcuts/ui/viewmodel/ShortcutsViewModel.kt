@@ -20,11 +20,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
-import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
-import com.blacksquircle.ui.feature.shortcuts.domain.repository.ShortcutsRepository
+import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
+import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutsRepository
 import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsViewState
 import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutScreen
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -33,7 +32,6 @@ import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 import com.blacksquircle.ui.ds.R as UiR
 
-@HiltViewModel
 internal class ShortcutsViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val shortcutsRepository: ShortcutsRepository,

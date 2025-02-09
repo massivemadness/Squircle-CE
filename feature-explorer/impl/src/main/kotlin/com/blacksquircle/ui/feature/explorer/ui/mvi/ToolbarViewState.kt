@@ -20,7 +20,7 @@ import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
-sealed class ToolbarViewState : ViewState() {
+internal sealed class ToolbarViewState : ViewState() {
 
     data class ActionBar(
         val breadcrumbs: List<FileModel> = emptyList(),

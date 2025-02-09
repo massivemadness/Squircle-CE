@@ -18,8 +18,8 @@ package com.blacksquircle.ui.feature.shortcuts.ui.fragment
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.shortcuts.domain.model.KeyGroup
-import com.blacksquircle.ui.feature.shortcuts.domain.model.Keybinding
+import com.blacksquircle.ui.feature.shortcuts.api.model.KeyGroup
+import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 
 @Immutable
 internal data class ShortcutsViewState(

@@ -21,7 +21,7 @@ import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
 
-sealed class ToolbarViewState : ViewState() {
+internal sealed class ToolbarViewState : ViewState() {
 
     data class ActionBar(
         val documents: List<DocumentModel> = emptyList(),

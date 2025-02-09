@@ -17,20 +17,30 @@
 package com.blacksquircle.ui.feature.editor.ui.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
+import com.blacksquircle.ui.core.extensions.activityViewModels
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.DialogGotoLineBinding
+import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import javax.inject.Provider
 
-@AndroidEntryPoint
-class GotoLineDialog : DialogFragment() {
+internal class GotoLineDialog : DialogFragment() {
 
-    private val viewModel by activityViewModels<EditorViewModel>()
+    @Inject
+    lateinit var viewModelProvider: Provider<EditorViewModel>
+
+    private val viewModel by activityViewModels<EditorViewModel> { viewModelProvider.get() }
+
+    override fun onAttach(context: Context) {
+        EditorComponent.buildOrGet(context).inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val binding = DialogGotoLineBinding.inflate(layoutInflater)

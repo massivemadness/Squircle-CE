@@ -20,36 +20,28 @@ import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.factory.FilesystemFactoryImpl
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
-import com.blacksquircle.ui.feature.explorer.domain.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
-import com.blacksquircle.ui.filesystem.base.Filesystem
-import com.blacksquircle.ui.filesystem.local.LocalFilesystem
+import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
-import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
 internal object ExplorerModule {
 
     @Provides
-    @Singleton
+    @ExplorerScope
     fun provideTaskManager(dispatcherProvider: DispatcherProvider): TaskManager {
         return TaskManager(dispatcherProvider)
     }
 
     @Provides
-    @Singleton
+    @ExplorerScope
     fun provideExplorerRepository(
-        @ApplicationContext context: Context,
+        context: Context,
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         taskManager: TaskManager,
@@ -65,18 +57,11 @@ internal object ExplorerModule {
     }
 
     @Provides
-    @Singleton
+    @ExplorerScope
     fun provideFilesystemFactory(
-        @ApplicationContext context: Context,
-        serversRepository: ServersRepository,
+        context: Context,
+        serversInteractor: ServersInteractor,
     ): FilesystemFactory {
-        return FilesystemFactoryImpl(serversRepository, Directories.ftpDir(context))
-    }
-
-    @Provides
-    @Singleton
-    @Named("Cache")
-    fun provideCacheFilesystem(@ApplicationContext context: Context): Filesystem {
-        return LocalFilesystem(Directories.filesDir(context))
+        return FilesystemFactoryImpl(serversInteractor, Directories.ftpDir(context))
     }
 }

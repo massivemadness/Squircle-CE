@@ -23,10 +23,9 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.fonts.R
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
+import com.blacksquircle.ui.feature.fonts.api.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.fonts.ui.fragment.FontsViewState
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -37,7 +36,6 @@ import timber.log.Timber
 import javax.inject.Inject
 import com.blacksquircle.ui.ds.R as UiR
 
-@HiltViewModel
 internal class FontsViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val fontsRepository: FontsRepository,

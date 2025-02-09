@@ -65,10 +65,11 @@ import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
+import com.blacksquircle.ui.feature.fonts.api.model.InternalFont
 import com.blacksquircle.ui.feature.themes.R
+import com.blacksquircle.ui.feature.themes.api.model.InternalTheme
+import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.data.model.CodePreview
-import com.blacksquircle.ui.feature.themes.domain.model.InternalTheme
-import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.ui.composable.ThemeOverview
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
 import com.blacksquircle.ui.ds.R as UiR
@@ -212,8 +213,8 @@ private fun ThemesScreen(
                 ) { theme ->
                     ThemeOverview(
                         themeModel = theme,
-                        isSelected = theme.uuid == viewState.currentTheme,
-                        fontPath = viewState.fontPath,
+                        isSelected = theme.uuid == viewState.currentTheme.uuid,
+                        fontPath = viewState.currentFont.path,
                         codePreview = viewState.preview,
                         onSelectClicked = { onSelectClicked(theme) },
                         onExportClicked = { onExportClicked(theme) },
@@ -242,7 +243,8 @@ private fun ThemesScreenPreview() {
                 query = "Mono",
                 preview = CodePreview.HTML,
                 themes = InternalTheme.entries.map(InternalTheme::theme),
-                fontPath = "file:///android_asset/fonts/droid_sans_mono.ttf",
+                currentTheme = InternalTheme.THEME_DARCULA.theme,
+                currentFont = InternalFont.JETBRAINS_MONO.font,
                 isLoading = false,
             ),
         )

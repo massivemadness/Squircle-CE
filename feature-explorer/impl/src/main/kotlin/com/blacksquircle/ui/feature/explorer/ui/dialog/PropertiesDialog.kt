@@ -29,9 +29,7 @@ import com.blacksquircle.ui.feature.explorer.databinding.DialogPropertiesBinding
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.Permission
 import com.blacksquircle.ui.filesystem.base.utils.hasFlag
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 internal class PropertiesDialog : DialogFragment() {
 
     private val navArgs by navArgs<PropertiesDialogArgs>()

@@ -19,11 +19,7 @@ plugins {
 }
 
 android {
-    namespace = "com.blacksquircle.ui.feature.fonts.domain"
-
-    buildFeatures {
-        resValues = false
-    }
+    namespace = "com.blacksquircle.ui.feature.fonts.api"
 }
 
 dependencies {
