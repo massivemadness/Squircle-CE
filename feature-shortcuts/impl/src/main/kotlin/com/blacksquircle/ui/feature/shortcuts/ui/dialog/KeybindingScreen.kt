@@ -108,7 +108,7 @@ private fun KeybindingScreen(
             Column {
                 Text(
                     text = stringResource(R.string.shortcut_press_key),
-                    style = SquircleTheme.typography.text14Regular,
+                    style = SquircleTheme.typography.text16Regular,
                     color = SquircleTheme.colors.colorTextAndIconSecondary,
                 )
                 Spacer(modifier = Modifier.height(12.dp))

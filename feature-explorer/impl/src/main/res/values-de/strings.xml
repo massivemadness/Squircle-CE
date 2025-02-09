@@ -51,8 +51,8 @@
 
     <string name="dialog_message_delete">Sind Sie sicher, dass Sie die Datei löschen wollen?</string>
     <string name="dialog_message_multi_delete">Sind Sie sicher, dass Sie die ausgewählten Dateien löschen wollen?</string>
-    <string name="dialog_message_storage_permission">Squircle CE needs access to manage all files to work correctly\n\nPlease allow the access in the upcoming system setting</string>
-    <string name="dialog_message_notification_permission">Squircle CE needs access to notifications to run in background\n\nPlease allow the access in the upcoming system setting</string>
+    <string name="dialog_message_storage_permission">Squircle CE needs full access to your files to function properly\n\nPlease grant permission in the upcoming system settings</string>
+    <string name="dialog_message_notification_permission">Squircle CE needs access to notifications to run in background\n\nPlease grant permission in the upcoming system settings</string>
 
     <string name="properties_name">File Name:</string>
     <string name="properties_path">File Path:</string>
@@ -93,6 +93,7 @@
 
     <string name="explorer_channel_name">File Manager</string>
     <string name="explorer_channel_description">Display and control file operations</string>
+    <string name="explorer_service_message">Background operations in progress</string>
 
     <string name="storage_local">Lokaler Speicher</string>
     <string name="storage_root">Root Directory</string>

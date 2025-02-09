@@ -103,7 +103,8 @@ internal class ExplorerRepositoryImpl(
             )
             update(progress)
 
-            filesystem.createFile(fileModel)
+            delay(10000L)
+            // filesystem.createFile(fileModel)
             delay(100)
         }
     }

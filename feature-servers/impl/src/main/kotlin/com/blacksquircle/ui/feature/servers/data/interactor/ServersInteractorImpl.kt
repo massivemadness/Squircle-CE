@@ -26,8 +26,8 @@ internal class ServersInteractorImpl(
 
     override val serverFlow = serversRepository.serverFlow
 
-    override suspend fun authenticate(uuid: String, password: String) {
-        serversRepository.authenticate(uuid, password)
+    override suspend fun authenticate(uuid: String, credentials: String) {
+        serversRepository.authenticate(uuid, credentials)
     }
 
     override suspend fun loadServer(uuid: String): ServerConfig {

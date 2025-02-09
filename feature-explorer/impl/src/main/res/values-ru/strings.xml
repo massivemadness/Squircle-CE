@@ -46,7 +46,7 @@
     <string name="dialog_title_notification_permission">Уведомления</string>
     <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл?</string>
     <string name="dialog_message_multi_delete">Вы уверены что хотите удалить выделенные файлы?</string>
-    <string name="dialog_message_storage_permission">Squircle CE требуется доступ к управлению файлами для корректной работы\n\nПожалуйста, предоставьте разрешение в настройках системы</string>
+    <string name="dialog_message_storage_permission">Squircle CE требуется доступ ко всем файлам для корректной работы\n\nПожалуйста, предоставьте разрешение в настройках системы</string>
     <string name="dialog_message_notification_permission">Squircle CE требуется доступ к уведомлениям для работы в фоне\n\nПожалуйста, предоставьте разрешение в настройках системы</string>
     <string name="properties_name">Имя файла:</string>
     <string name="properties_path">Путь к файлу:</string>
@@ -83,6 +83,7 @@
     <string name="message_extracting">Извлечение…%1$s</string>
     <string name="explorer_channel_name">Файловый менеджер</string>
     <string name="explorer_channel_description">Отображение и управление файловыми операциями</string>
+    <string name="explorer_service_message">Выполняются фоновые операции</string>
     <string name="storage_local">Устройство</string>
     <string name="storage_root">Корневой каталог</string>
     <string name="storage_add">Добавить сервер</string>

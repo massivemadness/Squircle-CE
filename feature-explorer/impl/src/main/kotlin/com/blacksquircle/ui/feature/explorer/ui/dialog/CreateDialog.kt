@@ -16,47 +16,48 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.dialog
 
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.ui.core.extensions.activityViewModels
-import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.databinding.DialogCreateBinding
-import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
-import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
-import javax.inject.Inject
-import javax.inject.Provider
-import com.blacksquircle.ui.ds.R as UiR
+import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
 
 internal class CreateDialog : DialogFragment() {
 
-    @Inject
-    lateinit var viewModelProvider: Provider<ExplorerViewModel>
-
-    private val viewModel by activityViewModels<ExplorerViewModel> { viewModelProvider.get() }
     private val navController by lazy { findNavController() }
 
-    override fun onAttach(context: Context) {
-        ExplorerComponent.buildOrGet(context).inject(this)
-        super.onAttach(context)
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val binding = DialogCreateBinding.inflate(layoutInflater)
-        return AlertDialog.Builder(requireContext())
-            .setTitle(R.string.dialog_title_create)
-            .setView(binding.root)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(R.string.action_create) { _, _ ->
-                val fileName = binding.input.text?.ifEmpty { getString(UiR.string.common_untitled) }
-                val isFolder = binding.boxIsFolder.isChecked
-                navController.popBackStack()
-                viewModel.obtainEvent(ExplorerIntent.CreateFile(fileName.toString(), isFolder))
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                SquircleTheme {
+                    CreateScreen(
+                        onConfirmClicked = { isFolder, fileName ->
+                            sendFragmentResult(
+                                resultKey = ExplorerFragment.KEY_CREATE_FILE,
+                                bundle = bundleOf(
+                                    ExplorerFragment.ARG_USER_INPUT to fileName,
+                                    ExplorerFragment.ARG_IS_FOLDER to isFolder,
+                                )
+                            )
+                        },
+                        onCancelClicked = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
             }
-            .create()
+        }
     }
 }

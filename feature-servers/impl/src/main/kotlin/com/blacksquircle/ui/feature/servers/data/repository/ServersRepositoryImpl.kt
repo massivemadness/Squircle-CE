@@ -38,9 +38,9 @@ internal class ServersRepositoryImpl(
         .map { it.map(ServerMapper::toModel) }
         .flowOn(dispatcherProvider.io())
 
-    override suspend fun authenticate(uuid: String, password: String) {
+    override suspend fun authenticate(uuid: String, credentials: String) {
         withContext(dispatcherProvider.io()) {
-            ServerCredentials.put(uuid, password)
+            ServerCredentials.put(uuid, credentials)
         }
     }
 

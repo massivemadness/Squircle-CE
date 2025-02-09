@@ -62,8 +62,8 @@ import com.blacksquircle.ui.ds.textfield.internal.TextFieldLabel
 @Composable
 fun TextField(
     inputText: String,
-    onInputChanged: (String) -> Unit,
     modifier: Modifier = Modifier,
+    onInputChanged: (String) -> Unit = {},
     labelText: String? = null,
     helpText: String? = null,
     placeholderText: String? = null,

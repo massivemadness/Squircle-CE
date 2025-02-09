@@ -238,7 +238,7 @@ internal class ExplorerViewModel @Inject constructor(
     private fun authenticate(event: ExplorerIntent.Authenticate) {
         viewModelScope.launch {
             try {
-                serversInteractor.authenticate(filesystem, event.password)
+                serversInteractor.authenticate(filesystem, event.credentials)
                 initialState()
                 listFiles(ExplorerIntent.OpenFolder())
             } catch (e: Exception) {
@@ -381,6 +381,8 @@ internal class ExplorerViewModel @Inject constructor(
 
     private fun createFile(event: ExplorerIntent.CreateFile) {
         viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
+
             val isValid = event.fileName.isValidFileName()
             if (!isValid) {
                 _viewEvent.send(
@@ -411,6 +413,8 @@ internal class ExplorerViewModel @Inject constructor(
 
     private fun renameFile(event: ExplorerIntent.RenameFile) {
         viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
+
             val isValid = event.fileName.isValidFileName()
             if (!isValid) {
                 _viewEvent.send(
@@ -442,6 +446,8 @@ internal class ExplorerViewModel @Inject constructor(
 
     private fun deleteFile() {
         viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
+
             val taskId = explorerRepository.deleteFiles(buffer.toList())
             val screen = ExplorerScreen.ProgressDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
@@ -493,6 +499,8 @@ internal class ExplorerViewModel @Inject constructor(
 
     private fun compressFile(event: ExplorerIntent.CompressFile) {
         viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
+
             val isValid = event.fileName.isValidFileName()
             if (!isValid) {
                 _viewEvent.send(

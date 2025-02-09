@@ -16,50 +16,52 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.dialog
 
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.activityViewModels
-import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.databinding.DialogAuthBinding
-import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
-import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
+import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import javax.inject.Inject
-import javax.inject.Provider
-import com.blacksquircle.ui.ds.R as UiR
 
 internal class AuthDialog : DialogFragment() {
 
-    @Inject
-    lateinit var viewModelProvider: Provider<ExplorerViewModel>
-
-    private val viewModel by activityViewModels<ExplorerViewModel> { viewModelProvider.get() }
+    private val navController by lazy { findNavController() }
     private val navArgs by navArgs<AuthDialogArgs>()
 
-    override fun onAttach(context: Context) {
-        ExplorerComponent.buildOrGet(context).inject(this)
-        super.onAttach(context)
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val binding = DialogAuthBinding.inflate(layoutInflater)
-        binding.input.hint = when (AuthMethod.of(navArgs.authMethod)) {
-            AuthMethod.PASSWORD -> getString(R.string.hint_enter_password)
-            AuthMethod.KEY -> getString(R.string.hint_enter_passphrase)
-        }
-        return AlertDialog.Builder(requireContext())
-            .setTitle(R.string.dialog_title_authentication)
-            .setView(binding.root)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(UiR.string.common_continue) { _, _ ->
-                val password = binding.input.text.toString()
-                viewModel.obtainEvent(ExplorerIntent.Authenticate(password))
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                SquircleTheme {
+                    AuthScreen(
+                        authMethod = AuthMethod.of(navArgs.authMethod),
+                        onConfirmClicked = { credentials ->
+                            sendFragmentResult(
+                                resultKey = ExplorerFragment.KEY_AUTHENTICATION,
+                                bundle = bundleOf(
+                                    ExplorerFragment.ARG_USER_INPUT to credentials,
+                                )
+                            )
+                            navController.popBackStack()
+                        },
+                        onCancelClicked = {
+                            navController.popBackStack()
+                        },
+                    )
+                }
             }
-            .create()
+        }
     }
 }

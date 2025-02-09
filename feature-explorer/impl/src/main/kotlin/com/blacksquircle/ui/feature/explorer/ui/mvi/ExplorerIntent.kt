@@ -25,7 +25,7 @@ internal sealed class ExplorerIntent : ViewIntent() {
     data class SelectFiles(val selection: List<FileModel>) : ExplorerIntent()
     data class SelectTab(val position: Int) : ExplorerIntent()
     data class SelectFilesystem(val filesystemUuid: String) : ExplorerIntent()
-    data class Authenticate(val password: String) : ExplorerIntent()
+    data class Authenticate(val credentials: String) : ExplorerIntent()
     data object Refresh : ExplorerIntent()
 
     data object Cut : ExplorerIntent()

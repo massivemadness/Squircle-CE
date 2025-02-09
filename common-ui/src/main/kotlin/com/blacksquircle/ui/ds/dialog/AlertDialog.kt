@@ -98,8 +98,8 @@ fun AlertDialog(
                     content = content,
                     modifier = Modifier
                         .weight(1f, fill = false)
-                        .then(paddingModifier)
                         .then(scrollableModifier)
+                        .then(paddingModifier)
                 )
 
                 Row(
@@ -138,7 +138,7 @@ private fun AlertDialogPreview() {
             content = {
                 Text(
                     text = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum",
-                    style = SquircleTheme.typography.text14Regular,
+                    style = SquircleTheme.typography.text16Regular,
                     color = SquircleTheme.colors.colorTextAndIconSecondary,
                 )
             },

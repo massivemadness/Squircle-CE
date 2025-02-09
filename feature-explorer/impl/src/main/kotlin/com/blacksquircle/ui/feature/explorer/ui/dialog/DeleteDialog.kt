@@ -16,60 +16,46 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.dialog
 
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.activityViewModels
 import com.blacksquircle.ui.core.extensions.decodeUri
-import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
-import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
-import javax.inject.Inject
-import javax.inject.Provider
-import com.blacksquircle.ui.ds.R as UiR
+import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
 
 internal class DeleteDialog : DialogFragment() {
 
-    @Inject
-    lateinit var viewModelProvider: Provider<ExplorerViewModel>
-
-    private val viewModel by activityViewModels<ExplorerViewModel> { viewModelProvider.get() }
     private val navController by lazy { findNavController() }
     private val navArgs by navArgs<DeleteDialogArgs>()
 
-    override fun onAttach(context: Context) {
-        ExplorerComponent.buildOrGet(context).inject(this)
-        super.onAttach(context)
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val isMultiDelete = navArgs.fileCount > 1
-
-        val dialogTitle = if (isMultiDelete) {
-            getString(R.string.dialog_title_multi_delete)
-        } else {
-            navArgs.fileName.decodeUri()
-        }
-
-        val dialogMessage = if (isMultiDelete) {
-            R.string.dialog_message_multi_delete
-        } else {
-            R.string.dialog_message_delete
-        }
-
-        return AlertDialog.Builder(requireContext())
-            .setTitle(dialogTitle)
-            .setMessage(dialogMessage)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(UiR.string.common_delete) { _, _ ->
-                navController.popBackStack()
-                viewModel.obtainEvent(ExplorerIntent.DeleteFile)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                SquircleTheme {
+                    DeleteScreen(
+                        fileName = navArgs.fileName.decodeUri(),
+                        fileCount = navArgs.fileCount,
+                        onConfirmClicked = {
+                            sendFragmentResult(ExplorerFragment.KEY_DELETE_FILE)
+                        },
+                        onCancelClicked = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
             }
-            .create()
+        }
     }
 }

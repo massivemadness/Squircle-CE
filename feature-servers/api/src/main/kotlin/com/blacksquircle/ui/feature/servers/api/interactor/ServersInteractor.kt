@@ -23,6 +23,6 @@ interface ServersInteractor {
 
     val serverFlow: Flow<List<ServerConfig>>
 
-    suspend fun authenticate(uuid: String, password: String)
+    suspend fun authenticate(uuid: String, credentials: String)
     suspend fun loadServer(uuid: String): ServerConfig
 }

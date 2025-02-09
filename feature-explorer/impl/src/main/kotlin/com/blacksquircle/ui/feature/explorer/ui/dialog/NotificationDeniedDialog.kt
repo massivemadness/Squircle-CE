@@ -16,37 +16,55 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.dialog
 
-import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import androidx.appcompat.app.AlertDialog
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.extensions.showToast
-import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.ds.SquircleTheme
 import timber.log.Timber
 import com.blacksquircle.ui.ds.R as UiR
 
 internal class NotificationDeniedDialog : DialogFragment() {
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(requireContext())
-            .setTitle(R.string.dialog_title_notification_permission)
-            .setMessage(R.string.dialog_message_notification_permission)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(UiR.string.common_continue) { _, _ ->
-                try {
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                        data = Uri.parse("package:${requireContext().packageName}")
-                    }
-                    startActivity(intent)
-                } catch (e: ActivityNotFoundException) {
-                    Timber.d(e, e.message)
-                    requireContext().showToast(UiR.string.common_error_occurred)
+    private val navController by lazy { findNavController() }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                SquircleTheme {
+                    NotificationDeniedScreen(
+                        onConfirmClicked = {
+                            try {
+                                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                    data = Uri.parse("package:${requireContext().packageName}")
+                                }
+                                startActivity(intent)
+                            } catch (e: ActivityNotFoundException) {
+                                Timber.e(e, e.message)
+                                context?.showToast(UiR.string.common_error_occurred)
+                            }
+                            navController.popBackStack()
+                        },
+                        onCancelClicked = {
+                            navController.popBackStack()
+                        }
+                    )
                 }
             }
-            .create()
+        }
     }
 }

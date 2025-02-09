@@ -23,12 +23,7 @@ import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiProvider
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvider
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiProvider
-import com.blacksquircle.ui.feature.explorer.ui.dialog.AuthDialog
-import com.blacksquircle.ui.feature.explorer.ui.dialog.CompressDialog
-import com.blacksquircle.ui.feature.explorer.ui.dialog.CreateDialog
-import com.blacksquircle.ui.feature.explorer.ui.dialog.DeleteDialog
 import com.blacksquircle.ui.feature.explorer.ui.dialog.ProgressDialog
-import com.blacksquircle.ui.feature.explorer.ui.dialog.RenameDialog
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
 import com.blacksquircle.ui.feature.explorer.ui.service.FileService
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiDepsProvider
@@ -49,12 +44,7 @@ import dagger.Component
 )
 internal interface ExplorerComponent {
 
-    fun inject(dialog: AuthDialog)
-    fun inject(dialog: CompressDialog)
-    fun inject(dialog: CreateDialog)
-    fun inject(dialog: DeleteDialog)
     fun inject(dialog: ProgressDialog)
-    fun inject(dialog: RenameDialog)
     fun inject(fragment: ExplorerFragment)
     fun inject(service: FileService)
 

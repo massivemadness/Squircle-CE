@@ -83,6 +83,7 @@
     <string name="message_extracting">Видобування…%1$s</string>
     <string name="explorer_channel_name">Файловий менеджер</string>
     <string name="explorer_channel_description">Відображення та керування файловими операціями</string>
+    <string name="explorer_service_message">Background operations in progress</string>
     <string name="storage_local">Локальне сховище</string>
     <string name="storage_root">Кореневий каталог</string>
     <string name="storage_add">Додати сервер</string>

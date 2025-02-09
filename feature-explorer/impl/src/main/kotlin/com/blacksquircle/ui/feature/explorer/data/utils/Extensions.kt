@@ -51,7 +51,7 @@ internal fun Context.openFileWith(fileModel: FileModel) {
         }
         startActivity(intent)
     } catch (e: Exception) {
-        Timber.d(e, e.message)
+        Timber.e(e, e.message)
         showToast(R.string.message_cannot_be_opened)
     }
 }

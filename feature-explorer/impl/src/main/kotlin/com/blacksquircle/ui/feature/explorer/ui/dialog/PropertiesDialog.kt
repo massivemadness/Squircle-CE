@@ -16,44 +16,41 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.dialog
 
-import android.app.Dialog
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.blacksquircle.ui.core.extensions.fromJsonEncoded
-import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.data.utils.toReadableDate
-import com.blacksquircle.ui.feature.explorer.data.utils.toReadableSize
-import com.blacksquircle.ui.feature.explorer.databinding.DialogPropertiesBinding
+import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.Permission
-import com.blacksquircle.ui.filesystem.base.utils.hasFlag
 
 internal class PropertiesDialog : DialogFragment() {
 
+    private val navController by lazy { findNavController() }
     private val navArgs by navArgs<PropertiesDialogArgs>()
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val fileModel = navArgs.data.fromJsonEncoded<FileModel>()
-        val readableSize = fileModel.size.toReadableSize()
-        val readableDate = fileModel.lastModified
-            .toReadableDate(getString(R.string.properties_date_format))
-
-        val binding = DialogPropertiesBinding.inflate(layoutInflater)
-
-        binding.textFileName.setText(fileModel.name)
-        binding.textFilePath.setText(fileModel.path)
-        binding.textLastModified.setText(readableDate)
-        binding.textFileSize.setText(readableSize)
-
-        binding.readable.isChecked = fileModel.permission hasFlag Permission.OWNER_READ
-        binding.writable.isChecked = fileModel.permission hasFlag Permission.OWNER_WRITE
-        binding.executable.isChecked = fileModel.permission hasFlag Permission.OWNER_EXECUTE
-
-        return AlertDialog.Builder(requireContext())
-            .setTitle(R.string.dialog_title_properties)
-            .setView(binding.root)
-            .create()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                SquircleTheme {
+                    PropertiesScreen(
+                        fileModel = navArgs.data.fromJsonEncoded<FileModel>(),
+                        onCancelClicked = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+            }
+        }
     }
 }

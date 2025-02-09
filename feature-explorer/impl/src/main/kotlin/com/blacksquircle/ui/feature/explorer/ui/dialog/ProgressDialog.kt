@@ -36,6 +36,7 @@ import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
@@ -102,6 +103,9 @@ internal class ProgressDialog : DialogFragment() {
             .onEach { event ->
                 when (event) {
                     is ViewEvent.PopBackStack -> {
+                        while (navController.currentDestination?.id != R.id.progressDialog) {
+                            navController.popBackStack()
+                        }
                         navController.popBackStack()
                     }
                     is ExplorerViewEvent.RunInBackground -> {

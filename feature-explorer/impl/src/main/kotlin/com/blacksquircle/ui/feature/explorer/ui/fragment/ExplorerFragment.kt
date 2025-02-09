@@ -375,6 +375,7 @@ internal class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPres
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
                     is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                    is ViewEvent.PopBackStack -> navController.popBackStack()
                     is ExplorerViewEvent.OpenFileWith -> {
                         context?.openFileWith(event.fileModel)
                     }
@@ -401,6 +402,27 @@ internal class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPres
                 binding.dropdown.setSelection(position)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        observeFragmentResult(KEY_AUTHENTICATION) { bundle ->
+            val credentials = bundle.getString(ARG_USER_INPUT).orEmpty()
+            viewModel.obtainEvent(ExplorerIntent.Authenticate(credentials))
+        }
+        observeFragmentResult(KEY_COMPRESS_FILE) { bundle ->
+            val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+            viewModel.obtainEvent(ExplorerIntent.CompressFile(fileName))
+        }
+        observeFragmentResult(KEY_CREATE_FILE) { bundle ->
+            val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+            val isFolder = bundle.getBoolean(ARG_IS_FOLDER)
+            viewModel.obtainEvent(ExplorerIntent.CreateFile(fileName, isFolder))
+        }
+        observeFragmentResult(KEY_RENAME_FILE) { bundle ->
+            val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+            viewModel.obtainEvent(ExplorerIntent.RenameFile(fileName))
+        }
+        observeFragmentResult(KEY_DELETE_FILE) {
+            viewModel.obtainEvent(ExplorerIntent.DeleteFile)
+        }
     }
 
     private fun startActionMode(size: Int) {
@@ -430,5 +452,17 @@ internal class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPres
             tracker.select(fileModel.fileUri)
         }
         fileAdapter.notifyItemChanged(index)
+    }
+
+    companion object {
+
+        const val KEY_AUTHENTICATION = "KEY_AUTHENTICATION"
+        const val KEY_COMPRESS_FILE = "KEY_COMPRESS_FILE"
+        const val KEY_CREATE_FILE = "KEY_CREATE_FILE"
+        const val KEY_RENAME_FILE = "KEY_RENAME_FILE"
+        const val KEY_DELETE_FILE = "KEY_DELETE_FILE"
+
+        const val ARG_USER_INPUT = "ARG_USER_INPUT"
+        const val ARG_IS_FOLDER = "ARG_IS_FOLDER"
     }
 }

@@ -83,6 +83,7 @@
     <string name="message_extracting">正在解壓縮…%1$s</string>
     <string name="explorer_channel_name">檔案管理器</string>
     <string name="explorer_channel_description">顯示和控制檔案操作</string>
+    <string name="explorer_service_message">Background operations in progress</string>
     <string name="storage_local">本機存儲</string>
     <string name="storage_root">根目錄</string>
     <string name="storage_add">添加伺服器</string>

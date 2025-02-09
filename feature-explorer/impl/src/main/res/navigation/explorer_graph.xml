@@ -38,16 +38,14 @@
     <dialog
         android:id="@+id/createDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.CreateDialog"
-        android:label="CreateDialog"
-        tools:layout="@layout/dialog_create">
+        android:label="CreateDialog">
         <deepLink app:uri="blacksquircle://explorer/create" />
     </dialog>
 
     <dialog
         android:id="@+id/renameDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.RenameDialog"
-        android:label="RenameDialog"
-        tools:layout="@layout/dialog_rename">
+        android:label="RenameDialog">
         <deepLink app:uri="blacksquircle://explorer/rename?fileName={fileName}" />
         <argument
             android:name="fileName"
@@ -70,16 +68,14 @@
     <dialog
         android:id="@+id/compressDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.CompressDialog"
-        android:label="CompressDialog"
-        tools:layout="@layout/dialog_compress">
+        android:label="CompressDialog">
         <deepLink app:uri="blacksquircle://explorer/compress" />
     </dialog>
 
     <dialog
         android:id="@+id/progressDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.ProgressDialog"
-        android:label="ProgressDialog"
-        tools:layout="@layout/dialog_progress">
+        android:label="ProgressDialog">
         <deepLink app:uri="blacksquircle://explorer/progress/{taskId}" />
         <argument
             android:name="taskId"
@@ -89,8 +85,7 @@
     <dialog
         android:id="@+id/propertiesDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.PropertiesDialog"
-        android:label="PropertiesDialog"
-        tools:layout="@layout/dialog_properties">
+        android:label="PropertiesDialog">
         <deepLink app:uri="blacksquircle://explorer/properties?data={data}" />
         <argument
             android:name="data"
