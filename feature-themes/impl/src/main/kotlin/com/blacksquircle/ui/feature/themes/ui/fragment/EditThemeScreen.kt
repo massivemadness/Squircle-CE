@@ -42,8 +42,8 @@ import androidx.core.graphics.toColorInt
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.button.IconButton
-import com.blacksquircle.ui.ds.button.IconButtonSize
 import com.blacksquircle.ui.ds.button.OutlinedButton
+import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.ds.preference.ColorPreference
 import com.blacksquircle.ui.ds.textfield.TextField
@@ -88,7 +88,7 @@ private fun EditThemeScreen(
                     if (!viewState.isEditMode) {
                         IconButton(
                             iconResId = UiR.drawable.ic_file_import,
-                            iconSize = IconButtonSize.L,
+                            iconButtonSize = IconButtonSizeDefaults.L,
                             onClick = onImportClicked,
                         )
                     }

@@ -37,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -52,42 +53,44 @@ fun Dropdown(
     entryValues: Array<String>,
     currentValue: String,
     onValueSelected: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    dropdownStyle: DropdownStyle = DropdownStyleDefaults.Default,
+    dropdownSize: DropdownSize = DropdownSizeDefaults.M,
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+            .height(dropdownSize.height)
+            .clip(RoundedCornerShape(dropdownSize.cornerRadius))
+            .clickable { expanded = !expanded }
+            .padding(dropdownSize.padding)
+    ) {
+        Text(
+            text = entries[entryValues.indexOf(currentValue)],
+            color = dropdownStyle.textColor,
+            style = dropdownStyle.textStyle,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
+            modifier = Modifier.weight(1f, fill = false)
+        )
+        Spacer(Modifier.width(dropdownSize.textSpacer))
+        Icon(
+            painter = if (expanded) {
+                painterResource(R.drawable.ic_menu_up)
+            } else {
+                painterResource(R.drawable.ic_menu_down)
+            },
+            contentDescription = null,
+            tint = dropdownStyle.iconColor,
+        )
+    }
     Box {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = modifier
-                .height(42.dp)
-                .clip(RoundedCornerShape(4.dp))
-                .clickable { expanded = !expanded }
-                .padding(horizontal = 8.dp)
-        ) {
-            Text(
-                text = entries[entryValues.indexOf(currentValue)],
-                color = SquircleTheme.colors.colorTextAndIconPrimary,
-                style = SquircleTheme.typography.text16Regular,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
-                modifier = Modifier.weight(1f, fill = false)
-            )
-            Spacer(Modifier.width(16.dp))
-            Icon(
-                painter = if (expanded) {
-                    painterResource(R.drawable.ic_menu_up)
-                } else {
-                    painterResource(R.drawable.ic_menu_down)
-                },
-                contentDescription = null,
-                tint = SquircleTheme.colors.colorTextAndIconPrimary,
-            )
-        }
         PopupMenu(
             expanded = expanded,
             onDismiss = { expanded = false },
-            verticalOffset = (-42).dp,
+            verticalOffset = -dropdownSize.height,
         ) {
             entries.forEachIndexed { index, entry ->
                 PopupMenuItem(

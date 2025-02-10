@@ -14,32 +14,30 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.ds.toolbar.internal
+package com.blacksquircle.ui.ds.dropdown
 
-import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.ds.button.IconButton
-import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 
-@Composable
-@NonRestartableComposable
-internal fun ToolbarIcon(
-    @DrawableRes iconRes: Int?,
-    contentDescription: String?,
-    onNavigationClicked: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    if (iconRes != null) {
-        IconButton(
-            iconResId = iconRes,
+@Immutable
+data class DropdownStyle(
+    val iconColor: Color,
+    val textColor: Color,
+    val textStyle: TextStyle,
+)
+
+object DropdownStyleDefaults {
+
+    val Default: DropdownStyle
+        @Composable
+        @ReadOnlyComposable
+        get() = DropdownStyle(
             iconColor = SquircleTheme.colors.colorTextAndIconPrimary,
-            iconButtonSize = IconButtonSizeDefaults.L,
-            contentDescription = contentDescription,
-            onClick = onNavigationClicked,
-            modifier = modifier,
+            textColor = SquircleTheme.colors.colorTextAndIconPrimary,
+            textStyle = SquircleTheme.typography.text16Regular,
         )
-    }
 }

@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
@@ -32,12 +33,13 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
-import com.blacksquircle.ui.ds.button.IconButtonSize
+import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.toolbar.internal.ToolbarActions
 import com.blacksquircle.ui.ds.toolbar.internal.ToolbarContent
 import com.blacksquircle.ui.ds.toolbar.internal.ToolbarIcon
@@ -52,11 +54,12 @@ fun Toolbar(
     navigationIconDescription: String? = null,
     navigationActions: @Composable (RowScope.() -> Unit)? = null,
     onNavigationClicked: () -> Unit = {},
+    toolbarSize: ToolbarSize = ToolbarSizeDefaults.M,
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .shadow(4.dp)
+            .shadow(toolbarSize.shadowSize)
             .background(SquircleTheme.colors.colorBackgroundSecondary)
             .statusBarsPadding()
     ) {
@@ -67,6 +70,7 @@ fun Toolbar(
             navigationIcon = navigationIcon,
             navigationIconDescription = navigationIconDescription,
             navigationActions = navigationActions,
+            toolbarSize = toolbarSize,
             onNavigationClicked = onNavigationClicked,
         )
     }
@@ -81,6 +85,7 @@ private fun ToolbarLayout(
     navigationIconDescription: String?,
     navigationActions: @Composable (RowScope.() -> Unit)?,
     onNavigationClicked: () -> Unit,
+    toolbarSize: ToolbarSize,
     modifier: Modifier = Modifier,
 ) {
     Layout(
@@ -90,13 +95,14 @@ private fun ToolbarLayout(
                 contentDescription = navigationIconDescription,
                 onNavigationClicked = onNavigationClicked,
                 modifier = Modifier
-                    .size(56.dp)
+                    .size(toolbarSize.iconSize)
                     .layoutId(ToolbarSlot.ToolbarIcon),
             )
             ToolbarContent(
                 title = title,
                 subtitle = subtitle,
                 alignment = alignment,
+                toolbarSize = toolbarSize,
                 modifier = Modifier
                     .fillMaxSize()
                     .layoutId(ToolbarSlot.ToolbarContent),
@@ -104,13 +110,13 @@ private fun ToolbarLayout(
             ToolbarActions(
                 content = navigationActions,
                 modifier = Modifier
-                    .height(56.dp)
+                    .height(toolbarSize.height)
                     .layoutId(ToolbarSlot.ToolbarActions),
             )
         },
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp),
+            .requiredHeight(toolbarSize.height),
     ) { measurables, constraints ->
         // Useful variables
         val layoutWidth = constraints.maxWidth
@@ -131,7 +137,7 @@ private fun ToolbarLayout(
             /** It's not null and not empty composable */
             iconMeasuredWidth
         } else {
-            16.dp.roundToPx()
+            toolbarSize.emptyIconPadding.roundToPx()
         }
 
         // Measure actions
@@ -148,7 +154,7 @@ private fun ToolbarLayout(
             /** It's not null and not empty composable */
             actionsMeasuredWidth
         } else {
-            16.dp.roundToPx()
+            toolbarSize.emptyActionsPadding.roundToPx()
         }
 
         // Content padding and size
@@ -199,8 +205,7 @@ private fun ToolbarPreview() {
             navigationActions = {
                 IconButton(
                     iconResId = R.drawable.ic_edit,
-                    iconSize = IconButtonSize.L,
-                    onClick = {},
+                    iconButtonSize = IconButtonSizeDefaults.L,
                 )
             }
         )

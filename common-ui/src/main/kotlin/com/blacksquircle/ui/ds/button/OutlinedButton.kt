@@ -20,9 +20,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -34,24 +34,22 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
 fun OutlinedButton(
-    text: String,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    text: String = "",
+    onClick: () -> Unit = {},
     startIconResId: Int? = null,
     endIconResId: Int? = null,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource? = null,
+    outlinedButtonSize: OutlinedButtonSize = OutlinedButtonSizeDefaults.S,
 ) {
-    val buttonMinWidth = 64.dp
-    val buttonMinHeight = 36.dp
-    val buttonShape = RoundedCornerShape(4.dp)
+    val buttonShape = RoundedCornerShape(outlinedButtonSize.cornerRadius)
     val buttonColor = if (enabled) {
         SquircleTheme.colors.colorPrimary
     } else {
@@ -61,9 +59,9 @@ fun OutlinedButton(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .sizeIn(
-                minWidth = buttonMinWidth,
-                minHeight = buttonMinHeight,
+            .defaultMinSize(
+                minWidth = outlinedButtonSize.minWidth,
+                minHeight = outlinedButtonSize.minHeight,
             )
             .clip(buttonShape)
             .clickable(
@@ -74,32 +72,32 @@ fun OutlinedButton(
                 role = Role.Button,
             )
             .border(
-                width = 1.dp,
+                width = outlinedButtonSize.borderSize,
                 color = SquircleTheme.colors.colorOutline,
                 shape = buttonShape,
             )
-            .padding(8.dp)
+            .padding(outlinedButtonSize.innerPadding)
     ) {
         if (startIconResId != null) {
             Icon(
                 painter = painterResource(startIconResId),
                 contentDescription = null,
                 tint = buttonColor,
-                modifier = Modifier.size(20.dp),
+                modifier = Modifier.size(outlinedButtonSize.iconSize),
             )
         }
         Text(
             text = text.uppercase(),
             color = buttonColor,
             style = SquircleTheme.typography.text14Medium,
-            modifier = Modifier.padding(horizontal = 8.dp)
+            modifier = Modifier.padding(outlinedButtonSize.textPadding)
         )
         if (endIconResId != null) {
             Icon(
                 painter = painterResource(endIconResId),
                 contentDescription = null,
                 tint = buttonColor,
-                modifier = Modifier.size(20.dp),
+                modifier = Modifier.size(outlinedButtonSize.iconSize),
             )
         }
     }

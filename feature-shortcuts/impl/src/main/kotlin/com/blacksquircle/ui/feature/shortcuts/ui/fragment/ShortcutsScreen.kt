@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.button.IconButton
-import com.blacksquircle.ui.ds.button.IconButtonSize
+import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
@@ -78,7 +78,7 @@ private fun ShortcutsScreen(
                     var expanded by rememberSaveable { mutableStateOf(false) }
                     IconButton(
                         iconResId = UiR.drawable.ic_overflow,
-                        iconSize = IconButtonSize.L,
+                        iconButtonSize = IconButtonSizeDefaults.L,
                         onClick = { expanded = !expanded },
                         anchor = {
                             PopupMenu(

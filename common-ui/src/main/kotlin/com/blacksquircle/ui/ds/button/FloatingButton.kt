@@ -28,19 +28,21 @@ import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
 fun FloatingButton(
-    iconResId: Int,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    iconResId: Int? = null,
+    onClick: () -> Unit = {},
 ) {
     FloatingActionButton(
         onClick = onClick,
         modifier = modifier,
     ) {
-        Icon(
-            painter = painterResource(iconResId),
-            contentDescription = null,
-            tint = SquircleTheme.colors.colorTextAndIconPrimaryInverse,
-        )
+        if (iconResId != null) {
+            Icon(
+                painter = painterResource(iconResId),
+                contentDescription = null,
+                tint = SquircleTheme.colors.colorTextAndIconPrimaryInverse,
+            )
+        }
     }
 }
 
@@ -50,7 +52,6 @@ private fun FloatingButtonPreview() {
     PreviewBackground {
         FloatingButton(
             iconResId = R.drawable.ic_edit,
-            onClick = {},
         )
     }
 }

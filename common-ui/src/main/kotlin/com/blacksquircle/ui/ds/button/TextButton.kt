@@ -30,30 +30,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
 fun TextButton(
-    text: String,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    text: String = "",
+    onClick: () -> Unit = {},
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource? = null,
+    textButtonSize: TextButtonSize = TextButtonSizeDefaults.S,
 ) {
-    val buttonMinWidth = 64.dp
-    val buttonMinHeight = 36.dp
-    val buttonShape = RoundedCornerShape(4.dp)
-
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
             .defaultMinSize(
-                minWidth = buttonMinWidth,
-                minHeight = buttonMinHeight,
+                minWidth = textButtonSize.minWidth,
+                minHeight = textButtonSize.minHeight,
             )
-            .clip(buttonShape)
+            .clip(RoundedCornerShape(textButtonSize.cornerRadius))
             .clickable(
                 interactionSource = interactionSource,
                 indication = ripple(),
@@ -61,7 +57,7 @@ fun TextButton(
                 onClick = onClick,
                 role = Role.Button,
             )
-            .padding(8.dp)
+            .padding(textButtonSize.padding)
     ) {
         Text(
             text = text.uppercase(),

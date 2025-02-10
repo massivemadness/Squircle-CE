@@ -31,19 +31,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.toolbar.ToolbarSize
 
 @Composable
 internal fun ToolbarContent(
     title: String?,
     subtitle: String?,
     alignment: Alignment.Horizontal,
+    toolbarSize: ToolbarSize,
     modifier: Modifier = Modifier,
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = alignment,
         modifier = modifier
-            .padding(horizontal = 4.dp)
+            .padding(toolbarSize.contentPadding)
             .semantics(mergeDescendants = true) {
                 heading()
             },
@@ -59,7 +61,8 @@ internal fun ToolbarContent(
             )
         }
         if (!subtitle.isNullOrEmpty()) {
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(toolbarSize.textSpacer))
+
             Text(
                 text = subtitle,
                 style = SquircleTheme.typography.text12Regular,

@@ -59,7 +59,7 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.FloatingButton
 import com.blacksquircle.ui.ds.button.IconButton
-import com.blacksquircle.ui.ds.button.IconButtonSize
+import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.dropdown.Dropdown
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
@@ -138,7 +138,7 @@ private fun ThemesScreen(
                                 IconButton(
                                     iconResId = UiR.drawable.ic_close,
                                     iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                                    iconSize = IconButtonSize.S,
+                                    iconButtonSize = IconButtonSizeDefaults.S,
                                     onClick = { onClearQueryClicked(); expanded = false },
                                 )
                             },
@@ -159,7 +159,7 @@ private fun ThemesScreen(
                         )
                         IconButton(
                             iconResId = UiR.drawable.ic_search,
-                            iconSize = IconButtonSize.L,
+                            iconButtonSize = IconButtonSizeDefaults.L,
                             onClick = { expanded = true },
                         )
                     }

@@ -24,7 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
-import com.blacksquircle.ui.ds.button.IconButtonSize
+import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.ds.R as UiR
@@ -44,7 +44,7 @@ internal fun ServerKeyFile(
             IconButton(
                 iconResId = UiR.drawable.ic_folder_open,
                 iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                iconSize = IconButtonSize.S,
+                iconButtonSize = IconButtonSizeDefaults.S,
                 onClick = onChooseFileClicked,
             )
         },
