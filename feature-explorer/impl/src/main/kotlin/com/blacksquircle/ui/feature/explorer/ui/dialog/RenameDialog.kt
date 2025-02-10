@@ -26,7 +26,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.decodeUri
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
@@ -46,7 +45,7 @@ internal class RenameDialog : DialogFragment() {
             setContent {
                 SquircleTheme {
                     RenameScreen(
-                        currentFileName = navArgs.fileName.decodeUri(),
+                        currentFileName = navArgs.fileName,
                         onConfirmClicked = { fileName ->
                             sendFragmentResult(
                                 resultKey = ExplorerFragment.KEY_RENAME_FILE,
@@ -62,5 +61,9 @@ internal class RenameDialog : DialogFragment() {
                 }
             }
         }
+    }
+
+    companion object {
+        const val ARG_FILE_NAME = "fileName"
     }
 }

@@ -64,4 +64,8 @@ internal class AuthDialog : DialogFragment() {
             }
         }
     }
+
+    companion object {
+        const val ARG_AUTH_METHOD = "authMethod"
+    }
 }

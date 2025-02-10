@@ -16,37 +16,54 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.navigation
 
-import com.blacksquircle.ui.core.extensions.encodeUri
-import com.blacksquircle.ui.core.extensions.toJsonEncoded
+import androidx.core.os.bundleOf
+import com.blacksquircle.ui.core.extensions.NavAction
 import com.blacksquircle.ui.core.navigation.Screen
+import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.data.mapper.FileMapper
+import com.blacksquircle.ui.feature.explorer.ui.dialog.AuthDialog
+import com.blacksquircle.ui.feature.explorer.ui.dialog.DeleteDialog
+import com.blacksquircle.ui.feature.explorer.ui.dialog.RenameDialog
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragmentDirections
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
-internal sealed class ExplorerScreen(route: String) : Screen<String>(route) {
+internal sealed class ExplorerScreen(route: Any) : Screen(route) {
 
-    class DeleteDialog(fileName: String, fileCount: Int) : ExplorerScreen(
-        route = "blacksquircle://explorer/delete?fileName=${fileName.encodeUri()}&fileCount=$fileCount",
-    )
-    class RenameDialog(fileName: String) : ExplorerScreen(
-        route = "blacksquircle://explorer/rename?fileName=${fileName.encodeUri()}",
-    )
-    class ProgressDialog(taskId: String) : ExplorerScreen(
-        route = "blacksquircle://explorer/progress/$taskId",
-    )
-    class PropertiesDialog(fileModel: FileModel) : ExplorerScreen(
-        route = "blacksquircle://explorer/properties?data=${fileModel.toJsonEncoded()}",
-    )
-    class AuthDialog(authMethod: AuthMethod) : ExplorerScreen(
-        route = "blacksquircle://explorer/authenticate?authMethod=${authMethod.value}"
+    data class DeleteDialogScreen(val fileName: String, val fileCount: Int) : ExplorerScreen(
+        route = NavAction(
+            id = R.id.deleteDialog,
+            args = bundleOf(
+                DeleteDialog.ARG_FILE_NAME to fileName,
+                DeleteDialog.ARG_FILE_COUNT to fileCount,
+            )
+        )
     )
 
-    data object CreateDialog : ExplorerScreen("blacksquircle://explorer/create")
-    data object CompressDialog : ExplorerScreen("blacksquircle://explorer/compress")
+    data class RenameDialogScreen(val fileName: String) : ExplorerScreen(
+        route = NavAction(
+            id = R.id.renameDialog,
+            args = bundleOf(RenameDialog.ARG_FILE_NAME to fileName)
+        )
+    )
 
-    data object StorageDeniedForever : ExplorerScreen(
-        route = "blacksquircle://explorer/storage_denied_forever"
+    data class TaskDialogScreen(val taskId: String) : ExplorerScreen(
+        route = "blacksquircle://explorer/tasks/$taskId"
     )
-    data object NotificationDeniedForever : ExplorerScreen(
-        route = "blacksquircle://explorer/notification_denied_forever"
+
+    data class PropertiesDialogScreen(val fileModel: FileModel) : ExplorerScreen(
+        route = ExplorerFragmentDirections.toPropertiesDialog(FileMapper.toBundle(fileModel))
     )
+
+    data class AuthDialogScreen(val authMethod: AuthMethod) : ExplorerScreen(
+        route = NavAction(
+            id = R.id.authDialog,
+            args = bundleOf(AuthDialog.ARG_AUTH_METHOD to authMethod.value)
+        )
+    )
+
+    data object CreateDialogScreen : ExplorerScreen(route = NavAction(R.id.createDialog))
+    data object CompressDialogScreen : ExplorerScreen(route = NavAction(R.id.compressDialog))
+    data object StorageDeniedScreen : ExplorerScreen(route = NavAction(R.id.storageDeniedDialog))
+    data object NotificationDeniedScreen : ExplorerScreen(route = NavAction(R.id.notificationDeniedDialog))
 }

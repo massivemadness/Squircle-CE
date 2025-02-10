@@ -19,7 +19,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/editor_graph"
-    app:startDestination="@id/forceSyntaxDialog">
+    app:startDestination="@id/editorFragment">
+
+    <fragment
+        android:id="@+id/editorFragment"
+        android:name="com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment"
+        android:label="EditorFragment" />
 
     <dialog
         android:id="@+id/forceSyntaxDialog"
@@ -58,5 +63,10 @@
         android:label="InsertColorDialog">
         <deepLink app:uri="blacksquircle://editor/insertcolor" />
     </dialog>
+
+    <dialog
+        android:id="@+id/confirmExitDialog"
+        android:name="com.blacksquircle.ui.feature.editor.ui.dialog.ConfirmExitDialog"
+        android:label="ConfirmExitDialog" />
 
 </navigation>

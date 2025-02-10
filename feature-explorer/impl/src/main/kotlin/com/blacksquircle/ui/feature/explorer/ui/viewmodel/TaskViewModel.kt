@@ -23,7 +23,7 @@ import com.blacksquircle.ui.core.extensions.onEach
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
-import com.blacksquircle.ui.feature.explorer.ui.dialog.ProgressViewState
+import com.blacksquircle.ui.feature.explorer.ui.dialog.TaskViewState
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerViewEvent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -33,7 +33,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-internal class ProgressViewModel @AssistedInject constructor(
+internal class TaskViewModel @AssistedInject constructor(
     private val taskManager: TaskManager,
     @Assisted private val taskId: String,
 ) : ViewModel() {
@@ -49,7 +49,7 @@ internal class ProgressViewModel @AssistedInject constructor(
             }
         }
         .map(viewModelScope) { task ->
-            ProgressViewState(
+            TaskViewState(
                 type = task.type,
                 count = (task.status as? TaskStatus.Progress)?.count ?: -1,
                 totalCount = (task.status as? TaskStatus.Progress)?.totalCount ?: -1,
@@ -76,6 +76,6 @@ internal class ProgressViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(@Assisted taskId: String): ProgressViewModel
+        fun create(@Assisted taskId: String): TaskViewModel
     }
 }

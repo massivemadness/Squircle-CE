@@ -19,12 +19,8 @@ package com.blacksquircle.ui.application.viewmodel
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,13 +29,8 @@ internal class MainViewModel @Inject constructor(
     private val editorInteractor: EditorInteractor,
 ) : ViewModel() {
 
-    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
-    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
-
     val fullScreenMode: Boolean
         get() = settingsManager.fullScreenMode
-    val confirmExit: Boolean
-        get() = settingsManager.confirmExit
 
     fun handleIntent(intent: Intent?) {
         viewModelScope.launch {

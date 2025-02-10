@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import com.blacksquircle.ui.ds.R as UiR
 
-internal class FileService : ComponentService() {
+internal class TaskService : ComponentService() {
 
     @Inject
     lateinit var taskManager: TaskManager
@@ -141,7 +141,7 @@ internal class FileService : ComponentService() {
                     PendingIntent.getService(
                         this,
                         0,
-                        Intent(this, FileService::class.java).apply {
+                        Intent(this, TaskService::class.java).apply {
                             action = ACTION_CANCEL_TASK
                             putExtra(ARG_TASK_ID, task.id)
                         },
@@ -154,8 +154,8 @@ internal class FileService : ComponentService() {
 
     companion object {
 
-        const val ACTION_START_TASK = "ACTION_START_TASK"
-        const val ACTION_CANCEL_TASK = "ACTION_CANCEL_TASK"
+        const val ACTION_START_TASK = "com.blacksquircle.ui.ACTION_START_TASK"
+        const val ACTION_CANCEL_TASK = "com.blacksquircle.ui.ACTION_CANCEL_TASK"
         const val ARG_TASK_ID = "ARG_TASK_ID"
 
         private const val CHANNEL_ID = "file-explorer"

@@ -94,7 +94,7 @@ internal class ThemesViewModel @Inject constructor(
 
     fun onCreateClicked() {
         viewModelScope.launch {
-            val screen = ThemesScreen.Create
+            val screen = ThemesScreen.CreateThemeScreen
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -160,7 +160,7 @@ internal class ThemesViewModel @Inject constructor(
 
     fun onEditClicked(themeModel: ThemeModel) {
         viewModelScope.launch {
-            val screen = ThemesScreen.Update(themeModel.uuid)
+            val screen = ThemesScreen.EditThemeScreen(themeModel.uuid)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }

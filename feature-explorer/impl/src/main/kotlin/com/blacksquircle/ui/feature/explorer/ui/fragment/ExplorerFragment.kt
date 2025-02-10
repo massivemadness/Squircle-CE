@@ -24,6 +24,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
+import androidx.activity.addCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
@@ -43,8 +44,6 @@ import com.blacksquircle.ui.core.contract.StoragePermission
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.*
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.navigation.BackPressedHandler
-import com.blacksquircle.ui.core.navigation.DrawerHandler
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.model.FilesystemModel
@@ -73,7 +72,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 import com.blacksquircle.ui.ds.R as UiR
 
-internal class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPressedHandler {
+internal class ExplorerFragment : Fragment(R.layout.fragment_explorer) {
 
     @Inject
     lateinit var viewModelProvider: Provider<ExplorerViewModel>
@@ -85,7 +84,7 @@ internal class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPres
         when (result) {
             PermissionResult.DENIED,
             PermissionResult.DENIED_FOREVER -> {
-                navController.navigateTo(ExplorerScreen.StorageDeniedForever)
+                navController.navigateTo(ExplorerScreen.StorageDeniedScreen)
             }
             PermissionResult.GRANTED -> {
                 viewModel.obtainEvent(ExplorerIntent.Refresh)
@@ -269,19 +268,19 @@ internal class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPres
         binding.toolbar.setNavigationOnClickListener {
             viewModel.obtainEvent(ExplorerIntent.UnselectAll)
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (tracker.hasSelection()) {
+                viewModel.obtainEvent(ExplorerIntent.UnselectAll)
+            } else {
+                navController.popBackStack()
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         tracker.clearSelection()
-    }
-
-    override fun handleOnBackPressed(): Boolean {
-        if (tracker.hasSelection()) {
-            viewModel.obtainEvent(ExplorerIntent.UnselectAll)
-            return true
-        }
-        return false
     }
 
     private fun observeViewModel() {
@@ -349,7 +348,7 @@ internal class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPres
                                 binding.errorView.actionPrimary.setText(R.string.action_authenticate)
                                 binding.errorView.actionPrimary.setOnClickListener {
                                     navController.navigateTo(
-                                        ExplorerScreen.AuthDialog(action.authMethod)
+                                        ExplorerScreen.AuthDialogScreen(action.authMethod)
                                     )
                                 }
                             }
@@ -386,9 +385,6 @@ internal class ExplorerFragment : Fragment(R.layout.fragment_explorer), BackPres
                     is ExplorerViewEvent.CopyPath -> {
                         event.fileModel.path.clipText(context)
                         context?.showToast(R.string.message_done)
-                    }
-                    is ExplorerViewEvent.CloseDrawer -> {
-                        (parentFragment as? DrawerHandler)?.closeDrawer()
                     }
                 }
             }

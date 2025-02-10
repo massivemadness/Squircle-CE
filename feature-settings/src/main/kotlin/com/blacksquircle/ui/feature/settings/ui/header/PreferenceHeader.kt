@@ -24,5 +24,5 @@ internal data class PreferenceHeader(
     val title: Int,
     val subtitle: Int,
     val selected: Boolean,
-    val screen: Screen<*>,
+    val screen: Screen,
 )

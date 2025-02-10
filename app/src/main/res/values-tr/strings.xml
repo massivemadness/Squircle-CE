@@ -16,10 +16,6 @@
   -->
 <resources>
     <string name="action_restart">Yeniden Başlat</string>
-    <string name="action_yes">Evet</string>
-    <string name="action_no">Hayır</string>
-    <string name="dialog_title_exit">Çıkış yap</string>
-    <string name="dialog_message_exit">Çıkmak istediğinizden emin misiniz? Kayıt edilmeyen tüm değişiklikler kaybolacaktır</string>
     <string name="message_in_app_update_ready">Uygulama güncellenmeye hazır</string>
     <string name="message_in_app_update_failed">Güncelleme başarılı bir şekilde kurulamadı</string>
 </resources>

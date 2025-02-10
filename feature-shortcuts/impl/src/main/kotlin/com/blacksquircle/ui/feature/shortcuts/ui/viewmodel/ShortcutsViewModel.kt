@@ -75,7 +75,7 @@ internal class ShortcutsViewModel @Inject constructor(
 
     fun onKeyClicked(keybinding: Keybinding) {
         viewModelScope.launch {
-            val screen = ShortcutScreen.Edit(keybinding)
+            val screen = ShortcutScreen.EditDialogScreen(keybinding)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -94,7 +94,7 @@ internal class ShortcutsViewModel @Inject constructor(
                     pendingKey = keybinding
                     conflictKey = existingKey
 
-                    val screen = ShortcutScreen.Conflict()
+                    val screen = ShortcutScreen.ConflictDialogScreen
                     _viewEvent.send(ViewEvent.PopBackStack())
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 } else {

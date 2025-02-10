@@ -21,7 +21,7 @@ import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 
 @Immutable
-internal data class ProgressViewState(
+internal data class TaskViewState(
     val type: TaskType,
     val count: Int = -1,
     val totalCount: Int = -1,

@@ -153,9 +153,14 @@
         </provider>
 
         <service
-            android:name=".feature.explorer.ui.service.FileService"
+            android:name=".feature.explorer.ui.service.TaskService"
             android:foregroundServiceType="dataSync"
-            android:exported="false" />
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.blacksquircle.ui.ACTION_START_TASK" />
+                <action android:name="com.blacksquircle.ui.ACTION_CANCEL_TASK" />
+            </intent-filter>
+        </service>
 
         <profileable
             android:shell="true"

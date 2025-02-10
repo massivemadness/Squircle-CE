@@ -25,9 +25,8 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.fromJsonEncoded
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.feature.explorer.data.mapper.FileMapper
 
 internal class PropertiesDialog : DialogFragment() {
 
@@ -44,7 +43,7 @@ internal class PropertiesDialog : DialogFragment() {
             setContent {
                 SquircleTheme {
                     PropertiesScreen(
-                        fileModel = navArgs.data.fromJsonEncoded<FileModel>(),
+                        fileModel = FileMapper.fromBundle(navArgs.fileModel),
                         onCancelClicked = {
                             navController.popBackStack()
                         }

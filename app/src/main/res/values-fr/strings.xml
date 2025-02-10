@@ -16,10 +16,6 @@
   -->
 <resources>
     <string name="action_restart">Redémarrer</string>
-    <string name="action_yes">Oui</string>
-    <string name="action_no">Non</string>
-    <string name="dialog_title_exit">Quitter</string>
-    <string name="dialog_message_exit">Êtes-vous sûr de vouloir quitter? Toutes les modifications seront enregistrées dans un cache</string>
     <string name="message_in_app_update_ready">L\'application est prête à être mise à jour</string>
     <string name="message_in_app_update_failed">L\'installation de la mise à jour a échoué</string>
 </resources>

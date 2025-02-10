@@ -17,14 +17,6 @@
 package com.blacksquircle.ui.core.extensions
 
 import android.net.Uri
-import com.google.gson.Gson
 
 fun String.encodeUri(): String = Uri.encode(this)
 fun String.decodeUri(): String = Uri.decode(this)
-
-fun Any.toJsonEncoded(): String {
-    return Gson().toJson(this).encodeUri()
-}
-inline fun <reified T> String.fromJsonEncoded(): T {
-    return Gson().fromJson(this.decodeUri(), T::class.java)
-}

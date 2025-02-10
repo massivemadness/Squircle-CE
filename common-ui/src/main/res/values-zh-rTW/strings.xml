@@ -21,5 +21,7 @@
     <string name="common_delete">刪除</string>
     <string name="common_continue">繼續</string>
     <string name="common_select">選擇</string>
+    <string name="common_yes">確定</string>
+    <string name="common_no">取消</string>
     <string name="dialog_title_color_picker">顏色選擇器</string>
 </resources>

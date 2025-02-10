@@ -45,8 +45,8 @@ internal class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel> { viewModelProvider.get() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AppComponent.buildOrGet(this).inject(this)
         installSplashScreen()
+        AppComponent.buildOrGet(this).inject(this)
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

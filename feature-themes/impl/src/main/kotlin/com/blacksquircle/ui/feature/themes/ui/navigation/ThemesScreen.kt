@@ -18,8 +18,8 @@ package com.blacksquircle.ui.feature.themes.ui.navigation
 
 import com.blacksquircle.ui.core.navigation.Screen
 
-internal sealed class ThemesScreen(route: String) : Screen<String>(route) {
+internal sealed class ThemesScreen(route: Any) : Screen(route) {
 
-    data object Create : ThemesScreen("blacksquircle://themes/create")
-    class Update(uuid: String) : ThemesScreen("blacksquircle://themes/update/$uuid")
+    data object CreateThemeScreen : ThemesScreen("blacksquircle://themes/create")
+    data class EditThemeScreen(val uuid: String) : ThemesScreen("blacksquircle://themes/update/$uuid")
 }

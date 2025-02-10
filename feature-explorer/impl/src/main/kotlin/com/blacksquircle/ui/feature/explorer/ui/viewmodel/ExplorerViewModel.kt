@@ -279,7 +279,7 @@ internal class ExplorerViewModel @Inject constructor(
             selection.replaceList(emptyList())
             refreshActionBar()
 
-            val screen = ExplorerScreen.CreateDialog
+            val screen = ExplorerScreen.CreateDialogScreen
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -291,7 +291,7 @@ internal class ExplorerViewModel @Inject constructor(
             selection.replaceList(emptyList())
             refreshActionBar()
 
-            val screen = ExplorerScreen.RenameDialog(buffer.first().name)
+            val screen = ExplorerScreen.RenameDialogScreen(buffer.first().name)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -303,7 +303,7 @@ internal class ExplorerViewModel @Inject constructor(
             selection.replaceList(emptyList())
             refreshActionBar()
 
-            val screen = ExplorerScreen.DeleteDialog(buffer.first().name, buffer.size)
+            val screen = ExplorerScreen.DeleteDialogScreen(buffer.first().name, buffer.size)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -325,7 +325,7 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val fileModel = selection.first()
-                val screen = ExplorerScreen.PropertiesDialog(fileModel)
+                val screen = ExplorerScreen.PropertiesDialogScreen(fileModel)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: Throwable) {
                 Timber.e(e, e.message)
@@ -351,7 +351,7 @@ internal class ExplorerViewModel @Inject constructor(
             selection.replaceList(emptyList())
             refreshActionBar()
 
-            val screen = ExplorerScreen.CompressDialog
+            val screen = ExplorerScreen.CompressDialogScreen
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -360,7 +360,7 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             val fileModel = event.fileModel ?: selection.first()
             _viewEvent.send(ExplorerViewEvent.OpenFileWith(fileModel))
-            _viewEvent.send(ExplorerViewEvent.CloseDrawer)
+            _viewEvent.send(ViewEvent.PopBackStack())
             initialState()
         }
     }
@@ -372,7 +372,7 @@ internal class ExplorerViewModel @Inject constructor(
                 FileType.DEFAULT,
                 FileType.TEXT -> {
                     editorInteractor.openFile(event.fileModel)
-                    _viewEvent.send(ExplorerViewEvent.CloseDrawer)
+                    _viewEvent.send(ViewEvent.PopBackStack())
                 }
                 else -> openFileAs(ExplorerIntent.OpenFileWith(event.fileModel))
             }
@@ -397,7 +397,7 @@ internal class ExplorerViewModel @Inject constructor(
             )
 
             val taskId = explorerRepository.createFile(child)
-            val screen = ExplorerScreen.ProgressDialog(taskId)
+            val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
             initialState()
 
@@ -430,7 +430,7 @@ internal class ExplorerViewModel @Inject constructor(
             )
 
             val taskId = explorerRepository.renameFile(originalFile, renamedFile)
-            val screen = ExplorerScreen.ProgressDialog(taskId)
+            val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
             initialState()
 
@@ -449,7 +449,7 @@ internal class ExplorerViewModel @Inject constructor(
             _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
 
             val taskId = explorerRepository.deleteFiles(buffer.toList())
-            val screen = ExplorerScreen.ProgressDialog(taskId)
+            val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
             initialState()
 
@@ -466,7 +466,7 @@ internal class ExplorerViewModel @Inject constructor(
     private fun cutFile() {
         viewModelScope.launch {
             val taskId = explorerRepository.cutFiles(buffer.toList(), breadcrumbs.last())
-            val screen = ExplorerScreen.ProgressDialog(taskId)
+            val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
             initialState()
 
@@ -483,7 +483,7 @@ internal class ExplorerViewModel @Inject constructor(
     private fun copyFile() {
         viewModelScope.launch {
             val taskId = explorerRepository.copyFiles(buffer.toList(), breadcrumbs.last())
-            val screen = ExplorerScreen.ProgressDialog(taskId)
+            val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
             initialState()
 
@@ -512,7 +512,7 @@ internal class ExplorerViewModel @Inject constructor(
             val child = parent.copy(parent.path + "/" + event.fileName)
 
             val taskId = explorerRepository.compressFiles(buffer.toList(), child)
-            val screen = ExplorerScreen.ProgressDialog(taskId)
+            val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
             initialState()
 
@@ -529,7 +529,7 @@ internal class ExplorerViewModel @Inject constructor(
     private fun extractFile(event: ExplorerIntent.ExtractFile) {
         viewModelScope.launch {
             val taskId = explorerRepository.extractFiles(event.fileModel, breadcrumbs.last())
-            val screen = ExplorerScreen.ProgressDialog(taskId)
+            val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
             initialState()
 

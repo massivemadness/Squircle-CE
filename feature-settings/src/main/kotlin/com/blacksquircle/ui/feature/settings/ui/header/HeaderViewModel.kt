@@ -43,7 +43,7 @@ internal class HeaderViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun onHeaderClicked(screen: Screen<*>) {
+    fun onHeaderClicked(screen: Screen) {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.Navigation(screen))
         }

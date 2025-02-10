@@ -16,10 +16,6 @@
   -->
 <resources>
     <string name="action_restart">Reinicio</string>
-    <string name="action_yes">Aceptar</string>
-    <string name="action_no">Rechazar</string>
-    <string name="dialog_title_exit">Salir</string>
-    <string name="dialog_message_exit">¿Seguro que quieres salir? Se guardarán todos los cambios en la caché</string>
     <string name="message_in_app_update_ready">La app tiene una actualización disponible</string>
     <string name="message_in_app_update_failed">No se pudo instalar la actualización</string>
 </resources>

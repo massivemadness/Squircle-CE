@@ -41,16 +41,16 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ProgressViewModel
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.TaskViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
-internal fun ProgressScreen(viewModel: ProgressViewModel) {
+internal fun TaskScreen(viewModel: TaskViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
-    ProgressScreen(
+    TaskScreen(
         viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
         onCancelClicked = viewModel::onCancelClicked,
@@ -59,8 +59,8 @@ internal fun ProgressScreen(viewModel: ProgressViewModel) {
 }
 
 @Composable
-private fun ProgressScreen(
-    viewState: ProgressViewState,
+private fun TaskScreen(
+    viewState: TaskViewState,
     onBackClicked: () -> Unit = {},
     onCancelClicked: () -> Unit = {},
     onRunInBackgroundClicked: () -> Unit = {},
@@ -156,8 +156,8 @@ private fun ProgressScreen(
 @Composable
 private fun ProgressScreenPreview() {
     PreviewBackground {
-        ProgressScreen(
-            viewState = ProgressViewState(
+        TaskScreen(
+            viewState = TaskViewState(
                 type = TaskType.COMPRESS,
                 count = 3,
                 totalCount = 5,

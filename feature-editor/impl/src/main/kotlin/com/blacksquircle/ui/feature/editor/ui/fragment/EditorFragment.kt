@@ -20,6 +20,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import androidx.activity.addCallback
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -35,8 +36,6 @@ import com.blacksquircle.ui.core.contract.OpenFileContract
 import com.blacksquircle.ui.core.delegate.viewBinding
 import com.blacksquircle.ui.core.extensions.*
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.navigation.BackPressedHandler
-import com.blacksquircle.ui.core.navigation.DrawerHandler
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.editorkit.*
 import com.blacksquircle.ui.editorkit.plugin.autocomplete.codeCompletion
@@ -62,6 +61,7 @@ import com.blacksquircle.ui.feature.editor.ui.adapter.TabController
 import com.blacksquircle.ui.feature.editor.ui.manager.KeyboardManager
 import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
 import com.blacksquircle.ui.feature.editor.ui.mvi.*
+import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
@@ -72,7 +72,7 @@ import javax.inject.Provider
 import com.blacksquircle.ui.ds.R as UiR
 
 internal class EditorFragment : Fragment(R.layout.fragment_editor),
-    BackPressedHandler, ToolbarManager.Listener, KeyboardManager.Listener {
+    ToolbarManager.Listener, KeyboardManager.Listener {
 
     @Inject
     lateinit var viewModelProvider: Provider<EditorViewModel>
@@ -80,7 +80,6 @@ internal class EditorFragment : Fragment(R.layout.fragment_editor),
     private val viewModel by activityViewModels<EditorViewModel> { viewModelProvider.get() }
     private val binding by viewBinding(FragmentEditorBinding::bind)
 
-    private val drawerHandler by lazy { parentFragment as DrawerHandler }
     private val toolbarManager by lazy { ToolbarManager(this) }
     private val keyboardManager by lazy { KeyboardManager(this) }
     private val tabController by lazy { TabController() }
@@ -172,19 +171,21 @@ internal class EditorFragment : Fragment(R.layout.fragment_editor),
         }
 
         viewModel.obtainEvent(EditorIntent.LoadSettings)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (toolbarManager.mode != ToolbarManager.Mode.DEFAULT) {
+                onCloseFindButton()
+            } else if (viewModel.confirmExit) {
+                navController.navigateTo(EditorScreen.ConfirmExit)
+            } else {
+                activity?.finish()
+            }
+        }
     }
 
     override fun onPause() {
         super.onPause()
         saveFile(local = false, unselected = false)
-    }
-
-    override fun handleOnBackPressed(): Boolean {
-        if (toolbarManager.mode != ToolbarManager.Mode.DEFAULT) {
-            onCloseFindButton()
-            return true
-        }
-        return false
     }
 
     private fun observeViewModel() {
@@ -297,7 +298,7 @@ internal class EditorFragment : Fragment(R.layout.fragment_editor),
     // region TOOLBAR
 
     override fun onDrawerButton() {
-        drawerHandler.openDrawer()
+        navController.navigateTo(Screen.Explorer)
     }
 
     override fun onNewButton(): Boolean {

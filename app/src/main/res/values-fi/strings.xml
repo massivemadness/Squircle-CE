@@ -16,10 +16,6 @@
   -->
 <resources>
     <string name="action_restart">Käynnistä uudelleen</string>
-    <string name="action_yes">Kyllä</string>
-    <string name="action_no">Ei</string>
-    <string name="dialog_title_exit">Poistu</string>
-    <string name="dialog_message_exit">Oletko varma, että haluat poistua? Kaikki muutokset tallennetaan välimuistiin</string>
     <string name="message_in_app_update_ready">Sovellus on valmis päivitettäväksi</string>
     <string name="message_in_app_update_failed">Päivityksen asennus epäonnistui</string>
 </resources>

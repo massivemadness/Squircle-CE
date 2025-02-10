@@ -17,36 +17,38 @@
 
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/explorer_graph"
-    app:startDestination="@id/storageDeniedDialog">
+    app:startDestination="@id/explorerFragment">
+
+    <fragment
+        android:id="@+id/explorerFragment"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment"
+        android:label="ExplorerFragment">
+        <deepLink app:uri="blacksquircle://explorer" />
+        <action
+            android:id="@+id/to_propertiesDialog"
+            app:destination="@id/propertiesDialog" />
+    </fragment>
 
     <dialog
         android:id="@+id/storageDeniedDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.StorageDeniedDialog"
-        android:label="StorageDeniedDialog">
-        <deepLink app:uri="blacksquircle://explorer/storage_denied_forever" />
-    </dialog>
+        android:label="StorageDeniedDialog" />
 
     <dialog
         android:id="@+id/notificationDeniedDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.NotificationDeniedDialog"
-        android:label="NotificationDeniedDialog">
-        <deepLink app:uri="blacksquircle://explorer/notification_denied_forever" />
-    </dialog>
+        android:label="NotificationDeniedDialog" />
 
     <dialog
         android:id="@+id/createDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.CreateDialog"
-        android:label="CreateDialog">
-        <deepLink app:uri="blacksquircle://explorer/create" />
-    </dialog>
+        android:label="CreateDialog" />
 
     <dialog
         android:id="@+id/renameDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.RenameDialog"
         android:label="RenameDialog">
-        <deepLink app:uri="blacksquircle://explorer/rename?fileName={fileName}" />
         <argument
             android:name="fileName"
             app:argType="string" />
@@ -56,7 +58,6 @@
         android:id="@+id/deleteDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.DeleteDialog"
         android:label="DeleteDialog">
-        <deepLink app:uri="blacksquircle://explorer/delete?fileName={fileName}&amp;fileCount={fileCount}" />
         <argument
             android:name="fileName"
             app:argType="string" />
@@ -68,15 +69,13 @@
     <dialog
         android:id="@+id/compressDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.CompressDialog"
-        android:label="CompressDialog">
-        <deepLink app:uri="blacksquircle://explorer/compress" />
-    </dialog>
+        android:label="CompressDialog" />
 
     <dialog
-        android:id="@+id/progressDialog"
-        android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.ProgressDialog"
-        android:label="ProgressDialog">
-        <deepLink app:uri="blacksquircle://explorer/progress/{taskId}" />
+        android:id="@+id/taskDialog"
+        android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.TaskDialog"
+        android:label="TaskDialog">
+        <deepLink app:uri="blacksquircle://explorer/tasks/{taskId}" />
         <argument
             android:name="taskId"
             app:argType="string" />
@@ -86,17 +85,15 @@
         android:id="@+id/propertiesDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.PropertiesDialog"
         android:label="PropertiesDialog">
-        <deepLink app:uri="blacksquircle://explorer/properties?data={data}" />
         <argument
-            android:name="data"
-            app:argType="string" />
+            android:name="fileModel"
+            app:argType="android.os.Bundle" />
     </dialog>
 
     <dialog
         android:id="@+id/authDialog"
         android:name="com.blacksquircle.ui.feature.explorer.ui.dialog.AuthDialog"
         android:label="AuthDialog">
-        <deepLink app:uri="blacksquircle://explorer/authenticate?authMethod={authMethod}" />
         <argument
             android:name="authMethod"
             app:argType="string" />

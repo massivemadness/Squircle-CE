@@ -20,4 +20,6 @@
     <string name="common_save">Tallenna</string>
     <string name="common_delete">Poista</string>
     <string name="common_continue">Jatkaa</string>
+    <string name="common_yes">Kyllä</string>
+    <string name="common_no">Ei</string>
 </resources>

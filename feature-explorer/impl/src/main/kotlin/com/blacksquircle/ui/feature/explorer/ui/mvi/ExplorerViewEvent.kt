@@ -25,5 +25,4 @@ internal sealed class ExplorerViewEvent : ViewEvent() {
     data class CopyPath(val fileModel: FileModel) : ExplorerViewEvent()
     data object SelectAll : ExplorerViewEvent()
     data object RunInBackground : ExplorerViewEvent()
-    data object CloseDrawer : ExplorerViewEvent()
 }

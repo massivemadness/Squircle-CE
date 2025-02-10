@@ -51,7 +51,7 @@ internal fun HeaderListScreen(viewModel: HeaderViewModel) {
 private fun HeaderListScreen(
     viewState: HeaderListViewState,
     onBackClicked: () -> Unit = {},
-    onHeaderClicked: (Screen<*>) -> Unit = {},
+    onHeaderClicked: (Screen) -> Unit = {},
 ) {
     Scaffold(
         topBar = {

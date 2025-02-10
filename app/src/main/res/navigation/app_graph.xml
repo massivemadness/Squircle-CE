@@ -17,25 +17,8 @@
 
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/app_nav_graph"
-    app:startDestination="@id/twoPaneFragment">
-
-    <fragment
-        android:id="@+id/twoPaneFragment"
-        android:name="com.blacksquircle.ui.application.fragment.TwoPaneFragment"
-        tools:layout="@layout/fragment_two_pane" >
-        <action
-            android:id="@+id/to_confirmExitDialog"
-            app:destination="@id/confirmExitDialog" />
-    </fragment>
-
-    <dialog
-        android:id="@+id/confirmExitDialog"
-        android:name="com.blacksquircle.ui.application.dialog.ConfirmExitDialog"
-        android:label="@string/pref_confirm_exit_title">
-        <deepLink app:uri="blacksquircle://exit" />
-    </dialog>
+    android:id="@+id/app_graph"
+    app:startDestination="@id/editor_graph">
 
     <include
         android:id="@+id/editor_graph"

@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.application.dialog
+package com.blacksquircle.ui.feature.editor.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.blacksquircle.ui.R
+import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.ds.R as UiR
 
 internal class ConfirmExitDialog : DialogFragment() {
 
@@ -28,9 +29,9 @@ internal class ConfirmExitDialog : DialogFragment() {
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.dialog_title_exit)
             .setMessage(R.string.dialog_message_exit)
-            .setNegativeButton(R.string.action_no, null)
-            .setPositiveButton(R.string.action_yes) { _, _ ->
-                requireActivity().finish()
+            .setNegativeButton(UiR.string.common_no, null)
+            .setPositiveButton(UiR.string.common_yes) { _, _ ->
+                activity?.finish()
             }
             .create()
     }

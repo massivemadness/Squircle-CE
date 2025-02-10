@@ -20,4 +20,6 @@
     <string name="common_save">Zapisz</string>
     <string name="common_delete">Usuń</string>
     <string name="common_continue">Kontynuuj</string>
+    <string name="common_yes">Tak</string>
+    <string name="common_no">Nie</string>
 </resources>

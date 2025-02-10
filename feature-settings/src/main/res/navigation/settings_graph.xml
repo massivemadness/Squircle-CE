@@ -25,21 +25,6 @@
         android:name="com.blacksquircle.ui.feature.settings.ui.header.HeaderListFragment"
         android:label="@string/label_settings">
         <deepLink app:uri="blacksquircle://settings" />
-        <action
-            android:id="@+id/to_applicationFragment"
-            app:destination="@id/applicationFragment" />
-        <action
-            android:id="@+id/to_editorFragment"
-            app:destination="@id/editorFragment" />
-        <action
-            android:id="@+id/to_codeStyleFragment"
-            app:destination="@id/codeStyleFragment" />
-        <action
-            android:id="@+id/to_filesFragment"
-            app:destination="@id/filesFragment" />
-        <action
-            android:id="@+id/to_aboutFragment"
-            app:destination="@id/aboutFragment" />
     </fragment>
 
     <fragment

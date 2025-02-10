@@ -16,10 +16,6 @@
   -->
 <resources>
     <string name="action_restart">重新啟動</string>
-    <string name="action_yes">確定</string>
-    <string name="action_no">取消</string>
-    <string name="dialog_title_exit">離開</string>
-    <string name="dialog_message_exit">確定要離開嗎？所有更改將會保存在快取中</string>
     <string name="message_in_app_update_ready">應用程式已經準備好更新</string>
     <string name="message_in_app_update_failed">更新失敗</string>
 </resources>

@@ -18,9 +18,9 @@ package com.blacksquircle.ui.feature.servers.ui.navigation
 
 import com.blacksquircle.ui.core.navigation.Screen
 
-internal sealed class ServersScreen(route: String) : Screen<String>(route) {
+internal sealed class ServersScreen(route: Any) : Screen(route) {
 
-    class EditServer(serverId: String) : ServersScreen(
+    data class EditServer(val serverId: String) : ServersScreen(
         route = "blacksquircle://settings/cloud/edit/$serverId",
     )
 }

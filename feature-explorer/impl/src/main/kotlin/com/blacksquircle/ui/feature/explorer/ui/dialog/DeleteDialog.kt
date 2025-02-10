@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.decodeUri
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
@@ -45,7 +44,7 @@ internal class DeleteDialog : DialogFragment() {
             setContent {
                 SquircleTheme {
                     DeleteScreen(
-                        fileName = navArgs.fileName.decodeUri(),
+                        fileName = navArgs.fileName,
                         fileCount = navArgs.fileCount,
                         onConfirmClicked = {
                             sendFragmentResult(ExplorerFragment.KEY_DELETE_FILE)
@@ -57,5 +56,10 @@ internal class DeleteDialog : DialogFragment() {
                 }
             }
         }
+    }
+
+    companion object {
+        const val ARG_FILE_NAME = "fileName"
+        const val ARG_FILE_COUNT = "fileCount"
     }
 }

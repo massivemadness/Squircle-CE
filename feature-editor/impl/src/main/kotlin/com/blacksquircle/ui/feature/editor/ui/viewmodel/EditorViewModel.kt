@@ -74,6 +74,10 @@ internal class EditorViewModel @Inject constructor(
     private val _settings = MutableStateFlow<List<SettingsEvent<*>>>(emptyList())
     val settings: StateFlow<List<SettingsEvent<*>>> = _settings.asStateFlow()
 
+    // FIXME private
+    val confirmExit: Boolean
+        get() = settingsManager.confirmExit
+
     private val documents = mutableListOf<DocumentModel>()
     private var selectedPosition = -1
     private var toolbarMode = ToolbarManager.Mode.DEFAULT

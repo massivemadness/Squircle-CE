@@ -21,5 +21,7 @@
     <string name="common_delete">Deletar</string>
     <string name="common_continue">Continuar</string>
     <string name="common_select">Selecionar</string>
+    <string name="common_yes">Sim</string>
+    <string name="common_no">Não</string>
     <string name="dialog_title_color_picker">Paleta de cores</string>
 </resources>

@@ -40,32 +40,32 @@ import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
-import com.blacksquircle.ui.feature.explorer.ui.service.FileService
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ProgressViewModel
+import com.blacksquircle.ui.feature.explorer.ui.service.TaskService
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.TaskViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-internal class ProgressDialog : DialogFragment() {
+internal class TaskDialog : DialogFragment() {
 
     @Inject
-    lateinit var viewModelFactory: ProgressViewModel.Factory
+    lateinit var viewModelFactory: TaskViewModel.Factory
 
     private val navController by lazy { findNavController() }
-    private val navArgs by navArgs<ProgressDialogArgs>()
-    private val viewModel by viewModels<ProgressViewModel> {
+    private val navArgs by navArgs<TaskDialogArgs>()
+    private val viewModel by viewModels<TaskViewModel> {
         viewModelFactory.create(navArgs.taskId)
     }
     private val notificationPermission = NotificationPermission(this) { result ->
         when (result) {
             PermissionResult.DENIED,
             PermissionResult.DENIED_FOREVER -> {
-                navController.navigateTo(ExplorerScreen.NotificationDeniedForever)
+                navController.navigateTo(ExplorerScreen.NotificationDeniedScreen)
             }
             PermissionResult.GRANTED -> {
-                val intent = Intent(requireContext(), FileService::class.java).apply {
-                    action = FileService.ACTION_START_TASK
-                    putExtra(FileService.ARG_TASK_ID, navArgs.taskId)
+                val intent = Intent(requireContext(), TaskService::class.java).apply {
+                    action = TaskService.ACTION_START_TASK
+                    putExtra(TaskService.ARG_TASK_ID, navArgs.taskId)
                 }
                 ContextCompat.startForegroundService(requireContext(), intent)
                 navController.popBackStack()
@@ -87,7 +87,7 @@ internal class ProgressDialog : DialogFragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 SquircleTheme {
-                    ProgressScreen(viewModel)
+                    TaskScreen(viewModel)
                 }
             }
         }
@@ -103,7 +103,7 @@ internal class ProgressDialog : DialogFragment() {
             .onEach { event ->
                 when (event) {
                     is ViewEvent.PopBackStack -> {
-                        while (navController.currentDestination?.id != R.id.progressDialog) {
+                        while (navController.currentDestination?.id != R.id.taskDialog) {
                             navController.popBackStack()
                         }
                         navController.popBackStack()

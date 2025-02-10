@@ -16,10 +16,6 @@
   -->
 <resources>
     <string name="action_restart">Перезавантажити</string>
-    <string name="action_yes">Так</string>
-    <string name="action_no">Ні</string>
-    <string name="dialog_title_exit">Вихід</string>
-    <string name="dialog_message_exit">Ви дійсно бажаєте вийти? Всі зміни будуть збережені в кеш</string>
     <string name="message_in_app_update_ready">Додаток готовий до оновлення</string>
     <string name="message_in_app_update_failed">Не вдалося встановити оновлення</string>
 </resources>

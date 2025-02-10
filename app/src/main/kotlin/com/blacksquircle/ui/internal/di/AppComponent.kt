@@ -18,7 +18,6 @@ package com.blacksquircle.ui.internal.di
 
 import android.content.Context
 import com.blacksquircle.ui.application.activity.MainActivity
-import com.blacksquircle.ui.application.fragment.TwoPaneFragment
 import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreModule
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider
@@ -60,7 +59,6 @@ internal interface AppComponent :
     ThemesApiDepsProvider {
 
     fun inject(activity: MainActivity)
-    fun inject(fragment: TwoPaneFragment)
 
     @Component.Factory
     interface Factory {

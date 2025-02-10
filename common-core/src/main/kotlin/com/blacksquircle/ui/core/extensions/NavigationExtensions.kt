@@ -27,8 +27,10 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import com.blacksquircle.ui.core.navigation.Screen
 
+data class NavAction(val id: Int, val args: Bundle? = null)
+
 fun NavController.navigateTo(
-    screen: Screen<*>,
+    screen: Screen,
     options: NavOptions? = null,
     extras: Navigator.Extras? = null,
 ) {
@@ -46,6 +48,13 @@ fun NavController.navigateTo(
             navigatorExtras = extras
         )
 
+        is NavAction -> navigate(
+            resId = screen.route.id,
+            args = screen.route.args,
+            navOptions = options,
+            navigatorExtras = extras
+        )
+
         is Int -> navigate(
             resId = screen.route,
             args = null,
@@ -53,7 +62,7 @@ fun NavController.navigateTo(
             navigatorExtras = extras
         )
 
-        else -> throw IllegalArgumentException("Can't handle route type")
+        else -> throw IllegalArgumentException("Route is not supported")
     }
 }
 
