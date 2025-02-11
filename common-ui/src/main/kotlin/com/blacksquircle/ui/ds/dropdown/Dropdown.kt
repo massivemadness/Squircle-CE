@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -37,13 +38,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
-import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 
@@ -57,36 +56,47 @@ fun Dropdown(
     dropdownStyle: DropdownStyle = DropdownStyleDefaults.Default,
     dropdownSize: DropdownSize = DropdownSizeDefaults.M,
 ) {
-    var expanded by rememberSaveable { mutableStateOf(false) }
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-            .height(dropdownSize.height)
+    var expanded by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    // Bad practice, but fixes the issue with popup position
+    val reusedModifier = modifier
+        .height(dropdownSize.height)
+
+    Box(
+        modifier = reusedModifier
             .clip(RoundedCornerShape(dropdownSize.cornerRadius))
             .clickable { expanded = !expanded }
             .padding(dropdownSize.padding)
     ) {
-        Text(
-            text = entries[entryValues.indexOf(currentValue)],
-            color = dropdownStyle.textColor,
-            style = dropdownStyle.textStyle,
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 1,
-            modifier = Modifier.weight(1f, fill = false)
-        )
-        Spacer(Modifier.width(dropdownSize.textSpacer))
-        Icon(
-            painter = if (expanded) {
-                painterResource(R.drawable.ic_menu_up)
-            } else {
-                painterResource(R.drawable.ic_menu_down)
-            },
-            contentDescription = null,
-            tint = dropdownStyle.iconColor,
-        )
-    }
-    Box {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = reusedModifier,
+        ) {
+            Text(
+                text = entries[entryValues.indexOf(currentValue)],
+                color = dropdownStyle.textColor,
+                style = dropdownStyle.textStyle,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                modifier = Modifier.weight(1f, fill = false)
+            )
+
+            Spacer(Modifier.width(dropdownSize.textSpacer))
+
+            Icon(
+                painter = if (expanded) {
+                    painterResource(R.drawable.ic_menu_up)
+                } else {
+                    painterResource(R.drawable.ic_menu_down)
+                },
+                contentDescription = null,
+                tint = dropdownStyle.iconColor,
+            )
+        }
+
         PopupMenu(
             expanded = expanded,
             onDismiss = { expanded = false },
@@ -109,12 +119,20 @@ fun Dropdown(
 @Composable
 private fun DropdownPreview() {
     PreviewBackground {
-        Dropdown(
-            currentValue = "apple",
-            entries = arrayOf("Apple", "Banana", "Orange"),
-            entryValues = arrayOf("apple", "banana", "orange"),
-            onValueSelected = {},
-            modifier = Modifier.fillMaxWidth()
-        )
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.size(
+                width = 300.dp,
+                height = 400.dp,
+            )
+        ) {
+            Dropdown(
+                currentValue = "apple",
+                entries = arrayOf("Apple", "Banana", "Orange"),
+                entryValues = arrayOf("apple", "banana", "orange"),
+                onValueSelected = {},
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }

@@ -17,12 +17,15 @@
 package com.blacksquircle.ui.ds.toolbar.internal
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
+import com.blacksquircle.ui.ds.button.IconButtonSize
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
+import com.blacksquircle.ui.ds.toolbar.ToolbarSize
 
 @Composable
 @NonRestartableComposable
@@ -30,16 +33,17 @@ internal fun ToolbarIcon(
     @DrawableRes iconRes: Int?,
     contentDescription: String?,
     onNavigationClicked: () -> Unit,
+    toolbarSize: ToolbarSize,
     modifier: Modifier = Modifier,
 ) {
     if (iconRes != null) {
         IconButton(
             iconResId = iconRes,
             iconColor = SquircleTheme.colors.colorTextAndIconPrimary,
-            iconButtonSize = IconButtonSizeDefaults.L,
+            iconButtonSize = toolbarSize.iconButtonSize,
             contentDescription = contentDescription,
             onClick = onNavigationClicked,
-            modifier = modifier,
+            modifier = modifier.padding(toolbarSize.iconButtonPadding),
         )
     }
 }

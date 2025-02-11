@@ -20,14 +20,17 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.button.IconButtonSize
+import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 
 @Immutable
 data class ToolbarSize(
     val height: Dp,
-    val iconSize: Dp,
     val shadowSize: Dp,
     val emptyIconPadding: Dp,
     val emptyActionsPadding: Dp,
+    val iconButtonSize: IconButtonSize,
+    val iconButtonPadding: PaddingValues,
     val contentPadding: PaddingValues,
     val textSpacer: Dp,
 )
@@ -37,22 +40,24 @@ object ToolbarSizeDefaults {
     val S: ToolbarSize
         get() = ToolbarSize(
             height = 48.dp,
-            iconSize = 48.dp,
             shadowSize = 4.dp,
             emptyIconPadding = 16.dp,
             emptyActionsPadding = 16.dp,
-            contentPadding = PaddingValues(horizontal = 4.dp),
+            iconButtonSize = IconButtonSizeDefaults.M,
+            iconButtonPadding = PaddingValues(start = 4.dp),
+            contentPadding = PaddingValues(horizontal = 12.dp),
             textSpacer = 4.dp,
         )
 
     val M: ToolbarSize
         get() = ToolbarSize(
             height = 56.dp,
-            iconSize = 56.dp,
             shadowSize = 4.dp,
             emptyIconPadding = 16.dp,
             emptyActionsPadding = 16.dp,
-            contentPadding = PaddingValues(horizontal = 4.dp),
+            iconButtonSize = IconButtonSizeDefaults.L,
+            iconButtonPadding = PaddingValues(0.dp),
+            contentPadding = PaddingValues(horizontal = 12.dp),
             textSpacer = 4.dp,
         )
 }

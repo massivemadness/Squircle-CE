@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,8 +34,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -94,8 +93,9 @@ private fun ToolbarLayout(
                 iconRes = navigationIcon,
                 contentDescription = navigationIconDescription,
                 onNavigationClicked = onNavigationClicked,
+                toolbarSize = toolbarSize,
                 modifier = Modifier
-                    .size(toolbarSize.iconSize)
+                    .wrapContentSize()
                     .layoutId(ToolbarSlot.ToolbarIcon),
             )
             ToolbarContent(
@@ -207,7 +207,8 @@ private fun ToolbarPreview() {
                     iconResId = R.drawable.ic_edit,
                     iconButtonSize = IconButtonSizeDefaults.L,
                 )
-            }
+            },
+            toolbarSize = ToolbarSizeDefaults.S
         )
     }
 }
