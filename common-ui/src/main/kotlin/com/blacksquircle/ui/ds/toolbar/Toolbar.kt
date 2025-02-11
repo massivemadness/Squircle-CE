@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.requiredHeight
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
@@ -118,7 +117,6 @@ private fun ToolbarLayout(
             .fillMaxWidth()
             .requiredHeight(toolbarSize.height),
     ) { measurables, constraints ->
-        // Useful variables
         val layoutWidth = constraints.maxWidth
         val layoutHeight = constraints.maxHeight
 

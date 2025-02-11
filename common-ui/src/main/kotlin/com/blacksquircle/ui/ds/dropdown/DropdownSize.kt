@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.ds.dropdown
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -25,7 +24,8 @@ import androidx.compose.ui.unit.dp
 data class DropdownSize(
     val height: Dp,
     val cornerRadius: Dp,
-    val padding: PaddingValues,
+    val startPadding: Dp,
+    val endPadding: Dp,
     val textSpacer: Dp,
 )
 
@@ -35,7 +35,8 @@ object DropdownSizeDefaults {
         get() = DropdownSize(
             height = 42.dp,
             cornerRadius = 4.dp,
-            padding = PaddingValues(horizontal = 8.dp),
+            startPadding = 8.dp,
+            endPadding = 8.dp,
             textSpacer = 16.dp,
         )
 }
