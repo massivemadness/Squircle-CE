@@ -34,7 +34,7 @@
         android:id="@+id/serverDialog"
         android:name="com.blacksquircle.ui.feature.servers.ui.dialog.ServerDialog"
         android:label="@string/pref_add_server_title">
-        <deepLink app:uri="blacksquircle://settings/cloud/add" />
+        <deepLink app:uri="blacksquircle://settings/cloud/create" />
         <deepLink app:uri="blacksquircle://settings/cloud/edit/{id}" />
         <argument
             android:name="id"

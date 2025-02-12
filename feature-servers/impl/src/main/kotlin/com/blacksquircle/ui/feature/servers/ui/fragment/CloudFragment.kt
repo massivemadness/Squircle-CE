@@ -33,6 +33,7 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.core.internal.ComponentHolder
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.servers.internal.ServersComponent
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.CloudViewModel
@@ -89,16 +90,11 @@ internal class CloudFragment : Fragment() {
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        observeFragmentResult(KEY_SAVE) {
+        observeFragmentResult(Screen.Server.KEY_SAVE) {
             viewModel.loadServers()
         }
-        observeFragmentResult(KEY_DELETE) {
+        observeFragmentResult(Screen.Server.KEY_DELETE) {
             viewModel.loadServers()
         }
-    }
-
-    companion object {
-        const val KEY_SAVE = "KEY_SAVE"
-        const val KEY_DELETE = "KEY_DELETE"
     }
 }

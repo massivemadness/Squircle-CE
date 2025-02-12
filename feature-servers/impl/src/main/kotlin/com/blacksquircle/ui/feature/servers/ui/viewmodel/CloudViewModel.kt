@@ -60,7 +60,7 @@ internal class CloudViewModel @Inject constructor(
 
     fun onAddServerClicked() {
         viewModelScope.launch {
-            val screen = Screen.AddServer
+            val screen = Screen.Server
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }

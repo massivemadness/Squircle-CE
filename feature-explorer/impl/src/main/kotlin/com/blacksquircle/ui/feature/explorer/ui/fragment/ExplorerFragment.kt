@@ -34,6 +34,7 @@ import com.blacksquircle.ui.core.extensions.observeFragmentResult
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
@@ -95,6 +96,9 @@ internal class ExplorerFragment : Fragment() {
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
+        observeFragmentResult(Screen.Server.KEY_SAVE) {
+            viewModel.onFilesystemAdded()
+        }
         observeFragmentResult(KEY_AUTHENTICATION) { bundle ->
             val credentials = bundle.getString(ARG_USER_INPUT).orEmpty()
             // viewModel.obtainEvent(ExplorerIntent.Authenticate(credentials))

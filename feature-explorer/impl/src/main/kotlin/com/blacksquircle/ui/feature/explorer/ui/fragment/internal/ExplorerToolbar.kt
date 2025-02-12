@@ -24,7 +24,6 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastMap
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.dropdown.Dropdown
@@ -34,6 +33,7 @@ import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ExplorerToolbar(
@@ -45,7 +45,7 @@ internal fun ExplorerToolbar(
 ) {
     Toolbar(
         toolbarSize = ToolbarSizeDefaults.S,
-        navigationIcon = R.drawable.ic_close,
+        navigationIcon = UiR.drawable.ic_close,
         onNavigationClicked = onBackClicked,
         navigationActions = {
             if (filesystems.isNotEmpty()) {
@@ -70,10 +70,10 @@ internal fun ExplorerToolbar(
             }
 
             IconButton(
-                iconResId = R.drawable.ic_search,
+                iconResId = UiR.drawable.ic_search,
             )
             IconButton(
-                iconResId = R.drawable.ic_overflow,
+                iconResId = UiR.drawable.ic_overflow,
             )
         },
         modifier = modifier,

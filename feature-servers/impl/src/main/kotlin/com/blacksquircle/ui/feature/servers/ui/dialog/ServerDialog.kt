@@ -34,9 +34,9 @@ import com.blacksquircle.ui.core.extensions.extractFilePath
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.servers.internal.ServersComponent
-import com.blacksquircle.ui.feature.servers.ui.fragment.CloudFragment
 import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -94,11 +94,11 @@ internal class ServerDialog : DialogFragment() {
                         navController.popBackStack()
                     }
                     is ServerViewEvent.SendSaveResult -> {
-                        sendFragmentResult(CloudFragment.KEY_SAVE)
+                        sendFragmentResult(Screen.Server.KEY_SAVE)
                         navController.popBackStack()
                     }
                     is ServerViewEvent.SendDeleteResult -> {
-                        sendFragmentResult(CloudFragment.KEY_DELETE)
+                        sendFragmentResult(Screen.Server.KEY_DELETE)
                         navController.popBackStack()
                     }
                     is ServerViewEvent.ChooseFile -> {

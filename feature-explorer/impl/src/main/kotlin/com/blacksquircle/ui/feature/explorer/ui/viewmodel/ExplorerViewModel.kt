@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
@@ -36,9 +37,11 @@ import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
+import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -68,11 +71,14 @@ internal class ExplorerViewModel @Inject constructor(
 
     private var selectedFilesystem: String
         get() = settingsManager.filesystem
-        set(value) { settingsManager.filesystem = value }
+        set(value) {
+            settingsManager.filesystem = value
+        }
 
     private var breadcrumbs: List<FileTree> = emptyList()
     private var selectedBreadcrumb: Int = -1
     private var errorIndex: Int? = null
+    private var currentJob: Job? = null
 
     init {
         loadFilesystems()
@@ -85,6 +91,12 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onFilesystemSelected(filesystem: String) {
+        if (filesystem == CREATE_SERVER_UUID) {
+            viewModelScope.launch {
+                _viewEvent.send(ViewEvent.Navigation(Screen.Server))
+            }
+            return
+        }
         if (selectedFilesystem == filesystem) {
             return
         }
@@ -104,6 +116,10 @@ internal class ExplorerViewModel @Inject constructor(
         loadFiles()
     }
 
+    fun onFilesystemAdded() {
+        loadFilesystems()
+    }
+
     fun onHomeClicked() {
         loadFiles()
     }
@@ -117,7 +133,22 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onFileClicked(fileModel: FileModel) {
-        loadFiles(fileModel)
+        if (fileModel.directory) {
+            loadFiles(fileModel)
+        } else {
+            viewModelScope.launch {
+                when (fileModel.type) {
+                    // FileType.ARCHIVE -> extractFile(ExplorerIntent.ExtractFile(event.fileModel))
+                    FileType.DEFAULT,
+                    FileType.TEXT -> {
+                        editorInteractor.openFile(fileModel)
+                        _viewEvent.send(ViewEvent.PopBackStack())
+                    }
+
+                    else -> Unit // openFileAs(ExplorerIntent.OpenFileWith(event.fileModel))
+                }
+            }
+        }
     }
 
     // region PERMISSIONS
@@ -159,20 +190,25 @@ internal class ExplorerViewModel @Inject constructor(
                         title = stringProvider.getString(R.string.storage_root),
                     ),
                 )
-                val serverFilesystems = serversInteractor.loadServers()
-                    .map { config ->
-                        FilesystemModel(
-                            uuid = config.uuid,
-                            title = config.name
-                        )
-                    }
+                val serverFilesystems = serversInteractor.loadServers().map { config ->
+                    FilesystemModel(
+                        uuid = config.uuid,
+                        title = config.name
+                    )
+                }
+                val addServer = FilesystemModel(
+                    uuid = CREATE_SERVER_UUID,
+                    title = stringProvider.getString(R.string.storage_add),
+                )
                 _viewState.update {
                     it.copy(
                         selectedFilesystem = selectedFilesystem,
-                        filesystems = defaultFilesystems + serverFilesystems,
+                        filesystems = defaultFilesystems + serverFilesystems + addServer,
                     )
                 }
-                loadFiles()
+                if (breadcrumbs.isEmpty()) {
+                    loadFiles()
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -185,7 +221,8 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     private fun loadFiles(parent: FileModel? = null) {
-        viewModelScope.launch {
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
             try {
                 /** Check if [parent] is already added to breadcrumbs */
                 val existingIndex = breadcrumbs.indexOf { it.parent?.fileUri == parent?.fileUri }
@@ -200,6 +237,7 @@ internal class ExplorerViewModel @Inject constructor(
                             it.copy(
                                 selectedBreadcrumb = selectedBreadcrumb,
                                 errorState = null,
+                                isLoading = false,
                             )
                         }
                         return@launch // early return
@@ -212,7 +250,6 @@ internal class ExplorerViewModel @Inject constructor(
                 /** Remove items after [selectedBreadcrumb] index, insert empty tree at the end */
                 breadcrumbs = breadcrumbs.subList(fromIndex, toIndex) + FileTree(parent)
                 selectedBreadcrumb = breadcrumbs.size - 1
-                errorIndex = null
 
                 _viewState.update {
                     it.copy(
@@ -223,8 +260,14 @@ internal class ExplorerViewModel @Inject constructor(
                     )
                 }
 
-                /** Load file tree for added breadcrumb */
+                /** In case of [CancellationException] we'll use [errorIndex] to reload this page */
+                errorIndex = selectedBreadcrumb
+
+                /** Load file tree for current breadcrumb */
                 val fileTree = explorerRepository.listFiles(parent)
+
+                /** No exceptions, drop index */
+                errorIndex = null
 
                 /** Find empty tree from previous step, replace it's file list */
                 val newIndex = breadcrumbs.indexOf { it.parent?.fileUri == parent?.fileUri }
@@ -241,15 +284,13 @@ internal class ExplorerViewModel @Inject constructor(
                     it.copy(
                         breadcrumbs = breadcrumbs,
                         selectedBreadcrumb = selectedBreadcrumb,
-                        isLoading = false
+                        isLoading = false,
                     )
                 }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
-                /** Failure during loading, save index to reload later */
-                errorIndex = selectedBreadcrumb
                 _viewState.update {
                     it.copy(
                         errorState = errorState(e),
@@ -268,6 +309,7 @@ internal class ExplorerViewModel @Inject constructor(
                 subtitle = stringProvider.getString(R.string.message_access_required),
                 action = ErrorAction.REQUEST_PERMISSIONS,
             )
+
             else -> ErrorState(
                 icon = UiR.drawable.ic_file_error,
                 title = stringProvider.getString(UiR.string.common_error_occurred),
@@ -275,6 +317,10 @@ internal class ExplorerViewModel @Inject constructor(
                 action = ErrorAction.UNDEFINED,
             )
         }
+    }
+
+    companion object {
+        private const val CREATE_SERVER_UUID = "create_server"
     }
 
     /*private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.ActionBar())
