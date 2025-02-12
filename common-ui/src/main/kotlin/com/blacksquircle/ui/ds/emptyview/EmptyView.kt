@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -27,11 +28,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.button.OutlinedButton
 
 @Composable
 fun EmptyView(
@@ -39,18 +43,20 @@ fun EmptyView(
     iconResId: Int? = null,
     title: String? = null,
     subtitle: String? = null,
+    action: String? = null,
+    onClick: () -> Unit = {},
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier,
+        modifier = modifier.padding(24.dp),
     ) {
         if (iconResId != null) {
             Icon(
                 painter = painterResource(iconResId),
                 contentDescription = null,
                 tint = SquircleTheme.colors.colorTextAndIconSecondary,
-                modifier = Modifier.size(92.dp)
+                modifier = Modifier.size(84.dp)
             )
         }
 
@@ -58,17 +64,29 @@ fun EmptyView(
             Spacer(Modifier.height(12.dp))
             Text(
                 text = title,
-                color = SquircleTheme.colors.colorTextAndIconSecondary,
-                style = SquircleTheme.typography.header24Bold,
+                color = SquircleTheme.colors.colorTextAndIconPrimary,
+                style = SquircleTheme.typography.header20Bold,
+                textAlign = TextAlign.Center,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
             )
         }
 
         if (subtitle != null) {
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(8.dp))
             Text(
                 text = subtitle,
                 color = SquircleTheme.colors.colorTextAndIconSecondary,
-                style = SquircleTheme.typography.text14Regular,
+                style = SquircleTheme.typography.text16Regular,
+                textAlign = TextAlign.Center,
+            )
+        }
+
+        if (action != null) {
+            Spacer(Modifier.height(16.dp))
+            OutlinedButton(
+                text = action,
+                onClick = onClick,
             )
         }
     }
@@ -82,6 +100,7 @@ private fun EmptyViewPreview() {
             iconResId = R.drawable.ic_file_find,
             title = "An error occurred",
             subtitle = "Please try again later",
+            action = "Try again",
         )
     }
 }

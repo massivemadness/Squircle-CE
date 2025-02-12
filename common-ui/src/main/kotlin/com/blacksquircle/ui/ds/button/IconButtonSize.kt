@@ -28,6 +28,12 @@ data class IconButtonSize(
 
 object IconButtonSizeDefaults {
 
+    val XS: IconButtonSize
+        get() = IconButtonSize(
+            iconSize = 36.dp,
+            rippleSize = 16.dp,
+        )
+
     val S: IconButtonSize
         get() = IconButtonSize(
             iconSize = 42.dp,

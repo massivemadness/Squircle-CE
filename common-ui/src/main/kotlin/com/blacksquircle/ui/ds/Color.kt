@@ -37,8 +37,8 @@ class Colors internal constructor(
     val colorTextAndIconPrimary: Color,
     val colorTextAndIconPrimaryInverse: Color,
     val colorTextAndIconSecondary: Color,
-    val colorTextAndIconAdditional: Color,
     val colorTextAndIconDisabled: Color,
+    val colorTextAndIconAdditional: Color,
 ) {
 
     companion object {
@@ -53,8 +53,8 @@ class Colors internal constructor(
             colorTextAndIconPrimary = Color(0xFF000000),
             colorTextAndIconPrimaryInverse = Color(0xFFFFFFFF),
             colorTextAndIconSecondary = Color(0xFF7F8290),
-            colorTextAndIconAdditional = Color(0xFF8CCEF7),
             colorTextAndIconDisabled = Color(0xFFA9ADBC),
+            colorTextAndIconAdditional = Color(0xFF8CCEF7),
         )
 
         fun darkColors() = Colors(
@@ -67,8 +67,8 @@ class Colors internal constructor(
             colorTextAndIconPrimary = Color(0xFFFFFFFF),
             colorTextAndIconPrimaryInverse = Color(0xFF000000),
             colorTextAndIconSecondary = Color(0xFFBCBCBC),
-            colorTextAndIconAdditional = Color(0xFFFFBB33),
             colorTextAndIconDisabled = Color(0xFF6E6E6E),
+            colorTextAndIconAdditional = Color(0xFFFFBB33),
         )
     }
 
