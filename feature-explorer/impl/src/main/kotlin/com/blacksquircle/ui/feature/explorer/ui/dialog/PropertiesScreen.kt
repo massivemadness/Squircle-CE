@@ -31,8 +31,8 @@ import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.data.utils.toReadableDate
-import com.blacksquircle.ui.feature.explorer.data.utils.toReadableSize
+import com.blacksquircle.ui.feature.explorer.data.utils.formatDate
+import com.blacksquircle.ui.feature.explorer.data.utils.formatSize
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.Permission
 import com.blacksquircle.ui.filesystem.base.utils.hasFlag
@@ -63,9 +63,10 @@ internal fun PropertiesScreen(
 
                 Spacer(Modifier.height(8.dp))
 
-                val pattern = stringResource(R.string.properties_date_format)
                 TextField(
-                    inputText = fileModel.lastModified.toReadableDate(pattern),
+                    inputText = fileModel.lastModified.formatDate(
+                        pattern = stringResource(R.string.properties_date_format)
+                    ),
                     labelText = stringResource(R.string.properties_modified),
                     readOnly = true,
                 )
@@ -73,7 +74,7 @@ internal fun PropertiesScreen(
                 Spacer(Modifier.height(8.dp))
 
                 TextField(
-                    inputText = fileModel.size.toReadableSize(),
+                    inputText = fileModel.size.formatSize(),
                     labelText = stringResource(R.string.properties_size),
                     readOnly = true,
                 )

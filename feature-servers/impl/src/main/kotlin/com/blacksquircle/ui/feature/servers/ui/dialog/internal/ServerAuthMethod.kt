@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.util.fastMap
 import com.blacksquircle.ui.ds.dropdown.Dropdown
 import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
@@ -34,7 +35,7 @@ internal fun ServerAuthMethod(
     Dropdown(
         entries = stringArrayResource(R.array.authMethod),
         entryValues = AuthMethod.entries
-            .map(AuthMethod::value)
+            .fastMap(AuthMethod::value)
             .toTypedArray(),
         currentValue = authMethod.value,
         onValueSelected = onAuthMethodChanged,

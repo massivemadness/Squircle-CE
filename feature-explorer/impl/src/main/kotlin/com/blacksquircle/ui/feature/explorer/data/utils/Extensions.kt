@@ -56,14 +56,14 @@ internal fun Context.openFileWith(fileModel: FileModel) {
     }
 }
 
-internal fun Long.toReadableDate(pattern: String): String {
+internal fun Long.formatDate(pattern: String): String {
     val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
     return dateFormat.format(this)
 }
 
-internal fun Long.toReadableSize(): String {
+internal fun Long.formatSize(): String {
     if (this <= 0) {
-        return "0"
+        return "0 B"
     }
     val units = arrayOf("B", "KB", "MB", "GB", "TB")
     val digitGroups = (log10(toDouble()) / log10(1024.0)).toInt()

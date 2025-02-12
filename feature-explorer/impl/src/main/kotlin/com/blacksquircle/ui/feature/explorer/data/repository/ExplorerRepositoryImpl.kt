@@ -17,30 +17,22 @@
 package com.blacksquircle.ui.feature.explorer.data.repository
 
 import android.content.Context
-import com.blacksquircle.ui.core.extensions.checkStorageAccess
+import com.blacksquircle.ui.core.extensions.checkStoragePermissions
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
-import com.blacksquircle.ui.feature.explorer.api.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
-import com.blacksquircle.ui.filesystem.local.LocalFilesystem
-import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 internal class ExplorerRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
@@ -50,38 +42,13 @@ internal class ExplorerRepositoryImpl(
     private val context: Context,
 ) : ExplorerRepository {
 
-    private var currentFilesystem = settingsManager.filesystem
-
-    override suspend fun loadFilesystems(): List<FilesystemModel> {
-        return withContext(dispatcherProvider.io()) {
-            listOf(
-                FilesystemModel(
-                    uuid = LocalFilesystem.LOCAL_UUID,
-                    title = context.getString(R.string.storage_local),
-                ),
-                FilesystemModel(
-                    uuid = RootFilesystem.ROOT_UUID,
-                    title = context.getString(R.string.storage_root),
-                ),
-            )
-        }
-    }
-
-    override suspend fun selectFilesystem(filesystemUuid: String) {
-        withContext(dispatcherProvider.io()) {
-            settingsManager.filesystem = filesystemUuid
-            currentFilesystem = filesystemUuid
-        }
-    }
+    private val currentFilesystem: String
+        get() = settingsManager.filesystem
 
     override suspend fun listFiles(parent: FileModel?): FileTree {
         return withContext(dispatcherProvider.io()) {
-            suspendCoroutine { cont ->
-                context.checkStorageAccess(
-                    onSuccess = { cont.resume(Unit) },
-                    onFailure = { cont.resumeWithException(PermissionException()) },
-                )
-            }
+            context.checkStoragePermissions() // throws exception
+
             val filesystem = filesystemFactory.create(currentFilesystem)
             val fileTree = filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
             fileTree.copy(

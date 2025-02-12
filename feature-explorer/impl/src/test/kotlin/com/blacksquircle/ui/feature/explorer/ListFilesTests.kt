@@ -25,9 +25,9 @@ import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.domain.model.Task
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerErrorAction
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
-import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ToolbarViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
@@ -111,7 +111,7 @@ class ListFilesTests {
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
         val explorerViewState = ExplorerViewState.Files(rootTree.children)
-        assertEquals(explorerViewState, viewModel.explorerViewState.value)
+        assertEquals(explorerViewState, viewModel.viewState.value)
     }
 
     @Test
@@ -148,7 +148,7 @@ class ListFilesTests {
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
         val explorerViewState = ExplorerViewState.Files(dirTree.children)
-        assertEquals(explorerViewState, viewModel.explorerViewState.value)
+        assertEquals(explorerViewState, viewModel.viewState.value)
     }
 
     @Test
@@ -181,7 +181,7 @@ class ListFilesTests {
             subtitle = "",
             action = ExplorerErrorAction.Undefined,
         )
-        assertEquals(explorerViewState, viewModel.explorerViewState.value)
+        assertEquals(explorerViewState, viewModel.viewState.value)
     }
 
     @Test
@@ -198,7 +198,7 @@ class ListFilesTests {
 
         // Then
         val explorerViewState = ExplorerViewState.Loading
-        assertEquals(explorerViewState, viewModel.explorerViewState.value)
+        assertEquals(explorerViewState, viewModel.viewState.value)
     }
 
     @Test
@@ -217,7 +217,7 @@ class ListFilesTests {
             subtitle = stringProvider.getString(R.string.message_access_required),
             action = ExplorerErrorAction.RequestPermission,
         )
-        assertEquals(explorerViewState, viewModel.explorerViewState.value)
+        assertEquals(explorerViewState, viewModel.viewState.value)
     }
 
     private fun explorerViewModel(): ExplorerViewModel {

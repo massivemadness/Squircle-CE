@@ -14,15 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.mvi
+package com.blacksquircle.ui.feature.explorer.domain.model
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.filesystem.base.model.FileModel
-
-internal sealed class ExplorerViewEvent : ViewEvent() {
-
-    data class OpenFileWith(val fileModel: FileModel) : ExplorerViewEvent()
-    data class CopyPath(val fileModel: FileModel) : ExplorerViewEvent()
-    data object SelectAll : ExplorerViewEvent()
-    data object RunInBackground : ExplorerViewEvent()
-}
+internal data class FilesystemModel(
+    val uuid: String,
+    val title: String,
+)

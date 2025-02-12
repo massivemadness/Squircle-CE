@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.mvi
+package com.blacksquircle.ui.feature.explorer.ui.fragment.model
 
-import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
-import com.blacksquircle.ui.filesystem.base.model.FileModel
+import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.ds.R as UiR
 
-internal sealed class ToolbarViewState : ViewState() {
-
-    data class ActionBar(
-        val breadcrumbs: List<FileModel> = emptyList(),
-        val selection: List<FileModel> = emptyList(),
-        val taskType: TaskType = TaskType.CREATE,
-    ) : ToolbarViewState()
-}
+@Immutable
+data class ErrorState(
+    val title: String = "",
+    val subtitle: String = "",
+    val icon: Int = UiR.drawable.ic_file_error,
+    val action: ErrorAction = ErrorAction.UNDEFINED,
+)

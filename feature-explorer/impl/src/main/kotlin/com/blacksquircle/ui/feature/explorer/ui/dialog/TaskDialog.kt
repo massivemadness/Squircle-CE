@@ -38,7 +38,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
-import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerViewEvent
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.service.TaskService
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.TaskViewModel

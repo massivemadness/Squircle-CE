@@ -17,12 +17,10 @@
 package com.blacksquircle.ui.feature.servers.api.interactor
 
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
-import kotlinx.coroutines.flow.Flow
 
 interface ServersInteractor {
 
-    val serverFlow: Flow<List<ServerConfig>>
-
     suspend fun authenticate(uuid: String, credentials: String)
+    suspend fun loadServers(): List<ServerConfig>
     suspend fun loadServer(uuid: String): ServerConfig
 }

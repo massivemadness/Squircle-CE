@@ -24,8 +24,6 @@ import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper
 import com.blacksquircle.ui.feature.servers.domain.ServersRepository
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 internal class ServersRepositoryImpl(
@@ -33,10 +31,6 @@ internal class ServersRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val appDatabase: AppDatabase,
 ) : ServersRepository {
-
-    override val serverFlow = appDatabase.serverDao().flow()
-        .map { it.map(ServerMapper::toModel) }
-        .flowOn(dispatcherProvider.io())
 
     override suspend fun authenticate(uuid: String, credentials: String) {
         withContext(dispatcherProvider.io()) {

@@ -24,21 +24,17 @@ import android.os.Build
 import android.os.Environment
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 
-fun <T> Context.checkStorageAccess(
-    onSuccess: () -> T,
-    onFailure: () -> T,
-): T = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-    if (Environment.isExternalStorageManager()) {
-        onSuccess()
+fun Context.checkStoragePermissions() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        if (!Environment.isExternalStorageManager()) {
+            throw PermissionException()
+        }
     } else {
-        onFailure()
-    }
-} else {
-    if (isPermissionGranted(WRITE_EXTERNAL_STORAGE)) {
-        onSuccess()
-    } else {
-        onFailure()
+        if (!isPermissionGranted(WRITE_EXTERNAL_STORAGE)) {
+            throw PermissionException()
+        }
     }
 }
 

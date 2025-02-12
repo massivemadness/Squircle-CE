@@ -40,12 +40,11 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.data.utils.formatDate
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.TaskViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 @Composable
 internal fun TaskScreen(viewModel: TaskViewModel) {
@@ -88,10 +87,9 @@ private fun TaskScreen(
         content = {
             Column {
                 val pattern = stringResource(R.string.progress_time_format)
-                val formatter = SimpleDateFormat(pattern, Locale.getDefault())
                 val elapsedTime = stringResource(
                     R.string.message_elapsed_time,
-                    formatter.format(elapsedMillis),
+                    elapsedMillis.formatDate(pattern),
                 )
                 Text(
                     text = elapsedTime,

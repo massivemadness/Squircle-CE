@@ -24,10 +24,12 @@ internal class ServersInteractorImpl(
     private val serversRepository: ServersRepository,
 ) : ServersInteractor {
 
-    override val serverFlow = serversRepository.serverFlow
-
     override suspend fun authenticate(uuid: String, credentials: String) {
         serversRepository.authenticate(uuid, credentials)
+    }
+
+    override suspend fun loadServers(): List<ServerConfig> {
+        return serversRepository.loadServers()
     }
 
     override suspend fun loadServer(uuid: String): ServerConfig {

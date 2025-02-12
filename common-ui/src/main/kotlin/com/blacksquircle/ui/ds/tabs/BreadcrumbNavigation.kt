@@ -20,6 +20,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -41,9 +42,9 @@ import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 
 @Composable
 fun BreadcrumbNavigation(
-    selectedIndex: Int,
     tabs: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    selectedIndex: Int = -1,
     onHomeClicked: () -> Unit = {},
     homeIcon: Int? = R.drawable.ic_home,
     actionIcon: Int? = R.drawable.ic_plus,
@@ -59,38 +60,46 @@ fun BreadcrumbNavigation(
             )
         }
 
-        ScrollableTabRow(
-            backgroundColor = SquircleTheme.colors.colorBackgroundPrimary,
-            selectedTabIndex = selectedIndex,
-            indicator = { tabPositions ->
-                val tabIconSize = 24.dp
-                val currentTabPosition = tabPositions[selectedIndex]
-                val currentTabWidth by animateDpAsState(
-                    targetValue = currentTabPosition.width - tabIconSize,
-                    animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
-                )
-                val indicatorOffset by animateDpAsState(
-                    targetValue = currentTabPosition.left,
-                    animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
-                )
-                TabIndicator(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentSize(Alignment.BottomStart)
-                        .offset {
-                            IntOffset(
-                                x = indicatorOffset.roundToPx(),
-                                y = 0,
-                            )
+        if (selectedIndex > -1) {
+            ScrollableTabRow(
+                backgroundColor = SquircleTheme.colors.colorBackgroundPrimary,
+                selectedTabIndex = selectedIndex,
+                indicator = { tabPositions ->
+                    val tabIconSize = 24.dp
+                    val currentTabPosition = tabPositions.getOrElse(selectedIndex) {
+                        tabPositions.getOrElse(selectedIndex - 1) {
+                            tabPositions[0]
                         }
-                        .width(currentTabWidth)
-                )
-            },
-            edgePadding = 0.dp,
-            divider = {},
-            tabs = tabs,
-            modifier = Modifier.weight(1f)
-        )
+                    }
+                    val currentTabWidth by animateDpAsState(
+                        targetValue = currentTabPosition.width - tabIconSize,
+                        animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
+                    )
+                    val indicatorOffset by animateDpAsState(
+                        targetValue = currentTabPosition.left,
+                        animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
+                    )
+                    TabIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentSize(Alignment.BottomStart)
+                            .offset {
+                                IntOffset(
+                                    x = indicatorOffset.roundToPx(),
+                                    y = 0,
+                                )
+                            }
+                            .width(currentTabWidth)
+                    )
+                },
+                edgePadding = 0.dp,
+                divider = {},
+                tabs = tabs,
+                modifier = Modifier.weight(1f)
+            )
+        } else {
+            Spacer(Modifier.weight(1f))
+        }
 
         if (actionIcon != null) {
             IconButton(

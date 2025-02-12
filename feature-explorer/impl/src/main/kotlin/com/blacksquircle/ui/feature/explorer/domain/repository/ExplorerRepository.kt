@@ -16,14 +16,11 @@
 
 package com.blacksquircle.ui.feature.explorer.domain.repository
 
-import com.blacksquircle.ui.feature.explorer.api.model.FilesystemModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
 
 internal interface ExplorerRepository {
 
-    suspend fun loadFilesystems(): List<FilesystemModel>
-    suspend fun selectFilesystem(filesystemUuid: String)
     suspend fun listFiles(parent: FileModel?): FileTree
 
     fun createFile(fileModel: FileModel): String

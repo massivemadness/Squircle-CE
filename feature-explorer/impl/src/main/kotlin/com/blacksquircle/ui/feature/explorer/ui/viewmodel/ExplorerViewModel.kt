@@ -18,38 +18,34 @@ package com.blacksquircle.ui.feature.explorer.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.extensions.appendList
-import com.blacksquircle.ui.core.extensions.replaceList
+import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.api.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
-import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
-import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
-import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.explorer.ui.mvi.*
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewEvent
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewState
+import com.blacksquircle.ui.feature.explorer.ui.fragment.model.ErrorAction
+import com.blacksquircle.ui.feature.explorer.ui.fragment.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
-import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
-import com.blacksquircle.ui.filesystem.base.exception.EncryptedArchiveException
-import com.blacksquircle.ui.filesystem.base.exception.FileAlreadyExistsException
-import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
-import com.blacksquircle.ui.filesystem.base.exception.InvalidArchiveException
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
-import com.blacksquircle.ui.filesystem.base.exception.SplitArchiveException
-import com.blacksquircle.ui.filesystem.base.exception.UnsupportedArchiveException
-import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FileType
-import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
+import com.blacksquircle.ui.filesystem.base.model.FileTree
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
+import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -64,7 +60,224 @@ internal class ExplorerViewModel @Inject constructor(
     private val serversInteractor: ServersInteractor,
 ) : ViewModel() {
 
-    private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.ActionBar())
+    private val _viewState = MutableStateFlow(ExplorerViewState())
+    val viewState: StateFlow<ExplorerViewState> = _viewState.asStateFlow()
+
+    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
+    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
+
+    private var selectedFilesystem: String
+        get() = settingsManager.filesystem
+        set(value) { settingsManager.filesystem = value }
+
+    private var breadcrumbs: List<FileTree> = emptyList()
+    private var selectedBreadcrumb: Int = -1
+    private var errorIndex: Int? = null
+
+    init {
+        loadFilesystems()
+    }
+
+    fun onBackClicked() {
+        viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack())
+        }
+    }
+
+    fun onFilesystemSelected(filesystem: String) {
+        if (selectedFilesystem == filesystem) {
+            return
+        }
+
+        selectedFilesystem = filesystem
+        breadcrumbs = emptyList()
+        selectedBreadcrumb = -1
+        errorIndex = null
+
+        _viewState.update {
+            it.copy(
+                selectedFilesystem = filesystem,
+                breadcrumbs = breadcrumbs,
+                selectedBreadcrumb = selectedBreadcrumb,
+            )
+        }
+        loadFiles()
+    }
+
+    fun onHomeClicked() {
+        loadFiles()
+    }
+
+    fun onActionClicked() {
+        // TODO
+    }
+
+    fun onBreadcrumbClicked(fileTree: FileTree) {
+        loadFiles(fileTree.parent)
+    }
+
+    fun onFileClicked(fileModel: FileModel) {
+        loadFiles(fileModel)
+    }
+
+    // region PERMISSIONS
+
+    fun onPermissionRequested() {
+        viewModelScope.launch {
+            _viewEvent.send(ExplorerViewEvent.RequestPermission)
+        }
+    }
+
+    fun onPermissionDenied() {
+        viewModelScope.launch {
+            val screen = ExplorerScreen.StorageDeniedScreen
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onPermissionGranted() {
+        viewModelScope.launch {
+            _viewState.update {
+                it.copy(errorState = null)
+            }
+            loadFiles()
+        }
+    }
+
+    // endregion
+
+    private fun loadFilesystems() {
+        viewModelScope.launch {
+            try {
+                val defaultFilesystems = listOf(
+                    FilesystemModel(
+                        uuid = LocalFilesystem.LOCAL_UUID,
+                        title = stringProvider.getString(R.string.storage_local),
+                    ),
+                    FilesystemModel(
+                        uuid = RootFilesystem.ROOT_UUID,
+                        title = stringProvider.getString(R.string.storage_root),
+                    ),
+                )
+                val serverFilesystems = serversInteractor.loadServers()
+                    .map { config ->
+                        FilesystemModel(
+                            uuid = config.uuid,
+                            title = config.name
+                        )
+                    }
+                _viewState.update {
+                    it.copy(
+                        selectedFilesystem = selectedFilesystem,
+                        filesystems = defaultFilesystems + serverFilesystems,
+                    )
+                }
+                loadFiles()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewState.update {
+                    it.copy(errorState = errorState(e))
+                }
+            }
+        }
+    }
+
+    private fun loadFiles(parent: FileModel? = null) {
+        viewModelScope.launch {
+            try {
+                /** Check if [parent] is already added to breadcrumbs */
+                val existingIndex = breadcrumbs.indexOf { it.parent?.fileUri == parent?.fileUri }
+                if (existingIndex != -1) {
+                    /** If an error occurred, we must reload file tree. */
+                    if (existingIndex == errorIndex) {
+                        /** Select [errorIndex]-1, because [errorIndex] will be re-added */
+                        selectedBreadcrumb = (errorIndex ?: 0) - 1
+                    } else {
+                        selectedBreadcrumb = existingIndex
+                        _viewState.update {
+                            it.copy(
+                                selectedBreadcrumb = selectedBreadcrumb,
+                                errorState = null,
+                            )
+                        }
+                        return@launch // early return
+                    }
+                }
+
+                val fromIndex = 0
+                val toIndex = if (selectedBreadcrumb > -1) selectedBreadcrumb + 1 else 0
+
+                /** Remove items after [selectedBreadcrumb] index, insert empty tree at the end */
+                breadcrumbs = breadcrumbs.subList(fromIndex, toIndex) + FileTree(parent)
+                selectedBreadcrumb = breadcrumbs.size - 1
+                errorIndex = null
+
+                _viewState.update {
+                    it.copy(
+                        breadcrumbs = breadcrumbs,
+                        selectedBreadcrumb = selectedBreadcrumb,
+                        errorState = null,
+                        isLoading = true,
+                    )
+                }
+
+                /** Load file tree for added breadcrumb */
+                val fileTree = explorerRepository.listFiles(parent)
+
+                /** Find empty tree from previous step, replace it's file list */
+                val newIndex = breadcrumbs.indexOf { it.parent?.fileUri == parent?.fileUri }
+                breadcrumbs = breadcrumbs.mapIndexed { i, current ->
+                    if (i == newIndex) {
+                        FileTree(parent, fileTree.children)
+                    } else {
+                        current
+                    }
+                }
+                selectedBreadcrumb = breadcrumbs.size - 1
+
+                _viewState.update {
+                    it.copy(
+                        breadcrumbs = breadcrumbs,
+                        selectedBreadcrumb = selectedBreadcrumb,
+                        isLoading = false
+                    )
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                /** Failure during loading, save index to reload later */
+                errorIndex = selectedBreadcrumb
+                _viewState.update {
+                    it.copy(
+                        errorState = errorState(e),
+                        isLoading = false,
+                    )
+                }
+            }
+        }
+    }
+
+    private fun errorState(e: Exception): ErrorState {
+        return when (e) {
+            is PermissionException -> ErrorState(
+                icon = UiR.drawable.ic_file_error,
+                title = stringProvider.getString(R.string.message_access_denied),
+                subtitle = stringProvider.getString(R.string.message_access_required),
+                action = ErrorAction.REQUEST_PERMISSIONS,
+            )
+            else -> ErrorState(
+                icon = UiR.drawable.ic_file_error,
+                title = stringProvider.getString(UiR.string.common_error_occurred),
+                subtitle = e.message.orEmpty(),
+                action = ErrorAction.UNDEFINED,
+            )
+        }
+    }
+
+    /*private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.ActionBar())
     val toolbarViewState: StateFlow<ToolbarViewState> = _toolbarViewState.asStateFlow()
 
     private val _explorerViewState = MutableStateFlow<ExplorerViewState>(ExplorerViewState.Loading)
@@ -688,5 +901,5 @@ internal class ExplorerViewModel @Inject constructor(
             }
         }
         refreshList()
-    }
+    }*/
 }

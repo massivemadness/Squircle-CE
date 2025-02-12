@@ -18,6 +18,7 @@ package com.blacksquircle.ui.ds.tabs
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -53,6 +54,7 @@ fun Breadcrumb(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxHeight()
+                .defaultMinSize(minWidth = 66.dp)
                 .selectable(
                     selected = selected,
                     onClick = onClick,

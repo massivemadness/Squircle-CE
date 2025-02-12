@@ -14,23 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.mvi
+package com.blacksquircle.ui.feature.explorer.ui.fragment.model
 
-import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.filesystem.base.model.FileModel
-
-internal sealed class ExplorerViewState : ViewState() {
-
-    data object Loading : ExplorerViewState()
-
-    data class Files(
-        val data: List<FileModel>,
-    ) : ExplorerViewState()
-
-    data class Error(
-        val image: Int,
-        val title: String,
-        val subtitle: String,
-        val action: ExplorerErrorAction,
-    ) : ExplorerViewState()
+enum class ErrorAction {
+    REQUEST_PERMISSIONS,
+    UNDEFINED,
 }

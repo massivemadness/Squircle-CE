@@ -24,7 +24,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.ui.dialog.TaskViewState
-import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerViewEvent
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewEvent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

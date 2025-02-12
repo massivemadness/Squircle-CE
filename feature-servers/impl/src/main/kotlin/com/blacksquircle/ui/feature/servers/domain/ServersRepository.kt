@@ -17,12 +17,9 @@
 package com.blacksquircle.ui.feature.servers.domain
 
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
-import kotlinx.coroutines.flow.Flow
 
 // internal
 interface ServersRepository {
-
-    val serverFlow: Flow<List<ServerConfig>>
 
     suspend fun authenticate(uuid: String, credentials: String)
     suspend fun loadServers(): List<ServerConfig>
