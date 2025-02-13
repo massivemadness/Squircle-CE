@@ -23,7 +23,7 @@ android {
 
     defaultConfig {
         applicationId = "com.blacksquircle.ui"
-        versionCode = 10023
+        versionCode = 10024
         versionName = "2025.1.0"
     }
     buildFeatures {
