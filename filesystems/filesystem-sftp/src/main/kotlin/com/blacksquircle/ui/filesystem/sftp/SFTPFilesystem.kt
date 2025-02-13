@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.filesystem.sftp
 
 import com.blacksquircle.ui.filesystem.base.Filesystem
+import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.model.*
 import com.blacksquircle.ui.filesystem.base.utils.hasFlag
@@ -156,13 +157,13 @@ class SFTPFilesystem(
                 when (serverConfig.authMethod) {
                     AuthMethod.PASSWORD -> {
                         if (serverConfig.password == null) {
-                            throw AuthenticationException(AuthMethod.PASSWORD, false)
+                            throw AuthRequiredException(AuthMethod.PASSWORD)
                         }
                         setPassword(serverConfig.password)
                     }
                     AuthMethod.KEY -> {
                         if (serverConfig.passphrase == null) {
-                            throw AuthenticationException(AuthMethod.KEY, false)
+                            throw AuthRequiredException(AuthMethod.KEY)
                         }
                         val keyFile = serverConfig.privateKey.orEmpty()
                         val keyPair = KeyPair.load(jsch, keyFile)
@@ -170,7 +171,7 @@ class SFTPFilesystem(
                             if (keyPair.decrypt(serverConfig.passphrase)) {
                                 jsch.addIdentity(keyFile, serverConfig.passphrase)
                             } else {
-                                throw AuthenticationException(AuthMethod.KEY, false)
+                                throw AuthRequiredException(AuthMethod.KEY)
                             }
                         } else {
                             jsch.addIdentity(keyFile)
@@ -184,7 +185,7 @@ class SFTPFilesystem(
             channel?.connect()
         } catch (e: JSchException) {
             if (e.message.orEmpty().contains("Auth")) {
-                throw AuthenticationException(serverConfig.authMethod, true)
+                throw AuthenticationException(serverConfig.authMethod)
             } else {
                 throw e
             }

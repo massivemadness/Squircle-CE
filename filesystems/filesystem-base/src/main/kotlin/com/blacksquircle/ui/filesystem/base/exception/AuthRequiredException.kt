@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.fragment.model
+package com.blacksquircle.ui.filesystem.base.exception
 
-enum class ErrorAction {
-    REQUEST_PERMISSIONS,
-    ENTER_PASSWORD,
-    ENTER_PASSPHRASE,
-    UNDEFINED,
-}
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
+
+class AuthRequiredException(
+    val authMethod: AuthMethod,
+) : FilesystemException("Authentication required")

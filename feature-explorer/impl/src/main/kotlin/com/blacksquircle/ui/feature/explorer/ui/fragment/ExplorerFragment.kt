@@ -37,7 +37,6 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
-import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -101,7 +100,7 @@ internal class ExplorerFragment : Fragment() {
         }
         observeFragmentResult(KEY_AUTHENTICATION) { bundle ->
             val credentials = bundle.getString(ARG_USER_INPUT).orEmpty()
-            // viewModel.obtainEvent(ExplorerIntent.Authenticate(credentials))
+            viewModel.onCredentialsEntered(credentials)
         }
         observeFragmentResult(KEY_COMPRESS_FILE) { bundle ->
             val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()

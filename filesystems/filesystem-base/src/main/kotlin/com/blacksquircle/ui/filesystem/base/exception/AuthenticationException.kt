@@ -20,5 +20,4 @@ import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 
 class AuthenticationException(
     val authMethod: AuthMethod,
-    val authError: Boolean
 ) : FilesystemException("Failed to authenticate on remote server")

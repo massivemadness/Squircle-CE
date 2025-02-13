@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.filesystem.ftp
 
 import com.blacksquircle.ui.filesystem.base.Filesystem
+import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.exception.ConnectionException
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
@@ -162,7 +163,7 @@ class FTPFilesystem(
 
     private fun connect() {
         if (serverConfig.password == null) {
-            throw AuthenticationException(AuthMethod.PASSWORD, false)
+            throw AuthRequiredException(AuthMethod.PASSWORD)
         }
         if (ftpClient.isConnected) {
             return
@@ -177,7 +178,7 @@ class FTPFilesystem(
         ftpClient.enterLocalPassiveMode()
         ftpClient.login(serverConfig.username, serverConfig.password)
         if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
-            throw AuthenticationException(AuthMethod.PASSWORD, true)
+            throw AuthenticationException(AuthMethod.PASSWORD)
         }
     }
 

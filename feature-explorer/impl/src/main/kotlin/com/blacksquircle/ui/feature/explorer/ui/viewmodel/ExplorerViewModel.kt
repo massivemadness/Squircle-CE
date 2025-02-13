@@ -34,7 +34,10 @@ import com.blacksquircle.ui.feature.explorer.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.ui.fragment.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
+import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
+import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileTree
 import com.blacksquircle.ui.filesystem.base.model.FileType
@@ -151,11 +154,24 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    // region PERMISSIONS
+    // region ERROR_ACTION
 
-    fun onPermissionRequested() {
+    fun onErrorActionClicked(errorAction: ErrorAction) {
         viewModelScope.launch {
-            _viewEvent.send(ExplorerViewEvent.RequestPermission)
+            when (errorAction) {
+                ErrorAction.REQUEST_PERMISSIONS -> {
+                    _viewEvent.send(ExplorerViewEvent.RequestPermission)
+                }
+                ErrorAction.ENTER_PASSWORD -> {
+                    val screen = ExplorerScreen.AuthDialogScreen(AuthMethod.PASSWORD)
+                    _viewEvent.send(ViewEvent.Navigation(screen))
+                }
+                ErrorAction.ENTER_PASSPHRASE -> {
+                    val screen = ExplorerScreen.AuthDialogScreen(AuthMethod.KEY)
+                    _viewEvent.send(ViewEvent.Navigation(screen))
+                }
+                ErrorAction.UNDEFINED -> Unit
+            }
         }
     }
 
@@ -172,6 +188,19 @@ internal class ExplorerViewModel @Inject constructor(
                 it.copy(errorState = null)
             }
             loadFiles()
+        }
+    }
+
+    fun onCredentialsEntered(credentials: String) {
+        viewModelScope.launch {
+            try {
+                serversInteractor.authenticate(selectedFilesystem, credentials)
+                loadFiles()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+            }
         }
     }
 
@@ -248,7 +277,8 @@ internal class ExplorerViewModel @Inject constructor(
                 val toIndex = if (selectedBreadcrumb > -1) selectedBreadcrumb + 1 else 0
 
                 /** Remove items after [selectedBreadcrumb] index, insert empty tree at the end */
-                breadcrumbs = breadcrumbs.subList(fromIndex, toIndex) + FileTree(parent)
+                val emptyTree = FileTree(parent, emptyList())
+                breadcrumbs = breadcrumbs.subList(fromIndex, toIndex) + emptyTree
                 selectedBreadcrumb = breadcrumbs.size - 1
 
                 _viewState.update {
@@ -270,9 +300,8 @@ internal class ExplorerViewModel @Inject constructor(
                 errorIndex = null
 
                 /** Find empty tree from previous step, replace it's file list */
-                val newIndex = breadcrumbs.indexOf { it.parent?.fileUri == parent?.fileUri }
                 breadcrumbs = breadcrumbs.mapIndexed { i, current ->
-                    if (i == newIndex) {
+                    if (i == selectedBreadcrumb) {
                         FileTree(parent, fileTree.children)
                     } else {
                         current
@@ -308,6 +337,32 @@ internal class ExplorerViewModel @Inject constructor(
                 title = stringProvider.getString(R.string.message_access_denied),
                 subtitle = stringProvider.getString(R.string.message_access_required),
                 action = ErrorAction.REQUEST_PERMISSIONS,
+            )
+
+            is AuthRequiredException -> ErrorState(
+                icon = UiR.drawable.ic_file_error,
+                title = stringProvider.getString(R.string.message_auth_required),
+                subtitle = when (e.authMethod) {
+                    AuthMethod.PASSWORD -> stringProvider.getString(R.string.message_enter_password)
+                    AuthMethod.KEY -> stringProvider.getString(R.string.message_enter_passphrase)
+                },
+                action = when (e.authMethod) {
+                    AuthMethod.PASSWORD -> ErrorAction.ENTER_PASSWORD
+                    AuthMethod.KEY -> ErrorAction.ENTER_PASSPHRASE
+                }
+            )
+
+            is AuthenticationException -> ErrorState(
+                icon = UiR.drawable.ic_file_error,
+                title = stringProvider.getString(UiR.string.common_error_occurred),
+                subtitle = when (e.authMethod) {
+                    AuthMethod.PASSWORD -> stringProvider.getString(R.string.message_enter_password)
+                    AuthMethod.KEY -> stringProvider.getString(R.string.message_enter_passphrase)
+                },
+                action = when (e.authMethod) {
+                    AuthMethod.PASSWORD -> ErrorAction.ENTER_PASSWORD
+                    AuthMethod.KEY -> ErrorAction.ENTER_PASSPHRASE
+                }
             )
 
             else -> ErrorState(

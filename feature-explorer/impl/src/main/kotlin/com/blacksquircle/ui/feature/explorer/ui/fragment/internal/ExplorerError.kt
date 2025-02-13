@@ -31,8 +31,8 @@ import com.blacksquircle.ui.feature.explorer.ui.fragment.model.ErrorState
 @NonRestartableComposable
 internal fun ExplorerError(
     errorState: ErrorState?,
-    onGrantPermissionClicked: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onActionClicked: (ErrorAction) -> Unit = {},
 ) {
     if (errorState != null) {
         EmptyView(
@@ -41,17 +41,11 @@ internal fun ExplorerError(
             subtitle = errorState.subtitle,
             action = when (errorState.action) {
                 ErrorAction.REQUEST_PERMISSIONS -> stringResource(R.string.action_grant_access)
+                ErrorAction.ENTER_PASSWORD,
+                ErrorAction.ENTER_PASSPHRASE -> stringResource(R.string.action_authenticate)
                 else -> null
             },
-            onClick = {
-                when (errorState.action) {
-                    ErrorAction.REQUEST_PERMISSIONS -> {
-                        onGrantPermissionClicked()
-                    }
-
-                    ErrorAction.UNDEFINED -> Unit
-                }
-            },
+            onClick = { onActionClicked(errorState.action) },
             modifier = modifier,
         )
     }
@@ -67,7 +61,6 @@ private fun ExplorerErrorPreview() {
                 subtitle = stringResource(R.string.message_access_required),
                 action = ErrorAction.REQUEST_PERMISSIONS,
             ),
-            onGrantPermissionClicked = {},
         )
     }
 }

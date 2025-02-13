@@ -60,7 +60,7 @@ internal fun ExplorerScreen(viewModel: ExplorerViewModel) {
         viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
         onFilesystemSelected = viewModel::onFilesystemSelected,
-        onGrantPermissionClicked = viewModel::onPermissionRequested,
+        onErrorActionClicked = viewModel::onErrorActionClicked,
         onHomeClicked = viewModel::onHomeClicked,
         onActionClicked = viewModel::onActionClicked,
         onBreadcrumbClicked = viewModel::onBreadcrumbClicked,
@@ -73,7 +73,7 @@ private fun ExplorerScreen(
     viewState: ExplorerViewState,
     onBackClicked: () -> Unit = {},
     onFilesystemSelected: (String) -> Unit = {},
-    onGrantPermissionClicked: () -> Unit = {},
+    onErrorActionClicked: (ErrorAction) -> Unit = {},
     onHomeClicked: () -> Unit = {},
     onActionClicked: () -> Unit = {},
     onBreadcrumbClicked: (FileTree) -> Unit = {},
@@ -140,7 +140,7 @@ private fun ExplorerScreen(
             if (viewState.isError) {
                 ExplorerError(
                     errorState = viewState.errorState,
-                    onGrantPermissionClicked = onGrantPermissionClicked,
+                    onActionClicked = onErrorActionClicked,
                 )
                 return@Scaffold
             }
