@@ -14,9 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.filesystem.base.model
+package com.blacksquircle.ui.feature.explorer.ui.fragment.model
 
-data class FileTree(
-    val parent: FileModel? = null,
-    val children: List<FileModel> = emptyList(),
+import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.filesystem.base.model.FileModel
+
+@Immutable
+data class BreadcrumbState(
+    val fileModel: FileModel? = null,
+    val fileList: List<FileModel> = emptyList(),
+    val errorState: ErrorState? = null,
 )

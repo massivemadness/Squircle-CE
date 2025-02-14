@@ -42,16 +42,13 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         return fileModel
     }
 
-    override fun provideDirectory(parent: FileModel): FileTree {
+    override fun provideDirectory(parent: FileModel): List<FileModel> {
         val file = toFileObject(parent)
         if (!file.isDirectory) {
             throw DirectoryExpectedException()
         }
-        return FileTree(
-            parent = parent,
-            children = file.listFiles().orEmpty()
-                .map(::toFileModel).toList(),
-        )
+        return file.listFiles().orEmpty()
+            .map(::toFileModel)
     }
 
     override fun exists(fileModel: FileModel): Boolean {

@@ -47,19 +47,17 @@ class FTPSFilesystem(
         return FileModel(FileServer.FTPS.value + serverConfig.initialDir, serverConfig.uuid)
     }
 
-    override fun provideDirectory(parent: FileModel): FileTree {
+    override fun provideDirectory(parent: FileModel): List<FileModel> {
         try {
             connect()
             ftpsClient.changeWorkingDirectory(parent.path)
             if (!FTPReply.isPositiveCompletion(ftpsClient.replyCode)) {
                 throw FileNotFoundException(parent.path)
             }
-            return FileTree(
-                parent = ftpsMapper.parent(parent),
-                children = ftpsClient.listFiles(parent.path)
-                    .filter { it.name.isValidFileName() }
-                    .map(ftpsMapper::toFileModel),
-            )
+            ftpsMapper.parent(parent)
+            return ftpsClient.listFiles(parent.path)
+                .filter { it.name.isValidFileName() }
+                .map(ftpsMapper::toFileModel)
         } finally {
             disconnect()
         }

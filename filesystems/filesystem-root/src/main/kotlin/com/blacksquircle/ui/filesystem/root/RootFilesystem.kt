@@ -22,7 +22,6 @@ import com.blacksquircle.ui.filesystem.base.exception.FileAlreadyExistsException
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams
-import com.blacksquircle.ui.filesystem.base.model.FileTree
 import com.blacksquircle.ui.filesystem.base.model.Permission
 import com.blacksquircle.ui.filesystem.base.utils.plusFlag
 import com.blacksquircle.ui.filesystem.root.utils.requestRootAccess
@@ -47,16 +46,13 @@ class RootFilesystem : Filesystem {
         return fileModel
     }
 
-    override fun provideDirectory(parent: FileModel): FileTree {
+    override fun provideDirectory(parent: FileModel): List<FileModel> {
         val file = toFileObject(parent)
         if (!file.isDirectory) {
             throw DirectoryExpectedException()
         }
-        return FileTree(
-            parent = parent,
-            children = file.listFiles().orEmpty()
-                .map(::toFileModel).toList(),
-        )
+        return file.listFiles().orEmpty()
+            .map(::toFileModel)
     }
 
     override fun exists(fileModel: FileModel): Boolean {

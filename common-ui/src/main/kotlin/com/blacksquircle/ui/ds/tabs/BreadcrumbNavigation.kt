@@ -114,7 +114,7 @@ fun BreadcrumbNavigation(
 
 @PreviewLightDark
 @Composable
-private fun TabsPreview() {
+private fun BreadcrumbNavigationPreview() {
     PreviewBackground {
         BreadcrumbNavigation(
             selectedIndex = 0,

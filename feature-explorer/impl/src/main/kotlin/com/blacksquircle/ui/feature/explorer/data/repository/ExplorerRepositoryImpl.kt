@@ -27,7 +27,6 @@ import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FileTree
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectIndexed
@@ -45,18 +44,17 @@ internal class ExplorerRepositoryImpl(
     private val currentFilesystem: String
         get() = settingsManager.filesystem
 
-    override suspend fun listFiles(parent: FileModel?): FileTree {
+    override suspend fun listFiles(parent: FileModel?): List<FileModel> {
         return withContext(dispatcherProvider.io()) {
             context.checkStoragePermissions() // throws exception
 
             val filesystem = filesystemFactory.create(currentFilesystem)
-            val fileTree = filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
-            fileTree.copy(
-                children = fileTree.children
-                    .filter { if (it.isHidden) settingsManager.showHidden else true }
-                    .sortedWith(fileComparator(settingsManager.sortMode.toInt()))
-                    .sortedBy { it.directory != settingsManager.foldersOnTop },
-            )
+            val fileList = filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
+
+            fileList
+                .filter { if (it.isHidden) settingsManager.showHidden else true }
+                .sortedWith(fileComparator(settingsManager.sortMode.toInt()))
+                .sortedBy { it.directory != settingsManager.foldersOnTop }
         }
     }
 

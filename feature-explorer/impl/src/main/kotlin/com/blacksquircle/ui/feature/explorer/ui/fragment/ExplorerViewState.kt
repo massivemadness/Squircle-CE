@@ -19,19 +19,13 @@ package com.blacksquircle.ui.feature.explorer.ui.fragment
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
-import com.blacksquircle.ui.feature.explorer.ui.fragment.model.ErrorState
-import com.blacksquircle.ui.filesystem.base.model.FileTree
+import com.blacksquircle.ui.feature.explorer.ui.fragment.model.BreadcrumbState
 
 @Immutable
 internal data class ExplorerViewState(
     val filesystems: List<FilesystemModel> = emptyList(),
     val selectedFilesystem: String = "",
-    val breadcrumbs: List<FileTree> = emptyList(),
+    val breadcrumbs: List<BreadcrumbState> = emptyList(),
     val selectedBreadcrumb: Int = -1,
-    val errorState: ErrorState? = null,
     val isLoading: Boolean = true,
-) : ViewState() {
-
-    val isError: Boolean
-        get() = errorState != null
-}
+) : ViewState()

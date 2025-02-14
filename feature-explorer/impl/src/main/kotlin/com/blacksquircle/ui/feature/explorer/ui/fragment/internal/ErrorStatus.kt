@@ -29,7 +29,7 @@ import com.blacksquircle.ui.feature.explorer.ui.fragment.model.ErrorState
 
 @Composable
 @NonRestartableComposable
-internal fun ExplorerError(
+internal fun ErrorStatus(
     errorState: ErrorState?,
     modifier: Modifier = Modifier,
     onActionClicked: (ErrorAction) -> Unit = {},
@@ -55,7 +55,7 @@ internal fun ExplorerError(
 @Composable
 private fun ExplorerErrorPreview() {
     PreviewBackground {
-        ExplorerError(
+        ErrorStatus(
             errorState = ErrorState(
                 title = stringResource(R.string.message_access_denied),
                 subtitle = stringResource(R.string.message_access_required),

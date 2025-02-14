@@ -26,13 +26,13 @@ import com.blacksquircle.ui.feature.explorer.domain.model.Task
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewState
+import com.blacksquircle.ui.feature.explorer.ui.fragment.model.BreadcrumbState
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerErrorAction
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ExplorerIntent
 import com.blacksquircle.ui.feature.explorer.ui.mvi.ToolbarViewState
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
-import com.blacksquircle.ui.filesystem.base.model.FileTree
 import io.mockk.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -91,9 +91,9 @@ class ListFilesTests {
     @Test
     fun `When the user opens the app Then load default directory and select tab`() = runTest {
         // Given
-        val rootTree = FileTree(
-            parent = createFolder("Documents"),
-            children = listOf(
+        val rootTree = BreadcrumbState(
+            fileModel = createFolder("Documents"),
+            fileList = listOf(
                 createFolder(fileName = "Documents/first"),
                 createFolder(fileName = "Documents/second"),
                 createFolder(fileName = "Documents/third"),
@@ -107,72 +107,72 @@ class ListFilesTests {
 
         // Then
         val toolbarViewState =
-            ToolbarViewState.ActionBar(listOf(rootTree.parent), emptyList(), TaskType.CREATE)
+            ToolbarViewState.ActionBar(listOf(rootTree.fileModel), emptyList(), TaskType.CREATE)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
-        val explorerViewState = ExplorerViewState.Files(rootTree.children)
+        val explorerViewState = ExplorerViewState.Files(rootTree.fileList)
         assertEquals(explorerViewState, viewModel.viewState.value)
     }
 
     @Test
     fun `When opening a folder Then load files and select tab`() = runTest {
         // Given
-        val rootTree = FileTree(
-            parent = createFolder("Documents"),
-            children = listOf(
+        val rootTree = BreadcrumbState(
+            fileModel = createFolder("Documents"),
+            fileList = listOf(
                 createFolder(fileName = "Documents/folder_1"),
                 createFolder(fileName = "Documents/folder_2"),
                 createFolder(fileName = "Documents/folder_3"),
             )
         )
-        val dirTree = FileTree(
-            parent = rootTree.children[0],
-            children = listOf(
+        val dirTree = BreadcrumbState(
+            fileModel = rootTree.fileList[0],
+            fileList = listOf(
                 createFile(fileName = "Documents/folder_1/test_1.txt"),
                 createFile(fileName = "Documents/folder_1/test_2.txt"),
                 createFile(fileName = "Documents/folder_1/test_3.txt"),
             )
         )
         coEvery { explorerRepository.listFiles(null) } returns rootTree
-        coEvery { explorerRepository.listFiles(dirTree.parent) } returns dirTree
+        coEvery { explorerRepository.listFiles(dirTree.fileModel) } returns dirTree
 
         // When
         val viewModel = explorerViewModel()
         viewModel.obtainEvent(ExplorerIntent.OpenFolder())
-        viewModel.obtainEvent(ExplorerIntent.OpenFolder(dirTree.parent))
+        viewModel.obtainEvent(ExplorerIntent.OpenFolder(dirTree.fileModel))
 
         // Then
         val toolbarViewState = ToolbarViewState.ActionBar(
-            listOf(rootTree.parent, dirTree.parent), emptyList(), TaskType.CREATE,
+            listOf(rootTree.fileModel, dirTree.fileModel), emptyList(), TaskType.CREATE,
         )
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
 
-        val explorerViewState = ExplorerViewState.Files(dirTree.children)
+        val explorerViewState = ExplorerViewState.Files(dirTree.fileList)
         assertEquals(explorerViewState, viewModel.viewState.value)
     }
 
     @Test
     fun `When opening an empty folder Then display empty state`() = runTest {
         // Given
-        val rootTree = FileTree(
-            parent = createFolder("Documents"),
-            children = listOf(
+        val rootTree = BreadcrumbState(
+            fileModel = createFolder("Documents"),
+            fileList = listOf(
                 createFolder(fileName = "Documents/folder_1"),
                 createFolder(fileName = "Documents/folder_2"),
                 createFolder(fileName = "Documents/folder_3"),
             )
         )
-        val dirTree = FileTree(
-            parent = rootTree.children[0],
-            children = emptyList()
+        val dirTree = BreadcrumbState(
+            fileModel = rootTree.fileList[0],
+            fileList = emptyList()
         )
         coEvery { explorerRepository.listFiles(null) } returns rootTree
-        coEvery { explorerRepository.listFiles(dirTree.parent) } returns dirTree
+        coEvery { explorerRepository.listFiles(dirTree.fileModel) } returns dirTree
 
         // When
         val viewModel = explorerViewModel()
         viewModel.obtainEvent(ExplorerIntent.OpenFolder())
-        viewModel.obtainEvent(ExplorerIntent.OpenFolder(dirTree.parent))
+        viewModel.obtainEvent(ExplorerIntent.OpenFolder(dirTree.fileModel))
 
         // Then
         val explorerViewState = ExplorerViewState.Error(
@@ -189,7 +189,7 @@ class ListFilesTests {
         // Given
         coEvery { explorerRepository.listFiles(any()) } coAnswers {
             delay(200)
-            FileTree(mockk(), emptyList())
+            BreadcrumbState(mockk(), emptyList())
         }
 
         // When

@@ -50,15 +50,13 @@ class SFTPFilesystem(
         return FileModel(FileServer.SFTP.value + serverConfig.initialDir, serverConfig.uuid)
     }
 
-    override fun provideDirectory(parent: FileModel): FileTree {
+    override fun provideDirectory(parent: FileModel): List<FileModel> {
         try {
             connect()
-            return FileTree(
-                parent = sftpMapper.parent(parent),
-                children = channel?.ls(parent.path).orEmpty()
-                    .filter { it.filename.isValidFileName() }
-                    .map(sftpMapper::toFileModel),
-            )
+            sftpMapper.parent(parent)
+            return channel?.ls(parent.path).orEmpty()
+                .filter { it.filename.isValidFileName() }
+                .map(sftpMapper::toFileModel)
         } finally {
             disconnect()
         }

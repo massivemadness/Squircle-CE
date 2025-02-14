@@ -18,13 +18,12 @@ package com.blacksquircle.ui.filesystem.base
 
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams
-import com.blacksquircle.ui.filesystem.base.model.FileTree
 import kotlinx.coroutines.flow.Flow
 
 interface Filesystem {
 
     fun defaultLocation(): FileModel
-    fun provideDirectory(parent: FileModel): FileTree
+    fun provideDirectory(parent: FileModel): List<FileModel>
     fun exists(fileModel: FileModel): Boolean
 
     fun createFile(fileModel: FileModel)

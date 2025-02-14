@@ -47,19 +47,17 @@ class FTPESFilesystem(
         return FileModel(FileServer.FTPES.value + serverConfig.initialDir, serverConfig.uuid)
     }
 
-    override fun provideDirectory(parent: FileModel): FileTree {
+    override fun provideDirectory(parent: FileModel): List<FileModel> {
         try {
             connect()
             ftpesClient.changeWorkingDirectory(parent.path)
             if (!FTPReply.isPositiveCompletion(ftpesClient.replyCode)) {
                 throw FileNotFoundException(parent.path)
             }
-            return FileTree(
-                parent = ftpesMapper.parent(parent),
-                children = ftpesClient.listFiles(parent.path)
-                    .filter { it.name.isValidFileName() }
-                    .map(ftpesMapper::toFileModel),
-            )
+            ftpesMapper.parent(parent)
+            return ftpesClient.listFiles(parent.path)
+                .filter { it.name.isValidFileName() }
+                .map(ftpesMapper::toFileModel)
         } finally {
             disconnect()
         }

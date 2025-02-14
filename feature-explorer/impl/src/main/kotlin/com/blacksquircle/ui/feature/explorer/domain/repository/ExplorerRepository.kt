@@ -17,11 +17,10 @@
 package com.blacksquircle.ui.feature.explorer.domain.repository
 
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FileTree
 
 internal interface ExplorerRepository {
 
-    suspend fun listFiles(parent: FileModel?): FileTree
+    suspend fun listFiles(parent: FileModel?): List<FileModel>
 
     fun createFile(fileModel: FileModel): String
     fun renameFile(source: FileModel, dest: FileModel): String
