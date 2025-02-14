@@ -14,9 +14,7 @@ appcompat = "1.7.0"
 material = "1.12.0"
 compose = "1.7.7"
 constraintlayout = "2.2.0"
-swiperefreshlayout = "1.2.0-alpha01"
 colorpicker = "1.1.2"
-recyclerview-selection = "1.1.0"
 vectordrawable = "1.2.0"
 lifecycle = "2.8.7"
 navigation = "2.8.6"
@@ -73,13 +71,12 @@ coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", ve
 
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "core" }
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
 androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }
 androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profile-installer" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
-androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
-androidx-recyclerview-selection = { module = "androidx.recyclerview:recyclerview-selection", version.ref = "recyclerview-selection" }
 androidx-vectordrawable = { module = "androidx.vectordrawable:vectordrawable", version.ref = "vectordrawable" }
 androidx-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "lifecycle" }
 androidx-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }

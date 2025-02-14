@@ -26,7 +26,7 @@ import com.blacksquircle.ui.feature.themes.data.model.CodePreview
 
 @Immutable
 internal data class ThemesViewState(
-    val query: String = "",
+    val searchQuery: String = "",
     val preview: CodePreview = CodePreview.HTML,
     val themes: List<ThemeModel> = emptyList(),
     val currentTheme: ThemeModel = InternalTheme.THEME_DARCULA.theme,

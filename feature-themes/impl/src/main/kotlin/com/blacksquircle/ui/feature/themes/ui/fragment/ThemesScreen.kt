@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.themes.ui.fragment
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
@@ -114,16 +115,18 @@ private fun ThemesScreen(
 
     Scaffold(
         topBar = {
-            var expanded by rememberSaveable { mutableStateOf(false) }
+            var searchMode by rememberSaveable {
+                mutableStateOf(false)
+            }
             Toolbar(
                 title = stringResource(R.string.label_themes),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
                 navigationActions = {
-                    if (expanded) {
+                    if (searchMode) {
                         val focusRequester = remember { FocusRequester() }
                         TextField(
-                            inputText = viewState.query,
+                            inputText = viewState.searchQuery,
                             onInputChanged = onQueryChanged,
                             placeholderText = stringResource(android.R.string.search_go),
                             startContent = {
@@ -139,7 +142,7 @@ private fun ThemesScreen(
                                     iconResId = UiR.drawable.ic_close,
                                     iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
                                     iconButtonSize = IconButtonSizeDefaults.S,
-                                    onClick = { onClearQueryClicked(); expanded = false },
+                                    onClick = { onClearQueryClicked(); searchMode = false },
                                 )
                             },
                             modifier = Modifier
@@ -149,6 +152,10 @@ private fun ThemesScreen(
                         )
                         LaunchedEffect(Unit) {
                             focusRequester.requestFocus()
+                        }
+                        BackHandler {
+                            onClearQueryClicked()
+                            searchMode = false
                         }
                     } else {
                         Dropdown(
@@ -160,7 +167,7 @@ private fun ThemesScreen(
                         IconButton(
                             iconResId = UiR.drawable.ic_search,
                             iconButtonSize = IconButtonSizeDefaults.L,
-                            onClick = { expanded = true },
+                            onClick = { searchMode = true },
                         )
                     }
                 }
@@ -240,7 +247,7 @@ private fun ThemesScreenPreview() {
     PreviewBackground {
         ThemesScreen(
             viewState = ThemesViewState(
-                query = "Mono",
+                searchQuery = "Mono",
                 preview = CodePreview.HTML,
                 themes = InternalTheme.entries.map(InternalTheme::theme),
                 currentTheme = InternalTheme.THEME_DARCULA.theme,

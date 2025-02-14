@@ -77,16 +77,16 @@ internal class ThemesViewModel @Inject constructor(
 
     fun onQueryChanged(query: String) {
         _viewState.update {
-            it.copy(query = query)
+            it.copy(searchQuery = query)
         }
         loadThemes(query = query)
     }
 
     fun onClearQueryClicked() {
-        val reload = viewState.value.query.isNotEmpty()
+        val reload = viewState.value.searchQuery.isNotEmpty()
         if (reload) {
             _viewState.update {
-                it.copy(query = "")
+                it.copy(searchQuery = "")
             }
             loadThemes()
         }

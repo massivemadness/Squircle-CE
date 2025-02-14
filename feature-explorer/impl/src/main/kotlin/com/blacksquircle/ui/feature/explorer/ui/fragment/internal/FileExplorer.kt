@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -69,9 +70,11 @@ internal fun FileExplorer(
     }
 
     val refreshState = rememberPullRefreshState(refreshing, ::refresh)
+    val scrollState = rememberLazyListState()
+
     val fileList = breadcrumbState.fileList
-    val isEmpty = fileList.isEmpty()
     val isError = breadcrumbState.errorState != null
+    val isEmpty = fileList.isEmpty()
 
     Box(
         modifier = modifier
@@ -79,6 +82,7 @@ internal fun FileExplorer(
             .pullRefresh(refreshState)
     ) {
         LazyColumn(
+            state = scrollState,
             contentPadding = contentPadding,
             modifier = Modifier.fillMaxSize()
         ) {
@@ -95,25 +99,19 @@ internal fun FileExplorer(
             ErrorStatus(
                 errorState = breadcrumbState.errorState,
                 onActionClicked = onErrorActionClicked,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(bottom = 56.dp),
+                modifier = Modifier.align(Alignment.Center)
             )
         }
         if (isLoading) {
             CircularProgress(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(bottom = 56.dp),
+                modifier = Modifier.align(Alignment.Center)
             )
         }
         if (isEmpty && !isLoading && !isError) {
             EmptyView(
                 iconResId = R.drawable.ic_file_find,
                 title = stringResource(R.string.common_no_result),
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(bottom = 56.dp),
+                modifier = Modifier.align(Alignment.Center)
             )
         }
 

@@ -49,9 +49,7 @@ internal class ExplorerRepositoryImpl(
             context.checkStoragePermissions() // throws exception
 
             val filesystem = filesystemFactory.create(currentFilesystem)
-            val fileList = filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
-
-            fileList
+            filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
                 .filter { if (it.isHidden) settingsManager.showHidden else true }
                 .sortedWith(fileComparator(settingsManager.sortMode.toInt()))
                 .sortedBy { it.directory != settingsManager.foldersOnTop }

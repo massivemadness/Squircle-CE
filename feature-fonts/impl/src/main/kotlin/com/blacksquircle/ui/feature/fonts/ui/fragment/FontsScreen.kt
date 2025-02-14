@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.fonts.ui.fragment
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
@@ -97,16 +98,18 @@ private fun FontsScreen(
 
     Scaffold(
         topBar = {
-            var expanded by rememberSaveable { mutableStateOf(false) }
+            var searchMode by rememberSaveable {
+                mutableStateOf(false)
+            }
             Toolbar(
                 title = stringResource(R.string.label_fonts),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
                 navigationActions = {
-                    if (expanded) {
+                    if (searchMode) {
                         val focusRequester = remember { FocusRequester() }
                         TextField(
-                            inputText = viewState.query,
+                            inputText = viewState.searchQuery,
                             onInputChanged = onQueryChanged,
                             placeholderText = stringResource(android.R.string.search_go),
                             startContent = {
@@ -122,7 +125,7 @@ private fun FontsScreen(
                                     iconResId = UiR.drawable.ic_close,
                                     iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
                                     iconButtonSize = IconButtonSizeDefaults.S,
-                                    onClick = { onClearQueryClicked(); expanded = false },
+                                    onClick = { onClearQueryClicked(); searchMode = false },
                                 )
                             },
                             modifier = Modifier
@@ -133,11 +136,15 @@ private fun FontsScreen(
                         LaunchedEffect(Unit) {
                             focusRequester.requestFocus()
                         }
+                        BackHandler {
+                            onClearQueryClicked()
+                            searchMode = false
+                        }
                     } else {
                         IconButton(
                             iconResId = UiR.drawable.ic_search,
                             iconButtonSize = IconButtonSizeDefaults.L,
-                            onClick = { expanded = true },
+                            onClick = { searchMode = true },
                         )
                     }
                 }
@@ -201,7 +208,7 @@ private fun FontsScreenPreview() {
     PreviewBackground {
         FontsScreen(
             viewState = FontsViewState(
-                query = "Mono",
+                searchQuery = "Mono",
                 fonts = listOf(
                     FontModel(
                         uuid = "1",

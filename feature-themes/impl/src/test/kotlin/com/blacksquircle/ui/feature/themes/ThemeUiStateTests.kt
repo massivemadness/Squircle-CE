@@ -66,7 +66,7 @@ class ThemeUiStateTests {
 
         // Then
         val viewState = ThemesViewState(
-            query = "",
+            searchQuery = "",
             themes = emptyList(),
             isLoading = true,
         )
@@ -84,7 +84,7 @@ class ThemeUiStateTests {
 
         // Then
         val viewState = ThemesViewState(
-            query = "",
+            searchQuery = "",
             themes = emptyList(),
             isLoading = false,
         )
@@ -112,7 +112,7 @@ class ThemeUiStateTests {
 
         // Then
         val viewState = ThemesViewState(
-            query = "",
+            searchQuery = "",
             themes = themeList,
             isLoading = false,
         )
@@ -151,7 +151,7 @@ class ThemeUiStateTests {
 
         // Then
         val viewState = ThemesViewState(
-            query = "Eclipse",
+            searchQuery = "Eclipse",
             themes = themeList.drop(1),
             isLoading = false,
         )

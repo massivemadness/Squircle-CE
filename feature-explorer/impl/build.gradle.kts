@@ -33,6 +33,7 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.core)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.fragment)
     implementation(libs.timber)
 

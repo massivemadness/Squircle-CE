@@ -22,7 +22,7 @@ import com.blacksquircle.ui.feature.fonts.api.model.FontModel
 
 @Immutable
 internal data class FontsViewState(
-    val query: String = "",
+    val searchQuery: String = "",
     val fonts: List<FontModel> = emptyList(),
     val currentFont: String = "",
     val isLoading: Boolean = true,

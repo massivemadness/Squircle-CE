@@ -62,16 +62,16 @@ internal class FontsViewModel @Inject constructor(
 
     fun onQueryChanged(query: String) {
         _viewState.update {
-            it.copy(query = query)
+            it.copy(searchQuery = query)
         }
         loadFonts(query = query)
     }
 
     fun onClearQueryClicked() {
-        val reload = viewState.value.query.isNotEmpty()
+        val reload = viewState.value.searchQuery.isNotEmpty()
         if (reload) {
             _viewState.update {
-                it.copy(query = "")
+                it.copy(searchQuery = "")
             }
             loadFonts()
         }
@@ -143,7 +143,7 @@ internal class FontsViewModel @Inject constructor(
             try {
                 fontsRepository.importFont(fileUri)
                 _viewState.update {
-                    it.copy(query = "")
+                    it.copy(searchQuery = "")
                 }
                 _viewEvent.send(
                     ViewEvent.Toast(stringProvider.getString(R.string.message_new_font_available)),

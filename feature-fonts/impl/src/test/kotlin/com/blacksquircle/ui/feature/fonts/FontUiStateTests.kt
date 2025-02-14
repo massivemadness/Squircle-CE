@@ -64,7 +64,7 @@ class FontUiStateTests {
 
         // Then
         val viewState = FontsViewState(
-            query = "",
+            searchQuery = "",
             fonts = emptyList(),
             isLoading = true
         )
@@ -82,7 +82,7 @@ class FontUiStateTests {
 
         // Then
         val viewState = FontsViewState(
-            query = "",
+            searchQuery = "",
             fonts = emptyList(),
             isLoading = false,
         )
@@ -109,7 +109,7 @@ class FontUiStateTests {
 
         // Then
         val viewState = FontsViewState(
-            query = "",
+            searchQuery = "",
             fonts = fontList,
             isLoading = false,
         )
@@ -146,7 +146,7 @@ class FontUiStateTests {
 
         // Then
         val viewState = FontsViewState(
-            query = "Source",
+            searchQuery = "Source",
             fonts = fontList.drop(1),
             isLoading = false,
         )
