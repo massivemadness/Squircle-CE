@@ -23,6 +23,7 @@ import com.blacksquircle.ui.feature.explorer.ui.fragment.model.BreadcrumbState
 
 @Immutable
 internal data class ExplorerViewState(
+    val searchQuery: String = "",
     val filesystems: List<FilesystemModel> = emptyList(),
     val selectedFilesystem: String = "",
     val breadcrumbs: List<BreadcrumbState> = emptyList(),

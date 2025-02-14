@@ -79,7 +79,7 @@ internal class ExplorerViewModel @Inject constructor(
         }
 
     private var breadcrumbs: List<BreadcrumbState> = emptyList()
-    private var selectionIndex: Int = -1
+    private var selectionBreadcrumb: Int = -1
     private var currentJob: Job? = null
 
     init {
@@ -105,13 +105,13 @@ internal class ExplorerViewModel @Inject constructor(
 
         selectedFilesystem = filesystem
         breadcrumbs = emptyList()
-        selectionIndex = -1
+        selectionBreadcrumb = -1
 
         _viewState.update {
             it.copy(
-                selectedFilesystem = filesystem,
+                selectedFilesystem = selectedFilesystem,
                 breadcrumbs = breadcrumbs,
-                selectedBreadcrumb = selectionIndex,
+                selectedBreadcrumb = selectionBreadcrumb,
             )
         }
         loadFiles()
@@ -119,6 +119,34 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onFilesystemAdded() {
         loadFilesystems()
+    }
+
+    fun onQueryChanged(query: String) {
+        _viewState.update {
+            it.copy(
+                searchQuery = query,
+                breadcrumbs = breadcrumbs.mapIndexed { i, state ->
+                    if (i == selectionBreadcrumb) {
+                        state.copy(
+                            fileList = state.fileList.filter { file ->
+                                file.name.contains(query, ignoreCase = true)
+                            }
+                        )
+                    } else {
+                        state
+                    }
+                }
+            )
+        }
+    }
+
+    fun onClearQueryClicked() {
+        _viewState.update {
+            it.copy(
+                searchQuery = "",
+                breadcrumbs = breadcrumbs,
+            )
+        }
     }
 
     fun onHomeClicked() {
@@ -134,7 +162,7 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onFileClicked(fileModel: FileModel) {
-        if (true) {
+        if (fileModel.directory) {
             loadFiles(fileModel)
         } else {
             viewModelScope.launch {
@@ -153,8 +181,8 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onRefreshClicked() {
-        if (selectionIndex != -1) {
-            val breadcrumb = breadcrumbs.getOrNull(selectionIndex)
+        if (selectionBreadcrumb != -1) {
+            val breadcrumb = breadcrumbs.getOrNull(selectionBreadcrumb)
             loadFiles(breadcrumb?.fileModel)
         }
     }
@@ -254,15 +282,15 @@ internal class ExplorerViewModel @Inject constructor(
             /** Check if [parent] is already added to breadcrumbs */
             val existingIndex = breadcrumbs.indexOf { it.fileModel?.fileUri == parent?.fileUri }
             if (existingIndex != -1) {
-                if (existingIndex == selectionIndex) {
+                if (existingIndex == selectionBreadcrumb) {
                     /** Refresh current tab */
                     isRefreshing = true
                 } else {
                     /** Select existing tab, skip loading */
-                    selectionIndex = existingIndex
+                    selectionBreadcrumb = existingIndex
                     _viewState.update {
                         it.copy(
-                            selectedBreadcrumb = selectionIndex,
+                            selectedBreadcrumb = selectionBreadcrumb,
                             isLoading = false,
                         )
                     }
@@ -272,7 +300,7 @@ internal class ExplorerViewModel @Inject constructor(
 
             val updatedState = if (isRefreshing) {
                 /** Refresh current directory, don't open a new tab */
-                breadcrumbs[selectionIndex]
+                breadcrumbs[selectionBreadcrumb]
             } else {
                 /** Remove all tabs after the selected one, insert empty tree at the end */
                 val newState = BreadcrumbState(
@@ -281,9 +309,9 @@ internal class ExplorerViewModel @Inject constructor(
                     errorState = null
                 )
                 val fromIndex = 0
-                val toIndex = if (selectionIndex > -1) selectionIndex + 1 else 0
+                val toIndex = if (selectionBreadcrumb > -1) selectionBreadcrumb + 1 else 0
                 breadcrumbs = breadcrumbs.subList(fromIndex, toIndex) + newState
-                selectionIndex = breadcrumbs.size - 1
+                selectionBreadcrumb = breadcrumbs.size - 1
                 newState
             }
 
@@ -291,7 +319,7 @@ internal class ExplorerViewModel @Inject constructor(
                 _viewState.update {
                     it.copy(
                         breadcrumbs = breadcrumbs,
-                        selectedBreadcrumb = selectionIndex,
+                        selectedBreadcrumb = selectionBreadcrumb,
                         isLoading = true,
                     )
                 }
@@ -299,7 +327,7 @@ internal class ExplorerViewModel @Inject constructor(
                 /** Load files, update directory */
                 val fileList = explorerRepository.listFiles(parent)
                 breadcrumbs = breadcrumbs.mapIndexed { i, state ->
-                    if (i == selectionIndex) {
+                    if (i == selectionBreadcrumb) {
                         updatedState.copy(
                             fileList = fileList,
                             errorState = null,
@@ -312,7 +340,7 @@ internal class ExplorerViewModel @Inject constructor(
                 _viewState.update {
                     it.copy(
                         breadcrumbs = breadcrumbs,
-                        selectedBreadcrumb = selectionIndex,
+                        selectedBreadcrumb = selectionBreadcrumb,
                         isLoading = false,
                     )
                 }
@@ -323,7 +351,7 @@ internal class ExplorerViewModel @Inject constructor(
 
                 /** Clear list and show error */
                 breadcrumbs = breadcrumbs.mapIndexed { i, state ->
-                    if (i == selectionIndex) {
+                    if (i == selectionBreadcrumb) {
                         updatedState.copy(
                             fileList = emptyList(),
                             errorState = errorState(e),
@@ -336,7 +364,7 @@ internal class ExplorerViewModel @Inject constructor(
                 _viewState.update {
                     it.copy(
                         breadcrumbs = breadcrumbs,
-                        selectedBreadcrumb = selectionIndex,
+                        selectedBreadcrumb = selectionBreadcrumb,
                         isLoading = false,
                     )
                 }

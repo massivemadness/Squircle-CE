@@ -16,18 +16,32 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.fragment.internal
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastMap
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
+import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.dropdown.Dropdown
 import com.blacksquircle.ui.ds.dropdown.DropdownStyleDefaults
+import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
@@ -37,18 +51,58 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ExplorerToolbar(
+    searchQuery: String,
     currentFilesystem: String,
     filesystems: List<FilesystemModel>,
-    onFilesystemSelected: (String) -> Unit,
-    onBackClicked: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onFilesystemSelected: (String) -> Unit = {},
+    onQueryChanged: (String) -> Unit = {},
+    onClearQueryClicked: () -> Unit = {},
+    onBackClicked: () -> Unit = {},
 ) {
+    var searchMode by rememberSaveable {
+        mutableStateOf(false)
+    }
     Toolbar(
         toolbarSize = ToolbarSizeDefaults.S,
         navigationIcon = UiR.drawable.ic_close,
         onNavigationClicked = onBackClicked,
         navigationActions = {
-            if (filesystems.isNotEmpty()) {
+            if (searchMode) {
+                val focusRequester = remember { FocusRequester() }
+                TextField(
+                    inputText = searchQuery,
+                    onInputChanged = onQueryChanged,
+                    placeholderText = stringResource(android.R.string.search_go),
+                    startContent = {
+                        Icon(
+                            painter = painterResource(UiR.drawable.ic_search),
+                            contentDescription = null,
+                            tint = SquircleTheme.colors.colorTextAndIconSecondary,
+                            modifier = Modifier.padding(8.dp),
+                        )
+                    },
+                    endContent = {
+                        IconButton(
+                            iconResId = UiR.drawable.ic_close,
+                            iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                            iconButtonSize = IconButtonSizeDefaults.S,
+                            onClick = { onClearQueryClicked(); searchMode = false },
+                        )
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 4.dp)
+                        .focusRequester(focusRequester)
+                )
+                LaunchedEffect(Unit) {
+                    focusRequester.requestFocus()
+                }
+                BackHandler {
+                    onClearQueryClicked()
+                    searchMode = false
+                }
+            } else if (filesystems.isNotEmpty()) {
                 Dropdown(
                     entries = filesystems
                         .fastMap(FilesystemModel::title)
@@ -69,9 +123,12 @@ internal fun ExplorerToolbar(
                 Spacer(Modifier.weight(1f))
             }
 
-            IconButton(
-                iconResId = UiR.drawable.ic_search,
-            )
+            if (!searchMode) {
+                IconButton(
+                    iconResId = UiR.drawable.ic_search,
+                    onClick = { searchMode = true },
+                )
+            }
             IconButton(
                 iconResId = UiR.drawable.ic_overflow,
             )
@@ -85,6 +142,7 @@ internal fun ExplorerToolbar(
 private fun ExplorerToolbarPreview() {
     PreviewBackground {
         ExplorerToolbar(
+            searchQuery = "",
             currentFilesystem = LocalFilesystem.LOCAL_UUID,
             filesystems = listOf(
                 FilesystemModel(
@@ -97,6 +155,8 @@ private fun ExplorerToolbarPreview() {
                 ),
             ),
             onFilesystemSelected = {},
+            onQueryChanged = {},
+            onClearQueryClicked = {},
             onBackClicked = {},
         )
     }

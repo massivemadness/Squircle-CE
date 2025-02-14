@@ -51,6 +51,8 @@ internal fun ExplorerScreen(viewModel: ExplorerViewModel) {
         viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
         onFilesystemSelected = viewModel::onFilesystemSelected,
+        onQueryChanged = viewModel::onQueryChanged,
+        onClearQueryClicked = viewModel::onClearQueryClicked,
         onErrorActionClicked = viewModel::onErrorActionClicked,
         onHomeClicked = viewModel::onHomeClicked,
         onActionClicked = viewModel::onActionClicked,
@@ -65,6 +67,8 @@ private fun ExplorerScreen(
     viewState: ExplorerViewState,
     onBackClicked: () -> Unit = {},
     onFilesystemSelected: (String) -> Unit = {},
+    onQueryChanged: (String) -> Unit = {},
+    onClearQueryClicked: () -> Unit = {},
     onErrorActionClicked: (ErrorAction) -> Unit = {},
     onHomeClicked: () -> Unit = {},
     onActionClicked: () -> Unit = {},
@@ -75,9 +79,12 @@ private fun ExplorerScreen(
     Scaffold(
         topBar = {
             ExplorerToolbar(
+                searchQuery = viewState.searchQuery,
                 currentFilesystem = viewState.selectedFilesystem,
                 filesystems = viewState.filesystems,
                 onFilesystemSelected = onFilesystemSelected,
+                onQueryChanged = onQueryChanged,
+                onClearQueryClicked = onClearQueryClicked,
                 onBackClicked = onBackClicked,
             )
         },
