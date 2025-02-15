@@ -45,6 +45,7 @@ import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.blacksquircle.ui.ds.R as UiR
@@ -52,17 +53,21 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 internal fun ExplorerToolbar(
     searchQuery: String,
-    currentFilesystem: String,
+    selectedFilesystem: String,
     filesystems: List<FilesystemModel>,
+    showHidden: Boolean,
+    sortMode: SortMode,
     modifier: Modifier = Modifier,
     onFilesystemSelected: (String) -> Unit = {},
     onQueryChanged: (String) -> Unit = {},
     onClearQueryClicked: () -> Unit = {},
+    onShowHiddenClicked: () -> Unit = {},
+    onSortModeSelected: (SortMode) -> Unit = {},
     onBackClicked: () -> Unit = {},
 ) {
-    var searchMode by rememberSaveable {
-        mutableStateOf(false)
-    }
+    var searchMode by rememberSaveable { mutableStateOf(false) }
+    var menuExpanded by rememberSaveable { mutableStateOf(false) }
+
     Toolbar(
         toolbarSize = ToolbarSizeDefaults.S,
         navigationIcon = UiR.drawable.ic_close,
@@ -110,7 +115,7 @@ internal fun ExplorerToolbar(
                     entryValues = filesystems
                         .fastMap(FilesystemModel::uuid)
                         .toTypedArray(),
-                    currentValue = currentFilesystem,
+                    currentValue = selectedFilesystem,
                     onValueSelected = onFilesystemSelected,
                     dropdownStyle = DropdownStyleDefaults.Default.copy(
                         textStyle = SquircleTheme.typography.text18Medium,
@@ -129,8 +134,20 @@ internal fun ExplorerToolbar(
                     onClick = { searchMode = true },
                 )
             }
+
             IconButton(
                 iconResId = UiR.drawable.ic_overflow,
+                onClick = { menuExpanded = true },
+                anchor = {
+                    SortingMenu(
+                        expanded = menuExpanded,
+                        onDismiss = { menuExpanded = false },
+                        showHidden = showHidden,
+                        sortMode = sortMode,
+                        onSortModeSelected = { menuExpanded = false; onSortModeSelected(it) },
+                        onShowHiddenClicked = { menuExpanded = false; onShowHiddenClicked() },
+                    )
+                }
             )
         },
         modifier = modifier,
@@ -143,7 +160,7 @@ private fun ExplorerToolbarPreview() {
     PreviewBackground {
         ExplorerToolbar(
             searchQuery = "",
-            currentFilesystem = LocalFilesystem.LOCAL_UUID,
+            selectedFilesystem = LocalFilesystem.LOCAL_UUID,
             filesystems = listOf(
                 FilesystemModel(
                     uuid = LocalFilesystem.LOCAL_UUID,
@@ -154,9 +171,13 @@ private fun ExplorerToolbarPreview() {
                     title = "Root Storage",
                 ),
             ),
+            showHidden = true,
+            sortMode = SortMode.SORT_BY_NAME,
             onFilesystemSelected = {},
             onQueryChanged = {},
             onClearQueryClicked = {},
+            onShowHiddenClicked = {},
+            onSortModeSelected = {},
             onBackClicked = {},
         )
     }

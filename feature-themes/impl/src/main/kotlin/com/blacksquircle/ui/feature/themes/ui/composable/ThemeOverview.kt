@@ -124,17 +124,17 @@ internal fun ThemeOverview(
                                 PopupMenuItem(
                                     title = stringResource(R.string.action_export),
                                     onClick = { onExportClicked(); expanded = false },
-                                    startIconResId = UiR.drawable.ic_file_export,
+                                    iconResId = UiR.drawable.ic_file_export,
                                 )
                                 PopupMenuItem(
                                     title = stringResource(R.string.action_edit),
                                     onClick = { onEditClicked(); expanded = false },
-                                    startIconResId = UiR.drawable.ic_edit,
+                                    iconResId = UiR.drawable.ic_edit,
                                 )
                                 PopupMenuItem(
                                     title = stringResource(R.string.action_remove),
                                     onClick = { onRemoveClicked(); expanded = false },
-                                    startIconResId = UiR.drawable.ic_delete,
+                                    iconResId = UiR.drawable.ic_delete,
                                 )
                             }
                         }

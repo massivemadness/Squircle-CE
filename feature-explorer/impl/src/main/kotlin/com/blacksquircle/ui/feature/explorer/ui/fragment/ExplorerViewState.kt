@@ -19,14 +19,17 @@ package com.blacksquircle.ui.feature.explorer.ui.fragment
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.ui.fragment.model.BreadcrumbState
 
 @Immutable
 internal data class ExplorerViewState(
-    val searchQuery: String = "",
     val filesystems: List<FilesystemModel> = emptyList(),
     val selectedFilesystem: String = "",
     val breadcrumbs: List<BreadcrumbState> = emptyList(),
     val selectedBreadcrumb: Int = -1,
+    val searchQuery: String = "",
+    val showHidden: Boolean = true,
+    val sortMode: SortMode = SortMode.SORT_BY_NAME,
     val isLoading: Boolean = true,
 ) : ViewState()

@@ -34,6 +34,7 @@ import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.tabs.Breadcrumb
 import com.blacksquircle.ui.ds.tabs.BreadcrumbNavigation
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.ExplorerToolbar
 import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.FileExplorer
 import com.blacksquircle.ui.feature.explorer.ui.fragment.model.BreadcrumbState
@@ -53,6 +54,8 @@ internal fun ExplorerScreen(viewModel: ExplorerViewModel) {
         onFilesystemSelected = viewModel::onFilesystemSelected,
         onQueryChanged = viewModel::onQueryChanged,
         onClearQueryClicked = viewModel::onClearQueryClicked,
+        onShowHiddenClicked = viewModel::onShowHiddenClicked,
+        onSortModeSelected = viewModel::onSortModeSelected,
         onErrorActionClicked = viewModel::onErrorActionClicked,
         onHomeClicked = viewModel::onHomeClicked,
         onActionClicked = viewModel::onActionClicked,
@@ -69,6 +72,8 @@ private fun ExplorerScreen(
     onFilesystemSelected: (String) -> Unit = {},
     onQueryChanged: (String) -> Unit = {},
     onClearQueryClicked: () -> Unit = {},
+    onShowHiddenClicked: () -> Unit = {},
+    onSortModeSelected: (SortMode) -> Unit = {},
     onErrorActionClicked: (ErrorAction) -> Unit = {},
     onHomeClicked: () -> Unit = {},
     onActionClicked: () -> Unit = {},
@@ -80,11 +85,15 @@ private fun ExplorerScreen(
         topBar = {
             ExplorerToolbar(
                 searchQuery = viewState.searchQuery,
-                currentFilesystem = viewState.selectedFilesystem,
+                selectedFilesystem = viewState.selectedFilesystem,
                 filesystems = viewState.filesystems,
+                showHidden = viewState.showHidden,
+                sortMode = viewState.sortMode,
                 onFilesystemSelected = onFilesystemSelected,
                 onQueryChanged = onQueryChanged,
                 onClearQueryClicked = onClearQueryClicked,
+                onShowHiddenClicked = onShowHiddenClicked,
+                onSortModeSelected = onSortModeSelected,
                 onBackClicked = onBackClicked,
             )
         },

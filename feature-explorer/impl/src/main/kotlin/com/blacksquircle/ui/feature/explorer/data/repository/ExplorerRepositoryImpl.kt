@@ -22,7 +22,6 @@ import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
-import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
@@ -47,12 +46,9 @@ internal class ExplorerRepositoryImpl(
     override suspend fun listFiles(parent: FileModel?): List<FileModel> {
         return withContext(dispatcherProvider.io()) {
             context.checkStoragePermissions() // throws exception
-
             val filesystem = filesystemFactory.create(currentFilesystem)
-            filesystem.provideDirectory(parent ?: filesystem.defaultLocation())
-                .filter { if (it.isHidden) settingsManager.showHidden else true }
-                .sortedWith(fileComparator(settingsManager.sortMode.toInt()))
-                .sortedBy { it.directory != settingsManager.foldersOnTop }
+            val directory = parent ?: filesystem.defaultLocation()
+            filesystem.provideDirectory(directory)
         }
     }
 

@@ -26,7 +26,9 @@ import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewState
@@ -66,20 +68,26 @@ internal class ExplorerViewModel @Inject constructor(
     private val serversInteractor: ServersInteractor,
 ) : ViewModel() {
 
+    private var breadcrumbs: List<BreadcrumbState> = emptyList()
+    private var selectionBreadcrumb: Int = -1
+    private var searchQuery: String = ""
+
+    private var selectedFilesystem: String
+        get() = settingsManager.filesystem
+        set(value) { settingsManager.filesystem = value }
+    private var showHidden: Boolean
+        get() = settingsManager.showHidden
+        set(value) { settingsManager.showHidden = value }
+    private var sortMode: SortMode
+        get() = SortMode.of(settingsManager.sortMode)
+        set(value) { settingsManager.sortMode = value.value }
+
     private val _viewState = MutableStateFlow(ExplorerViewState())
     val viewState: StateFlow<ExplorerViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private var selectedFilesystem: String
-        get() = settingsManager.filesystem
-        set(value) {
-            settingsManager.filesystem = value
-        }
-
-    private var breadcrumbs: List<BreadcrumbState> = emptyList()
-    private var selectionBreadcrumb: Int = -1
     private var currentJob: Job? = null
 
     init {
@@ -122,29 +130,49 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onQueryChanged(query: String) {
+        searchQuery = query
         _viewState.update {
             it.copy(
-                searchQuery = query,
-                breadcrumbs = breadcrumbs.mapIndexed { i, state ->
-                    if (i == selectionBreadcrumb) {
-                        state.copy(
-                            fileList = state.fileList.filter { file ->
-                                file.name.contains(query, ignoreCase = true)
-                            }
-                        )
-                    } else {
-                        state
-                    }
-                }
+                breadcrumbs = breadcrumbs.mapSelected { state ->
+                    state.copy(fileList = state.fileList.applyFilter())
+                },
+                searchQuery = searchQuery,
             )
         }
     }
 
     fun onClearQueryClicked() {
+        searchQuery = ""
         _viewState.update {
             it.copy(
-                searchQuery = "",
-                breadcrumbs = breadcrumbs,
+                breadcrumbs = breadcrumbs.mapSelected { state ->
+                    state.copy(fileList = state.fileList.applyFilter())
+                },
+                searchQuery = searchQuery,
+            )
+        }
+    }
+
+    fun onShowHiddenClicked() {
+        showHidden = !showHidden
+        _viewState.update {
+            it.copy(
+                breadcrumbs = breadcrumbs.mapSelected { state ->
+                    state.copy(fileList = state.fileList.applyFilter())
+                },
+                showHidden = showHidden,
+            )
+        }
+    }
+
+    fun onSortModeSelected(value: SortMode) {
+        sortMode = value
+        _viewState.update {
+            it.copy(
+                breadcrumbs = breadcrumbs.mapSelected { state ->
+                    state.copy(fileList = state.fileList.applyFilter())
+                },
+                sortMode = sortMode,
             )
         }
     }
@@ -181,10 +209,8 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onRefreshClicked() {
-        if (selectionBreadcrumb != -1) {
-            val breadcrumb = breadcrumbs.getOrNull(selectionBreadcrumb)
-            loadFiles(breadcrumb?.fileModel)
-        }
+        val breadcrumb = breadcrumbs.getOrNull(selectionBreadcrumb)
+        loadFiles(breadcrumb?.fileModel)
     }
 
     // region ERROR_ACTION
@@ -259,8 +285,11 @@ internal class ExplorerViewModel @Inject constructor(
                 )
                 _viewState.update {
                     it.copy(
-                        selectedFilesystem = selectedFilesystem,
                         filesystems = defaultFilesystems + serverFilesystems + addServer,
+                        selectedFilesystem = selectedFilesystem,
+                        searchQuery = searchQuery,
+                        showHidden = showHidden,
+                        sortMode = sortMode,
                     )
                 }
                 if (breadcrumbs.isEmpty()) {
@@ -290,6 +319,9 @@ internal class ExplorerViewModel @Inject constructor(
                     selectionBreadcrumb = existingIndex
                     _viewState.update {
                         it.copy(
+                            breadcrumbs = breadcrumbs.mapSelected { state ->
+                                state.copy(fileList = state.fileList.applyFilter())
+                            },
                             selectedBreadcrumb = selectionBreadcrumb,
                             isLoading = false,
                         )
@@ -326,20 +358,18 @@ internal class ExplorerViewModel @Inject constructor(
 
                 /** Load files, update directory */
                 val fileList = explorerRepository.listFiles(parent)
-                breadcrumbs = breadcrumbs.mapIndexed { i, state ->
-                    if (i == selectionBreadcrumb) {
-                        updatedState.copy(
-                            fileList = fileList,
-                            errorState = null,
-                        )
-                    } else {
-                        state
-                    }
+                breadcrumbs = breadcrumbs.mapSelected {
+                    updatedState.copy(
+                        fileList = fileList,
+                        errorState = null,
+                    )
                 }
 
                 _viewState.update {
                     it.copy(
-                        breadcrumbs = breadcrumbs,
+                        breadcrumbs = breadcrumbs.mapSelected { state ->
+                            state.copy(fileList = state.fileList.applyFilter())
+                        },
                         selectedBreadcrumb = selectionBreadcrumb,
                         isLoading = false,
                     )
@@ -350,15 +380,11 @@ internal class ExplorerViewModel @Inject constructor(
                 Timber.e(e, e.message)
 
                 /** Clear list and show error */
-                breadcrumbs = breadcrumbs.mapIndexed { i, state ->
-                    if (i == selectionBreadcrumb) {
-                        updatedState.copy(
-                            fileList = emptyList(),
-                            errorState = errorState(e),
-                        )
-                    } else {
-                        state
-                    }
+                breadcrumbs = breadcrumbs.mapSelected {
+                    updatedState.copy(
+                        fileList = emptyList(),
+                        errorState = errorState(e),
+                    )
                 }
 
                 _viewState.update {
@@ -414,6 +440,25 @@ internal class ExplorerViewModel @Inject constructor(
                 action = ErrorAction.UNDEFINED,
             )
         }
+    }
+
+    private fun List<BreadcrumbState>.mapSelected(
+        predicate: (BreadcrumbState) -> BreadcrumbState
+    ): List<BreadcrumbState> {
+        return mapIndexed { index, state ->
+            if (index == selectionBreadcrumb) {
+                predicate(state)
+            } else {
+                state
+            }
+        }
+    }
+
+    private fun List<FileModel>.applyFilter(): List<FileModel> {
+        return filter { it.name.contains(searchQuery, ignoreCase = true) }
+            .filter { if (it.isHidden) showHidden else true }
+            .sortedWith(fileComparator(settingsManager.sortMode))
+            .sortedBy { it.directory != settingsManager.foldersOnTop }
     }
 
     companion object {

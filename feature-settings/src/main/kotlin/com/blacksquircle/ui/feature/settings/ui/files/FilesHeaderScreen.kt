@@ -175,7 +175,7 @@ private fun FilesHeaderScreenPreview() {
                 showHidden = true,
                 foldersOnTop = true,
                 viewMode = "0",
-                sortMode = "0",
+                sortMode = "sort_by_name",
             ),
         )
     }

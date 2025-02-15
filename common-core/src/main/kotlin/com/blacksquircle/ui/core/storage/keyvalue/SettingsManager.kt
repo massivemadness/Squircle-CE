@@ -39,7 +39,6 @@ class SettingsManager(private val context: Context) {
         // Editor
         const val KEY_WORD_WRAP = "word_wrap"
         const val KEY_CODE_COMPLETION = "code_completion"
-
         const val KEY_PINCH_ZOOM = "pinch_zoom"
         const val KEY_LINE_NUMBERS = "line_numbers"
         const val KEY_HIGHLIGHT_CURRENT_LINE = "highlight_current_line"
@@ -190,7 +189,7 @@ class SettingsManager(private val context: Context) {
         get() = sharedPreferences.getString(KEY_VIEW_MODE, "0") ?: "0"
         set(value) = sharedPreferences.edit().putString(KEY_VIEW_MODE, value).apply()
     var sortMode: String
-        get() = sharedPreferences.getString(KEY_SORT_MODE, "0") ?: "0"
+        get() = sharedPreferences.getString(KEY_SORT_MODE, "sort_by_name") ?: "sort_by_name"
         set(value) = sharedPreferences.edit().putString(KEY_SORT_MODE, value).apply()
     var filesystem: String
         get() = sharedPreferences.getString(KEY_FILESYSTEM, "local") ?: "local"

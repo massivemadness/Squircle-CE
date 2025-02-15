@@ -16,14 +16,11 @@
 
 package com.blacksquircle.ui.feature.explorer.data.utils
 
+import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlin.Comparator
 
 internal object FileSorter {
-
-    const val SORT_BY_NAME = 0
-    const val SORT_BY_SIZE = 1
-    const val SORT_BY_DATE = 2
 
     val COMPARATOR_NAME: Comparator<in FileModel>
         get() = Comparator { first, second ->
@@ -41,11 +38,10 @@ internal object FileSorter {
         }
 }
 
-internal fun fileComparator(sortMode: Int): Comparator<in FileModel> {
-    return when (sortMode) {
-        FileSorter.SORT_BY_NAME -> FileSorter.COMPARATOR_NAME
-        FileSorter.SORT_BY_SIZE -> FileSorter.COMPARATOR_SIZE
-        FileSorter.SORT_BY_DATE -> FileSorter.COMPARATOR_DATE
-        else -> throw IllegalArgumentException("Unknown sort type")
+internal fun fileComparator(value: String): Comparator<in FileModel> {
+    return when (SortMode.of(value)) {
+        SortMode.SORT_BY_NAME -> FileSorter.COMPARATOR_NAME
+        SortMode.SORT_BY_SIZE -> FileSorter.COMPARATOR_SIZE
+        SortMode.SORT_BY_DATE -> FileSorter.COMPARATOR_DATE
     }
 }

@@ -34,7 +34,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.checkbox.CheckBox
 
 @Composable
 @NonRestartableComposable
@@ -60,14 +62,14 @@ fun PopupMenuItem(
     title: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    startIconResId: Int? = null,
-    endIconResId: Int? = null,
+    iconResId: Int? = null,
+    trailing: @Composable (() -> Unit)? = null,
 ) {
     DropdownMenuItem(
         content = {
-            if (startIconResId != null) {
+            if (iconResId != null) {
                 Icon(
-                    painter = painterResource(startIconResId),
+                    painter = painterResource(iconResId),
                     contentDescription = null,
                     tint = SquircleTheme.colors.colorTextAndIconSecondary,
                 )
@@ -77,14 +79,11 @@ fun PopupMenuItem(
                 text = title,
                 color = SquircleTheme.colors.colorTextAndIconPrimary,
                 style = SquircleTheme.typography.text16Regular,
+                modifier = Modifier.weight(1f)
             )
-            if (endIconResId != null) {
+            if (trailing != null) {
                 Spacer(Modifier.width(16.dp))
-                Icon(
-                    painter = painterResource(endIconResId),
-                    contentDescription = null,
-                    tint = SquircleTheme.colors.colorTextAndIconSecondary,
-                )
+                trailing()
             }
         },
         onClick = onClick,
@@ -99,22 +98,11 @@ fun PopupMenuItem(
 @Composable
 private fun PopupMenuPreview() {
     PreviewBackground {
-        PopupMenu(
-            expanded = true,
-            onDismiss = {},
-        ) {
-            PopupMenuItem(
-                title = "Menu Item",
-                onClick = {},
-            )
-            PopupMenuItem(
-                title = "Menu Item",
-                onClick = {},
-            )
-            PopupMenuItem(
-                title = "Menu Item",
-                onClick = {},
-            )
-        }
+        PopupMenuItem(
+            title = "Menu Item",
+            onClick = {},
+            iconResId = R.drawable.ic_edit,
+            trailing = { CheckBox(checked = true) }
+        )
     }
 }
