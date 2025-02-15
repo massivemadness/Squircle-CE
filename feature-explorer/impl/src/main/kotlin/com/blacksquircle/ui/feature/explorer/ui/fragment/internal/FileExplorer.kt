@@ -84,7 +84,10 @@ internal fun FileExplorer(
             contentPadding = contentPadding,
             modifier = Modifier.fillMaxSize()
         ) {
-            items(items = if (isLoading) emptyList() else fileList) { fileModel ->
+            items(
+                items = if (isLoading) emptyList() else fileList,
+                key = FileModel::fileUri,
+            ) { fileModel ->
                 CompactFileItem(
                     fileModel = fileModel,
                     onClick = { onFileClicked(fileModel) },
