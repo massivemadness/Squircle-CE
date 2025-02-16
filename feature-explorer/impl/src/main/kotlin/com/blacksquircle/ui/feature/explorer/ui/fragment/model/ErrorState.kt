@@ -20,7 +20,7 @@ import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.ds.R as UiR
 
 @Immutable
-data class ErrorState(
+internal data class ErrorState(
     val title: String = "",
     val subtitle: String = "",
     val icon: Int = UiR.drawable.ic_file_error,

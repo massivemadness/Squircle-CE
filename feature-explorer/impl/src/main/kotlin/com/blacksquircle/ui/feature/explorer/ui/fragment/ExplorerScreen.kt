@@ -61,6 +61,7 @@ internal fun ExplorerScreen(viewModel: ExplorerViewModel) {
         onActionClicked = viewModel::onActionClicked,
         onBreadcrumbClicked = viewModel::onBreadcrumbClicked,
         onFileClicked = viewModel::onFileClicked,
+        onFileSelected = viewModel::onFileSelected,
         onRefreshClicked = viewModel::onRefreshClicked,
     )
 }
@@ -79,6 +80,7 @@ private fun ExplorerScreen(
     onActionClicked: () -> Unit = {},
     onBreadcrumbClicked: (BreadcrumbState) -> Unit = {},
     onFileClicked: (FileModel) -> Unit = {},
+    onFileSelected: (FileModel) -> Unit = {},
     onRefreshClicked: () -> Unit = {},
 ) {
     Scaffold(
@@ -87,6 +89,7 @@ private fun ExplorerScreen(
                 searchQuery = viewState.searchQuery,
                 selectedFilesystem = viewState.selectedFilesystem,
                 filesystems = viewState.filesystems,
+                selectedFiles = viewState.selectedFiles,
                 showHidden = viewState.showHidden,
                 sortMode = viewState.sortMode,
                 onFilesystemSelected = onFilesystemSelected,
@@ -125,8 +128,10 @@ private fun ExplorerScreen(
                 FileExplorer(
                     contentPadding = contentPadding,
                     breadcrumbState = breadcrumbState,
+                    selectedFiles = viewState.selectedFiles,
                     isLoading = viewState.isLoading,
                     onFileClicked = onFileClicked,
+                    onFileSelected = onFileSelected,
                     onErrorActionClicked = onErrorActionClicked,
                     onRefreshClicked = onRefreshClicked,
                 )

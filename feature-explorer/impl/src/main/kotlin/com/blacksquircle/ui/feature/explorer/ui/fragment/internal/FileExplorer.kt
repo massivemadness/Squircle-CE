@@ -35,6 +35,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.util.fastAll
+import androidx.compose.ui.util.fastAny
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.emptyview.EmptyView
@@ -52,9 +54,11 @@ private const val RefreshDelay = 500L
 internal fun FileExplorer(
     contentPadding: PaddingValues,
     breadcrumbState: BreadcrumbState,
+    selectedFiles: List<FileModel>,
     isLoading: Boolean,
     modifier: Modifier = Modifier,
     onFileClicked: (FileModel) -> Unit = {},
+    onFileSelected: (FileModel) -> Unit = {},
     onErrorActionClicked: (ErrorAction) -> Unit = {},
     onRefreshClicked: () -> Unit = {},
 ) {
@@ -90,7 +94,9 @@ internal fun FileExplorer(
             ) { fileModel ->
                 CompactFileItem(
                     fileModel = fileModel,
+                    isSelected = selectedFiles.fastAny { it.fileUri == fileModel.fileUri },
                     onClick = { onFileClicked(fileModel) },
+                    onLongClick = { onFileSelected(fileModel) },
                     modifier = Modifier.animateItem(),
                 )
             }

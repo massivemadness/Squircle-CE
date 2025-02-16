@@ -46,6 +46,7 @@ import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
+import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.blacksquircle.ui.ds.R as UiR
@@ -55,6 +56,7 @@ internal fun ExplorerToolbar(
     searchQuery: String,
     selectedFilesystem: String,
     filesystems: List<FilesystemModel>,
+    selectedFiles: List<FileModel>,
     showHidden: Boolean,
     sortMode: SortMode,
     modifier: Modifier = Modifier,
@@ -65,15 +67,20 @@ internal fun ExplorerToolbar(
     onSortModeSelected: (SortMode) -> Unit = {},
     onBackClicked: () -> Unit = {},
 ) {
+    val selectionMode = selectedFiles.isNotEmpty()
     var searchMode by rememberSaveable { mutableStateOf(false) }
     var menuExpanded by rememberSaveable { mutableStateOf(false) }
 
     Toolbar(
-        toolbarSize = ToolbarSizeDefaults.S,
-        navigationIcon = UiR.drawable.ic_close,
+        title = if (selectionMode) selectedFiles.size.toString() else null,
+        navigationIcon = if (selectionMode) UiR.drawable.ic_back else UiR.drawable.ic_close,
         onNavigationClicked = onBackClicked,
         navigationActions = {
-            if (searchMode) {
+            if (selectionMode) {
+                BackHandler {
+                    onBackClicked()
+                }
+            } else if (searchMode) {
                 val focusRequester = remember { FocusRequester() }
                 TextField(
                     inputText = searchQuery,
@@ -128,7 +135,7 @@ internal fun ExplorerToolbar(
                 Spacer(Modifier.weight(1f))
             }
 
-            if (!searchMode) {
+            if (!searchMode && !selectionMode) {
                 IconButton(
                     iconResId = UiR.drawable.ic_search,
                     onClick = { searchMode = true },
@@ -150,6 +157,7 @@ internal fun ExplorerToolbar(
                 }
             )
         },
+        toolbarSize = ToolbarSizeDefaults.S,
         modifier = modifier,
     )
 }
@@ -171,6 +179,7 @@ private fun ExplorerToolbarPreview() {
                     title = "Root Storage",
                 ),
             ),
+            selectedFiles = emptyList(),
             showHidden = true,
             sortMode = SortMode.SORT_BY_NAME,
             onFilesystemSelected = {},

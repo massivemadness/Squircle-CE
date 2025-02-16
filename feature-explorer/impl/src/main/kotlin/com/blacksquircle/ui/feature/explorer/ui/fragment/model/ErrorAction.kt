@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.fragment.model
 
-enum class ErrorAction {
+internal enum class ErrorAction {
     REQUEST_PERMISSIONS,
     ENTER_PASSWORD,
     ENTER_PASSPHRASE,

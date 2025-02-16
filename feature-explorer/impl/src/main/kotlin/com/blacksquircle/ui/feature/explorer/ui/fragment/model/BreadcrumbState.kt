@@ -20,7 +20,7 @@ import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 @Immutable
-data class BreadcrumbState(
+internal data class BreadcrumbState(
     val fileModel: FileModel? = null,
     val fileList: List<FileModel> = emptyList(),
     val errorState: ErrorState? = null,

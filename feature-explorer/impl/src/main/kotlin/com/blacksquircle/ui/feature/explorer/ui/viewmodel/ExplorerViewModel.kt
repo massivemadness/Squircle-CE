@@ -68,26 +68,32 @@ internal class ExplorerViewModel @Inject constructor(
     private val serversInteractor: ServersInteractor,
 ) : ViewModel() {
 
-    private var breadcrumbs: List<BreadcrumbState> = emptyList()
-    private var selectionBreadcrumb: Int = -1
-    private var searchQuery: String = ""
-
-    private var selectedFilesystem: String
-        get() = settingsManager.filesystem
-        set(value) { settingsManager.filesystem = value }
-    private var showHidden: Boolean
-        get() = settingsManager.showHidden
-        set(value) { settingsManager.showHidden = value }
-    private var sortMode: SortMode
-        get() = SortMode.of(settingsManager.sortMode)
-        set(value) { settingsManager.sortMode = value.value }
-
     private val _viewState = MutableStateFlow(ExplorerViewState())
     val viewState: StateFlow<ExplorerViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
+    private var selectedFilesystem: String
+        get() = settingsManager.filesystem
+        set(value) {
+            settingsManager.filesystem = value
+        }
+    private var showHidden: Boolean
+        get() = settingsManager.showHidden
+        set(value) {
+            settingsManager.showHidden = value
+        }
+    private var sortMode: SortMode
+        get() = SortMode.of(settingsManager.sortMode)
+        set(value) {
+            settingsManager.sortMode = value.value
+        }
+
+    private var selectedFiles: List<FileModel> = emptyList()
+    private var breadcrumbs: List<BreadcrumbState> = emptyList()
+    private var selectionBreadcrumb: Int = -1
+    private var searchQuery: String = ""
     private var currentJob: Job? = null
 
     init {
@@ -95,8 +101,15 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onBackClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack())
+        if (selectedFiles.isNotEmpty()) {
+            selectedFiles = emptyList()
+            _viewState.update {
+                it.copy(selectedFiles = selectedFiles)
+            }
+        } else {
+            viewModelScope.launch {
+                _viewEvent.send(ViewEvent.PopBackStack())
+            }
         }
     }
 
@@ -190,7 +203,9 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onFileClicked(fileModel: FileModel) {
-        if (fileModel.directory) {
+        if (selectedFiles.isNotEmpty()) {
+            onFileSelected(fileModel)
+        } else if (fileModel.directory) {
             loadFiles(fileModel)
         } else {
             viewModelScope.launch {
@@ -208,6 +223,18 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
+    fun onFileSelected(fileModel: FileModel) {
+        val index = selectedFiles.indexOf { it.fileUri == fileModel.fileUri }
+        if (index == -1) {
+            selectedFiles += fileModel
+        } else {
+            selectedFiles -= fileModel
+        }
+        _viewState.update {
+            it.copy(selectedFiles = selectedFiles)
+        }
+    }
+
     fun onRefreshClicked() {
         val breadcrumb = breadcrumbs.getOrNull(selectionBreadcrumb)
         loadFiles(breadcrumb?.fileModel)
@@ -221,14 +248,17 @@ internal class ExplorerViewModel @Inject constructor(
                 ErrorAction.REQUEST_PERMISSIONS -> {
                     _viewEvent.send(ExplorerViewEvent.RequestPermission)
                 }
+
                 ErrorAction.ENTER_PASSWORD -> {
                     val screen = ExplorerScreen.AuthDialogScreen(AuthMethod.PASSWORD)
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 }
+
                 ErrorAction.ENTER_PASSPHRASE -> {
                     val screen = ExplorerScreen.AuthDialogScreen(AuthMethod.KEY)
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 }
+
                 ErrorAction.UNDEFINED -> Unit
             }
         }
