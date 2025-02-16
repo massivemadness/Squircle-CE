@@ -349,18 +349,27 @@ internal class ExplorerViewModel @Inject constructor(
                     /** Refresh current tab */
                     isRefreshing = true
                 } else {
-                    /** Select existing tab, skip loading */
+                    /** Select existing tab */
                     selectionBreadcrumb = existingIndex
-                    _viewState.update {
-                        it.copy(
-                            breadcrumbs = breadcrumbs.mapSelected { state ->
-                                state.copy(fileList = state.fileList.applyFilter())
-                            },
-                            selectedBreadcrumb = selectionBreadcrumb,
-                            isLoading = false,
-                        )
+
+                    /**
+                     * When autoRefresh=true it means that coroutine was cancelled and we have to
+                     * reload file list. Otherwise skip loading and show files immediately.
+                     */
+                    if (breadcrumbs[existingIndex].autoRefresh) {
+                        isRefreshing = true
+                    } else {
+                        _viewState.update {
+                            it.copy(
+                                breadcrumbs = breadcrumbs.mapSelected { state ->
+                                    state.copy(fileList = state.fileList.applyFilter())
+                                },
+                                selectedBreadcrumb = selectionBreadcrumb,
+                                isLoading = false,
+                            )
+                        }
+                        return@launch // early return
                     }
-                    return@launch // early return
                 }
             }
 
@@ -368,11 +377,15 @@ internal class ExplorerViewModel @Inject constructor(
                 /** Refresh current directory, don't open a new tab */
                 breadcrumbs[selectionBreadcrumb]
             } else {
-                /** Remove all tabs after the selected one, insert empty tree at the end */
+                /**
+                 * Remove all tabs after the selected one, insert empty tree at the end.
+                 * Set autoRefresh=true to refresh list in case when [CancellationException] occurs.
+                 */
                 val newState = BreadcrumbState(
                     fileModel = parent,
                     fileList = emptyList(),
-                    errorState = null
+                    errorState = null,
+                    autoRefresh = true,
                 )
                 val fromIndex = 0
                 val toIndex = if (selectionBreadcrumb > -1) selectionBreadcrumb + 1 else 0
@@ -392,10 +405,12 @@ internal class ExplorerViewModel @Inject constructor(
 
                 /** Load files, update directory */
                 val fileList = explorerRepository.listFiles(parent)
+
                 breadcrumbs = breadcrumbs.mapSelected {
                     updatedState.copy(
                         fileList = fileList,
                         errorState = null,
+                        autoRefresh = false,
                     )
                 }
 
@@ -418,6 +433,7 @@ internal class ExplorerViewModel @Inject constructor(
                     updatedState.copy(
                         fileList = emptyList(),
                         errorState = errorState(e),
+                        autoRefresh = false,
                     )
                 }
 
