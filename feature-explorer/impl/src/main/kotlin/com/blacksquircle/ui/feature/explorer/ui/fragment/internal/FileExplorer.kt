@@ -40,8 +40,9 @@ import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
+import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
+import com.blacksquircle.ui.feature.explorer.domain.model.ViewMode
 import com.blacksquircle.ui.feature.explorer.ui.fragment.model.BreadcrumbState
-import com.blacksquircle.ui.feature.explorer.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -54,6 +55,7 @@ internal fun FileExplorer(
     contentPadding: PaddingValues,
     breadcrumbState: BreadcrumbState,
     selectedFiles: List<FileModel>,
+    viewMode: ViewMode,
     isLoading: Boolean,
     modifier: Modifier = Modifier,
     onFileClicked: (FileModel) -> Unit = {},
@@ -91,13 +93,28 @@ internal fun FileExplorer(
                 items = if (isLoading) emptyList() else fileList,
                 key = FileModel::fileUri,
             ) { fileModel ->
-                CompactFileItem(
-                    fileModel = fileModel,
-                    isSelected = selectedFiles.fastAny { it.fileUri == fileModel.fileUri },
-                    onClick = { onFileClicked(fileModel) },
-                    onLongClick = { onFileSelected(fileModel) },
-                    modifier = Modifier.animateItem(),
-                )
+                val isSelected = selectedFiles
+                    .fastAny { it.fileUri == fileModel.fileUri }
+                when (viewMode) {
+                    ViewMode.COMPACT_LIST -> {
+                        CompactFileItem(
+                            fileModel = fileModel,
+                            isSelected = isSelected,
+                            onClick = { onFileClicked(fileModel) },
+                            onLongClick = { onFileSelected(fileModel) },
+                            modifier = Modifier.animateItem(),
+                        )
+                    }
+                    ViewMode.DETAILED_LIST -> {
+                        DetailedFileItem(
+                            fileModel = fileModel,
+                            isSelected = isSelected,
+                            onClick = { onFileClicked(fileModel) },
+                            onLongClick = { onFileSelected(fileModel) },
+                            modifier = Modifier.animateItem(),
+                        )
+                    }
+                }
             }
         }
 

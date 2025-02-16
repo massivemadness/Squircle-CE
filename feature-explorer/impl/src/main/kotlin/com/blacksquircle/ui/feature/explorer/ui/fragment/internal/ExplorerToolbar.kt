@@ -173,13 +173,13 @@ internal fun ExplorerToolbar(
                             count = selectedFiles.size,
                             expanded = menuExpanded,
                             onDismiss = { menuExpanded = false },
-                            onCutClicked = onCutClicked,
-                            onSelectAllClicked = onSelectAllClicked,
-                            onOpenWithClicked = onOpenWithClicked,
-                            onRenameClicked = onRenameClicked,
-                            onPropertiesClicked = onPropertiesClicked,
-                            onCopyPathClicked = onCopyPathClicked,
-                            onCompressClicked = onCompressClicked,
+                            onCutClicked = { menuExpanded = false; onCutClicked() },
+                            onSelectAllClicked = { menuExpanded = false; onSelectAllClicked() },
+                            onOpenWithClicked = { menuExpanded = false; onOpenWithClicked() },
+                            onRenameClicked = { menuExpanded = false; onRenameClicked() },
+                            onPropertiesClicked = { menuExpanded = false; onPropertiesClicked() },
+                            onCopyPathClicked = { menuExpanded = false; onCopyPathClicked() },
+                            onCompressClicked = { menuExpanded = false; onCompressClicked() },
                         )
                     } else {
                         SortingMenu(

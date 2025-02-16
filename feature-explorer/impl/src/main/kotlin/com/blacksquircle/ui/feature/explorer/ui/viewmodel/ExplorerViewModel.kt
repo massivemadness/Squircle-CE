@@ -27,13 +27,14 @@ import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
+import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
+import com.blacksquircle.ui.feature.explorer.domain.model.ViewMode
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.fragment.model.BreadcrumbState
-import com.blacksquircle.ui.feature.explorer.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.ui.fragment.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
@@ -89,6 +90,8 @@ internal class ExplorerViewModel @Inject constructor(
         set(value) {
             settingsManager.sortMode = value.value
         }
+    private val viewMode: ViewMode
+        get() = ViewMode.of(settingsManager.viewMode)
 
     private var selectedFiles: List<FileModel> = emptyList()
     private var breadcrumbs: List<BreadcrumbState> = emptyList()
@@ -320,6 +323,7 @@ internal class ExplorerViewModel @Inject constructor(
                         searchQuery = searchQuery,
                         showHidden = showHidden,
                         sortMode = sortMode,
+                        viewMode = viewMode,
                     )
                 }
                 if (breadcrumbs.isEmpty()) {

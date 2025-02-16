@@ -33,12 +33,12 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.tabs.Breadcrumb
 import com.blacksquircle.ui.ds.tabs.BreadcrumbNavigation
+import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.ExplorerToolbar
 import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.FileExplorer
 import com.blacksquircle.ui.feature.explorer.ui.fragment.model.BreadcrumbState
-import com.blacksquircle.ui.feature.explorer.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.ui.fragment.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -156,6 +156,7 @@ private fun ExplorerScreen(
                     contentPadding = contentPadding,
                     breadcrumbState = breadcrumbState,
                     selectedFiles = viewState.selectedFiles,
+                    viewMode = viewState.viewMode,
                     isLoading = viewState.isLoading,
                     onFileClicked = onFileClicked,
                     onFileSelected = onFileSelected,

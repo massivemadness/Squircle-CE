@@ -174,7 +174,7 @@ private fun FilesHeaderScreenPreview() {
                 lineBreakForSaving = "lf",
                 showHidden = true,
                 foldersOnTop = true,
-                viewMode = "0",
+                viewMode = "compact_list",
                 sortMode = "sort_by_name",
             ),
         )

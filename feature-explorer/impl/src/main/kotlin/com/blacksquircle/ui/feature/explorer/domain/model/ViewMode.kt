@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.fragment.model
+package com.blacksquircle.ui.feature.explorer.domain.model
 
-import androidx.compose.runtime.Immutable
-import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
-import com.blacksquircle.ui.ds.R as UiR
+internal enum class ViewMode(val value: String) {
+    COMPACT_LIST("compact_list"),
+    DETAILED_LIST("detailed_list");
 
-@Immutable
-internal data class ErrorState(
-    val title: String = "",
-    val subtitle: String = "",
-    val icon: Int = UiR.drawable.ic_file_error,
-    val action: ErrorAction = ErrorAction.UNDEFINED,
-)
+    companion object {
+
+        fun of(value: String): ViewMode {
+            return entries.find { it.value == value } ?: COMPACT_LIST
+        }
+    }
+}
