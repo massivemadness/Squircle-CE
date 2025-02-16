@@ -46,6 +46,8 @@ import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
+import com.blacksquircle.ui.feature.explorer.ui.fragment.menu.SelectionMenu
+import com.blacksquircle.ui.feature.explorer.ui.fragment.menu.SortingMenu
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
@@ -65,6 +67,15 @@ internal fun ExplorerToolbar(
     onClearQueryClicked: () -> Unit = {},
     onShowHiddenClicked: () -> Unit = {},
     onSortModeSelected: (SortMode) -> Unit = {},
+    onCopyClicked: () -> Unit = {},
+    onDeleteClicked: () -> Unit = {},
+    onCutClicked: () -> Unit = {},
+    onSelectAllClicked: () -> Unit = {},
+    onOpenWithClicked: () -> Unit = {},
+    onRenameClicked: () -> Unit = {},
+    onPropertiesClicked: () -> Unit = {},
+    onCopyPathClicked: () -> Unit = {},
+    onCompressClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
 ) {
     val selectionMode = selectedFiles.isNotEmpty()
@@ -142,18 +153,44 @@ internal fun ExplorerToolbar(
                 )
             }
 
+            if (selectionMode) {
+                IconButton(
+                    iconResId = UiR.drawable.ic_copy,
+                    onClick = onCopyClicked,
+                )
+                IconButton(
+                    iconResId = UiR.drawable.ic_delete,
+                    onClick = onDeleteClicked,
+                )
+            }
+
             IconButton(
                 iconResId = UiR.drawable.ic_overflow,
                 onClick = { menuExpanded = true },
                 anchor = {
-                    SortingMenu(
-                        expanded = menuExpanded,
-                        onDismiss = { menuExpanded = false },
-                        showHidden = showHidden,
-                        sortMode = sortMode,
-                        onSortModeSelected = { menuExpanded = false; onSortModeSelected(it) },
-                        onShowHiddenClicked = { menuExpanded = false; onShowHiddenClicked() },
-                    )
+                    if (selectionMode) {
+                        SelectionMenu(
+                            count = selectedFiles.size,
+                            expanded = menuExpanded,
+                            onDismiss = { menuExpanded = false },
+                            onCutClicked = onCutClicked,
+                            onSelectAllClicked = onSelectAllClicked,
+                            onOpenWithClicked = onOpenWithClicked,
+                            onRenameClicked = onRenameClicked,
+                            onPropertiesClicked = onPropertiesClicked,
+                            onCopyPathClicked = onCopyPathClicked,
+                            onCompressClicked = onCompressClicked,
+                        )
+                    } else {
+                        SortingMenu(
+                            expanded = menuExpanded,
+                            onDismiss = { menuExpanded = false },
+                            showHidden = showHidden,
+                            sortMode = sortMode,
+                            onSortModeSelected = { menuExpanded = false; onSortModeSelected(it) },
+                            onShowHiddenClicked = { menuExpanded = false; onShowHiddenClicked() },
+                        )
+                    }
                 }
             )
         },

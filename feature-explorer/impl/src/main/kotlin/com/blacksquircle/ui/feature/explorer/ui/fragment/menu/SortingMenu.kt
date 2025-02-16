@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.fragment.internal
+package com.blacksquircle.ui.feature.explorer.ui.fragment.menu
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

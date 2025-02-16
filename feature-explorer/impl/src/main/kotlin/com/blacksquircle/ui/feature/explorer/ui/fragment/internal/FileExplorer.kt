@@ -35,7 +35,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.util.fastAll
 import androidx.compose.ui.util.fastAny
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
