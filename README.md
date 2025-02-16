@@ -4,7 +4,8 @@
 
 <b>Squircle CE</b> is a fast and free multi-language code editor for Android.
 
-This repository contains the complete source code and the build instructions for the project.
+This repository contains the complete source code and the build instructions for the project.  
+You can contribute by reporting issues, suggesting features, or submitting pull requests.
 
 ![Platform](https://img.shields.io/badge/Platform-Android-brightgreen.svg?logo=android) ![Android CI](https://github.com/massivemadness/Squircle-CE/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
