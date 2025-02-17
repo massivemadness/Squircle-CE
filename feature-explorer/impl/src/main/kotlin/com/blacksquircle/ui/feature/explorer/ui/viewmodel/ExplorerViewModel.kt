@@ -30,6 +30,8 @@ import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.model.ViewMode
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewEvent
@@ -40,10 +42,17 @@ import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
+import com.blacksquircle.ui.filesystem.base.exception.EncryptedArchiveException
+import com.blacksquircle.ui.filesystem.base.exception.FileAlreadyExistsException
+import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
+import com.blacksquircle.ui.filesystem.base.exception.InvalidArchiveException
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
+import com.blacksquircle.ui.filesystem.base.exception.SplitArchiveException
+import com.blacksquircle.ui.filesystem.base.exception.UnsupportedArchiveException
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
+import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import kotlinx.coroutines.CancellationException
@@ -93,6 +102,8 @@ internal class ExplorerViewModel @Inject constructor(
     private val viewMode: ViewMode
         get() = ViewMode.of(settingsManager.viewMode)
 
+    private var taskType: TaskType = TaskType.CREATE
+    private var taskBuffer: List<FileModel> = emptyList()
     private var selectedFiles: List<FileModel> = emptyList()
     private var breadcrumbs: List<BreadcrumbState> = emptyList()
     private var selectionBreadcrumb: Int = -1
@@ -197,10 +208,6 @@ internal class ExplorerViewModel @Inject constructor(
         loadFiles()
     }
 
-    fun onActionClicked() {
-        // TODO
-    }
-
     fun onBreadcrumbClicked(breadcrumb: BreadcrumbState) {
         loadFiles(breadcrumb.fileModel)
     }
@@ -213,14 +220,14 @@ internal class ExplorerViewModel @Inject constructor(
         } else {
             viewModelScope.launch {
                 when (fileModel.type) {
-                    // FileType.ARCHIVE -> extractFile(ExplorerIntent.ExtractFile(event.fileModel))
+                    FileType.ARCHIVE -> extractFiles(fileModel)
                     FileType.DEFAULT,
                     FileType.TEXT -> {
                         editorInteractor.openFile(fileModel)
                         _viewEvent.send(ViewEvent.PopBackStack())
                     }
 
-                    else -> Unit // openFileAs(ExplorerIntent.OpenFileWith(event.fileModel))
+                    else -> onOpenWithClicked(fileModel)
                 }
             }
         }
@@ -241,6 +248,67 @@ internal class ExplorerViewModel @Inject constructor(
     fun onRefreshClicked() {
         val breadcrumb = breadcrumbs.getOrNull(selectionBreadcrumb)
         loadFiles(breadcrumb?.fileModel)
+    }
+
+    fun onCreateClicked() {
+        viewModelScope.launch {
+            taskType = TaskType.CREATE
+            taskBuffer = emptyList()
+            selectedFiles = emptyList()
+            _viewState.update {
+                it.copy(
+                    taskType = taskType,
+                    selectedFiles = selectedFiles,
+                )
+            }
+
+            val screen = ExplorerScreen.CreateDialogScreen
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onCopyClicked() {
+    }
+
+    fun onPasteClicked() {
+    }
+
+    fun onDeleteClicked() {
+    }
+
+    fun onCutClicked() {
+    }
+
+    fun onSelectAllClicked() {
+    }
+
+    fun onOpenWithClicked(fileModel: FileModel? = null) {
+    }
+
+    fun onRenameClicked() {
+        viewModelScope.launch {
+            taskType = TaskType.RENAME
+            taskBuffer = listOf(selectedFiles.first())
+            selectedFiles = emptyList()
+            _viewState.update {
+                it.copy(
+                    taskType = taskType,
+                    selectedFiles = selectedFiles,
+                )
+            }
+
+            val screen = ExplorerScreen.RenameDialogScreen(taskBuffer.first().name)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onPropertiesClicked() {
+    }
+
+    fun onCopyPathClicked() {
+    }
+
+    fun onCompressClicked() {
     }
 
     // region ERROR_ACTION
@@ -293,48 +361,61 @@ internal class ExplorerViewModel @Inject constructor(
 
     // endregion
 
-    private fun loadFilesystems() {
+    fun createFile(fileName: String, isFolder: Boolean) {
         viewModelScope.launch {
-            try {
-                val defaultFilesystems = listOf(
-                    FilesystemModel(
-                        uuid = LocalFilesystem.LOCAL_UUID,
-                        title = stringProvider.getString(R.string.storage_local),
-                    ),
-                    FilesystemModel(
-                        uuid = RootFilesystem.ROOT_UUID,
-                        title = stringProvider.getString(R.string.storage_root),
-                    ),
+            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
+
+            val isValid = fileName.isValidFileName()
+            if (!isValid) {
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
                 )
-                val serverFilesystems = serversInteractor.loadServers().map { config ->
-                    FilesystemModel(
-                        uuid = config.uuid,
-                        title = config.name
-                    )
+                return@launch
+            }
+
+            val parent = breadcrumbs[selectionBreadcrumb].fileModel
+            val taskId = explorerRepository.createFile(parent, fileName, isFolder)
+            val screen = ExplorerScreen.TaskDialogScreen(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> onTaskFailed(status.exception)
+                    is TaskStatus.Done -> onTaskFinished()
+                    else -> Unit
                 }
-                val addServer = FilesystemModel(
-                    uuid = CREATE_SERVER_UUID,
-                    title = stringProvider.getString(R.string.storage_add),
-                )
-                _viewState.update {
-                    it.copy(
-                        filesystems = defaultFilesystems + serverFilesystems + addServer,
-                        selectedFilesystem = selectedFilesystem,
-                        searchQuery = searchQuery,
-                        showHidden = showHidden,
-                        sortMode = sortMode,
-                        viewMode = viewMode,
-                    )
-                }
-                if (breadcrumbs.isEmpty()) {
-                    loadFiles()
-                }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
             }
         }
+    }
+
+    fun renameFile(fileName: String) {
+        viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
+
+            val isValid = fileName.isValidFileName()
+            if (!isValid) {
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
+                )
+                return@launch
+            }
+
+            val fileModel = taskBuffer.first()
+            val taskId = explorerRepository.renameFile(fileModel, fileName)
+            val screen = ExplorerScreen.TaskDialogScreen(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> onTaskFailed(status.exception)
+                    is TaskStatus.Done -> onTaskFinished()
+                    else -> Unit
+                }
+            }
+        }
+    }
+
+    private fun extractFiles(fileModel: FileModel) {
     }
 
     private fun loadFiles(parent: FileModel? = null) {
@@ -448,6 +529,50 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
+    private fun loadFilesystems() {
+        viewModelScope.launch {
+            try {
+                val defaultFilesystems = listOf(
+                    FilesystemModel(
+                        uuid = LocalFilesystem.LOCAL_UUID,
+                        title = stringProvider.getString(R.string.storage_local),
+                    ),
+                    FilesystemModel(
+                        uuid = RootFilesystem.ROOT_UUID,
+                        title = stringProvider.getString(R.string.storage_root),
+                    ),
+                )
+                val serverFilesystems = serversInteractor.loadServers().map { config ->
+                    FilesystemModel(
+                        uuid = config.uuid,
+                        title = config.name
+                    )
+                }
+                val addServer = FilesystemModel(
+                    uuid = CREATE_SERVER_UUID,
+                    title = stringProvider.getString(R.string.storage_add),
+                )
+                _viewState.update {
+                    it.copy(
+                        filesystems = defaultFilesystems + serverFilesystems + addServer,
+                        selectedFilesystem = selectedFilesystem,
+                        searchQuery = searchQuery,
+                        showHidden = showHidden,
+                        sortMode = sortMode,
+                        viewMode = viewMode,
+                    )
+                }
+                if (breadcrumbs.isEmpty()) {
+                    loadFiles()
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+            }
+        }
+    }
+
     private fun errorState(e: Exception): ErrorState {
         return when (e) {
             is PermissionException -> ErrorState(
@@ -492,6 +617,61 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
+    private suspend fun onTaskFinished() {
+        val message = stringProvider.getString(R.string.message_done)
+        _viewEvent.send(ViewEvent.Toast(message))
+        onRefreshClicked()
+    }
+
+    private suspend fun onTaskFailed(e: Exception) {
+        when (e) {
+            is FileNotFoundException -> {
+                val message = stringProvider.getString(R.string.message_file_not_found)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            is FileAlreadyExistsException -> {
+                val message = stringProvider.getString(R.string.message_file_already_exists)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            is UnsupportedArchiveException -> {
+                val message = stringProvider.getString(R.string.message_unsupported_archive)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            is EncryptedArchiveException -> {
+                val message = stringProvider.getString(R.string.message_encrypted_archive)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            is SplitArchiveException -> {
+                val message = stringProvider.getString(R.string.message_split_archive)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            is InvalidArchiveException -> {
+                val message = stringProvider.getString(R.string.message_invalid_archive)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            is UnsupportedOperationException -> {
+                val message = stringProvider.getString(R.string.message_operation_not_supported)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            is CancellationException -> {
+                val message = stringProvider.getString(R.string.message_operation_cancelled)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+
+            else -> {
+                _viewEvent.send(ViewEvent.Toast(e.message.toString()))
+            }
+        }
+        onRefreshClicked()
+    }
+
     private fun List<BreadcrumbState>.mapSelected(
         predicate: (BreadcrumbState) -> BreadcrumbState
     ): List<BreadcrumbState> {
@@ -515,195 +695,13 @@ internal class ExplorerViewModel @Inject constructor(
         private const val CREATE_SERVER_UUID = "create_server"
     }
 
-    /*private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.ActionBar())
-    val toolbarViewState: StateFlow<ToolbarViewState> = _toolbarViewState.asStateFlow()
-
-    private val _explorerViewState = MutableStateFlow<ExplorerViewState>(ExplorerViewState.Loading)
-    val explorerViewState: StateFlow<ExplorerViewState> = _explorerViewState.asStateFlow()
-
-    private val _refreshState = MutableStateFlow(false)
-    val refreshState: StateFlow<Boolean> = _refreshState.asStateFlow()
-
-    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
-    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
-
-    val filesystems = serversInteractor.serverFlow
-        .map { servers -> explorerRepository.loadFilesystems() + servers.map(::FilesystemModel) }
-        .catch { errorState(it) }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList(),
-        )
-
-    var filesystem: String = settingsManager.filesystem
-        private set
-    var viewMode: Int = settingsManager.viewMode.toInt()
-        private set
-    var sortMode: Int = settingsManager.sortMode.toInt()
-        private set
-    var showHidden: Boolean = settingsManager.showHidden
-        private set
-    var query: String = ""
-        private set
-
+    /*
     private val breadcrumbs = mutableListOf<FileModel>()
     private val selection = mutableListOf<FileModel>()
     private val buffer = mutableListOf<FileModel>()
     private val files = mutableListOf<FileModel>()
     private var taskType = TaskType.CREATE
     private var currentJob: Job? = null
-
-    init {
-        listFiles(ExplorerIntent.OpenFolder())
-    }
-
-    fun obtainEvent(event: ExplorerIntent) {
-        when (event) {
-            is ExplorerIntent.SearchFiles -> searchFiles(event)
-            is ExplorerIntent.SelectFiles -> selectFiles(event)
-            is ExplorerIntent.SelectTab -> selectTab(event)
-            is ExplorerIntent.SelectFilesystem -> selectFilesystem(event)
-            is ExplorerIntent.Authenticate -> authenticate(event)
-            is ExplorerIntent.Refresh -> refreshList()
-
-            is ExplorerIntent.Cut -> cutButton()
-            is ExplorerIntent.Copy -> copyButton()
-            is ExplorerIntent.Create -> createButton()
-            is ExplorerIntent.Rename -> renameButton()
-            is ExplorerIntent.Delete -> deleteButton()
-            is ExplorerIntent.SelectAll -> selectAllButton()
-            is ExplorerIntent.UnselectAll -> unselectAllButton()
-            is ExplorerIntent.Properties -> propertiesButton()
-            is ExplorerIntent.CopyPath -> copyPathButton()
-            is ExplorerIntent.Compress -> compressButton()
-
-            is ExplorerIntent.OpenFolder -> listFiles(event)
-            is ExplorerIntent.OpenFileWith -> openFileAs(event)
-            is ExplorerIntent.OpenFile -> openFile(event)
-            is ExplorerIntent.CreateFile -> createFile(event)
-            is ExplorerIntent.RenameFile -> renameFile(event)
-            is ExplorerIntent.DeleteFile -> deleteFile()
-            is ExplorerIntent.CutFile -> cutFile()
-            is ExplorerIntent.CopyFile -> copyFile()
-            is ExplorerIntent.CompressFile -> compressFile(event)
-            is ExplorerIntent.ExtractFile -> extractFile(event)
-
-            is ExplorerIntent.ShowHidden -> showHidden()
-            is ExplorerIntent.HideHidden -> hideHidden()
-            is ExplorerIntent.SortByName -> sortByName()
-            is ExplorerIntent.SortBySize -> sortBySize()
-            is ExplorerIntent.SortByDate -> sortByDate()
-        }
-    }
-
-    private fun listFiles(event: ExplorerIntent.OpenFolder) {
-        currentJob?.cancel()
-        currentJob = viewModelScope.launch {
-            try {
-                if (!refreshState.value && query.isEmpty()) { // SwipeRefresh
-                    _explorerViewState.value = ExplorerViewState.Loading
-                }
-
-                val fileTree = if (event.fileModel != null) { // Different order
-                    breadcrumbs.appendList(event.fileModel)
-                    refreshActionBar()
-                    explorerRepository.listFiles(event.fileModel)
-                } else {
-                    explorerRepository.listFiles(null).also {
-                        breadcrumbs.appendList(it.parent)
-                        refreshActionBar()
-                    }
-                }
-                if (fileTree.children.isNotEmpty()) {
-                    _explorerViewState.value = ExplorerViewState.Files(fileTree.children)
-                } else {
-                    _explorerViewState.value = ExplorerViewState.Error(
-                        image = UiR.drawable.ic_file_find,
-                        title = stringProvider.getString(UiR.string.common_no_result),
-                        subtitle = "",
-                        action = ExplorerErrorAction.Undefined,
-                    )
-                }
-                files.replaceList(fileTree.children)
-            } catch (e: Throwable) {
-                Timber.e(e, e.message)
-                errorState(e)
-            } finally {
-                _refreshState.value = false
-            }
-        }
-    }
-
-    private fun searchFiles(event: ExplorerIntent.SearchFiles) {
-        viewModelScope.launch {
-            query = event.query
-            val searchList = files.filter { it.name.contains(query, ignoreCase = true) }
-            if (searchList.isNotEmpty()) {
-                _explorerViewState.value = ExplorerViewState.Files(searchList)
-            } else {
-                _explorerViewState.value = ExplorerViewState.Error(
-                    image = UiR.drawable.ic_file_find,
-                    title = stringProvider.getString(UiR.string.common_no_result),
-                    subtitle = "",
-                    action = ExplorerErrorAction.Undefined,
-                )
-            }
-        }
-    }
-
-    private fun selectFiles(event: ExplorerIntent.SelectFiles) {
-        viewModelScope.launch {
-            selection.replaceList(event.selection)
-            refreshActionBar()
-        }
-    }
-
-    private fun selectTab(event: ExplorerIntent.SelectTab) {
-        viewModelScope.launch {
-            breadcrumbs.replaceList(breadcrumbs.take(event.position + 1))
-            selection.replaceList(emptyList())
-            refreshActionBar()
-
-            listFiles(ExplorerIntent.OpenFolder(breadcrumbs.lastOrNull()))
-        }
-    }
-
-    private fun selectFilesystem(event: ExplorerIntent.SelectFilesystem) {
-        viewModelScope.launch {
-            try {
-                if (filesystem != event.filesystemUuid) {
-                    filesystem = event.filesystemUuid
-                    explorerRepository.selectFilesystem(filesystem)
-                    breadcrumbs.replaceList(emptyList())
-                    files.replaceList(emptyList())
-                    initialState()
-                    listFiles(ExplorerIntent.OpenFolder())
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-            }
-        }
-    }
-
-    private fun authenticate(event: ExplorerIntent.Authenticate) {
-        viewModelScope.launch {
-            try {
-                serversInteractor.authenticate(filesystem, event.credentials)
-                initialState()
-                listFiles(ExplorerIntent.OpenFolder())
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-            }
-        }
-    }
-
-    private fun refreshList() {
-        viewModelScope.launch {
-            _refreshState.value = true
-            listFiles(ExplorerIntent.OpenFolder(breadcrumbs.lastOrNull()))
-        }
-    }
 
     private fun cutButton() {
         viewModelScope.launch {
@@ -994,36 +992,6 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun showHidden() {
-        settingsManager.showHidden = true
-        showHidden = true
-        refreshList()
-    }
-
-    private fun hideHidden() {
-        settingsManager.showHidden = false
-        showHidden = false
-        refreshList()
-    }
-
-    private fun sortByName() {
-        sortMode = FileSorter.SORT_BY_NAME
-        settingsManager.sortMode = FileSorter.SORT_BY_NAME.toString()
-        refreshList()
-    }
-
-    private fun sortBySize() {
-        sortMode = FileSorter.SORT_BY_SIZE
-        settingsManager.sortMode = FileSorter.SORT_BY_SIZE.toString()
-        refreshList()
-    }
-
-    private fun sortByDate() {
-        sortMode = FileSorter.SORT_BY_DATE
-        settingsManager.sortMode = FileSorter.SORT_BY_DATE.toString()
-        refreshList()
-    }
-
     private fun initialState() {
         taskType = TaskType.CREATE
         buffer.replaceList(emptyList())
@@ -1037,107 +1005,5 @@ internal class ExplorerViewModel @Inject constructor(
             selection = selection.toList(),
             taskType = taskType,
         )
-    }
-
-    private fun errorState(e: Throwable) {
-        when (e) {
-            is CancellationException -> {
-                _explorerViewState.value = ExplorerViewState.Loading
-            }
-
-            is PermissionException -> {
-                _explorerViewState.value = ExplorerViewState.Error(
-                    image = UiR.drawable.ic_file_error,
-                    title = stringProvider.getString(R.string.message_access_denied),
-                    subtitle = stringProvider.getString(R.string.message_access_required),
-                    action = ExplorerErrorAction.RequestPermission,
-                )
-            }
-
-            is AuthenticationException -> {
-                if (e.authError) {
-                    _explorerViewState.value = ExplorerViewState.Error(
-                        image = UiR.drawable.ic_file_error,
-                        title = stringProvider.getString(UiR.string.common_error_occurred),
-                        subtitle = e.message.orEmpty(),
-                        action = ExplorerErrorAction.EnterCredentials(e.authMethod)
-                    )
-                } else {
-                    _explorerViewState.value = ExplorerViewState.Error(
-                        image = UiR.drawable.ic_file_error,
-                        title = stringProvider.getString(R.string.message_auth_required),
-                        subtitle = when (e.authMethod) {
-                            AuthMethod.PASSWORD -> stringProvider.getString(R.string.message_enter_password)
-                            AuthMethod.KEY -> stringProvider.getString(R.string.message_enter_passphrase)
-                        },
-                        action = ExplorerErrorAction.EnterCredentials(e.authMethod)
-                    )
-                }
-            }
-
-            else -> {
-                _explorerViewState.value = ExplorerViewState.Error(
-                    image = UiR.drawable.ic_file_error,
-                    title = stringProvider.getString(UiR.string.common_error_occurred),
-                    subtitle = e.message.orEmpty(),
-                    action = ExplorerErrorAction.Undefined,
-                )
-            }
-        }
-    }
-
-    private suspend fun handleTaskDone() {
-        val message = stringProvider.getString(R.string.message_done)
-        _viewEvent.send(ViewEvent.Toast(message))
-        refreshList()
-    }
-
-    private suspend fun handleTaskError(e: Exception) {
-        when (e) {
-            is FileNotFoundException -> {
-                val message = stringProvider.getString(R.string.message_file_not_found)
-                _viewEvent.send(ViewEvent.Toast(message))
-            }
-
-            is FileAlreadyExistsException -> {
-                val message = stringProvider.getString(R.string.message_file_already_exists)
-                _viewEvent.send(ViewEvent.Toast(message))
-            }
-
-            is UnsupportedArchiveException -> {
-                val message = stringProvider.getString(R.string.message_unsupported_archive)
-                _viewEvent.send(ViewEvent.Toast(message))
-            }
-
-            is EncryptedArchiveException -> {
-                val message = stringProvider.getString(R.string.message_encrypted_archive)
-                _viewEvent.send(ViewEvent.Toast(message))
-            }
-
-            is SplitArchiveException -> {
-                val message = stringProvider.getString(R.string.message_split_archive)
-                _viewEvent.send(ViewEvent.Toast(message))
-            }
-
-            is InvalidArchiveException -> {
-                val message = stringProvider.getString(R.string.message_invalid_archive)
-                _viewEvent.send(ViewEvent.Toast(message))
-            }
-
-            is UnsupportedOperationException -> {
-                val message = stringProvider.getString(R.string.message_operation_not_supported)
-                _viewEvent.send(ViewEvent.Toast(message))
-            }
-
-            is CancellationException -> {
-                val message = stringProvider.getString(R.string.message_operation_cancelled)
-                _viewEvent.send(ViewEvent.Toast(message))
-            }
-
-            else -> {
-                _viewEvent.send(ViewEvent.Toast(e.message.toString()))
-            }
-        }
-        refreshList()
     }*/
 }

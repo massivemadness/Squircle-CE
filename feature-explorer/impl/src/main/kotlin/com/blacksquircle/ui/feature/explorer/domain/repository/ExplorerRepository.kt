@@ -22,8 +22,8 @@ internal interface ExplorerRepository {
 
     suspend fun listFiles(parent: FileModel?): List<FileModel>
 
-    fun createFile(fileModel: FileModel): String
-    fun renameFile(source: FileModel, dest: FileModel): String
+    fun createFile(parent: FileModel?, fileName: String, isFolder: Boolean): String
+    fun renameFile(source: FileModel, fileName: String): String
     fun deleteFiles(source: List<FileModel>): String
     fun copyFiles(source: List<FileModel>, dest: FileModel): String
     fun cutFiles(source: List<FileModel>, dest: FileModel): String

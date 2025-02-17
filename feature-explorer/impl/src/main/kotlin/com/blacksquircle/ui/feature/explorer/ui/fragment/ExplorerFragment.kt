@@ -102,21 +102,21 @@ internal class ExplorerFragment : Fragment() {
             val credentials = bundle.getString(ARG_USER_INPUT).orEmpty()
             viewModel.onCredentialsEntered(credentials)
         }
-        observeFragmentResult(KEY_COMPRESS_FILE) { bundle ->
-            val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
-            // viewModel.obtainEvent(ExplorerIntent.CompressFile(fileName))
-        }
         observeFragmentResult(KEY_CREATE_FILE) { bundle ->
             val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
             val isFolder = bundle.getBoolean(ARG_IS_FOLDER)
-            // viewModel.obtainEvent(ExplorerIntent.CreateFile(fileName, isFolder))
+            viewModel.createFile(fileName, isFolder)
         }
         observeFragmentResult(KEY_RENAME_FILE) { bundle ->
             val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
-            // viewModel.obtainEvent(ExplorerIntent.RenameFile(fileName))
+            viewModel.renameFile(fileName)
         }
         observeFragmentResult(KEY_DELETE_FILE) {
             // viewModel.obtainEvent(ExplorerIntent.DeleteFile)
+        }
+        observeFragmentResult(KEY_COMPRESS_FILE) { bundle ->
+            val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+            // viewModel.obtainEvent(ExplorerIntent.CompressFile(fileName))
         }
     }
 

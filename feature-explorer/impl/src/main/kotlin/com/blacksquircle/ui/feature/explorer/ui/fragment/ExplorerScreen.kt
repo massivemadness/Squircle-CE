@@ -36,6 +36,7 @@ import com.blacksquircle.ui.ds.tabs.BreadcrumbNavigation
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.ExplorerToolbar
 import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.FileExplorer
 import com.blacksquircle.ui.feature.explorer.ui.fragment.model.BreadcrumbState
@@ -44,6 +45,7 @@ import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ExplorerScreen(viewModel: ExplorerViewModel) {
@@ -56,18 +58,19 @@ internal fun ExplorerScreen(viewModel: ExplorerViewModel) {
         onClearQueryClicked = viewModel::onClearQueryClicked,
         onShowHiddenClicked = viewModel::onShowHiddenClicked,
         onSortModeSelected = viewModel::onSortModeSelected,
-        onCopyClicked = {},
-        onDeleteClicked = {},
-        onCutClicked = {},
-        onSelectAllClicked = {},
-        onOpenWithClicked = {},
-        onRenameClicked = {},
-        onPropertiesClicked = {},
-        onCopyPathClicked = {},
-        onCompressClicked = {},
+        onCreateClicked = viewModel::onCreateClicked,
+        onCopyClicked = viewModel::onCopyClicked,
+        onPasteClicked = viewModel::onPasteClicked,
+        onDeleteClicked = viewModel::onDeleteClicked,
+        onCutClicked = viewModel::onCutClicked,
+        onSelectAllClicked = viewModel::onSelectAllClicked,
+        onOpenWithClicked = viewModel::onOpenWithClicked,
+        onRenameClicked = viewModel::onRenameClicked,
+        onPropertiesClicked = viewModel::onPropertiesClicked,
+        onCopyPathClicked = viewModel::onCopyPathClicked,
+        onCompressClicked = viewModel::onCompressClicked,
         onErrorActionClicked = viewModel::onErrorActionClicked,
         onHomeClicked = viewModel::onHomeClicked,
-        onActionClicked = viewModel::onActionClicked,
         onBreadcrumbClicked = viewModel::onBreadcrumbClicked,
         onFileClicked = viewModel::onFileClicked,
         onFileSelected = viewModel::onFileSelected,
@@ -84,7 +87,9 @@ private fun ExplorerScreen(
     onClearQueryClicked: () -> Unit = {},
     onShowHiddenClicked: () -> Unit = {},
     onSortModeSelected: (SortMode) -> Unit = {},
+    onCreateClicked: () -> Unit = {},
     onCopyClicked: () -> Unit = {},
+    onPasteClicked: () -> Unit = {},
     onDeleteClicked: () -> Unit = {},
     onCutClicked: () -> Unit = {},
     onSelectAllClicked: () -> Unit = {},
@@ -95,7 +100,6 @@ private fun ExplorerScreen(
     onCompressClicked: () -> Unit = {},
     onErrorActionClicked: (ErrorAction) -> Unit = {},
     onHomeClicked: () -> Unit = {},
-    onActionClicked: () -> Unit = {},
     onBreadcrumbClicked: (BreadcrumbState) -> Unit = {},
     onFileClicked: (FileModel) -> Unit = {},
     onFileSelected: (FileModel) -> Unit = {},
@@ -142,8 +146,18 @@ private fun ExplorerScreen(
                     }
                 },
                 selectedIndex = viewState.selectedBreadcrumb,
+                homeIcon = UiR.drawable.ic_home,
                 onHomeClicked = onHomeClicked,
-                onActionClicked = onActionClicked,
+                actionIcon = when (viewState.taskType) {
+                    TaskType.CUT,
+                    TaskType.COPY -> UiR.drawable.ic_paste
+                    else -> UiR.drawable.ic_plus
+                },
+                onActionClicked = when (viewState.taskType) {
+                    TaskType.CUT,
+                    TaskType.COPY -> onPasteClicked
+                    else -> onCreateClicked
+                },
                 modifier = Modifier.fillMaxWidth(),
             )
 

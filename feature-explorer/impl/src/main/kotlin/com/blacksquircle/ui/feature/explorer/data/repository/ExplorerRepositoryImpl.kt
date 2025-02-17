@@ -52,9 +52,15 @@ internal class ExplorerRepositoryImpl(
         }
     }
 
-    override fun createFile(fileModel: FileModel): String {
+    override fun createFile(parent: FileModel?, fileName: String, isFolder: Boolean): String {
         return taskManager.execute(TaskType.CREATE) { update ->
             val filesystem = filesystemFactory.create(currentFilesystem)
+            val directory = parent ?: filesystem.defaultLocation()
+            val fileModel = directory.copy(
+                fileUri = directory.fileUri + "/" + fileName,
+                directory = isFolder,
+            )
+
             val progress = TaskStatus.Progress(
                 count = 1,
                 totalCount = 1,
@@ -67,9 +73,14 @@ internal class ExplorerRepositoryImpl(
         }
     }
 
-    override fun renameFile(source: FileModel, dest: FileModel): String {
+    override fun renameFile(source: FileModel, fileName: String): String {
         return taskManager.execute(TaskType.RENAME) { update ->
             val filesystem = filesystemFactory.create(currentFilesystem)
+            val dest = source.copy(
+                fileUri = source.fileUri.substringBeforeLast('/') + "/" + fileName,
+                directory = source.directory,
+            )
+
             val progress = TaskStatus.Progress(
                 count = 1,
                 totalCount = 1,
