@@ -22,9 +22,8 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 internal sealed class ExplorerViewEvent : ViewEvent() {
 
     data object RequestPermission : ExplorerViewEvent()
+    data object RunInBackground : ExplorerViewEvent()
 
     data class OpenFileWith(val fileModel: FileModel) : ExplorerViewEvent()
     data class CopyPath(val fileModel: FileModel) : ExplorerViewEvent()
-    data object SelectAll : ExplorerViewEvent()
-    data object RunInBackground : ExplorerViewEvent()
 }

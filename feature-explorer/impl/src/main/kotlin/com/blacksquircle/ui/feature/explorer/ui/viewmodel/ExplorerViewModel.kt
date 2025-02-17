@@ -149,7 +149,7 @@ internal class ExplorerViewModel @Inject constructor(
                 selectedBreadcrumb = selectionBreadcrumb,
             )
         }
-        resetTaskState()
+        resetState()
         loadFiles()
     }
 
@@ -345,6 +345,11 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onOpenWithClicked(fileModel: FileModel? = null) {
+        viewModelScope.launch {
+            val source = fileModel ?: selectedFiles.first()
+            _viewEvent.send(ExplorerViewEvent.OpenFileWith(source))
+            resetState()
+        }
     }
 
     fun onPropertiesClicked() {
@@ -423,7 +428,7 @@ internal class ExplorerViewModel @Inject constructor(
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
-            resetTaskState()
+            resetState()
 
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
@@ -452,7 +457,7 @@ internal class ExplorerViewModel @Inject constructor(
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
-            resetTaskState()
+            resetState()
 
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
@@ -472,7 +477,7 @@ internal class ExplorerViewModel @Inject constructor(
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
-            resetTaskState()
+            resetState()
 
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
@@ -491,7 +496,7 @@ internal class ExplorerViewModel @Inject constructor(
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
-            resetTaskState()
+            resetState()
 
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
@@ -510,7 +515,7 @@ internal class ExplorerViewModel @Inject constructor(
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
-            resetTaskState()
+            resetState()
 
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
@@ -680,7 +685,7 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun resetTaskState() {
+    private fun resetState() {
         taskType = TaskType.CREATE
         taskBuffer = emptyList()
         selectedFiles = emptyList()
@@ -815,15 +820,6 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     /*
-    private fun cutButton() {
-        viewModelScope.launch {
-            taskType = TaskType.CUT
-            buffer.replaceList(selection)
-            selection.replaceList(emptyList())
-            refreshActionBar()
-        }
-    }
-
     private fun propertiesButton() {
         viewModelScope.launch {
             try {
@@ -856,29 +852,6 @@ internal class ExplorerViewModel @Inject constructor(
 
             val screen = ExplorerScreen.CompressDialogScreen
             _viewEvent.send(ViewEvent.Navigation(screen))
-        }
-    }
-
-    private fun openFileAs(event: ExplorerIntent.OpenFileWith) {
-        viewModelScope.launch {
-            val fileModel = event.fileModel ?: selection.first()
-            _viewEvent.send(ExplorerViewEvent.OpenFileWith(fileModel))
-            _viewEvent.send(ViewEvent.PopBackStack())
-            initialState()
-        }
-    }
-
-    private fun openFile(event: ExplorerIntent.OpenFile) {
-        viewModelScope.launch {
-            when (event.fileModel.type) {
-                FileType.ARCHIVE -> extractFile(ExplorerIntent.ExtractFile(event.fileModel))
-                FileType.DEFAULT,
-                FileType.TEXT -> {
-                    editorInteractor.openFile(event.fileModel)
-                    _viewEvent.send(ViewEvent.PopBackStack())
-                }
-                else -> openFileAs(ExplorerIntent.OpenFileWith(event.fileModel))
-            }
         }
     }
 
