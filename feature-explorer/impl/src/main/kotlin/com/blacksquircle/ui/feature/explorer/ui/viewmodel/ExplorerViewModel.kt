@@ -149,6 +149,7 @@ internal class ExplorerViewModel @Inject constructor(
                 selectedBreadcrumb = selectionBreadcrumb,
             )
         }
+        resetTaskState()
         loadFiles()
     }
 
@@ -302,9 +303,25 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onCopyClicked() {
+        viewModelScope.launch {
+            taskType = TaskType.COPY
+            taskBuffer = selectedFiles.toList()
+            selectedFiles = emptyList()
+            _viewState.update {
+                it.copy(
+                    taskType = taskType,
+                    selectedFiles = selectedFiles,
+                )
+            }
+        }
     }
 
     fun onPasteClicked() {
+        when (taskType) {
+            TaskType.CUT -> cutFiles()
+            TaskType.COPY -> copyFiles()
+            else -> Unit
+        }
     }
 
     fun onCutClicked() {
@@ -438,6 +455,29 @@ internal class ExplorerViewModel @Inject constructor(
             _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
 
             val taskId = explorerRepository.deleteFiles(taskBuffer.toList())
+            val screen = ExplorerScreen.TaskDialogScreen(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+
+            resetTaskState()
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> onTaskFailed(status.exception)
+                    is TaskStatus.Done -> onTaskFinished()
+                    else -> Unit
+                }
+            }
+        }
+    }
+
+    private fun cutFiles() {
+
+    }
+
+    private fun copyFiles() {
+        viewModelScope.launch {
+            val parent = breadcrumbs[selectionBreadcrumb].fileModel
+            val taskId = explorerRepository.copyFiles(taskBuffer.toList(), parent)
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -755,15 +795,6 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun copyButton() {
-        viewModelScope.launch {
-            taskType = TaskType.COPY
-            buffer.replaceList(selection)
-            selection.replaceList(emptyList())
-            refreshActionBar()
-        }
-    }
-
     private fun selectAllButton() {
         viewModelScope.launch {
             _viewEvent.send(ExplorerViewEvent.SelectAll)
@@ -838,23 +869,6 @@ internal class ExplorerViewModel @Inject constructor(
     private fun cutFile() {
         viewModelScope.launch {
             val taskId = explorerRepository.cutFiles(buffer.toList(), breadcrumbs.last())
-            val screen = ExplorerScreen.TaskDialogScreen(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
-            initialState()
-
-            taskManager.monitor(taskId).collect { task ->
-                when (val status = task.status) {
-                    is TaskStatus.Error -> handleTaskError(status.exception)
-                    is TaskStatus.Done -> handleTaskDone()
-                    else -> Unit
-                }
-            }
-        }
-    }
-
-    private fun copyFile() {
-        viewModelScope.launch {
-            val taskId = explorerRepository.copyFiles(buffer.toList(), breadcrumbs.last())
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
             initialState()
