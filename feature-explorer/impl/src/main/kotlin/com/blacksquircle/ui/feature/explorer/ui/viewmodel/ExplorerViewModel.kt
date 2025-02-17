@@ -357,9 +357,20 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onPropertiesClicked() {
+        viewModelScope.launch {
+            val fileModel = selectedFiles.first()
+            val screen = ExplorerScreen.PropertiesDialogScreen(fileModel)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+            resetBuffer()
+        }
     }
 
     fun onCopyPathClicked() {
+        viewModelScope.launch {
+            val fileModel = selectedFiles.first()
+            _viewEvent.send(ExplorerViewEvent.CopyPath(fileModel))
+            resetBuffer()
+        }
     }
 
     fun onCompressClicked() {
@@ -881,28 +892,4 @@ internal class ExplorerViewModel @Inject constructor(
     companion object {
         private const val CREATE_SERVER_UUID = "create_server"
     }
-
-    /*
-    private fun propertiesButton() {
-        viewModelScope.launch {
-            try {
-                val fileModel = selection.first()
-                val screen = ExplorerScreen.PropertiesDialogScreen(fileModel)
-                _viewEvent.send(ViewEvent.Navigation(screen))
-            } catch (e: Throwable) {
-                Timber.e(e, e.message)
-                errorState(e)
-            } finally {
-                initialState()
-            }
-        }
-    }
-
-    private fun copyPathButton() {
-        viewModelScope.launch {
-            val fileModel = selection.first()
-            _viewEvent.send(ExplorerViewEvent.CopyPath(fileModel))
-            initialState()
-        }
-    }*/
 }

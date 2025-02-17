@@ -36,6 +36,7 @@ import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.explorer.data.utils.clipText
 import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
@@ -93,6 +94,7 @@ internal class ExplorerFragment : Fragment() {
                     is ViewEvent.PopBackStack -> navController.popBackStack()
                     is ExplorerViewEvent.RequestPermission -> storagePermission.launch()
                     is ExplorerViewEvent.OpenFileWith -> context?.openFileWith(event.fileModel)
+                    is ExplorerViewEvent.CopyPath -> event.fileModel.path.clipText(context)
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
