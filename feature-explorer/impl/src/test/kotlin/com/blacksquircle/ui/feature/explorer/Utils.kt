@@ -16,9 +16,29 @@
 
 package com.blacksquircle.ui.feature.explorer
 
+import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
+import com.blacksquircle.ui.filesystem.root.RootFilesystem
 
-fun createFile(fileName: String): FileModel {
+internal fun defaultFilesystems(): List<FilesystemModel> {
+    return listOf(
+        FilesystemModel(
+            uuid = LocalFilesystem.LOCAL_UUID,
+            title = "Local Storage",
+        ),
+        FilesystemModel(
+            uuid = RootFilesystem.ROOT_UUID,
+            title = "Root Directory"
+        ),
+        FilesystemModel(
+            uuid = "create_server",
+            title = "Add Server"
+        ),
+    )
+}
+
+internal fun createFile(fileName: String): FileModel {
     return FileModel(
         fileUri = "file:///storage/emulated/0/$fileName",
         filesystemUuid = "local",
@@ -26,7 +46,7 @@ fun createFile(fileName: String): FileModel {
     )
 }
 
-fun createFolder(fileName: String): FileModel {
+internal fun createFolder(fileName: String): FileModel {
     return FileModel(
         fileUri = "file:///storage/emulated/0/$fileName",
         filesystemUuid = "local",
