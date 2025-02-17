@@ -101,6 +101,13 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         if (destFile.exists()) {
             throw FileAlreadyExistsException(dest.path)
         }
+
+        val sourcePath = sourceFile.canonicalPath
+        val destPath = destFile.canonicalPath
+        if (destPath.startsWith(sourcePath + File.separator)) {
+            // Cannot copy a folder into itself
+            throw UnsupportedOperationException()
+        }
         sourceFile.copyRecursively(destFile, overwrite = false)
     }
 
