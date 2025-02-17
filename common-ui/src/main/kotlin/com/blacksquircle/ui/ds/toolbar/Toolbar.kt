@@ -202,7 +202,7 @@ private fun ToolbarPreview() {
             navigationIcon = R.drawable.ic_back,
             navigationActions = {
                 IconButton(
-                    iconResId = R.drawable.ic_edit,
+                    iconResId = R.drawable.ic_pencil,
                     iconButtonSize = IconButtonSizeDefaults.L,
                 )
             },

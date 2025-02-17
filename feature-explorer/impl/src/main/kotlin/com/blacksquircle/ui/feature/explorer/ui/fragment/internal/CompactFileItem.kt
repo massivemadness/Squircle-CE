@@ -76,9 +76,9 @@ internal fun CompactFileItem(
         val icon = when {
             fileModel.directory -> UiR.drawable.ic_folder
             fileModel.type == FileType.TEXT -> UiR.drawable.ic_file_document
-            fileModel.type == FileType.ARCHIVE -> UiR.drawable.ic_file_archive
+            fileModel.type == FileType.ARCHIVE -> UiR.drawable.ic_folder_zip
             fileModel.type == FileType.IMAGE -> UiR.drawable.ic_file_image
-            fileModel.type == FileType.AUDIO -> UiR.drawable.ic_file_audio
+            fileModel.type == FileType.AUDIO -> UiR.drawable.ic_file_music
             fileModel.type == FileType.VIDEO -> UiR.drawable.ic_file_video
             else -> UiR.drawable.ic_file
         }

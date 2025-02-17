@@ -112,7 +112,7 @@ internal fun ThemeOverview(
                 if (themeModel.isExternal) {
                     var expanded by rememberSaveable { mutableStateOf(false) }
                     IconButton(
-                        iconResId = UiR.drawable.ic_overflow,
+                        iconResId = UiR.drawable.ic_dots_vertical,
                         iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
                         onClick = { expanded = !expanded },
                         anchor = {
@@ -129,7 +129,7 @@ internal fun ThemeOverview(
                                 PopupMenuItem(
                                     title = stringResource(R.string.action_edit),
                                     onClick = { onEditClicked(); expanded = false },
-                                    iconResId = UiR.drawable.ic_edit,
+                                    iconResId = UiR.drawable.ic_pencil,
                                 )
                                 PopupMenuItem(
                                     title = stringResource(R.string.action_remove),

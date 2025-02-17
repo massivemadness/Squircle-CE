@@ -101,7 +101,7 @@ private fun PopupMenuPreview() {
         PopupMenuItem(
             title = "Menu Item",
             onClick = {},
-            iconResId = R.drawable.ic_edit,
+            iconResId = R.drawable.ic_pencil,
             trailing = { CheckBox(checked = true) }
         )
     }

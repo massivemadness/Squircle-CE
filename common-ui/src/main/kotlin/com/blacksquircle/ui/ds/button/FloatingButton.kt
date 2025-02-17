@@ -51,7 +51,7 @@ fun FloatingButton(
 private fun FloatingButtonPreview() {
     PreviewBackground {
         FloatingButton(
-            iconResId = R.drawable.ic_edit,
+            iconResId = R.drawable.ic_pencil,
         )
     }
 }

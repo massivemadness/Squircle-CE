@@ -25,7 +25,7 @@
     <item
         android:id="@+id/action_tools"
         android:title="@string/action_tools"
-        android:icon="@drawable/ic_tools"
+        android:icon="@drawable/ic_wrench"
         app:iconTint="?colorOnSurfaceVariant">
         <menu>
             <item

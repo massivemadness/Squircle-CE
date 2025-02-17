@@ -165,7 +165,7 @@ internal fun ExplorerToolbar(
             }
 
             IconButton(
-                iconResId = UiR.drawable.ic_overflow,
+                iconResId = UiR.drawable.ic_dots_vertical,
                 onClick = { menuExpanded = true },
                 anchor = {
                     if (selectionMode) {

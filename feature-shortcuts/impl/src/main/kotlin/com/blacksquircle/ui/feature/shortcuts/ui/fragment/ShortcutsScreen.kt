@@ -77,7 +77,7 @@ private fun ShortcutsScreen(
                 navigationActions = {
                     var expanded by rememberSaveable { mutableStateOf(false) }
                     IconButton(
-                        iconResId = UiR.drawable.ic_overflow,
+                        iconResId = UiR.drawable.ic_dots_vertical,
                         iconButtonSize = IconButtonSizeDefaults.L,
                         onClick = { expanded = !expanded },
                         anchor = {

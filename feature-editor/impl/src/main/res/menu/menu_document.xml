@@ -25,11 +25,11 @@
     <item
         android:id="@+id/action_close_others"
         android:title="@string/action_close_others"
-        android:icon="@drawable/ic_row_others"
+        android:icon="@drawable/ic_table_row_remove2"
         app:iconTint="?colorOnSurfaceVariant" />
     <item
         android:id="@+id/action_close_all"
         android:title="@string/action_close_all"
-        android:icon="@drawable/ic_row_all"
+        android:icon="@drawable/ic_table_row_remove"
         app:iconTint="?colorOnSurfaceVariant" />
 </menu>

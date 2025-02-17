@@ -25,7 +25,7 @@
     <item
         android:id="@+id/action_switch_replace"
         android:title="@string/action_replace"
-        android:icon="@drawable/ic_replace"
+        android:icon="@drawable/ic_find_replace"
         app:iconTint="?colorOnSurfaceVariant" />
     <item
         android:id="@+id/action_goto_line"

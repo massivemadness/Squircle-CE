@@ -50,7 +50,7 @@
                 android:layout_alignParentStart="true"
                 android:padding="10dp"
                 android:visibility="visible"
-                android:src="@drawable/ic_drawer"
+                android:src="@drawable/ic_menu"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_drawer"
                 app:tint="?colorOnSurface" />
@@ -83,7 +83,7 @@
                 android:layout_toStartOf="@id/action_find"
                 android:padding="10.5dp"
                 android:visibility="visible"
-                android:src="@drawable/ic_edit"
+                android:src="@drawable/ic_pencil"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_edit"
                 app:tint="?colorOnSurface" />
@@ -105,7 +105,7 @@
                 android:layout_toStartOf="@id/action_undo"
                 android:padding="10.5dp"
                 android:visibility="gone"
-                android:src="@drawable/ic_tools"
+                android:src="@drawable/ic_wrench"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_tools"
                 app:tint="?colorOnSurface" />
@@ -138,7 +138,7 @@
                 android:layout_alignParentEnd="true"
                 android:padding="10.5dp"
                 android:visibility="visible"
-                android:src="@drawable/ic_overflow"
+                android:src="@drawable/ic_dots_vertical"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_overflow"
                 app:tint="?colorOnSurface" />
@@ -197,7 +197,7 @@
                 android:layout_alignParentEnd="true"
                 android:padding="10.5dp"
                 android:visibility="visible"
-                android:src="@drawable/ic_overflow"
+                android:src="@drawable/ic_dots_vertical"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_find_overflow"
                 app:tint="?colorOnSurface" />
@@ -235,7 +235,7 @@
                 android:layout_toStartOf="@id/action_replace_all"
                 android:padding="10.5dp"
                 android:visibility="visible"
-                android:src="@drawable/ic_replace"
+                android:src="@drawable/ic_find_replace"
                 android:background="@drawable/ripple_20dp"
                 android:id="@+id/action_replace"
                 app:tint="?colorOnSurface" />
@@ -426,7 +426,7 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:padding="8dp"
-        android:src="@drawable/ic_keyboard_swap"
+        android:src="@drawable/ic_sync"
         android:background="@drawable/ripple_16dp"
         android:id="@+id/keyboard_swap"
         app:tint="?colorOnSurface"

@@ -78,15 +78,15 @@ private fun IconButtonPreview() {
     PreviewBackground {
         Row {
             IconButton(
-                iconResId = R.drawable.ic_edit,
+                iconResId = R.drawable.ic_pencil,
                 iconButtonSize = IconButtonSizeDefaults.S,
             )
             IconButton(
-                iconResId = R.drawable.ic_edit,
+                iconResId = R.drawable.ic_pencil,
                 iconButtonSize = IconButtonSizeDefaults.M,
             )
             IconButton(
-                iconResId = R.drawable.ic_edit,
+                iconResId = R.drawable.ic_pencil,
                 iconButtonSize = IconButtonSizeDefaults.L,
             )
         }
