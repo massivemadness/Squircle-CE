@@ -325,6 +325,15 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onCutClicked() {
+        taskType = TaskType.CUT
+        taskBuffer = selectedFiles.toList()
+        selectedFiles = emptyList()
+        _viewState.update {
+            it.copy(
+                taskType = taskType,
+                selectedFiles = selectedFiles,
+            )
+        }
     }
 
     fun onSelectAllClicked() {
@@ -471,7 +480,22 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     private fun cutFiles() {
+        viewModelScope.launch {
+            val parent = breadcrumbs[selectionBreadcrumb].fileModel
+            val taskId = explorerRepository.cutFiles(taskBuffer.toList(), parent)
+            val screen = ExplorerScreen.TaskDialogScreen(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
 
+            resetTaskState()
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> onTaskFailed(status.exception)
+                    is TaskStatus.Done -> onTaskFinished()
+                    else -> Unit
+                }
+            }
+        }
     }
 
     private fun copyFiles() {

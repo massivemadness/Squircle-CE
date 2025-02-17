@@ -128,9 +128,10 @@ internal class ExplorerRepositoryImpl(
         }
     }
 
-    override fun cutFiles(source: List<FileModel>, dest: FileModel): String {
+    override fun cutFiles(source: List<FileModel>, dest: FileModel?): String {
         return taskManager.execute(TaskType.CUT) { update ->
             val filesystem = filesystemFactory.create(currentFilesystem)
+            val directory = dest ?: filesystem.defaultLocation()
             source.forEachIndexed { index, fileModel ->
                 val progress = TaskStatus.Progress(
                     count = index + 1,
@@ -139,7 +140,7 @@ internal class ExplorerRepositoryImpl(
                 )
                 update(progress)
 
-                filesystem.copyFile(fileModel, dest)
+                filesystem.copyFile(fileModel, directory)
                 filesystem.deleteFile(fileModel)
                 delay(100)
             }
