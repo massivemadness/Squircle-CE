@@ -118,7 +118,7 @@ internal class ExplorerFragment : Fragment() {
         }
         observeFragmentResult(KEY_COMPRESS_FILE) { bundle ->
             val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
-            // viewModel.obtainEvent(ExplorerIntent.CompressFile(fileName))
+            viewModel.compressFiles(fileName)
         }
     }
 

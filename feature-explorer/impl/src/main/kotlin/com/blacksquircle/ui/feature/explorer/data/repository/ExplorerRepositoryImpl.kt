@@ -76,7 +76,7 @@ internal class ExplorerRepositoryImpl(
     override fun renameFile(source: FileModel, fileName: String): String {
         return taskManager.execute(TaskType.RENAME) { update ->
             val filesystem = filesystemFactory.create(currentFilesystem)
-            val dest = source.copy(
+            val fileModel = source.copy(
                 fileUri = source.fileUri.substringBeforeLast('/') + "/" + fileName,
                 directory = source.directory,
             )
@@ -88,7 +88,7 @@ internal class ExplorerRepositoryImpl(
             )
             update(progress)
 
-            filesystem.renameFile(source, dest)
+            filesystem.renameFile(source, fileModel)
             delay(100)
         }
     }
@@ -147,10 +147,16 @@ internal class ExplorerRepositoryImpl(
         }
     }
 
-    override fun compressFiles(source: List<FileModel>, dest: FileModel): String {
+    override fun compressFiles(source: List<FileModel>, dest: FileModel?, fileName: String): String {
         return taskManager.execute(TaskType.COMPRESS) { update ->
             val filesystem = filesystemFactory.create(currentFilesystem)
-            filesystem.compressFiles(source, dest)
+            val directory = dest ?: filesystem.defaultLocation()
+            val child = directory.copy(
+                fileUri = directory.fileUri + "/" + fileName,
+                directory = false,
+            )
+
+            filesystem.compressFiles(source, child)
                 .collectIndexed { index, fileModel ->
                     val progress = TaskStatus.Progress(
                         count = index + 1,
@@ -163,10 +169,11 @@ internal class ExplorerRepositoryImpl(
         }
     }
 
-    override fun extractFiles(source: FileModel, dest: FileModel): String {
+    override fun extractFiles(source: FileModel, dest: FileModel?): String {
         return taskManager.execute(TaskType.EXTRACT) { update ->
             val filesystem = filesystemFactory.create(currentFilesystem)
-            filesystem.extractFiles(source, dest)
+            val directory = dest ?: filesystem.defaultLocation()
+            filesystem.extractFiles(source, directory)
                 .onStart {
                     val progress = TaskStatus.Progress(
                         count = -1,

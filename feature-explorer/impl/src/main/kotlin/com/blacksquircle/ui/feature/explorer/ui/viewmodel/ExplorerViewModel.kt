@@ -141,6 +141,7 @@ internal class ExplorerViewModel @Inject constructor(
         selectedFilesystem = filesystem
         breadcrumbs = emptyList()
         selectionBreadcrumb = -1
+        resetBuffer()
 
         _viewState.update {
             it.copy(
@@ -149,7 +150,6 @@ internal class ExplorerViewModel @Inject constructor(
                 selectedBreadcrumb = selectionBreadcrumb,
             )
         }
-        resetState()
         loadFiles()
     }
 
@@ -210,6 +210,10 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onBreadcrumbClicked(breadcrumb: BreadcrumbState) {
+        selectedFiles = emptyList()
+        _viewState.update {
+            it.copy(selectedFiles = selectedFiles)
+        }
         loadFiles(breadcrumb.fileModel)
     }
 
@@ -348,7 +352,7 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             val source = fileModel ?: selectedFiles.first()
             _viewEvent.send(ExplorerViewEvent.OpenFileWith(source))
-            resetState()
+            resetBuffer()
         }
     }
 
@@ -359,6 +363,20 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onCompressClicked() {
+        viewModelScope.launch {
+            taskType = TaskType.COMPRESS
+            taskBuffer = selectedFiles.toList()
+            selectedFiles = emptyList()
+            _viewState.update {
+                it.copy(
+                    taskType = taskType,
+                    selectedFiles = selectedFiles,
+                )
+            }
+
+            val screen = ExplorerScreen.CompressDialogScreen
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
     }
 
     // region ERROR_ACTION
@@ -428,7 +446,7 @@ internal class ExplorerViewModel @Inject constructor(
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
-            resetState()
+            resetBuffer()
 
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
@@ -457,7 +475,7 @@ internal class ExplorerViewModel @Inject constructor(
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
-            resetState()
+            resetBuffer()
 
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
@@ -477,7 +495,36 @@ internal class ExplorerViewModel @Inject constructor(
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
-            resetState()
+            resetBuffer()
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> onTaskFailed(status.exception)
+                    is TaskStatus.Done -> onTaskFinished()
+                    else -> Unit
+                }
+            }
+        }
+    }
+
+    fun compressFiles(fileName: String) {
+        viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
+
+            val isValid = fileName.isValidFileName()
+            if (!isValid) {
+                _viewEvent.send(
+                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
+                )
+                return@launch
+            }
+
+            val parent = breadcrumbs[selectionBreadcrumb].fileModel
+            val taskId = explorerRepository.compressFiles(taskBuffer.toList(), parent, fileName)
+            val screen = ExplorerScreen.TaskDialogScreen(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+
+            resetBuffer()
 
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
@@ -496,7 +543,7 @@ internal class ExplorerViewModel @Inject constructor(
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
-            resetState()
+            resetBuffer()
 
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
@@ -515,7 +562,7 @@ internal class ExplorerViewModel @Inject constructor(
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
-            resetState()
+            resetBuffer()
 
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
@@ -528,6 +575,22 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     private fun extractFiles(fileModel: FileModel) {
+        viewModelScope.launch {
+            val parent = breadcrumbs[selectionBreadcrumb].fileModel
+            val taskId = explorerRepository.extractFiles(fileModel, parent)
+            val screen = ExplorerScreen.TaskDialogScreen(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+
+            resetBuffer()
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> onTaskFailed(status.exception)
+                    is TaskStatus.Done -> onTaskFinished()
+                    else -> Unit
+                }
+            }
+        }
     }
 
     private fun loadFiles(parent: FileModel? = null) {
@@ -685,7 +748,7 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun resetState() {
+    private fun resetBuffer() {
         taskType = TaskType.CREATE
         taskBuffer = emptyList()
         selectedFiles = emptyList()
@@ -840,64 +903,6 @@ internal class ExplorerViewModel @Inject constructor(
             val fileModel = selection.first()
             _viewEvent.send(ExplorerViewEvent.CopyPath(fileModel))
             initialState()
-        }
-    }
-
-    private fun compressButton() {
-        viewModelScope.launch {
-            taskType = TaskType.COMPRESS
-            buffer.replaceList(selection)
-            selection.replaceList(emptyList())
-            refreshActionBar()
-
-            val screen = ExplorerScreen.CompressDialogScreen
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
-    }
-
-    private fun compressFile(event: ExplorerIntent.CompressFile) {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
-
-            val isValid = event.fileName.isValidFileName()
-            if (!isValid) {
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
-                )
-                return@launch
-            }
-            val parent = breadcrumbs.last()
-            val child = parent.copy(parent.path + "/" + event.fileName)
-
-            val taskId = explorerRepository.compressFiles(buffer.toList(), child)
-            val screen = ExplorerScreen.TaskDialogScreen(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
-            initialState()
-
-            taskManager.monitor(taskId).collect { task ->
-                when (val status = task.status) {
-                    is TaskStatus.Error -> handleTaskError(status.exception)
-                    is TaskStatus.Done -> handleTaskDone()
-                    else -> Unit
-                }
-            }
-        }
-    }
-
-    private fun extractFile(event: ExplorerIntent.ExtractFile) {
-        viewModelScope.launch {
-            val taskId = explorerRepository.extractFiles(event.fileModel, breadcrumbs.last())
-            val screen = ExplorerScreen.TaskDialogScreen(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
-            initialState()
-
-            taskManager.monitor(taskId).collect { task ->
-                when (val status = task.status) {
-                    is TaskStatus.Error -> handleTaskError(status.exception)
-                    is TaskStatus.Done -> handleTaskDone()
-                    else -> Unit
-                }
-            }
         }
     }*/
 }
