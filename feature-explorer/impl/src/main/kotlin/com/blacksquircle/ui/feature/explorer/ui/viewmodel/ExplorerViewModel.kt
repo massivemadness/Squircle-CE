@@ -337,6 +337,11 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onSelectAllClicked() {
+        val parent = breadcrumbs[selectionBreadcrumb]
+        selectedFiles = parent.fileList
+        _viewState.update {
+            it.copy(selectedFiles = selectedFiles)
+        }
     }
 
     fun onOpenWithClicked(fileModel: FileModel? = null) {
@@ -819,19 +824,6 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun selectAllButton() {
-        viewModelScope.launch {
-            _viewEvent.send(ExplorerViewEvent.SelectAll)
-        }
-    }
-
-    private fun unselectAllButton() {
-        viewModelScope.launch {
-            selection.replaceList(emptyList())
-            refreshActionBar()
-        }
-    }
-
     private fun propertiesButton() {
         viewModelScope.launch {
             try {
@@ -886,23 +878,6 @@ internal class ExplorerViewModel @Inject constructor(
                     _viewEvent.send(ViewEvent.PopBackStack())
                 }
                 else -> openFileAs(ExplorerIntent.OpenFileWith(event.fileModel))
-            }
-        }
-    }
-
-    private fun cutFile() {
-        viewModelScope.launch {
-            val taskId = explorerRepository.cutFiles(buffer.toList(), breadcrumbs.last())
-            val screen = ExplorerScreen.TaskDialogScreen(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
-            initialState()
-
-            taskManager.monitor(taskId).collect { task ->
-                when (val status = task.status) {
-                    is TaskStatus.Error -> handleTaskError(status.exception)
-                    is TaskStatus.Done -> handleTaskDone()
-                    else -> Unit
-                }
             }
         }
     }
