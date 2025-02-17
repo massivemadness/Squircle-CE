@@ -267,24 +267,6 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    fun onCopyClicked() {
-    }
-
-    fun onPasteClicked() {
-    }
-
-    fun onDeleteClicked() {
-    }
-
-    fun onCutClicked() {
-    }
-
-    fun onSelectAllClicked() {
-    }
-
-    fun onOpenWithClicked(fileModel: FileModel? = null) {
-    }
-
     fun onRenameClicked() {
         viewModelScope.launch {
             taskType = TaskType.RENAME
@@ -300,6 +282,38 @@ internal class ExplorerViewModel @Inject constructor(
             val screen = ExplorerScreen.RenameDialogScreen(taskBuffer.first().name)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
+    }
+
+    fun onDeleteClicked() {
+        viewModelScope.launch {
+            taskType = TaskType.DELETE
+            taskBuffer = selectedFiles.toList()
+            selectedFiles = emptyList()
+            _viewState.update {
+                it.copy(
+                    taskType = taskType,
+                    selectedFiles = selectedFiles,
+                )
+            }
+
+            val screen = ExplorerScreen.DeleteDialogScreen(taskBuffer.first().name, taskBuffer.size)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onCopyClicked() {
+    }
+
+    fun onPasteClicked() {
+    }
+
+    fun onCutClicked() {
+    }
+
+    fun onSelectAllClicked() {
+    }
+
+    fun onOpenWithClicked(fileModel: FileModel? = null) {
     }
 
     fun onPropertiesClicked() {
@@ -378,6 +392,8 @@ internal class ExplorerViewModel @Inject constructor(
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
+            resetTaskState()
+
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
@@ -404,6 +420,28 @@ internal class ExplorerViewModel @Inject constructor(
             val taskId = explorerRepository.renameFile(fileModel, fileName)
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
+
+            resetTaskState()
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> onTaskFailed(status.exception)
+                    is TaskStatus.Done -> onTaskFinished()
+                    else -> Unit
+                }
+            }
+        }
+    }
+
+    fun deleteFile() {
+        viewModelScope.launch {
+            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
+
+            val taskId = explorerRepository.deleteFiles(taskBuffer.toList())
+            val screen = ExplorerScreen.TaskDialogScreen(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+
+            resetTaskState()
 
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
@@ -573,6 +611,18 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
+    private fun resetTaskState() {
+        taskType = TaskType.CREATE
+        taskBuffer = emptyList()
+        selectedFiles = emptyList()
+        _viewState.update {
+            it.copy(
+                taskType = taskType,
+                selectedFiles = selectedFiles,
+            )
+        }
+    }
+
     private fun errorState(e: Exception): ErrorState {
         return when (e) {
             is PermissionException -> ErrorState(
@@ -696,13 +746,6 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     /*
-    private val breadcrumbs = mutableListOf<FileModel>()
-    private val selection = mutableListOf<FileModel>()
-    private val buffer = mutableListOf<FileModel>()
-    private val files = mutableListOf<FileModel>()
-    private var taskType = TaskType.CREATE
-    private var currentJob: Job? = null
-
     private fun cutButton() {
         viewModelScope.launch {
             taskType = TaskType.CUT
@@ -718,42 +761,6 @@ internal class ExplorerViewModel @Inject constructor(
             buffer.replaceList(selection)
             selection.replaceList(emptyList())
             refreshActionBar()
-        }
-    }
-
-    private fun createButton() {
-        viewModelScope.launch {
-            taskType = TaskType.CREATE
-            buffer.replaceList(emptyList()) // empty buffer for Operation.CREATE
-            selection.replaceList(emptyList())
-            refreshActionBar()
-
-            val screen = ExplorerScreen.CreateDialogScreen
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
-    }
-
-    private fun renameButton() {
-        viewModelScope.launch {
-            taskType = TaskType.RENAME
-            buffer.replaceList(selection)
-            selection.replaceList(emptyList())
-            refreshActionBar()
-
-            val screen = ExplorerScreen.RenameDialogScreen(buffer.first().name)
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
-    }
-
-    private fun deleteButton() {
-        viewModelScope.launch {
-            taskType = TaskType.DELETE
-            buffer.replaceList(selection)
-            selection.replaceList(emptyList())
-            refreshActionBar()
-
-            val screen = ExplorerScreen.DeleteDialogScreen(buffer.first().name, buffer.size)
-            _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 
@@ -824,90 +831,6 @@ internal class ExplorerViewModel @Inject constructor(
                     _viewEvent.send(ViewEvent.PopBackStack())
                 }
                 else -> openFileAs(ExplorerIntent.OpenFileWith(event.fileModel))
-            }
-        }
-    }
-
-    private fun createFile(event: ExplorerIntent.CreateFile) {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
-
-            val isValid = event.fileName.isValidFileName()
-            if (!isValid) {
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
-                )
-                return@launch
-            }
-            val parent = breadcrumbs.last()
-            val child = parent.copy(
-                fileUri = parent.fileUri + "/" + event.fileName,
-                directory = event.directory,
-            )
-
-            val taskId = explorerRepository.createFile(child)
-            val screen = ExplorerScreen.TaskDialogScreen(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
-            initialState()
-
-            taskManager.monitor(taskId).collect { task ->
-                when (val status = task.status) {
-                    is TaskStatus.Error -> handleTaskError(status.exception)
-                    is TaskStatus.Done -> handleTaskDone()
-                    else -> Unit
-                }
-            }
-        }
-    }
-
-    private fun renameFile(event: ExplorerIntent.RenameFile) {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
-
-            val isValid = event.fileName.isValidFileName()
-            if (!isValid) {
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
-                )
-                return@launch
-            }
-
-            val originalFile = buffer.first()
-            val renamedFile = originalFile.copy(
-                fileUri = originalFile.fileUri.substringBeforeLast('/') + "/" + event.fileName,
-                directory = originalFile.directory,
-            )
-
-            val taskId = explorerRepository.renameFile(originalFile, renamedFile)
-            val screen = ExplorerScreen.TaskDialogScreen(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
-            initialState()
-
-            taskManager.monitor(taskId).collect { task ->
-                when (val status = task.status) {
-                    is TaskStatus.Error -> handleTaskError(status.exception)
-                    is TaskStatus.Done -> handleTaskDone()
-                    else -> Unit
-                }
-            }
-        }
-    }
-
-    private fun deleteFile() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
-
-            val taskId = explorerRepository.deleteFiles(buffer.toList())
-            val screen = ExplorerScreen.TaskDialogScreen(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
-            initialState()
-
-            taskManager.monitor(taskId).collect { task ->
-                when (val status = task.status) {
-                    is TaskStatus.Error -> handleTaskError(status.exception)
-                    is TaskStatus.Done -> handleTaskDone()
-                    else -> Unit
-                }
             }
         }
     }
@@ -990,20 +913,5 @@ internal class ExplorerViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    private fun initialState() {
-        taskType = TaskType.CREATE
-        buffer.replaceList(emptyList())
-        selection.replaceList(emptyList())
-        refreshActionBar()
-    }
-
-    private fun refreshActionBar() {
-        _toolbarViewState.value = ToolbarViewState.ActionBar(
-            breadcrumbs = breadcrumbs.toList(),
-            selection = selection.toList(),
-            taskType = taskType,
-        )
     }*/
 }

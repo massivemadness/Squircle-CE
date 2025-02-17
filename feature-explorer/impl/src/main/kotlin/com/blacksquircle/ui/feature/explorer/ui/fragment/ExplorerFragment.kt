@@ -112,7 +112,7 @@ internal class ExplorerFragment : Fragment() {
             viewModel.renameFile(fileName)
         }
         observeFragmentResult(KEY_DELETE_FILE) {
-            // viewModel.obtainEvent(ExplorerIntent.DeleteFile)
+            viewModel.deleteFile()
         }
         observeFragmentResult(KEY_COMPRESS_FILE) { bundle ->
             val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
