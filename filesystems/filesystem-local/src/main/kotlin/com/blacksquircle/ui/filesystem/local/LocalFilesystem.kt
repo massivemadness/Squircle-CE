@@ -34,6 +34,8 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
     /** zip4j only supports these formats */
     private val supportedArchives = arrayOf(".zip", ".jar")
 
+    override fun ping() = Unit
+
     override fun defaultLocation(): FileModel {
         val fileModel = toFileModel(defaultLocation)
         if (!defaultLocation.isDirectory) {

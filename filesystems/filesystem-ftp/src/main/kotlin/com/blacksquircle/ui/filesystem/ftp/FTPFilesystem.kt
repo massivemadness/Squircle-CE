@@ -41,6 +41,14 @@ class FTPFilesystem(
         ftpClient.connectTimeout = 10000
     }
 
+    override fun ping() {
+        try {
+            connect()
+        } finally {
+            disconnect()
+        }
+    }
+
     override fun defaultLocation(): FileModel {
         return FileModel(FileServer.FTP.value + serverConfig.initialDir, serverConfig.uuid)
     }

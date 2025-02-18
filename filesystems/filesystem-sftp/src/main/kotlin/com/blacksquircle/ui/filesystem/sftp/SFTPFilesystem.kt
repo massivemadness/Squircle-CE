@@ -46,6 +46,14 @@ class SFTPFilesystem(
         Security.insertProviderAt(BouncyCastleProvider(), 1)
     }
 
+    override fun ping() {
+        try {
+            connect()
+        } finally {
+            disconnect()
+        }
+    }
+
     override fun defaultLocation(): FileModel {
         return FileModel(FileServer.SFTP.value + serverConfig.initialDir, serverConfig.uuid)
     }

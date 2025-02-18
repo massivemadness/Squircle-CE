@@ -43,6 +43,14 @@ class FTPESFilesystem(
         ftpesClient.connectTimeout = 10000
     }
 
+    override fun ping() {
+        try {
+            connect()
+        } finally {
+            disconnect()
+        }
+    }
+
     override fun defaultLocation(): FileModel {
         return FileModel(FileServer.FTPES.value + serverConfig.initialDir, serverConfig.uuid)
     }

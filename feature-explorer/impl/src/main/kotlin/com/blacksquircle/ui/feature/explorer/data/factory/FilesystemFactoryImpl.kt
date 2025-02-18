@@ -18,20 +18,15 @@ package com.blacksquircle.ui.feature.explorer.data.factory
 
 import android.os.Environment
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
+import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
-import com.blacksquircle.ui.filesystem.base.model.FileServer
-import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
-import com.blacksquircle.ui.filesystem.ftpes.FTPESFilesystem
-import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
-import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
-import java.io.File
 
 internal class FilesystemFactoryImpl(
+    private val serverFilesystemFactory: ServerFilesystemFactory,
     private val serversInteractor: ServersInteractor,
-    private val cacheDirectory: File,
 ) : FilesystemFactory {
 
     override suspend fun create(uuid: String): Filesystem {
@@ -40,12 +35,7 @@ internal class FilesystemFactoryImpl(
             RootFilesystem.ROOT_UUID -> RootFilesystem()
             else -> {
                 val serverConfig = serversInteractor.loadServer(uuid)
-                return when (serverConfig.scheme) {
-                    FileServer.FTP -> FTPFilesystem(serverConfig, cacheDirectory)
-                    FileServer.FTPS -> FTPSFilesystem(serverConfig, cacheDirectory)
-                    FileServer.FTPES -> FTPESFilesystem(serverConfig, cacheDirectory)
-                    FileServer.SFTP -> SFTPFilesystem(serverConfig, cacheDirectory)
-                }
+                serverFilesystemFactory.create(serverConfig)
             }
         }
     }

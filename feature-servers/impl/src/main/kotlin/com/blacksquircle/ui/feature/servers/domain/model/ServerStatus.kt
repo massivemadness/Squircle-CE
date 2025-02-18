@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.domain
+package com.blacksquircle.ui.feature.servers.domain.model
 
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
+internal sealed class ServerStatus {
 
-// internal
-interface ServersRepository {
+    data object Checking : ServerStatus()
 
-    suspend fun authenticate(uuid: String, credentials: String)
-    suspend fun loadServers(): List<ServerConfig>
-    suspend fun loadServer(uuid: String): ServerConfig
-    suspend fun upsertServer(serverConfig: ServerConfig)
-    suspend fun deleteServer(serverConfig: ServerConfig)
+    data class Available(val latency: Long) : ServerStatus()
+
+    data class Unavailable(val message: String) : ServerStatus()
 }

@@ -22,6 +22,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface Filesystem {
 
+    fun ping()
+
     fun defaultLocation(): FileModel
     fun provideDirectory(parent: FileModel): List<FileModel>
     fun exists(fileModel: FileModel): Boolean

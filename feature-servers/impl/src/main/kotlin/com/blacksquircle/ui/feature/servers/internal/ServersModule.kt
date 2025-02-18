@@ -16,11 +16,15 @@
 
 package com.blacksquircle.ui.feature.servers.internal
 
+import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
+import com.blacksquircle.ui.feature.servers.data.factory.ServerFilesystemFactoryImpl
 import com.blacksquircle.ui.feature.servers.data.repository.ServersRepositoryImpl
-import com.blacksquircle.ui.feature.servers.domain.ServersRepository
+import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import dagger.Module
 import dagger.Provides
 
@@ -29,12 +33,22 @@ internal object ServersModule {
 
     @Provides
     @ServersScope
+    fun provideServerFilesystemFactory(context: Context): ServerFilesystemFactory {
+        return ServerFilesystemFactoryImpl(
+            cacheDirectory = Directories.ftpDir(context),
+        )
+    }
+
+    @Provides
+    @ServersScope
     fun provideServersRepository(
+        serverFilesystemFactory: ServerFilesystemFactory,
         settingsManager: SettingsManager,
         dispatcherProvider: DispatcherProvider,
         appDatabase: AppDatabase,
     ): ServersRepository {
         return ServersRepositoryImpl(
+            serverFilesystemFactory = serverFilesystemFactory,
             settingsManager = settingsManager,
             dispatcherProvider = dispatcherProvider,
             appDatabase = appDatabase

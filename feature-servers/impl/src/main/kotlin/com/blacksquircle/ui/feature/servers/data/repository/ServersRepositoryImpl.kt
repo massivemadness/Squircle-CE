@@ -19,14 +19,16 @@ package com.blacksquircle.ui.feature.servers.data.repository
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
 import com.blacksquircle.ui.feature.servers.data.cache.ServerCredentials
 import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper
-import com.blacksquircle.ui.feature.servers.domain.ServersRepository
+import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import kotlinx.coroutines.withContext
 
 internal class ServersRepositoryImpl(
+    private val serverFilesystemFactory: ServerFilesystemFactory,
     private val settingsManager: SettingsManager,
     private val dispatcherProvider: DispatcherProvider,
     private val appDatabase: AppDatabase,
@@ -35,6 +37,18 @@ internal class ServersRepositoryImpl(
     override suspend fun authenticate(uuid: String, credentials: String) {
         withContext(dispatcherProvider.io()) {
             ServerCredentials.put(uuid, credentials)
+        }
+    }
+
+    override suspend fun checkAvailability(serverConfig: ServerConfig): Long {
+        return withContext(dispatcherProvider.io()) {
+            val filesystem = serverFilesystemFactory.create(serverConfig)
+
+            val startTime = System.currentTimeMillis()
+            filesystem.ping()
+            val endTime = System.currentTimeMillis()
+
+            endTime - startTime
         }
     }
 

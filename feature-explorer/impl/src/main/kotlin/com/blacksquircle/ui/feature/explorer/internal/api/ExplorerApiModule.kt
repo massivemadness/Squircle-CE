@@ -20,6 +20,7 @@ import android.content.Context
 import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.factory.FilesystemFactoryImpl
+import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
@@ -33,10 +34,13 @@ object ExplorerApiModule {
     @Provides
     @Singleton
     fun provideFilesystemFactory(
-        context: Context,
+        serverFilesystemFactory: ServerFilesystemFactory,
         serversInteractor: ServersInteractor,
     ): FilesystemFactory {
-        return FilesystemFactoryImpl(serversInteractor, Directories.ftpDir(context))
+        return FilesystemFactoryImpl(
+            serverFilesystemFactory = serverFilesystemFactory,
+            serversInteractor = serversInteractor,
+        )
     }
 
     @Provides

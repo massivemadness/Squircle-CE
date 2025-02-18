@@ -18,9 +18,9 @@ package com.blacksquircle.ui.feature.servers.ui.fragment
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
+import com.blacksquircle.ui.feature.servers.ui.fragment.internal.ServerModel
 
 @Immutable
 internal data class CloudViewState(
-    val servers: List<ServerConfig> = emptyList()
+    val servers: List<ServerModel> = emptyList()
 ) : ViewState()

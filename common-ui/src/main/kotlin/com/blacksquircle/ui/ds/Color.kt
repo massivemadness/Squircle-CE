@@ -30,6 +30,7 @@ internal val LocalColors = staticCompositionLocalOf { Colors.darkColors() }
 class Colors internal constructor(
     val colorPrimary: Color,
     val colorOutline: Color,
+    val colorSuccess: Color,
     val colorError: Color,
     val colorBackgroundPrimary: Color,
     val colorBackgroundSecondary: Color,
@@ -46,6 +47,7 @@ class Colors internal constructor(
         fun lightColors() = Colors(
             colorPrimary = Color(0xFF3E73B9),
             colorOutline = Color(0xFFE0E0E0),
+            colorSuccess = Color(0xFF008860),
             colorError = Color(0xFFCD0000),
             colorBackgroundPrimary = Color(0xFFFFFFFF),
             colorBackgroundSecondary = Color(0xFFFFFFFF),
@@ -60,6 +62,7 @@ class Colors internal constructor(
         fun darkColors() = Colors(
             colorPrimary = Color(0xFFFF8000),
             colorOutline = Color(0xFF393B40),
+            colorSuccess = Color(0xFF71D98C),
             colorError = Color(0xFFE45356),
             colorBackgroundPrimary = Color(0xFF1E1F22),
             colorBackgroundSecondary = Color(0xFF2B2D30),

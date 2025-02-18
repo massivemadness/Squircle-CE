@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.servers.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.servers.domain.ServersRepository
+import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState
 import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState.Companion.DEFAULT_FTP_PORT
 import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState.Companion.DEFAULT_SFTP_PORT
@@ -256,7 +256,6 @@ internal class ServerViewModel @AssistedInject constructor(
                 FileServer.FTP,
                 FileServer.FTPS,
                 FileServer.FTPES -> DEFAULT_FTP_PORT
-
                 FileServer.SFTP -> DEFAULT_SFTP_PORT
             },
             initialDir = initialDir,

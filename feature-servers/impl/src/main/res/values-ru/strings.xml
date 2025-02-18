@@ -28,6 +28,9 @@
     <string name="server_ftps">FTPS (FTP через TLS/SSL)</string>
     <string name="server_ftpes">FTPES (явный FTPS)</string>
     <string name="server_sftp">SFTP</string>
+    <string name="connection_checking">Проверка…</string>
+    <string name="connection_available">Доступен, пинг: %1$d мс</string>
+    <string name="connection_unavailable">Недоступен, %1$s</string>
     <string name="auth_method_password">Авторизация по паролю</string>
     <string name="auth_method_key">Авторизация приватным ключом</string>
     <string name="ask_for_password">Спрашивать пароль</string>

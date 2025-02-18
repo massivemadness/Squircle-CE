@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.api.internal
+package com.blacksquircle.ui.feature.servers.api.interactor
 
-import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
-import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
+import com.blacksquircle.ui.filesystem.base.Filesystem
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
-interface ServersApiDepsProvider {
-    fun provideServersInteractor(): ServersInteractor
-    fun provideServerFilesystemFactory(): ServerFilesystemFactory
+interface ServerFilesystemFactory {
+    fun create(serverConfig: ServerConfig): Filesystem
 }

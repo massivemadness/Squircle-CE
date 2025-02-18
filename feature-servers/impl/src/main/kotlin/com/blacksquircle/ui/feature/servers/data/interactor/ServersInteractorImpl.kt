@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.servers.data.interactor
 
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
-import com.blacksquircle.ui.feature.servers.domain.ServersRepository
+import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
 internal class ServersInteractorImpl(

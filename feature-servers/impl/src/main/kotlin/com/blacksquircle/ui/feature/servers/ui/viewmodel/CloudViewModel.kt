@@ -20,8 +20,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
-import com.blacksquircle.ui.feature.servers.domain.ServersRepository
+import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
+import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.feature.servers.ui.fragment.CloudViewState
+import com.blacksquircle.ui.feature.servers.ui.fragment.internal.ServerModel
 import com.blacksquircle.ui.feature.servers.ui.navigation.ServersScreen
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import kotlinx.coroutines.channels.Channel
@@ -68,13 +70,56 @@ internal class CloudViewModel @Inject constructor(
     fun loadServers() {
         viewModelScope.launch {
             try {
-                val servers = serversRepository.loadServers()
+                val servers = serversRepository.loadServers().map { config ->
+                    ServerModel(
+                        config = config,
+                        status = ServerStatus.Checking,
+                    )
+                }
                 _viewState.value = CloudViewState(servers)
+
+                servers.forEach { server ->
+                    checkAvailability(server.config)
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun checkAvailability(serverConfig: ServerConfig) {
+        viewModelScope.launch {
+            try {
+                val latency = serversRepository.checkAvailability(serverConfig)
+                _viewState.update { state ->
+                    state.copy(
+                        servers = state.servers.map { server ->
+                            if (server.config.uuid == serverConfig.uuid) {
+                                server.copy(status = ServerStatus.Available(latency))
+                            } else {
+                                server
+                            }
+                        }
+                    )
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewState.update { state ->
+                    state.copy(
+                        servers = state.servers.map { server ->
+                            if (server.config.uuid == serverConfig.uuid) {
+                                server.copy(status = ServerStatus.Unavailable(e.message.orEmpty()))
+                            } else {
+                                server
+                            }
+                        }
+                    )
+                }
             }
         }
     }

@@ -32,6 +32,10 @@
     <string name="server_ftpes">FTPES (Explicit FTPS)</string>
     <string name="server_sftp">SFTP</string>
 
+    <string name="connection_checking">Checking…</string>
+    <string name="connection_available">Available, Ping: %1$d ms</string>
+    <string name="connection_unavailable">Unavailable, %1$s</string>
+
     <string name="auth_method_password">Password Authentication</string>
     <string name="auth_method_key">Private Key Authentication</string>
 

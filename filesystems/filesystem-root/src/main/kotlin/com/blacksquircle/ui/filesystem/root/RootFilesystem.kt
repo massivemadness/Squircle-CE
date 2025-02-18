@@ -37,6 +37,8 @@ class RootFilesystem : Filesystem {
         requestRootAccess()
     }
 
+    override fun ping() = Unit
+
     override fun defaultLocation(): FileModel {
         val defaultLocation = SuFile("/")
         val fileModel = toFileModel(defaultLocation)
