@@ -1,5 +1,6 @@
 [versions]
 agp = "8.8.0"
+android-platform = "4.1.1.4"
 kotlin = "2.1.10"
 ksp = "2.1.10-1.0.29"
 kover = "0.7.4"
@@ -40,6 +41,7 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-test = { id = "com.android.test", version.ref = "agp" }
 android-navigation = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
+
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
@@ -52,6 +54,7 @@ plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 # plugin-kover = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
 
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+android-platform = { module = "com.google.android:android", version.ref = "android-platform" }
 materialdesign = { module = "com.google.android.material:material", version.ref = "material" }
 colorpicker = { module = "com.github.skydoves:colorpicker-compose", version.ref = "colorpicker" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }

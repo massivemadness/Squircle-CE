@@ -27,8 +27,8 @@ import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
 import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
+import com.blacksquircle.ui.filesystem.base.model.ServerType
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

@@ -41,8 +41,8 @@ import com.blacksquircle.ui.feature.servers.ui.fragment.internal.ConnectionStatu
 import com.blacksquircle.ui.feature.servers.ui.fragment.internal.ServerModel
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.CloudViewModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
+import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable

@@ -18,8 +18,8 @@ package com.blacksquircle.ui.feature.servers.data.factory
 
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
 import com.blacksquircle.ui.filesystem.base.Filesystem
-import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
+import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
 import com.blacksquircle.ui.filesystem.ftpes.FTPESFilesystem
 import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem

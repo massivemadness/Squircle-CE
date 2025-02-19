@@ -18,8 +18,8 @@ package com.blacksquircle.ui.feature.servers.data.mapper
 
 import com.blacksquircle.ui.core.storage.database.entity.server.ServerEntity
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
+import com.blacksquircle.ui.filesystem.base.model.ServerType
 
 internal object ServerMapper {
 
