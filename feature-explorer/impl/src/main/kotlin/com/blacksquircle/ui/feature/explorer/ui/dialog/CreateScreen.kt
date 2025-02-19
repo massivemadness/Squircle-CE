@@ -33,6 +33,7 @@ import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -40,9 +41,9 @@ internal fun CreateScreen(
     onConfirmClicked: (Boolean, String) -> Unit = { _, _ -> },
     onCancelClicked: () -> Unit = {}
 ) {
-    val placeholder = stringResource(UiR.string.common_untitled)
-    var isFolder by rememberSaveable { mutableStateOf(false) }
     var fileName by rememberSaveable { mutableStateOf("") }
+    var isFolder by rememberSaveable { mutableStateOf(false) }
+    var isError by rememberSaveable { mutableStateOf(false) }
 
     AlertDialog(
         title = stringResource(R.string.dialog_title_create),
@@ -50,9 +51,14 @@ internal fun CreateScreen(
             Column {
                 TextField(
                     inputText = fileName,
-                    onInputChanged = { fileName = it },
+                    onInputChanged = { value ->
+                        fileName = value
+                        isError = !value.isValidFileName()
+                    },
                     labelText = stringResource(R.string.hint_enter_file_name),
-                    placeholderText = placeholder,
+                    errorText = stringResource(R.string.message_invalid_file_name),
+                    placeholderText = stringResource(UiR.string.common_untitled),
+                    error = isError,
                 )
                 Spacer(Modifier.height(8.dp))
                 CheckBox(
@@ -64,7 +70,13 @@ internal fun CreateScreen(
         },
         confirmButton = stringResource(R.string.action_create),
         dismissButton = stringResource(android.R.string.cancel),
-        onConfirmClicked = { onConfirmClicked(isFolder, fileName.ifEmpty { placeholder }) },
+        onConfirmClicked = {
+            if (fileName.isValidFileName()) {
+                onConfirmClicked(isFolder, fileName)
+            } else {
+                isError = true
+            }
+        },
         onDismissClicked = onCancelClicked,
         onDismiss = onCancelClicked,
     )

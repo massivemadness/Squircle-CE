@@ -52,7 +52,6 @@ import com.blacksquircle.ui.filesystem.base.exception.UnsupportedArchiveExceptio
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
-import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import kotlinx.coroutines.CancellationException
@@ -444,14 +443,6 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
 
-            val isValid = fileName.isValidFileName()
-            if (!isValid) {
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
-                )
-                return@launch
-            }
-
             val parent = breadcrumbs[selectionBreadcrumb].fileModel
             val taskId = explorerRepository.createFile(parent, fileName, isFolder)
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
@@ -472,14 +463,6 @@ internal class ExplorerViewModel @Inject constructor(
     fun renameFile(fileName: String) {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
-
-            val isValid = fileName.isValidFileName()
-            if (!isValid) {
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
-                )
-                return@launch
-            }
 
             val fileModel = taskBuffer.first()
             val taskId = explorerRepository.renameFile(fileModel, fileName)
@@ -521,14 +504,6 @@ internal class ExplorerViewModel @Inject constructor(
     fun compressFiles(fileName: String) {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
-
-            val isValid = fileName.isValidFileName()
-            if (!isValid) {
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_invalid_file_name)),
-                )
-                return@launch
-            }
 
             val parent = breadcrumbs[selectionBreadcrumb].fileModel
             val taskId = explorerRepository.compressFiles(taskBuffer.toList(), parent, fileName)

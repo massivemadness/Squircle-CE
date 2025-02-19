@@ -27,6 +27,7 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -35,24 +36,33 @@ internal fun RenameScreen(
     onConfirmClicked: (String) -> Unit = {},
     onCancelClicked: () -> Unit = {}
 ) {
-    val placeholder = stringResource(UiR.string.common_untitled)
-    var fileName by rememberSaveable {
-        mutableStateOf(currentFileName)
-    }
+    var fileName by rememberSaveable { mutableStateOf(currentFileName) }
+    var isError by rememberSaveable { mutableStateOf(false) }
 
     AlertDialog(
         title = stringResource(R.string.dialog_title_rename),
         content = {
             TextField(
                 inputText = fileName,
-                onInputChanged = { fileName = it },
+                onInputChanged = { value ->
+                    fileName = value
+                    isError = !value.isValidFileName()
+                },
                 labelText = stringResource(R.string.hint_enter_file_name),
-                placeholderText = placeholder,
+                errorText = stringResource(R.string.message_invalid_file_name),
+                placeholderText = stringResource(UiR.string.common_untitled),
+                error = isError,
             )
         },
         confirmButton = stringResource(R.string.action_rename),
         dismissButton = stringResource(android.R.string.cancel),
-        onConfirmClicked = { onConfirmClicked(fileName.ifEmpty { placeholder }) },
+        onConfirmClicked = {
+            if (fileName.isValidFileName()) {
+                onConfirmClicked(fileName)
+            } else {
+                isError = true
+            }
+        },
         onDismissClicked = onCancelClicked,
         onDismiss = onCancelClicked,
     )
