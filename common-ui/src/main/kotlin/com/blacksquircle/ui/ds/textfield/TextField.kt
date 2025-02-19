@@ -54,6 +54,7 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.layout.ThreeSlotLayout
+import com.blacksquircle.ui.ds.textfield.internal.TextFieldError
 import com.blacksquircle.ui.ds.textfield.internal.TextFieldHelp
 import com.blacksquircle.ui.ds.textfield.internal.TextFieldInput
 import com.blacksquircle.ui.ds.textfield.internal.TextFieldInputAdvanced
@@ -66,6 +67,7 @@ fun TextField(
     onInputChanged: (String) -> Unit = {},
     labelText: String? = null,
     helpText: String? = null,
+    errorText: String? = null,
     placeholderText: String? = null,
     startContent: @Composable (BoxScope.() -> Unit)? = null,
     endContent: @Composable (BoxScope.() -> Unit)? = null,
@@ -91,6 +93,7 @@ fun TextField(
 
     val hasLabel = !labelText.isNullOrEmpty()
     val hasHelp = !helpText.isNullOrEmpty()
+    val hasError = !errorText.isNullOrEmpty()
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -135,7 +138,16 @@ fun TextField(
                 .clip(inputCornerShape),
         )
 
-        if (hasHelp) {
+        if (hasError && error) {
+            Spacer(modifier = Modifier.height(6.dp))
+            TextFieldError(
+                text = errorText,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+            )
+        }
+        if (hasHelp && !(hasError && error)) {
             Spacer(modifier = Modifier.height(6.dp))
             TextFieldHelp(
                 text = helpText,
@@ -153,6 +165,7 @@ fun TextFieldAdvanced(
     modifier: Modifier = Modifier,
     labelText: String? = null,
     helpText: String? = null,
+    errorText: String? = null,
     placeholderText: String? = null,
     startContent: @Composable (BoxScope.() -> Unit)? = null,
     endContent: @Composable (BoxScope.() -> Unit)? = null,
@@ -183,6 +196,7 @@ fun TextFieldAdvanced(
 
     val hasLabel = !labelText.isNullOrEmpty()
     val hasHelp = !helpText.isNullOrEmpty()
+    val hasError = !errorText.isNullOrEmpty()
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -231,7 +245,16 @@ fun TextFieldAdvanced(
                 .clip(inputCornerShape),
         )
 
-        if (hasHelp) {
+        if (hasError && error) {
+            Spacer(modifier = Modifier.height(6.dp))
+            TextFieldError(
+                text = errorText,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+            )
+        }
+        if (hasHelp && !(hasError && error)) {
             Spacer(modifier = Modifier.height(6.dp))
             TextFieldHelp(
                 text = helpText,
