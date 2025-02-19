@@ -169,6 +169,8 @@
     </application>
 
     <queries>
+
+        <!-- Open unsupported file types (images, videos) -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
 

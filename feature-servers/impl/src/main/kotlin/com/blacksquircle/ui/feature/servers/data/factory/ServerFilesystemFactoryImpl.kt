@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.servers.data.factory
 
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
 import com.blacksquircle.ui.filesystem.base.Filesystem
-import com.blacksquircle.ui.filesystem.base.model.FileServer
+import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
 import com.blacksquircle.ui.filesystem.ftpes.FTPESFilesystem
@@ -32,10 +32,10 @@ internal class ServerFilesystemFactoryImpl(
 
     override fun create(serverConfig: ServerConfig): Filesystem {
         return when (serverConfig.scheme) {
-            FileServer.FTP -> FTPFilesystem(serverConfig, cacheDirectory)
-            FileServer.FTPS -> FTPSFilesystem(serverConfig, cacheDirectory)
-            FileServer.FTPES -> FTPESFilesystem(serverConfig, cacheDirectory)
-            FileServer.SFTP -> SFTPFilesystem(serverConfig, cacheDirectory)
+            ServerType.FTP -> FTPFilesystem(serverConfig, cacheDirectory)
+            ServerType.FTPS -> FTPSFilesystem(serverConfig, cacheDirectory)
+            ServerType.FTPES -> FTPESFilesystem(serverConfig, cacheDirectory)
+            ServerType.SFTP -> SFTPFilesystem(serverConfig, cacheDirectory)
         }
     }
 }

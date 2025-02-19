@@ -25,7 +25,7 @@ import kotlin.coroutines.suspendCoroutine
 
 private const val TIMEOUT = 20_000L
 
-fun requestRootAccess(): Shell {
+internal fun requestRootAccess(): Shell {
     return runBlocking {
         withTimeout(TIMEOUT) {
             suspendCoroutine { cont ->

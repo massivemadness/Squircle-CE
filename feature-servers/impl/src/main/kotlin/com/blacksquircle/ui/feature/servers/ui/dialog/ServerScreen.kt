@@ -44,7 +44,7 @@ import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerScheme
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerUsername
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerViewModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.FileServer
+import com.blacksquircle.ui.filesystem.base.model.ServerType
 
 @Composable
 internal fun ServerScreen(viewModel: ServerViewModel) {
@@ -132,7 +132,7 @@ private fun ServerScreen(
 
                 Spacer(Modifier.height(8.dp))
 
-                if (viewState.scheme == FileServer.SFTP) {
+                if (viewState.scheme == ServerType.SFTP) {
                     ServerAuthMethod(
                         authMethod = viewState.authMethod,
                         onAuthMethodChanged = onAuthMethodChanged,

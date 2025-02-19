@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState
-import com.blacksquircle.ui.filesystem.base.model.FileServer
+import com.blacksquircle.ui.filesystem.base.model.ServerType
 
 private const val HINT_ADDRESS = "192.168.21.101"
 
@@ -40,7 +40,7 @@ internal fun ServerAddress(
     onAddressChanged: (String) -> Unit,
     port: String,
     onPortChanged: (String) -> Unit,
-    scheme: FileServer,
+    scheme: ServerType,
     isError: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -63,10 +63,10 @@ internal fun ServerAddress(
             inputText = port,
             labelText = stringResource(R.string.hint_port),
             placeholderText = when (scheme) {
-                FileServer.FTP,
-                FileServer.FTPS,
-                FileServer.FTPES -> ServerViewState.DEFAULT_FTP_PORT.toString()
-                FileServer.SFTP -> ServerViewState.DEFAULT_SFTP_PORT.toString()
+                ServerType.FTP,
+                ServerType.FTPS,
+                ServerType.FTPES -> ServerViewState.DEFAULT_FTP_PORT.toString()
+                ServerType.SFTP -> ServerViewState.DEFAULT_SFTP_PORT.toString()
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,

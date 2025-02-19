@@ -27,7 +27,7 @@ import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
 import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.FileServer
+import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -63,11 +63,11 @@ internal class ServerViewModel @AssistedInject constructor(
     }
 
     fun onSchemeChanged(scheme: String) {
-        val fileServer = FileServer.of(scheme)
+        val serverType = ServerType.of(scheme)
         _viewState.update {
             it.copy(
-                scheme = fileServer,
-                authMethod = if (fileServer != FileServer.SFTP) {
+                scheme = serverType,
+                authMethod = if (serverType != ServerType.SFTP) {
                     AuthMethod.PASSWORD
                 } else {
                     it.authMethod
@@ -253,10 +253,10 @@ internal class ServerViewModel @AssistedInject constructor(
             name = name,
             address = address,
             port = port.toIntOrNull() ?: when (scheme) {
-                FileServer.FTP,
-                FileServer.FTPS,
-                FileServer.FTPES -> DEFAULT_FTP_PORT
-                FileServer.SFTP -> DEFAULT_SFTP_PORT
+                ServerType.FTP,
+                ServerType.FTPS,
+                ServerType.FTPES -> DEFAULT_FTP_PORT
+                ServerType.SFTP -> DEFAULT_SFTP_PORT
             },
             initialDir = initialDir,
             authMethod = authMethod,

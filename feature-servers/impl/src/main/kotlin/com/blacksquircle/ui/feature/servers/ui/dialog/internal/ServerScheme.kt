@@ -23,7 +23,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.util.fastMap
 import com.blacksquircle.ui.ds.dropdown.Dropdown
 import com.blacksquircle.ui.feature.servers.R
-import com.blacksquircle.ui.filesystem.base.model.FileServer
+import com.blacksquircle.ui.filesystem.base.model.ServerType
 
 @Composable
 @NonRestartableComposable
@@ -34,8 +34,8 @@ internal fun ServerScheme(
 ) {
     Dropdown(
         entries = stringArrayResource(R.array.server_type),
-        entryValues = FileServer.entries
-            .fastMap(FileServer::value)
+        entryValues = ServerType.entries
+            .fastMap(ServerType::value)
             .toTypedArray(),
         currentValue = scheme,
         onValueSelected = onSchemeChanged,

@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.servers.data.mapper
 
 import com.blacksquircle.ui.core.storage.database.entity.server.ServerEntity
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.FileServer
+import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
 internal object ServerMapper {
@@ -26,7 +26,7 @@ internal object ServerMapper {
     fun toModel(serverEntity: ServerEntity): ServerConfig {
         return ServerConfig(
             uuid = serverEntity.uuid,
-            scheme = FileServer.of(serverEntity.scheme),
+            scheme = ServerType.of(serverEntity.scheme),
             name = serverEntity.name,
             address = serverEntity.address,
             port = serverEntity.port,

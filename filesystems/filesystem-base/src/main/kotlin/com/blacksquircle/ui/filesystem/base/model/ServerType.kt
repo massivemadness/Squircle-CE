@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.filesystem.base.model
 
-enum class FileServer(val value: String) {
+enum class ServerType(val value: String) {
     FTP("ftp://"),
     FTPS("ftps://"),
     FTPES("ftpes://"),
@@ -24,7 +24,7 @@ enum class FileServer(val value: String) {
 
     companion object {
 
-        fun of(value: String): FileServer {
+        fun of(value: String): ServerType {
             return checkNotNull(entries.find { it.value == value })
         }
     }

@@ -18,7 +18,7 @@ package com.blacksquircle.ui.filesystem.base.model
 
 data class ServerConfig(
     val uuid: String,
-    val scheme: FileServer,
+    val scheme: ServerType,
     val name: String,
     val address: String,
     val port: Int,

@@ -39,7 +39,7 @@ import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiProvider
 import com.blacksquircle.ui.internal.di.AppComponent
 import timber.log.Timber
 
-class SquircleApp : Application(),
+internal class SquircleApp : Application(),
     CoreApiProvider,
     EditorApiProvider,
     ExplorerApiProvider,
@@ -47,6 +47,9 @@ class SquircleApp : Application(),
     ServersApiProvider,
     ShortcutsApiProvider,
     ThemesApiProvider {
+
+    private val appComponent: AppComponent
+        get() = AppComponent.buildOrGet(this)
 
     override fun attachBaseContext(base: Context) {
         val settingsManager = SettingsManager(base)
@@ -64,33 +67,19 @@ class SquircleApp : Application(),
 
     // region DAGGER
 
-    override fun provideCoreApiDepsProvider(): CoreApiDepsProvider {
-        return AppComponent.buildOrGet(this)
-    }
+    override fun provideCoreApiDepsProvider(): CoreApiDepsProvider = appComponent
 
-    override fun provideEditorApiDepsProvider(): EditorApiDepsProvider {
-        return AppComponent.buildOrGet(this)
-    }
+    override fun provideEditorApiDepsProvider(): EditorApiDepsProvider = appComponent
 
-    override fun provideExplorerApiDepsProvider(): ExplorerApiDepsProvider {
-        return AppComponent.buildOrGet(this)
-    }
+    override fun provideExplorerApiDepsProvider(): ExplorerApiDepsProvider = appComponent
 
-    override fun provideFontsApiDepsProvider(): FontsApiDepsProvider {
-        return AppComponent.buildOrGet(this)
-    }
+    override fun provideFontsApiDepsProvider(): FontsApiDepsProvider = appComponent
 
-    override fun provideServersApiDepsProvider(): ServersApiDepsProvider {
-        return AppComponent.buildOrGet(this)
-    }
+    override fun provideServersApiDepsProvider(): ServersApiDepsProvider = appComponent
 
-    override fun provideShortcutsApiDepsProvider(): ShortcutsApiDepsProvider {
-        return AppComponent.buildOrGet(this)
-    }
+    override fun provideShortcutsApiDepsProvider(): ShortcutsApiDepsProvider = appComponent
 
-    override fun provideThemesApiDepsProvider(): ThemesApiDepsProvider {
-        return AppComponent.buildOrGet(this)
-    }
+    override fun provideThemesApiDepsProvider(): ThemesApiDepsProvider = appComponent
 
     // endregion
 }
