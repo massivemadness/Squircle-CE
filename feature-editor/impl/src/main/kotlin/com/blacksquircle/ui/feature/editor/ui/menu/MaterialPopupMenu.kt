@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.view
+package com.blacksquircle.ui.feature.editor.ui.menu
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.drawable.InsetDrawable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -27,7 +29,7 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.view.menu.MenuPopupHelper
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.MenuCompat
-import com.blacksquircle.ui.core.extensions.makeRightPaddingRecursively
+import androidx.core.view.iterator
 import com.google.android.material.R
 
 @SuppressLint("RestrictedApi")
@@ -67,3 +69,30 @@ class MaterialPopupMenu(private val context: Context) {
         popupMenu.show()
     }
 }
+
+/**
+ * https://github.com/material-components/material-components-android/commit/560adc655d24f82e3fd866a7840ff7e9db07b301
+ */
+@SuppressLint("RestrictedApi")
+fun Menu.makeRightPaddingRecursively() {
+    if (this is MenuBuilder) {
+        setOptionalIconsVisible(true)
+        for (item in visibleItems) {
+            item.makeRightPadding()
+            if (item.hasSubMenu()) {
+                for (subItem in item.subMenu!!.iterator()) {
+                    subItem.makeRightPadding()
+                }
+            }
+        }
+    }
+}
+
+private fun MenuItem.makeRightPadding() {
+    if (icon != null) {
+        val iconMarginPx = 8.dpToPx() // 8dp - default margin
+        icon = InsetDrawable(icon, iconMarginPx, 0, iconMarginPx, 0)
+    }
+}
+
+private fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()

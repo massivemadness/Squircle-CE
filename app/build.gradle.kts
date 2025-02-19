@@ -26,9 +26,6 @@ android {
         versionCode = 10024
         versionName = "2025.1.0"
     }
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
@@ -80,8 +77,6 @@ dependencies {
     implementation(project(":feature-themes:impl"))
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
-
-    implementation(project(":filesystems:filesystem-base"))
 
     // Tests
     testImplementation(libs.test.junit)

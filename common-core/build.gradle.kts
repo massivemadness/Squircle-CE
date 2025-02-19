@@ -27,9 +27,6 @@ android {
             assets.srcDir(files("$projectDir/schemas"))
         }
     }
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {

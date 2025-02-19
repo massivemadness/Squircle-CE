@@ -21,13 +21,9 @@ import androidx.room.Query
 import com.blacksquircle.ui.core.storage.database.dao.base.BaseDao
 import com.blacksquircle.ui.core.storage.database.entity.server.ServerEntity
 import com.blacksquircle.ui.core.storage.database.utils.Tables
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class ServerDao : BaseDao<ServerEntity> {
-
-    @Query("SELECT * FROM `${Tables.SERVERS}`")
-    abstract fun flow(): Flow<List<ServerEntity>>
 
     @Query("SELECT * FROM `${Tables.SERVERS}`")
     abstract suspend fun loadAll(): List<ServerEntity>

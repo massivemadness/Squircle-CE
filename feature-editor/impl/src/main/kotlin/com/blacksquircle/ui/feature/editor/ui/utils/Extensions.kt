@@ -14,9 +14,33 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.extensions
+package com.blacksquircle.ui.feature.editor.ui.utils
 
+import android.app.Activity
 import android.net.Uri
+import android.widget.EditText
+
+fun <T> MutableList<T>.replaceList(collection: Collection<T>): List<T> {
+    val temp = collection.toList()
+    clear()
+    addAll(temp)
+    return this
+}
+
+fun <T> MutableList<T>.appendList(element: T): List<T> {
+    if (!contains(element)) {
+        add(element)
+    }
+    return this
+}
 
 fun String.encodeUri(): String = Uri.encode(this)
 fun String.decodeUri(): String = Uri.decode(this)
+
+fun Activity.focusedTextField(): EditText? {
+    val currentFocusView = currentFocus
+    if (currentFocusView is EditText) {
+        return currentFocusView
+    }
+    return null
+}

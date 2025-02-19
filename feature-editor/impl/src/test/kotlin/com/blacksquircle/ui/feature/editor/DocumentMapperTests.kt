@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.editor
 
 import com.blacksquircle.ui.core.storage.database.entity.document.DocumentEntity
-import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
+import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.language.base.Language
@@ -27,7 +27,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class DocumentConverterTests {
+class DocumentMapperTests {
 
     private val plainTextLanguage = mockk<Language>()
 
@@ -57,7 +57,7 @@ class DocumentConverterTests {
             selectionStart = 0,
             selectionEnd = 0,
         )
-        val convert = DocumentConverter.toModel(fileModel)
+        val convert = DocumentMapper.toModel(fileModel)
 
         assertEquals(documentModel.fileUri, convert.fileUri)
         assertEquals(documentModel.filesystemUuid, convert.filesystemUuid)
@@ -96,7 +96,7 @@ class DocumentConverterTests {
             selectionStart = 8,
             selectionEnd = 10,
         )
-        val convert = DocumentConverter.toModel(documentEntity)
+        val convert = DocumentMapper.toModel(documentEntity)
 
         assertEquals(documentModel.fileUri, convert.fileUri)
         assertEquals(documentModel.filesystemUuid, convert.filesystemUuid)
@@ -136,6 +136,6 @@ class DocumentConverterTests {
             selectionEnd = 10,
         )
 
-        assertEquals(documentEntity, DocumentConverter.toEntity(documentModel))
+        assertEquals(documentEntity, DocumentMapper.toEntity(documentModel))
     }
 }

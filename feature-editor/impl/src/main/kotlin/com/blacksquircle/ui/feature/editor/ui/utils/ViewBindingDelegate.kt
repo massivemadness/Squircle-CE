@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.delegate
+package com.blacksquircle.ui.feature.editor.ui.utils
 
 import android.os.Handler
 import android.os.Looper

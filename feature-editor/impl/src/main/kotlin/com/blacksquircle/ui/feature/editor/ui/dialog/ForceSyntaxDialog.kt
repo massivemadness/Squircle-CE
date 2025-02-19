@@ -23,11 +23,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
 import com.blacksquircle.ui.core.extensions.activityViewModels
-import com.blacksquircle.ui.core.extensions.decodeUri
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
+import com.blacksquircle.ui.feature.editor.ui.utils.decodeUri
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import javax.inject.Inject
 import javax.inject.Provider

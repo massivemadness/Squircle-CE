@@ -17,11 +17,10 @@
 package com.blacksquircle.ui.feature.editor.ui.mvi
 
 import android.net.Uri
-import com.blacksquircle.ui.core.mvi.ViewIntent
 import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
-internal sealed class EditorIntent : ViewIntent() {
+internal sealed class EditorIntent {
 
     data object LoadFiles : EditorIntent()
     data object LoadSettings : EditorIntent()

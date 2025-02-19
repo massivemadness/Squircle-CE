@@ -23,10 +23,10 @@ import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import com.blacksquircle.ui.core.view.MaterialPopupMenu
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.FragmentEditorBinding
+import com.blacksquircle.ui.feature.editor.ui.menu.MaterialPopupMenu
 
 internal class ToolbarManager(
     private val listener: Listener,

@@ -22,12 +22,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.updatePadding
+import androidx.fragment.app.FragmentContainerView
 import com.blacksquircle.ui.R
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
 import com.blacksquircle.ui.core.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.core.extensions.viewModels
-import com.blacksquircle.ui.databinding.ActivityMainBinding
 import com.blacksquircle.ui.internal.di.AppComponent
 import com.blacksquircle.ui.utils.InAppUpdate
 import com.google.android.material.snackbar.Snackbar
@@ -48,18 +48,19 @@ internal class MainActivity : AppCompatActivity() {
         installSplashScreen()
         AppComponent.buildOrGet(this).inject(this)
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
+
+        val navHost = findViewById<FragmentContainerView>(R.id.nav_host)
 
         enableEdgeToEdge()
         window.fullscreenMode(viewModel.fullScreenMode)
 
-        binding.navHost.applySystemWindowInsets(false) { left, _, right, _ ->
-            binding.navHost.updatePadding(left = left, right = right)
+        navHost.applySystemWindowInsets(false) { left, _, right, _ ->
+            navHost.updatePadding(left = left, right = right)
         }
 
         inAppUpdate.checkForUpdates(this) {
-            Snackbar.make(binding.root, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(navHost, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.action_restart) { inAppUpdate.completeUpdate() }
                 .show()
         }

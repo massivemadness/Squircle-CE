@@ -24,7 +24,6 @@ android {
     namespace = "com.blacksquircle.ui.ds"
 
     buildFeatures {
-        viewBinding = true
         compose = true
     }
 }

@@ -28,7 +28,6 @@ dependencies {
     implementation(libs.kotlin.stdlib)
 
     // Modules
-    api(project(":editorkit:editorkit"))
-    api(project(":editorkit:language-base"))
+    api(project(":editorkit:editorkit")) // TODO remove
     api(project(":filesystems:filesystem-base"))
 }

@@ -25,7 +25,7 @@ import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.model.FindResult
 import com.blacksquircle.ui.editorkit.model.UndoStack
-import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
+import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.data.utils.charsetFor
 import com.blacksquircle.ui.feature.editor.data.utils.decode
 import com.blacksquircle.ui.feature.editor.data.utils.encode
@@ -55,13 +55,13 @@ internal class DocumentRepositoryImpl(
     override suspend fun loadDocuments(): List<DocumentModel> {
         return withContext(dispatcherProvider.io()) {
             appDatabase.documentDao().loadAll()
-                .map(DocumentConverter::toModel)
+                .map(DocumentMapper::toModel)
         }
     }
 
     override suspend fun updateDocument(documentModel: DocumentModel) {
         withContext(dispatcherProvider.io()) {
-            val documentEntity = DocumentConverter.toEntity(documentModel)
+            val documentEntity = DocumentMapper.toEntity(documentModel)
             appDatabase.documentDao().insert(documentEntity)
         }
     }
@@ -70,7 +70,7 @@ internal class DocumentRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             deleteCacheFiles(documentModel)
 
-            val documentEntity = DocumentConverter.toEntity(documentModel)
+            val documentEntity = DocumentMapper.toEntity(documentModel)
             appDatabase.documentDao().delete(documentEntity)
         }
     }
@@ -90,7 +90,7 @@ internal class DocumentRepositoryImpl(
             Timber.d("Is valid file = $isValidFile")
 
             val fileModel = FileModel("file://$filePath", "local")
-            DocumentConverter.toModel(fileModel)
+            DocumentMapper.toModel(fileModel)
         }
     }
 
@@ -106,7 +106,7 @@ internal class DocumentRepositoryImpl(
                 )
             } else {
                 val filesystem = filesystemFactory.create(documentModel.filesystemUuid)
-                val fileModel = DocumentConverter.toModel(documentModel)
+                val fileModel = DocumentMapper.toModel(documentModel)
                 val fileParams = FileParams(
                     chardet = settingsManager.encodingAutoDetect,
                     charset = charsetFor(settingsManager.encodingForOpening),
@@ -127,7 +127,7 @@ internal class DocumentRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             if (params.local) {
                 val filesystem = filesystemFactory.create(content.documentModel.filesystemUuid)
-                val fileModel = DocumentConverter.toModel(content.documentModel)
+                val fileModel = DocumentMapper.toModel(content.documentModel)
                 val fileParams = FileParams(
                     charset = charsetFor(settingsManager.encodingForSaving),
                     linebreak = LineBreak.of(settingsManager.lineBreakForSaving),

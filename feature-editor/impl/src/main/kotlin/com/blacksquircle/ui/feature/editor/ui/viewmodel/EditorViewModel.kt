@@ -28,7 +28,7 @@ import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
-import com.blacksquircle.ui.feature.editor.data.converter.DocumentConverter
+import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.data.model.KeyModel
 import com.blacksquircle.ui.feature.editor.data.model.SettingsEvent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
@@ -39,6 +39,8 @@ import com.blacksquircle.ui.feature.editor.ui.manager.KeyboardManager
 import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
 import com.blacksquircle.ui.feature.editor.ui.mvi.*
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
+import com.blacksquircle.ui.feature.editor.ui.utils.appendList
+import com.blacksquircle.ui.feature.editor.ui.utils.replaceList
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
@@ -183,7 +185,7 @@ internal class EditorViewModel @Inject constructor(
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
             try {
-                val document = DocumentConverter.toModel(event.fileModel)
+                val document = DocumentMapper.toModel(event.fileModel)
                 val position = documents.indexOrNull { it.fileUri == document.fileUri } ?: run {
                     documents.appendList(document)
                     updateDocuments()

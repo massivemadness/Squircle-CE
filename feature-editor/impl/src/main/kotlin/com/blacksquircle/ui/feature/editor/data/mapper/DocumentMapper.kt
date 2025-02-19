@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.data.converter
+package com.blacksquircle.ui.feature.editor.data.mapper
 
 import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.core.storage.database.entity.document.DocumentEntity
@@ -22,7 +22,7 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import java.util.*
 
-internal object DocumentConverter {
+internal object DocumentMapper {
 
     fun toModel(documentModel: DocumentModel): FileModel {
         return FileModel(

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.adapter
+package com.blacksquircle.ui.feature.editor.ui.adapter
 
 import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.DefaultItemAnimator

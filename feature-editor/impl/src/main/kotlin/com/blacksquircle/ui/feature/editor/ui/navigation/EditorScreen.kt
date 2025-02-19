@@ -16,9 +16,9 @@
 
 package com.blacksquircle.ui.feature.editor.ui.navigation
 
-import com.blacksquircle.ui.core.extensions.encodeUri
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.feature.editor.ui.utils.encodeUri
 
 internal sealed class EditorScreen(route: Any) : Screen(route) {
 

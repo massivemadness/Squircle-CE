@@ -16,9 +16,7 @@
 
 package com.blacksquircle.ui.core.extensions
 
-import android.app.Activity
 import android.view.Window
-import android.widget.EditText
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -30,12 +28,4 @@ fun Window.fullscreenMode(whether: Boolean) {
     } else {
         controller.show(statusBarType)
     }
-}
-
-fun Activity.focusedTextField(): EditText? {
-    val currentFocusView = currentFocus
-    if (currentFocusView is EditText) {
-        return currentFocusView
-    }
-    return null
 }

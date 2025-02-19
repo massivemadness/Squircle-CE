@@ -21,11 +21,10 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.blacksquircle.ui.core.adapter.TabAdapter
-import com.blacksquircle.ui.core.view.MaterialPopupMenu
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.databinding.ItemTabDocumentBinding
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
+import com.blacksquircle.ui.feature.editor.ui.menu.MaterialPopupMenu
 
 internal class DocumentAdapter(
     private val tabInteractor: TabInteractor,

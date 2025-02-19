@@ -23,12 +23,8 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.widget.Toast
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.core.database.getStringOrNull
-import com.google.android.material.color.MaterialColors
 import java.io.FileNotFoundException
 
 fun Context.showToast(
@@ -41,14 +37,6 @@ fun Context.showToast(
     } else {
         Toast.makeText(this, text, duration).show()
     }
-}
-
-fun Context.getColour(@ColorRes colorRes: Int): Int {
-    return ContextCompat.getColor(this, colorRes)
-}
-
-fun Context.getColorAttr(@AttrRes attrRes: Int): Int {
-    return MaterialColors.getColor(this, attrRes, "The attribute is not set in the current theme")
 }
 
 private const val ASSET_PATH = "file:///android_asset/"
