@@ -20,6 +20,10 @@ plugins {
 
 android {
     namespace = "com.blacksquircle.ui.filesystem.root"
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
