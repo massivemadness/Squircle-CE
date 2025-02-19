@@ -45,11 +45,13 @@ class ApplicationModulePlugin : Plugin<Project> {
 
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
+
                 setFlavorDimensions(listOf("store"))
                 productFlavors {
                     create("googlePlay") { dimension = "store" }
                     create("fdroid") { dimension = "store" }
                 }
+
                 val properties = Properties().apply {
                     val localFile = rootProject.file("local.properties")
                     if (localFile.exists()) {
@@ -64,6 +66,7 @@ class ApplicationModulePlugin : Plugin<Project> {
                         keyPassword = "${properties["KEY_PASSWORD"]}"
                     }
                 }
+
                 buildTypes {
                     release {
                         signingConfig = signingConfigs.getByName("release")

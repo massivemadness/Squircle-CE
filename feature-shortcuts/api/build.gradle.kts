@@ -15,11 +15,7 @@
  */
 
 plugins {
-    id("com.blacksquircle.feature")
-}
-
-android {
-    namespace = "com.blacksquircle.ui.feature.shortcuts.api"
+    id("com.blacksquircle.kotlin")
 }
 
 dependencies {

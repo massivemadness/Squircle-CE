@@ -55,7 +55,6 @@ import com.blacksquircle.ui.ds.button.OutlinedButton
 import com.blacksquircle.ui.ds.extensions.isColorDark
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
-import com.blacksquircle.ui.editorkit.compose.CodeView
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.api.model.InternalTheme
 import com.blacksquircle.ui.feature.themes.api.model.ThemeModel

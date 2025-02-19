@@ -15,7 +15,7 @@
  */
 
 plugins {
-    id("com.blacksquircle.filesystem")
+    id("com.blacksquircle.kotlin")
 }
 
 dependencies {

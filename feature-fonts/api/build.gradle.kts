@@ -15,11 +15,7 @@
  */
 
 plugins {
-    id("com.blacksquircle.feature")
-}
-
-android {
-    namespace = "com.blacksquircle.ui.feature.fonts.api"
+    id("com.blacksquircle.kotlin")
 }
 
 dependencies {

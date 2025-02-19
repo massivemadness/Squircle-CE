@@ -26,7 +26,7 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
-class LanguageModulePlugin : Plugin<Project> {
+class KotlinModulePlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         with(target) {
@@ -38,17 +38,12 @@ class LanguageModulePlugin : Plugin<Project> {
             configure<JavaPluginExtension> {
                 sourceCompatibility = JavaVersion.VERSION_17
                 targetCompatibility = JavaVersion.VERSION_17
-
-                withSourcesJar()
-                withJavadocJar()
             }
-
             tasks.withType<KotlinJvmCompile>().configureEach {
                 compilerOptions {
                     jvmTarget.set(JvmTarget.JVM_17)
                 }
             }
-
             configure<SourceSetContainer> {
                 named("main") {
                     java.srcDir("src/main/kotlin")

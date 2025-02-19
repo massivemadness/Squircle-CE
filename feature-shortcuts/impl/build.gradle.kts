@@ -16,14 +16,15 @@
 
 plugins {
     id("com.blacksquircle.feature")
+    alias(libs.plugins.android.navigation)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 android {
     namespace = "com.blacksquircle.ui.feature.shortcuts"
 
     buildFeatures {
-        buildConfig = true
         compose = true
     }
 }

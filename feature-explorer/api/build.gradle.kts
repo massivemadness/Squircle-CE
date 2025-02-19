@@ -15,20 +15,13 @@
  */
 
 plugins {
-    id("com.blacksquircle.feature")
-}
-
-android {
-    namespace = "com.blacksquircle.ui.feature.explorer.api"
+    id("com.blacksquircle.kotlin")
 }
 
 dependencies {
 
     // Core
     implementation(libs.kotlin.stdlib)
-
-    // Coroutines
-    implementation(libs.coroutines.core)
 
     // Modules
     api(project(":filesystems:filesystem-base"))

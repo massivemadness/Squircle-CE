@@ -15,8 +15,7 @@
  */
 
 plugins {
-    alias(libs.plugins.android.library)
-    id("com.blacksquircle.filesystem")
+    id("com.blacksquircle.feature")
 }
 
 android {

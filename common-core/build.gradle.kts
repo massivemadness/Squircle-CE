@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-import com.blacksquircle.ui.RoomSchemaArgProvider
-
 plugins {
-    id("com.blacksquircle.common")
+    id("com.blacksquircle.feature")
+    alias(libs.plugins.kotlin.ksp)
 }
 
 android {
@@ -31,10 +30,6 @@ android {
     buildFeatures {
         viewBinding = true
     }
-}
-
-ksp {
-    arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
 }
 
 dependencies {

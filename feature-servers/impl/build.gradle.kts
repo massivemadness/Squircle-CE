@@ -16,7 +16,9 @@
 
 plugins {
     id("com.blacksquircle.feature")
+    alias(libs.plugins.android.navigation)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 android {
@@ -48,9 +50,6 @@ dependencies {
     implementation(libs.androidx.viewmodel)
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.navigation)
-
-    // Network
-    implementation(libs.gson)
 
     // Coroutines
     implementation(libs.coroutines.core)

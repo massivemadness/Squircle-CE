@@ -15,7 +15,8 @@
  */
 
 plugins {
-    id("com.blacksquircle.common")
+    id("com.blacksquircle.feature")
+    alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.kotlin.compose)
 }
 

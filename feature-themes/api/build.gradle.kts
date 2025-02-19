@@ -15,7 +15,7 @@
  */
 
 plugins {
-    id("com.blacksquircle.feature")
+    id("com.blacksquircle.feature") // TODO pure kotlin module
 }
 
 android {
@@ -29,7 +29,6 @@ dependencies {
 
     // Modules
     api(project(":editorkit:editorkit"))
-    api(project(":editorkit:editorkit-compose"))
-    api(project(":filesystems:filesystem-base"))
     api(project(":editorkit:language-base"))
+    api(project(":filesystems:filesystem-base"))
 }

@@ -30,16 +30,8 @@ class FeatureModulePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                val isApiModule = target.name.endsWith("api")
-                if (isApiModule) {
-                    apply("com.android.library")
-                    apply("org.jetbrains.kotlin.android")
-                } else {
-                    apply("com.android.library")
-                    apply("org.jetbrains.kotlin.android")
-                    apply("com.google.devtools.ksp")
-                    apply("androidx.navigation.safeargs.kotlin")
-                }
+                apply("com.android.library")
+                apply("org.jetbrains.kotlin.android")
             }
 
             configure<LibraryExtension> {

@@ -51,17 +51,9 @@ gradlePlugin {
             id = "com.blacksquircle.feature"
             implementationClass = "com.blacksquircle.ui.FeatureModulePlugin"
         }
-        register("com.blacksquircle.common") {
-            id = "com.blacksquircle.common"
-            implementationClass = "com.blacksquircle.ui.CommonModulePlugin"
-        }
-        register("com.blacksquircle.filesystem") {
-            id = "com.blacksquircle.filesystem"
-            implementationClass = "com.blacksquircle.ui.FilesystemModulePlugin"
-        }
-        register("com.blacksquircle.language") {
-            id = "com.blacksquircle.language"
-            implementationClass = "com.blacksquircle.ui.LanguageModulePlugin"
+        register("com.blacksquircle.kotlin") {
+            id = "com.blacksquircle.kotlin"
+            implementationClass = "com.blacksquircle.ui.KotlinModulePlugin"
         }
         register("com.blacksquircle.publish") {
             id = "com.blacksquircle.publish"
