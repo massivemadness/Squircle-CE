@@ -33,6 +33,7 @@ import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.observeFragmentResult
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.extensions.viewModels
+import com.blacksquircle.ui.core.internal.ComponentHolder
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -51,6 +52,10 @@ internal class ExplorerFragment : Fragment() {
     lateinit var viewModelProvider: Provider<ExplorerViewModel>
 
     private val viewModel by viewModels<ExplorerViewModel> { viewModelProvider.get() }
+    private val componentHolder by viewModels {
+        val component = ExplorerComponent.buildOrGet(requireContext())
+        ComponentHolder(component) { ExplorerComponent.release() }
+    }
     private val navController by lazy { findNavController() }
     private val storagePermission = StoragePermission(this) { result ->
         when (result) {
@@ -61,7 +66,7 @@ internal class ExplorerFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        ExplorerComponent.buildOrGet(context).inject(this)
+        componentHolder.component.inject(this)
         super.onAttach(context)
     }
 

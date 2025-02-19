@@ -33,6 +33,7 @@ import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.CreateFileContract
 import com.blacksquircle.ui.core.contract.OpenFileContract
 import com.blacksquircle.ui.core.extensions.*
+import com.blacksquircle.ui.core.internal.ComponentHolder
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.editorkit.*
@@ -80,6 +81,10 @@ internal class EditorFragment : Fragment(R.layout.fragment_editor),
     lateinit var viewModelProvider: Provider<EditorViewModel>
 
     private val viewModel by activityViewModels<EditorViewModel> { viewModelProvider.get() }
+    private val componentHolder by viewModels {
+        val component = EditorComponent.buildOrGet(requireContext())
+        ComponentHolder(component) { EditorComponent.release() }
+    }
     private val binding by viewBinding(FragmentEditorBinding::bind)
 
     private val toolbarManager by lazy { ToolbarManager(this) }
@@ -120,7 +125,7 @@ internal class EditorFragment : Fragment(R.layout.fragment_editor),
     private lateinit var tabAdapter: DocumentAdapter
 
     override fun onAttach(context: Context) {
-        EditorComponent.buildOrGet(context).inject(this)
+        componentHolder.component.inject(this)
         super.onAttach(context)
     }
 
