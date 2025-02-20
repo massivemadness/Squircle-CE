@@ -32,9 +32,6 @@ dependencies {
 
     // Core
     implementation(libs.kotlin.stdlib)
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.fragment)
     implementation(libs.timber)
 
     // Compose
@@ -46,9 +43,10 @@ dependencies {
     debugImplementation(libs.compose.manifest)
 
     // AAC
-    implementation(libs.androidx.viewmodel)
-    implementation(libs.androidx.lifecycle)
-    implementation(libs.androidx.navigation)
+    implementation(libs.androidx.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.compose)
+    implementation(libs.androidx.navigation) // xml
+    implementation(libs.androidx.navigation.compose)
 
     // Coroutines
     implementation(libs.coroutines.core)

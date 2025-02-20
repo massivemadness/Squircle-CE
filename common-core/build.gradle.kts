@@ -16,6 +16,7 @@
 
 plugins {
     id("com.blacksquircle.feature")
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp)
 }
 
@@ -26,6 +27,9 @@ android {
         named("androidTest") {
             assets.srcDir(files("$projectDir/schemas"))
         }
+    }
+    buildFeatures {
+        compose = true
     }
 }
 
@@ -43,6 +47,7 @@ dependencies {
     // AAC
     implementation(libs.androidx.service)
     implementation(libs.androidx.viewmodel)
+    implementation(libs.androidx.viewmodel.compose)
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.navigation)
     implementation(libs.androidx.room)

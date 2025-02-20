@@ -25,3 +25,11 @@ class ComponentHolder<T>(val component: T, private val release: () -> Unit) : Vi
         release()
     }
 }
+
+class ViewModelWithCallback(private val release: () -> Unit) : ViewModel() {
+
+    override fun onCleared() {
+        super.onCleared()
+        release()
+    }
+}

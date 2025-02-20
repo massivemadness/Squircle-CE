@@ -20,6 +20,7 @@ import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
 import com.blacksquircle.ui.feature.changelog.ui.fragment.ChangeLogFragment
+import com.blacksquircle.ui.feature.changelog.ui.viewmodel.ChangeLogViewModel
 import dagger.Component
 
 @ChangelogScope
@@ -33,7 +34,7 @@ import dagger.Component
 )
 internal interface ChangelogComponent {
 
-    fun inject(fragment: ChangeLogFragment)
+    fun inject(factory: ChangeLogViewModel.Factory)
 
     @Component.Factory
     interface Factory {

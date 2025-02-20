@@ -16,11 +16,18 @@
 
 package com.blacksquircle.ui.core.extensions
 
+import android.content.Context
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.HasDefaultViewModelProviderFactory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.blacksquircle.ui.core.service.ComponentService
 
 inline fun <reified VM : ViewModel> Fragment.activityViewModels(
@@ -74,3 +81,23 @@ inline fun <reified VM : ViewModel> viewModels(
         viewModelProvider[VM::class.java]
     }
 }
+
+@Composable
+inline fun <reified VM : ViewModel> daggerViewModel(
+    viewModelStoreOwner: ViewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
+        "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+    },
+    key: String? = null,
+    extras: CreationExtras = if (viewModelStoreOwner is HasDefaultViewModelProviderFactory) {
+        viewModelStoreOwner.defaultViewModelCreationExtras
+    } else {
+        CreationExtras.Empty
+    },
+    factoryProvider: (Context) -> ViewModelProvider.Factory? = { null },
+): VM = viewModel(
+    modelClass = VM::class,
+    viewModelStoreOwner = viewModelStoreOwner,
+    key = key,
+    factory = factoryProvider(LocalContext.current),
+    extras = extras
+)
