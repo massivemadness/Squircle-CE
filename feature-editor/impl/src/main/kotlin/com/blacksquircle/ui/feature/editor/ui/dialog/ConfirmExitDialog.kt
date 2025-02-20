@@ -16,23 +16,39 @@
 
 package com.blacksquircle.ui.feature.editor.ui.dialog
 
-import android.app.Dialog
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.DialogFragment
-import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.ds.R as UiR
+import androidx.navigation.fragment.findNavController
+import com.blacksquircle.ui.ds.SquircleTheme
 
 internal class ConfirmExitDialog : DialogFragment() {
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(requireContext())
-            .setTitle(R.string.dialog_title_exit)
-            .setMessage(R.string.dialog_message_exit)
-            .setNegativeButton(UiR.string.common_no, null)
-            .setPositiveButton(UiR.string.common_yes) { _, _ ->
-                activity?.finish()
+    private val navController by lazy { findNavController() }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                SquircleTheme {
+                    ConfirmExitScreen(
+                        onConfirmClicked = {
+                            activity?.finish()
+                        },
+                        onCancelClicked = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
             }
-            .create()
+        }
     }
 }

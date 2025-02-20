@@ -16,42 +16,55 @@
 
 package com.blacksquircle.ui.feature.editor.ui.dialog
 
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.activityViewModels
-import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.internal.EditorComponent
-import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
-import com.blacksquircle.ui.feature.editor.ui.utils.decodeUri
-import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import javax.inject.Inject
-import javax.inject.Provider
+import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
 
 internal class CloseModifiedDialog : DialogFragment() {
 
-    @Inject
-    lateinit var viewModelProvider: Provider<EditorViewModel>
-
-    private val viewModel by activityViewModels<EditorViewModel> { viewModelProvider.get() }
+    private val navController by lazy { findNavController() }
     private val navArgs by navArgs<CloseModifiedDialogArgs>()
 
-    override fun onAttach(context: Context) {
-        EditorComponent.buildOrGet(context).inject(this)
-        super.onAttach(context)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                SquircleTheme {
+                    CloseModifiedScreen(
+                        fileName = navArgs.fileName,
+                        onConfirmClicked = {
+                            sendFragmentResult(
+                                resultKey = EditorFragment.KEY_CLOSE_MODIFIED,
+                                bundle = bundleOf(
+                                    EditorFragment.ARG_POSITION to navArgs.position,
+                                )
+                            )
+                        },
+                        onCancelClicked = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+            }
+        }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(requireContext())
-            .setTitle(navArgs.fileName.decodeUri())
-            .setMessage(R.string.dialog_message_close_tab)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(R.string.action_close) { _, _ ->
-                viewModel.obtainEvent(EditorIntent.CloseTab(navArgs.position, true))
-            }
-            .create()
+    companion object {
+        const val ARG_FILE_NAME = "fileName"
+        const val ARG_POSITION = "position"
     }
 }

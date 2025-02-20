@@ -125,7 +125,7 @@ internal class EditorViewModel @Inject constructor(
             is EditorIntent.InsertColor -> insertColor(event)
 
             is EditorIntent.ForceSyntax -> forceSyntax()
-            is EditorIntent.ForceSyntaxHighlighting -> forceSyntaxHighlighting(event)
+            is EditorIntent.SelectLanguage -> forceSyntaxHighlighting(event)
 
             is EditorIntent.SaveFile -> saveFile(event)
             is EditorIntent.SaveFileAs -> saveFileAs(event)
@@ -275,13 +275,14 @@ internal class EditorViewModel @Inject constructor(
             try {
                 if (event.position > -1) {
                     val document = documents[event.position]
-                    if (document.modified && !event.allowModified) {
-                        _viewEvent.send(
-                            ViewEvent.Navigation(
-                                EditorScreen.CloseModifiedDialog(event.position, document.name)
-                            )
-                        )
-                        return@launch
+                    if (document.modified) {
+                        if (!event.allowModified) {
+                            val screen = EditorScreen.CloseModifiedDialogScreen(event.position, document.name)
+                            _viewEvent.send(ViewEvent.Navigation(screen))
+                            return@launch
+                        } else {
+                            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
+                        }
                     }
                     val reloadFile = event.position == selectedPosition
                     val position = when {
@@ -368,9 +369,9 @@ internal class EditorViewModel @Inject constructor(
     private fun gotoLineNumber(event: EditorIntent.GotoLineNumber) {
         viewModelScope.launch {
             try {
+                _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
                 if (selectedPosition > -1) {
-                    val lineNumber = event.line.toInt()
-                    _viewEvent.send(EditorViewEvent.GotoLine(lineNumber))
+                    _viewEvent.send(EditorViewEvent.GotoLine(event.lineNumber))
                 }
             } catch (e: Exception) {
                 Timber.e(e, e.message)
@@ -395,6 +396,7 @@ internal class EditorViewModel @Inject constructor(
     private fun insertColor(event: EditorIntent.InsertColor) {
         viewModelScope.launch {
             try {
+                _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
                 if (selectedPosition > -1) {
                     val color = event.color.toHexString()
                     _viewEvent.send(EditorViewEvent.InsertColor(color))
@@ -474,7 +476,7 @@ internal class EditorViewModel @Inject constructor(
             try {
                 if (selectedPosition > -1) {
                     val document = documents[selectedPosition]
-                    val screen = EditorScreen.ForceSyntaxDialog(document.language.languageName)
+                    val screen = EditorScreen.ForceSyntaxDialogScreen(document.language.languageName)
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 }
             } catch (e: Exception) {
@@ -484,13 +486,14 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun forceSyntaxHighlighting(event: EditorIntent.ForceSyntaxHighlighting) {
+    private fun forceSyntaxHighlighting(event: EditorIntent.SelectLanguage) {
         viewModelScope.launch {
             try {
+                _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
                 if (selectedPosition > -1) {
                     val document = documents[selectedPosition]
                     documents[selectedPosition] = document.copy(
-                        language = LanguageFactory.fromName(event.languageName)
+                        language = LanguageFactory.fromName(event.language)
                     )
                     documentRepository.updateDocument(document)
                     refreshActionBar()

@@ -35,13 +35,13 @@ internal sealed class EditorIntent {
     data object CloseAll : EditorIntent()
 
     data object GotoLine : EditorIntent()
-    data class GotoLineNumber(val line: String) : EditorIntent()
+    data class GotoLineNumber(val lineNumber: Int) : EditorIntent()
 
     data object ColorPicker : EditorIntent()
     data class InsertColor(val color: Int) : EditorIntent()
 
     data object ForceSyntax : EditorIntent()
-    data class ForceSyntaxHighlighting(val languageName: String) : EditorIntent()
+    data class SelectLanguage(val language: String) : EditorIntent()
 
     data class SaveFile(
         val local: Boolean,

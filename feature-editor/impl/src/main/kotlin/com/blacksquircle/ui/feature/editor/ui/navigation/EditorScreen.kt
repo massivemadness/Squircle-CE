@@ -16,17 +16,30 @@
 
 package com.blacksquircle.ui.feature.editor.ui.navigation
 
+import androidx.core.os.bundleOf
+import com.blacksquircle.ui.core.extensions.NavAction
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.ui.utils.encodeUri
+import com.blacksquircle.ui.feature.editor.ui.dialog.CloseModifiedDialog
+import com.blacksquircle.ui.feature.editor.ui.dialog.ForceSyntaxDialog
 
 internal sealed class EditorScreen(route: Any) : Screen(route) {
 
-    class ForceSyntaxDialog(languageName: String) : EditorScreen(
-        route = "blacksquircle://editor/syntax?languageName=${languageName.encodeUri()}",
+    data class CloseModifiedDialogScreen(val position: Int, val fileName: String) : EditorScreen(
+        route = NavAction(
+            id = R.id.closeModifiedDialog,
+            args = bundleOf(
+                CloseModifiedDialog.ARG_FILE_NAME to fileName,
+                CloseModifiedDialog.ARG_POSITION to position,
+            )
+        ),
     )
-    class CloseModifiedDialog(position: Int, fileName: String) : EditorScreen(
-        route = "blacksquircle://editor/close?position=$position&fileName=${fileName.encodeUri()}",
+
+    data class ForceSyntaxDialogScreen(val languageName: String) : EditorScreen(
+        route = NavAction(
+            id = R.id.forceSyntaxDialog,
+            args = bundleOf(ForceSyntaxDialog.ARG_LANGUAGE to languageName)
+        )
     )
 
     data object GotoLine : EditorScreen("blacksquircle://editor/goto")

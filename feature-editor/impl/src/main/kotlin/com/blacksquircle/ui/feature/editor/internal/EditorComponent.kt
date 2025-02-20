@@ -21,10 +21,6 @@ import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiProvider
-import com.blacksquircle.ui.feature.editor.ui.dialog.CloseModifiedDialog
-import com.blacksquircle.ui.feature.editor.ui.dialog.ForceSyntaxDialog
-import com.blacksquircle.ui.feature.editor.ui.dialog.GotoLineDialog
-import com.blacksquircle.ui.feature.editor.ui.dialog.InsertColorDialog
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvider
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiProvider
@@ -52,10 +48,6 @@ import dagger.Component
 )
 internal interface EditorComponent {
 
-    fun inject(dialog: CloseModifiedDialog)
-    fun inject(dialog: ForceSyntaxDialog)
-    fun inject(dialog: GotoLineDialog)
-    fun inject(dialog: InsertColorDialog)
     fun inject(fragment: EditorFragment)
 
     @Component.Factory

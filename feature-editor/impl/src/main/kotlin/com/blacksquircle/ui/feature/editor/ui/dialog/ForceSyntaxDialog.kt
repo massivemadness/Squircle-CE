@@ -16,50 +16,54 @@
 
 package com.blacksquircle.ui.feature.editor.ui.dialog
 
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.activityViewModels
-import com.blacksquircle.ui.core.extensions.showToast
-import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.internal.EditorComponent
-import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
-import com.blacksquircle.ui.feature.editor.ui.utils.decodeUri
-import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import javax.inject.Inject
-import javax.inject.Provider
+import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
 
 internal class ForceSyntaxDialog : DialogFragment() {
 
-    @Inject
-    lateinit var viewModelProvider: Provider<EditorViewModel>
-
-    private val viewModel by activityViewModels<EditorViewModel> { viewModelProvider.get() }
+    private val navController by lazy { findNavController() }
     private val navArgs by navArgs<ForceSyntaxDialogArgs>()
 
-    override fun onAttach(context: Context) {
-        EditorComponent.buildOrGet(context).inject(this)
-        super.onAttach(context)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                SquircleTheme {
+                    ForceSyntaxScreen(
+                        selectedValue = navArgs.language,
+                        onLanguageSelected = { language ->
+                            sendFragmentResult(
+                                resultKey = EditorFragment.KEY_SELECT_LANGUAGE,
+                                bundle = bundleOf(
+                                    EditorFragment.ARG_LANGUAGE to language,
+                                )
+                            )
+                        },
+                        onCancelClicked = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+            }
+        }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val langNames = resources.getStringArray(R.array.language_title)
-        val langEntries = resources.getStringArray(R.array.language_name)
-        return AlertDialog.Builder(requireContext())
-            .setTitle(R.string.dialog_title_force_syntax)
-            .setSingleChoiceItems(
-                langNames,
-                langEntries.indexOf(navArgs.languageName.decodeUri())
-            ) { _, which ->
-                val intent = EditorIntent.ForceSyntaxHighlighting(langEntries[which])
-                viewModel.obtainEvent(intent)
-                requireContext().showToast(text = langNames[which])
-                dismiss()
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .create()
+    companion object {
+        const val ARG_LANGUAGE = "language"
     }
 }

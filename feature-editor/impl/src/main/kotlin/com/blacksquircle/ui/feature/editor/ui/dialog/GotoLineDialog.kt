@@ -16,42 +16,47 @@
 
 package com.blacksquircle.ui.feature.editor.ui.dialog
 
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import com.blacksquircle.ui.core.extensions.activityViewModels
-import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.databinding.DialogGotoLineBinding
-import com.blacksquircle.ui.feature.editor.internal.EditorComponent
-import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
-import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import javax.inject.Inject
-import javax.inject.Provider
+import androidx.navigation.fragment.findNavController
+import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
 
 internal class GotoLineDialog : DialogFragment() {
 
-    @Inject
-    lateinit var viewModelProvider: Provider<EditorViewModel>
+    private val navController by lazy { findNavController() }
 
-    private val viewModel by activityViewModels<EditorViewModel> { viewModelProvider.get() }
-
-    override fun onAttach(context: Context) {
-        EditorComponent.buildOrGet(context).inject(this)
-        super.onAttach(context)
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val binding = DialogGotoLineBinding.inflate(layoutInflater)
-        return AlertDialog.Builder(requireContext())
-            .setTitle(R.string.dialog_title_goto_line)
-            .setView(binding.root)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(R.string.action_go_to) { _, _ ->
-                val line = binding.input.text.toString()
-                viewModel.obtainEvent(EditorIntent.GotoLineNumber(line))
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                SquircleTheme {
+                    GotoLineScreen(
+                        onConfirmClicked = { lineNumber ->
+                            sendFragmentResult(
+                                resultKey = EditorFragment.KEY_GOTO_LINE,
+                                bundle = bundleOf(
+                                    EditorFragment.ARG_LINE_NUMBER to lineNumber
+                                )
+                            )
+                        },
+                        onCancelClicked = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
             }
-            .create()
+        }
     }
 }

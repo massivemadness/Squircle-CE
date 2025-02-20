@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.editor.ui.dialog
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,29 +24,19 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringResource
 import androidx.core.graphics.toColorInt
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import com.blacksquircle.ui.core.extensions.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.ds.dialog.ColorPickerDialog
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.internal.EditorComponent
-import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
-import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import javax.inject.Inject
-import javax.inject.Provider
+import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
 import com.blacksquircle.ui.ds.R as UiR
 
 internal class InsertColorDialog : DialogFragment() {
 
-    @Inject
-    lateinit var viewModelProvider: Provider<EditorViewModel>
-
-    private val viewModel by activityViewModels<EditorViewModel> { viewModelProvider.get() }
-
-    override fun onAttach(context: Context) {
-        EditorComponent.buildOrGet(context).inject(this)
-        super.onAttach(context)
-    }
+    private val navController by lazy { findNavController() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,12 +51,15 @@ internal class InsertColorDialog : DialogFragment() {
                     confirmButton = stringResource(R.string.action_insert),
                     dismissButton = stringResource(android.R.string.cancel),
                     onColorSelected = { color ->
-                        val colorInt = color.toHexString().toColorInt()
-                        viewModel.obtainEvent(EditorIntent.InsertColor(colorInt))
-                        dismiss()
+                        sendFragmentResult(
+                            resultKey = EditorFragment.KEY_INSERT_COLOR,
+                            bundle = bundleOf(
+                                EditorFragment.ARG_COLOR to color.toHexString().toColorInt()
+                            )
+                        )
                     },
-                    onDismissClicked = { dismiss() },
-                    onDismiss = { dismiss() },
+                    onDismissClicked = { navController.popBackStack() },
+                    onDismiss = { navController.popBackStack() },
                 )
             }
         }

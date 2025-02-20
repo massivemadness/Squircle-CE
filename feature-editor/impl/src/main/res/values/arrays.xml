@@ -17,7 +17,7 @@
 
 <resources>
 
-    <string-array name="language_title">
+    <string-array name="language_entries">
         <item>ActionScript</item>
         <item>C</item>
         <item>C++</item>
@@ -52,7 +52,7 @@
         <item>YAML</item>
     </string-array>
 
-    <string-array name="language_name">
+    <string-array name="language_values">
         <item>actionscript</item>
         <item>c</item>
         <item>cplusplus</item>

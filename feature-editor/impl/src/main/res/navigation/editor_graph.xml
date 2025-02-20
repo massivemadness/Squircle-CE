@@ -30,9 +30,8 @@
         android:id="@+id/forceSyntaxDialog"
         android:name="com.blacksquircle.ui.feature.editor.ui.dialog.ForceSyntaxDialog"
         android:label="ForceSyntaxDialog">
-        <deepLink app:uri="blacksquircle://editor/syntax?languageName={languageName}" />
         <argument
-            android:name="languageName"
+            android:name="language"
             app:argType="string" />
     </dialog>
 
@@ -40,7 +39,6 @@
         android:id="@+id/closeModifiedDialog"
         android:name="com.blacksquircle.ui.feature.editor.ui.dialog.CloseModifiedDialog"
         android:label="CloseModifiedDialog">
-        <deepLink app:uri="blacksquircle://editor/close?position={position}&amp;fileName={fileName}" />
         <argument
             android:name="fileName"
             app:argType="string" />

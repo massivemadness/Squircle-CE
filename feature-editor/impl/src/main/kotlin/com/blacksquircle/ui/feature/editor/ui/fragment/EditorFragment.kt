@@ -286,6 +286,7 @@ internal class EditorFragment : Fragment(R.layout.fragment_editor),
                 when (event) {
                     is ViewEvent.Toast -> context?.showToast(text = event.message)
                     is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                    is ViewEvent.PopBackStack -> navController.popBackStack()
                     is EditorViewEvent.FindResults -> binding.editor.find(event.results)
                     is EditorViewEvent.InsertColor -> binding.editor.insert(event.color)
                     is EditorViewEvent.GotoLine -> try {
@@ -300,6 +301,23 @@ internal class EditorFragment : Fragment(R.layout.fragment_editor),
         viewModel.settings.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { settings -> applySettings(settings) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        observeFragmentResult(KEY_CLOSE_MODIFIED) { bundle ->
+            val position = bundle.getInt(ARG_POSITION)
+            viewModel.obtainEvent(EditorIntent.CloseTab(position, true))
+        }
+        observeFragmentResult(KEY_SELECT_LANGUAGE) { bundle ->
+            val language = bundle.getString(ARG_LANGUAGE).orEmpty()
+            viewModel.obtainEvent(EditorIntent.SelectLanguage(language))
+        }
+        observeFragmentResult(KEY_GOTO_LINE) { bundle ->
+            val lineNumber = bundle.getInt(ARG_LINE_NUMBER)
+            viewModel.obtainEvent(EditorIntent.GotoLineNumber(lineNumber))
+        }
+        observeFragmentResult(KEY_INSERT_COLOR) { bundle ->
+            val color = bundle.getInt(ARG_COLOR)
+            viewModel.obtainEvent(EditorIntent.InsertColor(color))
+        }
     }
 
     // region TOOLBAR
@@ -623,6 +641,17 @@ internal class EditorFragment : Fragment(R.layout.fragment_editor),
     }
 
     companion object {
+
+        const val KEY_CLOSE_MODIFIED = "KEY_CLOSE_TAB"
+        const val KEY_SELECT_LANGUAGE = "KEY_SELECT_LANGUAGE"
+        const val KEY_GOTO_LINE = "KEY_GOTO_LINE"
+        const val KEY_INSERT_COLOR = "KEY_INSERT_COLOR"
+
+        const val ARG_POSITION = "ARG_POSITION"
+        const val ARG_LANGUAGE = "ARG_LANGUAGE"
+        const val ARG_LINE_NUMBER = "ARG_LINE_NUMBER"
+        const val ARG_COLOR = "ARG_COLOR"
+
         private const val ALPHA_FULL = 255
         private const val ALPHA_SEMI = 90
     }
