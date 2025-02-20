@@ -17,13 +17,10 @@
 package com.blacksquircle.ui.feature.settings.ui.header
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -33,6 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.preference.PreferenceHeader
+import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.ds.R as UiR
@@ -53,7 +51,7 @@ private fun HeaderListScreen(
     onBackClicked: () -> Unit = {},
     onHeaderClicked: (Screen) -> Unit = {},
 ) {
-    Scaffold(
+    ScaffoldSuite(
         topBar = {
             Toolbar(
                 title = stringResource(R.string.label_settings),
@@ -61,7 +59,6 @@ private fun HeaderListScreen(
                 onNavigationClicked = onBackClicked,
             )
         },
-        contentWindowInsets = WindowInsets.systemBars,
         modifier = Modifier.imePadding()
     ) { contentPadding ->
         Column(

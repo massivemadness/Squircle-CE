@@ -20,14 +20,11 @@ import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -40,6 +37,7 @@ import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.extensions.adaptiveIconPainterResource
 import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
+import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.BuildConfig
 import com.blacksquircle.ui.feature.settings.R
@@ -88,7 +86,7 @@ private fun AboutHeaderScreen(
     onTranslationClicked: () -> Unit = {},
     onContributeClicked: () -> Unit = {},
 ) {
-    Scaffold(
+    ScaffoldSuite(
         topBar = {
             Toolbar(
                 title = stringResource(R.string.pref_header_about_title),
@@ -96,7 +94,6 @@ private fun AboutHeaderScreen(
                 onNavigationClicked = onBackClicked,
             )
         },
-        contentWindowInsets = WindowInsets.systemBars,
         modifier = Modifier.imePadding()
     ) { contentPadding ->
         Column(

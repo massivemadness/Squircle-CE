@@ -17,12 +17,9 @@
 package com.blacksquircle.ui.feature.explorer.ui.fragment
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -31,6 +28,7 @@ import androidx.compose.ui.util.fastForEachIndexed
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
+import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.tabs.Breadcrumb
 import com.blacksquircle.ui.ds.tabs.BreadcrumbNavigation
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
@@ -105,7 +103,7 @@ private fun ExplorerScreen(
     onFileSelected: (FileModel) -> Unit = {},
     onRefreshClicked: () -> Unit = {},
 ) {
-    Scaffold(
+    ScaffoldSuite(
         topBar = {
             ExplorerToolbar(
                 searchQuery = viewState.searchQuery,
@@ -131,7 +129,6 @@ private fun ExplorerScreen(
                 onBackClicked = onBackClicked,
             )
         },
-        contentWindowInsets = WindowInsets.systemBars,
         modifier = Modifier.imePadding()
     ) { contentPadding ->
         Column(Modifier.fillMaxSize()) {

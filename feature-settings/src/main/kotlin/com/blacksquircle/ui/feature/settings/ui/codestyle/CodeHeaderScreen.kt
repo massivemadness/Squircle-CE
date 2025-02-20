@@ -17,13 +17,10 @@
 package com.blacksquircle.ui.feature.settings.ui.codestyle
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -35,6 +32,7 @@ import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.preference.SliderPreference
 import com.blacksquircle.ui.ds.preference.SwitchPreference
+import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.ds.R as UiR
@@ -63,7 +61,7 @@ private fun CodeHeaderScreen(
     onUseSpacesChanged: (Boolean) -> Unit = {},
     onTabWidthChanged: (Int) -> Unit = {},
 ) {
-    Scaffold(
+    ScaffoldSuite(
         topBar = {
             Toolbar(
                 title = stringResource(R.string.pref_header_codeStyle_title),
@@ -71,7 +69,6 @@ private fun CodeHeaderScreen(
                 onNavigationClicked = onBackClicked,
             )
         },
-        contentWindowInsets = WindowInsets.systemBars,
         modifier = Modifier.imePadding()
     ) { contentPadding ->
         Column(

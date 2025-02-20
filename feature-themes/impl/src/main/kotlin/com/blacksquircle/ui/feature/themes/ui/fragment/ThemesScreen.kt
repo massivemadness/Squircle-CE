@@ -23,20 +23,17 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -64,6 +61,7 @@ import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.dropdown.Dropdown
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
+import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.fonts.api.model.InternalFont
@@ -113,7 +111,7 @@ private fun ThemesScreen(
         }
     }
 
-    Scaffold(
+    ScaffoldSuite(
         topBar = {
             var searchMode by rememberSaveable {
                 mutableStateOf(false)
@@ -186,7 +184,6 @@ private fun ThemesScreen(
                 )
             }
         },
-        contentWindowInsets = WindowInsets.systemBars,
         modifier = Modifier.imePadding()
     ) { contentPadding ->
         Box(
@@ -195,7 +192,7 @@ private fun ThemesScreen(
         ) {
             if (viewState.isLoading) {
                 CircularProgress()
-                return@Scaffold
+                return@ScaffoldSuite
             }
 
             val itemPadding = 8.dp

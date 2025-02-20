@@ -26,7 +26,7 @@ class SettingsManager(private val context: Context) {
 
         // Look And Feel
         const val KEY_APP_THEME = "app_theme"
-        const val KEY_EDITOR_THEME = "editor_theme"
+        const val KEY_EDITOR_THEME = "editor_theme_internal"
         const val KEY_FULLSCREEN_MODE = "fullscreen_mode"
 
         // Other
@@ -34,7 +34,7 @@ class SettingsManager(private val context: Context) {
 
         // Font
         const val KEY_FONT_SIZE = "font_size"
-        const val KEY_FONT_TYPE = "font_type"
+        const val KEY_FONT_TYPE = "font_type_internal"
 
         // Editor
         const val KEY_WORD_WRAP = "word_wrap"

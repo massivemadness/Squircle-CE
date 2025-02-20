@@ -16,13 +16,10 @@
 
 package com.blacksquircle.ui.feature.shortcuts.ui.fragment
 
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,6 +38,7 @@ import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
+import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.api.model.KeyGroup
@@ -68,7 +66,7 @@ private fun ShortcutsScreen(
     onRestoreClicked: () -> Unit = {},
     onKeyClicked: (Keybinding) -> Unit = {},
 ) {
-    Scaffold(
+    ScaffoldSuite(
         topBar = {
             Toolbar(
                 title = stringResource(R.string.pref_header_keybindings_title),
@@ -96,7 +94,6 @@ private fun ShortcutsScreen(
                 }
             )
         },
-        contentWindowInsets = WindowInsets.systemBars,
         modifier = Modifier.imePadding()
     ) { contentPadding ->
         LazyColumn(

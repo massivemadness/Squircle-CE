@@ -18,16 +18,13 @@ package com.blacksquircle.ui.feature.themes.ui.fragment
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
@@ -46,6 +43,7 @@ import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.button.OutlinedButton
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.ds.preference.ColorPreference
+import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.themes.R
@@ -78,7 +76,7 @@ private fun EditThemeScreen(
     onSaveClicked: () -> Unit = {},
     onColorSelected: (Property, String) -> Unit = { _, _ -> },
 ) {
-    Scaffold(
+    ScaffoldSuite(
         topBar = {
             Toolbar(
                 title = stringResource(R.string.label_new_theme),
@@ -95,7 +93,6 @@ private fun EditThemeScreen(
                 }
             )
         },
-        contentWindowInsets = WindowInsets.systemBars,
         modifier = Modifier.imePadding()
     ) { contentPadding ->
         LazyColumn(

@@ -16,14 +16,11 @@
 
 package com.blacksquircle.ui.feature.servers.ui.fragment
 
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -34,6 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
+import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
@@ -63,7 +61,7 @@ private fun CloudScreen(
     onServerClicked: (ServerConfig) -> Unit = {},
     onAddServerClicked: () -> Unit = {},
 ) {
-    Scaffold(
+    ScaffoldSuite(
         topBar = {
             Toolbar(
                 title = stringResource(R.string.pref_header_cloud_title),
@@ -71,7 +69,6 @@ private fun CloudScreen(
                 onNavigationClicked = onBackClicked,
             )
         },
-        contentWindowInsets = WindowInsets.systemBars,
         modifier = Modifier.imePadding()
     ) { contentPadding ->
         LazyColumn(

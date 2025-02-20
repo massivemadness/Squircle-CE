@@ -42,7 +42,7 @@ internal sealed class EditorScreen(route: Any) : Screen(route) {
         )
     )
 
-    data object GotoLine : EditorScreen("blacksquircle://editor/goto")
-    data object InsertColor : EditorScreen("blacksquircle://editor/insertcolor")
+    data object GotoLine : EditorScreen(R.id.gotoLineDialog)
+    data object InsertColor : EditorScreen(R.id.insertColorDialog)
     data object ConfirmExit : EditorScreen(R.id.confirmExitDialog)
 }

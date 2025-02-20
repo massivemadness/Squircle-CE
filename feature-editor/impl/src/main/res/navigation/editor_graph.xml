@@ -17,7 +17,6 @@
 
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/editor_graph"
     app:startDestination="@id/editorFragment">
 
@@ -50,17 +49,12 @@
     <dialog
         android:id="@+id/gotoLineDialog"
         android:name="com.blacksquircle.ui.feature.editor.ui.dialog.GotoLineDialog"
-        android:label="GotoLineDialog"
-        tools:layout="@layout/dialog_goto_line">
-        <deepLink app:uri="blacksquircle://editor/goto" />
-    </dialog>
+        android:label="GotoLineDialog" />
 
     <dialog
         android:id="@+id/insertColorDialog"
         android:name="com.blacksquircle.ui.feature.editor.ui.dialog.InsertColorDialog"
-        android:label="InsertColorDialog">
-        <deepLink app:uri="blacksquircle://editor/insertcolor" />
-    </dialog>
+        android:label="InsertColorDialog" />
 
     <dialog
         android:id="@+id/confirmExitDialog"
