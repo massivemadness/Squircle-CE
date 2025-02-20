@@ -1,24 +1,24 @@
 [versions]
-agp = "8.8.0"
+agp = "8.8.1"
 android-platform = "4.1.1.4"
 kotlin = "2.1.10"
 ksp = "2.1.10-1.0.29"
 kover = "0.7.4"
 core = "1.15.0"
 activity = "1.10.0"
-fragment = "1.8.5"
+fragment = "1.8.6"
 splashscreen = "1.0.1"
 profile-installer = "1.4.1"
 timber = "5.0.1"
 appupdate = "2.1.0"
 appcompat = "1.7.0"
 material = "1.12.0"
-compose = "1.7.7"
+compose = "1.7.8"
 constraintlayout = "2.2.0"
 colorpicker = "1.1.2"
 vectordrawable = "1.2.0"
 lifecycle = "2.8.7"
-navigation = "2.8.6"
+navigation = "2.8.7"
 room = "2.6.1"
 gson = "2.10.1"
 ftpclient = "3.9.0"
@@ -83,8 +83,11 @@ androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayo
 androidx-vectordrawable = { module = "androidx.vectordrawable:vectordrawable", version.ref = "vectordrawable" }
 androidx-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "lifecycle" }
 androidx-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidx-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 androidx-room = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 

@@ -25,11 +25,12 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.exclude
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.onConsumedWindowInsetsChanged
 import androidx.compose.foundation.layout.systemBars
-import androidx.compose.material.DrawerDefaults
 import androidx.compose.material.DrawerState
 import androidx.compose.material.DrawerValue
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalDrawer
 import androidx.compose.material.ScaffoldState
@@ -41,7 +42,11 @@ import androidx.compose.material.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.UiComposable
@@ -49,19 +54,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
 import androidx.compose.ui.util.fastMaxBy
+import androidx.compose.ui.util.fastRoundToInt
+import kotlin.math.abs
 
 /**
  * Fork of material Scaffold with minor tweaks:
  * - Default value for [contentWindowInsets] is [WindowInsets.Companion.systemBars]
  * - Removed [ScaffoldState], it's parameters and now part of this composable
+ * - Added offset for [content] when dragging the drawer
+ * - Changed drawer colors, disabled the elevation
  */
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun ScaffoldSuite(
     modifier: Modifier = Modifier,
@@ -77,10 +87,10 @@ fun ScaffoldSuite(
     drawerContent: @Composable (ColumnScope.() -> Unit)? = null,
     drawerGesturesEnabled: Boolean = true,
     drawerShape: Shape = MaterialTheme.shapes.large,
-    drawerElevation: Dp = DrawerDefaults.Elevation,
-    drawerBackgroundColor: Color = MaterialTheme.colors.surface,
+    drawerElevation: Dp = 0.dp,
+    drawerBackgroundColor: Color = MaterialTheme.colors.background,
     drawerContentColor: Color = contentColorFor(drawerBackgroundColor),
-    drawerScrimColor: Color = DrawerDefaults.scrimColor,
+    drawerScrimColor: Color = Color.Transparent,
     backgroundColor: Color = MaterialTheme.colors.background,
     contentColor: Color = contentColorFor(backgroundColor),
     content: @Composable (PaddingValues) -> Unit
@@ -119,7 +129,28 @@ fun ScaffoldSuite(
             drawerBackgroundColor = drawerBackgroundColor,
             drawerContentColor = drawerContentColor,
             scrimColor = drawerScrimColor,
-            content = { child(Modifier) }
+            content = {
+                var drawerWidth by remember { mutableFloatStateOf(0f) }
+                SideEffect {
+                    if (drawerWidth == 0f) {
+                        drawerWidth = abs(drawerState.offset)
+                    }
+                }
+                val childModifier = Modifier.offset {
+                    val drawerPadding = EndDrawerPadding.roundToPx()
+                    val drawerOffset = abs(drawerState.offset)
+
+                    val applyOffset = (drawerWidth - drawerOffset) > drawerPadding
+                    val contentOffset = (drawerWidth - drawerOffset)
+                        .fastRoundToInt() - drawerPadding
+
+                    IntOffset(
+                        x = if (applyOffset) contentOffset else 0,
+                        y = 0,
+                    )
+                }
+                child(childModifier)
+            }
         )
     } else {
         child(modifier)
@@ -312,6 +343,7 @@ private class FabPlacement(
 private val LocalFabPlacement = staticCompositionLocalOf<FabPlacement?> { null }
 
 private val FabSpacing = 16.dp
+private val EndDrawerPadding = 56.dp
 
 private enum class ScaffoldLayoutContent { TopBar, MainContent, Snackbar, Fab, BottomBar }
 
