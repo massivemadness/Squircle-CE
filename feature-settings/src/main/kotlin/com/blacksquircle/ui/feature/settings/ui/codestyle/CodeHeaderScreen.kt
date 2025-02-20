@@ -22,11 +22,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
@@ -35,10 +40,17 @@ import com.blacksquircle.ui.ds.preference.SwitchPreference
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
+import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun CodeHeaderScreen(viewModel: CodeHeaderViewModel) {
+internal fun CodeHeaderScreen(
+    navController: NavController,
+    viewModel: CodeHeaderViewModel = daggerViewModel { context ->
+        val component = SettingsComponent.buildOrGet(context)
+        CodeHeaderViewModel.Factory().also(component::inject)
+    }
+) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CodeHeaderScreen(
         viewState = viewState,
@@ -49,6 +61,15 @@ internal fun CodeHeaderScreen(viewModel: CodeHeaderViewModel) {
         onUseSpacesChanged = viewModel::onUseSpacesChanged,
         onTabWidthChanged = viewModel::onTabWidthChanged,
     )
+
+    LaunchedEffect(Unit) {
+        viewModel.viewEvent.collect { event ->
+            when (event) {
+                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.PopBackStack -> navController.popBackStack()
+            }
+        }
+    }
 }
 
 @Composable

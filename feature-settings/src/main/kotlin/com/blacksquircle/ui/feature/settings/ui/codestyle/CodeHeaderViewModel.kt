@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.settings.ui.codestyle
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
@@ -28,6 +29,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Provider
 
 internal class CodeHeaderViewModel @Inject constructor(
     private val settingsManager: SettingsManager
@@ -88,5 +90,16 @@ internal class CodeHeaderViewModel @Inject constructor(
             useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs,
             tabWidth = settingsManager.tabWidth,
         )
+    }
+
+    class Factory : ViewModelProvider.Factory {
+
+        @Inject
+        lateinit var viewModelProvider: Provider<CodeHeaderViewModel>
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return viewModelProvider.get() as T
+        }
     }
 }

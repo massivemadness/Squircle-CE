@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.settings.ui.header
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
@@ -28,6 +29,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Provider
 
 internal class HeaderViewModel @Inject constructor() : ViewModel() {
 
@@ -46,6 +48,17 @@ internal class HeaderViewModel @Inject constructor() : ViewModel() {
     fun onHeaderClicked(screen: Screen) {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    class Factory : ViewModelProvider.Factory {
+
+        @Inject
+        lateinit var viewModelProvider: Provider<HeaderViewModel>
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return viewModelProvider.get() as T
         }
     }
 }

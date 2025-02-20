@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.settings.ui.files
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
@@ -29,6 +30,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.nio.charset.Charset
 import javax.inject.Inject
+import javax.inject.Provider
 
 internal class FilesHeaderViewModel @Inject constructor(
     private val settingsManager: SettingsManager
@@ -115,5 +117,16 @@ internal class FilesHeaderViewModel @Inject constructor(
             viewMode = settingsManager.viewMode,
             sortMode = settingsManager.sortMode,
         )
+    }
+
+    class Factory : ViewModelProvider.Factory {
+
+        @Inject
+        lateinit var viewModelProvider: Provider<FilesHeaderViewModel>
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return viewModelProvider.get() as T
+        }
     }
 }

@@ -22,27 +22,53 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.compose.CleanupEffect
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.preference.PreferenceHeader
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
+import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun HeaderListScreen(viewModel: HeaderViewModel) {
+internal fun HeaderListScreen(
+    navController: NavController,
+    viewModel: HeaderViewModel = daggerViewModel { context ->
+        val component = SettingsComponent.buildOrGet(context)
+        HeaderViewModel.Factory().also(component::inject)
+    }
+) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     HeaderListScreen(
         viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
         onHeaderClicked = viewModel::onHeaderClicked
     )
+
+    LaunchedEffect(Unit) {
+        viewModel.viewEvent.collect { event ->
+            when (event) {
+                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.PopBackStack -> navController.popBackStack()
+            }
+        }
+    }
+
+    CleanupEffect {
+        SettingsComponent.release()
+    }
 }
 
 @Composable

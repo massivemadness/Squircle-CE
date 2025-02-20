@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.settings.ui.application
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,31 +23,11 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.ui.core.extensions.navigateTo
-import com.blacksquircle.ui.core.extensions.viewModels
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
-import javax.inject.Provider
 
 internal class AppHeaderFragment : Fragment() {
-
-    @Inject
-    lateinit var viewModelProvider: Provider<AppHeaderViewModel>
-
-    private val viewModel by viewModels<AppHeaderViewModel> { viewModelProvider.get() }
-    private val navController by lazy { findNavController() }
-
-    override fun onAttach(context: Context) {
-        SettingsComponent.buildOrGet(context).inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,25 +38,9 @@ internal class AppHeaderFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 SquircleTheme {
-                    AppHeaderScreen(viewModel)
+                    AppHeaderScreen(navController = findNavController())
                 }
             }
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
-    }
-
-    private fun observeViewModel() {
-        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { event ->
-                when (event) {
-                    is ViewEvent.Navigation -> navController.navigateTo(event.screen)
-                    is ViewEvent.PopBackStack -> navController.popBackStack()
-                }
-            }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

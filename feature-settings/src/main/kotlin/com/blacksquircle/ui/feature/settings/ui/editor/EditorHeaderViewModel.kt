@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.settings.ui.editor
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
@@ -29,6 +30,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Provider
 
 internal class EditorHeaderViewModel @Inject constructor(
     private val settingsManager: SettingsManager
@@ -152,5 +154,16 @@ internal class EditorHeaderViewModel @Inject constructor(
             keyboardPreset = settingsManager.keyboardPreset,
             softKeyboard = settingsManager.softKeyboard,
         )
+    }
+
+    class Factory : ViewModelProvider.Factory {
+
+        @Inject
+        lateinit var viewModelProvider: Provider<EditorHeaderViewModel>
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return viewModelProvider.get() as T
+        }
     }
 }

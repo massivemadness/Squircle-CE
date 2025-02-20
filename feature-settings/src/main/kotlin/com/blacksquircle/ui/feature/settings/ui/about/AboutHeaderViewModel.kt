@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.settings.ui.about
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
@@ -25,6 +26,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Provider
 
 internal class AboutHeaderViewModel @Inject constructor() : ViewModel() {
 
@@ -47,6 +49,17 @@ internal class AboutHeaderViewModel @Inject constructor() : ViewModel() {
                 val screen = SettingsScreen.ChangeLog
                 _viewEvent.send(ViewEvent.Navigation(screen))
             }
+        }
+    }
+
+    class Factory : ViewModelProvider.Factory {
+
+        @Inject
+        lateinit var viewModelProvider: Provider<AboutHeaderViewModel>
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return viewModelProvider.get() as T
         }
     }
 }

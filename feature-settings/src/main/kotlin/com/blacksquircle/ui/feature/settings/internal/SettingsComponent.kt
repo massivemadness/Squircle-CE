@@ -19,12 +19,12 @@ package com.blacksquircle.ui.feature.settings.internal
 import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
-import com.blacksquircle.ui.feature.settings.ui.about.AboutHeaderFragment
-import com.blacksquircle.ui.feature.settings.ui.application.AppHeaderFragment
-import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderFragment
-import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderFragment
-import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderFragment
-import com.blacksquircle.ui.feature.settings.ui.header.HeaderListFragment
+import com.blacksquircle.ui.feature.settings.ui.about.AboutHeaderViewModel
+import com.blacksquircle.ui.feature.settings.ui.application.AppHeaderViewModel
+import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderViewModel
+import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderViewModel
+import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewModel
+import com.blacksquircle.ui.feature.settings.ui.header.HeaderViewModel
 import dagger.Component
 
 @SettingsScope
@@ -35,12 +35,12 @@ import dagger.Component
 )
 internal interface SettingsComponent {
 
-    fun inject(fragment: AboutHeaderFragment)
-    fun inject(fragment: AppHeaderFragment)
-    fun inject(fragment: CodeHeaderFragment)
-    fun inject(fragment: EditorHeaderFragment)
-    fun inject(fragment: FilesHeaderFragment)
-    fun inject(fragment: HeaderListFragment)
+    fun inject(factory: AboutHeaderViewModel.Factory)
+    fun inject(factory: AppHeaderViewModel.Factory)
+    fun inject(factory: CodeHeaderViewModel.Factory)
+    fun inject(factory: EditorHeaderViewModel.Factory)
+    fun inject(factory: FilesHeaderViewModel.Factory)
+    fun inject(factory: HeaderViewModel.Factory)
 
     @Component.Factory
     interface Factory {

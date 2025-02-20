@@ -32,6 +32,7 @@ dependencies {
 
     // Core
     implementation(libs.kotlin.stdlib)
+    implementation(libs.androidx.core)
     implementation(libs.timber)
 
     // Compose
