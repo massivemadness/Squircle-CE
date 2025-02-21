@@ -22,6 +22,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -95,10 +96,16 @@ fun BreadcrumbNavigation(
                 edgePadding = 0.dp,
                 divider = {},
                 tabs = tabs,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .height(36.dp),
             )
         } else {
-            Spacer(Modifier.weight(1f))
+            Spacer(
+                Modifier
+                    .weight(1f)
+                    .height(36.dp)
+            )
         }
 
         if (actionIcon != null) {
