@@ -18,37 +18,36 @@ package com.blacksquircle.ui.feature.editor.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.extensions.*
-import com.blacksquircle.ui.core.factory.LanguageFactory
+import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.ds.extensions.toHexString
-import com.blacksquircle.ui.editorkit.model.FindParams
-import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
-import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
-import com.blacksquircle.ui.feature.editor.data.model.KeyModel
-import com.blacksquircle.ui.feature.editor.data.model.SettingsEvent
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.feature.editor.ui.manager.KeyboardManager
-import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
-import com.blacksquircle.ui.feature.editor.ui.mvi.*
-import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
-import com.blacksquircle.ui.feature.editor.ui.utils.appendList
-import com.blacksquircle.ui.feature.editor.ui.utils.replaceList
+import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewState
+import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
+import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
+import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorState
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 import com.blacksquircle.ui.ds.R as UiR
 
 internal class EditorViewModel @Inject constructor(
@@ -61,7 +60,145 @@ internal class EditorViewModel @Inject constructor(
     private val shortcutsInteractor: ShortcutsInteractor,
 ) : ViewModel() {
 
-    private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.ActionBar())
+    private val _viewState = MutableStateFlow(EditorViewState())
+    val viewState: StateFlow<EditorViewState> = _viewState.asStateFlow()
+
+    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
+    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
+
+    private var documents = emptyList<DocumentState>()
+    private var selectedDocument = -1
+    private var currentJob: Job? = null
+
+    init {
+        loadDocuments()
+
+        editorInteractor.eventBus
+            .onEach { event ->
+                when (event) {
+                    is EditorApiEvent.OpenFile -> {
+                        // TODO
+                    }
+                    is EditorApiEvent.OpenFileUri -> {
+                        // TODO
+                    }
+                }
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun onMenuClicked() {
+        viewModelScope.launch {
+            val screen = Screen.Explorer
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    private fun loadContent() {
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            val updatedState = documents[selectedDocument]
+            try {
+                _viewState.update {
+                    it.copy(
+                        documents = documents,
+                        selectedDocument = selectedDocument,
+                        isLoading = true,
+                    )
+                }
+
+                delay(2000L) // TODO load content
+                documents = documents.mapSelected {
+                    updatedState.copy(
+                        content = null, // TODO set content
+                        errorState = null,
+                        autoRefresh = false,
+                    )
+                }
+
+                _viewState.update {
+                    it.copy(
+                        documents = documents,
+                        selectedDocument = selectedDocument,
+                        isLoading = false,
+                    )
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+
+                /** Clear content and show error */
+                documents = documents.mapSelected {
+                    updatedState.copy(
+                        content = null,
+                        errorState = errorState(e),
+                        autoRefresh = false,
+                    )
+                }
+
+                _viewState.update {
+                    it.copy(
+                        documents = documents,
+                        selectedDocument = selectedDocument,
+                        isLoading = false,
+                    )
+                }
+            }
+        }
+    }
+
+    private fun loadDocuments() {
+        viewModelScope.launch {
+            try {
+                val documentList = documentRepository.loadDocuments()
+
+                documents = documentList.map { document ->
+                    DocumentState(
+                        document = document,
+                        content = null,
+                    )
+                }
+                selectedDocument = documentList.indexOf { it.uuid == settingsManager.selectedUuid }
+
+                _viewState.update {
+                    it.copy(
+                        documents = documents,
+                        selectedDocument = selectedDocument,
+                    )
+                }
+
+                loadContent()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+            }
+        }
+    }
+
+    private fun errorState(e: Exception): ErrorState {
+        return ErrorState(
+            icon = UiR.drawable.ic_file_error,
+            title = stringProvider.getString(UiR.string.common_error_occurred),
+            subtitle = e.message.orEmpty(),
+            action = ErrorAction.CLOSE_DOCUMENT,
+        )
+    }
+
+    private fun List<DocumentState>.mapSelected(
+        predicate: (DocumentState) -> DocumentState
+    ): List<DocumentState> {
+        return mapIndexed { index, state ->
+            if (index == selectedDocument) {
+                predicate(state)
+            } else {
+                state
+            }
+        }
+    }
+
+    /*private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.ActionBar())
     val toolbarViewState: StateFlow<ToolbarViewState> = _toolbarViewState.asStateFlow()
 
     private val _editorViewState = MutableStateFlow<EditorViewState>(EditorViewState.Loading)
@@ -679,8 +816,10 @@ internal class EditorViewModel @Inject constructor(
                 val codeCompletion = settingsManager.codeCompletion
                 settings.add(SettingsEvent.CodeCompletion(codeCompletion))
 
-                /*val errorHighlighting = settingsManager.errorHighlighting
+     */
+    /*val errorHighlighting = settingsManager.errorHighlighting
                 settings.add(SettingsEvent.ErrorHighlight(errorHighlighting))*/
+    /*
 
                 val pinchZoom = settingsManager.pinchZoom
                 settings.add(SettingsEvent.PinchZoom(pinchZoom))
@@ -733,5 +872,5 @@ internal class EditorViewModel @Inject constructor(
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
-    }
+    }*/
 }

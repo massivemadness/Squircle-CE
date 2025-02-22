@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.mvi
+package com.blacksquircle.ui.feature.editor.ui.fragment
 
+import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.editorkit.model.FindParams
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.feature.editor.ui.manager.ToolbarManager
+import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 
-internal sealed class ToolbarViewState : ViewState() {
-
-    data class ActionBar(
-        val documents: List<DocumentModel> = emptyList(),
-        val position: Int = -1,
-        val mode: ToolbarManager.Mode = ToolbarManager.Mode.DEFAULT,
-        val findParams: FindParams = FindParams()
-    ) : ToolbarViewState()
-}
+@Immutable
+internal data class EditorViewState(
+    val documents: List<DocumentState> = emptyList(),
+    val selectedDocument: Int = -1,
+    val isLoading: Boolean = true,
+) : ViewState()

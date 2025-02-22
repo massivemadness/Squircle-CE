@@ -24,10 +24,10 @@ import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.feature.editor.ui.mvi.EditorErrorAction
+import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewState
+import com.blacksquircle.ui.feature.editor.ui.fragment.ToolbarViewState
+import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.mvi.EditorIntent
-import com.blacksquircle.ui.feature.editor.ui.mvi.EditorViewState
-import com.blacksquircle.ui.feature.editor.ui.mvi.ToolbarViewState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
@@ -126,7 +126,7 @@ class LoadFilesTest {
             image = UiR.drawable.ic_file_find,
             title = stringProvider.getString(R.string.message_no_open_files),
             subtitle = "",
-            action = EditorErrorAction.Undefined
+            action = ErrorAction.Undefined
         )
         assertEquals(editorViewState, viewModel.editorViewState.value)
     }

@@ -14,14 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.mvi
+package com.blacksquircle.ui.feature.editor.ui.fragment.model
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.editorkit.model.FindResult
-
-internal sealed class EditorViewEvent : ViewEvent() {
-
-    data class FindResults(val results: List<FindResult>) : EditorViewEvent()
-    data class InsertColor(val color: String) : EditorViewEvent()
-    data class GotoLine(val line: Int) : EditorViewEvent()
+internal enum class ErrorAction {
+    CLOSE_DOCUMENT,
+    UNDEFINED,
 }

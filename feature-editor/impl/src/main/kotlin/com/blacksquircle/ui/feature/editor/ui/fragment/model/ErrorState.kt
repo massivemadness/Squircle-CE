@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.mvi
+package com.blacksquircle.ui.feature.editor.ui.fragment.model
 
-internal sealed class EditorErrorAction {
-    data object Undefined : EditorErrorAction()
-    data object CloseDocument : EditorErrorAction()
-}
+import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.ds.R
+
+@Immutable
+internal data class ErrorState(
+    val title: String = "",
+    val subtitle: String = "",
+    val icon: Int = R.drawable.ic_file_error,
+    val action: ErrorAction = ErrorAction.UNDEFINED,
+)

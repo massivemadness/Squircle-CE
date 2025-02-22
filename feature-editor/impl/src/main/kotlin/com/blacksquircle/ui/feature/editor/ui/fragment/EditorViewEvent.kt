@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.mvi
+package com.blacksquircle.ui.feature.editor.ui.fragment
 
-import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.editorkit.model.FindResult
 
-internal sealed class EditorViewState : ViewState() {
+internal sealed class EditorViewEvent : ViewEvent() {
 
-    data object Loading : EditorViewState()
-
-    data class Content(var content: DocumentContent) : EditorViewState()
-
-    data class Error(
-        val image: Int,
-        val title: String,
-        val subtitle: String,
-        val action: EditorErrorAction,
-    ) : EditorViewState()
+    data class FindResults(val results: List<FindResult>) : EditorViewEvent()
+    data class InsertColor(val color: String) : EditorViewEvent()
+    data class GotoLine(val line: Int) : EditorViewEvent()
 }

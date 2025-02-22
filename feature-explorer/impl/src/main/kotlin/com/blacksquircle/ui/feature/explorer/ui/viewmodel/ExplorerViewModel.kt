@@ -105,7 +105,7 @@ internal class ExplorerViewModel @Inject constructor(
     private var taskBuffer: List<FileModel> = emptyList()
     private var selectedFiles: List<FileModel> = emptyList()
     private var breadcrumbs: List<BreadcrumbState> = emptyList()
-    private var selectionBreadcrumb: Int = -1
+    private var selectedBreadcrumb: Int = -1
     private var searchQuery: String = ""
     private var currentJob: Job? = null
 
@@ -139,14 +139,14 @@ internal class ExplorerViewModel @Inject constructor(
 
         selectedFilesystem = filesystem
         breadcrumbs = emptyList()
-        selectionBreadcrumb = -1
+        selectedBreadcrumb = -1
         resetBuffer()
 
         _viewState.update {
             it.copy(
                 selectedFilesystem = selectedFilesystem,
                 breadcrumbs = breadcrumbs,
-                selectedBreadcrumb = selectionBreadcrumb,
+                selectedBreadcrumb = selectedBreadcrumb,
             )
         }
         loadFiles()
@@ -250,7 +250,7 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onRefreshClicked() {
-        val breadcrumb = breadcrumbs.getOrNull(selectionBreadcrumb)
+        val breadcrumb = breadcrumbs.getOrNull(selectedBreadcrumb)
         loadFiles(breadcrumb?.fileModel)
     }
 
@@ -340,7 +340,7 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onSelectAllClicked() {
-        val parent = breadcrumbs[selectionBreadcrumb]
+        val parent = breadcrumbs[selectedBreadcrumb]
         selectedFiles = parent.fileList
         _viewState.update {
             it.copy(selectedFiles = selectedFiles)
@@ -443,7 +443,7 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
 
-            val parent = breadcrumbs[selectionBreadcrumb].fileModel
+            val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.createFile(parent, fileName, isFolder)
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
@@ -505,7 +505,7 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
 
-            val parent = breadcrumbs[selectionBreadcrumb].fileModel
+            val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.compressFiles(taskBuffer.toList(), parent, fileName)
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
@@ -524,7 +524,7 @@ internal class ExplorerViewModel @Inject constructor(
 
     private fun cutFiles() {
         viewModelScope.launch {
-            val parent = breadcrumbs[selectionBreadcrumb].fileModel
+            val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.cutFiles(taskBuffer.toList(), parent)
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
@@ -543,7 +543,7 @@ internal class ExplorerViewModel @Inject constructor(
 
     private fun copyFiles() {
         viewModelScope.launch {
-            val parent = breadcrumbs[selectionBreadcrumb].fileModel
+            val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.copyFiles(taskBuffer.toList(), parent)
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
@@ -562,7 +562,7 @@ internal class ExplorerViewModel @Inject constructor(
 
     private fun extractFiles(fileModel: FileModel) {
         viewModelScope.launch {
-            val parent = breadcrumbs[selectionBreadcrumb].fileModel
+            val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.extractFiles(fileModel, parent)
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
@@ -587,12 +587,12 @@ internal class ExplorerViewModel @Inject constructor(
             /** Check if [parent] is already added to breadcrumbs */
             val existingIndex = breadcrumbs.indexOf { it.fileModel?.fileUri == parent?.fileUri }
             if (existingIndex != -1) {
-                if (existingIndex == selectionBreadcrumb) {
+                if (existingIndex == selectedBreadcrumb) {
                     /** Refresh current tab */
                     isRefreshing = true
                 } else {
                     /** Select existing tab */
-                    selectionBreadcrumb = existingIndex
+                    selectedBreadcrumb = existingIndex
 
                     /**
                      * When autoRefresh=true it means that coroutine was cancelled and we have to
@@ -606,7 +606,7 @@ internal class ExplorerViewModel @Inject constructor(
                                 breadcrumbs = breadcrumbs.mapSelected { state ->
                                     state.copy(fileList = state.fileList.applyFilter())
                                 },
-                                selectedBreadcrumb = selectionBreadcrumb,
+                                selectedBreadcrumb = selectedBreadcrumb,
                                 isLoading = false,
                             )
                         }
@@ -617,7 +617,7 @@ internal class ExplorerViewModel @Inject constructor(
 
             val updatedState = if (isRefreshing) {
                 /** Refresh current directory, don't open a new tab */
-                breadcrumbs[selectionBreadcrumb]
+                breadcrumbs[selectedBreadcrumb]
             } else {
                 /**
                  * Remove all tabs after the selected one, insert empty tree at the end.
@@ -630,9 +630,9 @@ internal class ExplorerViewModel @Inject constructor(
                     autoRefresh = true,
                 )
                 val fromIndex = 0
-                val toIndex = if (selectionBreadcrumb > -1) selectionBreadcrumb + 1 else 0
+                val toIndex = if (selectedBreadcrumb > -1) selectedBreadcrumb + 1 else 0
                 breadcrumbs = breadcrumbs.subList(fromIndex, toIndex) + newState
-                selectionBreadcrumb = breadcrumbs.size - 1
+                selectedBreadcrumb = breadcrumbs.size - 1
                 newState
             }
 
@@ -640,7 +640,7 @@ internal class ExplorerViewModel @Inject constructor(
                 _viewState.update {
                     it.copy(
                         breadcrumbs = breadcrumbs,
-                        selectedBreadcrumb = selectionBreadcrumb,
+                        selectedBreadcrumb = selectedBreadcrumb,
                         isLoading = true,
                     )
                 }
@@ -661,7 +661,7 @@ internal class ExplorerViewModel @Inject constructor(
                         breadcrumbs = breadcrumbs.mapSelected { state ->
                             state.copy(fileList = state.fileList.applyFilter())
                         },
-                        selectedBreadcrumb = selectionBreadcrumb,
+                        selectedBreadcrumb = selectedBreadcrumb,
                         isLoading = false,
                     )
                 }
@@ -682,7 +682,7 @@ internal class ExplorerViewModel @Inject constructor(
                 _viewState.update {
                     it.copy(
                         breadcrumbs = breadcrumbs,
-                        selectedBreadcrumb = selectionBreadcrumb,
+                        selectedBreadcrumb = selectedBreadcrumb,
                         isLoading = false,
                     )
                 }
@@ -849,7 +849,7 @@ internal class ExplorerViewModel @Inject constructor(
         predicate: (BreadcrumbState) -> BreadcrumbState
     ): List<BreadcrumbState> {
         return mapIndexed { index, state ->
-            if (index == selectionBreadcrumb) {
+            if (index == selectedBreadcrumb) {
                 predicate(state)
             } else {
                 state
