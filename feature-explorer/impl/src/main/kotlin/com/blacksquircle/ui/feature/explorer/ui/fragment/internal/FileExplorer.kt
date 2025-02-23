@@ -34,6 +34,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.util.fastAny
 import com.blacksquircle.ui.ds.R
@@ -75,6 +77,7 @@ internal fun FileExplorer(
     val refreshState = rememberPullRefreshState(refreshing, ::refresh)
     val scrollState = rememberLazyListState()
 
+    val haptic = LocalHapticFeedback.current
     val fileList = breadcrumbState.fileList
     val isError = breadcrumbState.errorState != null
     val isEmpty = fileList.isEmpty()
@@ -101,16 +104,23 @@ internal fun FileExplorer(
                             fileModel = fileModel,
                             isSelected = isSelected,
                             onClick = { onFileClicked(fileModel) },
-                            onLongClick = { onFileSelected(fileModel) },
+                            onLongClick = {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                onFileSelected(fileModel)
+                            },
                             modifier = Modifier.animateItem(),
                         )
                     }
+
                     ViewMode.DETAILED_LIST -> {
                         DetailedFileItem(
                             fileModel = fileModel,
                             isSelected = isSelected,
                             onClick = { onFileClicked(fileModel) },
-                            onLongClick = { onFileSelected(fileModel) },
+                            onLongClick = {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                onFileSelected(fileModel)
+                            },
                             modifier = Modifier.animateItem(),
                         )
                     }
