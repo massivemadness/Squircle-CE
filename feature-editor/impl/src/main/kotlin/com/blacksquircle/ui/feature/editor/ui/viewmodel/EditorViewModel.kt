@@ -25,6 +25,8 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
+import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
@@ -33,6 +35,8 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorState
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
+import com.blacksquircle.ui.filesystem.base.model.FileModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -47,7 +51,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.coroutines.cancellation.CancellationException
 import com.blacksquircle.ui.ds.R as UiR
 
 internal class EditorViewModel @Inject constructor(
@@ -67,7 +70,7 @@ internal class EditorViewModel @Inject constructor(
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
     private var documents = emptyList<DocumentState>()
-    private var selectedDocument = -1
+    private var selectedPosition = -1
     private var currentJob: Job? = null
 
     init {
@@ -77,7 +80,7 @@ internal class EditorViewModel @Inject constructor(
             .onEach { event ->
                 when (event) {
                     is EditorApiEvent.OpenFile -> {
-                        // TODO
+                        onFileOpened(event.fileModel)
                     }
                     is EditorApiEvent.OpenFileUri -> {
                         // TODO
@@ -101,32 +104,113 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun loadContent() {
+    fun onDocumentClicked(documentState: DocumentState) {
+        val selectedDocument = documents[selectedPosition].document
+        if (selectedDocument.fileUri == documentState.document.fileUri) {
+            return
+        }
+        loadDocument(documentState.document)
+    }
+
+    fun onCloseDocumentClicked(documentState: DocumentState) {
+        closeDocument(documentState.document)
+    }
+
+    private fun onFileOpened(fileModel: FileModel) {
+        val document = DocumentMapper.toModel(fileModel, documents.size)
+        loadDocument(document)
+    }
+
+    @Suppress("KotlinConstantConditions")
+    private fun closeDocument(document: DocumentModel) {
+        viewModelScope.launch {
+            try {
+                val documentPosition = document.position
+                val currentPosition = when {
+                    documentPosition == selectedPosition -> when {
+                        documentPosition - 1 > -1 -> documentPosition - 1
+                        documentPosition + 1 < documents.size -> documentPosition
+                        else -> -1
+                    }
+                    documentPosition < selectedPosition -> selectedPosition - 1
+                    documentPosition > selectedPosition -> selectedPosition
+                    else -> -1
+                }
+
+                documents = documents.filterNot { it.document.position == documentPosition }
+                selectedPosition = currentPosition
+
+                _viewState.update {
+                    it.copy(
+                        documents = documents,
+                        selectedDocument = selectedPosition,
+                    )
+                }
+
+                // ???
+                loadDocument(documents[selectedPosition].document)
+
+                // settingsManager.selectedUuid = documents
+                //     .getOrNull(currentPosition)?.document?.uuid.orEmpty()
+
+                // documentRepository.closeDocument(document)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+            }
+        }
+    }
+
+    private fun loadDocument(document: DocumentModel) {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
-            val updatedState = documents[selectedDocument]
+            /** Check if [document] is already added to tabs */
+            val existingIndex = documents.indexOf { it.document.fileUri == document.fileUri }
+            if (existingIndex != -1) {
+                documents = documents.mapSelected { state ->
+                    state.copy(content = null)
+                }
+                /** Select existing document */
+                selectedPosition = existingIndex
+            } else {
+                documents = documents.mapSelected { state ->
+                    state.copy(content = null)
+                }
+                /** Add new document */
+                val documentState = DocumentState(
+                    document = document,
+                    content = null,
+                )
+                documents = documents + documentState
+                selectedPosition = documents.size - 1
+            }
+
+            val documentState = documents[selectedPosition]
+            settingsManager.selectedUuid = document.uuid
+
             try {
                 _viewState.update {
                     it.copy(
                         documents = documents,
-                        selectedDocument = selectedDocument,
+                        selectedDocument = selectedPosition,
                         isLoading = true,
                     )
                 }
 
-                delay(2000L) // TODO load content
+                delay(1000L)
+                val content = documentRepository.loadDocument(documentState.document)
                 documents = documents.mapSelected {
-                    updatedState.copy(
-                        content = null, // TODO set content
+                    documentState.copy(
+                        content = content,
                         errorState = null,
-                        autoRefresh = false,
                     )
                 }
 
                 _viewState.update {
                     it.copy(
                         documents = documents,
-                        selectedDocument = selectedDocument,
+                        selectedDocument = selectedPosition,
                         isLoading = false,
                     )
                 }
@@ -137,17 +221,16 @@ internal class EditorViewModel @Inject constructor(
 
                 /** Clear content and show error */
                 documents = documents.mapSelected {
-                    updatedState.copy(
+                    documentState.copy(
                         content = null,
                         errorState = errorState(e),
-                        autoRefresh = false,
                     )
                 }
 
                 _viewState.update {
                     it.copy(
                         documents = documents,
-                        selectedDocument = selectedDocument,
+                        selectedDocument = selectedPosition,
                         isLoading = false,
                     )
                 }
@@ -166,16 +249,18 @@ internal class EditorViewModel @Inject constructor(
                         content = null,
                     )
                 }
-                selectedDocument = documentList.indexOf { it.uuid == settingsManager.selectedUuid }
+                selectedPosition = documentList.indexOf { it.uuid == settingsManager.selectedUuid }
 
                 _viewState.update {
                     it.copy(
                         documents = documents,
-                        selectedDocument = selectedDocument,
+                        selectedDocument = selectedPosition,
                     )
                 }
 
-                loadContent()
+                if (documents.isNotEmpty()) {
+                    loadDocument(documents[selectedPosition].document)
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -197,7 +282,7 @@ internal class EditorViewModel @Inject constructor(
         predicate: (DocumentState) -> DocumentState
     ): List<DocumentState> {
         return mapIndexed { index, state ->
-            if (index == selectedDocument) {
+            if (index == selectedPosition) {
                 predicate(state)
             } else {
                 state
@@ -230,89 +315,6 @@ internal class EditorViewModel @Inject constructor(
     private var keyboardMode = KeyboardManager.Mode.KEYBOARD
     private var findParams = FindParams()
     private var currentJob: Job? = null
-
-    init {
-        loadFiles()
-
-        editorInteractor.eventBus
-            .onEach { event ->
-                when (event) {
-                    is EditorApiEvent.OpenFile -> {
-                        obtainEvent(EditorIntent.OpenFile(event.fileModel))
-                    }
-                    is EditorApiEvent.OpenFileUri -> {
-                        obtainEvent(EditorIntent.OpenFileUri(event.fileUri))
-                    }
-                }
-            }
-            .launchIn(viewModelScope)
-    }
-
-    fun obtainEvent(event: EditorIntent) {
-        when (event) {
-            is EditorIntent.LoadFiles -> loadFiles()
-            is EditorIntent.LoadSettings -> loadSettings()
-
-            is EditorIntent.NewFile -> newFile(event)
-            is EditorIntent.OpenFile -> openFile(event)
-            is EditorIntent.OpenFileUri -> openFileUri(event)
-            is EditorIntent.SelectTab -> selectTab(event)
-            is EditorIntent.MoveTab -> moveTab(event)
-            is EditorIntent.CloseTab -> closeTab(event)
-            is EditorIntent.CloseOthers -> closeOthers(event)
-            is EditorIntent.CloseAll -> closeAll()
-
-            is EditorIntent.GotoLine -> gotoLine()
-            is EditorIntent.GotoLineNumber -> gotoLineNumber(event)
-
-            is EditorIntent.ColorPicker -> colorPicker()
-            is EditorIntent.InsertColor -> insertColor(event)
-
-            is EditorIntent.ForceSyntax -> forceSyntax()
-            is EditorIntent.SelectLanguage -> forceSyntaxHighlighting(event)
-
-            is EditorIntent.SaveFile -> saveFile(event)
-            is EditorIntent.SaveFileAs -> saveFileAs(event)
-
-            is EditorIntent.ModifyContent -> modifyContent()
-            is EditorIntent.SwapKeyboard -> swapKeyboard()
-
-            is EditorIntent.PanelDefault -> panelDefault()
-            is EditorIntent.PanelFind -> panelFind()
-            is EditorIntent.PanelFindReplace -> panelFindReplace()
-
-            is EditorIntent.FindQuery -> findQuery(event)
-            is EditorIntent.FindRegex -> findRegex(event)
-            is EditorIntent.FindMatchCase -> findMatchCase(event)
-            is EditorIntent.FindWordsOnly -> findWordsOnly(event)
-        }
-    }
-
-    private fun loadFiles() {
-        viewModelScope.launch {
-            try {
-                val documentList = documentRepository.loadDocuments()
-                val selectedUuid = settingsManager.selectedUuid
-                documents.replaceList(documentList)
-
-                refreshActionBar(
-                    position = when {
-                        documentList.isEmpty() -> -1
-                        documentList.none { it.uuid == selectedUuid } -> 0
-                        else -> documentList.indexOf { it.uuid == selectedUuid }
-                    },
-                )
-                if (documentList.isNotEmpty()) {
-                    selectTab(EditorIntent.SelectTab(selectedPosition))
-                } else {
-                    emptyState()
-                }
-            } catch (e: Throwable) {
-                Timber.e(e, e.message)
-                errorState(e)
-            }
-        }
-    }
 
     private fun newFile(event: EditorIntent.NewFile) {
         viewModelScope.launch {

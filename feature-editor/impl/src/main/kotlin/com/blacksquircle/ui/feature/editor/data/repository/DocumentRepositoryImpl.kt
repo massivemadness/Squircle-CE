@@ -56,26 +56,77 @@ internal class DocumentRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             appDatabase.documentDao().loadAll()
                 .map(DocumentMapper::toModel)
+                .sortedBy(DocumentModel::position)
         }
     }
 
-    override suspend fun updateDocument(documentModel: DocumentModel) {
-        withContext(dispatcherProvider.io()) {
-            val documentEntity = DocumentMapper.toEntity(documentModel)
+    override suspend fun loadDocument(document: DocumentModel): DocumentContent {
+        return withContext(dispatcherProvider.io()) {
+            val documentEntity = DocumentMapper.toEntity(document)
             appDatabase.documentDao().insert(documentEntity)
+
+            val textCacheFile = cacheFile(document, postfix = "text.txt")
+            if (cacheFilesystem.exists(textCacheFile)) {
+                DocumentContent(
+                    undoStack = loadUndoStack(document),
+                    redoStack = loadRedoStack(document),
+                    text = cacheFilesystem.loadFile(textCacheFile, FileParams()),
+                )
+            } else {
+                val filesystem = filesystemFactory.create(document.filesystemUuid)
+                val fileModel = DocumentMapper.toModel(document)
+                val fileParams = FileParams(
+                    chardet = settingsManager.encodingAutoDetect,
+                    charset = charsetFor(settingsManager.encodingForOpening),
+                )
+                DocumentContent(
+                    undoStack = UndoStack(),
+                    redoStack = UndoStack(),
+                    text = filesystem.loadFile(fileModel, fileParams),
+                ).also { content ->
+                    saveDocument(document, content, DocumentParams(local = false, cache = true))
+                }
+            }
         }
     }
 
-    override suspend fun deleteDocument(documentModel: DocumentModel) {
+    override suspend fun saveDocument(document: DocumentModel, content: DocumentContent, params: DocumentParams) {
         withContext(dispatcherProvider.io()) {
-            deleteCacheFiles(documentModel)
+            if (params.local) {
+                val filesystem = filesystemFactory.create(document.filesystemUuid)
+                val fileModel = DocumentMapper.toModel(document)
+                val fileParams = FileParams(
+                    charset = charsetFor(settingsManager.encodingForSaving),
+                    linebreak = LineBreak.of(settingsManager.lineBreakForSaving),
+                )
+                filesystem.saveFile(fileModel, content.text, fileParams)
+            }
+            if (params.cache) {
+                createCacheFiles(document)
 
-            val documentEntity = DocumentMapper.toEntity(documentModel)
-            appDatabase.documentDao().delete(documentEntity)
+                val textCacheFile = cacheFile(document, postfix = "text.txt")
+                val undoCacheFile = cacheFile(document, postfix = "undo.txt")
+                val redoCacheFile = cacheFile(document, postfix = "redo.txt")
+
+                cacheFilesystem.saveFile(textCacheFile, content.text, FileParams())
+                cacheFilesystem.saveFile(undoCacheFile, content.undoStack.encode(), FileParams())
+                cacheFilesystem.saveFile(redoCacheFile, content.redoStack.encode(), FileParams())
+            }
         }
     }
 
-    override suspend fun openFile(fileUri: Uri): DocumentModel {
+    override suspend fun closeDocument(document: DocumentModel) {
+        withContext(dispatcherProvider.io()) {
+            deleteCacheFiles(document)
+
+            val documentEntity = DocumentMapper.toEntity(document)
+            appDatabase.documentDao().delete(documentEntity)
+
+            // TODO update positions
+        }
+    }
+
+    override suspend fun openExternal(fileUri: Uri): DocumentModel {
         return withContext(dispatcherProvider.io()) {
             Timber.d("Uri received = $fileUri")
 
@@ -94,63 +145,9 @@ internal class DocumentRepositoryImpl(
         }
     }
 
-    override suspend fun loadFile(documentModel: DocumentModel): DocumentContent {
-        return withContext(dispatcherProvider.io()) {
-            val textCacheFile = cacheFile(documentModel, postfix = "text.txt")
-            if (cacheFilesystem.exists(textCacheFile)) {
-                DocumentContent(
-                    documentModel = documentModel,
-                    undoStack = loadUndoStack(documentModel),
-                    redoStack = loadRedoStack(documentModel),
-                    text = cacheFilesystem.loadFile(textCacheFile, FileParams()),
-                )
-            } else {
-                val filesystem = filesystemFactory.create(documentModel.filesystemUuid)
-                val fileModel = DocumentMapper.toModel(documentModel)
-                val fileParams = FileParams(
-                    chardet = settingsManager.encodingAutoDetect,
-                    charset = charsetFor(settingsManager.encodingForOpening),
-                )
-                DocumentContent(
-                    documentModel = documentModel,
-                    undoStack = UndoStack(),
-                    redoStack = UndoStack(),
-                    text = filesystem.loadFile(fileModel, fileParams),
-                ).also { content ->
-                    saveFile(content, DocumentParams(local = false, cache = true))
-                }
-            }
-        }
-    }
-
-    override suspend fun saveFile(content: DocumentContent, params: DocumentParams) {
+    override suspend fun saveExternal(document: DocumentModel, fileUri: Uri) {
         withContext(dispatcherProvider.io()) {
-            if (params.local) {
-                val filesystem = filesystemFactory.create(content.documentModel.filesystemUuid)
-                val fileModel = DocumentMapper.toModel(content.documentModel)
-                val fileParams = FileParams(
-                    charset = charsetFor(settingsManager.encodingForSaving),
-                    linebreak = LineBreak.of(settingsManager.lineBreakForSaving),
-                )
-                filesystem.saveFile(fileModel, content.text, fileParams)
-            }
-            if (params.cache) {
-                createCacheFiles(content.documentModel)
-
-                val textCacheFile = cacheFile(content.documentModel, postfix = "text.txt")
-                val undoCacheFile = cacheFile(content.documentModel, postfix = "undo.txt")
-                val redoCacheFile = cacheFile(content.documentModel, postfix = "redo.txt")
-
-                cacheFilesystem.saveFile(textCacheFile, content.text, FileParams())
-                cacheFilesystem.saveFile(undoCacheFile, content.undoStack.encode(), FileParams())
-                cacheFilesystem.saveFile(redoCacheFile, content.redoStack.encode(), FileParams())
-            }
-        }
-    }
-
-    override suspend fun saveFileAs(documentModel: DocumentModel, fileUri: Uri) {
-        withContext(dispatcherProvider.io()) {
-            val textCacheFile = cacheFile(documentModel, postfix = "text.txt")
+            val textCacheFile = cacheFile(document, postfix = "text.txt")
             val encoding = charsetFor(settingsManager.encodingForSaving)
             val linebreak = LineBreak.of(settingsManager.lineBreakForSaving)
             val byteArray = cacheFilesystem.loadFile(textCacheFile, FileParams())

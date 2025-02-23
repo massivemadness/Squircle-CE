@@ -25,5 +25,4 @@ internal data class DocumentState(
     val document: DocumentModel,
     val content: DocumentContent?,
     val errorState: ErrorState? = null,
-    val autoRefresh: Boolean = false,
 )

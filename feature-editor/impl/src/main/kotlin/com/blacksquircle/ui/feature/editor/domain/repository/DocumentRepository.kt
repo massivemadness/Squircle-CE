@@ -26,13 +26,12 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 internal interface DocumentRepository {
 
     suspend fun loadDocuments(): List<DocumentModel>
-    suspend fun updateDocument(documentModel: DocumentModel)
-    suspend fun deleteDocument(documentModel: DocumentModel)
+    suspend fun loadDocument(document: DocumentModel): DocumentContent
+    suspend fun saveDocument(document: DocumentModel, content: DocumentContent, params: DocumentParams)
+    suspend fun closeDocument(document: DocumentModel)
 
-    suspend fun openFile(fileUri: Uri): DocumentModel
-    suspend fun loadFile(documentModel: DocumentModel): DocumentContent
-    suspend fun saveFile(content: DocumentContent, params: DocumentParams)
-    suspend fun saveFileAs(documentModel: DocumentModel, fileUri: Uri)
+    suspend fun openExternal(fileUri: Uri): DocumentModel
+    suspend fun saveExternal(document: DocumentModel, fileUri: Uri)
 
     suspend fun find(text: CharSequence, params: FindParams): List<FindResult>
 }

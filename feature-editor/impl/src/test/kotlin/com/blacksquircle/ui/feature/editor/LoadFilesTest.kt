@@ -73,9 +73,9 @@ class LoadFilesTest {
         coEvery { documentRepository.updateDocument(any()) } returns Unit
         coEvery { documentRepository.deleteDocument(any()) } returns Unit
 
-        coEvery { documentRepository.loadFile(any()) } returns mockk()
-        coEvery { documentRepository.saveFile(any(), any()) } returns Unit
-        coEvery { documentRepository.saveFileAs(any(), any()) } returns Unit
+        coEvery { documentRepository.loadDocument(any()) } returns mockk()
+        coEvery { documentRepository.saveDocument(any(), any()) } returns Unit
+        coEvery { documentRepository.saveExternal(any(), any()) } returns Unit
 
         every { editorInteractor.eventBus } returns emptyFlow()
     }
@@ -95,7 +95,7 @@ class LoadFilesTest {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(any()) } returns documentContent
+        coEvery { documentRepository.loadDocument(any()) } returns documentContent
 
         // When
         val viewModel = editorViewModel()

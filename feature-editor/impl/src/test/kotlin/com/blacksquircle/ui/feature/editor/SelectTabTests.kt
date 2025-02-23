@@ -67,9 +67,9 @@ class SelectTabTests {
         coEvery { documentRepository.updateDocument(any()) } returns Unit
         coEvery { documentRepository.deleteDocument(any()) } returns Unit
 
-        coEvery { documentRepository.loadFile(any()) } returns mockk()
-        coEvery { documentRepository.saveFile(any(), any()) } returns Unit
-        coEvery { documentRepository.saveFileAs(any(), any()) } returns Unit
+        coEvery { documentRepository.loadDocument(any()) } returns mockk()
+        coEvery { documentRepository.saveDocument(any(), any()) } returns Unit
+        coEvery { documentRepository.saveExternal(any(), any()) } returns Unit
 
         every { editorInteractor.eventBus } returns emptyFlow()
     }
@@ -91,8 +91,8 @@ class SelectTabTests {
 
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
-        coEvery { documentRepository.loadFile(selected) } returns selectedContent
-        coEvery { documentRepository.loadFile(expected) } returns expectedContent
+        coEvery { documentRepository.loadDocument(selected) } returns selectedContent
+        coEvery { documentRepository.loadDocument(expected) } returns expectedContent
 
         // When
         val viewModel = editorViewModel()

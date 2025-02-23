@@ -34,14 +34,14 @@ internal object DocumentMapper {
         )
     }
 
-    fun toModel(fileModel: FileModel): DocumentModel {
+    fun toModel(fileModel: FileModel, position: Int = 0): DocumentModel {
         return DocumentModel(
             uuid = UUID.randomUUID().toString(),
             fileUri = fileModel.fileUri,
             filesystemUuid = fileModel.filesystemUuid,
             language = LanguageFactory.create(fileModel.name),
             modified = false,
-            position = 0,
+            position = position,
             scrollX = 0,
             scrollY = 0,
             selectionStart = 0,

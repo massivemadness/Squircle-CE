@@ -40,7 +40,9 @@ fun TabNavigation(
             backgroundColor = SquircleTheme.colors.colorBackgroundPrimary,
             selectedTabIndex = selectedIndex,
             indicator = { tabPositions ->
-                TabIndicator(Modifier.tabIndicatorOffset(tabPositions[selectedIndex]))
+                if (tabPositions.isNotEmpty()) {
+                    TabIndicator(Modifier.tabIndicatorOffset(tabPositions[selectedIndex]))
+                }
             },
             edgePadding = 0.dp,
             divider = {},

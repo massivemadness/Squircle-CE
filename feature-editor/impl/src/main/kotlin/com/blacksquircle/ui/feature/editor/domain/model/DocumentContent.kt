@@ -19,7 +19,6 @@ package com.blacksquircle.ui.feature.editor.domain.model
 import com.blacksquircle.ui.editorkit.model.UndoStack
 
 internal data class DocumentContent(
-    val documentModel: DocumentModel,
     val undoStack: UndoStack,
     val redoStack: UndoStack,
     val text: String,
