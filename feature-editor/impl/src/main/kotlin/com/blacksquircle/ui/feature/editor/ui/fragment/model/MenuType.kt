@@ -14,17 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.ds.extensions
+package com.blacksquircle.ui.feature.editor.ui.fragment.model
 
-import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
-
-fun Context.findActivity(): Activity? {
-    var context = this
-    while (context is ContextWrapper) {
-        if (context is Activity) return context
-        context = context.baseContext
-    }
-    return null
+internal enum class MenuType {
+    FILE,
+    EDIT,
+    TOOLS,
+    OTHER,
 }

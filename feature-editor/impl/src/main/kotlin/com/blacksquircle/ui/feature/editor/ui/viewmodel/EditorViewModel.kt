@@ -87,9 +87,16 @@ internal class EditorViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun onMenuClicked() {
+    fun onDrawerClicked() {
         viewModelScope.launch {
             val screen = Screen.Explorer
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onSettingsClicked() {
+        viewModelScope.launch {
+            val screen = Screen.Settings
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }

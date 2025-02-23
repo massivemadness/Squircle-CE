@@ -119,8 +119,8 @@ private fun AppHeaderScreen(
                 checked = viewState.fullscreenMode,
                 onCheckedChange = { value ->
                     onFullscreenChanged(value)
-                    context.findActivity().window
-                        .fullscreenMode(value)
+                    context.findActivity()?.window
+                        ?.fullscreenMode(value)
                 },
             )
             HorizontalDivider()

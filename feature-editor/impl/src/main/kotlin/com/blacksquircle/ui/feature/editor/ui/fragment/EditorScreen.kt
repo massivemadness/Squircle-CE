@@ -44,19 +44,22 @@ internal fun EditorScreen(viewModel: EditorViewModel) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     EditorScreen(
         viewState = viewState,
-        onMenuClicked = viewModel::onMenuClicked,
+        onDrawerClicked = viewModel::onDrawerClicked,
+        onSettingsClicked = viewModel::onSettingsClicked,
     )
 }
 
 @Composable
 private fun EditorScreen(
     viewState: EditorViewState,
-    onMenuClicked: () -> Unit = {},
+    onDrawerClicked: () -> Unit = {},
+    onSettingsClicked: () -> Unit = {},
 ) {
     ScaffoldSuite(
         topBar = {
             EditorToolbar(
-                onMenuClicked = onMenuClicked,
+                onDrawerClicked = onDrawerClicked,
+                onSettingsClicked = onSettingsClicked,
             )
         },
         modifier = Modifier.imePadding(),
