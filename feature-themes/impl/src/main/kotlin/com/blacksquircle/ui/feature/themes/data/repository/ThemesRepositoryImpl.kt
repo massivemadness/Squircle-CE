@@ -53,7 +53,7 @@ internal class ThemesRepositoryImpl(
             val defaultThemes = InternalTheme.entries
                 .map(InternalTheme::theme)
                 .filter { it.name.contains(query, ignoreCase = true) }
-            val userThemes = appDatabase.themeDao().loadAll(query)
+            val userThemes = appDatabase.themeDao().loadAll()
                 .map(ThemeMapper::toModel)
                 .filter { it.name.contains(query, ignoreCase = true) }
             userThemes + defaultThemes

@@ -125,20 +125,45 @@ internal class EditorViewModel @Inject constructor(
     private fun closeDocument(document: DocumentModel) {
         viewModelScope.launch {
             try {
-                val documentPosition = document.position
+                /** Calculate new position */
+                val removedPosition = document.position
                 val currentPosition = when {
-                    documentPosition == selectedPosition -> when {
-                        documentPosition - 1 > -1 -> documentPosition - 1
-                        documentPosition + 1 < documents.size -> documentPosition
+                    removedPosition == selectedPosition -> when {
+                        removedPosition - 1 > -1 -> removedPosition - 1
+                        removedPosition + 1 < documents.size -> removedPosition
                         else -> -1
                     }
-                    documentPosition < selectedPosition -> selectedPosition - 1
-                    documentPosition > selectedPosition -> selectedPosition
+                    removedPosition < selectedPosition -> selectedPosition - 1
+                    removedPosition > selectedPosition -> selectedPosition
                     else -> -1
                 }
+                val reloadFile = removedPosition == selectedPosition
 
-                documents = documents.filterNot { it.document.position == documentPosition }
+                documents = documents.mapNotNull { state ->
+                    when {
+                        /** Remove document */
+                        state.document.position == removedPosition -> {
+                            null
+                        }
+                        /** Shift to left */
+                        state.document.position > removedPosition -> {
+                            state.copy(
+                                document = state.document.copy(
+                                    position = state.document.position - 1
+                                )
+                            )
+                        }
+                        /** Nothing is changed */
+                        else -> {
+                            state
+                        }
+                    }
+                }
                 selectedPosition = currentPosition
+
+                settingsManager.selectedUuid = documents
+                    .getOrNull(currentPosition)
+                    ?.document?.uuid.orEmpty()
 
                 _viewState.update {
                     it.copy(
@@ -147,17 +172,22 @@ internal class EditorViewModel @Inject constructor(
                     )
                 }
 
-                // ???
-                loadDocument(documents[selectedPosition].document)
+                documentRepository.closeDocument(document)
 
-                // settingsManager.selectedUuid = documents
-                //     .getOrNull(currentPosition)?.document?.uuid.orEmpty()
+                if (reloadFile) {
+                    /** If selected file is still loading, cancel request */
+                    currentJob?.cancel()
 
-                // documentRepository.closeDocument(document)
+                    /** Load new file content */
+                    if (documents.isNotEmpty()) {
+                        loadDocument(documents[selectedPosition].document)
+                    }
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
     }
@@ -265,6 +295,7 @@ internal class EditorViewModel @Inject constructor(
                 throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
     }

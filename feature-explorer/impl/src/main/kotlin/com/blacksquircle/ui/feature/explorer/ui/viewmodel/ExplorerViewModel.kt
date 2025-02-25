@@ -433,6 +433,7 @@ internal class ExplorerViewModel @Inject constructor(
                 throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
     }
@@ -730,6 +731,7 @@ internal class ExplorerViewModel @Inject constructor(
                 throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
     }

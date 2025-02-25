@@ -56,7 +56,6 @@ internal class DocumentRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             appDatabase.documentDao().loadAll()
                 .map(DocumentMapper::toModel)
-                .sortedBy(DocumentModel::position)
         }
     }
 
@@ -119,10 +118,10 @@ internal class DocumentRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             deleteCacheFiles(document)
 
-            val documentEntity = DocumentMapper.toEntity(document)
-            appDatabase.documentDao().delete(documentEntity)
-
-            // TODO update positions
+            appDatabase.documentDao().deleteAndShift(
+                uuid = document.uuid,
+                index = document.position,
+            )
         }
     }
 

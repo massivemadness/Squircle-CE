@@ -17,26 +17,27 @@
 package com.blacksquircle.ui.core.storage.database.dao.font
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.blacksquircle.ui.core.storage.database.dao.base.BaseDao
 import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
 import com.blacksquircle.ui.core.storage.database.utils.Tables
 
 @Dao
-abstract class FontDao : BaseDao<FontEntity> {
+interface FontDao {
 
     @Query("SELECT * FROM `${Tables.FONTS}`")
-    abstract suspend fun loadAll(): List<FontEntity>
-
-    @Query("SELECT * FROM `${Tables.FONTS}` WHERE `font_name` LIKE '%' || :searchQuery || '%'")
-    abstract suspend fun loadAll(searchQuery: String): List<FontEntity>
-
-    @Query("SELECT * FROM `${Tables.FONTS}` WHERE `font_uuid` = :uuid")
-    abstract suspend fun load(uuid: String): FontEntity
-
-    @Query("DELETE FROM `${Tables.FONTS}` WHERE `font_uuid` = :uuid")
-    abstract suspend fun delete(uuid: String)
+    suspend fun loadAll(): List<FontEntity>
 
     @Query("DELETE FROM `${Tables.FONTS}`")
-    abstract suspend fun deleteAll()
+    suspend fun deleteAll()
+
+    @Query("SELECT * FROM `${Tables.FONTS}` WHERE `font_uuid` = :uuid")
+    suspend fun load(uuid: String): FontEntity
+
+    @Query("DELETE FROM `${Tables.FONTS}` WHERE `font_uuid` = :uuid")
+    suspend fun delete(uuid: String)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(fontEntity: FontEntity): Long
 }

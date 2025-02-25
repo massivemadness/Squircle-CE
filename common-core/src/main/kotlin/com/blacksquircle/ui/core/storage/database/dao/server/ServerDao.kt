@@ -17,23 +17,27 @@
 package com.blacksquircle.ui.core.storage.database.dao.server
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.blacksquircle.ui.core.storage.database.dao.base.BaseDao
 import com.blacksquircle.ui.core.storage.database.entity.server.ServerEntity
 import com.blacksquircle.ui.core.storage.database.utils.Tables
 
 @Dao
-abstract class ServerDao : BaseDao<ServerEntity> {
+interface ServerDao {
 
     @Query("SELECT * FROM `${Tables.SERVERS}`")
-    abstract suspend fun loadAll(): List<ServerEntity>
-
-    @Query("SELECT * FROM `${Tables.SERVERS}` WHERE `uuid` = :uuid")
-    abstract suspend fun load(uuid: String): ServerEntity
-
-    @Query("DELETE FROM `${Tables.SERVERS}` WHERE `uuid` = :uuid")
-    abstract suspend fun delete(uuid: String)
+    suspend fun loadAll(): List<ServerEntity>
 
     @Query("DELETE FROM `${Tables.SERVERS}`")
-    abstract suspend fun deleteAll()
+    suspend fun deleteAll()
+
+    @Query("SELECT * FROM `${Tables.SERVERS}` WHERE `uuid` = :uuid")
+    suspend fun load(uuid: String): ServerEntity
+
+    @Query("DELETE FROM `${Tables.SERVERS}` WHERE `uuid` = :uuid")
+    suspend fun delete(uuid: String)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(serverEntity: ServerEntity): Long
 }
