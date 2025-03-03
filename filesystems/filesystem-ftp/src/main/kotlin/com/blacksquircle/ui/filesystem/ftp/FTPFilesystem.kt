@@ -201,7 +201,7 @@ class FTPFilesystem(
 
         override fun toFileModel(fileObject: FTPFile): FileModel {
             return FileModel(
-                fileUri = parent?.fileUri + "/" + fileObject.name,
+                fileUri = parent?.fileUri + File.separator + fileObject.name,
                 filesystemUuid = serverConfig.uuid,
                 size = fileObject.size,
                 lastModified = fileObject.timestamp.timeInMillis,

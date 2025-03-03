@@ -211,7 +211,7 @@ class SFTPFilesystem(
 
         override fun toFileModel(fileObject: LsEntry): FileModel {
             return FileModel(
-                fileUri = parent?.fileUri + "/" + fileObject.filename,
+                fileUri = parent?.fileUri + File.separator + fileObject.filename,
                 filesystemUuid = serverConfig.uuid,
                 size = fileObject.attrs.size,
                 lastModified = fileObject.attrs.mTime * 1000L,

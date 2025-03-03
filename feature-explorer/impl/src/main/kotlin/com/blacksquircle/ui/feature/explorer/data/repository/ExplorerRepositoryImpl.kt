@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
+import java.io.File
 
 internal class ExplorerRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
@@ -57,7 +58,7 @@ internal class ExplorerRepositoryImpl(
             val filesystem = filesystemFactory.create(currentFilesystem)
             val directory = parent ?: filesystem.defaultLocation()
             val fileModel = directory.copy(
-                fileUri = directory.fileUri + "/" + fileName,
+                fileUri = directory.fileUri + File.separator + fileName,
                 directory = isFolder,
             )
 
@@ -77,7 +78,8 @@ internal class ExplorerRepositoryImpl(
         return taskManager.execute(TaskType.RENAME) { update ->
             val filesystem = filesystemFactory.create(currentFilesystem)
             val fileModel = source.copy(
-                fileUri = source.fileUri.substringBeforeLast('/') + "/" + fileName,
+                fileUri = source.fileUri.substringBeforeLast(File.separator) +
+                    File.separator + fileName,
                 directory = source.directory,
             )
 

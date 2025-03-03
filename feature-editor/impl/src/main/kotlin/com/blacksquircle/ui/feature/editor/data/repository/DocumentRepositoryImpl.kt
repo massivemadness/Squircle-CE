@@ -237,7 +237,7 @@ internal class DocumentRepositoryImpl(
     private fun cacheFile(document: DocumentModel, postfix: String): FileModel {
         val defaultLocation = cacheFilesystem.defaultLocation()
         return FileModel(
-            fileUri = defaultLocation.fileUri + "/" + "${document.uuid}-$postfix",
+            fileUri = defaultLocation.fileUri + File.separator + "${document.uuid}-$postfix",
             filesystemUuid = defaultLocation.filesystemUuid,
         )
     }

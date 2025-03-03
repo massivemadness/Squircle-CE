@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.filesystem.base.model
 
 import com.blacksquircle.ui.filesystem.base.utils.endsWith
+import java.io.File
 
 data class FileModel(
     val fileUri: String,
@@ -30,9 +31,9 @@ data class FileModel(
     val scheme: String
         get() = fileUri.substringBefore("://")
     val path: String
-        get() = fileUri.substringAfterLast("://").ifEmpty { "/" }
+        get() = fileUri.substringAfterLast("://").ifEmpty(File::separator)
     val name: String
-        get() = fileUri.substringAfterLast("/").ifEmpty { "/" }
+        get() = fileUri.substringAfterLast(File.separator)
     val extension: String
         get() = fileUri.substringAfterLast(".", "")
 

@@ -52,12 +52,5 @@ internal fun DocumentLayout(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
-        /*if (isEmpty && !isLoading && !isError) {
-            EmptyView(
-                iconResId = R.drawable.ic_file_find,
-                title = stringResource(R.string.common_no_result),
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }*/
     }
 }

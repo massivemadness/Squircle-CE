@@ -67,7 +67,7 @@ internal class FontsRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             context.contentResolver.openInputStream(fileUri)?.use { inputStream ->
                 val fontUuid = UUID.randomUUID().toString()
-                val fontName = fileUri.path.orEmpty().substringAfterLast('/')
+                val fontName = fileUri.path.orEmpty().substringAfterLast(File.separator)
                 val fontFile = File(Directories.fontsDir(context), fontUuid)
                 if (!fontFile.exists()) {
                     fontFile.createNewFile()
