@@ -24,20 +24,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.util.fastForEachIndexed
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
-import com.blacksquircle.ui.ds.tabs.Tab
-import com.blacksquircle.ui.ds.tabs.TabNavigation
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.DocumentLayout
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.EditorToolbar
+import com.blacksquircle.ui.feature.editor.ui.fragment.internal.DocumentNavigation
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun EditorScreen(viewModel: EditorViewModel) {
@@ -120,19 +117,11 @@ private fun EditorScreen(
         modifier = Modifier.imePadding(),
     ) { contentPadding ->
         Column(Modifier.fillMaxSize()) {
-            TabNavigation(
-                tabs = {
-                    viewState.documents.fastForEachIndexed { index, state ->
-                        Tab(
-                            title = state.document.name,
-                            iconResId = UiR.drawable.ic_close,
-                            selected = index == viewState.selectedDocument,
-                            onClick = { onDocumentClicked(state) },
-                            onActionClick = { onCloseDocumentClicked(state) },
-                        )
-                    }
-                },
+            DocumentNavigation(
+                tabs = viewState.documents,
                 selectedIndex = viewState.selectedDocument,
+                onDocumentClicked = onDocumentClicked,
+                onCloseDocumentClicked = onCloseDocumentClicked,
                 modifier = Modifier.fillMaxWidth(),
             )
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.ds.tabs
+package com.blacksquircle.ui.feature.explorer.ui.fragment.internal
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
@@ -40,9 +40,10 @@ import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
+import com.blacksquircle.ui.ds.tabs.TabIndicator
 
 @Composable
-fun BreadcrumbNavigation(
+internal fun BreadcrumbNavigation(
     tabs: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     selectedIndex: Int = -1,

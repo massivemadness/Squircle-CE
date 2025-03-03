@@ -29,12 +29,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
-import com.blacksquircle.ui.ds.tabs.Breadcrumb
-import com.blacksquircle.ui.ds.tabs.BreadcrumbNavigation
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.Breadcrumb
+import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.BreadcrumbNavigation
 import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.ExplorerToolbar
 import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.FileExplorer
 import com.blacksquircle.ui.feature.explorer.ui.fragment.model.BreadcrumbState
