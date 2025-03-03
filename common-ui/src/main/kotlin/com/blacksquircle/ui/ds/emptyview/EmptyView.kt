@@ -37,6 +37,7 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.OutlinedButton
+import com.blacksquircle.ui.ds.extensions.mergeSemantics
 
 @Composable
 fun EmptyView(
@@ -51,6 +52,7 @@ fun EmptyView(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
+            .mergeSemantics()
             .widthIn(max = 320.dp)
             .padding(24.dp),
     ) {

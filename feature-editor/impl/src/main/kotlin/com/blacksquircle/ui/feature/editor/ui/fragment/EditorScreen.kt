@@ -23,18 +23,22 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
+import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
+import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.DocumentLayout
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.DocumentNavigation
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.EditorToolbar
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun EditorScreen(viewModel: EditorViewModel) {
@@ -134,6 +138,14 @@ private fun EditorScreen(
                     contentPadding = contentPadding,
                     documentState = documentState,
                     isLoading = viewState.isLoading,
+                )
+            }
+
+            if (viewState.documents.isEmpty()) {
+                EmptyView(
+                    iconResId = UiR.drawable.ic_file_find,
+                    title = stringResource(R.string.message_no_open_files),
+                    modifier = Modifier.fillMaxSize()
                 )
             }
         }
