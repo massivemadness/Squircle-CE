@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.extensions.clearSemantics
 
 @Composable
 fun PreferenceGroup(
@@ -38,6 +39,7 @@ fun PreferenceGroup(
         modifier = modifier
             .fillMaxWidth()
             .padding(bottom = 8.dp, top = 24.dp)
+            .clearSemantics()
     ) {
         Text(
             text = title,

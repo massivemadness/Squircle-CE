@@ -35,6 +35,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.extensions.clearSemantics
+import com.blacksquircle.ui.ds.extensions.mergeSemantics
 
 @Composable
 fun CheckBox(
@@ -48,13 +50,15 @@ fun CheckBox(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.toggleable(
-            interactionSource = interactionSource,
-            indication = null,
-            value = checked,
-            enabled = enabled,
-            onValueChange = { onClick() },
-        )
+        modifier = modifier
+            .mergeSemantics()
+            .toggleable(
+                interactionSource = interactionSource,
+                indication = null,
+                value = checked,
+                enabled = enabled,
+                onValueChange = { onClick() },
+            )
     ) {
         Box(Modifier.requiredSize(32.dp)) {
             Checkbox(
@@ -68,7 +72,8 @@ fun CheckBox(
                     checkmarkColor = SquircleTheme.colors.colorTextAndIconPrimaryInverse,
                     disabledColor = SquircleTheme.colors.colorTextAndIconDisabled,
                     disabledIndeterminateColor = SquircleTheme.colors.colorTextAndIconDisabled,
-                )
+                ),
+                modifier = Modifier.clearSemantics()
             )
         }
         if (title != null) {

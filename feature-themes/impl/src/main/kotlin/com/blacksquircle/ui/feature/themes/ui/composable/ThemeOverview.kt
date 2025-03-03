@@ -53,6 +53,7 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.OutlinedButton
 import com.blacksquircle.ui.ds.extensions.isColorDark
+import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.feature.themes.R
@@ -95,6 +96,7 @@ internal fun ThemeOverview(
                     color = SquircleTheme.colors.colorOutline,
                     shape = shape,
                 )
+                .mergeSemantics()
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

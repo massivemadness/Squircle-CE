@@ -50,6 +50,8 @@ import com.blacksquircle.ui.core.theme.Theme
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.divider.VerticalDivider
+import com.blacksquircle.ui.ds.extensions.clearSemantics
+import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.ds.radio.Radio
 import com.blacksquircle.ui.feature.settings.R
 
@@ -112,7 +114,7 @@ private fun DarkTheme(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier,
+        modifier = modifier.mergeSemantics(),
     ) {
         SquircleTheme(darkTheme = true) {
             BaseTheme(
@@ -142,7 +144,7 @@ private fun LightTheme(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier,
+        modifier = modifier.mergeSemantics(),
     ) {
         SquircleTheme(darkTheme = false) {
             BaseTheme(
@@ -172,7 +174,7 @@ private fun SystemTheme(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier,
+        modifier = modifier.mergeSemantics(),
     ) {
         Box {
             LightTheme(
@@ -217,6 +219,7 @@ private fun BaseTheme(
 ) {
     Row(
         modifier
+            .clearSemantics()
             .size(152.dp, 106.dp)
             .border(1.dp, colorOutline, shapeLarge)
             .background(colorBackground, shapeLarge)

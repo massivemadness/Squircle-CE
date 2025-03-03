@@ -31,8 +31,8 @@ import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.DocumentLayout
-import com.blacksquircle.ui.feature.editor.ui.fragment.internal.EditorToolbar
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.DocumentNavigation
+import com.blacksquircle.ui.feature.editor.ui.fragment.internal.EditorToolbar
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 

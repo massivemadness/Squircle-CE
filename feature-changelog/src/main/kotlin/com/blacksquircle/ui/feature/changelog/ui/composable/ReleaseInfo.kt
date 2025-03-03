@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.extensions.buildHtmlAnnotatedString
+import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.ds.extensions.takeUrl
 
 @Composable
@@ -42,7 +43,11 @@ internal fun ReleaseInfo(
     releaseDate: String,
     releaseNotes: String,
 ) {
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .mergeSemantics()
+            .padding(16.dp)
+    ) {
         Text(
             text = versionName,
             color = SquircleTheme.colors.colorTextAndIconPrimary,

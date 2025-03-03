@@ -44,6 +44,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.extensions.clearSemantics
+import com.blacksquircle.ui.ds.extensions.mergeSemantics
 
 @Composable
 fun Radio(
@@ -70,16 +72,20 @@ fun Radio(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.selectable(
-            interactionSource = interactionSource,
-            indication = null,
-            selected = checked,
-            enabled = enabled,
-            onClick = onClick,
-        )
+        modifier = modifier
+            .mergeSemantics()
+            .selectable(
+                interactionSource = interactionSource,
+                indication = null,
+                selected = checked,
+                enabled = enabled,
+                role = Role.RadioButton,
+                onClick = onClick,
+            )
     ) {
         Canvas(
             modifier = Modifier
+                .clearSemantics()
                 .selectable(
                     selected = checked,
                     onClick = onClick,

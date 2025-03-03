@@ -53,6 +53,7 @@ import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
+import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.ds.layout.ThreeSlotLayout
 import com.blacksquircle.ui.ds.textfield.internal.TextFieldError
 import com.blacksquircle.ui.ds.textfield.internal.TextFieldHelp
@@ -98,7 +99,7 @@ fun TextField(
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
-        modifier = modifier
+        modifier = modifier.mergeSemantics(),
     ) {
         if (hasLabel) {
             TextFieldLabel(

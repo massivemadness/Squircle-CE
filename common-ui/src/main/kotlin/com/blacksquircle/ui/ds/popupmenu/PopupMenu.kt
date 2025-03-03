@@ -87,10 +87,11 @@ fun PopupMenuItem(
             }
         },
         onClick = onClick,
-        modifier = modifier.defaultMinSize(
-            minWidth = 172.dp,
-            minHeight = Dp.Unspecified,
-        ),
+        modifier = modifier
+            .defaultMinSize(
+                minWidth = 172.dp,
+                minHeight = Dp.Unspecified,
+            )
     )
 }
 
