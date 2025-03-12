@@ -18,13 +18,14 @@ package com.blacksquircle.ui.core.storage.database
 
 import com.blacksquircle.ui.core.storage.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.storage.database.dao.font.FontDao
+import com.blacksquircle.ui.core.storage.database.dao.path.PathDao
 import com.blacksquircle.ui.core.storage.database.dao.server.ServerDao
 import com.blacksquircle.ui.core.storage.database.dao.theme.ThemeDao
 
 interface AppDatabase {
     fun documentDao(): DocumentDao
-    fun serverDao(): ServerDao
     fun fontDao(): FontDao
+    fun pathDao(): PathDao
+    fun serverDao(): ServerDao
     fun themeDao(): ThemeDao
-    fun shutdown()
 }

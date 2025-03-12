@@ -136,7 +136,7 @@ private fun ExplorerScreen(
                 tabs = {
                     viewState.breadcrumbs.fastForEachIndexed { index, state ->
                         Breadcrumb(
-                            title = state.fileModel?.name ?: "/",
+                            title = if (index == 0) "/" else state.fileModel.name,
                             selected = index == viewState.selectedBreadcrumb,
                             onClick = { onBreadcrumbClicked(state) },
                         )
@@ -189,16 +189,24 @@ private fun ExplorerScreenPreview() {
                     FilesystemModel(
                         uuid = LocalFilesystem.LOCAL_UUID,
                         title = "Local Storage",
+                        defaultLocation = FileModel(
+                            fileUri = "file:///storage/emulated/0/",
+                            filesystemUuid = LocalFilesystem.LOCAL_UUID,
+                        ),
                     ),
                     FilesystemModel(
                         uuid = RootFilesystem.ROOT_UUID,
-                        title = "Root Storage",
+                        title = "Root Directory",
+                        defaultLocation = FileModel(
+                            fileUri = "sufile:///",
+                            filesystemUuid = RootFilesystem.ROOT_UUID,
+                        ),
                     ),
                 ),
                 selectedFilesystem = LocalFilesystem.LOCAL_UUID,
                 breadcrumbs = listOf(
                     BreadcrumbState(
-                        fileModel = null,
+                        fileModel = FileModel("file://", LocalFilesystem.LOCAL_UUID),
                         fileList = emptyList(),
                         errorState = ErrorState(
                             title = "Error",

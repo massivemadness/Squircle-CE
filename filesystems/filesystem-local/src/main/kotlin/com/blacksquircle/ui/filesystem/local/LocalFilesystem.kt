@@ -29,20 +29,12 @@ import net.lingala.zip4j.ZipFile
 import net.lingala.zip4j.exception.ZipException
 import java.io.File
 
-class LocalFilesystem(private val defaultLocation: File) : Filesystem {
+class LocalFilesystem : Filesystem {
 
     /** zip4j only supports these formats */
     private val supportedArchives = arrayOf(".zip", ".jar")
 
     override fun ping() = Unit
-
-    override fun defaultLocation(): FileModel {
-        val fileModel = toFileModel(defaultLocation)
-        if (!defaultLocation.isDirectory) {
-            throw DirectoryExpectedException()
-        }
-        return fileModel
-    }
 
     override fun provideDirectory(parent: FileModel): List<FileModel> {
         val file = toFileObject(parent)
@@ -228,6 +220,7 @@ class LocalFilesystem(private val defaultLocation: File) : Filesystem {
         const val LOCAL_UUID = "local"
         const val LOCAL_SCHEME = "file://"
 
+        @Suppress("KotlinConstantConditions")
         override fun toFileModel(fileObject: File): FileModel {
             return FileModel(
                 fileUri = LOCAL_SCHEME + fileObject.path,

@@ -20,21 +20,24 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.blacksquircle.ui.core.storage.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.storage.database.dao.font.FontDao
+import com.blacksquircle.ui.core.storage.database.dao.path.PathDao
 import com.blacksquircle.ui.core.storage.database.dao.server.ServerDao
 import com.blacksquircle.ui.core.storage.database.dao.theme.ThemeDao
 import com.blacksquircle.ui.core.storage.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
+import com.blacksquircle.ui.core.storage.database.entity.path.PathEntity
 import com.blacksquircle.ui.core.storage.database.entity.server.ServerEntity
 import com.blacksquircle.ui.core.storage.database.entity.theme.ThemeEntity
 
 @Database(
     entities = [
         DocumentEntity::class,
-        ServerEntity::class,
         FontEntity::class,
+        PathEntity::class,
+        ServerEntity::class,
         ThemeEntity::class,
     ],
-    version = 5,
+    version = 6,
 )
 abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
 
@@ -43,11 +46,8 @@ abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
     }
 
     abstract override fun documentDao(): DocumentDao
-    abstract override fun serverDao(): ServerDao
     abstract override fun fontDao(): FontDao
+    abstract override fun pathDao(): PathDao
+    abstract override fun serverDao(): ServerDao
     abstract override fun themeDao(): ThemeDao
-
-    override fun shutdown() {
-        clearAllTables()
-    }
 }

@@ -21,8 +21,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 @Immutable
 internal data class BreadcrumbState(
-    val fileModel: FileModel? = null,
+    val fileModel: FileModel,
     val fileList: List<FileModel> = emptyList(),
     val errorState: ErrorState? = null,
-    val autoRefresh: Boolean = false,
 )

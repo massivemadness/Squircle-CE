@@ -210,10 +210,18 @@ private fun ExplorerToolbarPreview() {
                 FilesystemModel(
                     uuid = LocalFilesystem.LOCAL_UUID,
                     title = "Local Storage",
+                    defaultLocation = FileModel(
+                        fileUri = "file:///storage/emulated/0/",
+                        filesystemUuid = LocalFilesystem.LOCAL_UUID,
+                    ),
                 ),
                 FilesystemModel(
                     uuid = RootFilesystem.ROOT_UUID,
-                    title = "Root Storage",
+                    title = "Root Directory",
+                    defaultLocation = FileModel(
+                        fileUri = "sufile:///",
+                        filesystemUuid = RootFilesystem.ROOT_UUID,
+                    ),
                 ),
             ),
             selectedFiles = emptyList(),

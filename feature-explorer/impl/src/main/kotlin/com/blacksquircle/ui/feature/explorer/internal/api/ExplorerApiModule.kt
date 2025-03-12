@@ -16,14 +16,10 @@
 
 package com.blacksquircle.ui.feature.explorer.internal.api
 
-import android.content.Context
-import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.factory.FilesystemFactoryImpl
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
-import com.blacksquircle.ui.filesystem.base.Filesystem
-import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -41,11 +37,5 @@ object ExplorerApiModule {
             serverFilesystemFactory = serverFilesystemFactory,
             serversInteractor = serversInteractor,
         )
-    }
-
-    @Provides
-    @Singleton
-    fun provideCacheFilesystem(context: Context): Filesystem {
-        return LocalFilesystem(Directories.filesDir(context))
     }
 }

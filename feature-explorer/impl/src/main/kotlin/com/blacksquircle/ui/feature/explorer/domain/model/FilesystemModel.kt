@@ -16,7 +16,10 @@
 
 package com.blacksquircle.ui.feature.explorer.domain.model
 
+import com.blacksquircle.ui.filesystem.base.model.FileModel
+
 internal data class FilesystemModel(
     val uuid: String,
     val title: String,
+    val defaultLocation: FileModel,
 )

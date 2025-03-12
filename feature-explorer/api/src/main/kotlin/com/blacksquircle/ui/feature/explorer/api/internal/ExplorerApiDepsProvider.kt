@@ -17,9 +17,7 @@
 package com.blacksquircle.ui.feature.explorer.api.internal
 
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
-import com.blacksquircle.ui.filesystem.base.Filesystem
 
 interface ExplorerApiDepsProvider {
-    fun provideCacheFilesystem(): Filesystem
     fun provideFilesystemFactory(): FilesystemFactory
 }

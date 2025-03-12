@@ -23,6 +23,6 @@ abstract class Screen(val route: Any) {
     object Themes : Screen("blacksquircle://themes")
     object Server : Screen("blacksquircle://settings/cloud/create") {
         const val KEY_SAVE = "KEY_SAVE"
-        const val KEY_DELETE = "KEY_SAVE"
+        const val KEY_DELETE = "KEY_DELETE"
     }
 }

@@ -26,22 +26,26 @@ internal fun defaultFilesystems(): List<FilesystemModel> {
         FilesystemModel(
             uuid = LocalFilesystem.LOCAL_UUID,
             title = "Local Storage",
+            defaultLocation = FileModel(
+                fileUri = "file:///storage/emulated/0/",
+                filesystemUuid = LocalFilesystem.LOCAL_UUID,
+            ),
         ),
         FilesystemModel(
             uuid = RootFilesystem.ROOT_UUID,
-            title = "Root Directory"
-        ),
-        FilesystemModel(
-            uuid = "create_server",
-            title = "Add Server"
-        ),
+            title = "Root Directory",
+            defaultLocation = FileModel(
+                fileUri = "sufile:///",
+                filesystemUuid = RootFilesystem.ROOT_UUID,
+            ),
+        )
     )
 }
 
 internal fun createFile(fileName: String): FileModel {
     return FileModel(
         fileUri = "file:///storage/emulated/0/$fileName",
-        filesystemUuid = "local",
+        filesystemUuid = LocalFilesystem.LOCAL_UUID,
         directory = false,
     )
 }
@@ -49,7 +53,7 @@ internal fun createFile(fileName: String): FileModel {
 internal fun createFolder(fileName: String): FileModel {
     return FileModel(
         fileUri = "file:///storage/emulated/0/$fileName",
-        filesystemUuid = "local",
+        filesystemUuid = LocalFilesystem.LOCAL_UUID,
         directory = true,
     )
 }

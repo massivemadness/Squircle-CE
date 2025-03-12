@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.explorer.data.factory
 
-import android.os.Environment
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
@@ -31,7 +30,7 @@ internal class FilesystemFactoryImpl(
 
     override suspend fun create(uuid: String): Filesystem {
         return when (uuid) {
-            LocalFilesystem.LOCAL_UUID -> LocalFilesystem(Environment.getExternalStorageDirectory())
+            LocalFilesystem.LOCAL_UUID -> LocalFilesystem()
             RootFilesystem.ROOT_UUID -> RootFilesystem()
             else -> {
                 val serverConfig = serversInteractor.loadServer(uuid)

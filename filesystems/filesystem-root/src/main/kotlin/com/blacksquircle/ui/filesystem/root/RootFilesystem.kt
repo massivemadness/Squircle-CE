@@ -30,7 +30,6 @@ import com.topjohnwu.superuser.Shell
 import com.topjohnwu.superuser.io.SuFile
 import kotlinx.coroutines.flow.Flow
 import java.io.BufferedReader
-import java.io.File
 
 class RootFilesystem : Filesystem {
 
@@ -39,15 +38,6 @@ class RootFilesystem : Filesystem {
     }
 
     override fun ping() = Unit
-
-    override fun defaultLocation(): FileModel {
-        val defaultLocation = SuFile(File.separator)
-        val fileModel = toFileModel(defaultLocation)
-        if (!defaultLocation.isDirectory) {
-            throw DirectoryExpectedException()
-        }
-        return fileModel
-    }
 
     override fun provideDirectory(parent: FileModel): List<FileModel> {
         val file = toFileObject(parent)
@@ -163,6 +153,7 @@ class RootFilesystem : Filesystem {
             )
         }
 
+        @Suppress("KotlinConstantConditions")
         override fun toFileModel(fileObject: SuFile): FileModel {
             return FileModel(
                 fileUri = ROOT_SCHEME + fileObject.path,

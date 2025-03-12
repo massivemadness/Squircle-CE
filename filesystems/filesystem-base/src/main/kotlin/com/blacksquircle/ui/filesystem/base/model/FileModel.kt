@@ -27,7 +27,6 @@ data class FileModel(
     val directory: Boolean = false,
     @Permission val permission: Int = Permission.EMPTY,
 ) {
-
     val scheme: String
         get() = fileUri.substringBefore("://")
     val path: String
@@ -36,7 +35,6 @@ data class FileModel(
         get() = fileUri.substringAfterLast(File.separator)
     val extension: String
         get() = fileUri.substringAfterLast(".", "")
-
     val type: FileType
         get() = when {
             name.endsWith(TEXT) -> FileType.TEXT

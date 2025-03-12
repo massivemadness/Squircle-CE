@@ -34,7 +34,6 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
-import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams
 import com.blacksquircle.ui.filesystem.base.model.LineBreak
@@ -48,7 +47,7 @@ internal class DocumentRepositoryImpl(
     private val settingsManager: SettingsManager,
     private val appDatabase: AppDatabase,
     private val filesystemFactory: FilesystemFactory,
-    private val cacheFilesystem: Filesystem,
+    private val cacheDirectory: File,
     private val context: Context,
 ) : DocumentRepository {
 
@@ -65,11 +64,11 @@ internal class DocumentRepositoryImpl(
             appDatabase.documentDao().insert(documentEntity)
 
             val textCacheFile = cacheFile(document, postfix = "text.txt")
-            if (cacheFilesystem.exists(textCacheFile)) {
+            if (textCacheFile.exists()) {
                 DocumentContent(
                     undoStack = loadUndoStack(document),
                     redoStack = loadRedoStack(document),
-                    text = cacheFilesystem.loadFile(textCacheFile, FileParams()),
+                    text = textCacheFile.readText(),
                 )
             } else {
                 val filesystem = filesystemFactory.create(document.filesystemUuid)
@@ -107,9 +106,9 @@ internal class DocumentRepositoryImpl(
                 val undoCacheFile = cacheFile(document, postfix = "undo.txt")
                 val redoCacheFile = cacheFile(document, postfix = "redo.txt")
 
-                cacheFilesystem.saveFile(textCacheFile, content.text, FileParams())
-                cacheFilesystem.saveFile(undoCacheFile, content.undoStack.encode(), FileParams())
-                cacheFilesystem.saveFile(redoCacheFile, content.redoStack.encode(), FileParams())
+                textCacheFile.writeText(content.text)
+                undoCacheFile.writeText(content.undoStack.encode())
+                redoCacheFile.writeText(content.redoStack.encode())
             }
         }
     }
@@ -149,7 +148,8 @@ internal class DocumentRepositoryImpl(
             val textCacheFile = cacheFile(document, postfix = "text.txt")
             val encoding = charsetFor(settingsManager.encodingForSaving)
             val linebreak = LineBreak.of(settingsManager.lineBreakForSaving)
-            val byteArray = cacheFilesystem.loadFile(textCacheFile, FileParams())
+            val byteArray = textCacheFile
+                .readText()
                 .replace(linebreak.regex, linebreak.replacement)
                 .toByteArray(encoding)
             context.contentResolver.openOutputStream(fileUri)?.use { output ->
@@ -193,8 +193,8 @@ internal class DocumentRepositoryImpl(
     private fun loadUndoStack(document: DocumentModel): UndoStack {
         return try {
             val undoCacheFile = cacheFile(document, postfix = "undo.txt")
-            if (cacheFilesystem.exists(undoCacheFile)) {
-                return cacheFilesystem.loadFile(undoCacheFile, FileParams()).decode()
+            if (undoCacheFile.exists()) {
+                return undoCacheFile.readText().decode()
             }
             UndoStack()
         } catch (e: Exception) {
@@ -205,8 +205,8 @@ internal class DocumentRepositoryImpl(
     private fun loadRedoStack(document: DocumentModel): UndoStack {
         return try {
             val redoCacheFile = cacheFile(document, postfix = "redo.txt")
-            if (cacheFilesystem.exists(redoCacheFile)) {
-                return cacheFilesystem.loadFile(redoCacheFile, FileParams()).decode()
+            if (redoCacheFile.exists()) {
+                return redoCacheFile.readText().decode()
             }
             UndoStack()
         } catch (e: Exception) {
@@ -219,9 +219,9 @@ internal class DocumentRepositoryImpl(
         val undoCacheFile = cacheFile(document, postfix = "undo.txt")
         val redoCacheFile = cacheFile(document, postfix = "redo.txt")
 
-        if (!cacheFilesystem.exists(textCacheFile)) cacheFilesystem.createFile(textCacheFile)
-        if (!cacheFilesystem.exists(undoCacheFile)) cacheFilesystem.createFile(undoCacheFile)
-        if (!cacheFilesystem.exists(redoCacheFile)) cacheFilesystem.createFile(redoCacheFile)
+        if (!textCacheFile.exists()) textCacheFile.createNewFile()
+        if (!undoCacheFile.exists()) undoCacheFile.createNewFile()
+        if (!redoCacheFile.exists()) redoCacheFile.createNewFile()
     }
 
     private fun deleteCacheFiles(document: DocumentModel) {
@@ -229,16 +229,12 @@ internal class DocumentRepositoryImpl(
         val undoCacheFile = cacheFile(document, postfix = "undo.txt")
         val redoCacheFile = cacheFile(document, postfix = "redo.txt")
 
-        if (cacheFilesystem.exists(textCacheFile)) cacheFilesystem.deleteFile(textCacheFile)
-        if (cacheFilesystem.exists(undoCacheFile)) cacheFilesystem.deleteFile(undoCacheFile)
-        if (cacheFilesystem.exists(redoCacheFile)) cacheFilesystem.deleteFile(redoCacheFile)
+        if (textCacheFile.exists()) textCacheFile.delete()
+        if (undoCacheFile.exists()) undoCacheFile.delete()
+        if (redoCacheFile.exists()) redoCacheFile.delete()
     }
 
-    private fun cacheFile(document: DocumentModel, postfix: String): FileModel {
-        val defaultLocation = cacheFilesystem.defaultLocation()
-        return FileModel(
-            fileUri = defaultLocation.fileUri + File.separator + "${document.uuid}-$postfix",
-            filesystemUuid = defaultLocation.filesystemUuid,
-        )
+    private fun cacheFile(document: DocumentModel, postfix: String): File {
+        return File(cacheDirectory, "${document.uuid}-$postfix")
     }
 }

@@ -51,10 +51,6 @@ class FTPSFilesystem(
         }
     }
 
-    override fun defaultLocation(): FileModel {
-        return FileModel(ServerType.FTPS.value + serverConfig.initialDir, serverConfig.uuid)
-    }
-
     override fun provideDirectory(parent: FileModel): List<FileModel> {
         try {
             connect()
@@ -201,6 +197,7 @@ class FTPSFilesystem(
 
         private var parent: FileModel? = null
 
+        @Suppress("KotlinConstantConditions")
         override fun toFileModel(fileObject: FTPFile): FileModel {
             return FileModel(
                 fileUri = parent?.fileUri + File.separator + fileObject.name,

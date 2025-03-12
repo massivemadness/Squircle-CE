@@ -81,6 +81,7 @@ internal class ServersRepositoryImpl(
             ServerCredentials.remove(serverConfig.uuid)
             val entity = ServerMapper.toEntity(serverConfig)
             appDatabase.serverDao().insert(entity)
+            appDatabase.pathDao().delete(serverConfig.uuid)
             if (settingsManager.filesystem == serverConfig.uuid) {
                 settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
             }
@@ -91,6 +92,7 @@ internal class ServersRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             ServerCredentials.remove(serverConfig.uuid)
             appDatabase.serverDao().delete(serverConfig.uuid)
+            appDatabase.pathDao().delete(serverConfig.uuid)
             if (settingsManager.filesystem == serverConfig.uuid) {
                 settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
             }

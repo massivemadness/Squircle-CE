@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.explorer.data.mapper
 
 import android.os.Bundle
 import androidx.core.os.bundleOf
+import com.blacksquircle.ui.core.storage.database.entity.path.PathEntity
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 internal object FileMapper {
@@ -48,6 +49,20 @@ internal object FileMapper {
             lastModified = bundle.getLong(ARG_LAST_MODIFIED),
             directory = bundle.getBoolean(ARG_DIRECTORY),
             permission = bundle.getInt(ARG_PERMISSION),
+        )
+    }
+
+    fun toEntity(fileModel: FileModel): PathEntity {
+        return PathEntity(
+            filesystemUuid = fileModel.filesystemUuid,
+            fileUri = fileModel.fileUri,
+        )
+    }
+
+    fun toModel(entity: PathEntity): FileModel {
+        return FileModel(
+            filesystemUuid = entity.filesystemUuid,
+            fileUri = entity.fileUri,
         )
     }
 }

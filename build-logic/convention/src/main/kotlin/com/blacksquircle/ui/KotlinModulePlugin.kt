@@ -42,6 +42,9 @@ class KotlinModulePlugin : Plugin<Project> {
             tasks.withType<KotlinJvmCompile>().configureEach {
                 compilerOptions {
                     jvmTarget.set(JvmTarget.JVM_17)
+                    if (System.getProperty("idea.active") == "true") {
+                        freeCompilerArgs.add("-Xdebug")
+                    }
                 }
             }
             configure<SourceSetContainer> {

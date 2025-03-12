@@ -129,7 +129,7 @@ class ListFilesTests {
             createFile(fileName = "Documents/folder_1/test_3.txt"),
         )
         coEvery { explorerRepository.listFiles(null) } returns rootFiles
-        coEvery { explorerRepository.listFiles(rootFiles[0]) } returns dirFiles
+        coEvery { explorerRepository.listFiles(rootFiles[0].pathModel) } returns dirFiles
 
         // When
         val viewModel = createViewModel() // init {}
@@ -143,7 +143,7 @@ class ListFilesTests {
                     fileList = rootFiles,
                 ),
                 BreadcrumbState(
-                    fileModel = rootFiles[0],
+                    fileModel = rootFiles[0].pathModel,
                     fileList = dirFiles,
                 ),
             ),

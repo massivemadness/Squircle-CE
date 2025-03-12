@@ -52,8 +52,6 @@ import com.blacksquircle.ui.filesystem.base.exception.UnsupportedArchiveExceptio
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
-import com.blacksquircle.ui.filesystem.local.LocalFilesystem
-import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -104,10 +102,19 @@ internal class ExplorerViewModel @Inject constructor(
     private var taskType: TaskType = TaskType.CREATE
     private var taskBuffer: List<FileModel> = emptyList()
     private var selectedFiles: List<FileModel> = emptyList()
+    private var filesystems: List<FilesystemModel> = emptyList()
     private var breadcrumbs: List<BreadcrumbState> = emptyList()
     private var selectedBreadcrumb: Int = -1
     private var searchQuery: String = ""
     private var currentJob: Job? = null
+
+    // TODO Move to UI
+    private val addServer: FilesystemModel
+        get() = FilesystemModel(
+            uuid = CREATE_SERVER_UUID,
+            title = stringProvider.getString(R.string.storage_add),
+            defaultLocation = FileModel("", ""),
+        )
 
     init {
         loadFilesystems()
@@ -127,33 +134,54 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onFilesystemSelected(filesystem: String) {
-        if (filesystem == CREATE_SERVER_UUID) {
-            viewModelScope.launch {
-                _viewEvent.send(ViewEvent.Navigation(Screen.Server))
+        viewModelScope.launch {
+            try {
+                if (filesystem == CREATE_SERVER_UUID) {
+                    _viewEvent.send(ViewEvent.Navigation(Screen.Server))
+                    return@launch
+                }
+                if (selectedFilesystem == filesystem) {
+                    return@launch
+                }
+                val filesystemModel = filesystems.first { it.uuid == filesystem }
+
+                selectedFilesystem = filesystem
+                breadcrumbs = explorerRepository.loadBreadcrumbs(filesystemModel).mapBreadcrumbs()
+                selectedBreadcrumb = breadcrumbs.size - 1
+                resetBuffer()
+
+                _viewState.update {
+                    it.copy(
+                        selectedFilesystem = selectedFilesystem,
+                        breadcrumbs = breadcrumbs,
+                        selectedBreadcrumb = selectedBreadcrumb,
+                    )
+                }
+                onRefreshClicked()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
-            return
         }
-        if (selectedFilesystem == filesystem) {
-            return
-        }
-
-        selectedFilesystem = filesystem
-        breadcrumbs = emptyList()
-        selectedBreadcrumb = -1
-        resetBuffer()
-
-        _viewState.update {
-            it.copy(
-                selectedFilesystem = selectedFilesystem,
-                breadcrumbs = breadcrumbs,
-                selectedBreadcrumb = selectedBreadcrumb,
-            )
-        }
-        loadFiles()
     }
 
     fun onFilesystemAdded() {
-        loadFilesystems()
+        viewModelScope.launch {
+            try {
+                filesystems = explorerRepository.loadFilesystems()
+
+                _viewState.update {
+                    it.copy(filesystems = filesystems + addServer)
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
     }
 
     fun onQueryChanged(query: String) {
@@ -205,7 +233,10 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onHomeClicked() {
-        loadFiles()
+        if (breadcrumbs.isNotEmpty()) {
+            val breadcrumb = breadcrumbs.first()
+            loadFiles(breadcrumb.fileModel)
+        }
     }
 
     fun onBreadcrumbClicked(breadcrumb: BreadcrumbState) {
@@ -250,8 +281,10 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onRefreshClicked() {
-        val breadcrumb = breadcrumbs.getOrNull(selectedBreadcrumb)
-        loadFiles(breadcrumb?.fileModel)
+        if (breadcrumbs.isNotEmpty()) {
+            val breadcrumb = breadcrumbs[selectedBreadcrumb]
+            loadFiles(breadcrumb.fileModel)
+        }
     }
 
     fun onCreateClicked() {
@@ -421,14 +454,15 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onPermissionGranted() {
-        loadFiles()
+        onRefreshClicked()
     }
 
     fun onCredentialsEntered(credentials: String) {
         viewModelScope.launch {
             try {
                 serversInteractor.authenticate(selectedFilesystem, credentials)
-                loadFiles()
+                val breadcrumb = breadcrumbs[selectedBreadcrumb]
+                loadFiles(breadcrumb.fileModel)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -580,55 +614,22 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun loadFiles(parent: FileModel? = null) {
+    private fun loadFiles(parent: FileModel) {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
-            var isRefreshing = false
 
             /** Check if [parent] is already added to breadcrumbs */
-            val existingIndex = breadcrumbs.indexOf { it.fileModel?.fileUri == parent?.fileUri }
-            if (existingIndex != -1) {
-                if (existingIndex == selectedBreadcrumb) {
-                    /** Refresh current tab */
-                    isRefreshing = true
-                } else {
-                    /** Select existing tab */
-                    selectedBreadcrumb = existingIndex
-
-                    /**
-                     * When autoRefresh=true it means that coroutine was cancelled and we have to
-                     * reload file list. Otherwise skip loading and show files immediately.
-                     */
-                    if (breadcrumbs[existingIndex].autoRefresh) {
-                        isRefreshing = true
-                    } else {
-                        _viewState.update {
-                            it.copy(
-                                breadcrumbs = breadcrumbs.mapSelected { state ->
-                                    state.copy(fileList = state.fileList.applyFilter())
-                                },
-                                selectedBreadcrumb = selectedBreadcrumb,
-                                isLoading = false,
-                            )
-                        }
-                        return@launch // early return
-                    }
-                }
-            }
-
-            val updatedState = if (isRefreshing) {
-                /** Refresh current directory, don't open a new tab */
+            val existingIndex = breadcrumbs.indexOf { it.fileModel.fileUri == parent.fileUri }
+            val updatedState = if (existingIndex != -1) {
+                /** Refresh directory, don't open a new tab */
+                selectedBreadcrumb = existingIndex
                 breadcrumbs[selectedBreadcrumb]
             } else {
-                /**
-                 * Remove all tabs after the selected one, insert empty tree at the end.
-                 * Set autoRefresh=true to refresh list in case when [CancellationException] occurs.
-                 */
+                /** Remove all tabs after the selected one, insert empty tree at the end */
                 val newState = BreadcrumbState(
                     fileModel = parent,
                     fileList = emptyList(),
                     errorState = null,
-                    autoRefresh = true,
                 )
                 val fromIndex = 0
                 val toIndex = if (selectedBreadcrumb > -1) selectedBreadcrumb + 1 else 0
@@ -653,7 +654,6 @@ internal class ExplorerViewModel @Inject constructor(
                     updatedState.copy(
                         fileList = fileList,
                         errorState = null,
-                        autoRefresh = false,
                     )
                 }
 
@@ -676,7 +676,6 @@ internal class ExplorerViewModel @Inject constructor(
                     updatedState.copy(
                         fileList = emptyList(),
                         errorState = errorState(e),
-                        autoRefresh = false,
                     )
                 }
 
@@ -694,39 +693,27 @@ internal class ExplorerViewModel @Inject constructor(
     private fun loadFilesystems() {
         viewModelScope.launch {
             try {
-                val defaultFilesystems = listOf(
-                    FilesystemModel(
-                        uuid = LocalFilesystem.LOCAL_UUID,
-                        title = stringProvider.getString(R.string.storage_local),
-                    ),
-                    FilesystemModel(
-                        uuid = RootFilesystem.ROOT_UUID,
-                        title = stringProvider.getString(R.string.storage_root),
-                    ),
-                )
-                val serverFilesystems = serversInteractor.loadServers().map { config ->
-                    FilesystemModel(
-                        uuid = config.uuid,
-                        title = config.name
-                    )
-                }
-                val addServer = FilesystemModel(
-                    uuid = CREATE_SERVER_UUID,
-                    title = stringProvider.getString(R.string.storage_add),
-                )
+                filesystems = explorerRepository.loadFilesystems()
+
+                val filesystemModel = filesystems.find { it.uuid == selectedFilesystem }
+                    ?: filesystems.first()
+
+                breadcrumbs = explorerRepository.loadBreadcrumbs(filesystemModel).mapBreadcrumbs()
+                selectedBreadcrumb = breadcrumbs.size - 1
+
                 _viewState.update {
                     it.copy(
-                        filesystems = defaultFilesystems + serverFilesystems + addServer,
+                        filesystems = filesystems + addServer,
                         selectedFilesystem = selectedFilesystem,
+                        breadcrumbs = breadcrumbs,
+                        selectedBreadcrumb = selectedBreadcrumb,
                         searchQuery = searchQuery,
                         showHidden = showHidden,
                         sortMode = sortMode,
                         viewMode = viewMode,
                     )
                 }
-                if (breadcrumbs.isEmpty()) {
-                    loadFiles()
-                }
+                onRefreshClicked()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -845,6 +832,12 @@ internal class ExplorerViewModel @Inject constructor(
             }
         }
         onRefreshClicked()
+    }
+
+    private fun List<FileModel>.mapBreadcrumbs(): List<BreadcrumbState> {
+        return map { fileModel ->
+            BreadcrumbState(fileModel = fileModel)
+        }
     }
 
     private fun List<BreadcrumbState>.mapSelected(

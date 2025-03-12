@@ -89,6 +89,9 @@ class ApplicationModulePlugin : Plugin<Project> {
                 tasks.withType<KotlinJvmCompile>().configureEach {
                     compilerOptions {
                         jvmTarget.set(JvmTarget.JVM_17)
+                        if (System.getProperty("idea.active") == "true") {
+                            freeCompilerArgs.add("-Xdebug")
+                        }
                     }
                 }
                 sourceSets.configureEach {

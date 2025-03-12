@@ -18,12 +18,12 @@ package com.blacksquircle.ui.feature.editor.internal
 
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.editor.data.repository.DocumentRepositoryImpl
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
-import com.blacksquircle.ui.filesystem.base.Filesystem
 import dagger.Module
 import dagger.Provides
 
@@ -38,14 +38,13 @@ internal object EditorModule {
         settingsManager: SettingsManager,
         appDatabase: AppDatabase,
         filesystemFactory: FilesystemFactory,
-        cacheFilesystem: Filesystem,
     ): DocumentRepository {
         return DocumentRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
             appDatabase = appDatabase,
             filesystemFactory = filesystemFactory,
-            cacheFilesystem = cacheFilesystem,
+            cacheDirectory = Directories.filesDir(context),
             context = context,
         )
     }
