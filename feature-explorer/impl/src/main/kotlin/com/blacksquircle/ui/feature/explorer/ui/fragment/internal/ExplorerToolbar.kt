@@ -44,6 +44,7 @@ import com.blacksquircle.ui.ds.dropdown.DropdownStyleDefaults
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
+import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.ui.fragment.menu.SelectionMenu
@@ -63,6 +64,7 @@ internal fun ExplorerToolbar(
     sortMode: SortMode,
     modifier: Modifier = Modifier,
     onFilesystemSelected: (String) -> Unit = {},
+    onAddServerClicked: () -> Unit = {},
     onQueryChanged: (String) -> Unit = {},
     onClearQueryClicked: () -> Unit = {},
     onShowHiddenClicked: () -> Unit = {},
@@ -126,15 +128,27 @@ internal fun ExplorerToolbar(
                     searchMode = false
                 }
             } else if (filesystems.isNotEmpty()) {
+                val addServerEntry = stringResource(R.string.storage_add)
+                val addServerValue = "add_server"
+
+                val entries = remember(filesystems) {
+                    (filesystems.fastMap(FilesystemModel::title) + addServerEntry).toTypedArray()
+                }
+                val entryValues = remember(filesystems) {
+                    (filesystems.fastMap(FilesystemModel::uuid) + addServerValue).toTypedArray()
+                }
+
                 Dropdown(
-                    entries = filesystems
-                        .fastMap(FilesystemModel::title)
-                        .toTypedArray(),
-                    entryValues = filesystems
-                        .fastMap(FilesystemModel::uuid)
-                        .toTypedArray(),
+                    entries = entries,
+                    entryValues = entryValues,
                     currentValue = selectedFilesystem,
-                    onValueSelected = onFilesystemSelected,
+                    onValueSelected = { value ->
+                        if (value == addServerValue) {
+                            onAddServerClicked()
+                        } else {
+                            onFilesystemSelected(value)
+                        }
+                    },
                     dropdownStyle = DropdownStyleDefaults.Default.copy(
                         textStyle = SquircleTheme.typography.text18Medium,
                     ),

@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
+import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.Task
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
@@ -87,17 +88,23 @@ class ListFilesTests {
         every { explorerRepository.extractFiles(any(), any()) } returns ""
 
         coEvery { serversInteractor.loadServers() } returns emptyList()
+        coEvery { explorerRepository.loadFilesystems() } returns defaultFilesystems()
+        coEvery { explorerRepository.loadBreadcrumbs(any()) } coAnswers {
+            val filesystemModel = args.first() as FilesystemModel
+            listOf(filesystemModel.defaultLocation)
+        }
     }
 
     @Test
     fun `When the user opens the app Then load default directory and select tab`() = runTest {
         // Given
+        val defaultLocation = createFilesystem().defaultLocation
         val fileList = listOf(
             createFolder(fileName = "Documents/first"),
             createFolder(fileName = "Documents/second"),
             createFolder(fileName = "Documents/third"),
         )
-        coEvery { explorerRepository.listFiles(null) } returns fileList
+        coEvery { explorerRepository.listFiles(defaultLocation) } returns fileList
 
         // When
         val viewModel = createViewModel() // init {}
@@ -106,7 +113,7 @@ class ListFilesTests {
         val viewState = createViewState().copy(
             breadcrumbs = listOf(
                 BreadcrumbState(
-                    fileModel = null,
+                    fileModel = defaultLocation,
                     fileList = fileList,
                 )
             ),
@@ -118,6 +125,7 @@ class ListFilesTests {
     @Test
     fun `When opening a folder Then load files and select tab`() = runTest {
         // Given
+        val defaultLocation = createFilesystem().defaultLocation
         val rootFiles = listOf(
             createFolder(fileName = "Documents/folder_1"),
             createFolder(fileName = "Documents/folder_2"),
@@ -128,8 +136,8 @@ class ListFilesTests {
             createFile(fileName = "Documents/folder_1/test_2.txt"),
             createFile(fileName = "Documents/folder_1/test_3.txt"),
         )
-        coEvery { explorerRepository.listFiles(null) } returns rootFiles
-        coEvery { explorerRepository.listFiles(rootFiles[0].pathModel) } returns dirFiles
+        coEvery { explorerRepository.listFiles(defaultLocation) } returns rootFiles
+        coEvery { explorerRepository.listFiles(rootFiles[0]) } returns dirFiles
 
         // When
         val viewModel = createViewModel() // init {}
@@ -139,11 +147,11 @@ class ListFilesTests {
         val viewState = createViewState().copy(
             breadcrumbs = listOf(
                 BreadcrumbState(
-                    fileModel = null,
+                    fileModel = defaultLocation,
                     fileList = rootFiles,
                 ),
                 BreadcrumbState(
-                    fileModel = rootFiles[0].pathModel,
+                    fileModel = rootFiles[0],
                     fileList = dirFiles,
                 ),
             ),
@@ -155,7 +163,8 @@ class ListFilesTests {
     @Test
     fun `When opening a folder Then display loading state`() = runTest {
         // Given
-        coEvery { explorerRepository.listFiles(null) } coAnswers {
+        val defaultLocation = createFilesystem().defaultLocation
+        coEvery { explorerRepository.listFiles(defaultLocation) } coAnswers {
             delay(200)
             emptyList()
         }
@@ -165,7 +174,7 @@ class ListFilesTests {
 
         // Then
         val viewState = createViewState().copy(
-            breadcrumbs = listOf(BreadcrumbState(autoRefresh = true)),
+            breadcrumbs = listOf(BreadcrumbState(defaultLocation)),
             selectedBreadcrumb = 0,
             isLoading = true,
         )
@@ -175,7 +184,8 @@ class ListFilesTests {
     @Test
     fun `When opening a folder without storage access Then display permission state`() = runTest {
         // Given
-        coEvery { explorerRepository.listFiles(null) } throws PermissionException()
+        val defaultLocation = createFilesystem().defaultLocation
+        coEvery { explorerRepository.listFiles(defaultLocation) } throws PermissionException()
 
         // When
         val viewModel = createViewModel() // init {}
@@ -184,7 +194,7 @@ class ListFilesTests {
         val viewState = createViewState().copy(
             breadcrumbs = listOf(
                 BreadcrumbState(
-                    fileModel = null,
+                    fileModel = defaultLocation,
                     fileList = emptyList(),
                     errorState = ErrorState(
                         title = "Access denied",

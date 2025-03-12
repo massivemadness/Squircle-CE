@@ -108,14 +108,6 @@ internal class ExplorerViewModel @Inject constructor(
     private var searchQuery: String = ""
     private var currentJob: Job? = null
 
-    // TODO Move to UI
-    private val addServer: FilesystemModel
-        get() = FilesystemModel(
-            uuid = CREATE_SERVER_UUID,
-            title = stringProvider.getString(R.string.storage_add),
-            defaultLocation = FileModel("", ""),
-        )
-
     init {
         loadFilesystems()
     }
@@ -136,10 +128,6 @@ internal class ExplorerViewModel @Inject constructor(
     fun onFilesystemSelected(filesystem: String) {
         viewModelScope.launch {
             try {
-                if (filesystem == CREATE_SERVER_UUID) {
-                    _viewEvent.send(ViewEvent.Navigation(Screen.Server))
-                    return@launch
-                }
                 if (selectedFilesystem == filesystem) {
                     return@launch
                 }
@@ -173,7 +161,7 @@ internal class ExplorerViewModel @Inject constructor(
                 filesystems = explorerRepository.loadFilesystems()
 
                 _viewState.update {
-                    it.copy(filesystems = filesystems + addServer)
+                    it.copy(filesystems = filesystems)
                 }
             } catch (e: CancellationException) {
                 throw e
@@ -181,6 +169,12 @@ internal class ExplorerViewModel @Inject constructor(
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
+        }
+    }
+
+    fun onAddServerClicked() {
+        viewModelScope.launch {
+            _viewEvent.send(ViewEvent.Navigation(Screen.Server))
         }
     }
 
@@ -617,7 +611,6 @@ internal class ExplorerViewModel @Inject constructor(
     private fun loadFiles(parent: FileModel) {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
-
             /** Check if [parent] is already added to breadcrumbs */
             val existingIndex = breadcrumbs.indexOf { it.fileModel.fileUri == parent.fileUri }
             val updatedState = if (existingIndex != -1) {
@@ -703,7 +696,7 @@ internal class ExplorerViewModel @Inject constructor(
 
                 _viewState.update {
                     it.copy(
-                        filesystems = filesystems + addServer,
+                        filesystems = filesystems,
                         selectedFilesystem = selectedFilesystem,
                         breadcrumbs = breadcrumbs,
                         selectedBreadcrumb = selectedBreadcrumb,
@@ -857,9 +850,5 @@ internal class ExplorerViewModel @Inject constructor(
             .filter { if (it.isHidden) showHidden else true }
             .sortedWith(fileComparator(settingsManager.sortMode))
             .sortedBy { it.directory != settingsManager.foldersOnTop }
-    }
-
-    companion object {
-        private const val CREATE_SERVER_UUID = "create_server"
     }
 }

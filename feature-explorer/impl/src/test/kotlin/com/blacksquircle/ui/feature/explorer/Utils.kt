@@ -21,6 +21,10 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 
+internal fun createFilesystem(): FilesystemModel {
+    return defaultFilesystems().first()
+}
+
 internal fun defaultFilesystems(): List<FilesystemModel> {
     return listOf(
         FilesystemModel(
