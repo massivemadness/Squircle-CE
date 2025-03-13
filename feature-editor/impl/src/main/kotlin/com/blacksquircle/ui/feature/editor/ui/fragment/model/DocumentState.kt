@@ -23,6 +23,6 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 @Immutable
 internal data class DocumentState(
     val document: DocumentModel,
-    val content: DocumentContent?,
+    val content: DocumentContent? = null,
     val errorState: ErrorState? = null,
 )

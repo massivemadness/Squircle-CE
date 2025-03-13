@@ -89,8 +89,6 @@ private fun DocumentNavigationPreview() {
                         selectionStart = 0,
                         selectionEnd = 0,
                     ),
-                    content = null,
-                    errorState = null,
                 )
             ),
             modifier = Modifier.fillMaxWidth(),

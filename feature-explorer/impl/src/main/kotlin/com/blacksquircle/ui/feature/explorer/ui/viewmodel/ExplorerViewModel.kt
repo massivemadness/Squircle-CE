@@ -128,7 +128,7 @@ internal class ExplorerViewModel @Inject constructor(
     fun onFilesystemSelected(filesystem: String) {
         viewModelScope.launch {
             try {
-                if (selectedFilesystem == filesystem) {
+                if (filesystem == selectedFilesystem) {
                     return@launch
                 }
                 val filesystemModel = filesystems.first { it.uuid == filesystem }
@@ -277,7 +277,7 @@ internal class ExplorerViewModel @Inject constructor(
     fun onRefreshClicked() {
         if (breadcrumbs.isNotEmpty()) {
             val breadcrumb = breadcrumbs[selectedBreadcrumb]
-            loadFiles(breadcrumb.fileModel)
+            loadFiles(breadcrumb.fileModel, fromUser = false)
         }
     }
 
@@ -456,7 +456,7 @@ internal class ExplorerViewModel @Inject constructor(
             try {
                 serversInteractor.authenticate(selectedFilesystem, credentials)
                 val breadcrumb = breadcrumbs[selectedBreadcrumb]
-                loadFiles(breadcrumb.fileModel)
+                loadFiles(breadcrumb.fileModel, fromUser = false)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -608,11 +608,15 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun loadFiles(parent: FileModel) {
+    private fun loadFiles(parent: FileModel, fromUser: Boolean = true) {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
             /** Check if [parent] is already added to breadcrumbs */
             val existingIndex = breadcrumbs.indexOf { it.fileModel.fileUri == parent.fileUri }
+            if (existingIndex == selectedBreadcrumb && selectedBreadcrumb != -1 && fromUser) {
+                return@launch
+            }
+
             val updatedState = if (existingIndex != -1) {
                 /** Refresh directory, don't open a new tab */
                 selectedBreadcrumb = existingIndex

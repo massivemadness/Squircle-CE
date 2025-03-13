@@ -105,10 +105,6 @@ internal class EditorViewModel @Inject constructor(
     }
 
     fun onDocumentClicked(documentState: DocumentState) {
-        val selectedDocument = documents[selectedPosition].document
-        if (selectedDocument.fileUri == documentState.document.fileUri) {
-            return
-        }
         loadDocument(documentState.document)
     }
 
@@ -118,7 +114,7 @@ internal class EditorViewModel @Inject constructor(
 
     private fun onFileOpened(fileModel: FileModel) {
         val document = DocumentMapper.toModel(fileModel, documents.size)
-        loadDocument(document)
+        loadDocument(document, fromUser = true)
     }
 
     @Suppress("KotlinConstantConditions")
@@ -180,7 +176,8 @@ internal class EditorViewModel @Inject constructor(
 
                     /** Load new file content */
                     if (documents.isNotEmpty()) {
-                        loadDocument(documents[selectedPosition].document)
+                        val selectedDocument = documents[selectedPosition].document
+                        loadDocument(selectedDocument, fromUser = false)
                     }
                 }
             } catch (e: CancellationException) {
@@ -192,26 +189,26 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun loadDocument(document: DocumentModel) {
+    private fun loadDocument(document: DocumentModel, fromUser: Boolean = true) {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
             /** Check if [document] is already added to tabs */
             val existingIndex = documents.indexOf { it.document.fileUri == document.fileUri }
+            if (existingIndex == selectedPosition && selectedPosition != -1 && fromUser) {
+                return@launch
+            }
+
+            /** Free memory */
+            documents = documents.mapSelected { state ->
+                state.copy(content = null)
+            }
+
             if (existingIndex != -1) {
-                documents = documents.mapSelected { state ->
-                    state.copy(content = null)
-                }
                 /** Select existing document */
                 selectedPosition = existingIndex
             } else {
-                documents = documents.mapSelected { state ->
-                    state.copy(content = null)
-                }
-                /** Add new document */
-                val documentState = DocumentState(
-                    document = document,
-                    content = null,
-                )
+                /** Create new document */
+                val documentState = DocumentState(document)
                 documents = documents + documentState
                 selectedPosition = documents.size - 1
             }
@@ -273,12 +270,7 @@ internal class EditorViewModel @Inject constructor(
             try {
                 val documentList = documentRepository.loadDocuments()
 
-                documents = documentList.map { document ->
-                    DocumentState(
-                        document = document,
-                        content = null,
-                    )
-                }
+                documents = documentList.map { document -> DocumentState(document) }
                 selectedPosition = documentList.indexOf { it.uuid == settingsManager.selectedUuid }
 
                 _viewState.update {
@@ -289,7 +281,8 @@ internal class EditorViewModel @Inject constructor(
                 }
 
                 if (documents.isNotEmpty()) {
-                    loadDocument(documents[selectedPosition].document)
+                    val selectedDocument = documents[selectedPosition].document
+                    loadDocument(selectedDocument, fromUser = false)
                 }
             } catch (e: CancellationException) {
                 throw e

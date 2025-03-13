@@ -172,8 +172,6 @@ private fun EditorScreenPreview() {
                             selectionStart = 0,
                             selectionEnd = 0,
                         ),
-                        content = null,
-                        errorState = null,
                     )
                 ),
                 selectedDocument = 0,
