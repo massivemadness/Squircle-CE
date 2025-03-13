@@ -32,7 +32,9 @@ import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,25 +49,42 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.tabs.TabIndicator
+import com.blacksquircle.ui.feature.editor.ui.fragment.menu.CloseMenu
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun DocumentTab(
     title: String,
-    iconResId: Int,
     selected: Boolean,
-    onClick: () -> Unit,
-    onActionClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onDocumentClicked: () -> Unit = {},
+    onCloseClicked: () -> Unit = {},
+    onCloseOthersClicked: () -> Unit = {},
+    onCloseAllClicked: () -> Unit = {},
 ) {
     Box(modifier.width(IntrinsicSize.Max)) {
+        var menuExpanded by rememberSaveable { mutableStateOf(false) }
+        CloseMenu(
+            expanded = menuExpanded,
+            onDismiss = { menuExpanded = false },
+            onCloseClicked = { menuExpanded = false; onCloseClicked() },
+            onCloseOthersClicked = { menuExpanded = false; onCloseOthersClicked() },
+            onCloseAllClicked = { menuExpanded = false; onCloseAllClicked() },
+        )
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .height(36.dp)
                 .selectable(
                     selected = selected,
-                    onClick = onClick,
+                    onClick = {
+                        if (selected) {
+                            menuExpanded = true
+                        } else {
+                            onDocumentClicked()
+                        }
+                    },
                     enabled = true,
                     role = Role.Tab,
                     interactionSource = null,
@@ -83,9 +102,9 @@ internal fun DocumentTab(
             )
 
             IconButton(
-                iconResId = iconResId,
+                iconResId = UiR.drawable.ic_close,
                 iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                onClick = onActionClick,
+                onClick = onCloseClicked,
                 iconButtonSize = IconButtonSizeDefaults.XXS,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
@@ -117,17 +136,13 @@ private fun DocumentTabPreview() {
         Row {
             DocumentTab(
                 title = "untitled.txt",
-                iconResId = UiR.drawable.ic_close,
                 selected = selected == 0,
-                onClick = { selected = 0 },
-                onActionClick = {},
+                onDocumentClicked = { selected = 0 },
             )
             DocumentTab(
                 title = "Document.txt",
-                iconResId = UiR.drawable.ic_close,
                 selected = selected == 1,
-                onClick = { selected = 1 },
-                onActionClick = {},
+                onDocumentClicked = { selected = 1 },
             )
         }
     }

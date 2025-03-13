@@ -65,7 +65,9 @@ internal fun EditorScreen(viewModel: EditorViewModel) {
         onRedoClicked = {},
         onSettingsClicked = viewModel::onSettingsClicked,
         onDocumentClicked = viewModel::onDocumentClicked,
-        onCloseDocumentClicked = viewModel::onCloseDocumentClicked,
+        onCloseClicked = viewModel::onCloseClicked,
+        onCloseOthersClicked = viewModel::onCloseOthersClicked,
+        onCloseAllClicked = viewModel::onCloseAllClicked,
     )
 }
 
@@ -92,7 +94,9 @@ private fun EditorScreen(
     onRedoClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
     onDocumentClicked: (DocumentState) -> Unit = {},
-    onCloseDocumentClicked: (DocumentState) -> Unit = {},
+    onCloseClicked: (DocumentState) -> Unit = {},
+    onCloseOthersClicked: (DocumentState) -> Unit = {},
+    onCloseAllClicked: () -> Unit = {},
 ) {
     ScaffoldSuite(
         topBar = {
@@ -125,7 +129,9 @@ private fun EditorScreen(
                 tabs = viewState.documents,
                 selectedIndex = viewState.selectedDocument,
                 onDocumentClicked = onDocumentClicked,
-                onCloseDocumentClicked = onCloseDocumentClicked,
+                onCloseClicked = onCloseClicked,
+                onCloseOthersClicked = onCloseOthersClicked,
+                onCloseAllClicked = onCloseAllClicked,
                 modifier = Modifier.fillMaxWidth(),
             )
 

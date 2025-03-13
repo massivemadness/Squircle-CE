@@ -20,7 +20,7 @@ import android.content.Context
 import android.net.Uri
 import com.blacksquircle.ui.core.extensions.extractFilePath
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.database.AppDatabase
+import com.blacksquircle.ui.core.storage.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.model.FindResult
@@ -37,6 +37,7 @@ import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams
 import com.blacksquircle.ui.filesystem.base.model.LineBreak
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
@@ -45,7 +46,7 @@ import java.util.regex.Pattern
 internal class DocumentRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
-    private val appDatabase: AppDatabase,
+    private val documentDao: DocumentDao,
     private val filesystemFactory: FilesystemFactory,
     private val cacheDirectory: File,
     private val context: Context,
@@ -53,15 +54,16 @@ internal class DocumentRepositoryImpl(
 
     override suspend fun loadDocuments(): List<DocumentModel> {
         return withContext(dispatcherProvider.io()) {
-            appDatabase.documentDao().loadAll()
-                .map(DocumentMapper::toModel)
+            documentDao.loadAll().map(DocumentMapper::toModel)
         }
     }
 
     override suspend fun loadDocument(document: DocumentModel): DocumentContent {
         return withContext(dispatcherProvider.io()) {
             val documentEntity = DocumentMapper.toEntity(document)
-            appDatabase.documentDao().insert(documentEntity)
+            documentDao.insert(documentEntity)
+
+            delay(1500L) // TODO
 
             val textCacheFile = cacheFile(document, postfix = "text.txt")
             if (textCacheFile.exists()) {
@@ -88,7 +90,11 @@ internal class DocumentRepositoryImpl(
         }
     }
 
-    override suspend fun saveDocument(document: DocumentModel, content: DocumentContent, params: DocumentParams) {
+    override suspend fun saveDocument(
+        document: DocumentModel,
+        content: DocumentContent,
+        params: DocumentParams
+    ) {
         withContext(dispatcherProvider.io()) {
             if (params.local) {
                 val filesystem = filesystemFactory.create(document.filesystemUuid)
@@ -115,12 +121,22 @@ internal class DocumentRepositoryImpl(
 
     override suspend fun closeDocument(document: DocumentModel) {
         withContext(dispatcherProvider.io()) {
+            documentDao.closeDocument(document.uuid, document.position)
             deleteCacheFiles(document)
+        }
+    }
 
-            appDatabase.documentDao().deleteAndShift(
-                uuid = document.uuid,
-                index = document.position,
-            )
+    override suspend fun closeOtherDocuments(document: DocumentModel) {
+        withContext(dispatcherProvider.io()) {
+            documentDao.closeOtherDocuments(document.uuid)
+            clearAllCaches(document.uuid)
+        }
+    }
+
+    override suspend fun closeAllDocuments() {
+        withContext(dispatcherProvider.io()) {
+            documentDao.deleteAll()
+            clearAllCaches()
         }
     }
 
@@ -170,11 +186,13 @@ internal class DocumentRepositoryImpl(
                 params.regex && !params.matchCase -> Pattern.compile(
                     params.query, Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
                 )
+
                 params.wordsOnly && params.matchCase -> Pattern.compile("\\s${params.query}\\s")
                 params.wordsOnly && !params.matchCase -> Pattern.compile(
                     "\\s" + Pattern.quote(params.query) + "\\s",
                     Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
                 )
+
                 params.matchCase -> Pattern.compile(Pattern.quote(params.query))
                 else -> Pattern.compile(
                     Pattern.quote(params.query),
@@ -232,6 +250,20 @@ internal class DocumentRepositoryImpl(
         if (textCacheFile.exists()) textCacheFile.delete()
         if (undoCacheFile.exists()) undoCacheFile.delete()
         if (redoCacheFile.exists()) redoCacheFile.delete()
+    }
+
+    private fun clearAllCaches(filter: String) {
+        cacheDirectory.listFiles().orEmpty().forEach { file ->
+            if (!file.name.startsWith(filter, ignoreCase = true)) {
+                file.deleteRecursively()
+            }
+        }
+    }
+
+    private fun clearAllCaches() {
+        cacheDirectory.listFiles().orEmpty().forEach { file ->
+            file.deleteRecursively()
+        }
     }
 
     private fun cacheFile(document: DocumentModel, postfix: String): File {

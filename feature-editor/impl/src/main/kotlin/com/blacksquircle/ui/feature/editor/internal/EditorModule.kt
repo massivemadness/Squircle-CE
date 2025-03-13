@@ -20,6 +20,7 @@ import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.AppDatabase
+import com.blacksquircle.ui.core.storage.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.editor.data.repository.DocumentRepositoryImpl
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
@@ -36,16 +37,22 @@ internal object EditorModule {
         context: Context,
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
-        appDatabase: AppDatabase,
+        documentDao: DocumentDao,
         filesystemFactory: FilesystemFactory,
     ): DocumentRepository {
         return DocumentRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
-            appDatabase = appDatabase,
+            documentDao = documentDao,
             filesystemFactory = filesystemFactory,
             cacheDirectory = Directories.filesDir(context),
             context = context,
         )
+    }
+
+    @Provides
+    @EditorScope
+    fun provideDocumentDao(appDatabase: AppDatabase): DocumentDao {
+        return appDatabase.documentDao()
     }
 }

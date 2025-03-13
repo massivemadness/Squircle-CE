@@ -26,9 +26,13 @@ import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
 internal interface DocumentRepository {
 
     suspend fun loadDocuments(): List<DocumentModel>
+
     suspend fun loadDocument(document: DocumentModel): DocumentContent
     suspend fun saveDocument(document: DocumentModel, content: DocumentContent, params: DocumentParams)
+
     suspend fun closeDocument(document: DocumentModel)
+    suspend fun closeOtherDocuments(document: DocumentModel)
+    suspend fun closeAllDocuments()
 
     suspend fun openExternal(fileUri: Uri): DocumentModel
     suspend fun saveExternal(document: DocumentModel, fileUri: Uri)

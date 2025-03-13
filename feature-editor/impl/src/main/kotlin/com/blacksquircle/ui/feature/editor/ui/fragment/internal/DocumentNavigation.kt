@@ -29,14 +29,15 @@ import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
-import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun DocumentNavigation(
     tabs: List<DocumentState>,
     modifier: Modifier = Modifier,
     onDocumentClicked: (DocumentState) -> Unit = {},
-    onCloseDocumentClicked: (DocumentState) -> Unit = {},
+    onCloseClicked: (DocumentState) -> Unit = {},
+    onCloseOthersClicked: (DocumentState) -> Unit = {},
+    onCloseAllClicked: () -> Unit = {},
     selectedIndex: Int = -1,
 ) {
     val scrollState = rememberLazyListState()
@@ -53,10 +54,11 @@ internal fun DocumentNavigation(
         ) { i, state ->
             DocumentTab(
                 title = state.document.name,
-                iconResId = UiR.drawable.ic_close,
                 selected = i == selectedIndex,
-                onClick = { onDocumentClicked(state) },
-                onActionClick = { onCloseDocumentClicked(state) },
+                onDocumentClicked = { onDocumentClicked(state) },
+                onCloseClicked = { onCloseClicked(state) },
+                onCloseOthersClicked = { onCloseOthersClicked(state) },
+                onCloseAllClicked = onCloseAllClicked,
                 modifier = Modifier.animateItem(),
             )
         }

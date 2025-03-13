@@ -49,6 +49,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import javax.inject.Inject
 import com.blacksquircle.ui.ds.R as UiR
@@ -108,8 +110,16 @@ internal class EditorViewModel @Inject constructor(
         loadDocument(documentState.document)
     }
 
-    fun onCloseDocumentClicked(documentState: DocumentState) {
+    fun onCloseClicked(documentState: DocumentState) {
         closeDocument(documentState.document)
+    }
+
+    fun onCloseOthersClicked(documentState: DocumentState) {
+        closeOtherDocuments(documentState.document)
+    }
+
+    fun onCloseAllClicked() {
+        closeAllDocuments()
     }
 
     private fun onFileOpened(fileModel: FileModel) {
@@ -157,16 +167,16 @@ internal class EditorViewModel @Inject constructor(
                 }
                 selectedPosition = currentPosition
 
-                settingsManager.selectedUuid = documents
-                    .getOrNull(currentPosition)
-                    ?.document?.uuid.orEmpty()
-
                 _viewState.update {
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
                     )
                 }
+
+                settingsManager.selectedUuid = documents
+                    .getOrNull(currentPosition)
+                    ?.document?.uuid.orEmpty()
 
                 documentRepository.closeDocument(document)
 
@@ -180,6 +190,62 @@ internal class EditorViewModel @Inject constructor(
                         loadDocument(selectedDocument, fromUser = false)
                     }
                 }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun closeOtherDocuments(document: DocumentModel) {
+        viewModelScope.launch {
+            try {
+                documents = documents.mapNotNull { state ->
+                    if (state.document.uuid == document.uuid) {
+                        state.copy(document = document.copy(position = 0))
+                    } else {
+                        null
+                    }
+                }
+                selectedPosition = 0
+
+                _viewState.update {
+                    it.copy(
+                        documents = documents,
+                        selectedDocument = selectedPosition,
+                    )
+                }
+
+                settingsManager.selectedUuid = document.uuid
+                documentRepository.closeOtherDocuments(document)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    private fun closeAllDocuments() {
+        viewModelScope.launch {
+            try {
+                currentJob?.cancel()
+
+                documents = emptyList()
+                selectedPosition = -1
+
+                _viewState.update {
+                    it.copy(
+                        documents = documents,
+                        selectedDocument = selectedPosition,
+                    )
+                }
+
+                settingsManager.selectedUuid = "null"
+                documentRepository.closeAllDocuments()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -225,7 +291,6 @@ internal class EditorViewModel @Inject constructor(
                     )
                 }
 
-                delay(1000L)
                 val content = documentRepository.loadDocument(documentState.document)
                 documents = documents.mapSelected {
                     documentState.copy(

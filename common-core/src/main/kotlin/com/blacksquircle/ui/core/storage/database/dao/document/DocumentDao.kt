@@ -34,17 +34,29 @@ interface DocumentDao {
     suspend fun deleteAll()
 
     @Query("DELETE FROM `${Tables.DOCUMENTS}` WHERE `uuid` = :uuid")
-    suspend fun delete(uuid: String)
+    suspend fun deleteWhereEquals(uuid: String)
+
+    @Query("DELETE FROM `${Tables.DOCUMENTS}` WHERE `uuid` != :uuid")
+    suspend fun deleteWhereNotEquals(uuid: String)
+
+    @Query("UPDATE `${Tables.DOCUMENTS}` SET `position` = :position WHERE `uuid` = :uuid")
+    suspend fun updatePosition(uuid: String, position: Int)
 
     @Query("UPDATE `${Tables.DOCUMENTS}` SET `position` = `position` - 1 WHERE `position` > :index")
-    suspend fun shiftLeft(index: Int)
+    suspend fun shiftPositions(index: Int)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(document: DocumentEntity): Long
 
     @Transaction
-    suspend fun deleteAndShift(uuid: String, index: Int) {
-        delete(uuid)
-        shiftLeft(index)
+    suspend fun closeDocument(uuid: String, index: Int) {
+        deleteWhereEquals(uuid)
+        shiftPositions(index)
+    }
+
+    @Transaction
+    suspend fun closeOtherDocuments(uuid: String) {
+        deleteWhereNotEquals(uuid)
+        updatePosition(uuid, 0)
     }
 }
