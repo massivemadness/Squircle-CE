@@ -314,13 +314,13 @@ internal class EditorViewModel @Inject constructor(
     private fun loadDocument(document: DocumentModel, fromUser: Boolean = true) {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
-            /** Check if [document] is already added to tabs */
-            val existingIndex = documents.indexOf { it.document.fileUri == document.fileUri }
-            if (existingIndex == selectedPosition && selectedPosition != -1 && fromUser) {
-                return@launch
-            }
-
             try {
+                /** Check if [document] is already added to tabs */
+                val existingIndex = documents.indexOf { it.document.fileUri == document.fileUri }
+                if (existingIndex == selectedPosition && selectedPosition != -1 && fromUser) {
+                    return@launch
+                }
+
                 /** Free memory - clear content */
                 documents = documents.mapSelected { state ->
                     state.copy(content = null)
@@ -343,7 +343,9 @@ internal class EditorViewModel @Inject constructor(
                     )
                 }
 
-                val content = documentRepository.loadDocument(document)
+                /** Can't use [document] here, it might have different UUID with same file uri */
+                val documentState = documents[selectedPosition]
+                val content = documentRepository.loadDocument(documentState.document)
                 ensureActive()
 
                 documents = documents.mapSelected {

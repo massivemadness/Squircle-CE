@@ -62,7 +62,6 @@ internal class DocumentRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             val documentEntity = DocumentMapper.toEntity(document)
             documentDao.insert(documentEntity)
-
             settingsManager.selectedUuid = document.uuid
 
             delay(1500L) // TODO

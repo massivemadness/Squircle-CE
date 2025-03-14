@@ -612,13 +612,13 @@ internal class ExplorerViewModel @Inject constructor(
     private fun loadFiles(parent: FileModel, fromUser: Boolean = true) {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
-            /** Check if [parent] is already added to breadcrumbs */
-            val existingIndex = breadcrumbs.indexOf { it.fileModel.fileUri == parent.fileUri }
-            if (existingIndex == selectedBreadcrumb && selectedBreadcrumb != -1 && fromUser) {
-                return@launch
-            }
-
             try {
+                /** Check if [parent] is already added to breadcrumbs */
+                val existingIndex = breadcrumbs.indexOf { it.fileModel.fileUri == parent.fileUri }
+                if (existingIndex == selectedBreadcrumb && selectedBreadcrumb != -1 && fromUser) {
+                    return@launch
+                }
+
                 if (existingIndex != -1) {
                     /** Refresh directory, don't open a new tab */
                     selectedBreadcrumb = existingIndex

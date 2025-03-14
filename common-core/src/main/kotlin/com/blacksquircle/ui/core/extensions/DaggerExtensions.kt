@@ -30,15 +30,6 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.blacksquircle.ui.core.service.ComponentService
 
-inline fun <reified VM : ViewModel> Fragment.activityViewModels(
-    crossinline viewModelProducer: () -> VM,
-): Lazy<VM> {
-    return viewModels(
-        storeProducer = { requireActivity() },
-        viewModelProducer = viewModelProducer,
-    )
-}
-
 inline fun <reified VM : ViewModel> Fragment.viewModels(
     crossinline viewModelProducer: () -> VM,
 ): Lazy<VM> {
@@ -49,15 +40,6 @@ inline fun <reified VM : ViewModel> Fragment.viewModels(
 }
 
 inline fun <reified VM : ViewModel> FragmentActivity.viewModels(
-    crossinline viewModelProducer: () -> VM,
-): Lazy<VM> {
-    return viewModels(
-        storeProducer = { this },
-        viewModelProducer = viewModelProducer,
-    )
-}
-
-inline fun <reified VM : ViewModel> ComponentService.viewModels(
     crossinline viewModelProducer: () -> VM,
 ): Lazy<VM> {
     return viewModels(
