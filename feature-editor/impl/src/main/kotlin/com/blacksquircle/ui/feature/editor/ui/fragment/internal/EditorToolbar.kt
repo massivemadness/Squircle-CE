@@ -63,6 +63,17 @@ internal fun EditorToolbar(
     onRedoClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
 ) {
+    val activity = LocalContext.current.findActivity()
+    val windowSizeClass = if (activity != null) {
+        calculateWindowSizeClass(activity)
+    } else {
+        null
+    }
+    val isMediumWidth = if (windowSizeClass != null) {
+        windowSizeClass.widthSizeClass > WindowWidthSizeClass.Compact
+    } else {
+        false
+    }
     var menuType by rememberSaveable {
         mutableStateOf<MenuType?>(null)
     }
@@ -71,6 +82,12 @@ internal fun EditorToolbar(
         navigationIcon = R.drawable.ic_menu,
         onNavigationClicked = onDrawerClicked,
         navigationActions = {
+            if (isMediumWidth) {
+                IconButton(
+                    iconResId = R.drawable.ic_save,
+                    onClick = onSaveFileClicked,
+                )
+            }
             IconButton(
                 iconResId = R.drawable.ic_folder,
                 onClick = { menuType = MenuType.FILE },
@@ -103,20 +120,6 @@ internal fun EditorToolbar(
                     )
                 }
             )
-
-            val activity = LocalContext.current.findActivity()
-            val windowSizeClass = if (activity != null) {
-                calculateWindowSizeClass(activity)
-            } else {
-                null
-            }
-
-            val isMediumWidth = if (windowSizeClass != null) {
-                windowSizeClass.widthSizeClass > WindowWidthSizeClass.Compact
-            } else {
-                false
-            }
-
             if (isMediumWidth) {
                 IconButton(
                     iconResId = R.drawable.ic_wrench,

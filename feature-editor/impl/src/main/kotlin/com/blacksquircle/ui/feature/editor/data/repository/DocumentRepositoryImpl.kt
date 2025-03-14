@@ -63,6 +63,8 @@ internal class DocumentRepositoryImpl(
             val documentEntity = DocumentMapper.toEntity(document)
             documentDao.insert(documentEntity)
 
+            settingsManager.selectedUuid = document.uuid
+
             delay(1500L) // TODO
 
             val textCacheFile = cacheFile(document, postfix = "text.txt")
@@ -140,6 +142,7 @@ internal class DocumentRepositoryImpl(
     override suspend fun closeOtherDocuments(document: DocumentModel) {
         withContext(dispatcherProvider.io()) {
             documentDao.closeOtherDocuments(document.uuid)
+            settingsManager.selectedUuid = document.uuid
             clearAllCaches(document.uuid)
         }
     }
@@ -147,6 +150,7 @@ internal class DocumentRepositoryImpl(
     override suspend fun closeAllDocuments() {
         withContext(dispatcherProvider.io()) {
             documentDao.deleteAll()
+            settingsManager.selectedUuid = "null"
             clearAllCaches()
         }
     }

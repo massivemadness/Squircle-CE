@@ -16,7 +16,9 @@
 
 package com.blacksquircle.ui.feature.editor.ui.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -39,6 +41,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -50,6 +53,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Provider
 import com.blacksquircle.ui.ds.R as UiR
 
 internal class EditorViewModel @Inject constructor(
@@ -78,12 +82,8 @@ internal class EditorViewModel @Inject constructor(
         editorInteractor.eventBus
             .onEach { event ->
                 when (event) {
-                    is EditorApiEvent.OpenFile -> {
-                        onFileOpened(event.fileModel)
-                    }
-                    is EditorApiEvent.OpenFileUri -> {
-                        // TODO
-                    }
+                    is EditorApiEvent.OpenFile -> onFileOpened(event.fileModel)
+                    is EditorApiEvent.OpenFileUri -> onFileOpened(event.fileUri)
                 }
             }
             .launchIn(viewModelScope)
@@ -93,6 +93,29 @@ internal class EditorViewModel @Inject constructor(
         viewModelScope.launch {
             val screen = Screen.Explorer
             _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onNewFileClicked() {
+        // TODO
+    }
+
+    fun onOpenFileClicked() {
+        // TODO
+    }
+
+    fun onSaveFileClicked() {
+        // TODO
+    }
+
+    fun onSaveFileAsClicked() {
+        // TODO
+    }
+
+    fun onCloseFileClicked() {
+        if (documents.isNotEmpty()) {
+            val selectedDocument = documents[selectedPosition]
+            onCloseClicked(selectedDocument)
         }
     }
 
@@ -244,7 +267,6 @@ internal class EditorViewModel @Inject constructor(
                     )
                 }
 
-                settingsManager.selectedUuid = documentState.document.uuid
                 documentRepository.closeOtherDocuments(documentState.document)
             } catch (e: CancellationException) {
                 throw e
@@ -270,7 +292,6 @@ internal class EditorViewModel @Inject constructor(
                     )
                 }
 
-                settingsManager.selectedUuid = "null"
                 documentRepository.closeAllDocuments()
             } catch (e: CancellationException) {
                 throw e
@@ -279,6 +300,10 @@ internal class EditorViewModel @Inject constructor(
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
+    }
+
+    private fun onFileOpened(fileUri: Uri) {
+        // TODO
     }
 
     private fun onFileOpened(fileModel: FileModel) {
@@ -295,25 +320,21 @@ internal class EditorViewModel @Inject constructor(
                 return@launch
             }
 
-            /** Free memory */
-            documents = documents.mapSelected { state ->
-                state.copy(content = null)
-            }
-
-            if (existingIndex != -1) {
-                /** Select existing document */
-                selectedPosition = existingIndex
-            } else {
-                /** Create new document */
-                val documentState = DocumentState(document)
-                documents = documents + documentState
-                selectedPosition = documents.size - 1
-            }
-
-            val documentState = documents[selectedPosition]
-            settingsManager.selectedUuid = document.uuid
-
             try {
+                /** Free memory - clear content */
+                documents = documents.mapSelected { state ->
+                    state.copy(content = null)
+                }
+
+                if (existingIndex != -1) {
+                    /** Select existing document */
+                    selectedPosition = existingIndex
+                } else {
+                    /** Create new document */
+                    documents = documents + DocumentState(document)
+                    selectedPosition = documents.size - 1
+                }
+
                 _viewState.update {
                     it.copy(
                         documents = documents,
@@ -322,9 +343,11 @@ internal class EditorViewModel @Inject constructor(
                     )
                 }
 
-                val content = documentRepository.loadDocument(documentState.document)
+                val content = documentRepository.loadDocument(document)
+                ensureActive()
+
                 documents = documents.mapSelected {
-                    documentState.copy(
+                    it.copy(
                         content = content,
                         errorState = null,
                     )
@@ -344,7 +367,7 @@ internal class EditorViewModel @Inject constructor(
 
                 /** Clear content and show error */
                 documents = documents.mapSelected {
-                    documentState.copy(
+                    it.copy(
                         content = null,
                         errorState = errorState(e),
                     )
@@ -997,4 +1020,15 @@ internal class EditorViewModel @Inject constructor(
             }
         }
     }*/
+
+    class Factory : ViewModelProvider.Factory {
+
+        @Inject
+        lateinit var viewModelProvider: Provider<EditorViewModel>
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return viewModelProvider.get() as T
+        }
+    }
 }

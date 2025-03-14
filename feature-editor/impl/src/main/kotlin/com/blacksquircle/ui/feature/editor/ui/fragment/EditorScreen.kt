@@ -21,18 +21,27 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.compose.CleanupEffect
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.factory.LanguageFactory
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
+import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.DocumentLayout
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.DocumentNavigation
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.EditorToolbar
@@ -41,16 +50,22 @@ import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun EditorScreen(viewModel: EditorViewModel) {
+internal fun EditorScreen(
+    navController: NavController,
+    viewModel: EditorViewModel = daggerViewModel { context ->
+        val component = EditorComponent.buildOrGet(context)
+        EditorViewModel.Factory().also(component::inject)
+    },
+) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     EditorScreen(
         viewState = viewState,
         onDrawerClicked = viewModel::onDrawerClicked,
-        onNewFileClicked = {},
-        onOpenFileClicked = {},
-        onSaveFileClicked = {},
-        onSaveFileAsClicked = {},
-        onCloseFileClicked = {},
+        onNewFileClicked = viewModel::onNewFileClicked,
+        onOpenFileClicked = viewModel::onOpenFileClicked,
+        onSaveFileClicked = viewModel::onSaveFileClicked,
+        onSaveFileAsClicked = viewModel::onSaveFileAsClicked,
+        onCloseFileClicked = viewModel::onCloseFileClicked,
         onCutClicked = {},
         onCopyClicked = {},
         onPasteClicked = {},
@@ -70,6 +85,21 @@ internal fun EditorScreen(viewModel: EditorViewModel) {
         onCloseOthersClicked = viewModel::onCloseOthersClicked,
         onCloseAllClicked = viewModel::onCloseAllClicked,
     )
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.viewEvent.collect { event ->
+            when (event) {
+                is ViewEvent.Toast -> context.showToast(text = event.message)
+                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.PopBackStack -> navController.popBackStack()
+            }
+        }
+    }
+
+    CleanupEffect {
+        EditorComponent.release()
+    }
 }
 
 @Composable

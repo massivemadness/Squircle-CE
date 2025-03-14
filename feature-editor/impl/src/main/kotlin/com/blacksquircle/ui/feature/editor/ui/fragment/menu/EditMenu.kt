@@ -16,12 +16,10 @@
 
 package com.blacksquircle.ui.feature.editor.ui.fragment.menu
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.feature.editor.R
@@ -62,9 +60,6 @@ internal fun EditMenu(
             iconResId = UiR.drawable.ic_paste,
             onClick = onPasteClicked,
         )
-
-        HorizontalDivider(Modifier.padding(vertical = 4.dp))
-
         PopupMenuItem(
             title = stringResource(android.R.string.selectAll),
             iconResId = UiR.drawable.ic_select_all,

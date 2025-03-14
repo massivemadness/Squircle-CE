@@ -55,6 +55,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileType
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -617,25 +618,23 @@ internal class ExplorerViewModel @Inject constructor(
                 return@launch
             }
 
-            val updatedState = if (existingIndex != -1) {
-                /** Refresh directory, don't open a new tab */
-                selectedBreadcrumb = existingIndex
-                breadcrumbs[selectedBreadcrumb]
-            } else {
-                /** Remove all tabs after the selected one, insert empty tree at the end */
-                val newState = BreadcrumbState(
-                    fileModel = parent,
-                    fileList = emptyList(),
-                    errorState = null,
-                )
-                val fromIndex = 0
-                val toIndex = if (selectedBreadcrumb > -1) selectedBreadcrumb + 1 else 0
-                breadcrumbs = breadcrumbs.subList(fromIndex, toIndex) + newState
-                selectedBreadcrumb = breadcrumbs.size - 1
-                newState
-            }
-
             try {
+                if (existingIndex != -1) {
+                    /** Refresh directory, don't open a new tab */
+                    selectedBreadcrumb = existingIndex
+                } else {
+                    /** Remove all tabs after the selected one, insert empty tree at the end */
+                    val fromIndex = 0
+                    val toIndex = if (selectedBreadcrumb > -1) selectedBreadcrumb + 1 else 0
+                    val newState = BreadcrumbState(
+                        fileModel = parent,
+                        fileList = emptyList(),
+                        errorState = null,
+                    )
+                    breadcrumbs = breadcrumbs.subList(fromIndex, toIndex) + newState
+                    selectedBreadcrumb = breadcrumbs.size - 1
+                }
+
                 _viewState.update {
                     it.copy(
                         breadcrumbs = breadcrumbs,
@@ -644,11 +643,11 @@ internal class ExplorerViewModel @Inject constructor(
                     )
                 }
 
-                /** Load files, update directory */
                 val fileList = explorerRepository.listFiles(parent)
+                ensureActive()
 
                 breadcrumbs = breadcrumbs.mapSelected {
-                    updatedState.copy(
+                    it.copy(
                         fileList = fileList,
                         errorState = null,
                     )
@@ -670,7 +669,7 @@ internal class ExplorerViewModel @Inject constructor(
 
                 /** Clear list and show error */
                 breadcrumbs = breadcrumbs.mapSelected {
-                    updatedState.copy(
+                    it.copy(
                         fileList = emptyList(),
                         errorState = errorState(e),
                     )
