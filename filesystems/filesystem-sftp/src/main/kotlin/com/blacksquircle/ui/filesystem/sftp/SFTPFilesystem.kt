@@ -54,7 +54,7 @@ class SFTPFilesystem(
         }
     }
 
-    override fun provideDirectory(parent: FileModel): List<FileModel> {
+    override fun listFiles(parent: FileModel): List<FileModel> {
         try {
             connect()
             sftpMapper.parent(parent)
@@ -64,10 +64,6 @@ class SFTPFilesystem(
         } finally {
             disconnect()
         }
-    }
-
-    override fun exists(fileModel: FileModel): Boolean {
-        throw UnsupportedOperationException()
     }
 
     override fun createFile(fileModel: FileModel) {

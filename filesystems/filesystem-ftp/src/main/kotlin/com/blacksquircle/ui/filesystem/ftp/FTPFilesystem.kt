@@ -49,7 +49,7 @@ class FTPFilesystem(
         }
     }
 
-    override fun provideDirectory(parent: FileModel): List<FileModel> {
+    override fun listFiles(parent: FileModel): List<FileModel> {
         try {
             connect()
             ftpClient.changeWorkingDirectory(parent.path)
@@ -63,10 +63,6 @@ class FTPFilesystem(
         } finally {
             disconnect()
         }
-    }
-
-    override fun exists(fileModel: FileModel): Boolean {
-        throw UnsupportedOperationException()
     }
 
     override fun createFile(fileModel: FileModel) {

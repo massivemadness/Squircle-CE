@@ -133,7 +133,7 @@ internal class ExplorerRepositoryImpl(
             val entity = FileMapper.toEntity(parent)
             appDatabase.pathDao().insert(entity)
 
-            filesystem.provideDirectory(parent)
+            filesystem.listFiles(parent)
         }
     }
 

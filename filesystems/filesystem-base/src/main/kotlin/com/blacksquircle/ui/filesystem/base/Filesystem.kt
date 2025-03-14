@@ -24,9 +24,7 @@ interface Filesystem {
 
     fun ping()
 
-    fun provideDirectory(parent: FileModel): List<FileModel>
-    fun exists(fileModel: FileModel): Boolean
-
+    fun listFiles(parent: FileModel): List<FileModel>
     fun createFile(fileModel: FileModel)
     fun renameFile(source: FileModel, dest: FileModel)
     fun deleteFile(fileModel: FileModel)

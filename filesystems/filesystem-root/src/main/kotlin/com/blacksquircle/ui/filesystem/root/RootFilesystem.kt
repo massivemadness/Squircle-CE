@@ -39,17 +39,13 @@ class RootFilesystem : Filesystem {
 
     override fun ping() = Unit
 
-    override fun provideDirectory(parent: FileModel): List<FileModel> {
+    override fun listFiles(parent: FileModel): List<FileModel> {
         val file = toFileObject(parent)
         if (!file.isDirectory) {
             throw DirectoryExpectedException()
         }
         return file.listFiles().orEmpty()
             .map(::toFileModel)
-    }
-
-    override fun exists(fileModel: FileModel): Boolean {
-        return SuFile(fileModel.path).exists()
     }
 
     override fun createFile(fileModel: FileModel) {
