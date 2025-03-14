@@ -153,29 +153,12 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    fun onCloseClicked(documentState: DocumentState) {
-        closeDocument(documentState.document)
-    }
-
-    fun onCloseOthersClicked(documentState: DocumentState) {
-        closeOtherDocuments(documentState.document)
-    }
-
-    fun onCloseAllClicked() {
-        closeAllDocuments()
-    }
-
-    private fun onFileOpened(fileModel: FileModel) {
-        val document = DocumentMapper.toModel(fileModel, documents.size)
-        loadDocument(document, fromUser = true)
-    }
-
     @Suppress("KotlinConstantConditions")
-    private fun closeDocument(document: DocumentModel) {
+    fun onCloseClicked(documentState: DocumentState) {
         viewModelScope.launch {
             try {
                 /** Calculate new position */
-                val removedPosition = document.position
+                val removedPosition = documentState.document.position
                 val currentPosition = when {
                     removedPosition == selectedPosition -> when {
                         removedPosition - 1 > -1 -> removedPosition - 1
@@ -221,7 +204,7 @@ internal class EditorViewModel @Inject constructor(
                     .getOrNull(currentPosition)
                     ?.document?.uuid.orEmpty()
 
-                documentRepository.closeDocument(document)
+                documentRepository.closeDocument(documentState.document)
 
                 if (reloadFile) {
                     /** If selected file is still loading, cancel request */
@@ -242,12 +225,12 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun closeOtherDocuments(document: DocumentModel) {
+    fun onCloseOthersClicked(documentState: DocumentState) {
         viewModelScope.launch {
             try {
                 documents = documents.mapNotNull { state ->
-                    if (state.document.uuid == document.uuid) {
-                        state.copy(document = document.copy(position = 0))
+                    if (state.document.uuid == documentState.document.uuid) {
+                        state.copy(document = documentState.document.copy(position = 0))
                     } else {
                         null
                     }
@@ -261,8 +244,8 @@ internal class EditorViewModel @Inject constructor(
                     )
                 }
 
-                settingsManager.selectedUuid = document.uuid
-                documentRepository.closeOtherDocuments(document)
+                settingsManager.selectedUuid = documentState.document.uuid
+                documentRepository.closeOtherDocuments(documentState.document)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -272,7 +255,7 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun closeAllDocuments() {
+    fun onCloseAllClicked() {
         viewModelScope.launch {
             try {
                 currentJob?.cancel()
@@ -296,6 +279,11 @@ internal class EditorViewModel @Inject constructor(
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
+    }
+
+    private fun onFileOpened(fileModel: FileModel) {
+        val document = DocumentMapper.toModel(fileModel, documents.size)
+        loadDocument(document, fromUser = true)
     }
 
     private fun loadDocument(document: DocumentModel, fromUser: Boolean = true) {
