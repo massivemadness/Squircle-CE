@@ -37,7 +37,6 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.OutlinedButton
-import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.api.model.FontModel
