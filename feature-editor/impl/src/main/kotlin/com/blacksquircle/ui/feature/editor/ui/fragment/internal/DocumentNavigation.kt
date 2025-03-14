@@ -23,27 +23,39 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyListState
+
+private const val DragAlpha = 0.5f
+private const val IdleAlpha = 1.0f
 
 @Composable
 internal fun DocumentNavigation(
     tabs: List<DocumentState>,
     modifier: Modifier = Modifier,
     onDocumentClicked: (DocumentState) -> Unit = {},
+    onDocumentMoved: (from: Int, to: Int) -> Unit = { _, _ -> },
     onCloseClicked: (DocumentState) -> Unit = {},
     onCloseOthersClicked: (DocumentState) -> Unit = {},
     onCloseAllClicked: () -> Unit = {},
     selectedIndex: Int = -1,
 ) {
-    val scrollState = rememberLazyListState()
+    val lazyListState = rememberLazyListState()
+    val reorderHapticFeedback = rememberReorderHapticFeedback()
+    val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
+        onDocumentMoved(from.index, to.index)
+        reorderHapticFeedback.perform(ReorderHapticFeedbackType.MOVE)
+    }
 
     LazyRow(
-        state = scrollState,
+        state = lazyListState,
         modifier = modifier
             .fillMaxWidth()
             .height(36.dp),
@@ -52,15 +64,26 @@ internal fun DocumentNavigation(
             items = tabs,
             key = { _, state -> state.document.uuid }
         ) { i, state ->
-            DocumentTab(
-                title = state.document.name,
-                selected = i == selectedIndex,
-                onDocumentClicked = { onDocumentClicked(state) },
-                onCloseClicked = { onCloseClicked(state) },
-                onCloseOthersClicked = { onCloseOthersClicked(state) },
-                onCloseAllClicked = onCloseAllClicked,
-                modifier = Modifier.animateItem(),
-            )
+            ReorderableItem(reorderableLazyListState, state.document.uuid) { isDragging ->
+                DocumentTab(
+                    title = state.document.name,
+                    selected = i == selectedIndex,
+                    onDocumentClicked = { onDocumentClicked(state) },
+                    onCloseClicked = { onCloseClicked(state) },
+                    onCloseOthersClicked = { onCloseOthersClicked(state) },
+                    onCloseAllClicked = onCloseAllClicked,
+                    modifier = Modifier
+                        .alpha(if (isDragging) DragAlpha else IdleAlpha)
+                        .longPressDraggableHandle(
+                            onDragStarted = {
+                                reorderHapticFeedback.perform(ReorderHapticFeedbackType.START)
+                            },
+                            onDragStopped = {
+                                reorderHapticFeedback.perform(ReorderHapticFeedbackType.END)
+                            },
+                        ),
+                )
+            }
         }
     }
 

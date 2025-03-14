@@ -119,6 +119,17 @@ internal class DocumentRepositoryImpl(
         }
     }
 
+    override suspend fun reorderDocuments(from: DocumentModel, to: DocumentModel) {
+        withContext(dispatcherProvider.io()) {
+            documentDao.reorderDocuments(
+                fromUuid = from.uuid,
+                toUuid = to.uuid,
+                fromIndex = from.position,
+                toIndex = to.position,
+            )
+        }
+    }
+
     override suspend fun closeDocument(document: DocumentModel) {
         withContext(dispatcherProvider.io()) {
             documentDao.closeDocument(document.uuid, document.position)

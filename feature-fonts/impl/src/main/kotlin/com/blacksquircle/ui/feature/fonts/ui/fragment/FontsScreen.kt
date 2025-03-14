@@ -51,6 +51,7 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.FloatingButton
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
+import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
@@ -86,11 +87,11 @@ private fun FontsScreen(
     onRemoveClicked: (FontModel) -> Unit = {},
     onImportClicked: () -> Unit = {},
 ) {
-    val scrollState = rememberLazyListState()
+    val lazyListState = rememberLazyListState()
     val showButton by remember {
         derivedStateOf {
-            scrollState.firstVisibleItemIndex == 0 ||
-                scrollState.lastScrolledBackward
+            lazyListState.firstVisibleItemIndex == 0 ||
+                lazyListState.lastScrolledBackward
         }
     }
 
@@ -172,7 +173,7 @@ private fun FontsScreen(
                 return@ScaffoldSuite
             }
             LazyColumn(
-                state = scrollState,
+                state = lazyListState,
                 contentPadding = contentPadding,
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -187,6 +188,7 @@ private fun FontsScreen(
                         onRemoveClicked = { onRemoveClicked(font) },
                         modifier = Modifier.animateItem(),
                     )
+                    HorizontalDivider()
                 }
             }
             if (viewState.fonts.isEmpty()) {

@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.compose.preview)
     debugImplementation(libs.compose.tooling)
     debugImplementation(libs.compose.manifest)
+    implementation(libs.reorderable)
 
     // AAC
     implementation(libs.androidx.viewmodel)

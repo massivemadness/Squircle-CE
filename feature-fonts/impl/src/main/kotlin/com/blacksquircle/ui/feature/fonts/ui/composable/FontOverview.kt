@@ -104,7 +104,6 @@ internal fun FontOverview(
                 .padding(8.dp)
                 .align(Alignment.End)
         )
-        HorizontalDivider()
     }
 }
 

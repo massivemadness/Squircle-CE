@@ -16,9 +16,10 @@ material = "1.12.0"
 compose = "1.7.8"
 adaptive = "1.3.1"
 colorpicker = "1.1.2"
+reorderable = "2.4.3"
 vectordrawable = "1.2.0"
 lifecycle = "2.8.7"
-navigation = "2.8.8"
+navigation = "2.8.9"
 room = "2.6.1"
 gson = "2.10.1"
 ftpclient = "3.9.0"
@@ -57,6 +58,7 @@ kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "
 android-platform = { module = "com.google.android:android", version.ref = "android-platform" }
 materialdesign = { module = "com.google.android.material:material", version.ref = "material" }
 colorpicker = { module = "com.github.skydoves:colorpicker-compose", version.ref = "colorpicker" }
+reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 appupdate = { module = "com.google.android.play:app-update-ktx", version.ref = "appupdate" }
 superuser = { module = "com.github.topjohnwu.libsu:io", version.ref = "superuser" }

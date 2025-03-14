@@ -59,4 +59,10 @@ interface DocumentDao {
         deleteWhereNotEquals(uuid)
         updatePosition(uuid, 0)
     }
+
+    @Transaction
+    suspend fun reorderDocuments(fromUuid: String, toUuid: String, fromIndex: Int, toIndex: Int) {
+        updatePosition(fromUuid, toIndex)
+        updatePosition(toUuid, fromIndex)
+    }
 }

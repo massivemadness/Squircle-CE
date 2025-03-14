@@ -39,7 +39,6 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -49,8 +48,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import javax.inject.Inject
 import com.blacksquircle.ui.ds.R as UiR
@@ -108,6 +105,52 @@ internal class EditorViewModel @Inject constructor(
 
     fun onDocumentClicked(documentState: DocumentState) {
         loadDocument(documentState.document)
+    }
+
+    fun onDocumentMoved(from: Int, to: Int) {
+        viewModelScope.launch {
+            try {
+                if (from !in documents.indices || to !in documents.indices || from == to) {
+                    return@launch
+                }
+
+                val documentList = documents.toMutableList()
+                val documentFrom = documentList[from].document
+                val documentTo = documentList[to].document
+                documentList.add(to, documentList.removeAt(from))
+
+                documents = documentList.mapIndexed { index, state ->
+                    if (state.document.position != index) {
+                        state.copy(document = state.document.copy(position = index))
+                    } else {
+                        state
+                    }
+                }
+
+                when (selectedPosition) {
+                    /** Reorder from right to left */
+                    in to until from -> selectedPosition += 1
+                    /** Reorder from left to right */
+                    in (from + 1)..to -> selectedPosition -= 1
+                    /** Reorder selected item */
+                    from -> selectedPosition = to
+                }
+
+                _viewState.update {
+                    it.copy(
+                        documents = documents,
+                        selectedDocument = selectedPosition,
+                    )
+                }
+
+                documentRepository.reorderDocuments(documentFrom, documentTo)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
     }
 
     fun onCloseClicked(documentState: DocumentState) {

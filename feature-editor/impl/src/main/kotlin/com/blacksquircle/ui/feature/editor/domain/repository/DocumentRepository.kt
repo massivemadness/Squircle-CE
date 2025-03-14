@@ -34,6 +34,8 @@ internal interface DocumentRepository {
     suspend fun closeOtherDocuments(document: DocumentModel)
     suspend fun closeAllDocuments()
 
+    suspend fun reorderDocuments(from: DocumentModel, to: DocumentModel)
+
     suspend fun openExternal(fileUri: Uri): DocumentModel
     suspend fun saveExternal(document: DocumentModel, fileUri: Uri)
 

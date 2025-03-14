@@ -75,7 +75,7 @@ internal fun FileExplorer(
     }
 
     val refreshState = rememberPullRefreshState(refreshing, ::refresh)
-    val scrollState = rememberLazyListState()
+    val lazyListState = rememberLazyListState()
 
     val haptic = LocalHapticFeedback.current
     val fileList = breadcrumbState.fileList
@@ -88,7 +88,7 @@ internal fun FileExplorer(
             .pullRefresh(refreshState)
     ) {
         LazyColumn(
-            state = scrollState,
+            state = lazyListState,
             contentPadding = contentPadding,
             modifier = Modifier.fillMaxSize()
         ) {
