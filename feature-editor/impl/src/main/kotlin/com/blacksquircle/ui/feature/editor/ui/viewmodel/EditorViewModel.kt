@@ -34,6 +34,7 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorState
+import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
@@ -93,6 +94,17 @@ internal class EditorViewModel @Inject constructor(
         viewModelScope.launch {
             val screen = Screen.Explorer
             _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onBackClicked() {
+        viewModelScope.launch {
+            if (settingsManager.confirmExit) {
+                val screen = EditorScreen.ConfirmExit
+                _viewEvent.send(ViewEvent.Navigation(screen))
+            } else {
+                _viewEvent.send(ViewEvent.PopBackStack())
+            }
         }
     }
 

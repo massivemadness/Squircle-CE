@@ -16,6 +16,8 @@
 
 package com.blacksquircle.ui.feature.editor.ui.fragment
 
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -86,15 +88,24 @@ internal fun EditorScreen(
         onCloseAllClicked = viewModel::onCloseAllClicked,
     )
 
+    val activity = LocalActivity.current
     val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigateTo(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
+                is ViewEvent.PopBackStack -> {
+                    if (!navController.popBackStack()) {
+                        activity?.finish()
+                    }
+                }
             }
         }
+    }
+
+    BackHandler {
+        viewModel.onBackClicked()
     }
 
     CleanupEffect {

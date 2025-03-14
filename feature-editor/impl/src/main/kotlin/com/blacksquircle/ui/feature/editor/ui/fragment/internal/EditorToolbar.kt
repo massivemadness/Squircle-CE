@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.ui.fragment.internal
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
@@ -25,12 +26,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.button.IconButton
-import com.blacksquircle.ui.ds.extensions.findActivity
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
 import com.blacksquircle.ui.feature.editor.ui.fragment.menu.EditMenu
@@ -63,7 +62,7 @@ internal fun EditorToolbar(
     onRedoClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
 ) {
-    val activity = LocalContext.current.findActivity()
+    val activity = LocalActivity.current
     val windowSizeClass = if (activity != null) {
         calculateWindowSizeClass(activity)
     } else {

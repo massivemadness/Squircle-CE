@@ -16,12 +16,8 @@
 
 package com.blacksquircle.ui.ds.extensions
 
-import android.content.res.Resources
 import android.graphics.Color
 import androidx.compose.ui.graphics.Color as ComposeColor
-
-fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
-fun Int.pxToDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
 
 fun ComposeColor.toHexString(): String {
     val red = this.red * 255

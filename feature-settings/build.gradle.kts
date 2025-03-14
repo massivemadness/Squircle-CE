@@ -34,6 +34,8 @@ dependencies {
     // Core
     implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.core)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.fragment.compose)
     implementation(libs.timber)
 
     // Compose

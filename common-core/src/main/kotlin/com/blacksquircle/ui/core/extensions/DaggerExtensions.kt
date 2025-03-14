@@ -28,7 +28,6 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.blacksquircle.ui.core.service.ComponentService
 
 inline fun <reified VM : ViewModel> Fragment.viewModels(
     crossinline viewModelProducer: () -> VM,

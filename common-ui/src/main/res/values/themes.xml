@@ -42,12 +42,6 @@
         <item name="colorOnError">@color/colorOnError</item>
         <item name="colorOnBackground">@color/colorOnBackground</item>
 
-        <item name="snackbarStyle">@style/Widget.AppTheme.Snackbar</item>
-        <item name="snackbarButtonStyle">@style/Widget.AppTheme.TextButton</item>
-        <item name="snackbarTextViewStyle">@style/Widget.AppTheme.SnackBarTextView</item>
-        <item name="textInputStyle">@style/Widget.Design.TextInputLayout</item>
-        <item name="alertDialogStyle">@style/Dialog.AppTheme.Alert</item>
-
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">@bool/windowLightStatusBar</item>
