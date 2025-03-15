@@ -16,12 +16,10 @@
 
 package com.blacksquircle.ui.feature.servers.ui.dialog.internal
 
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
@@ -32,14 +30,14 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 @NonRestartableComposable
 internal fun ServerKeyFile(
-    keyFile: String,
-    onKeyFileChanged: (String) -> Unit,
+    keyId: String,
     onChooseFileClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TextField(
-        inputText = keyFile,
+        inputText = keyId,
         labelText = stringResource(R.string.hint_key_file),
+        readOnly = true,
         endContent = {
             IconButton(
                 iconResId = UiR.drawable.ic_folder_open,
@@ -48,10 +46,6 @@ internal fun ServerKeyFile(
                 onClick = onChooseFileClicked,
             )
         },
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Next,
-        ),
-        onInputChanged = onKeyFileChanged,
         modifier = modifier,
     )
 }

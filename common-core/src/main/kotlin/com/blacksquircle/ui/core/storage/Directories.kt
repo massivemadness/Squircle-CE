@@ -47,4 +47,13 @@ object Directories {
         }
         return directory
     }
+
+    /** /data/data/com.blacksquircle.ui/keys */
+    fun keysDir(context: Context): File {
+        val directory = File(context.dataDir, "keys")
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+        return directory
+    }
 }

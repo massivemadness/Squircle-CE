@@ -124,7 +124,7 @@ private fun CloudScreenPreview() {
                             authMethod = AuthMethod.PASSWORD,
                             username = "example",
                             password = "example",
-                            privateKey = null,
+                            keyId = null,
                             passphrase = null,
                         ),
                         status = ServerStatus.Available(1000L),

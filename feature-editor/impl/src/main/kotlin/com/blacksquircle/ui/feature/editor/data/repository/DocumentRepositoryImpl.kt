@@ -20,6 +20,7 @@ import android.content.Context
 import android.net.Uri
 import com.blacksquircle.ui.core.extensions.extractFilePath
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.editorkit.model.FindParams
@@ -49,9 +50,11 @@ internal class DocumentRepositoryImpl(
     private val settingsManager: SettingsManager,
     private val documentDao: DocumentDao,
     private val filesystemFactory: FilesystemFactory,
-    private val cacheDir: File,
     private val context: Context,
 ) : DocumentRepository {
+
+    private val cacheDir: File
+        get() = Directories.filesDir(context)
 
     override suspend fun loadDocuments(): List<DocumentModel> {
         return withContext(dispatcherProvider.io()) {

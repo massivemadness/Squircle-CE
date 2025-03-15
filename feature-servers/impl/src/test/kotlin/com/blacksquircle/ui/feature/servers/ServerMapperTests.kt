@@ -38,7 +38,7 @@ class ServerMapperTests {
             authMethod = AuthMethod.PASSWORD.ordinal,
             username = "username",
             password = "password",
-            privateKey = null,
+            keyId = null,
             passphrase = "test",
         )
         val serverConfig = ServerConfig(
@@ -51,7 +51,7 @@ class ServerMapperTests {
             authMethod = AuthMethod.PASSWORD,
             username = "username",
             password = "password",
-            privateKey = null,
+            keyId = null,
             passphrase = "test",
         )
 
@@ -70,7 +70,7 @@ class ServerMapperTests {
             authMethod = AuthMethod.PASSWORD,
             username = "username",
             password = "password",
-            privateKey = null,
+            keyId = null,
             passphrase = "test",
         )
         val serverEntity = ServerEntity(
@@ -83,7 +83,7 @@ class ServerMapperTests {
             authMethod = AuthMethod.PASSWORD.ordinal,
             username = "username",
             password = "password",
-            privateKey = null,
+            keyId = null,
             passphrase = "test",
         )
 

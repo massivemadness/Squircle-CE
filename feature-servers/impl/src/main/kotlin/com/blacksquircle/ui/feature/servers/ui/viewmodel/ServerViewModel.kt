@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.servers.ui.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -114,15 +115,19 @@ internal class ServerViewModel @AssistedInject constructor(
         }
     }
 
-    fun onKeyFileChanged(filePath: String) {
-        _viewState.update {
-            it.copy(privateKey = filePath)
-        }
-    }
-
-    fun onKeyFileSelected(filePath: String) {
-        _viewState.update {
-            it.copy(privateKey = filePath)
+    fun onKeyFileSelected(fileUri: Uri) {
+        viewModelScope.launch {
+            try {
+                val keyId = serversRepository.saveKeyFile(fileUri)
+                _viewState.update {
+                    it.copy(keyId = keyId)
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
         }
     }
 
@@ -235,7 +240,7 @@ internal class ServerViewModel @AssistedInject constructor(
                         authMethod = serverConfig.authMethod,
                         username = serverConfig.username,
                         password = serverConfig.password.orEmpty(),
-                        privateKey = serverConfig.privateKey.orEmpty(),
+                        keyId = serverConfig.keyId.orEmpty(),
                         passphrase = serverConfig.passphrase.orEmpty(),
                     )
                 }
@@ -252,31 +257,31 @@ internal class ServerViewModel @AssistedInject constructor(
         return ServerConfig(
             uuid = serverId ?: UUID.randomUUID().toString(),
             scheme = scheme,
-            name = name,
-            address = address,
+            name = name.trim(),
+            address = address.trim(),
             port = port.toIntOrNull() ?: when (scheme) {
                 ServerType.FTP,
                 ServerType.FTPS,
                 ServerType.FTPES -> DEFAULT_FTP_PORT
                 ServerType.SFTP -> DEFAULT_SFTP_PORT
             },
-            initialDir = initialDir,
+            initialDir = initialDir.trim(),
             authMethod = authMethod,
-            username = username,
+            username = username.trim(),
             password = if (
                 authMethod == AuthMethod.PASSWORD &&
                 passwordAction == PasswordAction.SAVE_PASSWORD
             ) {
-                password
+                password.trim()
             } else {
                 null
             },
-            privateKey = if (authMethod == AuthMethod.KEY) privateKey else null,
+            keyId = if (authMethod == AuthMethod.KEY) keyId else null,
             passphrase = if (
                 authMethod == AuthMethod.KEY &&
                 passphraseAction == PassphraseAction.SAVE_PASSPHRASE
             ) {
-                passphrase
+                passphrase.trim()
             } else {
                 null
             },

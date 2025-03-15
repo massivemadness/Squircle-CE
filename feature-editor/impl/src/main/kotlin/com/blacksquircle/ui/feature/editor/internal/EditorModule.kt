@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.editor.internal
 
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
@@ -45,7 +44,6 @@ internal object EditorModule {
             settingsManager = settingsManager,
             documentDao = documentDao,
             filesystemFactory = filesystemFactory,
-            cacheDir = Directories.filesDir(context),
             context = context,
         )
     }

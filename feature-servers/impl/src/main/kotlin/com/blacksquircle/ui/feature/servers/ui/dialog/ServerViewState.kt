@@ -36,7 +36,7 @@ internal data class ServerViewState(
     val authMethod: AuthMethod = AuthMethod.PASSWORD,
     val username: String = "",
     val password: String = "",
-    val privateKey: String = "",
+    val keyId: String = "",
     val passphrase: String = "",
     val invalidName: Boolean = false,
     val invalidAddress: Boolean = false,

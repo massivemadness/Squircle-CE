@@ -25,14 +25,17 @@ import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
 import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
 import java.io.File
 
-internal class ServerFilesystemFactoryImpl(private val cacheDir: File) : ServerFilesystemFactory {
+internal class ServerFilesystemFactoryImpl(
+    private val cacheDir: File,
+    private val keysDir: File,
+) : ServerFilesystemFactory {
 
     override fun create(serverConfig: ServerConfig): Filesystem {
         return when (serverConfig.scheme) {
             ServerType.FTP -> FTPFilesystem(serverConfig, cacheDir)
             ServerType.FTPS -> FTPSFilesystem(serverConfig, cacheDir, isImplicit = true)
             ServerType.FTPES -> FTPSFilesystem(serverConfig, cacheDir, isImplicit = false)
-            ServerType.SFTP -> SFTPFilesystem(serverConfig, cacheDir)
+            ServerType.SFTP -> SFTPFilesystem(serverConfig, cacheDir, keysDir)
         }
     }
 }

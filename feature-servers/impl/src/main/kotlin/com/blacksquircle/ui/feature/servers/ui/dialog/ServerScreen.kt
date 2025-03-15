@@ -24,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -35,7 +34,6 @@ import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.MimeType
 import com.blacksquircle.ui.core.contract.rememberOpenFileContract
 import com.blacksquircle.ui.core.extensions.daggerViewModel
-import com.blacksquircle.ui.core.extensions.extractFilePath
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -79,7 +77,6 @@ internal fun ServerScreen(
         onAuthMethodChanged = viewModel::onAuthMethodChanged,
         onPasswordActionChanged = viewModel::onPasswordActionChanged,
         onPassphraseActionChanged = viewModel::onPassphraseActionChanged,
-        onKeyFileChanged = viewModel::onKeyFileChanged,
         onChooseFileClicked = viewModel::onChooseFileClicked,
         onPasswordChanged = viewModel::onPasswordChanged,
         onPassphraseChanged = viewModel::onPassphraseChanged,
@@ -89,13 +86,9 @@ internal fun ServerScreen(
         onCancelClicked = viewModel::onCancelClicked,
     )
 
-    val context = LocalContext.current
     val openFileContract = rememberOpenFileContract { result ->
         when (result) {
-            is ContractResult.Success -> {
-                val filePath = context.extractFilePath(result.uri)
-                viewModel.onKeyFileSelected(filePath.orEmpty())
-            }
+            is ContractResult.Success -> viewModel.onKeyFileSelected(result.uri)
             is ContractResult.Canceled -> Unit
         }
     }
@@ -133,7 +126,6 @@ private fun ServerScreen(
     onAuthMethodChanged: (String) -> Unit = {},
     onPasswordActionChanged: (String) -> Unit = {},
     onPassphraseActionChanged: (String) -> Unit = {},
-    onKeyFileChanged: (String) -> Unit = {},
     onChooseFileClicked: () -> Unit = {},
     onPasswordChanged: (String) -> Unit = {},
     onPassphraseChanged: (String) -> Unit = {},
@@ -204,8 +196,7 @@ private fun ServerScreen(
 
                         AuthMethod.KEY -> {
                             ServerKeyFile(
-                                keyFile = viewState.privateKey,
-                                onKeyFileChanged = onKeyFileChanged,
+                                keyId = viewState.keyId,
                                 onChooseFileClicked = onChooseFileClicked,
                             )
 

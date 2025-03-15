@@ -34,7 +34,7 @@ internal object ServerMapper {
             authMethod = AuthMethod.entries[serverEntity.authMethod],
             username = serverEntity.username,
             password = serverEntity.password,
-            privateKey = serverEntity.privateKey,
+            keyId = serverEntity.keyId,
             passphrase = serverEntity.passphrase,
         )
     }
@@ -50,7 +50,7 @@ internal object ServerMapper {
             authMethod = serverConfig.authMethod.ordinal,
             username = serverConfig.username,
             password = serverConfig.password,
-            privateKey = serverConfig.privateKey,
+            keyId = serverConfig.keyId,
             passphrase = serverConfig.passphrase,
         )
     }

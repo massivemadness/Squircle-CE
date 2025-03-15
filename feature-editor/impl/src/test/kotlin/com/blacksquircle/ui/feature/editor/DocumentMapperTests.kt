@@ -57,7 +57,7 @@ class DocumentMapperTests {
             selectionStart = 0,
             selectionEnd = 0,
         )
-        val convert = DocumentMapper.toModel(fileModel)
+        val convert = DocumentMapper.toModel(fileModel, position = 0)
 
         assertEquals(documentModel.fileUri, convert.fileUri)
         assertEquals(documentModel.filesystemUuid, convert.filesystemUuid)

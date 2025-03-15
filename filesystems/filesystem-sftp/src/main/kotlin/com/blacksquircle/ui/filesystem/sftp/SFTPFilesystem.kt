@@ -19,6 +19,7 @@ package com.blacksquircle.ui.filesystem.sftp
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
+import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.*
 import com.blacksquircle.ui.filesystem.base.utils.hasFlag
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
@@ -34,6 +35,7 @@ import java.util.*
 class SFTPFilesystem(
     private val serverConfig: ServerConfig,
     private val cacheDir: File,
+    private val keysDir: File,
 ) : Filesystem {
 
     private val jsch = JSch()
@@ -164,16 +166,22 @@ class SFTPFilesystem(
                         if (serverConfig.passphrase == null) {
                             throw AuthRequiredException(AuthMethod.KEY)
                         }
-                        val keyFile = serverConfig.privateKey.orEmpty()
-                        val keyPair = KeyPair.load(jsch, keyFile)
+                        val keyId = serverConfig.keyId.orEmpty()
+                        val keyFile = File(keysDir, keyId)
+                        if (!keyFile.exists()) {
+                            throw FileNotFoundException("Key with id $keyId not found")
+                        }
+                        val keyPath = keyFile.absolutePath
+                        val keyPair = KeyPair.load(jsch, keyPath)
+
                         if (keyPair.isEncrypted) {
                             if (keyPair.decrypt(serverConfig.passphrase)) {
-                                jsch.addIdentity(keyFile, serverConfig.passphrase)
+                                jsch.addIdentity(keyPath, serverConfig.passphrase)
                             } else {
                                 throw AuthRequiredException(AuthMethod.KEY)
                             }
                         } else {
-                            jsch.addIdentity(keyFile)
+                            jsch.addIdentity(keyPath)
                         }
                     }
                 }

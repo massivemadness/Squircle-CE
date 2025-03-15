@@ -26,6 +26,6 @@ data class ServerConfig(
     val authMethod: AuthMethod,
     val username: String,
     val password: String?,
-    val privateKey: String?,
+    val keyId: String?,
     val passphrase: String?,
 )

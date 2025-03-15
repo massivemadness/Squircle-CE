@@ -39,6 +39,7 @@ object ServersApiModule {
     fun provideServerFilesystemFactory(context: Context): ServerFilesystemFactory {
         return ServerFilesystemFactoryImpl(
             cacheDir = Directories.cacheDir(context),
+            keysDir = Directories.keysDir(context),
         )
     }
 
@@ -49,12 +50,14 @@ object ServersApiModule {
         settingsManager: SettingsManager,
         dispatcherProvider: DispatcherProvider,
         appDatabase: AppDatabase,
+        context: Context,
     ): ServersRepository {
         return ServersRepositoryImpl(
             serverFilesystemFactory = serverFilesystemFactory,
             settingsManager = settingsManager,
             dispatcherProvider = dispatcherProvider,
-            appDatabase = appDatabase
+            appDatabase = appDatabase,
+            context = context,
         )
     }
 

@@ -16,7 +16,10 @@
 
 package com.blacksquircle.ui.feature.servers.data.repository
 
+import android.content.Context
+import android.net.Uri
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
@@ -26,12 +29,16 @@ import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.IOException
+import java.util.UUID
 
 internal class ServersRepositoryImpl(
     private val serverFilesystemFactory: ServerFilesystemFactory,
     private val settingsManager: SettingsManager,
     private val dispatcherProvider: DispatcherProvider,
     private val appDatabase: AppDatabase,
+    private val context: Context,
 ) : ServersRepository {
 
     override suspend fun authenticate(uuid: String, credentials: String) {
@@ -49,6 +56,21 @@ internal class ServersRepositoryImpl(
             val endTime = System.currentTimeMillis()
 
             endTime - startTime
+        }
+    }
+
+    override suspend fun saveKeyFile(fileUri: Uri): String {
+        return withContext(dispatcherProvider.io()) {
+            context.contentResolver.openInputStream(fileUri)?.use { inputStream ->
+                val keyUuid = UUID.randomUUID().toString()
+                val keyFile = File(Directories.keysDir(context), keyUuid)
+                if (!keyFile.exists()) {
+                    keyFile.createNewFile()
+                    inputStream.copyTo(keyFile.outputStream())
+                }
+                return@withContext keyUuid
+            }
+            throw IOException("Unable to open file: $fileUri")
         }
     }
 

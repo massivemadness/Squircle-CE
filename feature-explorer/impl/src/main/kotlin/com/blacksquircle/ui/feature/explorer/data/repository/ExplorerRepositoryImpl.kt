@@ -71,18 +71,20 @@ internal class ExplorerRepositoryImpl(
                     uuid = RootFilesystem.ROOT_UUID,
                     title = context.getString(R.string.storage_root),
                     defaultLocation = FileModel(
-                        fileUri = RootFilesystem.ROOT_SCHEME + File.separator,
+                        fileUri = RootFilesystem.ROOT_SCHEME,
                         filesystemUuid = RootFilesystem.ROOT_UUID,
                     ),
                 ),
             )
             val serverFilesystems = serversInteractor.loadServers().map { config ->
+                val scheme = config.scheme.value
+                val path = config.initialDir.trim(File.separatorChar)
+                val fileUri = if (path.isNotEmpty()) scheme + File.separator + path else scheme
                 FilesystemModel(
                     uuid = config.uuid,
                     title = config.name,
                     defaultLocation = FileModel(
-                        fileUri = config.scheme.value + File.separator +
-                            config.initialDir.trim(File.separatorChar),
+                        fileUri = fileUri,
                         filesystemUuid = config.uuid,
                     ),
                 )
