@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.servers.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
@@ -43,6 +44,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.UUID
+import javax.inject.Inject
 
 internal class ServerViewModel @AssistedInject constructor(
     private val serversRepository: ServersRepository,
@@ -279,6 +281,17 @@ internal class ServerViewModel @AssistedInject constructor(
                 null
             },
         )
+    }
+
+    class ParameterizedFactory(private val serverId: String?) : ViewModelProvider.Factory {
+
+        @Inject
+        lateinit var viewModelFactory: Factory
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return viewModelFactory.create(serverId) as T
+        }
     }
 
     @AssistedFactory

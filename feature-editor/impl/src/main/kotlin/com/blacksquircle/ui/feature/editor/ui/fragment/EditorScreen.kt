@@ -31,7 +31,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.blacksquircle.ui.core.compose.CleanupEffect
+import com.blacksquircle.ui.core.contract.ContractResult
+import com.blacksquircle.ui.core.contract.MimeType
+import com.blacksquircle.ui.core.contract.rememberCreateFileContract
+import com.blacksquircle.ui.core.contract.rememberOpenFileContract
+import com.blacksquircle.ui.core.effect.CleanupEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
@@ -88,6 +92,19 @@ internal fun EditorScreen(
         onCloseAllClicked = viewModel::onCloseAllClicked,
     )
 
+    val createFileContract = rememberCreateFileContract(MimeType.TEXT) { result ->
+        when (result) {
+            is ContractResult.Success -> viewModel.onFileOpened(result.uri)
+            is ContractResult.Canceled -> Unit
+        }
+    }
+    val openFileContract = rememberOpenFileContract { result ->
+        when (result) {
+            is ContractResult.Success -> viewModel.onFileOpened(result.uri)
+            is ContractResult.Canceled -> Unit
+        }
+    }
+
     val activity = LocalActivity.current
     val context = LocalContext.current
     LaunchedEffect(Unit) {
@@ -99,6 +116,15 @@ internal fun EditorScreen(
                     if (!navController.popBackStack()) {
                         activity?.finish()
                     }
+                }
+                is EditorViewEvent.CreateFileContract -> {
+                    createFileContract.launch("")
+                }
+                is EditorViewEvent.OpenFileContract -> {
+                    openFileContract.launch(arrayOf(MimeType.ANY))
+                }
+                is EditorViewEvent.SaveAsFileContract -> {
+                    // TODO
                 }
             }
         }

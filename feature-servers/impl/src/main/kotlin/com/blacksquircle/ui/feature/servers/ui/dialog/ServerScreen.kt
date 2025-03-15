@@ -21,16 +21,27 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.contract.ContractResult
+import com.blacksquircle.ui.core.contract.MimeType
+import com.blacksquircle.ui.core.contract.rememberOpenFileContract
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.extractFilePath
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.servers.R
+import com.blacksquircle.ui.feature.servers.internal.ServersComponent
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerAddress
@@ -42,12 +53,21 @@ import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerPassphrase
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerPassword
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerScheme
 import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerUsername
+import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerViewModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerType
 
 @Composable
-internal fun ServerScreen(viewModel: ServerViewModel) {
+internal fun ServerScreen(
+    navArgs: ServerDialogArgs,
+    navController: NavController,
+    viewModel: ServerViewModel = daggerViewModel { context ->
+        val component = ServersComponent.buildOrGet(context)
+        ServerViewModel.ParameterizedFactory(navArgs.id).also(component::inject)
+    },
+    sendFragmentResult: (String) -> Unit = {},
+) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ServerScreen(
         viewState = viewState,
@@ -68,6 +88,38 @@ internal fun ServerScreen(viewModel: ServerViewModel) {
         onDeleteClicked = viewModel::onDeleteClicked,
         onCancelClicked = viewModel::onCancelClicked,
     )
+
+    val context = LocalContext.current
+    val openFileContract = rememberOpenFileContract { result ->
+        when (result) {
+            is ContractResult.Success -> {
+                val filePath = context.extractFilePath(result.uri)
+                viewModel.onKeyFileSelected(filePath.orEmpty())
+            }
+            is ContractResult.Canceled -> Unit
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.viewEvent.collect { event ->
+            when (event) {
+                is ViewEvent.PopBackStack -> {
+                    navController.popBackStack()
+                }
+                is ServerViewEvent.SendSaveResult -> {
+                    sendFragmentResult(Screen.Server.KEY_SAVE)
+                    navController.popBackStack()
+                }
+                is ServerViewEvent.SendDeleteResult -> {
+                    sendFragmentResult(Screen.Server.KEY_DELETE)
+                    navController.popBackStack()
+                }
+                is ServerViewEvent.ChooseFile -> {
+                    openFileContract.launch(arrayOf(MimeType.OCTET_STREAM, MimeType.PEM))
+                }
+            }
+        }
+    }
 }
 
 @Composable

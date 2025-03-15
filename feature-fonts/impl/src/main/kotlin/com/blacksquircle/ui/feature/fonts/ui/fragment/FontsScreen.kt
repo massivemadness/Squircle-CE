@@ -41,11 +41,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.contract.ContractResult
+import com.blacksquircle.ui.core.contract.MimeType
+import com.blacksquircle.ui.core.contract.rememberOpenFileContract
+import com.blacksquircle.ui.core.effect.CleanupEffect
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.FloatingButton
@@ -59,12 +68,20 @@ import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.api.model.FontModel
+import com.blacksquircle.ui.feature.fonts.internal.FontsComponent
 import com.blacksquircle.ui.feature.fonts.ui.composable.FontOverview
+import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontViewEvent
 import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun FontsScreen(viewModel: FontsViewModel) {
+internal fun FontsScreen(
+    navController: NavController,
+    viewModel: FontsViewModel = daggerViewModel { context ->
+        val component = FontsComponent.buildOrGet(context)
+        FontsViewModel.Factory().also(component::inject)
+    }
+) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     FontsScreen(
         viewState = viewState,
@@ -75,6 +92,30 @@ internal fun FontsScreen(viewModel: FontsViewModel) {
         onRemoveClicked = viewModel::onRemoveClicked,
         onImportClicked = viewModel::onImportClicked,
     )
+
+    val openFileContract = rememberOpenFileContract { result ->
+        when (result) {
+            is ContractResult.Success -> viewModel.onFontLoaded(result.uri)
+            is ContractResult.Canceled -> Unit
+        }
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.viewEvent.collect { event ->
+            when (event) {
+                is ViewEvent.Toast -> context.showToast(text = event.message)
+                is ViewEvent.PopBackStack -> navController.popBackStack()
+                is FontViewEvent.ChooseFont -> openFileContract.launch(
+                    arrayOf(MimeType.OCTET_STREAM, MimeType.X_FONT, MimeType.FONT)
+                )
+            }
+        }
+    }
+
+    CleanupEffect {
+        FontsComponent.release()
+    }
 }
 
 @Composable

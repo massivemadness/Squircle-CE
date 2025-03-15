@@ -34,7 +34,7 @@ internal object DocumentMapper {
         )
     }
 
-    fun toModel(fileModel: FileModel, position: Int = 0): DocumentModel {
+    fun toModel(fileModel: FileModel, position: Int): DocumentModel {
         return DocumentModel(
             uuid = UUID.randomUUID().toString(),
             fileUri = fileModel.fileUri,

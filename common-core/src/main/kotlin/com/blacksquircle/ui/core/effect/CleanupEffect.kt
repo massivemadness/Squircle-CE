@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.compose
+package com.blacksquircle.ui.core.effect
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable

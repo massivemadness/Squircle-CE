@@ -16,21 +16,12 @@
 
 package com.blacksquircle.ui.core.contract
 
-import android.net.Uri
-import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
-import androidx.compose.runtime.Composable
-
-@Composable
-fun rememberOpenFileContract(
-    onResult: (ContractResult) -> Unit
-): ManagedActivityResultLauncher<Array<String>, Uri?> {
-    return rememberLauncherForActivityResult(OpenDocument()) { result ->
-        if (result != null) {
-            onResult(ContractResult.Success(result))
-        } else {
-            onResult(ContractResult.Canceled)
-        }
-    }
+object MimeType {
+    const val JSON = "application/json"
+    const val FONT = "font/*"
+    const val X_FONT = "application/x-font-ttf"
+    const val OCTET_STREAM = "application/octet-stream"
+    const val PEM = "application/x-pem-file"
+    const val TEXT = "text/*"
+    const val ANY = "*/*"
 }

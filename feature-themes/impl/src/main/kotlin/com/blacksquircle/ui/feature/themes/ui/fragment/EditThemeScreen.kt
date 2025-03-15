@@ -26,17 +26,28 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.contract.ContractResult
+import com.blacksquircle.ui.core.contract.MimeType
+import com.blacksquircle.ui.core.contract.rememberOpenFileContract
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
@@ -49,11 +60,21 @@ import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.domain.model.Property
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
+import com.blacksquircle.ui.feature.themes.internal.ThemesComponent
+import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesViewEvent
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.EditThemeViewModel
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun EditThemeScreen(viewModel: EditThemeViewModel) {
+internal fun EditThemeScreen(
+    navArgs: EditThemeFragmentArgs,
+    navController: NavController,
+    viewModel: EditThemeViewModel = daggerViewModel { context ->
+        val component = ThemesComponent.buildOrGet(context)
+        EditThemeViewModel.ParameterizedFactory(navArgs.id).also(component::inject)
+    },
+    sendFragmentResult: (String) -> Unit = {},
+) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     EditThemeScreen(
         viewState = viewState,
@@ -64,6 +85,31 @@ internal fun EditThemeScreen(viewModel: EditThemeViewModel) {
         onSaveClicked = viewModel::onSaveClicked,
         onColorSelected = viewModel::onColorSelected,
     )
+
+    val openFileContract = rememberOpenFileContract { result ->
+        when (result) {
+            is ContractResult.Success -> viewModel.onThemeFileSelected(result.uri)
+            is ContractResult.Canceled -> Unit
+        }
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.viewEvent.collect { event ->
+            when (event) {
+                is ViewEvent.Toast -> context.showToast(text = event.message)
+                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.PopBackStack -> navController.popBackStack()
+                is ThemesViewEvent.ChooseImportFile -> {
+                    openFileContract.launch(arrayOf(MimeType.JSON))
+                }
+                is ThemesViewEvent.SendSaveResult -> {
+                    sendFragmentResult(ThemesFragment.KEY_SAVE)
+                    navController.popBackStack()
+                }
+            }
+        }
+    }
 }
 
 @Composable

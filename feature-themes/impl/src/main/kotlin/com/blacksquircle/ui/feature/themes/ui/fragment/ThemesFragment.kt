@@ -21,26 +21,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.ui.core.contract.ContractResult
-import com.blacksquircle.ui.core.contract.CreateFileContract
-import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.observeFragmentResult
-import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.extensions.viewModels
-import com.blacksquircle.ui.core.internal.ComponentHolder
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.themes.internal.ThemesComponent
-import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesViewEvent
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -50,20 +38,9 @@ internal class ThemesFragment : Fragment() {
     lateinit var viewModelProvider: Provider<ThemesViewModel>
 
     private val viewModel by viewModels<ThemesViewModel> { viewModelProvider.get() }
-    private val componentHolder by viewModels {
-        val component = ThemesComponent.buildOrGet(requireContext())
-        ComponentHolder(component) { ThemesComponent.release() }
-    }
-    private val navController by lazy { findNavController() }
-    private val exportThemeContract = CreateFileContract(this) { result ->
-        when (result) {
-            is ContractResult.Success -> viewModel.onExportFileSelected(result.uri)
-            is ContractResult.Canceled -> Unit
-        }
-    }
 
     override fun onAttach(context: Context) {
-        componentHolder.component.inject(this)
+        ThemesComponent.buildOrGet(context).inject(this)
         super.onAttach(context)
     }
 
@@ -71,39 +48,17 @@ internal class ThemesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                SquircleTheme {
-                    ThemesScreen(viewModel)
-                }
-            }
+    ): View = content {
+        SquircleTheme {
+            ThemesScreen(
+                navController = findNavController(),
+                viewModel = viewModel, // TODO ???
+            )
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
-    }
-
-    private fun observeViewModel() {
-        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { event ->
-                when (event) {
-                    is ViewEvent.Toast -> context?.showToast(text = event.message)
-                    is ViewEvent.Navigation -> navController.navigateTo(event.screen)
-                    is ViewEvent.PopBackStack -> navController.popBackStack()
-                    is ThemesViewEvent.ChooseExportFile -> {
-                        exportThemeContract.launch(
-                            event.themeName,
-                            CreateFileContract.JSON
-                        )
-                    }
-                }
-            }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
         observeFragmentResult(KEY_SAVE) {
             viewModel.loadThemes()
         }

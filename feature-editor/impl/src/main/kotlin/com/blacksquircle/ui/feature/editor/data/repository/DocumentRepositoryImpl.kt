@@ -155,7 +155,7 @@ internal class DocumentRepositoryImpl(
         }
     }
 
-    override suspend fun openExternal(fileUri: Uri): DocumentModel {
+    override suspend fun openExternal(fileUri: Uri, position: Int): DocumentModel {
         return withContext(dispatcherProvider.io()) {
             Timber.d("Uri received = $fileUri")
 
@@ -174,7 +174,7 @@ internal class DocumentRepositoryImpl(
             Timber.d("Is valid file = $isValidFile")
 
             val fileModel = FileModel("file://$filePath", "local")
-            DocumentMapper.toModel(fileModel)
+            DocumentMapper.toModel(fileModel, position = position)
         }
     }
 

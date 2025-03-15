@@ -49,9 +49,10 @@ dependencies {
     implementation(libs.reorderable)
 
     // AAC
-    implementation(libs.androidx.viewmodel)
-    implementation(libs.androidx.lifecycle)
-    implementation(libs.androidx.navigation)
+    implementation(libs.androidx.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.compose)
+    implementation(libs.androidx.navigation) // xml
+    implementation(libs.androidx.navigation.compose)
 
     // Coroutines
     implementation(libs.coroutines.core)

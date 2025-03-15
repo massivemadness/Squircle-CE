@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.themes.ui.viewmodel
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
@@ -41,6 +42,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Provider
 import kotlin.coroutines.cancellation.CancellationException
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -226,6 +228,17 @@ internal class ThemesViewModel @Inject constructor(
                     ViewEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred)),
                 )
             }
+        }
+    }
+
+    class Factory : ViewModelProvider.Factory {
+
+        @Inject
+        lateinit var viewModelProvider: Provider<ThemesViewModel>
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return viewModelProvider.get() as T
         }
     }
 }

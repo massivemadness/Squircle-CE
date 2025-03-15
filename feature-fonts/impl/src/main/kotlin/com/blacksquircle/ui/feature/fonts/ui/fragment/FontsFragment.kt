@@ -16,88 +16,24 @@
 
 package com.blacksquircle.ui.feature.fonts.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.ui.core.contract.ContractResult
-import com.blacksquircle.ui.core.contract.OpenFileContract
-import com.blacksquircle.ui.core.extensions.showToast
-import com.blacksquircle.ui.core.extensions.viewModels
-import com.blacksquircle.ui.core.internal.ComponentHolder
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.feature.fonts.internal.FontsComponent
-import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontViewEvent
-import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
-import javax.inject.Provider
 
 internal class FontsFragment : Fragment() {
-
-    @Inject
-    lateinit var viewModelProvider: Provider<FontsViewModel>
-
-    private val viewModel by viewModels<FontsViewModel> { viewModelProvider.get() }
-    private val componentHolder by viewModels {
-        val component = FontsComponent.buildOrGet(requireContext())
-        ComponentHolder(component) { FontsComponent.release() }
-    }
-    private val navController by lazy { findNavController() }
-    private val openFileContract = OpenFileContract(this) { result ->
-        when (result) {
-            is ContractResult.Success -> viewModel.onFontLoaded(result.uri)
-            is ContractResult.Canceled -> Unit
-        }
-    }
-
-    override fun onAttach(context: Context) {
-        componentHolder.component.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                SquircleTheme {
-                    FontsScreen(viewModel)
-                }
-            }
+    ): View = content {
+        SquircleTheme {
+            FontsScreen(navController = findNavController())
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
-    }
-
-    private fun observeViewModel() {
-        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { event ->
-                when (event) {
-                    is ViewEvent.Toast -> context?.showToast(text = event.message)
-                    is ViewEvent.PopBackStack -> navController.popBackStack()
-                    is FontViewEvent.ChooseFont -> openFileContract.launch(
-                        OpenFileContract.OCTET_STREAM,
-                        OpenFileContract.X_FONT,
-                        OpenFileContract.FONT,
-                    )
-                }
-            }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.fonts.internal
 import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
-import com.blacksquircle.ui.feature.fonts.ui.fragment.FontsFragment
+import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
 import dagger.Component
 
 @FontsScope
@@ -33,7 +33,7 @@ import dagger.Component
 )
 internal interface FontsComponent {
 
-    fun inject(fragment: FontsFragment)
+    fun inject(factory: FontsViewModel.Factory)
 
     @Component.Factory
     interface Factory {

@@ -46,6 +46,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -53,6 +54,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.contract.ContractResult
+import com.blacksquircle.ui.core.contract.MimeType
+import com.blacksquircle.ui.core.contract.rememberCreateFileContract
+import com.blacksquircle.ui.core.effect.CleanupEffect
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.FloatingButton
@@ -69,12 +79,20 @@ import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.api.model.InternalTheme
 import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.data.model.CodePreview
+import com.blacksquircle.ui.feature.themes.internal.ThemesComponent
 import com.blacksquircle.ui.feature.themes.ui.composable.ThemeOverview
+import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesViewEvent
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun ThemesScreen(viewModel: ThemesViewModel) {
+internal fun ThemesScreen(
+    navController: NavController,
+    viewModel: ThemesViewModel = daggerViewModel { context ->
+        val component = ThemesComponent.buildOrGet(context)
+        ThemesViewModel.Factory().also(component::inject)
+    },
+) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ThemesScreen(
         viewState = viewState,
@@ -88,6 +106,31 @@ internal fun ThemesScreen(viewModel: ThemesViewModel) {
         onEditClicked = viewModel::onEditClicked,
         onRemoveClicked = viewModel::onRemoveClicked,
     )
+
+    val createFileContract = rememberCreateFileContract(MimeType.JSON) { result ->
+        when (result) {
+            is ContractResult.Success -> viewModel.onExportFileSelected(result.uri)
+            is ContractResult.Canceled -> Unit
+        }
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.viewEvent.collect { event ->
+            when (event) {
+                is ViewEvent.Toast -> context.showToast(text = event.message)
+                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.PopBackStack -> navController.popBackStack()
+                is ThemesViewEvent.ChooseExportFile -> {
+                    createFileContract.launch(event.themeName)
+                }
+            }
+        }
+    }
+
+    CleanupEffect {
+        ThemesComponent.release()
+    }
 }
 
 @Composable

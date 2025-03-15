@@ -16,99 +16,34 @@
 
 package com.blacksquircle.ui.feature.servers.ui.dialog
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.contract.ContractResult
-import com.blacksquircle.ui.core.contract.OpenFileContract
-import com.blacksquircle.ui.core.extensions.extractFilePath
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
-import com.blacksquircle.ui.core.extensions.viewModels
-import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.feature.servers.internal.ServersComponent
-import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
-import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
 internal class ServerDialog : DialogFragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ServerViewModel.Factory
-
-    private val navController by lazy { findNavController() }
     private val navArgs by navArgs<ServerDialogArgs>()
-    private val viewModel by viewModels<ServerViewModel> { viewModelFactory.create(navArgs.id) }
-    private val openFileContract = OpenFileContract(this) { result ->
-        when (result) {
-            is ContractResult.Success -> {
-                val filePath = context?.extractFilePath(result.uri)
-                viewModel.onKeyFileSelected(filePath.orEmpty())
-            }
-            is ContractResult.Canceled -> Unit
-        }
-    }
-
-    override fun onAttach(context: Context) {
-        ServersComponent.buildOrGet(context).inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                SquircleTheme {
-                    ServerScreen(viewModel)
+    ): View = content {
+        SquircleTheme {
+            ServerScreen(
+                navArgs = navArgs,
+                navController = findNavController(),
+                sendFragmentResult = { resultKey ->
+                    sendFragmentResult(resultKey)
                 }
-            }
+            )
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
-    }
-
-    private fun observeViewModel() {
-        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { event ->
-                when (event) {
-                    is ViewEvent.PopBackStack -> {
-                        navController.popBackStack()
-                    }
-                    is ServerViewEvent.SendSaveResult -> {
-                        sendFragmentResult(Screen.Server.KEY_SAVE)
-                        navController.popBackStack()
-                    }
-                    is ServerViewEvent.SendDeleteResult -> {
-                        sendFragmentResult(Screen.Server.KEY_DELETE)
-                        navController.popBackStack()
-                    }
-                    is ServerViewEvent.ChooseFile -> {
-                        openFileContract.launch(
-                            OpenFileContract.OCTET_STREAM,
-                            OpenFileContract.PEM,
-                        )
-                    }
-                }
-            }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

@@ -29,7 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.blacksquircle.ui.core.compose.CleanupEffect
+import com.blacksquircle.ui.core.effect.CleanupEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.mvi.ViewEvent

@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.themes.ui.viewmodel
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
@@ -43,6 +44,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.UUID
+import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -260,6 +262,17 @@ internal class EditThemeViewModel @AssistedInject constructor(
                 invalidName = themeModel.name.isBlank(),
                 invalidAuthor = themeModel.author.isBlank(),
             )
+        }
+    }
+
+    class ParameterizedFactory(private val themeId: String?) : ViewModelProvider.Factory {
+
+        @Inject
+        lateinit var viewModelFactory: Factory
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return viewModelFactory.create(themeId) as T
         }
     }
 

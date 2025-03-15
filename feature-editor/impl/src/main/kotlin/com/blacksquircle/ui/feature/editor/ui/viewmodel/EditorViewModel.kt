@@ -30,6 +30,7 @@ import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
+import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
@@ -109,11 +110,15 @@ internal class EditorViewModel @Inject constructor(
     }
 
     fun onNewFileClicked() {
-        // TODO
+        viewModelScope.launch {
+            _viewEvent.send(EditorViewEvent.CreateFileContract)
+        }
     }
 
     fun onOpenFileClicked() {
-        // TODO
+        viewModelScope.launch {
+            _viewEvent.send(EditorViewEvent.OpenFileContract)
+        }
     }
 
     fun onSaveFileClicked() {
@@ -121,7 +126,9 @@ internal class EditorViewModel @Inject constructor(
     }
 
     fun onSaveFileAsClicked() {
-        // TODO
+        viewModelScope.launch {
+            _viewEvent.send(EditorViewEvent.SaveAsFileContract)
+        }
     }
 
     fun onCloseFileClicked() {
@@ -314,8 +321,11 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun onFileOpened(fileUri: Uri) {
-        // TODO
+    fun onFileOpened(fileUri: Uri) {
+        viewModelScope.launch {
+            val document = documentRepository.openExternal(fileUri, documents.size)
+            loadDocument(document, fromUser = true)
+        }
     }
 
     private fun onFileOpened(fileModel: FileModel) {

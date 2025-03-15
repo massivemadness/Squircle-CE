@@ -36,7 +36,7 @@ internal interface DocumentRepository {
 
     suspend fun reorderDocuments(from: DocumentModel, to: DocumentModel)
 
-    suspend fun openExternal(fileUri: Uri): DocumentModel
+    suspend fun openExternal(fileUri: Uri, position: Int): DocumentModel
     suspend fun saveExternal(document: DocumentModel, fileUri: Uri)
 
     suspend fun find(text: CharSequence, params: FindParams): List<FindResult>

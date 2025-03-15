@@ -38,6 +38,8 @@ dependencies {
     // Core
     implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.core)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.fragment.compose)
     implementation(libs.timber)
 
     // UI
@@ -48,8 +50,8 @@ dependencies {
     implementation(libs.androidx.service)
     implementation(libs.androidx.viewmodel)
     implementation(libs.androidx.viewmodel.compose)
-    implementation(libs.androidx.lifecycle)
-    implementation(libs.androidx.navigation)
+    implementation(libs.androidx.lifecycle.compose)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.room)
     ksp(libs.androidx.room.compiler)
 
