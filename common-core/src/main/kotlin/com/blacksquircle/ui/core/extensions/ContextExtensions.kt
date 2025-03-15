@@ -25,7 +25,6 @@ import android.provider.MediaStore
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.database.getStringOrNull
-import java.io.FileNotFoundException
 
 fun Context.showToast(
     @StringRes textRes: Int = -1,
@@ -66,12 +65,11 @@ private const val AUTHORITY_DOWNLOADS = "com.android.providers.downloads.documen
 private const val TYPE_PRIMARY = "primary"
 private const val TYPE_NON = "non"
 
-private const val COLUMN_DATA = "_data"
 private const val FOLDER_ANDROID = "Android"
 private const val DELIMITER = ":"
 private const val SEPARATOR = "/"
 
-fun Context.extractFilePath(fileUri: Uri): String = when {
+fun Context.extractFilePath(fileUri: Uri): String? = when {
     fileUri.authority == AUTHORITY_EXTERNAL_STORAGE -> {
         val documentId = DocumentsContract.getDocumentId(fileUri)
         val split = documentId.split(DELIMITER)
@@ -91,26 +89,44 @@ fun Context.extractFilePath(fileUri: Uri): String = when {
             }
         }
     }
+
     fileUri.authority == AUTHORITY_DOWNLOADS -> {
         contentResolver.query(
-            fileUri, arrayOf(MediaStore.Downloads.DISPLAY_NAME), null, null, null,
-        ).use { cursor ->
-            cursor ?: throw FileNotFoundException(fileUri.toString())
-            cursor.moveToFirst()
-            val fileIndex = cursor.getColumnIndex(MediaStore.Downloads.DISPLAY_NAME)
-            val fileName = cursor.getStringOrNull(fileIndex)
-            return@use Environment.getExternalStorageDirectory().path + "/Download/" + fileName
+            /* uri = */ fileUri,
+            /* projection = */ arrayOf(MediaStore.Downloads.DISPLAY_NAME),
+            /* selection = */ null,
+            /* selectionArgs = */ null,
+            /* sortOrder = */ null,
+        )?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val index = cursor.getColumnIndex(MediaStore.Downloads.DISPLAY_NAME)
+                val value = cursor.getStringOrNull(index) ?: return null
+                return@use Environment.getExternalStorageDirectory().path + "/Download/" + value
+            }
+            return null
         }
     }
-    fileUri.scheme == SCHEME_FILE -> fileUri.path.orEmpty()
-    fileUri.scheme == SCHEME_CONTENT -> contentResolver.query(
-        fileUri, arrayOf(COLUMN_DATA), null, null, null,
-    ).use { cursor ->
-        cursor ?: throw FileNotFoundException(fileUri.toString())
-        cursor.moveToFirst()
-        val dataIndex = cursor.getColumnIndex(COLUMN_DATA)
-        val dataValue = cursor.getStringOrNull(dataIndex)
-        return@use dataValue.orEmpty()
+
+    fileUri.scheme == SCHEME_FILE -> {
+        fileUri.path.orEmpty()
     }
-    else -> throw FileNotFoundException(fileUri.toString())
+
+    fileUri.scheme == SCHEME_CONTENT -> {
+        contentResolver.query(
+            /* uri = */ fileUri,
+            /* projection = */ arrayOf(MediaStore.MediaColumns.DATA),
+            /* selection = */ null,
+            /* selectionArgs = */ null,
+            /* sortOrder = */ null,
+        )?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val index = cursor.getColumnIndex(MediaStore.MediaColumns.DATA)
+                val value = cursor.getStringOrNull(index) ?: return null
+                return@use value
+            }
+            return null
+        }
+    }
+
+    else -> null
 }

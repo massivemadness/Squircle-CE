@@ -135,10 +135,10 @@ private fun EditorScreen(
     onUndoClicked: () -> Unit = {},
     onRedoClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
-    onDocumentClicked: (DocumentState) -> Unit = {},
+    onDocumentClicked: (DocumentModel) -> Unit = {},
     onDocumentMoved: (from: Int, to: Int) -> Unit = { _, _ -> },
-    onCloseClicked: (DocumentState) -> Unit = {},
-    onCloseOthersClicked: (DocumentState) -> Unit = {},
+    onCloseClicked: (DocumentModel) -> Unit = {},
+    onCloseOthersClicked: (DocumentModel) -> Unit = {},
     onCloseAllClicked: () -> Unit = {},
 ) {
     ScaffoldSuite(
@@ -171,10 +171,10 @@ private fun EditorScreen(
             DocumentNavigation(
                 tabs = viewState.documents,
                 selectedIndex = viewState.selectedDocument,
-                onDocumentClicked = onDocumentClicked,
+                onDocumentClicked = { onDocumentClicked(it.document) },
                 onDocumentMoved = onDocumentMoved,
-                onCloseClicked = onCloseClicked,
-                onCloseOthersClicked = onCloseOthersClicked,
+                onCloseClicked = { onCloseClicked(it.document) },
+                onCloseOthersClicked = { onCloseOthersClicked(it.document) },
                 onCloseAllClicked = onCloseAllClicked,
                 modifier = Modifier.fillMaxWidth(),
             )

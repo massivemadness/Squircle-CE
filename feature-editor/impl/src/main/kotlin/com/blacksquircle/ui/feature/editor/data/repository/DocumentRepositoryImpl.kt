@@ -41,6 +41,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
+import java.io.FileNotFoundException
 import java.util.regex.Pattern
 
 internal class DocumentRepositoryImpl(
@@ -162,7 +163,11 @@ internal class DocumentRepositoryImpl(
             Timber.d("Extracted path = $filePath")
 
             val isValidFile = try {
-                File(filePath).exists()
+                if (filePath != null) {
+                    File(filePath).exists()
+                } else {
+                    throw FileNotFoundException()
+                }
             } catch (e: Throwable) {
                 false
             }

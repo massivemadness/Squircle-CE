@@ -126,7 +126,7 @@ internal class EditorViewModel @Inject constructor(
 
     fun onCloseFileClicked() {
         if (documents.isNotEmpty()) {
-            val selectedDocument = documents[selectedPosition]
+            val selectedDocument = documents[selectedPosition].document
             onCloseClicked(selectedDocument)
         }
     }
@@ -138,8 +138,8 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    fun onDocumentClicked(documentState: DocumentState) {
-        loadDocument(documentState.document)
+    fun onDocumentClicked(document: DocumentModel) {
+        loadDocument(document)
     }
 
     fun onDocumentMoved(from: Int, to: Int) {
@@ -189,11 +189,11 @@ internal class EditorViewModel @Inject constructor(
     }
 
     @Suppress("KotlinConstantConditions")
-    fun onCloseClicked(documentState: DocumentState) {
+    fun onCloseClicked(document: DocumentModel) {
         viewModelScope.launch {
             try {
                 /** Calculate new position */
-                val removedPosition = documentState.document.position
+                val removedPosition = document.position
                 val currentPosition = when {
                     removedPosition == selectedPosition -> when {
                         removedPosition - 1 > -1 -> removedPosition - 1
@@ -239,7 +239,7 @@ internal class EditorViewModel @Inject constructor(
                     .getOrNull(currentPosition)
                     ?.document?.uuid.orEmpty()
 
-                documentRepository.closeDocument(documentState.document)
+                documentRepository.closeDocument(document)
 
                 if (reloadFile) {
                     /** If selected file is still loading, cancel request */
@@ -260,12 +260,12 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    fun onCloseOthersClicked(documentState: DocumentState) {
+    fun onCloseOthersClicked(document: DocumentModel) {
         viewModelScope.launch {
             try {
                 documents = documents.mapNotNull { state ->
-                    if (state.document.uuid == documentState.document.uuid) {
-                        state.copy(document = documentState.document.copy(position = 0))
+                    if (state.document.uuid == document.uuid) {
+                        state.copy(document = document.copy(position = 0))
                     } else {
                         null
                     }
@@ -279,7 +279,7 @@ internal class EditorViewModel @Inject constructor(
                     )
                 }
 
-                documentRepository.closeOtherDocuments(documentState.document)
+                documentRepository.closeOtherDocuments(document)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
