@@ -16,9 +16,13 @@
 
 package com.blacksquircle.ui.feature.editor.data.repository
 
+import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
-import com.blacksquircle.ui.core.extensions.extractFilePath
+import android.provider.DocumentsContract
+import android.provider.MediaStore
+import androidx.core.database.getStringOrNull
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.dao.document.DocumentDao
@@ -38,11 +42,12 @@ import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams
 import com.blacksquircle.ui.filesystem.base.model.LineBreak
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
+import com.blacksquircle.ui.filesystem.saf.SafFilesystem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
-import java.io.FileNotFoundException
 import java.util.regex.Pattern
 
 internal class DocumentRepositoryImpl(
@@ -160,23 +165,57 @@ internal class DocumentRepositoryImpl(
 
     override suspend fun openExternal(fileUri: Uri, position: Int): DocumentModel {
         return withContext(dispatcherProvider.io()) {
-            Timber.d("Uri received = $fileUri")
-
-            val filePath = context.extractFilePath(fileUri)
-            Timber.d("Extracted path = $filePath")
-
-            val isValidFile = try {
-                if (filePath != null) {
-                    File(filePath).exists()
-                } else {
-                    throw FileNotFoundException()
+            val fileModel = when {
+                DocumentsContract.isDocumentUri(context, fileUri) -> {
+                    try {
+                        val flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        context.contentResolver.takePersistableUriPermission(fileUri, flags)
+                    } catch (e: SecurityException) {
+                        Timber.e(e.message, e)
+                    }
+                    FileModel(
+                        fileUri = fileUri.toString(),
+                        filesystemUuid = SafFilesystem.SAF_UUID,
+                    )
                 }
-            } catch (e: Throwable) {
-                false
+                fileUri.scheme == ContentResolver.SCHEME_CONTENT -> {
+                    val filePath = context.contentResolver.query(
+                        /* uri = */ fileUri,
+                        /* projection = */ arrayOf(MediaStore.Files.FileColumns.DATA),
+                        /* selection = */ null,
+                        /* selectionArgs = */ null,
+                        /* sortOrder = */ null
+                    )?.use { cursor ->
+                        if (cursor.moveToFirst()) {
+                            val columnIndex = cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA)
+                            if (columnIndex != -1) {
+                                return@use cursor.getString(columnIndex)
+                            }
+                        }
+                        return@use null
+                    }
+                    if (filePath == null) {
+                        FileModel(
+                            fileUri = fileUri.toString(),
+                            filesystemUuid = SafFilesystem.SAF_UUID,
+                        )
+                    } else {
+                        FileModel(
+                            fileUri = LocalFilesystem.LOCAL_SCHEME + filePath,
+                            filesystemUuid = LocalFilesystem.LOCAL_UUID,
+                        )
+                    }
+                }
+                fileUri.scheme == ContentResolver.SCHEME_FILE -> {
+                    FileModel(
+                        fileUri = fileUri.toString(),
+                        filesystemUuid = LocalFilesystem.LOCAL_UUID,
+                    )
+                }
+                else -> throw IllegalArgumentException("File $fileUri not found")
             }
-            Timber.d("Is valid file = $isValidFile")
 
-            val fileModel = FileModel("file://$filePath", "local")
             DocumentMapper.toModel(fileModel, position = position)
         }
     }

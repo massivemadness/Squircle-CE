@@ -48,8 +48,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -80,15 +78,6 @@ internal class EditorViewModel @Inject constructor(
 
     init {
         loadDocuments()
-
-        editorInteractor.eventBus
-            .onEach { event ->
-                when (event) {
-                    is EditorApiEvent.OpenFile -> onFileOpened(event.fileModel)
-                    is EditorApiEvent.OpenFileUri -> onFileOpened(event.fileUri)
-                }
-            }
-            .launchIn(viewModelScope)
     }
 
     fun onDrawerClicked() {
@@ -427,6 +416,13 @@ internal class EditorViewModel @Inject constructor(
                     val selectedDocument = documents[selectedPosition].document
                     loadDocument(selectedDocument, fromUser = false)
                 }
+
+                editorInteractor.eventBus.collect { event ->
+                    when (event) {
+                        is EditorApiEvent.OpenFile -> onFileOpened(event.fileModel)
+                        is EditorApiEvent.OpenFileUri -> onFileOpened(event.fileUri)
+                    }
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -472,66 +468,12 @@ internal class EditorViewModel @Inject constructor(
     private val _settings = MutableStateFlow<List<SettingsEvent<*>>>(emptyList())
     val settings: StateFlow<List<SettingsEvent<*>>> = _settings.asStateFlow()
 
-    // FIXME private
-    val confirmExit: Boolean
-        get() = settingsManager.confirmExit
-
     private val documents = mutableListOf<DocumentModel>()
     private var selectedPosition = -1
     private var toolbarMode = ToolbarManager.Mode.DEFAULT
     private var keyboardMode = KeyboardManager.Mode.KEYBOARD
     private var findParams = FindParams()
     private var currentJob: Job? = null
-
-    private fun newFile(event: EditorIntent.NewFile) {
-        viewModelScope.launch {
-            try {
-                openFileUri(EditorIntent.OpenFileUri(event.fileUri))
-            } catch (e: Throwable) {
-                Timber.e(e, e.message)
-                errorState(e)
-            }
-        }
-    }
-
-    private fun openFile(event: EditorIntent.OpenFile) {
-        currentJob?.cancel()
-        currentJob = viewModelScope.launch {
-            try {
-                val document = DocumentMapper.toModel(event.fileModel)
-                val position = documents.indexOrNull { it.fileUri == document.fileUri } ?: run {
-                    documents.appendList(document)
-                    updateDocuments()
-                    documents.lastIndex
-                }
-                if (position != selectedPosition) {
-                    selectTab(EditorIntent.SelectTab(position))
-                }
-            } catch (e: Throwable) {
-                Timber.e(e, e.message)
-                errorState(e)
-            }
-        }
-    }
-
-    private fun openFileUri(event: EditorIntent.OpenFileUri) {
-        viewModelScope.launch {
-            try {
-                val document = documentRepository.openFile(event.fileUri)
-                val position = documents.indexOrNull { it.fileUri == document.fileUri } ?: run {
-                    documents.appendList(document)
-                    updateDocuments()
-                    documents.lastIndex
-                }
-                if (position != selectedPosition) {
-                    selectTab(EditorIntent.SelectTab(position))
-                }
-            } catch (e: Throwable) {
-                Timber.e(e, e.message)
-                errorState(e)
-            }
-        }
-    }
 
     private fun selectTab(event: EditorIntent.SelectTab) {
         currentJob?.cancel()
@@ -555,113 +497,6 @@ internal class EditorViewModel @Inject constructor(
             } catch (e: Throwable) {
                 Timber.e(e, e.message)
                 errorState(e)
-            }
-        }
-    }
-
-    private fun moveTab(event: EditorIntent.MoveTab) {
-        viewModelScope.launch {
-            try {
-                val document = documents[event.from]
-                documents.removeAt(event.from)
-                documents.add(event.to, document)
-                updateDocuments()
-
-                refreshActionBar(
-                    position = when (selectedPosition) {
-                        in event.to until event.from -> selectedPosition + 1
-                        in (event.from + 1)..event.to -> selectedPosition - 1
-                        event.from -> event.to
-                        else -> selectedPosition
-                    },
-                )
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    @Suppress("KotlinConstantConditions")
-    private fun closeTab(event: EditorIntent.CloseTab) {
-        viewModelScope.launch {
-            try {
-                if (event.position > -1) {
-                    val document = documents[event.position]
-                    if (document.modified) {
-                        if (!event.allowModified) {
-                            val screen = EditorScreen.CloseModifiedDialogScreen(event.position, document.name)
-                            _viewEvent.send(ViewEvent.Navigation(screen))
-                            return@launch
-                        } else {
-                            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
-                        }
-                    }
-                    val reloadFile = event.position == selectedPosition
-                    val position = when {
-                        event.position == selectedPosition -> when {
-                            event.position - 1 > -1 -> event.position - 1
-                            event.position + 1 < documents.size -> event.position
-                            else -> -1
-                        }
-                        event.position < selectedPosition -> selectedPosition - 1
-                        event.position > selectedPosition -> selectedPosition
-                        else -> -1
-                    }
-
-                    documentRepository.deleteDocument(document)
-                    documents.removeAt(event.position)
-                    settingsManager.selectedUuid = documents.getOrNull(position)?.uuid.orEmpty()
-                    updateDocuments()
-                    refreshActionBar(position)
-
-                    if (reloadFile) {
-                        if (documents.isNotEmpty()) {
-                            selectTab(EditorIntent.SelectTab(position))
-                        } else {
-                            emptyState()
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun closeOthers(event: EditorIntent.CloseOthers) {
-        viewModelScope.launch {
-            try {
-                for (index in documents.size - 1 downTo 0) {
-                    if (index != event.position) {
-                        val document = documents[index]
-                        documentRepository.deleteDocument(document)
-                        documents.removeAt(index)
-                    }
-                }
-                updateDocuments()
-                if (event.position != selectedPosition) {
-                    selectTab(EditorIntent.SelectTab(0))
-                } else {
-                    refreshActionBar(0)
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun closeAll() {
-        viewModelScope.launch {
-            try {
-                deleteDocuments()
-                refreshActionBar(-1)
-                emptyState()
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
     }
@@ -915,22 +750,6 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    private suspend fun updateDocuments() {
-        for (index in documents.size - 1 downTo 0) {
-            val document = documents[index].copy(position = index)
-            documents[index] = document
-            documentRepository.updateDocument(document)
-        }
-    }
-
-    private suspend fun deleteDocuments() {
-        for (index in documents.size - 1 downTo 0) {
-            val document = documents[index]
-            documentRepository.deleteDocument(document)
-        }
-        documents.clear()
-    }
-
     private fun refreshActionBar(position: Int = selectedPosition) {
         _toolbarViewState.value = ToolbarViewState.ActionBar(
             documents = documents.toList(),
@@ -940,36 +759,6 @@ internal class EditorViewModel @Inject constructor(
             mode = toolbarMode,
             findParams = findParams,
         )
-    }
-
-    private fun emptyState() {
-        if (documents.isEmpty()) {
-            _editorViewState.value = EditorViewState.Error(
-                image = UiR.drawable.ic_file_find,
-                title = stringProvider.getString(R.string.message_no_open_files),
-                subtitle = "",
-                action = EditorErrorAction.Undefined,
-            )
-            _keyboardViewState.value = KeyboardManager.Mode.NONE
-        }
-    }
-
-    private fun errorState(e: Throwable) {
-        when (e) {
-            is CancellationException -> {
-                _editorViewState.value = EditorViewState.Loading
-                _keyboardViewState.value = KeyboardManager.Mode.NONE
-            }
-            else -> {
-                _editorViewState.value = EditorViewState.Error(
-                    image = UiR.drawable.ic_file_error,
-                    title = stringProvider.getString(UiR.string.common_error_occurred),
-                    subtitle = e.message.orEmpty(),
-                    action = EditorErrorAction.CloseDocument,
-                )
-                _keyboardViewState.value = KeyboardManager.Mode.NONE
-            }
-        }
     }
 
     private fun loadSettings() {

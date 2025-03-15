@@ -72,6 +72,9 @@ dependencies {
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
 
+    implementation(project(":filesystems:filesystem-local"))
+    implementation(project(":filesystems:filesystem-saf"))
+
     // Tests
     testImplementation(libs.test.junit)
     testImplementation(libs.test.mockk)
