@@ -160,12 +160,6 @@ internal class ExplorerRepositoryImpl(
     override fun renameFile(source: FileModel, fileName: String): String {
         return taskManager.execute(TaskType.RENAME) { update ->
             val filesystem = filesystemFactory.create(currentFilesystem)
-            val fileModel = source.copy(
-                fileUri = source.fileUri.substringBeforeLast(File.separator) +
-                    File.separator + fileName,
-                directory = source.directory,
-            )
-
             val progress = TaskStatus.Progress(
                 count = 1,
                 totalCount = 1,
@@ -173,7 +167,7 @@ internal class ExplorerRepositoryImpl(
             )
             update(progress)
 
-            filesystem.renameFile(source, fileModel)
+            filesystem.renameFile(source, fileName)
             delay(100)
         }
     }

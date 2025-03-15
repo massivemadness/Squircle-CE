@@ -79,10 +79,11 @@ class SFTPFilesystem(
         }
     }
 
-    override fun renameFile(source: FileModel, dest: FileModel) {
+    override fun renameFile(source: FileModel, name: String) {
         try {
             connect()
-            channel?.rename(source.path, dest.path)
+            val base = source.path.substringBeforeLast(File.separator)
+            channel?.rename(source.path, base + File.separator + name)
         } finally {
             disconnect()
         }

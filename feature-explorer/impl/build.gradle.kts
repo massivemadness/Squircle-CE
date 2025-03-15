@@ -70,6 +70,7 @@ dependencies {
 
     implementation(project(":filesystems:filesystem-local"))
     implementation(project(":filesystems:filesystem-root"))
+    implementation(project(":filesystems:filesystem-saf"))
 
     // Tests
     testImplementation(libs.test.junit)

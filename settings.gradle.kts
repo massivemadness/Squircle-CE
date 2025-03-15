@@ -57,6 +57,7 @@ include(
     ":filesystems:filesystem-base",
     ":filesystems:filesystem-local",
     ":filesystems:filesystem-root",
+    ":filesystems:filesystem-saf",
     ":filesystems:filesystem-ftp",
     ":filesystems:filesystem-ftps",
     ":filesystems:filesystem-ftpes",

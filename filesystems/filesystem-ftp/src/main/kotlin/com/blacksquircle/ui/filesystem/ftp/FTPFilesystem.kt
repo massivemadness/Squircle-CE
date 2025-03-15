@@ -81,10 +81,11 @@ class FTPFilesystem(
         }
     }
 
-    override fun renameFile(source: FileModel, dest: FileModel) {
+    override fun renameFile(source: FileModel, name: String) {
         try {
             connect()
-            ftpClient.rename(source.path, dest.path)
+            val base = source.path.substringBeforeLast(File.separator)
+            ftpClient.rename(source.path, base + File.separator + name)
             if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
                 throw FileNotFoundException(source.path)
             }

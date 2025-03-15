@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.core.extensions
 
+import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Typeface
 import android.net.Uri
@@ -56,15 +57,11 @@ fun Context.createTypefaceFromPath(path: String): Typeface {
     }
 }
 
-private const val SCHEME_CONTENT = "content"
-private const val SCHEME_FILE = "file"
-
 private const val AUTHORITY_EXTERNAL_STORAGE = "com.android.externalstorage.documents"
 private const val AUTHORITY_DOWNLOADS = "com.android.providers.downloads.documents"
 
 private const val TYPE_PRIMARY = "primary"
 private const val TYPE_NON = "non"
-
 private const val FOLDER_ANDROID = "Android"
 private const val DELIMITER = ":"
 private const val SEPARATOR = "/"
@@ -107,11 +104,11 @@ fun Context.extractFilePath(fileUri: Uri): String? = when {
         }
     }
 
-    fileUri.scheme == SCHEME_FILE -> {
+    fileUri.scheme == ContentResolver.SCHEME_FILE -> {
         fileUri.path.orEmpty()
     }
 
-    fileUri.scheme == SCHEME_CONTENT -> {
+    fileUri.scheme == ContentResolver.SCHEME_CONTENT -> {
         contentResolver.query(
             /* uri = */ fileUri,
             /* projection = */ arrayOf(MediaStore.MediaColumns.DATA),

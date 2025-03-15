@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.internal.api
 
+import android.content.Context
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.factory.FilesystemFactoryImpl
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
@@ -32,10 +33,12 @@ object ExplorerApiModule {
     fun provideFilesystemFactory(
         serverFilesystemFactory: ServerFilesystemFactory,
         serversInteractor: ServersInteractor,
+        context: Context,
     ): FilesystemFactory {
         return FilesystemFactoryImpl(
             serverFilesystemFactory = serverFilesystemFactory,
             serversInteractor = serversInteractor,
+            context = context,
         )
     }
 }

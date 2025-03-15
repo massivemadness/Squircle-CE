@@ -16,22 +16,26 @@
 
 package com.blacksquircle.ui.feature.explorer.data.factory
 
+import android.content.Context
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
+import com.blacksquircle.ui.filesystem.saf.SafFilesystem
 
 internal class FilesystemFactoryImpl(
     private val serverFilesystemFactory: ServerFilesystemFactory,
     private val serversInteractor: ServersInteractor,
+    private val context: Context,
 ) : FilesystemFactory {
 
     override suspend fun create(uuid: String): Filesystem {
         return when (uuid) {
             LocalFilesystem.LOCAL_UUID -> LocalFilesystem()
             RootFilesystem.ROOT_UUID -> RootFilesystem()
+            SafFilesystem.SAF_UUID -> SafFilesystem(context)
             else -> {
                 val serverConfig = serversInteractor.loadServer(uuid)
                 serverFilesystemFactory.create(serverConfig)

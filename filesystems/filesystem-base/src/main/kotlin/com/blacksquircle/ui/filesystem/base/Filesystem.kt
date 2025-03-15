@@ -26,7 +26,7 @@ interface Filesystem {
 
     fun listFiles(parent: FileModel): List<FileModel>
     fun createFile(fileModel: FileModel)
-    fun renameFile(source: FileModel, dest: FileModel)
+    fun renameFile(source: FileModel, name: String)
     fun deleteFile(fileModel: FileModel)
     fun copyFile(source: FileModel, dest: FileModel)
 

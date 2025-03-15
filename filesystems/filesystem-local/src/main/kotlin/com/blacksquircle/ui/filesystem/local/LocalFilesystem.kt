@@ -61,16 +61,16 @@ class LocalFilesystem : Filesystem {
         }
     }
 
-    override fun renameFile(source: FileModel, dest: FileModel) {
-        val originalFile = toFileObject(source)
-        val renamedFile = toFileObject(dest)
-        if (!originalFile.exists()) {
+    override fun renameFile(source: FileModel, name: String) {
+        val sourceFile = toFileObject(source)
+        val destFile = File(sourceFile.parentFile, name)
+        if (!sourceFile.exists()) {
             throw FileNotFoundException(source.path)
         }
-        if (renamedFile.exists()) {
-            throw FileAlreadyExistsException(renamedFile.absolutePath)
+        if (destFile.exists()) {
+            throw FileAlreadyExistsException(destFile.absolutePath)
         }
-        originalFile.renameTo(renamedFile)
+        sourceFile.renameTo(destFile)
     }
 
     override fun deleteFile(fileModel: FileModel) {
