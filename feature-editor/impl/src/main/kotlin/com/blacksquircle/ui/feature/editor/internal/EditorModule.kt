@@ -45,7 +45,7 @@ internal object EditorModule {
             settingsManager = settingsManager,
             documentDao = documentDao,
             filesystemFactory = filesystemFactory,
-            cacheDirectory = Directories.filesDir(context),
+            cacheDir = Directories.filesDir(context),
             context = context,
         )
     }

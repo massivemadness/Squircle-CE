@@ -31,7 +31,7 @@ import java.util.*
 
 class FTPFilesystem(
     private val serverConfig: ServerConfig,
-    private val cacheLocation: File,
+    private val cacheDir: File,
 ) : Filesystem {
 
     private val ftpClient = FTPClient()
@@ -123,7 +123,7 @@ class FTPFilesystem(
     }
 
     override fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
-        val tempFile = File(cacheLocation, UUID.randomUUID().toString())
+        val tempFile = File(cacheDir, UUID.randomUUID().toString())
         try {
             connect()
 
@@ -142,7 +142,7 @@ class FTPFilesystem(
     }
 
     override fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams) {
-        val tempFile = File(cacheLocation, UUID.randomUUID().toString())
+        val tempFile = File(cacheDir, UUID.randomUUID().toString())
         try {
             connect()
 

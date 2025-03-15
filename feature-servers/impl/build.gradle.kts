@@ -67,7 +67,6 @@ dependencies {
 
     implementation(project(":filesystems:filesystem-ftp"))
     implementation(project(":filesystems:filesystem-ftps"))
-    implementation(project(":filesystems:filesystem-ftpes"))
     implementation(project(":filesystems:filesystem-sftp"))
 
     // Tests

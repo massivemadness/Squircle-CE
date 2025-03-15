@@ -39,9 +39,9 @@ object Directories {
         return directory
     }
 
-    /** /data/data/com.blacksquircle.ui/ftp */
-    fun ftpDir(context: Context): File {
-        val directory = File(context.dataDir, "ftp")
+    /** /data/data/com.blacksquircle.ui/cache */
+    fun cacheDir(context: Context): File {
+        val directory = File(context.dataDir, "cache")
         if (!directory.exists()) {
             directory.mkdirs()
         }

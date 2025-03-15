@@ -33,10 +33,11 @@ import java.util.*
 
 class FTPSFilesystem(
     private val serverConfig: ServerConfig,
-    private val cacheLocation: File,
+    private val cacheDir: File,
+    isImplicit: Boolean,
 ) : Filesystem {
 
-    private val ftpsClient = FTPSClient(true)
+    private val ftpsClient = FTPSClient(isImplicit)
     private val ftpsMapper = FTPSMapper()
 
     init {
@@ -125,7 +126,7 @@ class FTPSFilesystem(
     }
 
     override fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
-        val tempFile = File(cacheLocation, UUID.randomUUID().toString())
+        val tempFile = File(cacheDir, UUID.randomUUID().toString())
         try {
             connect()
 
@@ -144,7 +145,7 @@ class FTPSFilesystem(
     }
 
     override fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams) {
-        val tempFile = File(cacheLocation, UUID.randomUUID().toString())
+        val tempFile = File(cacheDir, UUID.randomUUID().toString())
         try {
             connect()
 

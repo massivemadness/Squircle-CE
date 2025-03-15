@@ -49,7 +49,7 @@ internal class DocumentRepositoryImpl(
     private val settingsManager: SettingsManager,
     private val documentDao: DocumentDao,
     private val filesystemFactory: FilesystemFactory,
-    private val cacheDirectory: File,
+    private val cacheDir: File,
     private val context: Context,
 ) : DocumentRepository {
 
@@ -272,7 +272,7 @@ internal class DocumentRepositoryImpl(
     }
 
     private fun clearAllCaches(filter: String) {
-        cacheDirectory.listFiles().orEmpty().forEach { file ->
+        cacheDir.listFiles().orEmpty().forEach { file ->
             if (!file.name.startsWith(filter, ignoreCase = true)) {
                 file.deleteRecursively()
             }
@@ -280,12 +280,12 @@ internal class DocumentRepositoryImpl(
     }
 
     private fun clearAllCaches() {
-        cacheDirectory.listFiles().orEmpty().forEach { file ->
+        cacheDir.listFiles().orEmpty().forEach { file ->
             file.deleteRecursively()
         }
     }
 
     private fun cacheFile(document: DocumentModel, postfix: String): File {
-        return File(cacheDirectory, "${document.uuid}-$postfix")
+        return File(cacheDir, "${document.uuid}-$postfix")
     }
 }

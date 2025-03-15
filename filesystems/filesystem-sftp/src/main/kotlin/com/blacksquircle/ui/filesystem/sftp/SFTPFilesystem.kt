@@ -33,7 +33,7 @@ import java.util.*
 
 class SFTPFilesystem(
     private val serverConfig: ServerConfig,
-    private val cacheLocation: File,
+    private val cacheDir: File,
 ) : Filesystem {
 
     private val jsch = JSch()
@@ -115,7 +115,7 @@ class SFTPFilesystem(
     }
 
     override fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
-        val tempFile = File(cacheLocation, UUID.randomUUID().toString())
+        val tempFile = File(cacheDir, UUID.randomUUID().toString())
         try {
             connect()
             tempFile.createNewFile()
@@ -130,7 +130,7 @@ class SFTPFilesystem(
     }
 
     override fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams) {
-        val tempFile = File(cacheLocation, UUID.randomUUID().toString())
+        val tempFile = File(cacheDir, UUID.randomUUID().toString())
         try {
             connect()
 
