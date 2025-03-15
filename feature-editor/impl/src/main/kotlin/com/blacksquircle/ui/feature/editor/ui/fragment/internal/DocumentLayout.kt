@@ -29,13 +29,15 @@ import androidx.compose.ui.Modifier
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
+import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 
 @Composable
 internal fun DocumentLayout(
     contentPadding: PaddingValues,
     documentState: DocumentState,
     isLoading: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onErrorActionClicked: (ErrorAction) -> Unit = {}
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         // TODO CodeEditor
@@ -47,6 +49,16 @@ internal fun DocumentLayout(
                 .verticalScroll(rememberScrollState())
                 .padding(contentPadding)
         )
+
+        val isError = documentState.errorState != null
+
+        if (isError && !isLoading) {
+            ErrorStatus(
+                errorState = documentState.errorState,
+                onActionClicked = onErrorActionClicked,
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
         if (isLoading) {
             CircularProgress(
                 modifier = Modifier.align(Alignment.Center)

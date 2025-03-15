@@ -17,12 +17,12 @@
 package com.blacksquircle.ui.feature.editor.ui.fragment.model
 
 import androidx.compose.runtime.Immutable
-import com.blacksquircle.ui.ds.R
+import com.blacksquircle.ui.ds.R as UiR
 
 @Immutable
 internal data class ErrorState(
     val title: String = "",
     val subtitle: String = "",
-    val icon: Int = R.drawable.ic_file_error,
+    val icon: Int = UiR.drawable.ic_file_error,
     val action: ErrorAction = ErrorAction.UNDEFINED,
 )

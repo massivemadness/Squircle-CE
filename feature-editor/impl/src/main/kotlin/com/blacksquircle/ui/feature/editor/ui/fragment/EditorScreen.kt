@@ -52,6 +52,7 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.internal.DocumentLayout
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.DocumentNavigation
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.EditorToolbar
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
+import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -90,6 +91,7 @@ internal fun EditorScreen(
         onCloseClicked = viewModel::onCloseClicked,
         onCloseOthersClicked = viewModel::onCloseOthersClicked,
         onCloseAllClicked = viewModel::onCloseAllClicked,
+        onErrorActionClicked = viewModel::onErrorActionClicked,
     )
 
     val createFileContract = rememberCreateFileContract(MimeType.TEXT) { result ->
@@ -166,6 +168,7 @@ private fun EditorScreen(
     onCloseClicked: (DocumentModel) -> Unit = {},
     onCloseOthersClicked: (DocumentModel) -> Unit = {},
     onCloseAllClicked: () -> Unit = {},
+    onErrorActionClicked: (ErrorAction) -> Unit = {},
 ) {
     ScaffoldSuite(
         topBar = {
@@ -214,6 +217,7 @@ private fun EditorScreen(
                     contentPadding = contentPadding,
                     documentState = documentState,
                     isLoading = viewState.isLoading,
+                    onErrorActionClicked = onErrorActionClicked,
                 )
             }
 

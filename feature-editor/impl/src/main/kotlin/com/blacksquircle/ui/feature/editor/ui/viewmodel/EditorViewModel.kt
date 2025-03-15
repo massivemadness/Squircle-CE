@@ -310,6 +310,15 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    fun onErrorActionClicked(errorAction: ErrorAction) {
+        viewModelScope.launch {
+            when (errorAction) {
+                ErrorAction.CLOSE_DOCUMENT -> onCloseFileClicked()
+                ErrorAction.UNDEFINED -> Unit
+            }
+        }
+    }
+
     fun onFileOpened(fileUri: Uri) {
         viewModelScope.launch {
             val document = documentRepository.openExternal(fileUri, documents.size)

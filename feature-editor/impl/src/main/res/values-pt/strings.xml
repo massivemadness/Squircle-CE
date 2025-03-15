@@ -57,6 +57,5 @@
     <string name="message_nothing_to_copy">Nada to copiar</string>
     <string name="message_nothing_to_paste">Nada para colar</string>
     <string name="message_line_not_exists">A linha não existe</string>
-    <string name="message_no_errors_detected">Nenhum erro de sintaxe detectado</string>
 
 </resources>
