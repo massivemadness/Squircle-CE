@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -94,6 +95,7 @@ internal fun EditorScreen(
         onErrorActionClicked = viewModel::onErrorActionClicked,
     )
 
+    val defaultFileName = stringResource(UiR.string.common_untitled)
     val createFileContract = rememberCreateFileContract(MimeType.TEXT) { result ->
         when (result) {
             is ContractResult.Success -> viewModel.onFileOpened(result.uri)
@@ -120,7 +122,7 @@ internal fun EditorScreen(
                     }
                 }
                 is EditorViewEvent.CreateFileContract -> {
-                    createFileContract.launch("")
+                    createFileContract.launch(defaultFileName)
                 }
                 is EditorViewEvent.OpenFileContract -> {
                     openFileContract.launch(arrayOf(MimeType.ANY))
@@ -196,7 +198,11 @@ private fun EditorScreen(
         },
         modifier = Modifier.imePadding(),
     ) { contentPadding ->
-        Column(Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding)
+        ) {
             DocumentNavigation(
                 tabs = viewState.documents,
                 selectedIndex = viewState.selectedDocument,
@@ -214,7 +220,6 @@ private fun EditorScreen(
                 .getOrNull(viewState.selectedDocument)
             if (documentState != null) {
                 DocumentLayout(
-                    contentPadding = contentPadding,
                     documentState = documentState,
                     isLoading = viewState.isLoading,
                     onErrorActionClicked = onErrorActionClicked,

@@ -47,6 +47,7 @@ dependencies {
     debugImplementation(libs.compose.tooling)
     debugImplementation(libs.compose.manifest)
     implementation(libs.reorderable)
+    implementation(libs.sora.editor)
 
     // AAC
     implementation(libs.androidx.viewmodel.compose)

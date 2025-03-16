@@ -40,6 +40,7 @@ import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import io.github.rosemoe.sora.text.Content
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -111,7 +112,13 @@ internal class EditorViewModel @Inject constructor(
     }
 
     fun onSaveFileClicked() {
-        // TODO
+        viewModelScope.launch {
+            if (documents.isNotEmpty()) {
+                val content = documents[selectedPosition].content
+                _viewEvent.send(ViewEvent.Toast(content.getLineString(1)))
+                // TODO test
+            }
+        }
     }
 
     fun onSaveFileAsClicked() {
@@ -343,7 +350,7 @@ internal class EditorViewModel @Inject constructor(
 
                 /** Free memory - clear content */
                 documents = documents.mapSelected { state ->
-                    state.copy(content = null)
+                    state.copy(content = Content())
                 }
 
                 if (existingIndex != -1) {
@@ -370,7 +377,7 @@ internal class EditorViewModel @Inject constructor(
 
                 documents = documents.mapSelected {
                     it.copy(
-                        content = content,
+                        content = Content(content.text),
                         errorState = null,
                     )
                 }
@@ -390,7 +397,7 @@ internal class EditorViewModel @Inject constructor(
                 /** Clear content and show error */
                 documents = documents.mapSelected {
                     it.copy(
-                        content = null,
+                        content = Content(),
                         errorState = errorState(e),
                     )
                 }

@@ -16,42 +16,32 @@
 
 package com.blacksquircle.ui.feature.editor.ui.fragment.internal
 
+import android.graphics.Typeface
+import android.view.ViewGroup
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.blacksquircle.ui.ds.SquircleTheme
+import androidx.compose.ui.viewinterop.AndroidView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
+import io.github.rosemoe.sora.text.Content
+import io.github.rosemoe.sora.widget.CodeEditor
 
 @Composable
 internal fun DocumentLayout(
-    contentPadding: PaddingValues,
     documentState: DocumentState,
     isLoading: Boolean,
     modifier: Modifier = Modifier,
     onErrorActionClicked: (ErrorAction) -> Unit = {}
 ) {
     Box(modifier = modifier.fillMaxSize()) {
-        // TODO CodeEditor
-        Text(
-            text = documentState.content?.text.orEmpty(),
-            color = SquircleTheme.colors.colorTextAndIconPrimary,
-            style = SquircleTheme.typography.text14Regular,
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(contentPadding)
-        )
-
         val isError = documentState.errorState != null
-
+        if (!isError && !isLoading) {
+            CodeEditor(content = documentState.content)
+        }
         if (isError && !isLoading) {
             ErrorStatus(
                 errorState = documentState.errorState,
@@ -65,4 +55,36 @@ internal fun DocumentLayout(
             )
         }
     }
+}
+
+@Composable
+private fun CodeEditor(content: Content) {
+    AndroidView(
+        factory = { context ->
+            CodeEditor(context).apply {
+                setTextSize(14f)
+                isWordwrap = true
+                isScalable = true
+                isLineNumberEnabled = true
+                isHighlightCurrentLine = true
+                isHighlightCurrentBlock = true
+                isHighlightBracketPair = true
+                isEditable = true
+                tabWidth = 4
+                typefaceText = Typeface.MONOSPACE
+                typefaceLineNumber = Typeface.MONOSPACE
+                isCursorAnimationEnabled = false
+                isStickyTextSelection = true
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                )
+            }
+        },
+        update = { editor ->
+            editor.setText(content)
+        },
+        onRelease = CodeEditor::release,
+        modifier = Modifier.fillMaxSize()
+    )
 }
