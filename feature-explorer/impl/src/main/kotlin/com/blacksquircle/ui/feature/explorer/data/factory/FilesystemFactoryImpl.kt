@@ -23,7 +23,7 @@ import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
-import com.blacksquircle.ui.filesystem.saf.SafFilesystem
+import com.blacksquircle.ui.filesystem.saf.SAFFilesystem
 
 internal class FilesystemFactoryImpl(
     private val serverFilesystemFactory: ServerFilesystemFactory,
@@ -35,7 +35,7 @@ internal class FilesystemFactoryImpl(
         return when (uuid) {
             LocalFilesystem.LOCAL_UUID -> LocalFilesystem()
             RootFilesystem.ROOT_UUID -> RootFilesystem()
-            SafFilesystem.SAF_UUID -> SafFilesystem(context)
+            SAFFilesystem.SAF_UUID -> SAFFilesystem(context)
             else -> {
                 val serverConfig = serversInteractor.loadServer(uuid)
                 serverFilesystemFactory.create(serverConfig)

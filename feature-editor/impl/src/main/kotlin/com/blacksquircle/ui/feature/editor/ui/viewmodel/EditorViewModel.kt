@@ -29,6 +29,7 @@ import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
+import com.blacksquircle.ui.feature.editor.domain.model.SaveParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewState
@@ -113,10 +114,18 @@ internal class EditorViewModel @Inject constructor(
 
     fun onSaveFileClicked() {
         viewModelScope.launch {
-            if (documents.isNotEmpty()) {
-                val content = documents[selectedPosition].content
-                _viewEvent.send(ViewEvent.Toast(content.getLineString(1)))
-                // TODO test
+            try {
+                if (documents.isNotEmpty()) {
+                    val selectedDocument = documents[selectedPosition].document
+                    val content = documents[selectedPosition].content
+                    val params = SaveParams(local = true, cache = true)
+                    documentRepository.saveDocument(selectedDocument, content, params)
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
     }
@@ -377,7 +386,7 @@ internal class EditorViewModel @Inject constructor(
 
                 documents = documents.mapSelected {
                     it.copy(
-                        content = Content(content.text),
+                        content = content,
                         errorState = null,
                     )
                 }

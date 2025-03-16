@@ -32,18 +32,16 @@ import com.blacksquircle.ui.editorkit.model.UndoStack
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.data.utils.charsetFor
 import com.blacksquircle.ui.feature.editor.data.utils.decode
-import com.blacksquircle.ui.feature.editor.data.utils.encode
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentContent
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentParams
+import com.blacksquircle.ui.feature.editor.domain.model.SaveParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams
 import com.blacksquircle.ui.filesystem.base.model.LineBreak
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
-import com.blacksquircle.ui.filesystem.saf.SafFilesystem
-import kotlinx.coroutines.delay
+import com.blacksquircle.ui.filesystem.saf.SAFFilesystem
+import io.github.rosemoe.sora.text.Content
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
@@ -66,21 +64,20 @@ internal class DocumentRepositoryImpl(
         }
     }
 
-    override suspend fun loadDocument(document: DocumentModel): DocumentContent {
+    override suspend fun loadDocument(document: DocumentModel): Content {
         return withContext(dispatcherProvider.io()) {
             val documentEntity = DocumentMapper.toEntity(document)
             documentDao.insert(documentEntity)
             settingsManager.selectedUuid = document.uuid
 
-            delay(1500L) // TODO
-
-            val textCacheFile = cacheFile(document, postfix = "text.txt")
+            val textCacheFile = cacheFile(document, postfix = TEXT)
             if (textCacheFile.exists()) {
-                DocumentContent(
-                    undoStack = loadUndoStack(document),
-                    redoStack = loadRedoStack(document),
-                    text = textCacheFile.readText(),
-                )
+                val fileContent = textCacheFile.readText()
+                Content(fileContent).apply {
+                    // TODO undoManager = ...
+                    // TODO cursor.setLeft(...)
+                    // TODO cursor.setRight(...)
+                }
             } else {
                 val filesystem = filesystemFactory.create(document.filesystemUuid)
                 val fileModel = DocumentMapper.toModel(document)
@@ -88,23 +85,17 @@ internal class DocumentRepositoryImpl(
                     chardet = settingsManager.encodingAutoDetect,
                     charset = charsetFor(settingsManager.encodingForOpening),
                 )
-                DocumentContent(
-                    undoStack = UndoStack(),
-                    redoStack = UndoStack(),
-                    text = filesystem.loadFile(fileModel, fileParams),
-                ).also { content ->
-                    saveDocument(document, content, DocumentParams(local = false, cache = true))
+                val fileContent = filesystem.loadFile(fileModel, fileParams)
+                Content(fileContent).also { content ->
+                    saveDocument(document, content, SaveParams(local = false, cache = true))
                 }
             }
         }
     }
 
-    override suspend fun saveDocument(
-        document: DocumentModel,
-        content: DocumentContent,
-        params: DocumentParams
-    ) {
+    override suspend fun saveDocument(document: DocumentModel, content: Content, params: SaveParams) {
         withContext(dispatcherProvider.io()) {
+            // TODO update cursor position in db
             if (params.local) {
                 val filesystem = filesystemFactory.create(document.filesystemUuid)
                 val fileModel = DocumentMapper.toModel(document)
@@ -112,18 +103,18 @@ internal class DocumentRepositoryImpl(
                     charset = charsetFor(settingsManager.encodingForSaving),
                     linebreak = LineBreak.of(settingsManager.lineBreakForSaving),
                 )
-                filesystem.saveFile(fileModel, content.text, fileParams)
+                filesystem.saveFile(fileModel, content.toString(), fileParams)
             }
             if (params.cache) {
                 createCacheFiles(document)
 
-                val textCacheFile = cacheFile(document, postfix = "text.txt")
-                val undoCacheFile = cacheFile(document, postfix = "undo.txt")
-                val redoCacheFile = cacheFile(document, postfix = "redo.txt")
+                val textCacheFile = cacheFile(document, postfix = TEXT)
+                // val undoCacheFile = cacheFile(document, postfix = UNDO)
+                // val redoCacheFile = cacheFile(document, postfix = REDO)
 
-                textCacheFile.writeText(content.text)
-                undoCacheFile.writeText(content.undoStack.encode())
-                redoCacheFile.writeText(content.redoStack.encode())
+                textCacheFile.writeText(content.toString())
+                // TODO undoCacheFile.writeText(content.undoStack.encode())
+                // TODO redoCacheFile.writeText(content.redoStack.encode())
             }
         }
     }
@@ -175,7 +166,7 @@ internal class DocumentRepositoryImpl(
                     }
                     FileModel(
                         fileUri = fileUri.toString(),
-                        filesystemUuid = SafFilesystem.SAF_UUID,
+                        filesystemUuid = SAFFilesystem.SAF_UUID,
                     )
                 }
                 fileUri.scheme == ContentResolver.SCHEME_CONTENT -> {
@@ -197,7 +188,7 @@ internal class DocumentRepositoryImpl(
                     if (filePath == null) {
                         FileModel(
                             fileUri = fileUri.toString(),
-                            filesystemUuid = SafFilesystem.SAF_UUID,
+                            filesystemUuid = SAFFilesystem.SAF_UUID,
                         )
                     } else {
                         FileModel(
@@ -219,19 +210,16 @@ internal class DocumentRepositoryImpl(
         }
     }
 
-    override suspend fun saveExternal(document: DocumentModel, fileUri: Uri) {
+    override suspend fun saveExternal(document: DocumentModel, content: Content, fileUri: Uri) {
         withContext(dispatcherProvider.io()) {
-            val textCacheFile = cacheFile(document, postfix = "text.txt")
-            val encoding = charsetFor(settingsManager.encodingForSaving)
-            val linebreak = LineBreak.of(settingsManager.lineBreakForSaving)
-            val byteArray = textCacheFile
-                .readText()
-                .replace(linebreak.regex, linebreak.replacement)
-                .toByteArray(encoding)
-            context.contentResolver.openOutputStream(fileUri)?.use { output ->
-                output.write(byteArray)
-                output.flush()
-            }
+            val filesystemUuid = SAFFilesystem.SAF_UUID
+            val filesystem = filesystemFactory.create(filesystemUuid)
+            val fileModel = DocumentMapper.toModel(document)
+            val fileParams = FileParams(
+                charset = charsetFor(settingsManager.encodingForSaving),
+                linebreak = LineBreak.of(settingsManager.lineBreakForSaving),
+            )
+            filesystem.saveFile(fileModel, content.toString(), fileParams)
         }
     }
 
@@ -270,7 +258,7 @@ internal class DocumentRepositoryImpl(
 
     private fun loadUndoStack(document: DocumentModel): UndoStack {
         return try {
-            val undoCacheFile = cacheFile(document, postfix = "undo.txt")
+            val undoCacheFile = cacheFile(document, postfix = UNDO)
             if (undoCacheFile.exists()) {
                 return undoCacheFile.readText().decode()
             }
@@ -282,7 +270,7 @@ internal class DocumentRepositoryImpl(
 
     private fun loadRedoStack(document: DocumentModel): UndoStack {
         return try {
-            val redoCacheFile = cacheFile(document, postfix = "redo.txt")
+            val redoCacheFile = cacheFile(document, postfix = REDO)
             if (redoCacheFile.exists()) {
                 return redoCacheFile.readText().decode()
             }
@@ -293,9 +281,9 @@ internal class DocumentRepositoryImpl(
     }
 
     private fun createCacheFiles(document: DocumentModel) {
-        val textCacheFile = cacheFile(document, postfix = "text.txt")
-        val undoCacheFile = cacheFile(document, postfix = "undo.txt")
-        val redoCacheFile = cacheFile(document, postfix = "redo.txt")
+        val textCacheFile = cacheFile(document, postfix = TEXT)
+        val undoCacheFile = cacheFile(document, postfix = UNDO)
+        val redoCacheFile = cacheFile(document, postfix = REDO)
 
         if (!textCacheFile.exists()) textCacheFile.createNewFile()
         if (!undoCacheFile.exists()) undoCacheFile.createNewFile()
@@ -303,9 +291,9 @@ internal class DocumentRepositoryImpl(
     }
 
     private fun deleteCacheFiles(document: DocumentModel) {
-        val textCacheFile = cacheFile(document, postfix = "text.txt")
-        val undoCacheFile = cacheFile(document, postfix = "undo.txt")
-        val redoCacheFile = cacheFile(document, postfix = "redo.txt")
+        val textCacheFile = cacheFile(document, postfix = TEXT)
+        val undoCacheFile = cacheFile(document, postfix = UNDO)
+        val redoCacheFile = cacheFile(document, postfix = REDO)
 
         if (textCacheFile.exists()) textCacheFile.delete()
         if (undoCacheFile.exists()) undoCacheFile.delete()
@@ -328,5 +316,11 @@ internal class DocumentRepositoryImpl(
 
     private fun cacheFile(document: DocumentModel, postfix: String): File {
         return File(cacheDir, "${document.uuid}-$postfix")
+    }
+
+    companion object {
+        private const val TEXT = "text.txt"
+        private const val UNDO = "undo.txt"
+        private const val REDO = "redo.txt"
     }
 }

@@ -16,10 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.domain.model
 
-import com.blacksquircle.ui.editorkit.model.UndoStack
-
-internal data class DocumentContent(
-    val undoStack: UndoStack,
-    val redoStack: UndoStack,
-    val text: String,
+internal data class SaveParams(
+    val local: Boolean = false,
+    val cache: Boolean = true,
 )

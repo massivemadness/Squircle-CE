@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.Flow
 import java.io.BufferedReader
 import java.io.IOException
 
-class SafFilesystem(private val context: Context) : Filesystem {
+class SAFFilesystem(private val context: Context) : Filesystem {
 
     override fun ping() = Unit
 
@@ -86,8 +86,9 @@ class SafFilesystem(private val context: Context) : Filesystem {
 
     override fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
         val fileUri = fileModel.fileUri.toUri()
+        // TODO chardet?
         context.contentResolver.openInputStream(fileUri)?.use { inputStream ->
-            return inputStream.bufferedReader()
+            return inputStream.bufferedReader(fileParams.charset)
                 .use(BufferedReader::readText)
         }
         throw IOException("Unable to open file: ${fileModel.fileUri}")
@@ -95,9 +96,10 @@ class SafFilesystem(private val context: Context) : Filesystem {
 
     override fun saveFile(fileModel: FileModel, text: String, fileParams: FileParams) {
         val fileUri = fileModel.fileUri.toUri()
-        context.contentResolver.openOutputStream(fileUri)?.use { outputStream ->
-            outputStream.bufferedWriter().use {
-                it.write(text)
+        val fileText = text.replace(fileParams.linebreak.regex, fileParams.linebreak.replacement)
+        context.contentResolver.openOutputStream(fileUri)?.use { output ->
+            output.bufferedWriter(fileParams.charset).use {
+                it.write(fileText)
             }
         } ?: throw IOException("Unable to save file: ${fileModel.fileUri}")
     }
