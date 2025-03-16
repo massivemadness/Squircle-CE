@@ -27,8 +27,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditor
 import io.github.rosemoe.sora.text.Content
-import io.github.rosemoe.sora.widget.CodeEditor
 
 @Composable
 internal fun DocumentLayout(
