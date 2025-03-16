@@ -25,11 +25,11 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.feature.editor.domain.model.SaveParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewState
@@ -115,12 +115,16 @@ internal class EditorViewModel @Inject constructor(
     fun onSaveFileClicked() {
         viewModelScope.launch {
             try {
-                if (documents.isNotEmpty()) {
-                    val selectedDocument = documents[selectedPosition].document
-                    val content = documents[selectedPosition].content
-                    val params = SaveParams(local = true, cache = true)
-                    documentRepository.saveDocument(selectedDocument, content, params)
+                if (documents.isEmpty()) {
+                    return@launch
                 }
+
+                val selectedDocument = documents[selectedPosition].document
+                val content = documents[selectedPosition].content
+                documentRepository.saveDocument(selectedDocument, content)
+
+                val message = stringProvider.getString(R.string.message_saved)
+                _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -137,10 +141,11 @@ internal class EditorViewModel @Inject constructor(
     }
 
     fun onCloseFileClicked() {
-        if (documents.isNotEmpty()) {
-            val selectedDocument = documents[selectedPosition].document
-            onCloseClicked(selectedDocument)
+        if (documents.isEmpty()) {
+            return
         }
+        val selectedDocument = documents[selectedPosition].document
+        onCloseClicked(selectedDocument)
     }
 
     fun onSettingsClicked() {

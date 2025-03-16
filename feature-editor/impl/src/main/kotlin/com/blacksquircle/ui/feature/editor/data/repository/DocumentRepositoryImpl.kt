@@ -33,7 +33,6 @@ import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.data.utils.charsetFor
 import com.blacksquircle.ui.feature.editor.data.utils.decode
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.feature.editor.domain.model.SaveParams
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -87,35 +86,39 @@ internal class DocumentRepositoryImpl(
                 )
                 val fileContent = filesystem.loadFile(fileModel, fileParams)
                 Content(fileContent).also { content ->
-                    saveDocument(document, content, SaveParams(local = false, cache = true))
+                    cacheDocument(document, content)
                 }
             }
         }
     }
 
-    override suspend fun saveDocument(document: DocumentModel, content: Content, params: SaveParams) {
+    override suspend fun saveDocument(document: DocumentModel, content: Content) {
         withContext(dispatcherProvider.io()) {
+            val filesystem = filesystemFactory.create(document.filesystemUuid)
+            val fileModel = DocumentMapper.toModel(document)
+            val fileParams = FileParams(
+                charset = charsetFor(settingsManager.encodingForSaving),
+                linebreak = LineBreak.of(settingsManager.lineBreakForSaving),
+            )
+            filesystem.saveFile(fileModel, content.toString(), fileParams).also {
+                cacheDocument(document, content)
+            }
+        }
+    }
+
+    override suspend fun cacheDocument(document: DocumentModel, content: Content) {
+        withContext(dispatcherProvider.io()) {
+            createCacheFiles(document)
+
+            val textCacheFile = cacheFile(document, postfix = TEXT)
+            // val undoCacheFile = cacheFile(document, postfix = UNDO)
+            // val redoCacheFile = cacheFile(document, postfix = REDO)
+
+            textCacheFile.writeText(content.toString())
+            // TODO undoCacheFile.writeText(content.undoStack.encode())
+            // TODO redoCacheFile.writeText(content.redoStack.encode())
+
             // TODO update cursor position in db
-            if (params.local) {
-                val filesystem = filesystemFactory.create(document.filesystemUuid)
-                val fileModel = DocumentMapper.toModel(document)
-                val fileParams = FileParams(
-                    charset = charsetFor(settingsManager.encodingForSaving),
-                    linebreak = LineBreak.of(settingsManager.lineBreakForSaving),
-                )
-                filesystem.saveFile(fileModel, content.toString(), fileParams)
-            }
-            if (params.cache) {
-                createCacheFiles(document)
-
-                val textCacheFile = cacheFile(document, postfix = TEXT)
-                // val undoCacheFile = cacheFile(document, postfix = UNDO)
-                // val redoCacheFile = cacheFile(document, postfix = REDO)
-
-                textCacheFile.writeText(content.toString())
-                // TODO undoCacheFile.writeText(content.undoStack.encode())
-                // TODO redoCacheFile.writeText(content.redoStack.encode())
-            }
         }
     }
 

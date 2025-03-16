@@ -20,7 +20,6 @@ import android.net.Uri
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.model.FindResult
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.feature.editor.domain.model.SaveParams
 import io.github.rosemoe.sora.text.Content
 
 internal interface DocumentRepository {
@@ -28,7 +27,8 @@ internal interface DocumentRepository {
     suspend fun loadDocuments(): List<DocumentModel>
 
     suspend fun loadDocument(document: DocumentModel): Content
-    suspend fun saveDocument(document: DocumentModel, content: Content, params: SaveParams)
+    suspend fun saveDocument(document: DocumentModel, content: Content)
+    suspend fun cacheDocument(document: DocumentModel, content: Content)
 
     suspend fun closeDocument(document: DocumentModel)
     suspend fun closeOtherDocuments(document: DocumentModel)
