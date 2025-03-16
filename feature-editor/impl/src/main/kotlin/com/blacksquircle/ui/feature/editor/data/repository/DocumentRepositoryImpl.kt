@@ -217,7 +217,12 @@ internal class DocumentRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             val filesystemUuid = SAFFilesystem.SAF_UUID
             val filesystem = filesystemFactory.create(filesystemUuid)
-            val fileModel = DocumentMapper.toModel(document)
+            val fileModel = DocumentMapper.toModel(
+                document.copy(
+                    fileUri = fileUri.toString(),
+                    filesystemUuid = filesystemUuid,
+                )
+            )
             val fileParams = FileParams(
                 charset = charsetFor(settingsManager.encodingForSaving),
                 linebreak = LineBreak.of(settingsManager.lineBreakForSaving),

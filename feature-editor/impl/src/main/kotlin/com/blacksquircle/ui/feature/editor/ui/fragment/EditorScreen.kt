@@ -96,7 +96,7 @@ internal fun EditorScreen(
     )
 
     val defaultFileName = stringResource(UiR.string.common_untitled)
-    val createFileContract = rememberCreateFileContract(MimeType.TEXT) { result ->
+    val newFileContract = rememberCreateFileContract(MimeType.TEXT) { result ->
         when (result) {
             is ContractResult.Success -> viewModel.onFileOpened(result.uri)
             is ContractResult.Canceled -> Unit
@@ -105,6 +105,12 @@ internal fun EditorScreen(
     val openFileContract = rememberOpenFileContract { result ->
         when (result) {
             is ContractResult.Success -> viewModel.onFileOpened(result.uri)
+            is ContractResult.Canceled -> Unit
+        }
+    }
+    val saveFileContract = rememberCreateFileContract(MimeType.TEXT) { result ->
+        when (result) {
+            is ContractResult.Success -> viewModel.onSaveFileSelected(result.uri)
             is ContractResult.Canceled -> Unit
         }
     }
@@ -122,13 +128,13 @@ internal fun EditorScreen(
                     }
                 }
                 is EditorViewEvent.CreateFileContract -> {
-                    createFileContract.launch(defaultFileName)
+                    newFileContract.launch(defaultFileName)
                 }
                 is EditorViewEvent.OpenFileContract -> {
                     openFileContract.launch(arrayOf(MimeType.ANY))
                 }
                 is EditorViewEvent.SaveAsFileContract -> {
-                    // TODO
+                    saveFileContract.launch(event.fileName)
                 }
             }
         }

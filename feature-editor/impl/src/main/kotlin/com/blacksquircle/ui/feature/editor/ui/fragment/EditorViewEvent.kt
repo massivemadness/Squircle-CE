@@ -27,5 +27,5 @@ internal sealed class EditorViewEvent : ViewEvent() {
 
     data object CreateFileContract : EditorViewEvent()
     data object OpenFileContract : EditorViewEvent()
-    data object SaveAsFileContract : EditorViewEvent()
+    data class SaveAsFileContract(val fileName: String) : EditorViewEvent()
 }

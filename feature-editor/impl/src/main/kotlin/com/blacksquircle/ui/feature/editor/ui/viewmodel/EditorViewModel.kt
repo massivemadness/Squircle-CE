@@ -136,7 +136,33 @@ internal class EditorViewModel @Inject constructor(
 
     fun onSaveFileAsClicked() {
         viewModelScope.launch {
-            _viewEvent.send(EditorViewEvent.SaveAsFileContract)
+            if (documents.isEmpty()) {
+                return@launch
+            }
+            val selectedDocument = documents[selectedPosition].document
+            _viewEvent.send(EditorViewEvent.SaveAsFileContract(selectedDocument.name))
+        }
+    }
+
+    fun onSaveFileSelected(fileUri: Uri) {
+        viewModelScope.launch {
+            try {
+                if (documents.isEmpty()) {
+                    return@launch
+                }
+
+                val selectedDocument = documents[selectedPosition].document
+                val content = documents[selectedPosition].content
+                documentRepository.saveExternal(selectedDocument, content, fileUri)
+
+                val message = stringProvider.getString(R.string.message_saved)
+                _viewEvent.send(ViewEvent.Toast(message))
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
         }
     }
 
