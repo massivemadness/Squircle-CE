@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.explorer.ui.fragment.internal
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,14 +33,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
-import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
+import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.tabs.TabIndicator
 
 @Composable
@@ -52,71 +55,81 @@ internal fun BreadcrumbNavigation(
     actionIcon: Int? = R.drawable.ic_plus,
     onActionClicked: () -> Unit = {},
 ) {
-    Row(modifier) {
-        if (homeIcon != null) {
-            IconButton(
-                iconResId = homeIcon,
-                iconButtonSize = IconButtonSizeDefaults.XS,
-                onClick = onHomeClicked,
-                modifier = Modifier.padding(horizontal = 6.dp)
-            )
-        }
+    Box(modifier) {
+        Row(Modifier.zIndex(1f)) {
+            if (homeIcon != null) {
+                IconButton(
+                    iconResId = homeIcon,
+                    iconButtonSize = IconButtonSizeDefaults.XS,
+                    onClick = onHomeClicked,
+                    modifier = Modifier.padding(horizontal = 6.dp)
+                )
+            }
 
-        if (selectedIndex > -1) {
-            ScrollableTabRow(
-                backgroundColor = SquircleTheme.colors.colorBackgroundPrimary,
-                selectedTabIndex = selectedIndex,
-                indicator = { tabPositions ->
-                    val tabIconSize = 24.dp
-                    val currentTabPosition = tabPositions.getOrElse(selectedIndex) {
-                        tabPositions.getOrElse(selectedIndex - 1) {
-                            tabPositions[0]
-                        }
-                    }
-                    val currentTabWidth by animateDpAsState(
-                        targetValue = currentTabPosition.width - tabIconSize,
-                        animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
-                    )
-                    val indicatorOffset by animateDpAsState(
-                        targetValue = currentTabPosition.left,
-                        animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
-                    )
-                    TabIndicator(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentSize(Alignment.BottomStart)
-                            .offset {
-                                IntOffset(
-                                    x = indicatorOffset.roundToPx(),
-                                    y = 0,
-                                )
+            if (selectedIndex > -1) {
+                ScrollableTabRow(
+                    backgroundColor = Color.Unspecified,
+                    selectedTabIndex = selectedIndex,
+                    indicator = { tabPositions ->
+                        val tabIconSize = 24.dp
+                        val currentTabPosition = tabPositions.getOrElse(selectedIndex) {
+                            tabPositions.getOrElse(selectedIndex - 1) {
+                                tabPositions[0]
                             }
-                            .width(currentTabWidth)
-                    )
-                },
-                edgePadding = 0.dp,
-                divider = {},
-                tabs = tabs,
-                modifier = Modifier
-                    .weight(1f)
-                    .height(36.dp),
-            )
-        } else {
-            Spacer(
-                Modifier
-                    .weight(1f)
-                    .height(36.dp)
-            )
+                        }
+                        val currentTabWidth by animateDpAsState(
+                            targetValue = currentTabPosition.width - tabIconSize,
+                            animationSpec = tween(
+                                durationMillis = 250,
+                                easing = FastOutSlowInEasing
+                            )
+                        )
+                        val indicatorOffset by animateDpAsState(
+                            targetValue = currentTabPosition.left,
+                            animationSpec = tween(
+                                durationMillis = 250,
+                                easing = FastOutSlowInEasing
+                            )
+                        )
+                        TabIndicator(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentSize(Alignment.BottomStart)
+                                .offset {
+                                    IntOffset(
+                                        x = indicatorOffset.roundToPx(),
+                                        y = 0,
+                                    )
+                                }
+                                .width(currentTabWidth)
+                        )
+                    },
+                    edgePadding = 0.dp,
+                    divider = {},
+                    tabs = tabs,
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(36.dp),
+                )
+            } else {
+                Spacer(
+                    Modifier
+                        .weight(1f)
+                        .height(36.dp)
+                )
+            }
+
+            if (actionIcon != null) {
+                IconButton(
+                    iconResId = actionIcon,
+                    iconButtonSize = IconButtonSizeDefaults.XS,
+                    onClick = onActionClicked,
+                    modifier = Modifier.padding(horizontal = 6.dp)
+                )
+            }
         }
 
-        if (actionIcon != null) {
-            IconButton(
-                iconResId = actionIcon,
-                iconButtonSize = IconButtonSizeDefaults.XS,
-                onClick = onActionClicked,
-                modifier = Modifier.padding(horizontal = 6.dp)
-            )
-        }
+        HorizontalDivider(Modifier.align(Alignment.BottomCenter))
     }
 }
 

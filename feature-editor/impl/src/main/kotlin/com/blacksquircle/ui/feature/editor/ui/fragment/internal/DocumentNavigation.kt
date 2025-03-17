@@ -16,18 +16,22 @@
 
 package com.blacksquircle.ui.feature.editor.ui.fragment.internal
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import sh.calvin.reorderable.ReorderableItem
@@ -54,37 +58,42 @@ internal fun DocumentNavigation(
         reorderHapticFeedback.perform(ReorderHapticFeedbackType.MOVE)
     }
 
-    LazyRow(
-        state = lazyListState,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(36.dp),
-    ) {
-        itemsIndexed(
-            items = tabs,
-            key = { _, state -> state.document.uuid }
-        ) { i, state ->
-            ReorderableItem(reorderableLazyListState, state.document.uuid) { isDragging ->
-                DocumentTab(
-                    title = state.document.name,
-                    selected = i == selectedIndex,
-                    onDocumentClicked = { onDocumentClicked(state) },
-                    onCloseClicked = { onCloseClicked(state) },
-                    onCloseOthersClicked = { onCloseOthersClicked(state) },
-                    onCloseAllClicked = onCloseAllClicked,
-                    modifier = Modifier
-                        .alpha(if (isDragging) DragAlpha else IdleAlpha)
-                        .longPressDraggableHandle(
-                            onDragStarted = {
-                                reorderHapticFeedback.perform(ReorderHapticFeedbackType.START)
-                            },
-                            onDragStopped = {
-                                reorderHapticFeedback.perform(ReorderHapticFeedbackType.END)
-                            },
-                        ),
-                )
+    Box(modifier) {
+        LazyRow(
+            state = lazyListState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(36.dp)
+                .zIndex(1f),
+        ) {
+            itemsIndexed(
+                items = tabs,
+                key = { _, state -> state.document.uuid }
+            ) { i, state ->
+                ReorderableItem(reorderableLazyListState, state.document.uuid) { isDragging ->
+                    DocumentTab(
+                        title = state.document.name,
+                        selected = i == selectedIndex,
+                        onDocumentClicked = { onDocumentClicked(state) },
+                        onCloseClicked = { onCloseClicked(state) },
+                        onCloseOthersClicked = { onCloseOthersClicked(state) },
+                        onCloseAllClicked = onCloseAllClicked,
+                        modifier = Modifier
+                            .alpha(if (isDragging) DragAlpha else IdleAlpha)
+                            .longPressDraggableHandle(
+                                onDragStarted = {
+                                    reorderHapticFeedback.perform(ReorderHapticFeedbackType.START)
+                                },
+                                onDragStopped = {
+                                    reorderHapticFeedback.perform(ReorderHapticFeedbackType.END)
+                                },
+                            ),
+                    )
+                }
             }
         }
+
+        HorizontalDivider(Modifier.align(Alignment.BottomCenter))
     }
 
     /* FIXME LaunchedEffect(selectedIndex) {

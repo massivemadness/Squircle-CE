@@ -27,7 +27,6 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.util.fastForEachIndexed
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
@@ -160,8 +159,6 @@ private fun ExplorerScreen(
                 },
                 modifier = Modifier.fillMaxWidth(),
             )
-
-            HorizontalDivider()
 
             val breadcrumbState = viewState.breadcrumbs
                 .getOrNull(viewState.selectedBreadcrumb)

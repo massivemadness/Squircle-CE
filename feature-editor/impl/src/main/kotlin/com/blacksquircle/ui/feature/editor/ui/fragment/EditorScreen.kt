@@ -45,7 +45,6 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.feature.editor.R
@@ -225,8 +224,6 @@ private fun EditorScreen(
                 onCloseAllClicked = onCloseAllClicked,
                 modifier = Modifier.fillMaxWidth(),
             )
-
-            HorizontalDivider()
 
             val documentState = viewState.documents
                 .getOrNull(viewState.selectedDocument)
