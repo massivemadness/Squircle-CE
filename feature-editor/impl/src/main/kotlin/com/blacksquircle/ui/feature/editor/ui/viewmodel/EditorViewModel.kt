@@ -375,6 +375,25 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    fun onPaused() {
+        viewModelScope.launch {
+            try {
+                if (documents.isEmpty()) {
+                    return@launch
+                }
+
+                val selectedDocument = documents[selectedPosition].document
+                val content = documents[selectedPosition].content
+                documentRepository.cacheDocument(selectedDocument, content)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
     fun onFileOpened(fileUri: Uri) {
         viewModelScope.launch {
             val document = documentRepository.openExternal(fileUri, documents.size)
@@ -398,6 +417,7 @@ internal class EditorViewModel @Inject constructor(
                 }
 
                 documents = documents.mapSelected { state ->
+                    /** If it's user-initiated action, save cache and clear tab's content */
                     if (fromUser) {
                         val selectedDocument = state.document.copy(
                             scrollX = state.content.scrollX,
