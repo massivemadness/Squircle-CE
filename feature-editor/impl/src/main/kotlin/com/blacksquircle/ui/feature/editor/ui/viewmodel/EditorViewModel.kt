@@ -36,12 +36,12 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorState
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import io.github.rosemoe.sora.text.Content
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -390,7 +390,7 @@ internal class EditorViewModel @Inject constructor(
 
                 /** Free memory - clear content */
                 documents = documents.mapSelected { state ->
-                    state.copy(content = Content())
+                    state.copy(content = TextContent())
                 }
 
                 if (existingIndex != -1) {
@@ -437,7 +437,7 @@ internal class EditorViewModel @Inject constructor(
                 /** Clear content and show error */
                 documents = documents.mapSelected {
                     it.copy(
-                        content = Content(),
+                        content = TextContent(),
                         errorState = errorState(e),
                     )
                 }

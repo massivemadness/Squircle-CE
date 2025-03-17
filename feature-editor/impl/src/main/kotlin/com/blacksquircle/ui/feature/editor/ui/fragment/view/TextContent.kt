@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.data.utils
+package com.blacksquircle.ui.feature.editor.ui.fragment.view
 
-import java.nio.charset.Charset
-import java.nio.charset.UnsupportedCharsetException
+import io.github.rosemoe.sora.text.Content
 
-internal fun charsetFor(charsetName: String): Charset = try {
-    Charset.forName(charsetName)
-} catch (e: UnsupportedCharsetException) {
-    e.printStackTrace()
-    Charsets.UTF_8
+internal class TextContent(text: CharSequence? = null) : Content(text) {
+    var scrollX: Int = 0
+    var scrollY: Int = 0
 }

@@ -20,15 +20,15 @@ import android.net.Uri
 import com.blacksquircle.ui.editorkit.model.FindParams
 import com.blacksquircle.ui.editorkit.model.FindResult
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import io.github.rosemoe.sora.text.Content
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 
 internal interface DocumentRepository {
 
     suspend fun loadDocuments(): List<DocumentModel>
 
-    suspend fun loadDocument(document: DocumentModel): Content
-    suspend fun saveDocument(document: DocumentModel, content: Content)
-    suspend fun cacheDocument(document: DocumentModel, content: Content)
+    suspend fun loadDocument(document: DocumentModel): TextContent
+    suspend fun saveDocument(document: DocumentModel, content: TextContent)
+    suspend fun cacheDocument(document: DocumentModel, content: TextContent)
 
     suspend fun closeDocument(document: DocumentModel)
     suspend fun closeOtherDocuments(document: DocumentModel)
@@ -37,7 +37,7 @@ internal interface DocumentRepository {
     suspend fun reorderDocuments(from: DocumentModel, to: DocumentModel)
 
     suspend fun openExternal(fileUri: Uri, position: Int): DocumentModel
-    suspend fun saveExternal(document: DocumentModel, content: Content, fileUri: Uri)
+    suspend fun saveExternal(document: DocumentModel, content: TextContent, fileUri: Uri)
 
     suspend fun find(text: CharSequence, params: FindParams): List<FindResult>
 }

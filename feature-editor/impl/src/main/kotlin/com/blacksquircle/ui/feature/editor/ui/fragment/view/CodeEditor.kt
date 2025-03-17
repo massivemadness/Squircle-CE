@@ -23,8 +23,12 @@ import io.github.rosemoe.sora.widget.CodeEditor as SoraEditor
 
 /**
  * Changes:
+ * - Changed default cursor width
  * - Changed divider and linenumber margins
  * - Added support for minimum gutter width
+ * - Added scroll X and Y coordinates in [TextContent]
+ * - Disabled cursor animation by default
+ * - Enable sticky text selection by default
  */
 internal class CodeEditor @JvmOverloads constructor(
     context: Context,
@@ -39,10 +43,13 @@ internal class CodeEditor @JvmOverloads constructor(
             DIVIDER_MARGIN_LEFT * dpUnit,
             DIVIDER_MARGIN_RIGHT * dpUnit,
         )
+        setCursorWidth(CURSOR_WIDTH * dpUnit)
+        isCursorAnimationEnabled = false
+        isStickyTextSelection = true
     }
 
     override fun measureLineNumber(): Float {
-        val minGutterWidth = dpUnit * MIN_GUTTER_WIDTH
+        val minGutterWidth = MIN_GUTTER_WIDTH * dpUnit
         val gutterWidth = super.measureLineNumber()
         return if (gutterWidth < minGutterWidth) {
             minGutterWidth
@@ -51,9 +58,17 @@ internal class CodeEditor @JvmOverloads constructor(
         }
     }
 
+    override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
+        super.onScrollChanged(l, t, oldl, oldt)
+        val textContent = text as? TextContent
+        textContent?.scrollX = l
+        textContent?.scrollY = t
+    }
+
     companion object {
         private const val MIN_GUTTER_WIDTH = 28
         private const val DIVIDER_MARGIN_LEFT = 2
         private const val DIVIDER_MARGIN_RIGHT = 4
+        private const val CURSOR_WIDTH = 2
     }
 }

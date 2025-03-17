@@ -18,11 +18,11 @@ package com.blacksquircle.ui.feature.editor.ui.fragment.model
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import io.github.rosemoe.sora.text.Content
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 
 @Immutable
 internal data class DocumentState(
     val document: DocumentModel,
-    val content: Content = Content(),
+    val content: TextContent = TextContent(),
     val errorState: ErrorState? = null,
 )

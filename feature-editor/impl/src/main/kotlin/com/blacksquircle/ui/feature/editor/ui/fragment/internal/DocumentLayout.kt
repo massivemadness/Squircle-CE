@@ -28,7 +28,7 @@ import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditor
-import io.github.rosemoe.sora.text.Content
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 
 @Composable
 internal fun DocumentLayout(
@@ -58,10 +58,14 @@ internal fun DocumentLayout(
 }
 
 @Composable
-private fun CodeEditor(content: Content) {
+private fun CodeEditor(content: TextContent) {
     AndroidView(
         factory = { context ->
             CodeEditor(context).apply {
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                )
                 setTextSize(14f)
                 isWordwrap = true
                 isScalable = true
@@ -73,16 +77,12 @@ private fun CodeEditor(content: Content) {
                 tabWidth = 4
                 typefaceText = Typeface.MONOSPACE
                 typefaceLineNumber = Typeface.MONOSPACE
-                isCursorAnimationEnabled = false
-                isStickyTextSelection = true
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                )
             }
         },
         update = { editor ->
             editor.setText(content)
+            editor.scroller.startScroll(0, 0, content.scrollX, content.scrollY)
+            editor.scroller.abortAnimation()
         },
         onRelease = CodeEditor::release,
         modifier = Modifier.fillMaxSize()

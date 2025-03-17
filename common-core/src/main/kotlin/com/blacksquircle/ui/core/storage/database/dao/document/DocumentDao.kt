@@ -45,6 +45,12 @@ interface DocumentDao {
     @Query("UPDATE `${Tables.DOCUMENTS}` SET `position` = `position` - 1 WHERE `position` > :index")
     suspend fun shiftPositions(index: Int)
 
+    @Query("UPDATE `${Tables.DOCUMENTS}` SET `selection_start` = :selectionStart, `selection_end` = :selectionEnd WHERE `uuid` == :uuid")
+    suspend fun updateSelection(uuid: String, selectionStart: Int, selectionEnd: Int)
+
+    @Query("UPDATE `${Tables.DOCUMENTS}` SET `scroll_x` = :scrollX, `scroll_y` = :scrollY WHERE `uuid` == :uuid")
+    suspend fun updateScroll(uuid: String, scrollX: Int, scrollY: Int)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(document: DocumentEntity): Long
 
