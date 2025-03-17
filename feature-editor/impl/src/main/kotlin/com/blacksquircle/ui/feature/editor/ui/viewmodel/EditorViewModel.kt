@@ -121,16 +121,9 @@ internal class EditorViewModel @Inject constructor(
                     return@launch
                 }
 
-                documents = documents.mapSelected { state ->
-                    val selectedDocument = state.document.copy(
-                        scrollX = state.content.scrollX,
-                        scrollY = state.content.scrollY,
-                        selectionStart = state.content.selectionStart,
-                        selectionEnd = state.content.selectionEnd,
-                    )
-                    documentRepository.saveDocument(selectedDocument, state.content)
-                    state.copy(document = selectedDocument)
-                }
+                val selectedDocument = documents[selectedPosition].document
+                val content = documents[selectedPosition].content
+                documentRepository.saveDocument(selectedDocument, content)
 
                 val message = stringProvider.getString(R.string.message_saved)
                 _viewEvent.send(ViewEvent.Toast(message))

@@ -64,23 +64,7 @@ internal class DocumentRepositoryImpl(
             settingsManager.selectedUuid = document.uuid
 
             if (cacheManager.isCached(document)) {
-                val text = cacheManager.loadText(document)
-                val content = TextContent(text)
-
-                val selectionStart = content.indexer.getCharPosition(document.selectionStart)
-                val selectionEnd = content.indexer.getCharPosition(document.selectionEnd)
-
-                content.cursor.setLeft(selectionStart.line, selectionStart.column)
-                content.cursor.setRight(selectionEnd.line, selectionEnd.column)
-
-                content.scrollX = document.scrollX
-                content.scrollY = document.scrollY
-
-                cacheManager.loadUndoHistory(document)?.let { manager ->
-                    content.undoManager = manager
-                }
-
-                return@withContext content
+                cacheManager.loadContent(document)
             } else {
                 val filesystem = filesystemFactory.create(document.filesystemUuid)
                 val fileModel = DocumentMapper.toModel(document)
@@ -88,13 +72,9 @@ internal class DocumentRepositoryImpl(
                     chardet = settingsManager.encodingAutoDetect,
                     charset = charsetFor(settingsManager.encodingForOpening),
                 )
-
-                val text = filesystem.loadFile(fileModel, fileParams)
-                val content = TextContent(text)
-
-                cacheDocument(document, content)
-
-                return@withContext content
+                TextContent(filesystem.loadFile(fileModel, fileParams)).also { content ->
+                    cacheDocument(document, content)
+                }
             }
         }
     }
@@ -116,18 +96,14 @@ internal class DocumentRepositoryImpl(
     override suspend fun cacheDocument(document: DocumentModel, content: TextContent) {
         withContext(dispatcherProvider.io()) {
             cacheManager.create(document)
-            cacheManager.saveText(document, content)
-            cacheManager.saveUndoHistory(document, content.undoManager)
+            cacheManager.saveContent(document, content)
 
-            documentDao.updateSelection(
-                uuid = document.uuid,
-                selectionStart = content.selectionStart,
-                selectionEnd = content.selectionEnd
-            )
-            documentDao.updateScroll(
+            documentDao.update(
                 uuid = document.uuid,
                 scrollX = content.scrollX,
-                scrollY = content.scrollY
+                scrollY = content.scrollY,
+                selStart = content.selectionStart,
+                selEnd = content.selectionEnd
             )
         }
     }

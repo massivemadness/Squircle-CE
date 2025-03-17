@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.editor.data.manager
 import com.blacksquircle.ui.feature.editor.data.utils.readFile
 import com.blacksquircle.ui.feature.editor.data.utils.writeFile
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import io.github.rosemoe.sora.text.Content
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 import io.github.rosemoe.sora.text.UndoManager
 import java.io.File
 
@@ -29,36 +29,47 @@ internal class CacheManager(private val cacheDir: File) {
         return cacheFile(document, postfix = TEXT).exists()
     }
 
-    fun saveText(document: DocumentModel, content: Content) {
+    fun saveContent(document: DocumentModel, content: TextContent) {
         val textFile = cacheFile(document, postfix = TEXT)
         if (!textFile.exists()) {
             textFile.createNewFile()
         }
         textFile.writeText(content.toString())
-    }
 
-    fun loadText(document: DocumentModel): String {
-        val textFile = cacheFile(document, postfix = TEXT)
-        if (!textFile.exists()) {
-            textFile.createNewFile()
-        }
-        return textFile.readText()
-    }
-
-    fun saveUndoHistory(document: DocumentModel, undoManager: UndoManager) {
         val historyFile = cacheFile(document, postfix = HISTORY)
         if (!historyFile.exists()) {
             historyFile.createNewFile()
         }
-        undoManager.writeFile(historyFile)
+        content.undoManager.writeFile(historyFile)
     }
 
-    fun loadUndoHistory(document: DocumentModel): UndoManager? {
+    fun loadContent(document: DocumentModel): TextContent {
+        val textFile = cacheFile(document, postfix = TEXT)
+        if (!textFile.exists()) {
+            textFile.createNewFile()
+        }
+
+        val text = textFile.readText()
+        val content = TextContent(text)
+
+        val selectionStart = content.indexer.getCharPosition(document.selectionStart)
+        val selectionEnd = content.indexer.getCharPosition(document.selectionEnd)
+
+        content.cursor.setLeft(selectionStart.line, selectionStart.column)
+        content.cursor.setRight(selectionEnd.line, selectionEnd.column)
+
+        content.scrollX = document.scrollX
+        content.scrollY = document.scrollY
+
         val undoCacheFile = cacheFile(document, postfix = HISTORY)
         if (!undoCacheFile.exists()) {
-            return null
+            undoCacheFile.createNewFile()
         }
-        return UndoManager.CREATOR.readFile(undoCacheFile)
+
+        val undoManager = UndoManager.CREATOR.readFile(undoCacheFile)
+        undoManager?.let { content.undoManager = it }
+
+        return content
     }
 
     fun create(document: DocumentModel) {
