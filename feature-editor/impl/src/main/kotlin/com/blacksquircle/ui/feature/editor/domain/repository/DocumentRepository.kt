@@ -17,8 +17,6 @@
 package com.blacksquircle.ui.feature.editor.domain.repository
 
 import android.net.Uri
-import com.blacksquircle.ui.editorkit.model.FindParams
-import com.blacksquircle.ui.editorkit.model.FindResult
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 
@@ -38,6 +36,4 @@ internal interface DocumentRepository {
 
     suspend fun openExternal(fileUri: Uri, position: Int): DocumentModel
     suspend fun saveExternal(document: DocumentModel, content: TextContent, fileUri: Uri)
-
-    suspend fun find(text: CharSequence, params: FindParams): List<FindResult>
 }

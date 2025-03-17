@@ -230,7 +230,7 @@ internal class ExplorerViewModel @Inject constructor(
     fun onHomeClicked() {
         if (breadcrumbs.isNotEmpty()) {
             val breadcrumb = breadcrumbs.first()
-            loadFiles(breadcrumb.fileModel)
+            loadFiles(breadcrumb.fileModel, fromUser = true)
         }
     }
 
@@ -239,14 +239,14 @@ internal class ExplorerViewModel @Inject constructor(
         _viewState.update {
             it.copy(selectedFiles = selectedFiles)
         }
-        loadFiles(breadcrumb.fileModel)
+        loadFiles(breadcrumb.fileModel, fromUser = true)
     }
 
     fun onFileClicked(fileModel: FileModel) {
         if (selectedFiles.isNotEmpty()) {
             onFileSelected(fileModel)
         } else if (fileModel.directory) {
-            loadFiles(fileModel)
+            loadFiles(fileModel, fromUser = true)
         } else {
             viewModelScope.launch {
                 when (fileModel.type) {
@@ -609,7 +609,7 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun loadFiles(parent: FileModel, fromUser: Boolean = true) {
+    private fun loadFiles(parent: FileModel, fromUser: Boolean) {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
             try {
@@ -836,7 +836,7 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun List<BreadcrumbState>.mapSelected(
+    private inline fun List<BreadcrumbState>.mapSelected(
         predicate: (BreadcrumbState) -> BreadcrumbState
     ): List<BreadcrumbState> {
         return mapIndexed { index, state ->

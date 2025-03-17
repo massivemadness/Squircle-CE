@@ -25,14 +25,14 @@ import android.provider.MediaStore
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.editorkit.model.FindParams
-import com.blacksquircle.ui.editorkit.model.FindResult
 import com.blacksquircle.ui.feature.editor.data.manager.CacheManager
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.data.utils.charsetFor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionEnd
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionStart
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams
@@ -41,7 +41,6 @@ import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.saf.SAFFilesystem
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.util.regex.Pattern
 
 internal class DocumentRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
@@ -120,13 +119,16 @@ internal class DocumentRepositoryImpl(
             cacheManager.saveText(document, content)
             cacheManager.saveUndoHistory(document, content.undoManager)
 
-            val selectionStart = content.cursor.left
-            val selectionEnd = content.cursor.right
-            val scrollX = content.scrollX
-            val scrollY = content.scrollY
-
-            documentDao.updateSelection(document.uuid, selectionStart, selectionEnd)
-            documentDao.updateScroll(document.uuid, scrollX, scrollY)
+            documentDao.updateSelection(
+                uuid = document.uuid,
+                selectionStart = content.selectionStart,
+                selectionEnd = content.selectionEnd
+            )
+            documentDao.updateScroll(
+                uuid = document.uuid,
+                scrollX = content.scrollX,
+                scrollY = content.scrollY
+            )
         }
     }
 
@@ -238,39 +240,6 @@ internal class DocumentRepositoryImpl(
                 linebreak = LineBreak.of(settingsManager.lineBreakForSaving),
             )
             filesystem.saveFile(fileModel, content.toString(), fileParams)
-        }
-    }
-
-    override suspend fun find(text: CharSequence, params: FindParams): List<FindResult> {
-        return withContext(dispatcherProvider.io()) {
-            if (params.query.isEmpty()) {
-                return@withContext emptyList()
-            }
-            val findResults = mutableListOf<FindResult>()
-            val pattern = when {
-                params.regex && params.matchCase -> Pattern.compile(params.query)
-                params.regex && !params.matchCase -> Pattern.compile(
-                    params.query, Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
-                )
-
-                params.wordsOnly && params.matchCase -> Pattern.compile("\\s${params.query}\\s")
-                params.wordsOnly && !params.matchCase -> Pattern.compile(
-                    "\\s" + Pattern.quote(params.query) + "\\s",
-                    Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
-                )
-
-                params.matchCase -> Pattern.compile(Pattern.quote(params.query))
-                else -> Pattern.compile(
-                    Pattern.quote(params.query),
-                    Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE,
-                )
-            }
-            val matcher = pattern.matcher(text)
-            while (matcher.find()) {
-                val findResult = FindResult(matcher.start(), matcher.end())
-                findResults.add(findResult)
-            }
-            findResults
         }
     }
 }

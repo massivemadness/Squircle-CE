@@ -37,6 +37,8 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorState
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionEnd
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionStart
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
@@ -119,9 +121,16 @@ internal class EditorViewModel @Inject constructor(
                     return@launch
                 }
 
-                val selectedDocument = documents[selectedPosition].document
-                val content = documents[selectedPosition].content
-                documentRepository.saveDocument(selectedDocument, content)
+                documents = documents.mapSelected { state ->
+                    val selectedDocument = state.document.copy(
+                        scrollX = state.content.scrollX,
+                        scrollY = state.content.scrollY,
+                        selectionStart = state.content.selectionStart,
+                        selectionEnd = state.content.selectionEnd,
+                    )
+                    documentRepository.saveDocument(selectedDocument, state.content)
+                    state.copy(document = selectedDocument)
+                }
 
                 val message = stringProvider.getString(R.string.message_saved)
                 _viewEvent.send(ViewEvent.Toast(message))
@@ -182,7 +191,7 @@ internal class EditorViewModel @Inject constructor(
     }
 
     fun onDocumentClicked(document: DocumentModel) {
-        loadDocument(document)
+        loadDocument(document, fromUser = true)
     }
 
     fun onDocumentMoved(from: Int, to: Int) {
@@ -378,7 +387,7 @@ internal class EditorViewModel @Inject constructor(
         loadDocument(document, fromUser = true)
     }
 
-    private fun loadDocument(document: DocumentModel, fromUser: Boolean = true) {
+    private fun loadDocument(document: DocumentModel, fromUser: Boolean) {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
             try {
@@ -388,9 +397,26 @@ internal class EditorViewModel @Inject constructor(
                     return@launch
                 }
 
-                /** Free memory - clear content */
                 documents = documents.mapSelected { state ->
-                    state.copy(content = TextContent())
+                    if (fromUser) {
+                        val selectedDocument = state.document.copy(
+                            scrollX = state.content.scrollX,
+                            scrollY = state.content.scrollY,
+                            selectionStart = state.content.selectionStart,
+                            selectionEnd = state.content.selectionEnd,
+                        )
+                        if (settingsManager.autoSaveFiles) {
+                            documentRepository.saveDocument(selectedDocument, state.content)
+                        } else {
+                            documentRepository.cacheDocument(selectedDocument, state.content)
+                        }
+                        state.copy(
+                            document = selectedDocument,
+                            content = TextContent(),
+                        )
+                    } else {
+                        state
+                    }
                 }
 
                 if (existingIndex != -1) {
@@ -497,7 +523,7 @@ internal class EditorViewModel @Inject constructor(
         )
     }
 
-    private fun List<DocumentState>.mapSelected(
+    private inline fun List<DocumentState>.mapSelected(
         predicate: (DocumentState) -> DocumentState
     ): List<DocumentState> {
         return mapIndexed { index, state ->
