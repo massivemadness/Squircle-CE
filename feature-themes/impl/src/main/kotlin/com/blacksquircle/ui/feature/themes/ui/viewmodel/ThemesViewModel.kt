@@ -106,7 +106,7 @@ internal class ThemesViewModel @Inject constructor(
             try {
                 themesRepository.selectTheme(themeModel)
                 _viewState.update {
-                    it.copy(currentTheme = themeModel)
+                    it.copy(selectedTheme = themeModel)
                 }
                 _viewEvent.send(
                     ViewEvent.Toast(
@@ -174,7 +174,7 @@ internal class ThemesViewModel @Inject constructor(
                 _viewState.update { state ->
                     state.copy(
                         themes = state.themes.filterNot { it == themeModel },
-                        currentTheme = themesRepository.current(),
+                        selectedTheme = themesRepository.current(),
                     )
                 }
                 _viewEvent.send(
@@ -205,15 +205,17 @@ internal class ThemesViewModel @Inject constructor(
                 _viewState.update {
                     it.copy(isLoading = true)
                 }
+
                 val themes = themesRepository.loadThemes(query)
-                val currentTheme = themesRepository.current()
-                val currentFont = fontsInteractor.current()
+                val selectedTheme = themesRepository.current()
+                val typeface = fontsInteractor.loadTypeface()
                 delay(300L) // too fast, avoid blinking
+
                 _viewState.update {
                     it.copy(
                         themes = themes,
-                        currentTheme = currentTheme,
-                        currentFont = currentFont,
+                        selectedTheme = selectedTheme,
+                        typeface = typeface,
                         isLoading = false,
                     )
                 }

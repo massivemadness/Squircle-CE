@@ -20,11 +20,13 @@ import android.content.Context
 import android.net.Uri
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.Directories
-import com.blacksquircle.ui.core.storage.database.AppDatabase
+import com.blacksquircle.ui.core.storage.database.dao.font.FontDao
+import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.feature.fonts.api.model.FontModel
-import com.blacksquircle.ui.feature.fonts.api.model.InternalFont
 import com.blacksquircle.ui.feature.fonts.data.mapper.FontMapper
+import com.blacksquircle.ui.feature.fonts.data.model.InternalFont
+import com.blacksquircle.ui.feature.fonts.data.utils.createTypefaceFromPath
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -33,33 +35,24 @@ import java.util.UUID
 internal class FontsRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
-    private val appDatabase: AppDatabase,
+    private val fontDao: FontDao,
     private val context: Context,
 ) : FontsRepository {
-
-    override suspend fun current(): FontModel {
-        return withContext(dispatcherProvider.io()) {
-            val fontUuid = settingsManager.fontType
-            InternalFont.find(fontUuid) ?: loadFont(fontUuid)
-        }
-    }
 
     override suspend fun loadFonts(query: String): List<FontModel> {
         return withContext(dispatcherProvider.io()) {
             val defaultFonts = InternalFont.entries
-                .map(InternalFont::font)
                 .filter { it.name.contains(query, ignoreCase = true) }
-            val userFonts = appDatabase.fontDao().loadAll()
-                .map(FontMapper::toModel)
-                .filter { it.name.contains(query, ignoreCase = true) }
-            userFonts + defaultFonts
-        }
-    }
+                .map { font ->
+                    FontMapper.toModel(font, context.createTypefaceFromPath(font.fontPath))
+                }
+            val userFonts = fontDao.loadAll()
+                .filter { it.fontName.contains(query, ignoreCase = true) }
+                .map { font ->
+                    FontMapper.toModel(font, context.createTypefaceFromPath(font.fontPath))
+                }
 
-    override suspend fun loadFont(uuid: String): FontModel {
-        return withContext(dispatcherProvider.io()) {
-            val fontEntity = appDatabase.fontDao().load(uuid)
-            FontMapper.toModel(fontEntity)
+            userFonts + defaultFonts
         }
     }
 
@@ -67,19 +60,18 @@ internal class FontsRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             context.contentResolver.openInputStream(fileUri)?.use { inputStream ->
                 val fontUuid = UUID.randomUUID().toString()
-                val fontName = fileUri.path.orEmpty().substringAfterLast(File.separator)
+                val fontName = Uri.decode(fileUri.toString()).substringAfterLast(File.separator)
                 val fontFile = File(Directories.fontsDir(context), fontUuid)
                 if (!fontFile.exists()) {
                     fontFile.createNewFile()
                     inputStream.copyTo(fontFile.outputStream())
                 }
-                val fontModel = FontModel(
-                    uuid = fontUuid,
-                    name = fontName,
-                    path = fontFile.absolutePath,
-                    isExternal = true,
+                val fontEntity = FontEntity(
+                    fontUuid = fontUuid,
+                    fontName = fontName,
+                    fontPath = fontFile.absolutePath,
                 )
-                appDatabase.fontDao().insert(FontMapper.toEntity(fontModel))
+                fontDao.insert(fontEntity)
             }
         }
     }
@@ -96,7 +88,7 @@ internal class FontsRepositoryImpl(
             if (fontFile.exists()) {
                 fontFile.deleteRecursively()
             }
-            appDatabase.fontDao().delete(fontModel.uuid)
+            fontDao.delete(fontModel.uuid)
             if (settingsManager.fontType == fontModel.uuid) {
                 settingsManager.remove(SettingsManager.KEY_FONT_TYPE)
             }

@@ -18,12 +18,12 @@ package com.blacksquircle.ui.feature.fonts.ui.fragment
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.fonts.api.model.FontModel
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
 @Immutable
 internal data class FontsViewState(
     val searchQuery: String = "",
     val fonts: List<FontModel> = emptyList(),
-    val currentFont: String = "",
+    val selectedFont: String = "",
     val isLoading: Boolean = true,
 ) : ViewState()

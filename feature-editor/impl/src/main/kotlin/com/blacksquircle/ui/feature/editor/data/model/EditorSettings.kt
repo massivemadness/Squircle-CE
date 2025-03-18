@@ -16,8 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.data.model
 
-import com.blacksquircle.ui.feature.fonts.api.model.FontModel
-import com.blacksquircle.ui.feature.fonts.api.model.InternalFont
+import android.graphics.Typeface
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.themes.api.model.InternalTheme
 import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
@@ -25,7 +24,7 @@ import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
 internal data class EditorSettings(
     val theme: ThemeModel = InternalTheme.THEME_DARCULA.theme,
     val fontSize: Float = 14f,
-    val fontType: FontModel = InternalFont.JETBRAINS_MONO.font,
+    val fontType: Typeface = Typeface.MONOSPACE,
     val wordWrap: Boolean = true,
     val codeCompletion: Boolean = true,
     val pinchZoom: Boolean = true,

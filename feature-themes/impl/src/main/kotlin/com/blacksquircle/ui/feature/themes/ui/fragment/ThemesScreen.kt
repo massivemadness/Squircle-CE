@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.themes.ui.fragment
 
+import android.graphics.Typeface
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
@@ -74,7 +75,6 @@ import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
-import com.blacksquircle.ui.feature.fonts.api.model.InternalFont
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.api.model.InternalTheme
 import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
@@ -260,8 +260,8 @@ private fun ThemesScreen(
                 ) { theme ->
                     ThemeOverview(
                         themeModel = theme,
-                        isSelected = theme.uuid == viewState.currentTheme.uuid,
-                        fontPath = viewState.currentFont.path,
+                        isSelected = theme.uuid == viewState.selectedTheme.uuid,
+                        typeface = viewState.typeface,
                         codePreview = viewState.preview,
                         onSelectClicked = { onSelectClicked(theme) },
                         onExportClicked = { onExportClicked(theme) },
@@ -290,8 +290,8 @@ private fun ThemesScreenPreview() {
                 searchQuery = "Mono",
                 preview = CodePreview.HTML,
                 themes = InternalTheme.entries.map(InternalTheme::theme),
-                currentTheme = InternalTheme.THEME_DARCULA.theme,
-                currentFont = InternalFont.JETBRAINS_MONO.font,
+                selectedTheme = InternalTheme.THEME_DARCULA.theme,
+                typeface = Typeface.MONOSPACE,
                 isLoading = false,
             ),
         )

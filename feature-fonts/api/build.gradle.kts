@@ -22,4 +22,5 @@ dependencies {
 
     // Core
     implementation(libs.kotlin.stdlib)
+    compileOnly(libs.android.platform)
 }

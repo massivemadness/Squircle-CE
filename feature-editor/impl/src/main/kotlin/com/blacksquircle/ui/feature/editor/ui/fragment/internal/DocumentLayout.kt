@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
-import com.blacksquircle.ui.core.extensions.createTypefaceFromPath
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.feature.editor.data.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
@@ -31,7 +30,6 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditor
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.syncScroll
-import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 import io.github.rosemoe.sora.widget.schemes.SchemeDarcula
 
 @Composable
@@ -92,9 +90,9 @@ private fun CodeEditor(
             editor.isHighlightBracketPair = settings.highlightMatchingDelimiters
             editor.isEditable = !settings.readOnly
             editor.tabWidth = settings.tabWidth
-            editor.typefaceText = editor.context.createTypefaceFromPath(settings.fontType.path)
-            editor.typefaceLineNumber = editor.context.createTypefaceFromPath(settings.fontType.path)
-            // TODO editor.colorScheme = settings.theme.colorScheme
+            editor.typefaceText = settings.fontType
+            editor.typefaceLineNumber = settings.fontType
+            editor.colorScheme = SchemeDarcula() // TODO
             editor.setText(content)
             editor.syncScroll()
         },

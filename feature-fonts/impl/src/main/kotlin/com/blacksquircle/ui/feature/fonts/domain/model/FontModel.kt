@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.extensions
+package com.blacksquircle.ui.feature.fonts.domain.model
 
-import android.content.Context
-import android.widget.Toast
-import androidx.annotation.StringRes
+import android.graphics.Typeface
 
-fun Context.showToast(
-    @StringRes textRes: Int = -1,
-    text: CharSequence = "",
-    duration: Int = Toast.LENGTH_SHORT,
-) {
-    if (textRes != -1) {
-        Toast.makeText(this, textRes, duration).show()
-    } else {
-        Toast.makeText(this, text, duration).show()
-    }
-}
+internal data class FontModel(
+    val uuid: String,
+    val name: String,
+    val path: String,
+    val typeface: Typeface,
+    val isExternal: Boolean,
+)

@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.themes.ui.composable
 
+import android.graphics.Typeface
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -37,7 +38,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -46,7 +46,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.blacksquircle.ui.core.extensions.createTypefaceFromPath
 import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -66,7 +65,7 @@ import com.blacksquircle.ui.ds.R as UiR
 internal fun ThemeOverview(
     themeModel: ThemeModel,
     isSelected: Boolean,
-    fontPath: String,
+    typeface: Typeface,
     codePreview: CodePreview,
     onSelectClicked: () -> Unit,
     onExportClicked: () -> Unit,
@@ -74,16 +73,11 @@ internal fun ThemeOverview(
     onRemoveClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
     val shape = RoundedCornerShape(6.dp)
     val backgroundColor = themeModel.colorScheme.backgroundColor
     val isDarkTheme = backgroundColor.isColorDark()
-
     val language = remember(codePreview) {
         LanguageFactory.create(codePreview.extension)
-    }
-    val typeface = remember(fontPath) {
-        context.createTypefaceFromPath(fontPath)
     }
 
     SquircleTheme(darkTheme = isDarkTheme) {
@@ -205,7 +199,7 @@ private fun ThemeOverviewPreview() {
             themeModel = InternalTheme.THEME_DARCULA.theme
                 .copy(isExternal = true),
             isSelected = false,
-            fontPath = "file:///android_asset/fonts/droid_sans_mono.ttf",
+            typeface = Typeface.MONOSPACE,
             codePreview = CodePreview.JAVASCRIPT,
             onSelectClicked = {},
             onExportClicked = {},

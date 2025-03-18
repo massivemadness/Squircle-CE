@@ -20,7 +20,6 @@ import android.content.Context
 import androidx.room.Room
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.database.AppDatabaseImpl
-import com.blacksquircle.ui.core.storage.database.utils.Migrations
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.theme.ThemeManager
 import dagger.Module
@@ -46,13 +45,6 @@ object CoreModule {
     @Singleton
     fun provideAppDatabase(context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabaseImpl::class.java, AppDatabaseImpl.DATABASE_NAME)
-            .addMigrations(
-                Migrations.MIGRATION_1_2,
-                Migrations.MIGRATION_2_3,
-                Migrations.MIGRATION_3_4,
-                Migrations.MIGRATION_4_5,
-                Migrations.MIGRATION_5_6,
-            )
             .build()
     }
 }

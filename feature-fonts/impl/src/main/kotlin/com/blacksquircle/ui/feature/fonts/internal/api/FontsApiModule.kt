@@ -19,11 +19,10 @@ package com.blacksquircle.ui.feature.fonts.internal.api
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.AppDatabase
+import com.blacksquircle.ui.core.storage.database.dao.font.FontDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.fonts.data.interactor.FontsInteractorImpl
-import com.blacksquircle.ui.feature.fonts.data.repository.FontsRepositoryImpl
-import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -33,23 +32,22 @@ object FontsApiModule {
 
     @Provides
     @Singleton
-    fun provideFontsRepository(
-        context: Context,
+    fun provideFontsInteractor(
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
-        appDatabase: AppDatabase,
-    ): FontsRepository {
-        return FontsRepositoryImpl(
+        fontDao: FontDao,
+        context: Context,
+    ): FontsInteractor {
+        return FontsInteractorImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
-            appDatabase = appDatabase,
+            fontDao = fontDao,
             context = context,
         )
     }
 
     @Provides
-    @Singleton
-    fun provideFontsInteractor(fontsRepository: FontsRepository): FontsInteractor {
-        return FontsInteractorImpl(fontsRepository)
+    fun provideFontDao(appDatabase: AppDatabase): FontDao {
+        return appDatabase.fontDao()
     }
 }

@@ -24,7 +24,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.fonts.R
-import com.blacksquircle.ui.feature.fonts.api.model.FontModel
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.fonts.ui.fragment.FontsViewState
 import kotlinx.coroutines.CancellationException
@@ -84,7 +84,7 @@ internal class FontsViewModel @Inject constructor(
             try {
                 fontsRepository.selectFont(fontModel)
                 _viewState.update { state ->
-                    state.copy(currentFont = fontModel.uuid)
+                    state.copy(selectedFont = fontModel.uuid)
                 }
                 _viewEvent.send(
                     ViewEvent.Toast(
@@ -112,7 +112,7 @@ internal class FontsViewModel @Inject constructor(
                 _viewState.update { state ->
                     state.copy(
                         fonts = state.fonts.filterNot { it == fontModel },
-                        currentFont = settingsManager.fontType,
+                        selectedFont = settingsManager.fontType,
                     )
                 }
                 _viewEvent.send(
@@ -169,13 +169,14 @@ internal class FontsViewModel @Inject constructor(
                 _viewState.update {
                     it.copy(isLoading = true)
                 }
+
                 val fonts = fontsRepository.loadFonts(query = query)
-                val currentFont = settingsManager.fontType
                 delay(300L) // too fast, avoid blinking
+
                 _viewState.update {
                     it.copy(
                         fonts = fonts,
-                        currentFont = currentFont,
+                        selectedFont = settingsManager.fontType,
                         isLoading = false,
                     )
                 }

@@ -592,7 +592,7 @@ internal class EditorViewModel @Inject constructor(
         return EditorSettings(
             theme = themesInteractor.current(),
             fontSize = settingsManager.fontSize.toFloat(),
-            fontType = fontsInteractor.current(),
+            fontType = fontsInteractor.loadTypeface(),
             wordWrap = settingsManager.wordWrap,
             codeCompletion = settingsManager.codeCompletion,
             pinchZoom = settingsManager.pinchZoom,

@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.fonts.internal
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.AppDatabase
+import com.blacksquircle.ui.core.storage.database.dao.font.FontDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.fonts.data.repository.FontsRepositoryImpl
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
@@ -31,16 +32,21 @@ internal object FontsModule {
     @Provides
     @FontsScope
     fun provideFontsRepository(
-        context: Context,
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
-        appDatabase: AppDatabase,
+        fontDao: FontDao,
+        context: Context,
     ): FontsRepository {
         return FontsRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
-            appDatabase = appDatabase,
+            fontDao = fontDao,
             context = context,
         )
+    }
+
+    @Provides
+    fun provideFontDao(appDatabase: AppDatabase): FontDao {
+        return appDatabase.fontDao()
     }
 }

@@ -29,13 +29,10 @@ interface FontDao {
     @Query("SELECT * FROM `${Tables.FONTS}`")
     suspend fun loadAll(): List<FontEntity>
 
-    @Query("DELETE FROM `${Tables.FONTS}`")
-    suspend fun deleteAll()
+    @Query("SELECT * FROM `${Tables.FONTS}` WHERE `uuid` = :uuid")
+    suspend fun load(uuid: String): FontEntity?
 
-    @Query("SELECT * FROM `${Tables.FONTS}` WHERE `font_uuid` = :uuid")
-    suspend fun load(uuid: String): FontEntity
-
-    @Query("DELETE FROM `${Tables.FONTS}` WHERE `font_uuid` = :uuid")
+    @Query("DELETE FROM `${Tables.FONTS}` WHERE `uuid` = :uuid")
     suspend fun delete(uuid: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

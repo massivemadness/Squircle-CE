@@ -37,12 +37,12 @@ import com.blacksquircle.ui.core.storage.database.entity.theme.ThemeEntity
         ServerEntity::class,
         ThemeEntity::class,
     ],
-    version = 6,
+    version = 1,
 )
 abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
 
     companion object {
-        const val DATABASE_NAME = "database"
+        const val DATABASE_NAME = "app_database"
     }
 
     abstract override fun documentDao(): DocumentDao

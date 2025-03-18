@@ -16,26 +16,30 @@
 
 package com.blacksquircle.ui.feature.fonts.data.mapper
 
+import android.graphics.Typeface
 import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
-import com.blacksquircle.ui.feature.fonts.api.model.FontModel
+import com.blacksquircle.ui.feature.fonts.data.model.InternalFont
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
 internal object FontMapper {
 
-    fun toModel(fontEntity: FontEntity): FontModel {
+    fun toModel(fontEntity: FontEntity, typeface: Typeface): FontModel {
         return FontModel(
             uuid = fontEntity.fontUuid,
             name = fontEntity.fontName,
             path = fontEntity.fontPath,
+            typeface = typeface,
             isExternal = true,
         )
     }
 
-    fun toEntity(fontModel: FontModel): FontEntity {
-        return FontEntity(
-            fontUuid = fontModel.uuid,
-            fontName = fontModel.name,
-            fontPath = fontModel.path,
-            supportLigatures = false,
+    fun toModel(internalFont: InternalFont, typeface: Typeface): FontModel {
+        return FontModel(
+            uuid = internalFont.fontUuid,
+            name = internalFont.fontName,
+            path = internalFont.fontPath,
+            typeface = typeface,
+            isExternal = false,
         )
     }
 }

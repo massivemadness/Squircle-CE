@@ -14,11 +14,23 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.api.model
+package com.blacksquircle.ui.feature.fonts.data.utils
 
-data class FontModel(
-    val uuid: String,
-    val name: String,
-    val path: String,
-    val isExternal: Boolean,
-)
+import android.content.Context
+import android.graphics.Typeface
+import timber.log.Timber
+
+private const val ASSET_PATH = "file:///android_asset/"
+
+internal fun Context.createTypefaceFromPath(fontPath: String): Typeface {
+    return try {
+        if (fontPath.startsWith(ASSET_PATH)) {
+            Typeface.createFromAsset(assets, fontPath.substring(ASSET_PATH.length))
+        } else {
+            Typeface.createFromFile(fontPath)
+        }
+    } catch (e: Exception) {
+        Timber.e(e.message, e)
+        Typeface.MONOSPACE
+    }
+}

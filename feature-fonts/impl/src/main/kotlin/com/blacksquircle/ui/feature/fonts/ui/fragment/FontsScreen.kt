@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.fonts.ui.fragment
 
+import android.graphics.Typeface
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
@@ -67,7 +68,7 @@ import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.fonts.R
-import com.blacksquircle.ui.feature.fonts.api.model.FontModel
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.internal.FontsComponent
 import com.blacksquircle.ui.feature.fonts.ui.composable.FontOverview
 import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontViewEvent
@@ -224,7 +225,7 @@ private fun FontsScreen(
                 ) { font ->
                     FontOverview(
                         fontModel = font,
-                        isSelected = font.uuid == viewState.currentFont,
+                        isSelected = font.uuid == viewState.selectedFont,
                         onSelectClicked = { onSelectClicked(font) },
                         onRemoveClicked = { onRemoveClicked(font) },
                         modifier = Modifier.animateItem(),
@@ -254,12 +255,14 @@ private fun FontsScreenPreview() {
                         uuid = "1",
                         name = "Droid Sans Mono",
                         path = "1",
+                        typeface = Typeface.MONOSPACE,
                         isExternal = true,
                     ),
                     FontModel(
                         uuid = "2",
                         name = "JetBrains Mono",
                         path = "2",
+                        typeface = Typeface.MONOSPACE,
                         isExternal = true,
                     ),
                 ),

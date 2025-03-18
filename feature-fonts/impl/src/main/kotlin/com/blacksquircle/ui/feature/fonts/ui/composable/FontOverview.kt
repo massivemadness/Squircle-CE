@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.fonts.ui.composable
 
+import android.graphics.Typeface
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -24,7 +25,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -32,15 +32,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.blacksquircle.ui.core.extensions.createTypefaceFromPath
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.OutlinedButton
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.feature.fonts.R
-import com.blacksquircle.ui.feature.fonts.api.model.FontModel
-import com.blacksquircle.ui.feature.fonts.api.model.InternalFont
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -73,14 +71,11 @@ internal fun FontOverview(
             }
         }
 
-        val context = LocalContext.current
         Text(
             text = stringResource(R.string.font_panagram),
             color = SquircleTheme.colors.colorTextAndIconPrimary,
             style = TextStyle(
-                fontFamily = FontFamily(
-                    typeface = context.createTypefaceFromPath(fontModel.path)
-                ),
+                fontFamily = FontFamily(fontModel.typeface),
                 fontWeight = FontWeight.Normal,
                 fontSize = 24.sp
             ),
@@ -111,7 +106,13 @@ internal fun FontOverview(
 private fun FontOverviewPreview() {
     PreviewBackground {
         FontOverview(
-            fontModel = InternalFont.DROID_SANS_MONO.font,
+            fontModel = FontModel(
+                uuid = "1",
+                name = "Droid Sans Mono",
+                path = "1",
+                typeface = Typeface.MONOSPACE,
+                isExternal = true,
+            ),
             isSelected = false,
             onSelectClicked = {},
             onRemoveClicked = {},
