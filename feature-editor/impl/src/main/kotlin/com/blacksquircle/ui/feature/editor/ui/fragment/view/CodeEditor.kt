@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.editor.ui.fragment.view
 
 import android.content.Context
 import android.util.AttributeSet
-import io.github.rosemoe.sora.R
+import io.github.rosemoe.sora.R as SoraR
 import io.github.rosemoe.sora.widget.CodeEditor as SoraEditor
 
 /**
@@ -34,7 +34,7 @@ import io.github.rosemoe.sora.widget.CodeEditor as SoraEditor
 internal class CodeEditor @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = R.attr.codeEditorStyle,
+    defStyleAttr: Int = SoraR.attr.codeEditorStyle,
 ) : SoraEditor(context, attrs, defStyleAttr) {
 
     override fun initialize(attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {

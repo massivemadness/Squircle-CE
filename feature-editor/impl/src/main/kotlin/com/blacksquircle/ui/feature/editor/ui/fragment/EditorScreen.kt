@@ -208,12 +208,8 @@ private fun EditorScreen(
             )
         },
         modifier = Modifier.imePadding(),
-    ) { contentPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(contentPadding)
-        ) {
+    ) { _ ->
+        Column(modifier = Modifier.fillMaxSize()) {
             DocumentNavigation(
                 tabs = viewState.documents,
                 selectedIndex = viewState.selectedDocument,

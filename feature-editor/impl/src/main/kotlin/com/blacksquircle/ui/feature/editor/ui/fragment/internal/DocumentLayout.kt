@@ -41,7 +41,10 @@ internal fun DocumentLayout(
         val content = documentState.content
         val isError = documentState.errorState != null
         if (!isError && !isLoading && content != null) {
-            CodeEditor(documentState.content)
+            CodeEditor(
+                content = documentState.content,
+                modifier = Modifier.fillMaxSize(),
+            )
         }
         if (isError && !isLoading) {
             ErrorStatus(
@@ -59,7 +62,10 @@ internal fun DocumentLayout(
 }
 
 @Composable
-private fun CodeEditor(content: TextContent) {
+private fun CodeEditor(
+    content: TextContent,
+    modifier: Modifier = Modifier,
+) {
     AndroidView(
         factory = { context ->
             CodeEditor(context).apply {
@@ -86,6 +92,6 @@ private fun CodeEditor(content: TextContent) {
             editor.scroller.abortAnimation()
         },
         onRelease = CodeEditor::release,
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier,
     )
 }
