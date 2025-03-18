@@ -23,6 +23,6 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 @Immutable
 internal data class DocumentState(
     val document: DocumentModel,
-    val content: TextContent = TextContent(),
+    val content: TextContent? = null,
     val errorState: ErrorState? = null,
 )

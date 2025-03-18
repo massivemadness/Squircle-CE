@@ -36,7 +36,6 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorState
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionStart
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
@@ -121,12 +120,15 @@ internal class EditorViewModel @Inject constructor(
                     return@launch
                 }
 
-                val selectedDocument = documents[selectedPosition].document
+                val document = documents[selectedPosition].document
                 val content = documents[selectedPosition].content
-                documentRepository.saveDocument(selectedDocument, content)
 
-                val message = stringProvider.getString(R.string.message_saved)
-                _viewEvent.send(ViewEvent.Toast(message))
+                if (content != null) {
+                    documentRepository.saveDocument(document, content)
+
+                    val message = stringProvider.getString(R.string.message_saved)
+                    _viewEvent.send(ViewEvent.Toast(message))
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -153,12 +155,15 @@ internal class EditorViewModel @Inject constructor(
                     return@launch
                 }
 
-                val selectedDocument = documents[selectedPosition].document
+                val document = documents[selectedPosition].document
                 val content = documents[selectedPosition].content
-                documentRepository.saveExternal(selectedDocument, content, fileUri)
 
-                val message = stringProvider.getString(R.string.message_saved)
-                _viewEvent.send(ViewEvent.Toast(message))
+                if (content != null) {
+                    documentRepository.saveExternal(document, content, fileUri)
+
+                    val message = stringProvider.getString(R.string.message_saved)
+                    _viewEvent.send(ViewEvent.Toast(message))
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -375,9 +380,12 @@ internal class EditorViewModel @Inject constructor(
                     return@launch
                 }
 
-                val selectedDocument = documents[selectedPosition].document
+                val document = documents[selectedPosition].document
                 val content = documents[selectedPosition].content
-                documentRepository.cacheDocument(selectedDocument, content)
+
+                if (content != null) {
+                    documentRepository.cacheDocument(document, content)
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -413,19 +421,25 @@ internal class EditorViewModel @Inject constructor(
                     /** If it's user-initiated action, save cache and clear tab's content */
                     if (fromUser) {
                         val selectedDocument = state.document.copy(
-                            scrollX = state.content.scrollX,
-                            scrollY = state.content.scrollY,
-                            selectionStart = state.content.selectionStart,
-                            selectionEnd = state.content.selectionEnd,
+                            scrollX = state.content?.scrollX
+                                ?: state.document.scrollX,
+                            scrollY = state.content?.scrollY
+                                ?: state.document.scrollY,
+                            selectionStart = state.content?.selectionStart
+                                ?: state.document.selectionStart,
+                            selectionEnd = state.content?.selectionEnd
+                                ?: state.document.selectionEnd,
                         )
-                        if (settingsManager.autoSaveFiles) {
-                            documentRepository.saveDocument(selectedDocument, state.content)
-                        } else {
-                            documentRepository.cacheDocument(selectedDocument, state.content)
+                        if (state.content != null) {
+                            if (settingsManager.autoSaveFiles) {
+                                documentRepository.saveDocument(selectedDocument, state.content)
+                            } else {
+                                documentRepository.cacheDocument(selectedDocument, state.content)
+                            }
                         }
                         state.copy(
                             document = selectedDocument,
-                            content = TextContent(),
+                            content = null,
                         )
                     } else {
                         state
@@ -476,7 +490,7 @@ internal class EditorViewModel @Inject constructor(
                 /** Clear content and show error */
                 documents = documents.mapSelected {
                     it.copy(
-                        content = TextContent(),
+                        content = null,
                         errorState = errorState(e),
                     )
                 }
@@ -570,32 +584,6 @@ internal class EditorViewModel @Inject constructor(
     private var findParams = FindParams()
     private var currentJob: Job? = null
 
-    private fun selectTab(event: EditorIntent.SelectTab) {
-        currentJob?.cancel()
-        currentJob = viewModelScope.launch {
-            try {
-                _editorViewState.value = EditorViewState.Loading
-                _keyboardViewState.value = KeyboardManager.Mode.NONE
-
-                val document = documents[event.position]
-                settingsManager.selectedUuid = document.uuid
-                refreshActionBar(event.position)
-
-                _editorViewState.value = EditorViewState.Content(
-                    content = documentRepository.loadFile(document),
-                )
-                _keyboardViewState.value = if (settingsManager.extendedKeyboard) {
-                    keyboardMode
-                } else {
-                    KeyboardManager.Mode.NONE
-                }
-            } catch (e: Throwable) {
-                Timber.e(e, e.message)
-                errorState(e)
-            }
-        }
-    }
-
     private fun gotoLine() {
         viewModelScope.launch {
             try {
@@ -643,69 +631,6 @@ internal class EditorViewModel @Inject constructor(
                 if (selectedPosition > -1) {
                     val color = event.color.toHexString()
                     _viewEvent.send(EditorViewEvent.InsertColor(color))
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun saveFile(event: EditorIntent.SaveFile) {
-        viewModelScope.launch {
-            try {
-                if (selectedPosition > -1) {
-                    val modified = documents[selectedPosition].modified
-                    val localStorage = event.local || settingsManager.autoSaveFiles
-                    val changeModified = localStorage && modified
-                    val document = documents[selectedPosition].copy(
-                        modified = if (changeModified) false else modified,
-                        scrollX = event.scrollX,
-                        scrollY = event.scrollY,
-                        selectionStart = event.selectionStart,
-                        selectionEnd = event.selectionEnd,
-                    )
-                    documents[selectedPosition] = document
-                    if (changeModified) {
-                        refreshActionBar()
-                    }
-                    val currentState = editorViewState.value
-                    if (currentState is EditorViewState.Content) {
-                        val content = DocumentContent(
-                            documentModel = document,
-                            undoStack = event.undoStack.clone(),
-                            redoStack = event.redoStack.clone(),
-                            text = event.text.toString(),
-                        )
-                        val params = DocumentParams(localStorage, true)
-                        if (!event.local && !event.unselected) {
-                            currentState.content = content
-                        }
-                        documentRepository.saveFile(content, params)
-                        documentRepository.updateDocument(content.documentModel)
-                        if (event.local) {
-                            _viewEvent.send(
-                                ViewEvent.Toast(stringProvider.getString(R.string.message_saved)),
-                            )
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun saveFileAs(event: EditorIntent.SaveFileAs) {
-        viewModelScope.launch {
-            try {
-                if (selectedPosition > -1) {
-                    val document = documents[selectedPosition]
-                    documentRepository.saveFileAs(document, event.fileUri)
-                    _viewEvent.send(
-                        ViewEvent.Toast(stringProvider.getString(R.string.message_saved)),
-                    )
                 }
             } catch (e: Exception) {
                 Timber.e(e, e.message)
@@ -843,17 +768,6 @@ internal class EditorViewModel @Inject constructor(
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
-    }
-
-    private fun refreshActionBar(position: Int = selectedPosition) {
-        _toolbarViewState.value = ToolbarViewState.ActionBar(
-            documents = documents.toList(),
-            position = position.also {
-                selectedPosition = it
-            },
-            mode = toolbarMode,
-            findParams = findParams,
-        )
     }
 
     private fun loadSettings() {

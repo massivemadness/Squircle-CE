@@ -38,9 +38,10 @@ internal fun DocumentLayout(
     onErrorActionClicked: (ErrorAction) -> Unit = {}
 ) {
     Box(modifier = modifier.fillMaxSize()) {
+        val content = documentState.content
         val isError = documentState.errorState != null
-        if (!isError && !isLoading) {
-            CodeEditor(content = documentState.content)
+        if (!isError && !isLoading && content != null) {
+            CodeEditor(documentState.content)
         }
         if (isError && !isLoading) {
             ErrorStatus(

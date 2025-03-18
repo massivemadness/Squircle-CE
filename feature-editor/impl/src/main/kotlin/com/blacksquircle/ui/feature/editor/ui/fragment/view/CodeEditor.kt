@@ -27,8 +27,9 @@ import io.github.rosemoe.sora.widget.CodeEditor as SoraEditor
  * - Changed divider and linenumber margins
  * - Added support for minimum gutter width
  * - Added scroll X and Y coordinates in [TextContent]
- * - Disabled cursor animation by default
- * - Enable sticky text selection by default
+ * - Disabled cursor animation
+ * - Disabled line number panel
+ * - Enable sticky text selection
  */
 internal class CodeEditor @JvmOverloads constructor(
     context: Context,
@@ -44,6 +45,7 @@ internal class CodeEditor @JvmOverloads constructor(
             DIVIDER_MARGIN_RIGHT * dpUnit,
         )
         setCursorWidth(CURSOR_WIDTH * dpUnit)
+        isDisplayLnPanel = false
         isCursorAnimationEnabled = false
         isStickyTextSelection = true
     }
