@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.Text
 import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
@@ -48,6 +47,7 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
+import com.blacksquircle.ui.ds.modifier.debounceSelectable
 import com.blacksquircle.ui.ds.tabs.TabIndicator
 import com.blacksquircle.ui.feature.editor.ui.fragment.menu.CloseMenu
 import com.blacksquircle.ui.ds.R as UiR
@@ -76,7 +76,7 @@ internal fun DocumentTab(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .height(36.dp)
-                .selectable(
+                .debounceSelectable(
                     selected = selected,
                     onClick = {
                         if (selected) {

@@ -27,8 +27,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
@@ -46,6 +44,7 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.extensions.clearSemantics
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
+import com.blacksquircle.ui.ds.modifier.debounceSelectable
 
 @Composable
 fun Radio(
@@ -74,7 +73,7 @@ fun Radio(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .mergeSemantics()
-            .selectable(
+            .debounceSelectable(
                 interactionSource = interactionSource,
                 indication = null,
                 selected = checked,
@@ -86,7 +85,7 @@ fun Radio(
         Canvas(
             modifier = Modifier
                 .clearSemantics()
-                .selectable(
+                .debounceSelectable(
                     selected = checked,
                     onClick = onClick,
                     enabled = enabled,

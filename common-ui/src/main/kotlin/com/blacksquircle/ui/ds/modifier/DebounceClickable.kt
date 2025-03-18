@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.ds.modifier
 
-import android.os.SystemClock
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Indication
 import androidx.compose.foundation.IndicationNodeFactory
@@ -28,8 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.semantics.Role
-
-private const val DefaultMs = 300L
 
 fun Modifier.debounceClickable(
     role: Role? = null,
@@ -92,9 +89,9 @@ fun Modifier.debounceClickable(
     onClickLabel: String? = null,
     onClick: (() -> Unit)? = null,
 ): Modifier {
-    val onClickLambda = onClick?.let { createDebounceListener(it, debounceMs) }
-    val onLongClickLambda = onLongClick?.let { createDebounceListener(it, debounceMs) }
-    val onDoubleClickLambda = onDoubleClick?.let { createDebounceListener(it, debounceMs) }
+    val onClickLambda = onClick?.let { debounceLambda(it, debounceMs) }
+    val onLongClickLambda = onLongClick?.let { debounceLambda(it, debounceMs) }
+    val onDoubleClickLambda = onDoubleClick?.let { debounceLambda(it, debounceMs) }
     if (onClickLambda == null && onLongClickLambda == null && onDoubleClickLambda == null) {
         return this
     }
@@ -109,31 +106,4 @@ fun Modifier.debounceClickable(
         onClickLabel = onClickLabel,
         onClick = onClickLambda ?: {},
     )
-}
-
-private fun createDebounceListener(action: (() -> Unit), debounceMs: Long): (() -> Unit) {
-    return {
-        if (DebounceState.isClickAllowed(debounceMs)) {
-            DebounceState.onClickInvoked()
-            action.invoke()
-        }
-    }
-}
-
-private object DebounceState {
-
-    private var lastClickTimestamp = 0L
-
-    fun isClickAllowed(debounceMs: Long): Boolean {
-        val delta = currentTimestamp() - lastClickTimestamp
-        return delta !in 0L..debounceMs
-    }
-
-    fun onClickInvoked() {
-        lastClickTimestamp = currentTimestamp()
-    }
-
-    private fun currentTimestamp(): Long {
-        return SystemClock.elapsedRealtime()
-    }
 }

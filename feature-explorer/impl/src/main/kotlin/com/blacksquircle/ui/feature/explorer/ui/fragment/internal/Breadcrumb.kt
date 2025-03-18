@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.ripple
@@ -38,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.modifier.debounceSelectable
 
 @Composable
 internal fun Breadcrumb(
@@ -55,7 +55,7 @@ internal fun Breadcrumb(
             modifier = Modifier
                 .fillMaxHeight()
                 .defaultMinSize(minWidth = 66.dp)
-                .selectable(
+                .debounceSelectable(
                     selected = selected,
                     onClick = onClick,
                     enabled = true,
