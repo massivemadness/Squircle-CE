@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Text
@@ -37,6 +36,7 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.extensions.clearSemantics
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
+import com.blacksquircle.ui.ds.modifier.debounceToggleable
 
 @Composable
 fun CheckBox(
@@ -52,12 +52,12 @@ fun CheckBox(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .mergeSemantics()
-            .toggleable(
+            .debounceToggleable(
                 interactionSource = interactionSource,
                 indication = null,
                 value = checked,
                 enabled = enabled,
-                onValueChange = { onClick() },
+                onClick = onClick,
             )
     ) {
         Box(Modifier.requiredSize(32.dp)) {
