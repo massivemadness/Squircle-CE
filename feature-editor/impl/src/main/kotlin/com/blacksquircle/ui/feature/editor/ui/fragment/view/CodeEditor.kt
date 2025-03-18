@@ -62,9 +62,8 @@ internal class CodeEditor @JvmOverloads constructor(
 
     override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
         super.onScrollChanged(l, t, oldl, oldt)
-        val textContent = text as? TextContent
-        textContent?.scrollX = l
-        textContent?.scrollY = t
+        text.scrollX = l
+        text.scrollY = t
     }
 
     companion object {

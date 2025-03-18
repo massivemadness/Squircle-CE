@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -141,6 +140,9 @@ internal fun EditorScreen(
         }
     }
 
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        viewModel.onResumed()
+    }
     LifecycleEventEffect(Lifecycle.Event.ON_PAUSE) {
         viewModel.onPaused()
     }
@@ -226,6 +228,7 @@ private fun EditorScreen(
             if (documentState != null) {
                 DocumentLayout(
                     documentState = documentState,
+                    settings = viewState.settings,
                     isLoading = viewState.isLoading,
                     onErrorActionClicked = onErrorActionClicked,
                 )

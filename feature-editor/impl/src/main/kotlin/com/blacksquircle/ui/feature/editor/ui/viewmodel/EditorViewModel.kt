@@ -29,6 +29,8 @@ import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
+import com.blacksquircle.ui.feature.editor.data.model.EditorSettings
+import com.blacksquircle.ui.feature.editor.data.model.KeyModel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewEvent
@@ -77,6 +79,7 @@ internal class EditorViewModel @Inject constructor(
 
     private var documents = emptyList<DocumentState>()
     private var selectedPosition = -1
+    private var settings = EditorSettings()
     private var currentJob: Job? = null
 
     init {
@@ -373,6 +376,27 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    fun onResumed() {
+        viewModelScope.launch {
+            try {
+                val currentSettings = settings
+                val latestSettings = loadSettings()
+                if (currentSettings != latestSettings) {
+                    settings = latestSettings
+
+                    _viewState.update {
+                        it.copy(settings = settings)
+                    }
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
     fun onPaused() {
         viewModelScope.launch {
             try {
@@ -513,11 +537,13 @@ internal class EditorViewModel @Inject constructor(
 
                 documents = documentList.map { document -> DocumentState(document) }
                 selectedPosition = documentList.indexOf { it.uuid == settingsManager.selectedUuid }
+                settings = loadSettings()
 
                 _viewState.update {
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
+                        settings = settings,
                     )
                 }
 
@@ -562,6 +588,36 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    private suspend fun loadSettings(): EditorSettings {
+        return EditorSettings(
+            theme = themesInteractor.current(),
+            fontSize = settingsManager.fontSize.toFloat(),
+            fontType = fontsInteractor.current(),
+            wordWrap = settingsManager.wordWrap,
+            codeCompletion = settingsManager.codeCompletion,
+            pinchZoom = settingsManager.pinchZoom,
+            lineNumbers = settingsManager.lineNumbers,
+            highlightCurrentLine = settingsManager.highlightCurrentLine,
+            highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters,
+            readOnly = settingsManager.readOnly,
+            keyboardPreset = ("\t" + settingsManager.keyboardPreset).map { char ->
+                val display = if (char == '\t') {
+                    stringProvider.getString(UiR.string.common_tab)
+                } else {
+                    char.toString()
+                }
+                KeyModel(display, char)
+            },
+            softKeyboard = settingsManager.softKeyboard,
+            autoIndentation = settingsManager.autoIndentation,
+            autoCloseBrackets = settingsManager.autoCloseBrackets,
+            autoCloseQuotes = settingsManager.autoCloseQuotes,
+            useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs,
+            tabWidth = settingsManager.tabWidth,
+            keybindings = shortcutsInteractor.loadShortcuts(),
+        )
+    }
+
     /*private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.ActionBar())
     val toolbarViewState: StateFlow<ToolbarViewState> = _toolbarViewState.asStateFlow()
 
@@ -574,11 +630,6 @@ internal class EditorViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private val _settings = MutableStateFlow<List<SettingsEvent<*>>>(emptyList())
-    val settings: StateFlow<List<SettingsEvent<*>>> = _settings.asStateFlow()
-
-    private val documents = mutableListOf<DocumentModel>()
-    private var selectedPosition = -1
     private var toolbarMode = ToolbarManager.Mode.DEFAULT
     private var keyboardMode = KeyboardManager.Mode.KEYBOARD
     private var findParams = FindParams()
@@ -763,79 +814,6 @@ internal class EditorViewModel @Inject constructor(
 
                 val results = documentRepository.find(event.text, findParams)
                 _viewEvent.send(EditorViewEvent.FindResults(results))
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun loadSettings() {
-        viewModelScope.launch {
-            try {
-                val settings = mutableListOf<SettingsEvent<*>>()
-
-                val themeModel = themesInteractor.current()
-                settings.add(SettingsEvent.ColorScheme(themeModel))
-
-                val fontSize = settingsManager.fontSize.toFloat()
-                settings.add(SettingsEvent.FontSize(fontSize))
-
-                val fontModel = fontsInteractor.current()
-                settings.add(SettingsEvent.FontType(fontModel))
-
-                val wordWrap = settingsManager.wordWrap
-                settings.add(SettingsEvent.WordWrap(wordWrap))
-
-                val codeCompletion = settingsManager.codeCompletion
-                settings.add(SettingsEvent.CodeCompletion(codeCompletion))
-
-                val pinchZoom = settingsManager.pinchZoom
-                settings.add(SettingsEvent.PinchZoom(pinchZoom))
-
-                val lineNumbers = Pair(
-                    settingsManager.lineNumbers,
-                    settingsManager.highlightCurrentLine,
-                )
-                settings.add(SettingsEvent.LineNumbers(lineNumbers))
-
-                val highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters
-                settings.add(SettingsEvent.Delimiters(highlightMatchingDelimiters))
-
-                val readOnly = settingsManager.readOnly
-                settings.add(SettingsEvent.ReadOnly(readOnly))
-
-                val keyboardPreset = "\t" + settingsManager.keyboardPreset
-                val keyList = keyboardPreset.map { char ->
-                    val display = if (char == '\t') {
-                        stringProvider.getString(UiR.string.common_tab)
-                    } else {
-                        char.toString()
-                    }
-                    KeyModel(display, char)
-                }
-                settings.add(SettingsEvent.KeyboardPreset(keyList))
-
-                val softKeyboard = settingsManager.softKeyboard
-                settings.add(SettingsEvent.SoftKeys(softKeyboard))
-
-                val autoIndentation = Triple(
-                    settingsManager.autoIndentation,
-                    settingsManager.autoCloseBrackets,
-                    settingsManager.autoCloseQuotes,
-                )
-                settings.add(SettingsEvent.AutoIndentation(autoIndentation))
-
-                val useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs
-                settings.add(SettingsEvent.UseSpacesNotTabs(useSpacesInsteadOfTabs))
-
-                val tabWidth = settingsManager.tabWidth
-                settings.add(SettingsEvent.TabWidth(tabWidth))
-
-                val keybindings = shortcutsInteractor.loadShortcuts()
-                settings.add(SettingsEvent.Keybindings(keybindings))
-
-                _settings.value = settings
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))

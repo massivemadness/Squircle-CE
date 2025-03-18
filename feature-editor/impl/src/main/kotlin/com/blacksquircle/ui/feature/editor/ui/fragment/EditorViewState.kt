@@ -18,11 +18,13 @@ package com.blacksquircle.ui.feature.editor.ui.fragment
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
+import com.blacksquircle.ui.feature.editor.data.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 
 @Immutable
 internal data class EditorViewState(
     val documents: List<DocumentState> = emptyList(),
     val selectedDocument: Int = -1,
+    val settings: EditorSettings = EditorSettings(),
     val isLoading: Boolean = true,
 ) : ViewState()

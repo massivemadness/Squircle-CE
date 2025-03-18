@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.editor.ui.fragment.internal
 
-import android.graphics.Typeface
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,15 +23,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
+import com.blacksquircle.ui.core.extensions.createTypefaceFromPath
 import com.blacksquircle.ui.ds.progress.CircularProgress
+import com.blacksquircle.ui.feature.editor.data.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditor
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.syncScroll
+import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
+import io.github.rosemoe.sora.widget.schemes.SchemeDarcula
 
 @Composable
 internal fun DocumentLayout(
     documentState: DocumentState,
+    settings: EditorSettings,
     isLoading: Boolean,
     modifier: Modifier = Modifier,
     onErrorActionClicked: (ErrorAction) -> Unit = {}
@@ -43,6 +48,7 @@ internal fun DocumentLayout(
         if (!isError && !isLoading && content != null) {
             CodeEditor(
                 content = documentState.content,
+                settings = settings,
                 modifier = Modifier.fillMaxSize(),
             )
         }
@@ -64,6 +70,7 @@ internal fun DocumentLayout(
 @Composable
 private fun CodeEditor(
     content: TextContent,
+    settings: EditorSettings,
     modifier: Modifier = Modifier,
 ) {
     AndroidView(
@@ -73,23 +80,23 @@ private fun CodeEditor(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT,
                 )
-                setTextSize(14f)
-                isWordwrap = true
-                isScalable = true
-                isLineNumberEnabled = true
-                isHighlightCurrentLine = true
-                isHighlightCurrentBlock = true
-                isHighlightBracketPair = true
-                isEditable = true
-                tabWidth = 4
-                typefaceText = Typeface.MONOSPACE
-                typefaceLineNumber = Typeface.MONOSPACE
             }
         },
         update = { editor ->
+            editor.setTextSize(settings.fontSize)
+            editor.isWordwrap = settings.wordWrap
+            editor.isScalable = settings.pinchZoom
+            editor.isLineNumberEnabled = settings.lineNumbers
+            editor.isHighlightCurrentLine = settings.highlightCurrentLine
+            editor.isHighlightCurrentBlock = true // TODO new setting
+            editor.isHighlightBracketPair = settings.highlightMatchingDelimiters
+            editor.isEditable = !settings.readOnly
+            editor.tabWidth = settings.tabWidth
+            editor.typefaceText = editor.context.createTypefaceFromPath(settings.fontType.path)
+            editor.typefaceLineNumber = editor.context.createTypefaceFromPath(settings.fontType.path)
+            // TODO editor.colorScheme = settings.theme.colorScheme
             editor.setText(content)
-            editor.scroller.startScroll(0, 0, content.scrollX, content.scrollY)
-            editor.scroller.abortAnimation()
+            editor.syncScroll()
         },
         onRelease = CodeEditor::release,
         modifier = modifier,

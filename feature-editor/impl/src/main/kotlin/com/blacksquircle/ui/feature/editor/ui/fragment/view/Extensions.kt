@@ -17,9 +17,27 @@
 package com.blacksquircle.ui.feature.editor.ui.fragment.view
 
 import io.github.rosemoe.sora.text.Content
+import io.github.rosemoe.sora.widget.CodeEditor
+
+internal var Content.scrollX: Int
+    get() = (this as? TextContent)?.scrollX ?: 0
+    set(value) {
+        (this as? TextContent)?.scrollX = value
+    }
+
+internal var Content.scrollY: Int
+    get() = (this as? TextContent)?.scrollY ?: 0
+    set(value) {
+        (this as? TextContent)?.scrollY = value
+    }
 
 internal val Content.selectionStart: Int
     get() = cursor.left
 
 internal val Content.selectionEnd: Int
     get() = cursor.right
+
+internal fun CodeEditor.syncScroll() {
+    scroller.startScroll(0, 0, text.scrollX, text.scrollY)
+    scroller.abortAnimation()
+}
