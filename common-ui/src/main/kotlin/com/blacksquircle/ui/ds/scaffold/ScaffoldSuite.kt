@@ -52,6 +52,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.UiComposable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
@@ -179,7 +180,7 @@ private fun ScaffoldLayout(
             it.measure(looseConstraints)
         }
 
-        val topBarHeight = topBarPlaceables.fastMaxBy { it.height }?.height ?: 0
+        val topBarHeight = topBarPlaceables.fastMaxBy(Placeable::height)?.height ?: 0
 
         val snackbarPlaceables = subcompose(ScaffoldLayoutContent.Snackbar, snackbar).fastMap {
             // respect only bottom and horizontal for snackbar and fab
@@ -197,7 +198,7 @@ private fun ScaffoldLayout(
             )
         }
 
-        val snackbarHeight = snackbarPlaceables.fastMaxBy { it.height }?.height ?: 0
+        val snackbarHeight = snackbarPlaceables.fastMaxBy(Placeable::height)?.height ?: 0
 
         val fabPlaceables =
             subcompose(ScaffoldLayoutContent.Fab, fab).fastMap { measurable ->
@@ -216,8 +217,8 @@ private fun ScaffoldLayout(
             }
 
         val fabPlacement = if (fabPlaceables.isNotEmpty()) {
-            val fabWidth = fabPlaceables.fastMaxBy { it.width }?.width ?: 0
-            val fabHeight = fabPlaceables.fastMaxBy { it.height }?.height ?: 0
+            val fabWidth = fabPlaceables.fastMaxBy(Placeable::width)?.width ?: 0
+            val fabHeight = fabPlaceables.fastMaxBy(Placeable::height)?.height ?: 0
             // FAB distance from the left of the layout, taking into account LTR / RTL
             if (fabWidth != 0 && fabHeight != 0) {
                 val fabLeftOffset = when (fabPosition) {
@@ -260,7 +261,7 @@ private fun ScaffoldLayout(
             )
         }.fastMap { it.measure(looseConstraints) }
 
-        val bottomBarHeight = bottomBarPlaceables.fastMaxBy { it.height }?.height
+        val bottomBarHeight = bottomBarPlaceables.fastMaxBy(Placeable::height)?.height
         val fabOffsetFromBottom = fabPlacement?.let {
             if (bottomBarHeight == null) {
                 it.height + FabSpacing.roundToPx() +

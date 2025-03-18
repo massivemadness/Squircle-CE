@@ -35,6 +35,8 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.util.fastFirst
+import androidx.compose.ui.util.fastFirstOrNull
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.modifier.debounceClickable
@@ -103,9 +105,9 @@ fun Dropdown(
         val endPadding = dropdownSize.endPadding.roundToPx()
 
         // Detect measurables
-        val iconMeasurable = measurables.first { it.layoutId == DropdownSlot.Icon }
-        val textMeasurable = measurables.first { it.layoutId == DropdownSlot.Text }
-        val popupMeasurable = measurables.firstOrNull { it.layoutId == DropdownSlot.Popup }
+        val iconMeasurable = measurables.fastFirst { it.layoutId == DropdownSlot.Icon }
+        val textMeasurable = measurables.fastFirst { it.layoutId == DropdownSlot.Text }
+        val popupMeasurable = measurables.fastFirstOrNull { it.layoutId == DropdownSlot.Popup }
 
         // Measure icon
         val iconConstraints = constraints.copy(minWidth = 0, minHeight = 0)

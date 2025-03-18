@@ -33,6 +33,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.util.fastFirst
+import androidx.compose.ui.util.fastFirstOrNull
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -121,9 +123,9 @@ private fun ToolbarLayout(
         val layoutHeight = constraints.maxHeight
 
         // Detect measurables
-        val iconMeasurable = measurables.firstOrNull { it.layoutId == ToolbarSlot.ToolbarIcon }
-        val contentMeasurable = measurables.first { it.layoutId == ToolbarSlot.ToolbarContent }
-        val actionsMeasurable = measurables.firstOrNull { it.layoutId == ToolbarSlot.ToolbarActions }
+        val iconMeasurable = measurables.fastFirstOrNull { it.layoutId == ToolbarSlot.ToolbarIcon }
+        val contentMeasurable = measurables.fastFirst { it.layoutId == ToolbarSlot.ToolbarContent }
+        val actionsMeasurable = measurables.fastFirstOrNull { it.layoutId == ToolbarSlot.ToolbarActions }
 
         // Measure icon with wrapContentSize
         val iconConstraints = constraints.copy(minWidth = 0, minHeight = 0)
