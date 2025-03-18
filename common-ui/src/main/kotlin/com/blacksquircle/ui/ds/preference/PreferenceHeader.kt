@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.ds.preference
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,6 +28,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.modifier.debounceClickable
 
 @Composable
 fun PreferenceHeader(
@@ -40,7 +40,7 @@ fun PreferenceHeader(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .debounceClickable(onClick = onClick)
             .padding(
                 horizontal = 18.dp,
                 vertical = 8.dp

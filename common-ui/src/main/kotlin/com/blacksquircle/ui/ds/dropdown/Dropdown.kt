@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.ds.dropdown
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -38,6 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
+import com.blacksquircle.ui.ds.modifier.debounceClickable
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 
@@ -95,7 +95,7 @@ fun Dropdown(
         modifier = modifier
             .height(dropdownSize.height)
             .clip(RoundedCornerShape(dropdownSize.cornerRadius))
-            .clickable { expanded = !expanded },
+            .debounceClickable { expanded = !expanded },
     ) { measurables, constraints ->
         val layoutWidth = constraints.maxWidth
         val layoutHeight = constraints.maxHeight

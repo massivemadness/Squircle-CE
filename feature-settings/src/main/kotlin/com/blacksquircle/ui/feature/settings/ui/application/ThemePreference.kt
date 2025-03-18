@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.settings.ui.application
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,7 +28,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -52,6 +50,7 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.divider.VerticalDivider
 import com.blacksquircle.ui.ds.extensions.clearSemantics
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
+import com.blacksquircle.ui.ds.modifier.debounceClickable
 import com.blacksquircle.ui.ds.radio.Radio
 import com.blacksquircle.ui.feature.settings.R
 
@@ -223,7 +222,7 @@ private fun BaseTheme(
             .size(152.dp, 106.dp)
             .border(1.dp, colorOutline, shapeLarge)
             .background(colorBackground, shapeLarge)
-            .clickable(
+            .debounceClickable(
                 interactionSource = null,
                 indication = null,
                 onClick = onClick,

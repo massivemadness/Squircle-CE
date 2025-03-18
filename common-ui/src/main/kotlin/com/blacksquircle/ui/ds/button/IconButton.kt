@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.ds.button
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -33,6 +32,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.modifier.debounceClickable
 
 @Composable
 fun IconButton(
@@ -49,7 +49,7 @@ fun IconButton(
     Box(
         modifier = modifier
             .size(iconButtonSize.iconSize)
-            .clickable(
+            .debounceClickable(
                 interactionSource = interactionSource,
                 indication = ripple(
                     bounded = false,

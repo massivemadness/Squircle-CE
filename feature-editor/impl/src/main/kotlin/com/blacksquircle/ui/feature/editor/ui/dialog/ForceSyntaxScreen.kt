@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.editor.ui.dialog
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
+import com.blacksquircle.ui.ds.modifier.debounceClickable
 import com.blacksquircle.ui.ds.radio.Radio
 import com.blacksquircle.ui.feature.editor.R
 
@@ -57,7 +57,7 @@ internal fun ForceSyntaxScreen(
                     val interactionSource = remember { MutableInteractionSource() }
                     Box(
                         modifier = Modifier
-                            .clickable(
+                            .debounceClickable(
                                 interactionSource = interactionSource,
                                 indication = ripple(),
                                 onClick = { onLanguageSelected(value) }

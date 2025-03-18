@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.ds.button
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
@@ -32,6 +31,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.modifier.debounceClickable
 
 @Composable
 fun TextButton(
@@ -50,7 +50,7 @@ fun TextButton(
                 minHeight = textButtonSize.minHeight,
             )
             .clip(RoundedCornerShape(textButtonSize.cornerRadius))
-            .clickable(
+            .debounceClickable(
                 interactionSource = interactionSource,
                 indication = ripple(),
                 enabled = enabled,

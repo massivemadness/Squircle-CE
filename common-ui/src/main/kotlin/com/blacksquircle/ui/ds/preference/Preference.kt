@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.ds.preference
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -34,6 +33,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.modifier.debounceClickable
 
 @Composable
 fun Preference(
@@ -50,7 +50,7 @@ fun Preference(
         verticalAlignment = Alignment.Top,
         modifier = modifier
             .fillMaxWidth()
-            .clickable(
+            .debounceClickable(
                 enabled = enabled,
                 onClick = onClick,
             )

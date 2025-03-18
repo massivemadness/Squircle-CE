@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.ds.button
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
@@ -37,6 +36,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.modifier.debounceClickable
 
 @Composable
 fun OutlinedButton(
@@ -64,7 +64,7 @@ fun OutlinedButton(
                 minHeight = outlinedButtonSize.minHeight,
             )
             .clip(buttonShape)
-            .clickable(
+            .debounceClickable(
                 interactionSource = interactionSource,
                 indication = ripple(),
                 enabled = enabled,
