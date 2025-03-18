@@ -16,47 +16,58 @@
 
 package com.blacksquircle.ui.feature.fonts
 
+import android.graphics.Typeface
 import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
-import com.blacksquircle.ui.feature.fonts.api.model.FontModel
 import com.blacksquircle.ui.feature.fonts.data.mapper.FontMapper
+import com.blacksquircle.ui.feature.fonts.data.model.InternalFont
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
+import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class FontMapperTests {
 
+    private val typeface = mockk<Typeface>()
+
     @Test
-    fun `convert FontEntity to FontModel`() {
+    fun `When converting external font to FontModel Then return mapped object`() {
+        // Given
         val fontEntity = FontEntity(
             fontUuid = "droid_sans_mono.ttf",
             fontName = "Droid Sans Mono",
             fontPath = "/storage/emulated/0/font.ttf",
-            supportLigatures = false,
         )
-        val fontModel = FontModel(
+        val expected = FontModel(
             uuid = "droid_sans_mono.ttf",
             name = "Droid Sans Mono",
             path = "/storage/emulated/0/font.ttf",
+            typeface = typeface,
             isExternal = true,
         )
 
-        assertEquals(fontModel, FontMapper.toModel(fontEntity))
+        // When
+        val actual = FontMapper.toModel(fontEntity, typeface)
+
+        // Then
+        assertEquals(expected, actual)
     }
 
     @Test
-    fun `convert FontModel to FontEntity`() {
-        val fontEntity = FontEntity(
-            fontUuid = "droid_sans_mono.ttf",
-            fontName = "Droid Sans Mono",
-            fontPath = "/storage/emulated/0/font.ttf",
-            supportLigatures = false,
-        )
-        val fontModel = FontModel(
-            uuid = "droid_sans_mono.ttf",
+    fun `When converting internal font to FontModel Then return mapped object`() {
+        // Given
+        val internalFont = InternalFont.DROID_SANS_MONO
+        val expected = FontModel(
+            uuid = "droid_sans_mono",
             name = "Droid Sans Mono",
-            path = "/storage/emulated/0/font.ttf",
-            isExternal = true,
+            path = "file:///android_asset/fonts/droid_sans_mono.ttf",
+            typeface = typeface,
+            isExternal = false,
         )
 
-        assertEquals(fontEntity, FontMapper.toEntity(fontModel))
+        // When
+        val actual = FontMapper.toModel(internalFont, typeface)
+
+        // Then
+        assertEquals(expected, actual)
     }
 }

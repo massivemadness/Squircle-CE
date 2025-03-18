@@ -16,18 +16,21 @@
 
 package com.blacksquircle.ui.feature.themes
 
+import android.graphics.Typeface
 import com.blacksquircle.ui.core.provider.resources.StringProvider
+import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
-import com.blacksquircle.ui.feature.fonts.api.model.InternalFont
 import com.blacksquircle.ui.feature.themes.api.model.InternalTheme
 import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import com.blacksquircle.ui.feature.themes.ui.fragment.ThemesViewState
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -49,10 +52,14 @@ class ThemeUiStateTests {
     private val stringProvider = mockk<StringProvider>()
     private val fontsInteractor = mockk<FontsInteractor>()
     private val themesRepository = mockk<ThemesRepository>()
+    private val typeface = mockk<Typeface>()
 
     @Before
     fun setup() {
-        coEvery { fontsInteractor.current() } returns InternalFont.JETBRAINS_MONO.font
+        mockkObject(TypefaceProvider)
+        every { TypefaceProvider.DEFAULT } returns typeface
+
+        coEvery { fontsInteractor.loadTypeface() } returns typeface
         coEvery { themesRepository.current() } returns InternalTheme.THEME_DARCULA.theme
     }
 
@@ -93,6 +100,7 @@ class ThemeUiStateTests {
 
     @Test
     fun `When user has themes in database Then display theme list`() = runTest {
+        // Given
         val themeList = listOf(
             ThemeModel(
                 uuid = "1",
@@ -102,8 +110,6 @@ class ThemeUiStateTests {
                 colorScheme = mockk()
             ),
         )
-
-        // Given
         coEvery { themesRepository.loadThemes("") } returns themeList
 
         // When
@@ -120,7 +126,8 @@ class ThemeUiStateTests {
     }
 
     @Test
-    fun `When user types in search bar Then update theme list`() = runTest {
+    fun `When user typing in search bar Then update theme list`() = runTest {
+        // Given
         val themeList = listOf(
             ThemeModel(
                 uuid = "1",
@@ -137,8 +144,6 @@ class ThemeUiStateTests {
                 colorScheme = mockk()
             ),
         )
-
-        // Given
         coEvery { themesRepository.loadThemes("") } returns themeList
         coEvery { themesRepository.loadThemes(any()) } coAnswers {
             themeList.filter { it.name.contains(firstArg<String>()) }

@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.themes.ui.fragment
 import android.graphics.Typeface
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
+import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
 import com.blacksquircle.ui.feature.themes.api.model.InternalTheme
 import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.data.model.CodePreview
@@ -29,6 +30,6 @@ internal data class ThemesViewState(
     val preview: CodePreview = CodePreview.HTML,
     val themes: List<ThemeModel> = emptyList(),
     val selectedTheme: ThemeModel = InternalTheme.THEME_DARCULA.theme,
-    val typeface: Typeface = Typeface.MONOSPACE,
+    val typeface: Typeface = TypefaceProvider.DEFAULT,
     val isLoading: Boolean = true,
 ) : ViewState()

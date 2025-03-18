@@ -16,11 +16,12 @@
 
 package com.blacksquircle.ui.feature.fonts
 
+import android.graphics.Typeface
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
-import com.blacksquircle.ui.feature.fonts.api.model.FontModel
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.fonts.ui.fragment.FontsViewState
 import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
@@ -48,6 +49,7 @@ class FontUiStateTests {
     private val stringProvider = mockk<StringProvider>()
     private val fontsRepository = mockk<FontsRepository>()
     private val settingsManager = mockk<SettingsManager>()
+    private val typeface = mockk<Typeface>()
 
     @Before
     fun setup() {
@@ -91,16 +93,16 @@ class FontUiStateTests {
 
     @Test
     fun `When user has fonts in database Then display font list`() = runTest {
+        // Given
         val fontList = listOf(
             FontModel(
                 uuid = "1",
                 name = "Droid Sans Mono",
                 path = "/android_asset/droid_sans_mono.ttf",
+                typeface = typeface,
                 isExternal = true,
-            ),
+            )
         )
-
-        // Given
         coEvery { fontsRepository.loadFonts("") } returns fontList
 
         // When
@@ -117,23 +119,24 @@ class FontUiStateTests {
     }
 
     @Test
-    fun `When user types in search bar Then update font list`() = runTest {
+    fun `When user typing in search bar Then update font list`() = runTest {
+        // Given
         val fontList = listOf(
             FontModel(
                 uuid = "1",
                 name = "Droid Sans Mono",
                 path = "/android_asset/droid_sans_mono.ttf",
+                typeface = typeface,
                 isExternal = true,
             ),
             FontModel(
                 uuid = "2",
                 name = "Source Code Pro",
                 path = "/android_asset/source_code_pro.ttf",
+                typeface = typeface,
                 isExternal = true,
             ),
         )
-
-        // Given
         coEvery { fontsRepository.loadFonts("") } returns fontList
         coEvery { fontsRepository.loadFonts(any()) } coAnswers {
             fontList.filter { it.name.contains(firstArg<String>()) }
