@@ -15,14 +15,18 @@
  */
 
 plugins {
-    id("com.blacksquircle.kotlin")
+    id("com.blacksquircle.feature") // TODO pure kotlin module
+}
+
+android {
+    namespace = "com.blacksquircle.ui.feature.editor.api"
 }
 
 dependencies {
 
     // Core
     implementation(libs.kotlin.stdlib)
-    compileOnly(libs.android.platform)
+    implementation(libs.sora.editor)
 
     // Coroutines
     implementation(libs.coroutines.core)

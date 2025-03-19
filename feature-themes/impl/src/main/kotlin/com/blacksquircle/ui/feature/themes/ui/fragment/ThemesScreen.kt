@@ -50,7 +50,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -69,7 +68,6 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.FloatingButton
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
-import com.blacksquircle.ui.ds.dropdown.Dropdown
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
@@ -77,12 +75,12 @@ import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.editorkit.utils.EditorTheme
 import com.blacksquircle.ui.feature.themes.R
-import com.blacksquircle.ui.feature.themes.data.model.CodePreview
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.internal.ThemesComponent
 import com.blacksquircle.ui.feature.themes.ui.composable.ThemeOverview
 import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesViewEvent
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
+import com.blacksquircle.ui.language.javascript.JavaScriptLanguage
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -97,7 +95,6 @@ internal fun ThemesScreen(
     ThemesScreen(
         viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
-        onCodePreviewChanged = viewModel::onCodePreviewChanged,
         onQueryChanged = viewModel::onQueryChanged,
         onClearQueryClicked = viewModel::onClearQueryClicked,
         onCreateClicked = viewModel::onCreateClicked,
@@ -137,7 +134,6 @@ internal fun ThemesScreen(
 private fun ThemesScreen(
     viewState: ThemesViewState,
     onBackClicked: () -> Unit = {},
-    onCodePreviewChanged: (String) -> Unit = {},
     onQueryChanged: (String) -> Unit = {},
     onClearQueryClicked: () -> Unit = {},
     onCreateClicked: () -> Unit = {},
@@ -150,8 +146,7 @@ private fun ThemesScreen(
     val showButton by remember {
         derivedStateOf {
             scrollState.firstVisibleItemIndex == 0 ||
-                scrollState.lastScrolledBackward &&
-                viewState.isCreationAllowed
+                scrollState.lastScrolledBackward
         }
     }
 
@@ -200,12 +195,6 @@ private fun ThemesScreen(
                             searchMode = false
                         }
                     } else {
-                        Dropdown(
-                            entries = stringArrayResource(R.array.preview_names),
-                            entryValues = stringArrayResource(R.array.preview_extensions),
-                            currentValue = viewState.preview.extension,
-                            onValueSelected = onCodePreviewChanged,
-                        )
                         IconButton(
                             iconResId = UiR.drawable.ic_search,
                             iconButtonSize = IconButtonSizeDefaults.L,
@@ -263,7 +252,7 @@ private fun ThemesScreen(
                         themeModel = theme,
                         isSelected = theme.uuid == viewState.selectedTheme,
                         typeface = viewState.typeface,
-                        codePreview = viewState.preview,
+                        language = viewState.language,
                         onSelectClicked = { onSelectClicked(theme) },
                         onExportClicked = { onExportClicked(theme) },
                         onEditClicked = { onEditClicked(theme) },
@@ -289,7 +278,6 @@ private fun ThemesScreenPreview() {
         ThemesScreen(
             viewState = ThemesViewState(
                 searchQuery = "Mono",
-                preview = CodePreview.HTML,
                 themes = listOf(
                     ThemeModel(
                         uuid = "1",
@@ -308,6 +296,7 @@ private fun ThemesScreenPreview() {
                 ),
                 selectedTheme = "1",
                 typeface = Typeface.MONOSPACE,
+                language = JavaScriptLanguage(),
                 isLoading = false,
             ),
         )

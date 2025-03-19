@@ -29,7 +29,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
@@ -114,8 +113,8 @@ private fun DocumentNavigationPreview() {
                     document = DocumentModel(
                         uuid = "123",
                         fileUri = "file://storage/emulated/0/Downloads/untitled.txt",
-                        filesystemUuid = "123",
-                        language = LanguageFactory.fromName("plaintext"),
+                        filesystemUuid = "local",
+                        language = "plaintext",
                         modified = false,
                         position = 0,
                         scrollX = 0,

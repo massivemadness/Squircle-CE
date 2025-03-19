@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.themes.data.utils
 
 import android.content.Context
 import io.github.rosemoe.sora.langs.textmate.TextMateColorScheme
+import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry
 import io.github.rosemoe.sora.langs.textmate.registry.model.ThemeModel
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 import org.eclipse.tm4e.core.registry.IThemeSource
@@ -36,6 +37,7 @@ internal fun Context.createThemeFromPath(themePath: String): EditorColorScheme {
         }
         val themeSource = IThemeSource.fromInputStream(themeStream, themeName, Charsets.UTF_8)
         val themeModel = ThemeModel(themeSource, themeName)
+        ThemeRegistry.getInstance().loadTheme(themeModel, true)
         TextMateColorScheme.create(themeModel)
     } catch (e: Exception) {
         Timber.e(e.message, e)

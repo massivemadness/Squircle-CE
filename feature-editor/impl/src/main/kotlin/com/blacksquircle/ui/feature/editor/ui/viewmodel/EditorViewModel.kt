@@ -26,6 +26,7 @@ import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.feature.editor.api.factory.LanguageFactory
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
@@ -69,6 +70,7 @@ internal class EditorViewModel @Inject constructor(
     private val themesInteractor: ThemesInteractor,
     private val fontsInteractor: FontsInteractor,
     private val shortcutsInteractor: ShortcutsInteractor,
+    private val languageFactory: LanguageFactory,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(EditorViewState())
@@ -475,7 +477,11 @@ internal class EditorViewModel @Inject constructor(
                     selectedPosition = existingIndex
                 } else {
                     /** Create new document */
-                    documents = documents + DocumentState(document)
+                    documents = documents + DocumentState(
+                        document = document,
+                        language = languageFactory.create(document.language),
+                        content = null,
+                    )
                     selectedPosition = documents.size - 1
                 }
 
@@ -535,7 +541,13 @@ internal class EditorViewModel @Inject constructor(
             try {
                 val documentList = documentRepository.loadDocuments()
 
-                documents = documentList.map { document -> DocumentState(document) }
+                documents = documentList.map { document ->
+                    DocumentState(
+                        document = document,
+                        language = languageFactory.create(document.language),
+                        content = null,
+                    )
+                }
                 selectedPosition = documentList.indexOf { it.uuid == settingsManager.selectedUuid }
                 settings = loadSettings()
 

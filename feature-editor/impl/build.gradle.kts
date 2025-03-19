@@ -70,7 +70,6 @@ dependencies {
     ksp(libs.dagger.compiler)
 
     // Modules
-    implementation(project(":editorkit:editorkit"))
     implementation(project(":feature-editor:api"))
     implementation(project(":feature-explorer:api"))
     implementation(project(":feature-fonts:api"))
@@ -81,6 +80,9 @@ dependencies {
 
     implementation(project(":filesystems:filesystem-local"))
     implementation(project(":filesystems:filesystem-saf"))
+
+    // TODO remove
+    implementation(project(":editorkit:editorkit"))
 
     // Tests
     testImplementation(libs.test.junit)

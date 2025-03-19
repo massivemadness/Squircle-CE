@@ -73,11 +73,14 @@ dependencies {
     ksp(libs.dagger.compiler)
 
     // Modules
-    implementation(project(":editorkit:editorkit"))
     implementation(project(":feature-fonts:api"))
     implementation(project(":feature-themes:api"))
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
+
+    // TODO remove
+    implementation(project(":editorkit:editorkit"))
+    implementation(project(":editorkit:language-javascript"))
 
     // Tests
     testImplementation(libs.test.junit)

@@ -26,7 +26,6 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.themes.R
-import com.blacksquircle.ui.feature.themes.data.model.CodePreview
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import com.blacksquircle.ui.feature.themes.ui.fragment.ThemesViewState
@@ -74,12 +73,6 @@ internal class ThemesViewModel @Inject constructor(
         }
     }
 
-    fun onCodePreviewChanged(extension: String) {
-        _viewState.update {
-            it.copy(preview = CodePreview.of(extension))
-        }
-    }
-
     fun onQueryChanged(query: String) {
         _viewState.update {
             it.copy(searchQuery = query)
@@ -99,8 +92,8 @@ internal class ThemesViewModel @Inject constructor(
 
     fun onCreateClicked() {
         viewModelScope.launch {
-            val screen = ThemesScreen.CreateThemeScreen
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            // val screen = ThemesScreen.CreateThemeScreen
+            // TODO _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 

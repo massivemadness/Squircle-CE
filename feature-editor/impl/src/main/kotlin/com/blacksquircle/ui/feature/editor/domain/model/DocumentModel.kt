@@ -18,15 +18,13 @@ package com.blacksquircle.ui.feature.editor.domain.model
 
 import android.content.ContentResolver
 import android.net.Uri
-import android.webkit.MimeTypeMap
-import com.blacksquircle.ui.language.base.Language
 import java.io.File
 
 internal data class DocumentModel(
     val uuid: String,
     val fileUri: String,
     val filesystemUuid: String,
-    val language: Language,
+    val language: String,
     val modified: Boolean,
     val position: Int,
     val scrollX: Int,
@@ -34,24 +32,19 @@ internal data class DocumentModel(
     val selectionStart: Int,
     val selectionEnd: Int,
 ) {
-
     val scheme: String
         get() = fileUri.substringBefore("://")
     val path: String
         get() = fileUri.substringAfterLast("://").ifEmpty(File::separator)
     val name: String
         get() = when {
-            fileUri.startsWith(ContentResolver.SCHEME_CONTENT) -> {
-                Uri.decode(fileUri).substringAfterLast(File.separator)
+            scheme == ContentResolver.SCHEME_CONTENT -> {
+                Uri.decode(path).substringAfterLast(File.separator)
             }
             else -> {
-                fileUri.substringAfterLast(File.separator)
+                path.substringAfterLast(File.separator)
             }
         }
     val extension: String
-        get() = fileUri.substringAfterLast(".", "")
-    val mimeType: String
-        get() = MimeTypeMap.getSingleton()
-            .getMimeTypeFromExtension(extension)
-            ?: "text/*"
+        get() = name.substringAfterLast(".", "")
 }

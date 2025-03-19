@@ -30,6 +30,7 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditor
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.syncScroll
+import io.github.rosemoe.sora.lang.Language
 
 @Composable
 internal fun DocumentLayout(
@@ -45,6 +46,7 @@ internal fun DocumentLayout(
         if (!isError && !isLoading && content != null) {
             CodeEditor(
                 content = documentState.content,
+                language = documentState.language,
                 settings = settings,
                 modifier = Modifier.fillMaxSize(),
             )
@@ -67,6 +69,7 @@ internal fun DocumentLayout(
 @Composable
 private fun CodeEditor(
     content: TextContent,
+    language: Language,
     settings: EditorSettings,
     modifier: Modifier = Modifier,
 ) {
@@ -92,6 +95,7 @@ private fun CodeEditor(
             editor.typefaceText = settings.fontType
             editor.typefaceLineNumber = settings.fontType
             editor.colorScheme = settings.theme
+            editor.setEditorLanguage(language)
             editor.setText(content)
             editor.syncScroll()
         },

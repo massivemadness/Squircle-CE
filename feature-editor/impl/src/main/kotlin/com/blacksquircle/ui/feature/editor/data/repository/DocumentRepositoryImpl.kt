@@ -140,7 +140,7 @@ internal class DocumentRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             documentDao.deleteAll()
             cacheManager.deleteAll()
-            settingsManager.selectedUuid = "null"
+            settingsManager.selectedUuid = ""
         }
     }
 

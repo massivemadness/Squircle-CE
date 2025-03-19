@@ -41,7 +41,6 @@ import com.blacksquircle.ui.core.effect.CleanupEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
-import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.emptyview.EmptyView
@@ -256,8 +255,8 @@ private fun EditorScreenPreview() {
                         document = DocumentModel(
                             uuid = "123",
                             fileUri = "file://storage/emulated/0/Downloads/untitled.txt",
-                            filesystemUuid = "123",
-                            language = LanguageFactory.fromName("plaintext"),
+                            filesystemUuid = "local",
+                            language = "plaintext",
                             modified = false,
                             position = 0,
                             scrollX = 0,

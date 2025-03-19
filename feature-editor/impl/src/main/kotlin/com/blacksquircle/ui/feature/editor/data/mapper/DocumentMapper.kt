@@ -16,8 +16,8 @@
 
 package com.blacksquircle.ui.feature.editor.data.mapper
 
-import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.core.storage.database.entity.document.DocumentEntity
+import com.blacksquircle.ui.feature.editor.data.model.FileAssociation
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import java.util.*
@@ -39,7 +39,7 @@ internal object DocumentMapper {
             uuid = UUID.randomUUID().toString(),
             fileUri = fileModel.fileUri,
             filesystemUuid = fileModel.filesystemUuid,
-            language = LanguageFactory.create(fileModel.name),
+            language = FileAssociation.guessLanguage(fileModel.extension),
             modified = false,
             position = position,
             scrollX = 0,
@@ -54,7 +54,7 @@ internal object DocumentMapper {
             uuid = documentEntity.uuid,
             fileUri = documentEntity.fileUri,
             filesystemUuid = documentEntity.filesystemUuid,
-            language = LanguageFactory.fromName(documentEntity.language),
+            language = documentEntity.language,
             modified = documentEntity.modified,
             position = documentEntity.position,
             scrollX = documentEntity.scrollX,
@@ -69,7 +69,7 @@ internal object DocumentMapper {
             uuid = documentModel.uuid,
             fileUri = documentModel.fileUri,
             filesystemUuid = documentModel.filesystemUuid,
-            language = documentModel.language.languageName,
+            language = documentModel.language,
             modified = documentModel.modified,
             position = documentModel.position,
             scrollX = documentModel.scrollX,

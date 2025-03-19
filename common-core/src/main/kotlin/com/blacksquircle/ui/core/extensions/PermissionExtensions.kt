@@ -16,27 +16,11 @@
 
 package com.blacksquircle.ui.core.extensions
 
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
-import android.os.Environment
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.blacksquircle.ui.filesystem.base.exception.PermissionException
-
-fun Context.checkStoragePermissions() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        if (!Environment.isExternalStorageManager()) {
-            throw PermissionException()
-        }
-    } else {
-        if (!isPermissionGranted(WRITE_EXTERNAL_STORAGE)) {
-            throw PermissionException()
-        }
-    }
-}
 
 fun Context.isPermissionGranted(permission: String): Boolean {
     return ContextCompat.checkSelfPermission(this, permission) ==

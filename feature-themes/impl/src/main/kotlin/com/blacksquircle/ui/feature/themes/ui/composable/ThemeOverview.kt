@@ -31,7 +31,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,7 +45,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.blacksquircle.ui.core.factory.LanguageFactory
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
@@ -57,8 +55,9 @@ import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.editorkit.utils.EditorTheme
 import com.blacksquircle.ui.feature.themes.R
-import com.blacksquircle.ui.feature.themes.data.model.CodePreview
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
+import com.blacksquircle.ui.language.base.Language
+import com.blacksquircle.ui.language.javascript.JavaScriptLanguage
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -66,7 +65,7 @@ internal fun ThemeOverview(
     themeModel: ThemeModel,
     isSelected: Boolean,
     typeface: Typeface,
-    codePreview: CodePreview,
+    language: Language,
     onSelectClicked: () -> Unit,
     onExportClicked: () -> Unit,
     onEditClicked: () -> Unit,
@@ -76,9 +75,6 @@ internal fun ThemeOverview(
     val shape = RoundedCornerShape(6.dp)
     val backgroundColor = themeModel.colorScheme.backgroundColor
     val isDarkTheme = backgroundColor.isColorDark()
-    val language = remember(codePreview) {
-        LanguageFactory.create(codePreview.extension)
-    }
 
     SquircleTheme(darkTheme = isDarkTheme) {
         Column(
@@ -138,7 +134,7 @@ internal fun ThemeOverview(
             }
 
             CodeView(
-                text = codePreview.codeSample,
+                text = JAVASCRIPT_SAMPLE,
                 language = language,
                 colorScheme = themeModel.colorScheme,
                 textStyle = TextStyle(
@@ -191,6 +187,25 @@ internal fun ThemeOverview(
     }
 }
 
+private val JAVASCRIPT_SAMPLE = """
+    function makeIterator(array) {
+      var index = 0;
+      return {
+        next: function() {
+          return index < array.length
+            ? { value: array[index++], done: false }
+            : { done: true }
+        }
+      };
+    }
+
+    var it = makeIterator(["simple", "iterator"]);
+
+    console.log(it.next()); // done: false
+    console.log(it.next()); // done: false
+    console.log(it.next()); // done: true
+""".trimIndent()
+
 @PreviewLightDark
 @Composable
 private fun ThemeOverviewPreview() {
@@ -205,7 +220,7 @@ private fun ThemeOverviewPreview() {
             ),
             isSelected = false,
             typeface = Typeface.MONOSPACE,
-            codePreview = CodePreview.JAVASCRIPT,
+            language = JavaScriptLanguage(),
             onSelectClicked = {},
             onExportClicked = {},
             onEditClicked = {},

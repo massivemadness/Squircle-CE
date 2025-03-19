@@ -24,6 +24,8 @@ import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import com.blacksquircle.ui.feature.themes.data.model.InternalTheme
 import com.blacksquircle.ui.feature.themes.data.utils.createThemeFromPath
+import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry
+import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -36,6 +38,12 @@ internal class ThemesInteractorImpl(
 
     private val themesDir: File
         get() = Directories.themesDir(context)
+
+    init {
+        FileProviderRegistry.getInstance().addFileProvider(
+            AssetsFileResolver(context.assets)
+        )
+    }
 
     override suspend fun loadTheme(): EditorColorScheme {
         return withContext(dispatcherProvider.io()) {
