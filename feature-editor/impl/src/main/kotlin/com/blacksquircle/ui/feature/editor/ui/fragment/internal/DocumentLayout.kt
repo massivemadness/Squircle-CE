@@ -30,7 +30,6 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditor
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.syncScroll
-import io.github.rosemoe.sora.widget.schemes.SchemeDarcula
 
 @Composable
 internal fun DocumentLayout(
@@ -92,7 +91,7 @@ private fun CodeEditor(
             editor.tabWidth = settings.tabWidth
             editor.typefaceText = settings.fontType
             editor.typefaceLineNumber = settings.fontType
-            editor.colorScheme = SchemeDarcula() // TODO
+            editor.colorScheme = settings.theme
             editor.setText(content)
             editor.syncScroll()
         },

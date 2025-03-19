@@ -26,8 +26,5 @@ dependencies {
 
     // Core
     implementation(libs.kotlin.stdlib)
-
-    // Modules
-    api(project(":editorkit:editorkit")) // TODO remove
-    api(project(":filesystems:filesystem-base"))
+    implementation(libs.sora.editor)
 }

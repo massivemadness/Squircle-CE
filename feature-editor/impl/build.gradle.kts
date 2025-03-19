@@ -27,6 +27,9 @@ android {
     buildFeatures {
         compose = true
     }
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
 }
 
 dependencies {
@@ -37,6 +40,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.fragment.compose)
     implementation(libs.timber)
+    coreLibraryDesugaring(libs.android.desugaring)
 
     // Compose
     implementation(libs.compose.ui)
@@ -48,6 +52,7 @@ dependencies {
     debugImplementation(libs.compose.manifest)
     implementation(libs.reorderable)
     implementation(libs.sora.editor)
+    implementation(libs.sora.textmate)
 
     // AAC
     implementation(libs.androidx.viewmodel.compose)
@@ -65,6 +70,7 @@ dependencies {
     ksp(libs.dagger.compiler)
 
     // Modules
+    implementation(project(":editorkit:editorkit"))
     implementation(project(":feature-editor:api"))
     implementation(project(":feature-explorer:api"))
     implementation(project(":feature-fonts:api"))

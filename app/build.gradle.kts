@@ -26,6 +26,9 @@ android {
         versionCode = 10024
         versionName = "2025.1.0"
     }
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
 }
 
 dependencies {
@@ -38,6 +41,7 @@ dependencies {
     implementation(libs.androidx.splashscreen)
     implementation(libs.androidx.profileinstaller)
     implementation(libs.timber)
+    coreLibraryDesugaring(libs.android.desugaring)
 
     // Google Play
     val googlePlayImplementation by configurations

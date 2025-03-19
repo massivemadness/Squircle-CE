@@ -55,10 +55,10 @@ import com.blacksquircle.ui.ds.extensions.isColorDark
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
+import com.blacksquircle.ui.editorkit.utils.EditorTheme
 import com.blacksquircle.ui.feature.themes.R
-import com.blacksquircle.ui.feature.themes.api.model.InternalTheme
-import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.data.model.CodePreview
+import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -196,8 +196,13 @@ internal fun ThemeOverview(
 private fun ThemeOverviewPreview() {
     PreviewBackground {
         ThemeOverview(
-            themeModel = InternalTheme.THEME_DARCULA.theme
-                .copy(isExternal = true),
+            themeModel = ThemeModel(
+                uuid = "1",
+                name = "Darcula",
+                author = "Squircle CE",
+                colorScheme = EditorTheme.DARCULA,
+                isExternal = true,
+            ),
             isSelected = false,
             typeface = Typeface.MONOSPACE,
             codePreview = CodePreview.JAVASCRIPT,

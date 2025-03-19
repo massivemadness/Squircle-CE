@@ -20,16 +20,16 @@ import android.graphics.Typeface
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
-import com.blacksquircle.ui.feature.themes.api.model.InternalTheme
-import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.data.model.CodePreview
+import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 @Immutable
 internal data class ThemesViewState(
     val searchQuery: String = "",
     val preview: CodePreview = CodePreview.HTML,
     val themes: List<ThemeModel> = emptyList(),
-    val selectedTheme: ThemeModel = InternalTheme.THEME_DARCULA.theme,
+    val selectedTheme: String = "",
     val typeface: Typeface = TypefaceProvider.DEFAULT,
     val isLoading: Boolean = true,
+    val isCreationAllowed: Boolean = false, // TODO think about it
 ) : ViewState()

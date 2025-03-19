@@ -39,6 +39,15 @@ object Directories {
         return directory
     }
 
+    /** /data/data/com.blacksquircle.ui/themes */
+    fun themesDir(context: Context): File {
+        val directory = File(context.dataDir, "themes")
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+        return directory
+    }
+
     /** /data/data/com.blacksquircle.ui/cache */
     fun cacheDir(context: Context): File {
         val directory = File(context.dataDir, "cache")

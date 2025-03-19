@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.api.model
+package com.blacksquircle.ui.feature.themes.domain.model
 
 import com.blacksquircle.ui.editorkit.model.ColorScheme
 
-data class ThemeModel(
+internal data class ThemeModel(
     val uuid: String,
     val name: String,
     val author: String,
-    val isExternal: Boolean,
     val colorScheme: ColorScheme,
+    val isExternal: Boolean,
 )

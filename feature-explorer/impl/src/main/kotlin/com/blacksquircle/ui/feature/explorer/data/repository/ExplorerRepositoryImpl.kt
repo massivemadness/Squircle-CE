@@ -21,7 +21,6 @@ import android.net.Uri
 import android.os.Environment
 import com.blacksquircle.ui.core.extensions.checkStoragePermissions
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.database.dao.path.PathDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.explorer.R

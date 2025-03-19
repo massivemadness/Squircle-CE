@@ -75,10 +75,10 @@ import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
+import com.blacksquircle.ui.editorkit.utils.EditorTheme
 import com.blacksquircle.ui.feature.themes.R
-import com.blacksquircle.ui.feature.themes.api.model.InternalTheme
-import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.data.model.CodePreview
+import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.internal.ThemesComponent
 import com.blacksquircle.ui.feature.themes.ui.composable.ThemeOverview
 import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesViewEvent
@@ -150,7 +150,8 @@ private fun ThemesScreen(
     val showButton by remember {
         derivedStateOf {
             scrollState.firstVisibleItemIndex == 0 ||
-                scrollState.lastScrolledBackward
+                scrollState.lastScrolledBackward &&
+                viewState.isCreationAllowed
         }
     }
 
@@ -260,7 +261,7 @@ private fun ThemesScreen(
                 ) { theme ->
                     ThemeOverview(
                         themeModel = theme,
-                        isSelected = theme.uuid == viewState.selectedTheme.uuid,
+                        isSelected = theme.uuid == viewState.selectedTheme,
                         typeface = viewState.typeface,
                         codePreview = viewState.preview,
                         onSelectClicked = { onSelectClicked(theme) },
@@ -289,8 +290,23 @@ private fun ThemesScreenPreview() {
             viewState = ThemesViewState(
                 searchQuery = "Mono",
                 preview = CodePreview.HTML,
-                themes = InternalTheme.entries.map(InternalTheme::theme),
-                selectedTheme = InternalTheme.THEME_DARCULA.theme,
+                themes = listOf(
+                    ThemeModel(
+                        uuid = "1",
+                        name = "Darcula",
+                        author = "Squircle CE",
+                        colorScheme = EditorTheme.DARCULA,
+                        isExternal = false,
+                    ),
+                    ThemeModel(
+                        uuid = "2",
+                        name = "Eclipse",
+                        author = "Squircle CE",
+                        colorScheme = EditorTheme.ECLIPSE,
+                        isExternal = false,
+                    ),
+                ),
+                selectedTheme = "1",
                 typeface = Typeface.MONOSPACE,
                 isLoading = false,
             ),

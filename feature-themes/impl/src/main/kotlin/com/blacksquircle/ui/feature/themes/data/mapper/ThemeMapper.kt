@@ -20,14 +20,36 @@ import androidx.core.graphics.toColorInt
 import com.blacksquircle.ui.core.storage.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.editorkit.model.ColorScheme
-import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
+import com.blacksquircle.ui.editorkit.utils.EditorTheme
 import com.blacksquircle.ui.feature.themes.data.model.ExternalScheme
 import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
+import com.blacksquircle.ui.feature.themes.data.model.InternalTheme
+import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import java.util.*
 
 internal object ThemeMapper {
 
     const val FALLBACK_COLOR = "#FFFFFF"
+
+    fun toModel(internalTheme: InternalTheme): ThemeModel {
+        return ThemeModel(
+            uuid = internalTheme.themeUuid,
+            name = internalTheme.themeName,
+            author = "Squircle CE",
+            colorScheme = when (internalTheme) {
+                InternalTheme.THEME_DARCULA -> EditorTheme.DARCULA
+                InternalTheme.THEME_ECLIPSE -> EditorTheme.ECLIPSE
+                InternalTheme.THEME_MONOKAI -> EditorTheme.MONOKAI
+                InternalTheme.THEME_OBSIDIAN -> EditorTheme.OBSIDIAN
+                InternalTheme.THEME_INTELLIJ_LIGHT -> EditorTheme.INTELLIJ_LIGHT
+                InternalTheme.THEME_LADIES_NIGHT -> EditorTheme.LADIES_NIGHT
+                InternalTheme.THEME_TOMORROW_NIGHT -> EditorTheme.TOMORROW_NIGHT
+                InternalTheme.THEME_SOLARIZED_LIGHT -> EditorTheme.SOLARIZED_LIGHT
+                InternalTheme.THEME_VISUAL_STUDIO -> EditorTheme.VISUAL_STUDIO
+            },
+            isExternal = false,
+        )
+    }
 
     fun toModel(themeEntity: ThemeEntity): ThemeModel {
         return ThemeModel(

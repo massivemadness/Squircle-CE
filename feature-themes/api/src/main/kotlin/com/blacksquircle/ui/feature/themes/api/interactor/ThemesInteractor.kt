@@ -16,8 +16,8 @@
 
 package com.blacksquircle.ui.feature.themes.api.interactor
 
-import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
+import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 
 interface ThemesInteractor {
-    suspend fun current(): ThemeModel
+    suspend fun loadTheme(): EditorColorScheme
 }

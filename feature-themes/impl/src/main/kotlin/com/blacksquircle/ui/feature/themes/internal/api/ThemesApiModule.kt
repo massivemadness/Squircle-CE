@@ -18,12 +18,9 @@ package com.blacksquircle.ui.feature.themes.internal.api
 
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import com.blacksquircle.ui.feature.themes.data.interactor.ThemesInteractorImpl
-import com.blacksquircle.ui.feature.themes.data.repository.ThemesRepositoryImpl
-import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -33,23 +30,15 @@ object ThemesApiModule {
 
     @Provides
     @Singleton
-    fun provideThemesRepository(
+    fun provideThemesInteractor(
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
-        appDatabase: AppDatabase,
         context: Context,
-    ): ThemesRepository {
-        return ThemesRepositoryImpl(
+    ): ThemesInteractor {
+        return ThemesInteractorImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
-            appDatabase = appDatabase,
             context = context,
         )
-    }
-
-    @Provides
-    @Singleton
-    fun provideThemesInteractor(themesRepository: ThemesRepository): ThemesInteractor {
-        return ThemesInteractorImpl(themesRepository)
     }
 }

@@ -19,11 +19,11 @@ package com.blacksquircle.ui.feature.themes
 import android.graphics.Typeface
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
+import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
-import com.blacksquircle.ui.feature.themes.api.model.InternalTheme
-import com.blacksquircle.ui.feature.themes.api.model.ThemeModel
+import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import com.blacksquircle.ui.feature.themes.ui.fragment.ThemesViewState
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
@@ -52,15 +52,15 @@ class ThemeUiStateTests {
     private val stringProvider = mockk<StringProvider>()
     private val fontsInteractor = mockk<FontsInteractor>()
     private val themesRepository = mockk<ThemesRepository>()
+    private val settingsManager = mockk<SettingsManager>()
     private val typeface = mockk<Typeface>()
 
     @Before
     fun setup() {
         mockkObject(TypefaceProvider)
         every { TypefaceProvider.DEFAULT } returns typeface
-
-        coEvery { fontsInteractor.loadTypeface() } returns typeface
-        coEvery { themesRepository.current() } returns InternalTheme.THEME_DARCULA.theme
+        coEvery { fontsInteractor.current() } returns typeface
+        every { settingsManager.editorTheme } returns ""
     }
 
     @Test
@@ -168,6 +168,7 @@ class ThemeUiStateTests {
             stringProvider = stringProvider,
             fontsInteractor = fontsInteractor,
             themesRepository = themesRepository,
+            settingsManager = settingsManager,
         )
     }
 }
