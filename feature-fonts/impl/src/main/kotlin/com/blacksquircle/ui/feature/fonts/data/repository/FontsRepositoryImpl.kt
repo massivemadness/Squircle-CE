@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.fonts.data.repository
 
 import android.content.Context
 import android.net.Uri
+import com.blacksquircle.ui.core.contract.FileType
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.dao.font.FontDao
@@ -39,17 +40,23 @@ internal class FontsRepositoryImpl(
     private val context: Context,
 ) : FontsRepository {
 
+    private val fontsDir: File
+        get() = Directories.fontsDir(context)
+
     override suspend fun loadFonts(query: String): List<FontModel> {
         return withContext(dispatcherProvider.io()) {
             val defaultFonts = InternalFont.entries
                 .filter { it.name.contains(query, ignoreCase = true) }
                 .map { font ->
-                    FontMapper.toModel(font, context.createTypefaceFromPath(font.fontPath))
+                    val typeface = context.createTypefaceFromPath(font.fontUri)
+                    FontMapper.toModel(font, typeface)
                 }
             val userFonts = fontDao.loadAll()
                 .filter { it.fontName.contains(query, ignoreCase = true) }
                 .map { font ->
-                    FontMapper.toModel(font, context.createTypefaceFromPath(font.fontPath))
+                    val fontFile = File(fontsDir, font.fontUuid + FileType.TTF)
+                    val typeface = context.createTypefaceFromPath(fontFile.absolutePath)
+                    FontMapper.toModel(font, typeface)
                 }
 
             userFonts + defaultFonts
@@ -61,7 +68,7 @@ internal class FontsRepositoryImpl(
             context.contentResolver.openInputStream(fileUri)?.use { inputStream ->
                 val fontUuid = UUID.randomUUID().toString()
                 val fontName = Uri.decode(fileUri.toString()).substringAfterLast(File.separator)
-                val fontFile = File(Directories.fontsDir(context), fontUuid)
+                val fontFile = File(fontsDir, fontUuid + FileType.TTF)
                 if (!fontFile.exists()) {
                     fontFile.createNewFile()
                     inputStream.copyTo(fontFile.outputStream())
@@ -69,7 +76,6 @@ internal class FontsRepositoryImpl(
                 val fontEntity = FontEntity(
                     fontUuid = fontUuid,
                     fontName = fontName,
-                    fontPath = fontFile.absolutePath,
                 )
                 fontDao.insert(fontEntity)
             }
@@ -84,7 +90,7 @@ internal class FontsRepositoryImpl(
 
     override suspend fun removeFont(fontModel: FontModel) {
         withContext(dispatcherProvider.io()) {
-            val fontFile = File(Directories.fontsDir(context), fontModel.uuid)
+            val fontFile = File(fontsDir, fontModel.uuid + FileType.TTF)
             if (fontFile.exists()) {
                 fontFile.deleteRecursively()
             }

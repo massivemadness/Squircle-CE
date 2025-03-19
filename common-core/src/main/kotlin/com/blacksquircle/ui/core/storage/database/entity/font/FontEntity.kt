@@ -28,6 +28,4 @@ data class FontEntity(
     val fontUuid: String,
     @ColumnInfo(name = "name")
     val fontName: String,
-    @ColumnInfo(name = "path")
-    val fontPath: String,
 )

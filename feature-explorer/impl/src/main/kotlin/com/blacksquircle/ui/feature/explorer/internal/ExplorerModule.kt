@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.explorer.internal
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.AppDatabase
+import com.blacksquircle.ui.core.storage.database.dao.path.PathDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
@@ -40,13 +41,13 @@ internal object ExplorerModule {
     @Provides
     @ExplorerScope
     fun provideExplorerRepository(
-        context: Context,
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         taskManager: TaskManager,
         serversInteractor: ServersInteractor,
         filesystemFactory: FilesystemFactory,
-        appDatabase: AppDatabase,
+        pathDao: PathDao,
+        context: Context,
     ): ExplorerRepository {
         return ExplorerRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
@@ -54,8 +55,13 @@ internal object ExplorerModule {
             taskManager = taskManager,
             serversInteractor = serversInteractor,
             filesystemFactory = filesystemFactory,
-            appDatabase = appDatabase,
+            pathDao = pathDao,
             context = context,
         )
+    }
+
+    @Provides
+    fun providePathDao(appDatabase: AppDatabase): PathDao {
+        return appDatabase.pathDao()
     }
 }

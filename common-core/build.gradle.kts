@@ -55,9 +55,6 @@ dependencies {
     implementation(libs.androidx.room)
     ksp(libs.androidx.room.compiler)
 
-    // Network
-    implementation(libs.gson)
-
     // DI
     implementation(libs.dagger)
     ksp(libs.dagger.compiler)

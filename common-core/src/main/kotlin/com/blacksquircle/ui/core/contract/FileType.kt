@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.domain.model
+package com.blacksquircle.ui.core.contract
 
-import android.graphics.Typeface
-
-internal data class FontModel(
-    val uuid: String,
-    val name: String,
-    val typeface: Typeface,
-    val isExternal: Boolean,
-)
+object FileType {
+    const val JSON = ".json"
+    const val TTF = ".ttf"
+}

@@ -22,6 +22,7 @@ import android.os.Environment
 import com.blacksquircle.ui.core.extensions.checkStoragePermissions
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.AppDatabase
+import com.blacksquircle.ui.core.storage.database.dao.path.PathDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
@@ -48,7 +49,7 @@ internal class ExplorerRepositoryImpl(
     private val taskManager: TaskManager,
     private val serversInteractor: ServersInteractor,
     private val filesystemFactory: FilesystemFactory,
-    private val appDatabase: AppDatabase,
+    private val pathDao: PathDao,
     private val context: Context,
 ) : ExplorerRepository {
 
@@ -96,7 +97,7 @@ internal class ExplorerRepositoryImpl(
 
     override suspend fun loadBreadcrumbs(filesystemModel: FilesystemModel): List<FileModel> {
         return withContext(dispatcherProvider.io()) {
-            val pathEntity = appDatabase.pathDao().load(filesystemModel.uuid)
+            val pathEntity = pathDao.load(filesystemModel.uuid)
                 ?: return@withContext listOf(filesystemModel.defaultLocation)
 
             val fileModel = FileMapper.toModel(pathEntity)
@@ -133,7 +134,7 @@ internal class ExplorerRepositoryImpl(
             context.checkStoragePermissions() // throws exception
             val filesystem = filesystemFactory.create(currentFilesystem)
             val entity = FileMapper.toEntity(parent)
-            appDatabase.pathDao().insert(entity)
+            pathDao.insert(entity)
 
             filesystem.listFiles(parent)
         }

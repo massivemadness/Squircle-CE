@@ -35,12 +35,12 @@ internal object EditorModule {
     @Provides
     @EditorScope
     fun provideDocumentRepository(
-        context: Context,
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         cacheManager: CacheManager,
         documentDao: DocumentDao,
         filesystemFactory: FilesystemFactory,
+        context: Context,
     ): DocumentRepository {
         return DocumentRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
@@ -54,13 +54,12 @@ internal object EditorModule {
 
     @Provides
     @EditorScope
-    fun provideDocumentDao(appDatabase: AppDatabase): DocumentDao {
-        return appDatabase.documentDao()
+    fun provideCacheManager(context: Context): CacheManager {
+        return CacheManager(Directories.filesDir(context))
     }
 
     @Provides
-    @EditorScope
-    fun provideCacheManager(context: Context): CacheManager {
-        return CacheManager(Directories.filesDir(context))
+    fun provideDocumentDao(appDatabase: AppDatabase): DocumentDao {
+        return appDatabase.documentDao()
     }
 }

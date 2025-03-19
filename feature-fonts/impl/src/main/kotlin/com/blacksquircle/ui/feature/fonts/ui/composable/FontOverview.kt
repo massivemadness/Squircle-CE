@@ -109,7 +109,6 @@ private fun FontOverviewPreview() {
             fontModel = FontModel(
                 uuid = "1",
                 name = "Droid Sans Mono",
-                path = "1",
                 typeface = Typeface.MONOSPACE,
                 isExternal = true,
             ),

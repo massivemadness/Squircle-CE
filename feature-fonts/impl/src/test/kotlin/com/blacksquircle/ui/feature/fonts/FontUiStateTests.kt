@@ -98,7 +98,6 @@ class FontUiStateTests {
             FontModel(
                 uuid = "1",
                 name = "Droid Sans Mono",
-                path = "/android_asset/droid_sans_mono.ttf",
                 typeface = typeface,
                 isExternal = true,
             )
@@ -125,14 +124,12 @@ class FontUiStateTests {
             FontModel(
                 uuid = "1",
                 name = "Droid Sans Mono",
-                path = "/android_asset/droid_sans_mono.ttf",
                 typeface = typeface,
                 isExternal = true,
             ),
             FontModel(
                 uuid = "2",
                 name = "Source Code Pro",
-                path = "/android_asset/source_code_pro.ttf",
                 typeface = typeface,
                 isExternal = true,
             ),

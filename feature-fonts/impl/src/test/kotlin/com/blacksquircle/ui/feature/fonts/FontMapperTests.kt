@@ -35,12 +35,10 @@ class FontMapperTests {
         val fontEntity = FontEntity(
             fontUuid = "droid_sans_mono.ttf",
             fontName = "Droid Sans Mono",
-            fontPath = "/storage/emulated/0/font.ttf",
         )
         val expected = FontModel(
             uuid = "droid_sans_mono.ttf",
             name = "Droid Sans Mono",
-            path = "/storage/emulated/0/font.ttf",
             typeface = typeface,
             isExternal = true,
         )
@@ -59,7 +57,6 @@ class FontMapperTests {
         val expected = FontModel(
             uuid = "droid_sans_mono",
             name = "Droid Sans Mono",
-            path = "file:///android_asset/fonts/droid_sans_mono.ttf",
             typeface = typeface,
             isExternal = false,
         )

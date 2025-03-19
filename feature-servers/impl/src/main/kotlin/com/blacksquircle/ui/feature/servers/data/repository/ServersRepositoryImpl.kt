@@ -21,6 +21,8 @@ import android.net.Uri
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.AppDatabase
+import com.blacksquircle.ui.core.storage.database.dao.path.PathDao
+import com.blacksquircle.ui.core.storage.database.dao.server.ServerDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
 import com.blacksquircle.ui.feature.servers.data.cache.ServerCredentials
@@ -37,7 +39,8 @@ internal class ServersRepositoryImpl(
     private val serverFilesystemFactory: ServerFilesystemFactory,
     private val settingsManager: SettingsManager,
     private val dispatcherProvider: DispatcherProvider,
-    private val appDatabase: AppDatabase,
+    private val serverDao: ServerDao,
+    private val pathDao: PathDao,
     private val context: Context,
 ) : ServersRepository {
 
@@ -76,14 +79,13 @@ internal class ServersRepositoryImpl(
 
     override suspend fun loadServers(): List<ServerConfig> {
         return withContext(dispatcherProvider.io()) {
-            appDatabase.serverDao().loadAll()
-                .map(ServerMapper::toModel)
+            serverDao.loadAll().map(ServerMapper::toModel)
         }
     }
 
     override suspend fun loadServer(uuid: String): ServerConfig {
         return withContext(dispatcherProvider.io()) {
-            val serverEntity = appDatabase.serverDao().load(uuid)
+            val serverEntity = serverDao.load(uuid)
             val serverConfig = ServerMapper.toModel(serverEntity)
             when (serverConfig.authMethod) {
                 AuthMethod.PASSWORD -> serverConfig.copy(
@@ -102,8 +104,8 @@ internal class ServersRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             ServerCredentials.remove(serverConfig.uuid)
             val entity = ServerMapper.toEntity(serverConfig)
-            appDatabase.serverDao().insert(entity)
-            appDatabase.pathDao().delete(serverConfig.uuid)
+            serverDao.insert(entity)
+            pathDao.delete(serverConfig.uuid)
             if (settingsManager.filesystem == serverConfig.uuid) {
                 settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
             }
@@ -113,8 +115,8 @@ internal class ServersRepositoryImpl(
     override suspend fun deleteServer(serverConfig: ServerConfig) {
         withContext(dispatcherProvider.io()) {
             ServerCredentials.remove(serverConfig.uuid)
-            appDatabase.serverDao().delete(serverConfig.uuid)
-            appDatabase.pathDao().delete(serverConfig.uuid)
+            serverDao.delete(serverConfig.uuid)
+            pathDao.delete(serverConfig.uuid)
             if (settingsManager.filesystem == serverConfig.uuid) {
                 settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
             }

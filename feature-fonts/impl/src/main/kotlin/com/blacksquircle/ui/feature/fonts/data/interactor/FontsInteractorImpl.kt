@@ -18,13 +18,16 @@ package com.blacksquircle.ui.feature.fonts.data.interactor
 
 import android.content.Context
 import android.graphics.Typeface
+import com.blacksquircle.ui.core.contract.FileType
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.dao.font.FontDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.fonts.data.model.InternalFont
 import com.blacksquircle.ui.feature.fonts.data.utils.createTypefaceFromPath
 import kotlinx.coroutines.withContext
+import java.io.File
 
 internal class FontsInteractorImpl(
     private val dispatcherProvider: DispatcherProvider,
@@ -33,18 +36,22 @@ internal class FontsInteractorImpl(
     private val context: Context,
 ) : FontsInteractor {
 
-    override suspend fun loadTypeface(): Typeface {
+    private val fontsDir: File
+        get() = Directories.fontsDir(context)
+
+    override suspend fun current(): Typeface {
         return withContext(dispatcherProvider.io()) {
             val fontUuid = settingsManager.fontType
 
             val internalFont = InternalFont.find(fontUuid)
             if (internalFont != null) {
-                return@withContext context.createTypefaceFromPath(internalFont.fontPath)
+                return@withContext context.createTypefaceFromPath(internalFont.fontUri)
             }
 
             val externalFont = fontDao.load(fontUuid)
             if (externalFont != null) {
-                return@withContext context.createTypefaceFromPath(externalFont.fontPath)
+                val fontFile = File(fontsDir, externalFont.fontUuid + FileType.TTF)
+                return@withContext context.createTypefaceFromPath(fontFile.absolutePath)
             }
 
             throw IllegalStateException("Font with id $fontUuid not found")

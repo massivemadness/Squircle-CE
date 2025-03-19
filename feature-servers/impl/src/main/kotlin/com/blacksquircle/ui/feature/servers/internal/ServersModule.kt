@@ -20,6 +20,8 @@ import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.AppDatabase
+import com.blacksquircle.ui.core.storage.database.dao.path.PathDao
+import com.blacksquircle.ui.core.storage.database.dao.server.ServerDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
 import com.blacksquircle.ui.feature.servers.data.factory.ServerFilesystemFactoryImpl
@@ -46,15 +48,27 @@ internal object ServersModule {
         serverFilesystemFactory: ServerFilesystemFactory,
         settingsManager: SettingsManager,
         dispatcherProvider: DispatcherProvider,
-        appDatabase: AppDatabase,
+        serverDao: ServerDao,
+        pathDao: PathDao,
         context: Context,
     ): ServersRepository {
         return ServersRepositoryImpl(
             serverFilesystemFactory = serverFilesystemFactory,
             settingsManager = settingsManager,
             dispatcherProvider = dispatcherProvider,
-            appDatabase = appDatabase,
+            serverDao = serverDao,
+            pathDao = pathDao,
             context = context,
         )
+    }
+
+    @Provides
+    fun provideServerDao(appDatabase: AppDatabase): ServerDao {
+        return appDatabase.serverDao()
+    }
+
+    @Provides
+    fun providePathDao(appDatabase: AppDatabase): PathDao {
+        return appDatabase.pathDao()
     }
 }

@@ -254,14 +254,12 @@ private fun FontsScreenPreview() {
                     FontModel(
                         uuid = "1",
                         name = "Droid Sans Mono",
-                        path = "1",
                         typeface = Typeface.MONOSPACE,
                         isExternal = true,
                     ),
                     FontModel(
                         uuid = "2",
                         name = "JetBrains Mono",
-                        path = "2",
                         typeface = Typeface.MONOSPACE,
                         isExternal = true,
                     ),

@@ -27,7 +27,6 @@ internal object FontMapper {
         return FontModel(
             uuid = fontEntity.fontUuid,
             name = fontEntity.fontName,
-            path = fontEntity.fontPath,
             typeface = typeface,
             isExternal = true,
         )
@@ -37,7 +36,6 @@ internal object FontMapper {
         return FontModel(
             uuid = internalFont.fontUuid,
             name = internalFont.fontName,
-            path = internalFont.fontPath,
             typeface = typeface,
             isExternal = false,
         )
