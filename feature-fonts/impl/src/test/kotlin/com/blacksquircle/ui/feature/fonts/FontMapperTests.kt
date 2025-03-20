@@ -30,7 +30,7 @@ class FontMapperTests {
     private val typeface = mockk<Typeface>()
 
     @Test
-    fun `When converting external font to FontModel Then return mapped object`() {
+    fun `When mapping FontEntity Then return FontModel`() {
         // Given
         val fontEntity = FontEntity(
             fontUuid = "droid_sans_mono.ttf",
@@ -51,7 +51,7 @@ class FontMapperTests {
     }
 
     @Test
-    fun `When converting internal font to FontModel Then return mapped object`() {
+    fun `When mapping AssetsFont Then return FontModel`() {
         // Given
         val assetsFont = AssetsFont.DROID_SANS_MONO
         val expected = FontModel(

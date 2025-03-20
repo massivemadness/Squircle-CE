@@ -23,7 +23,7 @@ import org.junit.Test
 class ReleaseMapperTest {
 
     @Test
-    fun `When converting changelog Then check list size`() {
+    fun `When mapping changelog Then check list size`() {
         // Given
         val testData = """
             <b>v2018.1.2, 11 Feb. 2018</b><br>
@@ -50,7 +50,7 @@ class ReleaseMapperTest {
     }
 
     @Test
-    fun `When converting changelog Then verify release info`() {
+    fun `When mapping changelog Then verify release info`() {
         // Given
         val testData = """
             <b>v2018.1.2, 11 Feb. 2018</b><br>

@@ -26,7 +26,7 @@ import org.junit.Test
 class DocumentMapperTests {
 
     @Test
-    fun `When mapping FileModel to DocumentModel Then return DocumentModel`() {
+    fun `When mapping FileModel Then return DocumentModel`() {
         // Given
         val fileModel = FileModel(
             fileUri = "file:///storage/emulated/0/Test.txt",
@@ -65,7 +65,7 @@ class DocumentMapperTests {
     }
 
     @Test
-    fun `When mapping DocumentEntity to DocumentModel Then return DocumentModel`() {
+    fun `When mapping DocumentEntity Then return DocumentModel`() {
         // Given
         val documentEntity = DocumentEntity(
             uuid = "0",
@@ -100,7 +100,7 @@ class DocumentMapperTests {
     }
 
     @Test
-    fun `When mapping DocumentModel to DocumentEntity Then return DocumentEntity`() {
+    fun `When mapping DocumentModel Then return DocumentEntity`() {
         // Given
         val documentModel = DocumentModel(
             uuid = "0",

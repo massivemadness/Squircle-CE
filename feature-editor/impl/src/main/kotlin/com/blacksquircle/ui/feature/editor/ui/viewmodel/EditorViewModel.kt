@@ -121,7 +121,7 @@ internal class EditorViewModel @Inject constructor(
     fun onSaveFileClicked() {
         viewModelScope.launch {
             try {
-                if (documents.isEmpty()) {
+                if (selectedPosition !in documents.indices) {
                     return@launch
                 }
 
@@ -145,7 +145,7 @@ internal class EditorViewModel @Inject constructor(
 
     fun onSaveFileAsClicked() {
         viewModelScope.launch {
-            if (documents.isEmpty()) {
+            if (selectedPosition !in documents.indices) {
                 return@launch
             }
             val selectedDocument = documents[selectedPosition].document
@@ -156,7 +156,7 @@ internal class EditorViewModel @Inject constructor(
     fun onSaveFileSelected(fileUri: Uri) {
         viewModelScope.launch {
             try {
-                if (documents.isEmpty()) {
+                if (selectedPosition !in documents.indices) {
                     return@launch
                 }
 
@@ -179,7 +179,7 @@ internal class EditorViewModel @Inject constructor(
     }
 
     fun onCloseFileClicked() {
-        if (documents.isEmpty()) {
+        if (selectedPosition !in documents.indices) {
             return
         }
         val selectedDocument = documents[selectedPosition].document
@@ -402,7 +402,7 @@ internal class EditorViewModel @Inject constructor(
     fun onPaused() {
         viewModelScope.launch {
             try {
-                if (documents.isEmpty()) {
+                if (selectedPosition !in documents.indices) {
                     return@launch
                 }
 
@@ -410,7 +410,11 @@ internal class EditorViewModel @Inject constructor(
                 val content = documents[selectedPosition].content
 
                 if (content != null) {
-                    documentRepository.cacheDocument(document, content)
+                    if (settingsManager.autoSaveFiles) {
+                        documentRepository.saveDocument(document, content)
+                    } else {
+                        documentRepository.cacheDocument(document, content)
+                    }
                 }
             } catch (e: CancellationException) {
                 throw e

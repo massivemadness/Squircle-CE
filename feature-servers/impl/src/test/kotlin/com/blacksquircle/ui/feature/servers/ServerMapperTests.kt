@@ -27,7 +27,8 @@ import org.junit.Test
 class ServerMapperTests {
 
     @Test
-    fun `convert ServerEntity to ServerConfig`() {
+    fun `When mapping ServerEntity Then return ServerConfig`() {
+        // Given
         val serverEntity = ServerEntity(
             uuid = "1234567890",
             scheme = ServerType.FTP.value,
@@ -41,7 +42,7 @@ class ServerMapperTests {
             keyId = null,
             passphrase = "test",
         )
-        val serverConfig = ServerConfig(
+        val expected = ServerConfig(
             uuid = "1234567890",
             scheme = ServerType.FTP,
             name = "test",
@@ -55,11 +56,16 @@ class ServerMapperTests {
             passphrase = "test",
         )
 
-        assertEquals(serverConfig, ServerMapper.toModel(serverEntity))
+        // When
+        val actual = ServerMapper.toModel(serverEntity)
+
+        // Then
+        assertEquals(expected, actual)
     }
 
     @Test
-    fun `convert ServerConfig to ServerEntity`() {
+    fun `When mapping ServerConfig Then return ServerEntity`() {
+        // Given
         val serverConfig = ServerConfig(
             uuid = "1234567890",
             scheme = ServerType.FTP,
@@ -73,7 +79,7 @@ class ServerMapperTests {
             keyId = null,
             passphrase = "test",
         )
-        val serverEntity = ServerEntity(
+        val expected = ServerEntity(
             uuid = "1234567890",
             scheme = ServerType.FTP.value,
             name = "test",
@@ -87,6 +93,10 @@ class ServerMapperTests {
             passphrase = "test",
         )
 
-        assertEquals(serverEntity, ServerMapper.toEntity(serverConfig))
+        // When
+        val actual = ServerMapper.toEntity(serverConfig)
+
+        // Then
+        assertEquals(expected, actual)
     }
 }

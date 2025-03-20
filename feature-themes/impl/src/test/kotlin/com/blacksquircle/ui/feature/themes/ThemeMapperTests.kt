@@ -31,7 +31,8 @@ class ThemeMapperTests {
 
     @Test
     @Ignore("FIXME: Method parseColor in android.graphics.Color not mocked.")
-    fun `convert ThemeEntity to ThemeModel`() {
+    fun `When mapping ThemeEntity Then return ThemeModel`() {
+        // Given
         val themeEntity = ThemeEntity(
             uuid = "0",
             name = "Test",
@@ -65,7 +66,7 @@ class ThemeMapperTests {
             attrValueColor = "#FF3000",
             entityRefColor = "#FF3000",
         )
-        val themeModel = ThemeModel(
+        val expected = ThemeModel(
             uuid = "0",
             name = "Test",
             author = "Squircle CE",
@@ -100,44 +101,48 @@ class ThemeMapperTests {
                 entityRefColor = "#FF3000".toColorInt(),
             ),
         )
-        val convert = ThemeMapper.toModel(themeEntity)
 
-        assertEquals(themeModel.uuid, convert.uuid)
-        assertEquals(themeModel.name, convert.name)
-        assertEquals(themeModel.author, convert.author)
-        assertEquals(themeModel.isExternal, convert.isExternal)
-        assertEquals(themeModel.colorScheme.textColor, convert.colorScheme.textColor)
-        assertEquals(themeModel.colorScheme.cursorColor, convert.colorScheme.cursorColor)
-        assertEquals(themeModel.colorScheme.backgroundColor, convert.colorScheme.backgroundColor)
-        assertEquals(themeModel.colorScheme.gutterColor, convert.colorScheme.gutterColor)
-        assertEquals(themeModel.colorScheme.gutterDividerColor, convert.colorScheme.gutterDividerColor)
-        assertEquals(themeModel.colorScheme.gutterCurrentLineNumberColor, convert.colorScheme.gutterCurrentLineNumberColor)
-        assertEquals(themeModel.colorScheme.gutterTextColor, convert.colorScheme.gutterTextColor)
-        assertEquals(themeModel.colorScheme.selectedLineColor, convert.colorScheme.selectedLineColor)
-        assertEquals(themeModel.colorScheme.selectionColor, convert.colorScheme.selectionColor)
-        assertEquals(themeModel.colorScheme.suggestionQueryColor, convert.colorScheme.suggestionQueryColor)
-        assertEquals(themeModel.colorScheme.findResultBackgroundColor, convert.colorScheme.findResultBackgroundColor)
-        assertEquals(themeModel.colorScheme.delimiterBackgroundColor, convert.colorScheme.delimiterBackgroundColor)
-        assertEquals(themeModel.colorScheme.numberColor, convert.colorScheme.numberColor)
-        assertEquals(themeModel.colorScheme.operatorColor, convert.colorScheme.operatorColor)
-        assertEquals(themeModel.colorScheme.keywordColor, convert.colorScheme.keywordColor)
-        assertEquals(themeModel.colorScheme.typeColor, convert.colorScheme.typeColor)
-        assertEquals(themeModel.colorScheme.langConstColor, convert.colorScheme.langConstColor)
-        assertEquals(themeModel.colorScheme.preprocessorColor, convert.colorScheme.preprocessorColor)
-        assertEquals(themeModel.colorScheme.variableColor, convert.colorScheme.variableColor)
-        assertEquals(themeModel.colorScheme.methodColor, convert.colorScheme.methodColor)
-        assertEquals(themeModel.colorScheme.stringColor, convert.colorScheme.stringColor)
-        assertEquals(themeModel.colorScheme.commentColor, convert.colorScheme.commentColor)
-        assertEquals(themeModel.colorScheme.tagColor, convert.colorScheme.tagColor)
-        assertEquals(themeModel.colorScheme.tagNameColor, convert.colorScheme.tagNameColor)
-        assertEquals(themeModel.colorScheme.attrNameColor, convert.colorScheme.attrNameColor)
-        assertEquals(themeModel.colorScheme.attrValueColor, convert.colorScheme.attrValueColor)
-        assertEquals(themeModel.colorScheme.entityRefColor, convert.colorScheme.entityRefColor)
+        // When
+        val actual = ThemeMapper.toModel(themeEntity)
+
+        // Then
+        assertEquals(expected.uuid, actual.uuid)
+        assertEquals(expected.name, actual.name)
+        assertEquals(expected.author, actual.author)
+        assertEquals(expected.isExternal, actual.isExternal)
+        assertEquals(expected.colorScheme.textColor, actual.colorScheme.textColor)
+        assertEquals(expected.colorScheme.cursorColor, actual.colorScheme.cursorColor)
+        assertEquals(expected.colorScheme.backgroundColor, actual.colorScheme.backgroundColor)
+        assertEquals(expected.colorScheme.gutterColor, actual.colorScheme.gutterColor)
+        assertEquals(expected.colorScheme.gutterDividerColor, actual.colorScheme.gutterDividerColor)
+        assertEquals(expected.colorScheme.gutterCurrentLineNumberColor, actual.colorScheme.gutterCurrentLineNumberColor)
+        assertEquals(expected.colorScheme.gutterTextColor, actual.colorScheme.gutterTextColor)
+        assertEquals(expected.colorScheme.selectedLineColor, actual.colorScheme.selectedLineColor)
+        assertEquals(expected.colorScheme.selectionColor, actual.colorScheme.selectionColor)
+        assertEquals(expected.colorScheme.suggestionQueryColor, actual.colorScheme.suggestionQueryColor)
+        assertEquals(expected.colorScheme.findResultBackgroundColor, actual.colorScheme.findResultBackgroundColor)
+        assertEquals(expected.colorScheme.delimiterBackgroundColor, actual.colorScheme.delimiterBackgroundColor)
+        assertEquals(expected.colorScheme.numberColor, actual.colorScheme.numberColor)
+        assertEquals(expected.colorScheme.operatorColor, actual.colorScheme.operatorColor)
+        assertEquals(expected.colorScheme.keywordColor, actual.colorScheme.keywordColor)
+        assertEquals(expected.colorScheme.typeColor, actual.colorScheme.typeColor)
+        assertEquals(expected.colorScheme.langConstColor, actual.colorScheme.langConstColor)
+        assertEquals(expected.colorScheme.preprocessorColor, actual.colorScheme.preprocessorColor)
+        assertEquals(expected.colorScheme.variableColor, actual.colorScheme.variableColor)
+        assertEquals(expected.colorScheme.methodColor, actual.colorScheme.methodColor)
+        assertEquals(expected.colorScheme.stringColor, actual.colorScheme.stringColor)
+        assertEquals(expected.colorScheme.commentColor, actual.colorScheme.commentColor)
+        assertEquals(expected.colorScheme.tagColor, actual.colorScheme.tagColor)
+        assertEquals(expected.colorScheme.tagNameColor, actual.colorScheme.tagNameColor)
+        assertEquals(expected.colorScheme.attrNameColor, actual.colorScheme.attrNameColor)
+        assertEquals(expected.colorScheme.attrValueColor, actual.colorScheme.attrValueColor)
+        assertEquals(expected.colorScheme.entityRefColor, actual.colorScheme.entityRefColor)
     }
 
     @Test
     @Ignore("FIXME: Method parseColor in android.graphics.Color not mocked.")
-    fun `convert ThemeModel to ThemeEntity`() {
+    fun `When mapping ThemeModel Then return ThemeEntity`() {
+        // Given
         val themeModel = ThemeModel(
             uuid = "0",
             name = "Test",
@@ -173,7 +178,7 @@ class ThemeMapperTests {
                 entityRefColor = "#FF3000".toColorInt(),
             )
         )
-        val themeEntity = ThemeEntity(
+        val expected = ThemeEntity(
             uuid = "0",
             name = "Test",
             author = "Squircle CE",
@@ -206,43 +211,47 @@ class ThemeMapperTests {
             attrValueColor = "#FF3000",
             entityRefColor = "#FF3000",
         )
-        val convert = ThemeMapper.toEntity(themeModel)
 
-        assertEquals(themeEntity.uuid, convert.uuid)
-        assertEquals(themeEntity.name, convert.name)
-        assertEquals(themeEntity.author, convert.author)
-        assertEquals(themeEntity.textColor, convert.textColor)
-        assertEquals(themeEntity.cursorColor, convert.cursorColor)
-        assertEquals(themeEntity.backgroundColor, convert.backgroundColor)
-        assertEquals(themeEntity.gutterColor, convert.gutterColor)
-        assertEquals(themeEntity.gutterDividerColor, convert.gutterDividerColor)
-        assertEquals(themeEntity.gutterCurrentLineNumberColor, convert.gutterCurrentLineNumberColor)
-        assertEquals(themeEntity.gutterTextColor, convert.gutterTextColor)
-        assertEquals(themeEntity.selectedLineColor, convert.selectedLineColor)
-        assertEquals(themeEntity.selectionColor, convert.selectionColor)
-        assertEquals(themeEntity.suggestionQueryColor, convert.suggestionQueryColor)
-        assertEquals(themeEntity.findResultBackgroundColor, convert.findResultBackgroundColor)
-        assertEquals(themeEntity.delimiterBackgroundColor, convert.delimiterBackgroundColor)
-        assertEquals(themeEntity.numberColor, convert.numberColor)
-        assertEquals(themeEntity.operatorColor, convert.operatorColor)
-        assertEquals(themeEntity.keywordColor, convert.keywordColor)
-        assertEquals(themeEntity.typeColor, convert.typeColor)
-        assertEquals(themeEntity.langConstColor, convert.langConstColor)
-        assertEquals(themeEntity.preprocessorColor, convert.preprocessorColor)
-        assertEquals(themeEntity.variableColor, convert.variableColor)
-        assertEquals(themeEntity.methodColor, convert.methodColor)
-        assertEquals(themeEntity.stringColor, convert.stringColor)
-        assertEquals(themeEntity.commentColor, convert.commentColor)
-        assertEquals(themeEntity.tagColor, convert.tagColor)
-        assertEquals(themeEntity.tagNameColor, convert.tagNameColor)
-        assertEquals(themeEntity.attrNameColor, convert.attrNameColor)
-        assertEquals(themeEntity.attrValueColor, convert.attrValueColor)
-        assertEquals(themeEntity.entityRefColor, convert.entityRefColor)
+        // When
+        val actual = ThemeMapper.toEntity(themeModel)
+
+        // Then
+        assertEquals(expected.uuid, actual.uuid)
+        assertEquals(expected.name, actual.name)
+        assertEquals(expected.author, actual.author)
+        assertEquals(expected.textColor, actual.textColor)
+        assertEquals(expected.cursorColor, actual.cursorColor)
+        assertEquals(expected.backgroundColor, actual.backgroundColor)
+        assertEquals(expected.gutterColor, actual.gutterColor)
+        assertEquals(expected.gutterDividerColor, actual.gutterDividerColor)
+        assertEquals(expected.gutterCurrentLineNumberColor, actual.gutterCurrentLineNumberColor)
+        assertEquals(expected.gutterTextColor, actual.gutterTextColor)
+        assertEquals(expected.selectedLineColor, actual.selectedLineColor)
+        assertEquals(expected.selectionColor, actual.selectionColor)
+        assertEquals(expected.suggestionQueryColor, actual.suggestionQueryColor)
+        assertEquals(expected.findResultBackgroundColor, actual.findResultBackgroundColor)
+        assertEquals(expected.delimiterBackgroundColor, actual.delimiterBackgroundColor)
+        assertEquals(expected.numberColor, actual.numberColor)
+        assertEquals(expected.operatorColor, actual.operatorColor)
+        assertEquals(expected.keywordColor, actual.keywordColor)
+        assertEquals(expected.typeColor, actual.typeColor)
+        assertEquals(expected.langConstColor, actual.langConstColor)
+        assertEquals(expected.preprocessorColor, actual.preprocessorColor)
+        assertEquals(expected.variableColor, actual.variableColor)
+        assertEquals(expected.methodColor, actual.methodColor)
+        assertEquals(expected.stringColor, actual.stringColor)
+        assertEquals(expected.commentColor, actual.commentColor)
+        assertEquals(expected.tagColor, actual.tagColor)
+        assertEquals(expected.tagNameColor, actual.tagNameColor)
+        assertEquals(expected.attrNameColor, actual.attrNameColor)
+        assertEquals(expected.attrValueColor, actual.attrValueColor)
+        assertEquals(expected.entityRefColor, actual.entityRefColor)
     }
 
     @Test
     @Ignore("FIXME: Method parseColor in android.graphics.Color not mocked.")
-    fun `convert ExternalTheme to ThemeModel`() {
+    fun `When mapping ExternalTheme Then return ThemeModel`() {
+        // Given
         val externalTheme = ExternalTheme(
             name = "Test",
             author = "Squircle CE",
@@ -276,7 +285,7 @@ class ThemeMapperTests {
                 entityRefColor = "#FF3000",
             ),
         )
-        val themeModel = ThemeModel(
+        val expected = ThemeModel(
             uuid = "0",
             name = "Test",
             author = "Squircle CE",
@@ -311,38 +320,41 @@ class ThemeMapperTests {
                 entityRefColor = "#FF3000".toColorInt(),
             ),
         )
-        val convert = ThemeMapper.toModel(externalTheme)
 
-        assertEquals(themeModel.uuid, convert.uuid)
-        assertEquals(themeModel.name, convert.name)
-        assertEquals(themeModel.author, convert.author)
-        assertEquals(themeModel.isExternal, convert.isExternal)
-        assertEquals(themeModel.colorScheme.textColor, convert.colorScheme.textColor)
-        assertEquals(themeModel.colorScheme.cursorColor, convert.colorScheme.cursorColor)
-        assertEquals(themeModel.colorScheme.backgroundColor, convert.colorScheme.backgroundColor)
-        assertEquals(themeModel.colorScheme.gutterColor, convert.colorScheme.gutterColor)
-        assertEquals(themeModel.colorScheme.gutterDividerColor, convert.colorScheme.gutterDividerColor)
-        assertEquals(themeModel.colorScheme.gutterCurrentLineNumberColor, convert.colorScheme.gutterCurrentLineNumberColor)
-        assertEquals(themeModel.colorScheme.gutterTextColor, convert.colorScheme.gutterTextColor)
-        assertEquals(themeModel.colorScheme.selectedLineColor, convert.colorScheme.selectedLineColor)
-        assertEquals(themeModel.colorScheme.selectionColor, convert.colorScheme.selectionColor)
-        assertEquals(themeModel.colorScheme.suggestionQueryColor, convert.colorScheme.suggestionQueryColor)
-        assertEquals(themeModel.colorScheme.findResultBackgroundColor, convert.colorScheme.findResultBackgroundColor)
-        assertEquals(themeModel.colorScheme.delimiterBackgroundColor, convert.colorScheme.delimiterBackgroundColor)
-        assertEquals(themeModel.colorScheme.numberColor, convert.colorScheme.numberColor)
-        assertEquals(themeModel.colorScheme.operatorColor, convert.colorScheme.operatorColor)
-        assertEquals(themeModel.colorScheme.keywordColor, convert.colorScheme.keywordColor)
-        assertEquals(themeModel.colorScheme.typeColor, convert.colorScheme.typeColor)
-        assertEquals(themeModel.colorScheme.langConstColor, convert.colorScheme.langConstColor)
-        assertEquals(themeModel.colorScheme.preprocessorColor, convert.colorScheme.preprocessorColor)
-        assertEquals(themeModel.colorScheme.variableColor, convert.colorScheme.variableColor)
-        assertEquals(themeModel.colorScheme.methodColor, convert.colorScheme.methodColor)
-        assertEquals(themeModel.colorScheme.stringColor, convert.colorScheme.stringColor)
-        assertEquals(themeModel.colorScheme.commentColor, convert.colorScheme.commentColor)
-        assertEquals(themeModel.colorScheme.tagColor, convert.colorScheme.tagColor)
-        assertEquals(themeModel.colorScheme.tagNameColor, convert.colorScheme.tagNameColor)
-        assertEquals(themeModel.colorScheme.attrNameColor, convert.colorScheme.attrNameColor)
-        assertEquals(themeModel.colorScheme.attrValueColor, convert.colorScheme.attrValueColor)
-        assertEquals(themeModel.colorScheme.entityRefColor, convert.colorScheme.entityRefColor)
+        // When
+        val actual = ThemeMapper.toModel(externalTheme)
+
+        // Then
+        assertEquals(expected.uuid, actual.uuid)
+        assertEquals(expected.name, actual.name)
+        assertEquals(expected.author, actual.author)
+        assertEquals(expected.isExternal, actual.isExternal)
+        assertEquals(expected.colorScheme.textColor, actual.colorScheme.textColor)
+        assertEquals(expected.colorScheme.cursorColor, actual.colorScheme.cursorColor)
+        assertEquals(expected.colorScheme.backgroundColor, actual.colorScheme.backgroundColor)
+        assertEquals(expected.colorScheme.gutterColor, actual.colorScheme.gutterColor)
+        assertEquals(expected.colorScheme.gutterDividerColor, actual.colorScheme.gutterDividerColor)
+        assertEquals(expected.colorScheme.gutterCurrentLineNumberColor, actual.colorScheme.gutterCurrentLineNumberColor)
+        assertEquals(expected.colorScheme.gutterTextColor, actual.colorScheme.gutterTextColor)
+        assertEquals(expected.colorScheme.selectedLineColor, actual.colorScheme.selectedLineColor)
+        assertEquals(expected.colorScheme.selectionColor, actual.colorScheme.selectionColor)
+        assertEquals(expected.colorScheme.suggestionQueryColor, actual.colorScheme.suggestionQueryColor)
+        assertEquals(expected.colorScheme.findResultBackgroundColor, actual.colorScheme.findResultBackgroundColor)
+        assertEquals(expected.colorScheme.delimiterBackgroundColor, actual.colorScheme.delimiterBackgroundColor)
+        assertEquals(expected.colorScheme.numberColor, actual.colorScheme.numberColor)
+        assertEquals(expected.colorScheme.operatorColor, actual.colorScheme.operatorColor)
+        assertEquals(expected.colorScheme.keywordColor, actual.colorScheme.keywordColor)
+        assertEquals(expected.colorScheme.typeColor, actual.colorScheme.typeColor)
+        assertEquals(expected.colorScheme.langConstColor, actual.colorScheme.langConstColor)
+        assertEquals(expected.colorScheme.preprocessorColor, actual.colorScheme.preprocessorColor)
+        assertEquals(expected.colorScheme.variableColor, actual.colorScheme.variableColor)
+        assertEquals(expected.colorScheme.methodColor, actual.colorScheme.methodColor)
+        assertEquals(expected.colorScheme.stringColor, actual.colorScheme.stringColor)
+        assertEquals(expected.colorScheme.commentColor, actual.colorScheme.commentColor)
+        assertEquals(expected.colorScheme.tagColor, actual.colorScheme.tagColor)
+        assertEquals(expected.colorScheme.tagNameColor, actual.colorScheme.tagNameColor)
+        assertEquals(expected.colorScheme.attrNameColor, actual.colorScheme.attrNameColor)
+        assertEquals(expected.colorScheme.attrValueColor, actual.colorScheme.attrValueColor)
+        assertEquals(expected.colorScheme.entityRefColor, actual.colorScheme.entityRefColor)
     }
 }
