@@ -59,7 +59,7 @@ class ThemeUiStateTests {
     fun setup() {
         mockkObject(TypefaceProvider)
         every { TypefaceProvider.DEFAULT } returns typeface
-        coEvery { fontsInteractor.current() } returns typeface
+        coEvery { fontsInteractor.loadFont() } returns typeface
         every { settingsManager.editorTheme } returns ""
     }
 

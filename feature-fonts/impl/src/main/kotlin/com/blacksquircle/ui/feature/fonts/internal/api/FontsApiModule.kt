@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.fonts.internal.api
 
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.fonts.data.interactor.FontsInteractorImpl
 import dagger.Module
@@ -32,12 +31,10 @@ object FontsApiModule {
     @Singleton
     fun provideFontsInteractor(
         dispatcherProvider: DispatcherProvider,
-        settingsManager: SettingsManager,
         context: Context,
     ): FontsInteractor {
         return FontsInteractorImpl(
             dispatcherProvider = dispatcherProvider,
-            settingsManager = settingsManager,
             context = context,
         )
     }

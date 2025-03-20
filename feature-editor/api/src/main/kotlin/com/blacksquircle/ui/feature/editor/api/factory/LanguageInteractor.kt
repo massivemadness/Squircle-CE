@@ -14,25 +14,8 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor
+package com.blacksquircle.ui.feature.editor.api.factory
 
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-
-internal fun createDocument(
-    position: Int,
-    fileName: String,
-    modified: Boolean = false,
-): DocumentModel {
-    return DocumentModel(
-        uuid = fileName,
-        fileUri = "file:///storage/emulated/0/$fileName",
-        filesystemUuid = "local",
-        language = "plaintext",
-        modified = modified,
-        position = position,
-        scrollX = 1,
-        scrollY = 2,
-        selectionStart = 3,
-        selectionEnd = 4,
-    )
+interface LanguageInteractor {
+    suspend fun loadGrammar(language: String)
 }

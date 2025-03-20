@@ -30,7 +30,7 @@ internal fun Context.createTypefaceFromPath(fontPath: String): Typeface {
             Typeface.createFromFile(fontPath)
         }
     } catch (e: Exception) {
-        Timber.e(e.message, e)
+        Timber.e(e, e.message)
         Typeface.MONOSPACE
     }
 }

@@ -18,10 +18,9 @@ package com.blacksquircle.ui.feature.editor.data.model
 
 import android.graphics.Typeface
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
-import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 
 internal data class EditorSettings(
-    val theme: EditorColorScheme = EditorColorScheme(),
+    val theme: String = "darcula",
     val fontSize: Float = 14f,
     val fontType: Typeface = Typeface.MONOSPACE,
     val wordWrap: Boolean = true,

@@ -25,7 +25,7 @@ import com.blacksquircle.ui.core.storage.database.dao.font.FontDao
 import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.fonts.data.mapper.FontMapper
-import com.blacksquircle.ui.feature.fonts.data.model.InternalFont
+import com.blacksquircle.ui.feature.fonts.data.model.AssetsFont
 import com.blacksquircle.ui.feature.fonts.data.utils.createTypefaceFromPath
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
@@ -45,7 +45,7 @@ internal class FontsRepositoryImpl(
 
     override suspend fun loadFonts(query: String): List<FontModel> {
         return withContext(dispatcherProvider.io()) {
-            val defaultFonts = InternalFont.entries
+            val defaultFonts = AssetsFont.entries
                 .filter { it.name.contains(query, ignoreCase = true) }
                 .map { font ->
                     val typeface = context.createTypefaceFromPath(font.fontUri)

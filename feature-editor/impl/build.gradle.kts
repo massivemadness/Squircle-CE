@@ -81,9 +81,6 @@ dependencies {
     implementation(project(":filesystems:filesystem-local"))
     implementation(project(":filesystems:filesystem-saf"))
 
-    // TODO remove
-    implementation(project(":editorkit:editorkit"))
-
     // Tests
     testImplementation(libs.test.junit)
     testImplementation(libs.test.mockk)

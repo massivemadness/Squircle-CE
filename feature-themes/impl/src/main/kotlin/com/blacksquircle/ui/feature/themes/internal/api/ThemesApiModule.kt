@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.themes.internal.api
 
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import com.blacksquircle.ui.feature.themes.data.interactor.ThemesInteractorImpl
 import dagger.Module
@@ -32,12 +31,10 @@ object ThemesApiModule {
     @Singleton
     fun provideThemesInteractor(
         dispatcherProvider: DispatcherProvider,
-        settingsManager: SettingsManager,
         context: Context,
     ): ThemesInteractor {
         return ThemesInteractorImpl(
             dispatcherProvider = dispatcherProvider,
-            settingsManager = settingsManager,
             context = context,
         )
     }

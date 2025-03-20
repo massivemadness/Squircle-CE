@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.editor.ui.fragment
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +26,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -44,13 +46,15 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.emptyview.EmptyView
+import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.internal.EditorComponent
-import com.blacksquircle.ui.feature.editor.ui.fragment.internal.DocumentLayout
+import com.blacksquircle.ui.feature.editor.ui.fragment.internal.CodeEditor
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.DocumentNavigation
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.EditorToolbar
+import com.blacksquircle.ui.feature.editor.ui.fragment.internal.ErrorStatus
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
@@ -224,21 +228,45 @@ private fun EditorScreen(
 
             val documentState = viewState.documents
                 .getOrNull(viewState.selectedDocument)
-            if (documentState != null) {
-                DocumentLayout(
-                    documentState = documentState,
+
+            val isLoading = viewState.isLoading
+            val isEmpty = viewState.documents.isEmpty()
+            val isError = documentState?.errorState != null
+            val content = documentState?.content
+
+            if (!isError && !isLoading && content != null) {
+                CodeEditor(
+                    content = documentState.content,
+                    language = documentState.document.language,
                     settings = viewState.settings,
-                    isLoading = viewState.isLoading,
-                    onErrorActionClicked = onErrorActionClicked,
+                    modifier = Modifier.fillMaxSize(),
                 )
             }
 
-            if (viewState.documents.isEmpty()) {
-                EmptyView(
-                    iconResId = UiR.drawable.ic_file_find,
-                    title = stringResource(R.string.message_no_open_files),
-                    modifier = Modifier.fillMaxSize()
-                )
+            if (isError && !isLoading) {
+                Box(Modifier.fillMaxSize()) {
+                    ErrorStatus(
+                        errorState = documentState?.errorState,
+                        onActionClicked = onErrorActionClicked,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
+            if (isEmpty && !isLoading) {
+                Box(Modifier.fillMaxSize()) {
+                    EmptyView(
+                        iconResId = UiR.drawable.ic_file_find,
+                        title = stringResource(R.string.message_no_open_files),
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
+            if (isLoading) {
+                Box(Modifier.fillMaxSize()) {
+                    CircularProgress(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
             }
         }
     }

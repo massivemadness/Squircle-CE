@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.filesystem.base.model
 
-import com.blacksquircle.ui.filesystem.base.utils.endsWith
 import java.io.File
 
 data class FileModel(
@@ -34,17 +33,17 @@ data class FileModel(
     val name: String
         get() = path.substringAfterLast(File.separator)
     val extension: String
-        get() = name.substringAfterLast(".", "")
+        get() = "." + name.substringAfterLast(".", "")
     val type: FileType
-        get() = when {
-            name.endsWith(TEXT) -> FileType.TEXT
-            name.endsWith(ARCHIVE) -> FileType.ARCHIVE
-            name.endsWith(IMAGE) -> FileType.IMAGE
-            name.endsWith(AUDIO) -> FileType.AUDIO
-            name.endsWith(VIDEO) -> FileType.VIDEO
-            name.endsWith(DOCUMENT) -> FileType.DOCUMENT
-            name.endsWith(EBOOK) -> FileType.EBOOK
-            name.endsWith(APPLICATION) -> FileType.APPLICATION
+        get() = when (extension) {
+            in TEXT -> FileType.TEXT
+            in ARCHIVE -> FileType.ARCHIVE
+            in IMAGE -> FileType.IMAGE
+            in AUDIO -> FileType.AUDIO
+            in VIDEO -> FileType.VIDEO
+            in DOCUMENT -> FileType.DOCUMENT
+            in EBOOK -> FileType.EBOOK
+            in APPLICATION -> FileType.APPLICATION
             else -> FileType.DEFAULT
         }
     val isHidden: Boolean

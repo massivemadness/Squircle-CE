@@ -19,5 +19,5 @@ package com.blacksquircle.ui.feature.fonts.api.interactor
 import android.graphics.Typeface
 
 interface FontsInteractor {
-    suspend fun current(): Typeface
+    suspend fun loadFont(fontId: String): Typeface
 }

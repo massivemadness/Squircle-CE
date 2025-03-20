@@ -14,10 +14,25 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.api.factory
+package com.blacksquircle.ui.feature.editor.data.model
 
-import io.github.rosemoe.sora.lang.Language
+internal enum class AssetsGrammar(
+    val languageId: String,
+    val languageName: String,
+    val languageFile: String,
+    val languageUri: String,
+) {
+    JAVASCRIPT(
+        languageId = "source.js",
+        languageName = "JavaScript",
+        languageFile = "javascript",
+        languageUri = "file:///android_asset/languages/javascript",
+    );
 
-interface LanguageFactory {
-    suspend fun create(languageName: String): Language
+    companion object {
+
+        fun find(scope: String): AssetsGrammar? {
+            return entries.find { it.languageId == scope }
+        }
+    }
 }

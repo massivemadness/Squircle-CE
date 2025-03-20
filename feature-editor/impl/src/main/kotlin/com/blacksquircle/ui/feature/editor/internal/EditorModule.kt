@@ -22,8 +22,8 @@ import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.feature.editor.api.factory.LanguageFactory
-import com.blacksquircle.ui.feature.editor.data.factory.LanguageFactoryImpl
+import com.blacksquircle.ui.feature.editor.api.factory.LanguageInteractor
+import com.blacksquircle.ui.feature.editor.data.interactor.LanguageInteractorImpl
 import com.blacksquircle.ui.feature.editor.data.manager.CacheManager
 import com.blacksquircle.ui.feature.editor.data.repository.DocumentRepositoryImpl
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
@@ -39,8 +39,8 @@ internal object EditorModule {
     fun provideLanguageFactory(
         dispatcherProvider: DispatcherProvider,
         context: Context,
-    ): LanguageFactory {
-        return LanguageFactoryImpl(
+    ): LanguageInteractor {
+        return LanguageInteractorImpl(
             dispatcherProvider = dispatcherProvider,
             context = context
         )

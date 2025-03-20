@@ -17,59 +17,19 @@
 package com.blacksquircle.ui.feature.editor.ui.fragment.internal
 
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
-import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.feature.editor.data.model.EditorSettings
-import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
-import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditor
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.createFromRegistry
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.syncScroll
-import io.github.rosemoe.sora.lang.Language
 
 @Composable
-internal fun DocumentLayout(
-    documentState: DocumentState,
-    settings: EditorSettings,
-    isLoading: Boolean,
-    modifier: Modifier = Modifier,
-    onErrorActionClicked: (ErrorAction) -> Unit = {}
-) {
-    Box(modifier = modifier.fillMaxSize()) {
-        val content = documentState.content
-        val isError = documentState.errorState != null
-        if (!isError && !isLoading && content != null) {
-            CodeEditor(
-                content = documentState.content,
-                language = documentState.language,
-                settings = settings,
-                modifier = Modifier.fillMaxSize(),
-            )
-        }
-        if (isError && !isLoading) {
-            ErrorStatus(
-                errorState = documentState.errorState,
-                onActionClicked = onErrorActionClicked,
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
-        if (isLoading) {
-            CircularProgress(
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
-    }
-}
-
-@Composable
-private fun CodeEditor(
+internal fun CodeEditor(
     content: TextContent,
-    language: Language,
+    language: String,
     settings: EditorSettings,
     modifier: Modifier = Modifier,
 ) {
@@ -94,8 +54,8 @@ private fun CodeEditor(
             editor.tabWidth = settings.tabWidth
             editor.typefaceText = settings.fontType
             editor.typefaceLineNumber = settings.fontType
-            editor.colorScheme = settings.theme
-            editor.setEditorLanguage(language)
+            editor.colorScheme = editor.createFromRegistry()
+            editor.setEditorLanguage(editor.createFromRegistry(language, settings.codeCompletion))
             editor.setText(content)
             editor.syncScroll()
         },

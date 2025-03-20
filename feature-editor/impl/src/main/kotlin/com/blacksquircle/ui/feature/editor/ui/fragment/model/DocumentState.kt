@@ -19,13 +19,10 @@ package com.blacksquircle.ui.feature.editor.ui.fragment.model
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
-import io.github.rosemoe.sora.lang.EmptyLanguage
-import io.github.rosemoe.sora.lang.Language
 
 @Immutable
 internal data class DocumentState(
     val document: DocumentModel,
-    val language: Language = EmptyLanguage(),
     val content: TextContent? = null,
     val errorState: ErrorState? = null,
 )

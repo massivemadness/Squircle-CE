@@ -20,24 +20,14 @@ import com.blacksquircle.ui.core.storage.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.language.base.Language
-import io.mockk.every
-import io.mockk.mockk
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 
 class DocumentMapperTests {
 
-    private val plainTextLanguage = mockk<Language>()
-
-    @Before
-    fun setup() {
-        every { plainTextLanguage.languageName } returns "plaintext"
-    }
-
     @Test
-    fun `convert FileModel to DocumentModel`() {
+    fun `When mapping FileModel to DocumentModel Then return DocumentModel`() {
+        // Given
         val fileModel = FileModel(
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = "local",
@@ -45,11 +35,11 @@ class DocumentMapperTests {
             lastModified = 1L,
             directory = false,
         )
-        val documentModel = DocumentModel(
+        val expected = DocumentModel(
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = "local",
-            language = plainTextLanguage,
+            language = "plaintext",
             modified = false,
             position = 0,
             scrollX = 0,
@@ -57,21 +47,26 @@ class DocumentMapperTests {
             selectionStart = 0,
             selectionEnd = 0,
         )
-        val convert = DocumentMapper.toModel(fileModel, position = 0)
 
-        assertEquals(documentModel.fileUri, convert.fileUri)
-        assertEquals(documentModel.filesystemUuid, convert.filesystemUuid)
-        assertEquals(documentModel.language.languageName, convert.language.languageName)
-        assertEquals(documentModel.modified, convert.modified)
-        assertEquals(documentModel.position, convert.position)
-        assertEquals(documentModel.scrollX, convert.scrollX)
-        assertEquals(documentModel.scrollY, convert.scrollY)
-        assertEquals(documentModel.selectionStart, convert.selectionStart)
-        assertEquals(documentModel.selectionEnd, convert.selectionEnd)
+        // When
+        val actual = DocumentMapper.toModel(fileModel, position = 0)
+
+        // Then
+        // assertEquals(expected.uuid, actual.uuid)
+        assertEquals(expected.fileUri, actual.fileUri)
+        assertEquals(expected.filesystemUuid, actual.filesystemUuid)
+        assertEquals(expected.language, actual.language)
+        assertEquals(expected.modified, actual.modified)
+        assertEquals(expected.position, actual.position)
+        assertEquals(expected.scrollX, actual.scrollX)
+        assertEquals(expected.scrollY, actual.scrollY)
+        assertEquals(expected.selectionStart, actual.selectionStart)
+        assertEquals(expected.selectionEnd, actual.selectionEnd)
     }
 
     @Test
-    fun `convert DocumentEntity to DocumentModel`() {
+    fun `When mapping DocumentEntity to DocumentModel Then return DocumentModel`() {
+        // Given
         val documentEntity = DocumentEntity(
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
@@ -84,11 +79,11 @@ class DocumentMapperTests {
             selectionStart = 8,
             selectionEnd = 10,
         )
-        val documentModel = DocumentModel(
+        val expected = DocumentModel(
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = "local",
-            language = plainTextLanguage,
+            language = "plaintext",
             modified = true,
             position = 10,
             scrollX = 0,
@@ -96,26 +91,22 @@ class DocumentMapperTests {
             selectionStart = 8,
             selectionEnd = 10,
         )
-        val convert = DocumentMapper.toModel(documentEntity)
 
-        assertEquals(documentModel.fileUri, convert.fileUri)
-        assertEquals(documentModel.filesystemUuid, convert.filesystemUuid)
-        assertEquals(documentModel.language.languageName, convert.language.languageName)
-        assertEquals(documentModel.modified, convert.modified)
-        assertEquals(documentModel.position, convert.position)
-        assertEquals(documentModel.scrollX, convert.scrollX)
-        assertEquals(documentModel.scrollY, convert.scrollY)
-        assertEquals(documentModel.selectionStart, convert.selectionStart)
-        assertEquals(documentModel.selectionEnd, convert.selectionEnd)
+        // When
+        val actual = DocumentMapper.toModel(documentEntity)
+
+        // Then
+        assertEquals(expected, actual)
     }
 
     @Test
-    fun `convert DocumentModel to DocumentEntity`() {
+    fun `When mapping DocumentModel to DocumentEntity Then return DocumentEntity`() {
+        // Given
         val documentModel = DocumentModel(
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = "local",
-            language = plainTextLanguage,
+            language = "plaintext",
             modified = false,
             position = 10,
             scrollX = 0,
@@ -123,7 +114,7 @@ class DocumentMapperTests {
             selectionStart = 8,
             selectionEnd = 10,
         )
-        val documentEntity = DocumentEntity(
+        val expected = DocumentEntity(
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = "local",
@@ -136,6 +127,10 @@ class DocumentMapperTests {
             selectionEnd = 10,
         )
 
-        assertEquals(documentEntity, DocumentMapper.toEntity(documentModel))
+        // When
+        val actual = DocumentMapper.toEntity(documentModel)
+
+        // Then
+        assertEquals(expected, actual)
     }
 }

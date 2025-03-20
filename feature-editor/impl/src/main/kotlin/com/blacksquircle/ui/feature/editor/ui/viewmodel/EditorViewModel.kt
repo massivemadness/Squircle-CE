@@ -26,7 +26,7 @@ import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.api.factory.LanguageFactory
+import com.blacksquircle.ui.feature.editor.api.factory.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
@@ -70,7 +70,7 @@ internal class EditorViewModel @Inject constructor(
     private val themesInteractor: ThemesInteractor,
     private val fontsInteractor: FontsInteractor,
     private val shortcutsInteractor: ShortcutsInteractor,
-    private val languageFactory: LanguageFactory,
+    private val languageInteractor: LanguageInteractor,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(EditorViewState())
@@ -477,11 +477,7 @@ internal class EditorViewModel @Inject constructor(
                     selectedPosition = existingIndex
                 } else {
                     /** Create new document */
-                    documents = documents + DocumentState(
-                        document = document,
-                        language = languageFactory.create(document.language),
-                        content = null,
-                    )
+                    documents = documents + DocumentState(document)
                     selectedPosition = documents.size - 1
                 }
 
@@ -496,6 +492,7 @@ internal class EditorViewModel @Inject constructor(
                 /** Can't use [document] here, it might have different UUID with same file uri */
                 val documentState = documents[selectedPosition]
                 val content = documentRepository.loadDocument(documentState.document)
+                languageInteractor.loadGrammar(documentState.document.language)
                 ensureActive()
 
                 documents = documents.mapSelected {
@@ -539,23 +536,24 @@ internal class EditorViewModel @Inject constructor(
     private fun loadDocuments() {
         viewModelScope.launch {
             try {
-                val documentList = documentRepository.loadDocuments()
-
-                documents = documentList.map { document ->
-                    DocumentState(
-                        document = document,
-                        language = languageFactory.create(document.language),
-                        content = null,
-                    )
-                }
-                selectedPosition = documentList.indexOf { it.uuid == settingsManager.selectedUuid }
                 settings = loadSettings()
+
+                themesInteractor.loadTheme(settings.theme)
+                // TODO fontsInteractor.loadFont(settings.fontType) ???
+
+                val documentList = documentRepository.loadDocuments().onEach { document ->
+                    languageInteractor.loadGrammar(document.language)
+                }
+
+                documents = documentList.map { document -> DocumentState(document) }
+                selectedPosition = documentList.indexOf { it.uuid == settingsManager.selectedUuid }
 
                 _viewState.update {
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
                         settings = settings,
+                        isLoading = documents.isNotEmpty(),
                     )
                 }
 
@@ -602,9 +600,9 @@ internal class EditorViewModel @Inject constructor(
 
     private suspend fun loadSettings(): EditorSettings {
         return EditorSettings(
-            theme = themesInteractor.loadTheme(),
+            theme = settingsManager.editorTheme,
             fontSize = settingsManager.fontSize.toFloat(),
-            fontType = fontsInteractor.current(),
+            fontType = fontsInteractor.loadFont(settingsManager.fontType),
             wordWrap = settingsManager.wordWrap,
             codeCompletion = settingsManager.codeCompletion,
             pinchZoom = settingsManager.pinchZoom,
@@ -645,7 +643,6 @@ internal class EditorViewModel @Inject constructor(
     private var toolbarMode = ToolbarManager.Mode.DEFAULT
     private var keyboardMode = KeyboardManager.Mode.KEYBOARD
     private var findParams = FindParams()
-    private var currentJob: Job? = null
 
     private fun gotoLine() {
         viewModelScope.launch {

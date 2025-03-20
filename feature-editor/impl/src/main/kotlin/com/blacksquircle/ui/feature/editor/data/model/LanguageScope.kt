@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.data.model
 
-internal object LanguageType {
+internal object LanguageScope {
     const val ACTIONSCRIPT = "actionscript"
     const val C = "c"
     const val CPP = "cpp"
@@ -28,7 +28,7 @@ internal object LanguageType {
     const val HTML = "html"
     const val INI = "ini"
     const val JAVA = "java"
-    const val JAVASCRIPT = "javascript"
+    const val JAVASCRIPT = "source.js"
     const val JSON = "json"
     const val JULIA = "julia"
     const val KOTLIN = "kotlin"

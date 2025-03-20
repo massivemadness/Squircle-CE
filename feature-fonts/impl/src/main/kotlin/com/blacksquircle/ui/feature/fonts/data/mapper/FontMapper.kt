@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.fonts.data.mapper
 
 import android.graphics.Typeface
 import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
-import com.blacksquircle.ui.feature.fonts.data.model.InternalFont
+import com.blacksquircle.ui.feature.fonts.data.model.AssetsFont
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 
 internal object FontMapper {
@@ -32,10 +32,10 @@ internal object FontMapper {
         )
     }
 
-    fun toModel(internalFont: InternalFont, typeface: Typeface): FontModel {
+    fun toModel(assetsFont: AssetsFont, typeface: Typeface): FontModel {
         return FontModel(
-            uuid = internalFont.fontUuid,
-            name = internalFont.fontName,
+            uuid = assetsFont.fontId,
+            name = assetsFont.fontName,
             typeface = typeface,
             isExternal = false,
         )

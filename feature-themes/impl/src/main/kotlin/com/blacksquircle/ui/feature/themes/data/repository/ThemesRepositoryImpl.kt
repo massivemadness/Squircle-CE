@@ -22,8 +22,8 @@ import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.dao.theme.ThemeDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper
+import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
 import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
-import com.blacksquircle.ui.feature.themes.data.model.InternalTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import com.google.gson.GsonBuilder
@@ -43,13 +43,13 @@ internal class ThemesRepositoryImpl(
 
     override suspend fun loadThemes(query: String): List<ThemeModel> {
         return withContext(dispatcherProvider.io()) {
-            val defaultThemes = InternalTheme.entries
+            val assetsThemes = AssetsTheme.entries
                 .filter { it.name.contains(query, ignoreCase = true) }
                 .map(ThemeMapper::toModel)
             val userThemes = themeDao.loadAll()
                 .filter { it.name.contains(query, ignoreCase = true) }
                 .map(ThemeMapper::toModel)
-            userThemes + defaultThemes
+            userThemes + assetsThemes
         }
     }
 

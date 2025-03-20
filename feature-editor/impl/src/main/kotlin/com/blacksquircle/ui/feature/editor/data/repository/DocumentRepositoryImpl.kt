@@ -153,7 +153,7 @@ internal class DocumentRepositoryImpl(
                             Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                         context.contentResolver.takePersistableUriPermission(fileUri, flags)
                     } catch (e: SecurityException) {
-                        Timber.e(e.message, e)
+                        Timber.e(e, e.message)
                     }
                     FileModel(
                         fileUri = fileUri.toString(),

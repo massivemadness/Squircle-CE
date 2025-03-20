@@ -16,8 +16,15 @@
 
 package com.blacksquircle.ui.feature.editor.ui.fragment.view
 
+import com.blacksquircle.ui.core.extensions.showToast
+import io.github.rosemoe.sora.lang.EmptyLanguage
+import io.github.rosemoe.sora.lang.Language
+import io.github.rosemoe.sora.langs.textmate.TextMateColorScheme
+import io.github.rosemoe.sora.langs.textmate.TextMateLanguage
+import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry
 import io.github.rosemoe.sora.text.Content
 import io.github.rosemoe.sora.widget.CodeEditor
+import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 
 internal var Content.scrollX: Int
     get() = (this as? TextContent)?.scrollX ?: 0
@@ -40,4 +47,22 @@ internal val Content.selectionEnd: Int
 internal fun CodeEditor.syncScroll() {
     scroller.startScroll(0, 0, text.scrollX, text.scrollY)
     scroller.abortAnimation()
+}
+
+internal fun CodeEditor.createFromRegistry(): EditorColorScheme {
+    return try {
+        TextMateColorScheme.create(ThemeRegistry.getInstance())
+    } catch (e: Exception) {
+        context.showToast(text = "Couldn't load theme from registry: ${e.message}")
+        EditorColorScheme()
+    }
+}
+
+internal fun CodeEditor.createFromRegistry(language: String, codeCompletion: Boolean): Language {
+    return try {
+        TextMateLanguage.create(language, codeCompletion)
+    } catch (e: Exception) {
+        context.showToast(text = "Couldn't load grammar from registry: ${e.message}")
+        EmptyLanguage()
+    }
 }

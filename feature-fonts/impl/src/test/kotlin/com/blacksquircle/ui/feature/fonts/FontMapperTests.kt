@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.fonts
 import android.graphics.Typeface
 import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
 import com.blacksquircle.ui.feature.fonts.data.mapper.FontMapper
-import com.blacksquircle.ui.feature.fonts.data.model.InternalFont
+import com.blacksquircle.ui.feature.fonts.data.model.AssetsFont
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
@@ -53,7 +53,7 @@ class FontMapperTests {
     @Test
     fun `When converting internal font to FontModel Then return mapped object`() {
         // Given
-        val internalFont = InternalFont.DROID_SANS_MONO
+        val assetsFont = AssetsFont.DROID_SANS_MONO
         val expected = FontModel(
             uuid = "droid_sans_mono",
             name = "Droid Sans Mono",
@@ -62,7 +62,7 @@ class FontMapperTests {
         )
 
         // When
-        val actual = FontMapper.toModel(internalFont, typeface)
+        val actual = FontMapper.toModel(assetsFont, typeface)
 
         // Then
         assertEquals(expected, actual)

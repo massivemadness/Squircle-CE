@@ -203,7 +203,7 @@ internal class ThemesViewModel @Inject constructor(
                 }
 
                 val themes = themesRepository.loadThemes(query)
-                val typeface = fontsInteractor.current()
+                val typeface = fontsInteractor.loadFont(settingsManager.fontType)
                 delay(300L) // too fast, avoid blinking
 
                 _viewState.update {

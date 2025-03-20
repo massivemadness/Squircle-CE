@@ -16,46 +16,46 @@
 
 package com.blacksquircle.ui.feature.fonts.data.model
 
-internal enum class InternalFont(
-    val fontUuid: String,
+internal enum class AssetsFont(
+    val fontId: String,
     val fontName: String,
     val fontUri: String,
 ) {
     JETBRAINS_MONO(
-        fontUuid = "jetbrains_mono",
+        fontId = "jetbrains_mono",
         fontName = "JetBrains Mono",
         fontUri = "file:///android_asset/fonts/jetbrains_mono.ttf",
     ),
     DROID_SANS_MONO(
-        fontUuid = "droid_sans_mono",
+        fontId = "droid_sans_mono",
         fontName = "Droid Sans Mono",
         fontUri = "file:///android_asset/fonts/droid_sans_mono.ttf",
     ),
     FIRA_CODE(
-        fontUuid = "fira_code",
+        fontId = "fira_code",
         fontName = "Fira Code",
         fontUri = "file:///android_asset/fonts/fira_code.ttf",
     ),
     SOURCE_CODE_PRO(
-        fontUuid = "source_code_pro",
+        fontId = "source_code_pro",
         fontName = "Source Code Pro",
         fontUri = "file:///android_asset/fonts/source_code_pro.ttf",
     ),
     ANONYMOUS_PRO(
-        fontUuid = "anonymous_pro",
+        fontId = "anonymous_pro",
         fontName = "Anonymous Pro",
         fontUri = "file:///android_asset/fonts/anonymous_pro.ttf",
     ),
     DEJAVU_SANS_MONO(
-        fontUuid = "dejavu_sans_mono",
+        fontId = "dejavu_sans_mono",
         fontName = "DejaVu Sans Mono",
         fontUri = "file:///android_asset/fonts/dejavu_sans_mono.ttf",
     );
 
     companion object {
 
-        fun find(uuid: String): InternalFont? {
-            return entries.find { it.fontUuid == uuid }
+        fun find(uuid: String): AssetsFont? {
+            return entries.find { it.fontId == uuid }
         }
     }
 }

@@ -46,5 +46,5 @@ internal data class DocumentModel(
             }
         }
     val extension: String
-        get() = name.substringAfterLast(".", "")
+        get() = "." + name.substringAfterLast(".", "")
 }
