@@ -25,6 +25,7 @@ import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
+import com.blacksquircle.ui.feature.themes.ui.fragment.ThemeViewStateProvider
 import com.blacksquircle.ui.feature.themes.ui.fragment.ThemesViewState
 import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
 import io.mockk.coEvery
@@ -59,8 +60,12 @@ class ThemeUiStateTests {
     fun setup() {
         mockkObject(TypefaceProvider)
         every { TypefaceProvider.DEFAULT } returns typeface
-        coEvery { fontsInteractor.loadFont() } returns typeface
+        coEvery { fontsInteractor.loadFont(any()) } returns typeface
         every { settingsManager.editorTheme } returns ""
+        every { settingsManager.fontType } returns ""
+
+        mockkObject(ThemeViewStateProvider)
+        every { ThemeViewStateProvider.getLanguage() } returns mockk()
     }
 
     @Test

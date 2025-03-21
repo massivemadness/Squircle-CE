@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.themes.ui.fragment
 
 import android.graphics.Typeface
+import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
@@ -27,9 +28,18 @@ import com.blacksquircle.ui.language.javascript.JavaScriptLanguage
 @Immutable
 internal data class ThemesViewState(
     val searchQuery: String = "",
-    val language: Language = JavaScriptLanguage(),
+    val language: Language = ThemeViewStateProvider.getLanguage(),
     val themes: List<ThemeModel> = emptyList(),
     val selectedTheme: String = "",
     val typeface: Typeface = TypefaceProvider.DEFAULT,
     val isLoading: Boolean = true,
 ) : ViewState()
+
+// TODO remove
+@VisibleForTesting
+internal object ThemeViewStateProvider {
+
+    fun getLanguage(): Language {
+        return JavaScriptLanguage()
+    }
+}
