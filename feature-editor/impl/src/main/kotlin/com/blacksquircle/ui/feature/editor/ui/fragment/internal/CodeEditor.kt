@@ -55,6 +55,7 @@ internal fun CodeEditor(
             editor.typefaceText = settings.fontType
             editor.typefaceLineNumber = settings.fontType
             editor.colorScheme = editor.createFromRegistry()
+            editor.setDisplayInvisibleChars(false) // TODO new setting
             editor.setEditorLanguage(editor.createFromRegistry(language, settings.codeCompletion))
             editor.setText(content)
             editor.syncScroll()

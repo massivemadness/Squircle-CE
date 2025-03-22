@@ -20,8 +20,10 @@ import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.editor.api.factory.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.data.model.AssetsGrammar
+import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry
 import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry
 import io.github.rosemoe.sora.langs.textmate.registry.model.DefaultGrammarDefinition
+import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver
 import kotlinx.coroutines.withContext
 import org.eclipse.tm4e.core.registry.IGrammarSource
 import timber.log.Timber
@@ -31,6 +33,12 @@ internal class LanguageInteractorImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val context: Context,
 ) : LanguageInteractor {
+
+    init {
+        FileProviderRegistry.getInstance().addFileProvider(
+            AssetsFileResolver(context.assets)
+        )
+    }
 
     override suspend fun loadGrammar(language: String) {
         withContext(dispatcherProvider.io()) {

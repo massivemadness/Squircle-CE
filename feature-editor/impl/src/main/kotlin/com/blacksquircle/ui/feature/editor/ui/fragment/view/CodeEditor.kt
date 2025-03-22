@@ -27,6 +27,7 @@ import io.github.rosemoe.sora.widget.CodeEditor as SoraEditor
  * - Changed divider and linenumber margins
  * - Added support for minimum gutter width
  * - Added scroll X and Y coordinates in [TextContent]
+ * - Added cleaner version of [setNonPrintablePaintingFlags]
  * - Disabled cursor animation
  * - Disabled line number panel
  * - Enable sticky text selection
@@ -64,6 +65,16 @@ internal class CodeEditor @JvmOverloads constructor(
         super.onScrollChanged(l, t, oldl, oldt)
         text.scrollX = l
         text.scrollY = t
+    }
+
+    fun setDisplayInvisibleChars(whether: Boolean) {
+        nonPrintablePaintingFlags = if (whether) {
+            FLAG_DRAW_WHITESPACE_LEADING or
+                FLAG_DRAW_LINE_SEPARATOR or
+                FLAG_DRAW_WHITESPACE_IN_SELECTION
+        } else {
+            0
+        }
     }
 
     companion object {
