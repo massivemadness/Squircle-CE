@@ -19,13 +19,13 @@ package com.blacksquircle.ui.feature.editor.data.model
 internal enum class AssetsGrammar(
     val languageId: String,
     val languageName: String,
-    val languageFile: String,
+    val languageDir: String,
     val languageUri: String,
 ) {
     JAVASCRIPT(
         languageId = "source.js",
         languageName = "JavaScript",
-        languageFile = "javascript",
+        languageDir = "javascript",
         languageUri = "file:///android_asset/languages/javascript",
     );
 

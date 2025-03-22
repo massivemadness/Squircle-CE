@@ -21,6 +21,8 @@ import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.database.dao.theme.ThemeDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
+import com.blacksquircle.ui.feature.themes.data.interactor.ThemesInteractorImpl
 import com.blacksquircle.ui.feature.themes.data.repository.ThemesRepositoryImpl
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import dagger.Module
@@ -31,14 +33,28 @@ internal object ThemesModule {
 
     @Provides
     @ThemesScope
+    fun provideThemesInteractor(
+        dispatcherProvider: DispatcherProvider,
+        context: Context,
+    ): ThemesInteractor {
+        return ThemesInteractorImpl(
+            dispatcherProvider = dispatcherProvider,
+            context = context,
+        )
+    }
+
+    @Provides
+    @ThemesScope
     fun provideThemesRepository(
         dispatcherProvider: DispatcherProvider,
+        themesInteractor: ThemesInteractor,
         settingsManager: SettingsManager,
         themeDao: ThemeDao,
         context: Context,
     ): ThemesRepository {
         return ThemesRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
+            themesInteractor = themesInteractor,
             settingsManager = settingsManager,
             themeDao = themeDao,
             context = context,

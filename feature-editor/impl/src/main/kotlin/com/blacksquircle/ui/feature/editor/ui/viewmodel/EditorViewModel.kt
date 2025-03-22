@@ -561,7 +561,7 @@ internal class EditorViewModel @Inject constructor(
                     )
                 }
 
-                if (documents.isNotEmpty()) {
+                if (selectedPosition in documents.indices) {
                     val selectedDocument = documents[selectedPosition].document
                     loadDocument(selectedDocument, fromUser = false)
                 }

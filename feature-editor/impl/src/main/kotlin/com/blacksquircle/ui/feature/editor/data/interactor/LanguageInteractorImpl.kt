@@ -40,7 +40,7 @@ internal class LanguageInteractorImpl(
                 /** Check if [language] is in assets */
                 val assetsGrammar = AssetsGrammar.find(language)
                 if (assetsGrammar != null) {
-                    val languageFile = assetsGrammar.languageFile + ".tmLanguage.json"
+                    val languageFile = assetsGrammar.languageDir + ".tmLanguage.json"
                     val relativePath = assetsGrammar.languageUri.substring(ASSET_PATH.length)
 
                     val syntaxRulesPath = "$relativePath/syntaxes/$languageFile"

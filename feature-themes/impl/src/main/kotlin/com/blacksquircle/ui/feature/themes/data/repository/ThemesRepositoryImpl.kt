@@ -21,6 +21,7 @@ import android.net.Uri
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.storage.database.dao.theme.ThemeDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper
 import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
 import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
@@ -33,6 +34,7 @@ import java.io.BufferedReader
 internal class ThemesRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
+    private val themesInteractor: ThemesInteractor,
     private val themeDao: ThemeDao,
     private val context: Context,
 ) : ThemesRepository {
@@ -101,6 +103,7 @@ internal class ThemesRepositoryImpl(
     override suspend fun selectTheme(themeModel: ThemeModel) {
         withContext(dispatcherProvider.io()) {
             settingsManager.editorTheme = themeModel.uuid
+            themesInteractor.loadTheme(themeModel.uuid)
         }
     }
 }
