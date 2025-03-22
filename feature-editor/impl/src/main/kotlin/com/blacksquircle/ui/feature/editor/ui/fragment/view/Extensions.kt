@@ -19,9 +19,7 @@ package com.blacksquircle.ui.feature.editor.ui.fragment.view
 import com.blacksquircle.ui.core.extensions.showToast
 import io.github.rosemoe.sora.lang.EmptyLanguage
 import io.github.rosemoe.sora.lang.Language
-import io.github.rosemoe.sora.langs.textmate.TextMateColorScheme
 import io.github.rosemoe.sora.langs.textmate.TextMateLanguage
-import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry
 import io.github.rosemoe.sora.text.Content
 import io.github.rosemoe.sora.widget.CodeEditor
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
@@ -51,7 +49,7 @@ internal fun CodeEditor.syncScroll() {
 
 internal fun CodeEditor.createFromRegistry(): EditorColorScheme {
     return try {
-        TextMateColorScheme.create(ThemeRegistry.getInstance())
+        CustomColorScheme.create()
     } catch (e: Exception) {
         context.showToast(text = "Couldn't load theme from registry: ${e.message}")
         EditorColorScheme()

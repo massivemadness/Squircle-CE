@@ -30,7 +30,10 @@ import io.github.rosemoe.sora.widget.CodeEditor as SoraEditor
  * - Added cleaner version of [setNonPrintablePaintingFlags]
  * - Disabled cursor animation
  * - Disabled line number panel
- * - Enable sticky text selection
+ * - Disabled bold matching delimiters
+ * - Disabled round background for text selection
+ * - Disabled block lines in word wrap mode
+ * - Enabled sticky text selection
  */
 internal class CodeEditor @JvmOverloads constructor(
     context: Context,
@@ -49,6 +52,10 @@ internal class CodeEditor @JvmOverloads constructor(
         isDisplayLnPanel = false
         isCursorAnimationEnabled = false
         isStickyTextSelection = true
+
+        props.drawSideBlockLine = false
+        props.enableRoundTextBackground = false
+        props.boldMatchingDelimiters = false
     }
 
     override fun measureLineNumber(): Float {
