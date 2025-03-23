@@ -16,7 +16,9 @@
 
 package com.blacksquircle.ui.feature.editor
 
+import com.blacksquircle.ui.feature.editor.data.model.LanguageScope
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 
 internal fun createDocument(
     position: Int,
@@ -26,8 +28,8 @@ internal fun createDocument(
     return DocumentModel(
         uuid = fileName,
         fileUri = "file:///storage/emulated/0/$fileName",
-        filesystemUuid = "local",
-        language = "plaintext",
+        filesystemUuid = LocalFilesystem.LOCAL_UUID,
+        language = LanguageScope.TEXT,
         modified = modified,
         position = position,
         scrollX = 1,
