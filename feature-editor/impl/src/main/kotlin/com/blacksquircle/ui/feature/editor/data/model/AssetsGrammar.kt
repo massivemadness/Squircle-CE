@@ -22,6 +22,18 @@ internal enum class AssetsGrammar(
     val languageDir: String,
     val languageUri: String,
 ) {
+    CSS(
+        languageId = "source.css",
+        languageName = "CSS",
+        languageDir = "css",
+        languageUri = "file:///android_asset/languages/css",
+    ),
+    HTML(
+        languageId = "text.html.basic",
+        languageName = "HTML",
+        languageDir = "html",
+        languageUri = "file:///android_asset/languages/html",
+    ),
     JAVASCRIPT(
         languageId = "source.js",
         languageName = "JavaScript",

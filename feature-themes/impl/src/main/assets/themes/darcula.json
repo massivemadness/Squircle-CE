@@ -6,7 +6,7 @@
     "editor.selectionBackground": "#28427F",
     "editor.selectionHighlightBackground": "#33654B",
     "highlightedDelimitersBackground": "#33654B",
-    "highlightedDelimitersForeground": "#ABB7C5",
+    "highlightedDelimitersForeground": "#E8E2B7",
     "completionWindowCorner": "#393B40",
     "completionWindowBackground": "#2B2D30",
     "completionWindowBackgroundCurrent": "#434448",
@@ -87,7 +87,7 @@
       "name": "User-defined constant",
       "scope": "constant.character, constant.other",
       "settings": {
-        "foreground": "#BD80B8"
+        "foreground": "#6897BB"
       }
     },
     {
@@ -332,7 +332,7 @@
       "name": "Tag string",
       "scope": "string.template.tag,string.template.punctuation.tag,string.quoted.punctuation.tag,string.quoted.embedded.tag, string.quoted.double.tag",
       "settings": {
-        "foreground": "#6A8759"
+        "foreground": "#ABC16D"
       }
     },
     {
@@ -347,6 +347,13 @@
       "scope": "object-literal.object.member.key.field.other,object-literal.object.member.key.accessor,object-literal.object.member.key.array.brace.square",
       "settings": {
         "foreground": "#ABB7C5"
+      }
+    },
+    {
+      "name": "HTML Strings",
+      "scope": "string.unquoted.html,string.quoted.double.html,string.quoted.single.html,string.other.inline-data.html",
+      "settings": {
+        "foreground": "#ABC16D"
       }
     },
     {
@@ -374,7 +381,7 @@
       "name": "CSS Property-value",
       "scope": "property-list.property-value.rgb-value, keyword.other.unit.css,keyword.other.unit.scss",
       "settings": {
-        "foreground": "#6897BB"
+        "foreground": "#ABC16D"
       }
     },
     {

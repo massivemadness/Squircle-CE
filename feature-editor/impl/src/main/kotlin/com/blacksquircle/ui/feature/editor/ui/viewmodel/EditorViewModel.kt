@@ -148,8 +148,8 @@ internal class EditorViewModel @Inject constructor(
             if (selectedPosition !in documents.indices) {
                 return@launch
             }
-            val selectedDocument = documents[selectedPosition].document
-            _viewEvent.send(EditorViewEvent.SaveAsFileContract(selectedDocument.name))
+            val document = documents[selectedPosition].document
+            _viewEvent.send(EditorViewEvent.SaveAsFileContract(document.name))
         }
     }
 
@@ -182,8 +182,8 @@ internal class EditorViewModel @Inject constructor(
         if (selectedPosition !in documents.indices) {
             return
         }
-        val selectedDocument = documents[selectedPosition].document
-        onCloseClicked(selectedDocument)
+        val document = documents[selectedPosition].document
+        onCloseClicked(document)
     }
 
     fun onContentChanged() {
@@ -633,8 +633,8 @@ internal class EditorViewModel @Inject constructor(
                 }
 
                 if (selectedPosition in documents.indices) {
-                    val selectedDocument = documents[selectedPosition].document
-                    loadDocument(selectedDocument, fromUser = false)
+                    val document = documents[selectedPosition].document
+                    loadDocument(document, fromUser = false)
                 }
 
                 editorInteractor.eventBus.collect { event ->
