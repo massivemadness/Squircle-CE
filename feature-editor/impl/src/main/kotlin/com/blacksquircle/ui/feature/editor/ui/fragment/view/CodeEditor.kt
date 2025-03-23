@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.editor.ui.fragment.view
 
 import android.content.Context
 import android.util.AttributeSet
+import com.blacksquircle.ui.feature.editor.R
 import io.github.rosemoe.sora.R as SoraR
 import io.github.rosemoe.sora.widget.CodeEditor as SoraEditor
 
@@ -25,6 +26,7 @@ import io.github.rosemoe.sora.widget.CodeEditor as SoraEditor
  * Changes:
  * - Changed default cursor width
  * - Changed divider and linenumber margins
+ * - Changed vertical scroll thumb's drawable
  * - Added support for minimum gutter width
  * - Added scroll X and Y coordinates in [TextContent]
  * - Added cleaner version of [setNonPrintablePaintingFlags]
@@ -33,6 +35,7 @@ import io.github.rosemoe.sora.widget.CodeEditor as SoraEditor
  * - Disabled bold matching delimiters
  * - Disabled round background for text selection
  * - Disabled block lines in word wrap mode
+ * - Disabled horizontal scrollbar
  * - Enabled sticky text selection
  */
 internal class CodeEditor @JvmOverloads constructor(
@@ -53,9 +56,17 @@ internal class CodeEditor @JvmOverloads constructor(
         isCursorAnimationEnabled = false
         isStickyTextSelection = true
 
+        isHorizontalScrollBarEnabled = false
+        isVerticalScrollBarEnabled = true
+
         props.drawSideBlockLine = false
         props.enableRoundTextBackground = false
         props.boldMatchingDelimiters = false
+    }
+
+    override fun applyAttributeSets(attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {
+        super.applyAttributeSets(attrs, defStyleAttr, defStyleRes)
+        verticalScrollbarThumbDrawable = context.getDrawable(R.drawable.scroll_thumb)
     }
 
     override fun measureLineNumber(): Float {
