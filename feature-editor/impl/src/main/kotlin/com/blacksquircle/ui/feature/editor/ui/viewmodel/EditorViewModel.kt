@@ -283,10 +283,13 @@ internal class EditorViewModel @Inject constructor(
                 }
                 selectedPosition = currentPosition
 
+                val hasMoreFiles = reloadFile && documents.isNotEmpty()
+
                 _viewState.update {
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
+                        isLoading = hasMoreFiles,
                     )
                 }
 
@@ -301,7 +304,7 @@ internal class EditorViewModel @Inject constructor(
                     currentJob?.cancel()
 
                     /** Load new file content */
-                    if (documents.isNotEmpty()) {
+                    if (hasMoreFiles) {
                         val selectedDocument = documents[selectedPosition].document
                         loadDocument(selectedDocument, fromUser = false)
                     }
@@ -356,6 +359,7 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
+                        isLoading = false,
                     )
                 }
 
