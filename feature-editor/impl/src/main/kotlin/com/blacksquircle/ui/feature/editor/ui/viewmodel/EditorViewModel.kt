@@ -565,7 +565,6 @@ internal class EditorViewModel @Inject constructor(
                 /** Can't use [document] here, it might have different UUID with same file uri */
                 val documentState = documents[selectedPosition]
                 val content = documentRepository.loadDocument(documentState.document)
-                languageInteractor.loadGrammar(documentState.document.language)
                 ensureActive()
 
                 documents = documents.mapSelected {
@@ -613,12 +612,11 @@ internal class EditorViewModel @Inject constructor(
             try {
                 settings = loadSettings()
 
-                themesInteractor.loadTheme(settings.theme)
                 // TODO fontsInteractor.loadFont(settings.fontType) ???
+                themesInteractor.loadTheme(settings.theme)
+                languageInteractor.loadGrammars()
 
-                val documentList = documentRepository.loadDocuments().onEach { document ->
-                    languageInteractor.loadGrammar(document.language)
-                }
+                val documentList = documentRepository.loadDocuments()
 
                 documents = documentList.map { document -> DocumentState(document) }
                 selectedPosition = documentList.indexOf { it.uuid == settingsManager.selectedUuid }

@@ -1,0 +1,25 @@
+{
+  "languages": [
+    {
+      "grammar": "languages/css/syntaxes/css.tmLanguage.json",
+      "name": "css",
+      "scopeName": "source.css",
+      "languageConfiguration": "languages/css/language-configuration.json"
+    },
+    {
+      "grammar": "languages/html/syntaxes/html.tmLanguage.json",
+      "name": "html",
+      "scopeName": "text.html.basic",
+      "languageConfiguration": "languages/html/language-configuration.json",
+      "embeddedLanguages": {
+        "source.js": "javascript"
+      }
+    },
+    {
+      "grammar": "languages/javascript/syntaxes/javascript.tmLanguage.json",
+      "name": "javascript",
+      "scopeName": "source.js",
+      "languageConfiguration": "languages/javascript/language-configuration.json"
+    }
+  ]
+}

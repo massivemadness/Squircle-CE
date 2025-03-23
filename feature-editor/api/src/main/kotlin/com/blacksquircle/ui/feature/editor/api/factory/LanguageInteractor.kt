@@ -17,5 +17,5 @@
 package com.blacksquircle.ui.feature.editor.api.factory
 
 interface LanguageInteractor {
-    suspend fun loadGrammar(language: String)
+    suspend fun loadGrammars()
 }
