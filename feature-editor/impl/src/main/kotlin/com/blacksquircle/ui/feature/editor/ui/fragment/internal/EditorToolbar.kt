@@ -41,6 +41,8 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.model.MenuType
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 internal fun EditorToolbar(
+    canUndo: Boolean,
+    canRedo: Boolean,
     modifier: Modifier = Modifier,
     onDrawerClicked: () -> Unit = {},
     onNewFileClicked: () -> Unit = {},
@@ -142,10 +144,12 @@ internal fun EditorToolbar(
             IconButton(
                 iconResId = R.drawable.ic_undo,
                 onClick = onUndoClicked,
+                enabled = canUndo,
             )
             IconButton(
                 iconResId = R.drawable.ic_redo,
                 onClick = onRedoClicked,
+                enabled = canRedo,
             )
             IconButton(
                 iconResId = R.drawable.ic_dots_vertical,
@@ -179,6 +183,9 @@ internal fun EditorToolbar(
 @Composable
 private fun EditorToolbarPreview() {
     PreviewBackground {
-        EditorToolbar()
+        EditorToolbar(
+            canUndo = true,
+            canRedo = false,
+        )
     }
 }

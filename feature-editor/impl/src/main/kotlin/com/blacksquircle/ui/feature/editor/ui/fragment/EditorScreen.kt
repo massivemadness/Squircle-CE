@@ -77,6 +77,7 @@ internal fun EditorScreen(
         onSaveFileClicked = viewModel::onSaveFileClicked,
         onSaveFileAsClicked = viewModel::onSaveFileAsClicked,
         onCloseFileClicked = viewModel::onCloseFileClicked,
+        onContentChanged = viewModel::onContentChanged,
         onCutClicked = {},
         onCopyClicked = {},
         onPasteClicked = {},
@@ -87,8 +88,8 @@ internal fun EditorScreen(
         onForceSyntaxClicked = {},
         onInsertColorClicked = {},
         onFindClicked = {},
-        onUndoClicked = {},
-        onRedoClicked = {},
+        onUndoClicked = viewModel::onUndoClicked,
+        onRedoClicked = viewModel::onRedoClicked,
         onSettingsClicked = viewModel::onSettingsClicked,
         onDocumentClicked = viewModel::onDocumentClicked,
         onDocumentMoved = viewModel::onDocumentMoved,
@@ -168,6 +169,7 @@ private fun EditorScreen(
     onSaveFileClicked: () -> Unit = {},
     onSaveFileAsClicked: () -> Unit = {},
     onCloseFileClicked: () -> Unit = {},
+    onContentChanged: () -> Unit = {},
     onCutClicked: () -> Unit = {},
     onCopyClicked: () -> Unit = {},
     onPasteClicked: () -> Unit = {},
@@ -191,6 +193,8 @@ private fun EditorScreen(
     ScaffoldSuite(
         topBar = {
             EditorToolbar(
+                canUndo = viewState.canUndo,
+                canRedo = viewState.canRedo,
                 onDrawerClicked = onDrawerClicked,
                 onNewFileClicked = onNewFileClicked,
                 onOpenFileClicked = onOpenFileClicked,
@@ -228,17 +232,18 @@ private fun EditorScreen(
 
             val documentState = viewState.documents
                 .getOrNull(viewState.selectedDocument)
+            val content = documentState?.content
 
             val isLoading = viewState.isLoading
             val isEmpty = viewState.documents.isEmpty()
             val isError = documentState?.errorState != null
-            val content = documentState?.content
 
             if (!isError && !isLoading && content != null) {
                 CodeEditor(
                     content = documentState.content,
                     language = documentState.document.language,
                     settings = viewState.settings,
+                    onContentChanged = onContentChanged,
                     modifier = Modifier.fillMaxSize(),
                 )
             }

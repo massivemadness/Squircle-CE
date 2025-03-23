@@ -25,6 +25,8 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditor
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.createFromRegistry
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.syncScroll
+import io.github.rosemoe.sora.event.ContentChangeEvent
+import io.github.rosemoe.sora.widget.subscribeAlways
 
 @Composable
 internal fun CodeEditor(
@@ -32,6 +34,7 @@ internal fun CodeEditor(
     language: String,
     settings: EditorSettings,
     modifier: Modifier = Modifier,
+    onContentChanged: () -> Unit = {},
 ) {
     AndroidView(
         factory = { context ->
@@ -40,6 +43,11 @@ internal fun CodeEditor(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT,
                 )
+                subscribeAlways<ContentChangeEvent> { event ->
+                    if (event.action != ContentChangeEvent.ACTION_SET_NEW_TEXT) {
+                        onContentChanged()
+                    }
+                }
             }
         },
         update = { editor ->

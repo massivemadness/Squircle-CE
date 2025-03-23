@@ -186,6 +186,65 @@ internal class EditorViewModel @Inject constructor(
         onCloseClicked(selectedDocument)
     }
 
+    fun onContentChanged() {
+        if (selectedPosition !in documents.indices) {
+            return
+        }
+
+        val document = documents[selectedPosition].document
+        val content = documents[selectedPosition].content ?: return
+
+        if (document.modified) {
+            _viewState.update {
+                it.copy(
+                    canUndo = content.canUndo(),
+                    canRedo = content.canRedo(),
+                )
+            }
+        } else {
+            documents = documents.mapSelected { state ->
+                state.copy(document = state.document.copy(modified = true))
+            }
+            _viewState.update {
+                it.copy(
+                    documents = documents,
+                    canUndo = content.canUndo(),
+                    canRedo = content.canRedo(),
+                )
+            }
+        }
+    }
+
+    fun onUndoClicked() {
+        if (selectedPosition !in documents.indices) {
+            return
+        }
+        val content = documents[selectedPosition].content ?: return
+        content.undo()
+
+        _viewState.update {
+            it.copy(
+                canUndo = content.canUndo(),
+                canRedo = content.canRedo(),
+            )
+        }
+    }
+
+    fun onRedoClicked() {
+        if (selectedPosition !in documents.indices) {
+            return
+        }
+        val content = documents[selectedPosition].content ?: return
+        content.redo()
+
+        _viewState.update {
+            it.copy(
+                canUndo = content.canUndo(),
+                canRedo = content.canRedo(),
+            )
+        }
+    }
+
     fun onSettingsClicked() {
         viewModelScope.launch {
             val screen = Screen.Settings
@@ -289,6 +348,8 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
+                        canUndo = false,
+                        canRedo = false,
                         isLoading = hasMoreFiles,
                     )
                 }
@@ -359,6 +420,8 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
+                        canUndo = false,
+                        canRedo = false,
                         isLoading = false,
                     )
                 }
@@ -493,6 +556,8 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
+                        canUndo = false,
+                        canRedo = false,
                         isLoading = true,
                     )
                 }
@@ -514,6 +579,8 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
+                        canUndo = content.canUndo(),
+                        canRedo = content.canRedo(),
                         isLoading = false,
                     )
                 }

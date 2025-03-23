@@ -71,7 +71,8 @@ internal fun DocumentNavigation(
             ) { i, state ->
                 ReorderableItem(reorderableLazyListState, state.document.uuid) { isDragging ->
                     DocumentTab(
-                        title = state.document.name,
+                        name = state.document.name,
+                        modified = state.document.modified,
                         selected = i == selectedIndex,
                         onDocumentClicked = { onDocumentClicked(state) },
                         onCloseClicked = { onCloseClicked(state) },
