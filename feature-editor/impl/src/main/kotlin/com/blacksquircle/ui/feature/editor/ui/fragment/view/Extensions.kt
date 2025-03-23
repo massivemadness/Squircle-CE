@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.editor.ui.fragment.view
 
 import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.feature.editor.data.model.LanguageScope
 import io.github.rosemoe.sora.lang.EmptyLanguage
 import io.github.rosemoe.sora.lang.Language
 import io.github.rosemoe.sora.langs.textmate.TextMateLanguage
@@ -58,6 +59,9 @@ internal fun CodeEditor.createFromRegistry(): EditorColorScheme {
 
 internal fun CodeEditor.createFromRegistry(language: String, codeCompletion: Boolean): Language {
     return try {
+        if (language == LanguageScope.TEXT) {
+            return EmptyLanguage()
+        }
         TextMateLanguage.create(language, codeCompletion)
     } catch (e: Exception) {
         context.showToast(text = "Couldn't load grammar from registry: ${e.message}")

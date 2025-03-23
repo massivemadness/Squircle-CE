@@ -612,7 +612,6 @@ internal class EditorViewModel @Inject constructor(
             try {
                 settings = loadSettings()
 
-                // TODO fontsInteractor.loadFont(settings.fontType) ???
                 themesInteractor.loadTheme(settings.theme)
                 languageInteractor.loadGrammars()
 
