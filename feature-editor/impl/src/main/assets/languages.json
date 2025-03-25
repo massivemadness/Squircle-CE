@@ -25,6 +25,18 @@
       "languageConfiguration": "languages/css/language-configuration.json"
     },
     {
+      "grammar": "languages/go/syntaxes/go.tmLanguage.json",
+      "name": "go",
+      "scopeName": "source.go",
+      "languageConfiguration": "languages/go/language-configuration.json"
+    },
+    {
+      "grammar": "languages/groovy/syntaxes/groovy.tmLanguage.json",
+      "name": "groovy",
+      "scopeName": "source.groovy",
+      "languageConfiguration": "languages/groovy/language-configuration.json"
+    },
+    {
       "grammar": "languages/html/syntaxes/html.tmLanguage.json",
       "name": "html",
       "scopeName": "text.html.basic",
@@ -32,6 +44,12 @@
       "embeddedLanguages": {
         "source.js": "javascript"
       }
+    },
+    {
+      "grammar": "languages/ini/syntaxes/ini.tmLanguage.json",
+      "name": "ini",
+      "scopeName": "source.ini",
+      "languageConfiguration": "languages/ini/language-configuration.json"
     },
     {
       "grammar": "languages/javascript/syntaxes/javascript.tmLanguage.json",
