@@ -46,13 +46,13 @@ internal object FileAssociation {
         associations[".htm"] = LanguageScope.HTML
         associations[".html"] = LanguageScope.HTML
         associations[".ini"] = LanguageScope.INI
-        // TODO associations[".java"] = LanguageScope.JAVA
+        associations[".java"] = LanguageScope.JAVA
         associations[".js"] = LanguageScope.JAVASCRIPT
         associations[".jsx"] = LanguageScope.JAVASCRIPT
         associations[".mjs"] = LanguageScope.JAVASCRIPT
         associations[".cjs"] = LanguageScope.JAVASCRIPT
-        // TODO associations[".json"] = LanguageScope.JSON
-        // TODO associations[".jl"] = LanguageScope.JULIA
+        associations[".json"] = LanguageScope.JSON
+        associations[".jl"] = LanguageScope.JULIA
         // TODO associations[".kt"] = LanguageScope.KOTLIN
         // TODO associations[".kts"] = LanguageScope.KOTLIN
         // TODO associations[".tex"] = LanguageScope.LATEX

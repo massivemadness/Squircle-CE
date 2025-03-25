@@ -52,10 +52,28 @@
       "languageConfiguration": "languages/ini/language-configuration.json"
     },
     {
+      "grammar": "languages/java/syntaxes/java.tmLanguage.json",
+      "name": "java",
+      "scopeName": "source.java",
+      "languageConfiguration": "languages/java/language-configuration.json"
+    },
+    {
       "grammar": "languages/javascript/syntaxes/javascript.tmLanguage.json",
       "name": "javascript",
       "scopeName": "source.js",
       "languageConfiguration": "languages/javascript/language-configuration.json"
+    },
+    {
+      "grammar": "languages/json/syntaxes/json.tmLanguage.json",
+      "name": "json",
+      "scopeName": "source.json",
+      "languageConfiguration": "languages/json/language-configuration.json"
+    },
+    {
+      "grammar": "languages/julia/syntaxes/julia.tmLanguage.json",
+      "name": "julia",
+      "scopeName": "source.julia",
+      "languageConfiguration": "languages/julia/language-configuration.json"
     }
   ]
 }
