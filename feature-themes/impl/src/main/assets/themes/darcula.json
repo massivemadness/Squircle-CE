@@ -350,6 +350,13 @@
       }
     },
     {
+      "name": "Preprocessor",
+      "scope": "meta.preprocessor,entity.name.other.preprocessor",
+      "settings": {
+        "foreground": "#C9C54E"
+      }
+    },
+    {
       "name": "HTML Strings",
       "scope": "string.unquoted.html,string.quoted.double.html,string.quoted.single.html,string.other.inline-data.html",
       "settings": {

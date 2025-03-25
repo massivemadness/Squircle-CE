@@ -573,7 +573,7 @@
 				},
 				{
 					"name": "entity.name.type.namespace.cs",
-					"match": "@?[_[:alpha:]][_[:alnum:]]*"
+					"match": "(?<=\\bnamespace\\s+)[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?=\\s*{)"
 				},
 				{
 					"include": "#punctuation-accessor"

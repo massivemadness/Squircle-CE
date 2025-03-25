@@ -1526,7 +1526,7 @@
 									"match": "(\\G0[xX])([0-9a-fA-F](?:[0-9a-fA-F]|((?<=[0-9a-fA-F])'(?=[0-9a-fA-F])))*)?((?:(?<=[0-9a-fA-F])\\.|\\.(?=[0-9a-fA-F])))([0-9a-fA-F](?:[0-9a-fA-F]|((?<=[0-9a-fA-F])'(?=[0-9a-fA-F])))*)?((?<!')([pP])(\\+?)(\\-?)((?:[0-9](?:[0-9]|(?:(?<=[0-9a-fA-F])'(?=[0-9a-fA-F])))*)))?([lLfF](?!\\w))?$",
 									"captures": {
 										"1": {
-											"name": "keyword.other.unit.hexadecimal.c"
+											"name": "constant.numeric.hexadecimal.c"
 										},
 										"2": {
 											"name": "constant.numeric.hexadecimal.c",
@@ -1681,7 +1681,7 @@
 									"match": "(\\G0[xX])([0-9a-fA-F](?:[0-9a-fA-F]|((?<=[0-9a-fA-F])'(?=[0-9a-fA-F])))*)((?<!')([pP])(\\+?)(\\-?)((?:[0-9](?:[0-9]|(?:(?<=[0-9a-fA-F])'(?=[0-9a-fA-F])))*)))?((?:(?:(?:(?:(?:[uU]|[uU]ll?)|[uU]LL?)|ll?[uU]?)|LL?[uU]?)|[fF])(?!\\w))?$",
 									"captures": {
 										"1": {
-											"name": "keyword.other.unit.hexadecimal.c"
+											"name": "constant.numeric.hexadecimal.c"
 										},
 										"2": {
 											"name": "constant.numeric.hexadecimal.c",
