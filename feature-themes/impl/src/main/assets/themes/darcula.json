@@ -99,7 +99,7 @@
     },
     {
       "name": "Types, Class Types",
-      "scope": "meta.return.type,meta.type.annotation,meta.type.parameters,support.type.primitive",
+      "scope": "storage.type.generic,meta.return.type,meta.type.annotation,meta.type.parameters,support.type.primitive",
       "settings": {
         "foreground": "#6897BB"
       }
@@ -217,10 +217,10 @@
       }
     },
     {
-      "name": "Documentation Highlight (JSDoc)",
-      "scope": "storage.type.class.jsdoc",
+      "name": "Documentation Highlight",
+      "scope": "storage.type.class.jsdoc,keyword.other.documentation.javadoc",
       "settings": {
-        "foreground": "#6A8759"
+        "foreground": "#82C067"
       }
     },
     {
@@ -351,7 +351,7 @@
     },
     {
       "name": "Preprocessor",
-      "scope": "meta.preprocessor,entity.name.other.preprocessor,storage.type.annotation",
+      "scope": "meta.preprocessor,entity.name.other.preprocessor,storage.type.annotation,punctuation.definition.annotation",
       "settings": {
         "foreground": "#C9C54E"
       }

@@ -15,12 +15,7 @@
 					"name": "keyword.other.package.java"
 				}
 			},
-			"end": "\\s*(;)",
-			"endCaptures": {
-				"1": {
-					"name": "punctuation.terminator.java"
-				}
-			},
+			"end": "(?=\\s*\\b[A-Za-z0-9_]+\\b)",
 			"name": "meta.package.java",
 			"contentName": "storage.modifier.package.java",
 			"patterns": [
@@ -40,7 +35,7 @@
 					"name": "invalid.deprecated.package_name_not_lowercase.java"
 				},
 				{
-					"match": "(?x)\\b(?<!\\$)\n(abstract|assert|boolean|break|byte|case|catch|char|class|\nconst|continue|default|do|double|else|enum|extends|final|\nfinally|float|for|goto|if|implements|import|instanceof|int|\ninterface|long|native|new|non-sealed|package|permits|private|protected|public|\nreturn|sealed|short|static|strictfp|super|switch|syncronized|this|\nthrow|throws|transient|try|void|volatile|while|yield|\ntrue|false|null)\\b",
+					"match": "(?x)\\b(?<!\\$)(abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|native|new|non-sealed|package|permits|private|protected|public|return|sealed|short|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|void|volatile|while|yield|true|false|null)\\b",
 					"name": "invalid.illegal.character_not_allowed_here.java"
 				},
 				{
@@ -59,12 +54,7 @@
 					"name": "storage.modifier.java"
 				}
 			},
-			"end": "\\s*(;)",
-			"endCaptures": {
-				"1": {
-					"name": "punctuation.terminator.java"
-				}
-			},
+			"end": "(?=\\s*\\b[A-Za-z0-9_]+\\b)",
 			"name": "meta.import.java",
 			"contentName": "storage.modifier.import.java",
 			"patterns": [
@@ -84,7 +74,7 @@
 					"name": "invalid.illegal.character_not_allowed_here.java"
 				},
 				{
-					"match": "(?x)\\b(?<!\\$)\n(abstract|assert|boolean|break|byte|case|catch|char|class|\nconst|continue|default|do|double|else|enum|extends|final|\nfinally|float|for|goto|if|implements|import|instanceof|int|\ninterface|long|native|new|non-sealed|package|permits|private|protected|public|\nreturn|sealed|short|static|strictfp|super|switch|syncronized|this|\nthrow|throws|transient|try|void|volatile|while|yield|\ntrue|false|null)\\b",
+					"match": "(?x)\\b(?<!\\$)(abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|native|new|non-sealed|package|permits|private|protected|public|return|sealed|short|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|void|volatile|while|yield|true|false|null)\\b",
 					"name": "invalid.illegal.character_not_allowed_here.java"
 				},
 				{
@@ -115,17 +105,17 @@
 				},
 				{
 					"include": "#primitive-types"
-				},
-				{
-					"include": "#object-types"
 				}
 			]
 		},
 		"annotations": {
 			"patterns": [
 				{
-					"begin": "((@)\\s*([^\\s(]+))(\\()",
+					"begin": "(@)(\\s*([^\\s(]+(?:\\.[^\\s(]+)*))(\\()?",
 					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.annotation.java"
+						},
 						"2": {
 							"name": "punctuation.definition.annotation.java"
 						},
@@ -136,7 +126,7 @@
 							"name": "punctuation.definition.annotation-arguments.begin.bracket.round.java"
 						}
 					},
-					"end": "\\)",
+					"end": "(\\))?",
 					"endCaptures": {
 						"0": {
 							"name": "punctuation.definition.annotation-arguments.end.bracket.round.java"
@@ -147,7 +137,7 @@
 						{
 							"captures": {
 								"1": {
-									"name": "constant.other.key.java"
+									"name": "meta.constant.other.key.java"
 								},
 								"2": {
 									"name": "keyword.operator.assignment.java"
@@ -173,8 +163,11 @@
 						"3": {
 							"name": "storage.type.annotation.java"
 						},
-						"5": {
+						"4": {
 							"name": "punctuation.definition.annotation.java"
+						},
+						"5": {
+							"name": "storage.type.annotation.java"
 						},
 						"6": {
 							"name": "storage.type.annotation.java"
@@ -213,9 +206,6 @@
 			"patterns": [
 				{
 					"include": "#comments"
-				},
-				{
-					"include": "#function-call"
 				},
 				{
 					"include": "#all-types"
@@ -515,9 +505,6 @@
 					"include": "#function-call"
 				},
 				{
-					"include": "#variables"
-				},
-				{
 					"include": "#variables-local"
 				},
 				{
@@ -612,7 +599,7 @@
 							"name": "punctuation.definition.comment.java"
 						}
 					},
-					"name": "comment.block.javadoc.java",
+					"name": "comment.block.documentation",
 					"patterns": [
 						{
 							"match": "@(author|deprecated|return|see|serial|since|version)\\b",
@@ -758,7 +745,7 @@
 									"begin": "\\b(\\w+)\\b",
 									"beginCaptures": {
 										"1": {
-											"name": "constant.other.enum.java"
+											"name": "variable.other.property.enum.java"
 										}
 									},
 									"end": "(,)|(?=;|})",
@@ -909,20 +896,12 @@
 		"keywords": {
 			"patterns": [
 				{
-					"match": "\\bthrow\\b",
-					"name": "keyword.control.throw.java"
-				},
-				{
-					"match": "\\?|:",
-					"name": "keyword.control.ternary.java"
-				},
-				{
-					"match": "\\b(return|yield|break|case|continue|default|do|while|for|switch|if|else)\\b",
+					"match": "\\b(throw|return|yield|break|case|continue|default|do|while|for|switch|if|else|instanceof)\\b",
 					"name": "keyword.control.java"
 				},
 				{
-					"match": "\\b(instanceof)\\b",
-					"name": "keyword.operator.instanceof.java"
+					"match": "\\?|:",
+					"name": "keyword.operator.ternary.java"
 				},
 				{
 					"match": "(<<|>>>?|~|\\^)",
@@ -982,13 +961,7 @@
 					"include": "#storage-modifiers"
 				},
 				{
-					"include": "#variables"
-				},
-				{
 					"include": "#primitive-arrays"
-				},
-				{
-					"include": "#object-types"
 				}
 			]
 		},
@@ -1150,7 +1123,7 @@
 		"numbers": {
 			"patterns": [
 				{
-					"match": "(?x)\n\\b(?<!\\$)\n0(x|X)\n(\n  (?<!\\.)[0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?[Ll]?(?!\\.)\n  |\n  (\n    [0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?\\.?\n    |\n    ([0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?)?\\.[0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?\n  )\n  [Pp][+-]?[0-9]([0-9_]*[0-9])?[FfDd]?\n)\n\\b(?!\\$)",
+					"match": "(?x)\\b(?<!\\$)0(x|X)((?<!\\.)[0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?[Ll]?(?!\\.)|([0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?\\.?|([0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?)?\\.[0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?)[Pp][+-]?[0-9]([0-9_]*[0-9])?[FfDd]?)\\b(?!\\$)",
 					"name": "constant.numeric.hex.java"
 				},
 				{
@@ -1162,78 +1135,8 @@
 					"name": "constant.numeric.octal.java"
 				},
 				{
-					"match": "(?x)\n(?<!\\$)\n(\n  \\b[0-9]([0-9_]*[0-9])?\\.\\B(?!\\.)\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([Ee][+-]?[0-9]([0-9_]*[0-9])?)[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([0-9]([0-9_]*[0-9])?)([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]?\\b\n  |\n  (?<!\\.)\\B\\.[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]\\b\n  |\n  \\b(0|[1-9]([0-9_]*[0-9])?)(?!\\.)[Ll]?\\b\n)\n(?!\\$)",
+					"match": "(?x)(?<!\\$)(\\b[0-9]([0-9_]*[0-9])?\\.\\B(?!\\.)|\\b[0-9]([0-9_]*[0-9])?\\.([Ee][+-]?[0-9]([0-9_]*[0-9])?)[FfDd]?\\b|\\b[0-9]([0-9_]*[0-9])?\\.([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]\\b|\\b[0-9]([0-9_]*[0-9])?\\.([0-9]([0-9_]*[0-9])?)([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]?\\b|(?<!\\.)\\B\\.[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]?\\b|\\b[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)[FfDd]?\\b|\\b[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]\\b|\\b(0|[1-9]([0-9_]*[0-9])?)(?!\\.)[Ll]?\\b)(?!\\$)",
 					"name": "constant.numeric.decimal.java"
-				}
-			]
-		},
-		"object-types": {
-			"patterns": [
-				{
-					"include": "#generics"
-				},
-				{
-					"begin": "\\b((?:[A-Za-z_]\\w*\\s*\\.\\s*)*)([A-Z_]\\w*)\\s*(?=\\[)",
-					"beginCaptures": {
-						"1": {
-							"patterns": [
-								{
-									"match": "[A-Za-z_]\\w*",
-									"name": "storage.type.java"
-								},
-								{
-									"match": "\\.",
-									"name": "punctuation.separator.period.java"
-								}
-							]
-						},
-						"2": {
-							"name": "storage.type.object.array.java"
-						}
-					},
-					"end": "(?!\\s*\\[)",
-					"patterns": [
-						{
-							"include": "#comments"
-						},
-						{
-							"include": "#parens"
-						}
-					]
-				},
-				{
-					"match": "\\b((?:[A-Za-z_]\\w*\\s*\\.\\s*)*[A-Z_]\\w*)\\s*(?=<)",
-					"captures": {
-						"1": {
-							"patterns": [
-								{
-									"match": "[A-Za-z_]\\w*",
-									"name": "storage.type.java"
-								},
-								{
-									"match": "\\.",
-									"name": "punctuation.separator.period.java"
-								}
-							]
-						}
-					}
-				},
-				{
-					"match": "\\b((?:[A-Za-z_]\\w*\\s*\\.\\s*)*[A-Z_]\\w*)\\b((?=\\s*[A-Za-z$_\\n])|(?=\\s*\\.\\.\\.))",
-					"captures": {
-						"1": {
-							"patterns": [
-								{
-									"match": "[A-Za-z_]\\w*",
-									"name": "storage.type.java"
-								},
-								{
-									"match": "\\.",
-									"name": "punctuation.separator.period.java"
-								}
-							]
-						}
-					}
 				}
 			]
 		},
@@ -1241,15 +1144,6 @@
 			"patterns": [
 				{
 					"include": "#generics"
-				},
-				{
-					"match": "\\b(?:[A-Z]\\w*\\s*(\\.)\\s*)*[A-Z]\\w*\\b",
-					"name": "entity.other.inherited-class.java",
-					"captures": {
-						"1": {
-							"name": "punctuation.separator.period.java"
-						}
-					}
 				},
 				{
 					"match": ",",
@@ -1765,17 +1659,7 @@
 								},
 								{
 									"begin": "[a-zA-Z$_][\\.a-zA-Z0-9$_]*",
-									"beginCaptures": {
-										"0": {
-											"name": "storage.type.java"
-										}
-									},
 									"end": "(\\|)|(?=\\))",
-									"endCaptures": {
-										"1": {
-											"name": "punctuation.catch.separator.java"
-										}
-									},
 									"patterns": [
 										{
 											"include": "#comments"
@@ -1840,27 +1724,6 @@
 							]
 						}
 					]
-				}
-			]
-		},
-		"variables": {
-			"begin": "(?x)\n(?=\n  \\b\n  (\n    (void|boolean|byte|char|short|int|float|long|double)\n    |\n    (?>(\\w+\\.)*[A-Z_]+\\w*) # e.g. `javax.ws.rs.Response`, or `String`\n  )\n  \\b\n  \\s*\n  (\n    <[\\w<>,\\.?\\s\\[\\]]*> # e.g. `HashMap<Integer, String>`, or `List<java.lang.String>`\n  )?\n  \\s*\n  (\n    (\\[\\])* # int[][]\n  )?\n  \\s+\n  [A-Za-z_$][\\w$]* # At least one identifier after space\n  ([\\w\\[\\],$][\\w\\[\\],\\s]*)? # possibly primitive array or additional identifiers\n  \\s*(=|:|;)\n)",
-			"end": "(?=\\=|:|;)",
-			"name": "meta.definition.variable.java",
-			"patterns": [
-				{
-					"match": "([A-Za-z$_][\\w$]*)(?=\\s*(\\[\\])*\\s*(;|:|=|,))",
-					"captures": {
-						"1": {
-							"name": "variable.other.definition.java"
-						}
-					}
-				},
-				{
-					"include": "#all-types"
-				},
-				{
-					"include": "#code"
 				}
 			]
 		},
