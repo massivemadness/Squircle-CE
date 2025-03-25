@@ -22,12 +22,12 @@ internal object FileAssociation {
 
     init {
         // TODO associations[".as"] = LanguageScope.ACTIONSCRIPT
-        // TODO associations[".c"] = LanguageScope.C
-        // TODO associations[".h"] = LanguageScope.C
-        // TODO associations[".cpp"] = LanguageScope.CPP
-        // TODO associations[".hpp"] = LanguageScope.CPP
-        // TODO associations[".ino"] = LanguageScope.CPP
-        // TODO associations[".cs"] = LanguageScope.CSHARP
+        associations[".c"] = LanguageScope.C
+        associations[".h"] = LanguageScope.C
+        associations[".cpp"] = LanguageScope.CPP
+        associations[".hpp"] = LanguageScope.CPP
+        associations[".ino"] = LanguageScope.CPP
+        associations[".cs"] = LanguageScope.CSHARP
         associations[".css"] = LanguageScope.CSS
         associations[".scss"] = LanguageScope.CSS
         // TODO associations[".f90"] = LanguageScope.FORTRAN

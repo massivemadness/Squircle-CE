@@ -1,6 +1,24 @@
 {
   "languages": [
     {
+      "grammar": "languages/c/syntaxes/c.tmLanguage.json",
+      "name": "c",
+      "scopeName": "source.c",
+      "languageConfiguration": "languages/c/language-configuration.json"
+    },
+    {
+      "grammar": "languages/cpp/syntaxes/cpp.tmLanguage.json",
+      "name": "cpp",
+      "scopeName": "source.cpp",
+      "languageConfiguration": "languages/cpp/language-configuration.json"
+    },
+    {
+      "grammar": "languages/csharp/syntaxes/csharp.tmLanguage.json",
+      "name": "csharp",
+      "scopeName": "source.cs",
+      "languageConfiguration": "languages/csharp/language-configuration.json"
+    },
+    {
       "grammar": "languages/css/syntaxes/css.tmLanguage.json",
       "name": "css",
       "scopeName": "source.css",

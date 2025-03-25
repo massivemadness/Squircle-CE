@@ -18,9 +18,9 @@ package com.blacksquircle.ui.feature.editor.data.model
 
 internal object LanguageScope {
     const val ACTIONSCRIPT = "actionscript"
-    const val C = "c"
-    const val CPP = "cpp"
-    const val CSHARP = "csharp"
+    const val C = "source.c"
+    const val CPP = "source.cpp"
+    const val CSHARP = "source.cs"
     const val CSS = "source.css"
     const val FORTRAN = "fortran"
     const val GO = "go"
