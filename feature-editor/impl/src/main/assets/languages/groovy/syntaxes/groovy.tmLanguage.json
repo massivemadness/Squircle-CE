@@ -29,100 +29,26 @@
 					"name": "punctuation.terminator.groovy"
 				}
 			},
-			"match": "^\\s*(package)\\b(?:\\s*([^ ;$]+)\\s*(;)?)?",
+			"match": "^\\s*(package)\\b",
 			"name": "meta.package.groovy"
 		},
 		{
-			"begin": "(import static)\\b\\s*",
-			"beginCaptures": {
-				"1": {
-					"name": "keyword.other.import.static.groovy"
-				}
-			},
+			"match": "^\\s*(import)\\b",
 			"captures": {
 				"1": {
 					"name": "keyword.other.import.groovy"
-				},
-				"2": {
-					"name": "storage.modifier.import.groovy"
-				},
-				"3": {
-					"name": "punctuation.terminator.groovy"
 				}
 			},
-			"contentName": "storage.modifier.import.groovy",
-			"end": "\\s*(?:$|(?=%>)(;))",
-			"endCaptures": {
-				"1": {
-					"name": "punctuation.terminator.groovy"
-				}
-			},
-			"name": "meta.import.groovy",
-			"patterns": [
-				{
-					"match": "\\.",
-					"name": "punctuation.separator.groovy"
-				},
-				{
-					"match": "\\s",
-					"name": "invalid.illegal.character_not_allowed_here.groovy"
-				}
-			]
-		},
-		{
-			"begin": "(import)\\b\\s*",
-			"beginCaptures": {
-				"1": {
-					"name": "keyword.other.import.groovy"
-				}
-			},
-			"captures": {
-				"1": {
-					"name": "keyword.other.import.groovy"
-				},
-				"2": {
-					"name": "storage.modifier.import.groovy"
-				},
-				"3": {
-					"name": "punctuation.terminator.groovy"
-				}
-			},
-			"contentName": "storage.modifier.import.groovy",
-			"end": "\\s*(?:$|(?=%>)|(;))",
-			"endCaptures": {
-				"1": {
-					"name": "punctuation.terminator.groovy"
-				}
-			},
-			"name": "meta.import.groovy",
-			"patterns": [
-				{
-					"match": "\\.",
-					"name": "punctuation.separator.groovy"
-				},
-				{
-					"match": "\\s",
-					"name": "invalid.illegal.character_not_allowed_here.groovy"
-				}
-			]
-		},
-		{
-			"captures": {
-				"1": {
-					"name": "keyword.other.import.groovy"
-				},
-				"2": {
-					"name": "keyword.other.import.static.groovy"
-				},
-				"3": {
-					"name": "storage.modifier.import.groovy"
-				},
-				"4": {
-					"name": "punctuation.terminator.groovy"
-				}
-			},
-			"match": "^\\s*(import)(?:\\s+(static)\\s+)\\b(?:\\s*([^ ;$]+)\\s*(;)?)?",
 			"name": "meta.import.groovy"
+		},
+		{
+			"match": "^\\s*(import\\s+static)\\b",
+			"captures": {
+				"1": {
+					"name": "keyword.other.import.static.groovy"
+				}
+			},
+			"name": "meta.import.static.groovy"
 		},
 		{
 			"include": "#groovy"
@@ -957,7 +883,7 @@
 					]
 				},
 				{
-					"match": "\\b(?:[a-zA-Z]\\w*\\.)*(?:[A-Z]+\\w*[a-z]+\\w*|UR[LI])\\b",
+					"match": "\\b(?!import\\s)(?!static\\s)(?!\\w+\\s*\\.)(?:[A-Z]+\\w*[a-z]+\\w*|UR[LI])\\b",
 					"name": "storage.type.groovy"
 				}
 			]

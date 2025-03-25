@@ -99,7 +99,7 @@
     },
     {
       "name": "Types, Class Types",
-      "scope": "entity.name.type,meta.return.type,meta.type.annotation,meta.type.parameters,support.type.primitive",
+      "scope": "meta.return.type,meta.type.annotation,meta.type.parameters,support.type.primitive",
       "settings": {
         "foreground": "#6897BB"
       }
@@ -351,7 +351,7 @@
     },
     {
       "name": "Preprocessor",
-      "scope": "meta.preprocessor,entity.name.other.preprocessor",
+      "scope": "meta.preprocessor,entity.name.other.preprocessor,storage.type.annotation",
       "settings": {
         "foreground": "#C9C54E"
       }
