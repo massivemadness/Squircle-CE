@@ -74,6 +74,30 @@
       "name": "julia",
       "scopeName": "source.julia",
       "languageConfiguration": "languages/julia/language-configuration.json"
+    },
+    {
+      "grammar": "languages/kotlin/syntaxes/kotlin.tmLanguage.json",
+      "name": "kotlin",
+      "scopeName": "source.kotlin",
+      "languageConfiguration": "languages/kotlin/language-configuration.json"
+    },
+    {
+      "grammar": "languages/latex/syntaxes/tex.tmLanguage.json",
+      "name": "latex",
+      "scopeName": "text.tex",
+      "languageConfiguration": "languages/latex/language-configuration.json"
+    },
+    {
+      "grammar": "languages/lisp/syntaxes/lisp.tmLanguage.json",
+      "name": "lisp",
+      "scopeName": "source.lisp",
+      "languageConfiguration": "languages/lisp/language-configuration.json"
+    },
+    {
+      "grammar": "languages/lua/syntaxes/lua.tmLanguage.json",
+      "name": "lua",
+      "scopeName": "source.lua",
+      "languageConfiguration": "languages/lua/language-configuration.json"
     }
   ]
 }
