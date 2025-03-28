@@ -585,7 +585,7 @@ internal class EditorViewModel @Inject constructor(
                 }
             } catch (e: CancellationException) {
                 throw e
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Timber.e(e, e.message)
 
                 /** Clear content and show error */
@@ -649,7 +649,7 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun errorState(e: Exception): ErrorState {
+    private fun errorState(e: Throwable): ErrorState {
         return ErrorState(
             icon = UiR.drawable.ic_file_error,
             title = stringProvider.getString(UiR.string.common_error_occurred),
