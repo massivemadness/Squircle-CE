@@ -56,8 +56,8 @@
       }
     },
     {
-      "name": "String Interpolation Begin and End",
-      "scope": "punctuation.definition.template-expression.begin,punctuation.definition.template-expression.end",
+      "name": "String Interpolation",
+      "scope": "punctuation.definition.template-expression",
       "settings": {
         "foreground": "#EC7600"
       }
@@ -78,7 +78,7 @@
     },
     {
       "name": "Built-in constant",
-      "scope": "constant.language,variable.language",
+      "scope": "constant.language,variable.language,constant.character.escape",
       "settings": {
         "foreground": "#EC7600"
       }
@@ -263,13 +263,6 @@
       "scope": "entity.name.type.class",
       "settings": {
         "foreground": "#ABB7C6"
-      }
-    },
-    {
-      "name": "Class Inheritances",
-      "scope": "entity.other.inherited-class",
-      "settings": {
-        "foreground": "#6897BB"
       }
     },
     {

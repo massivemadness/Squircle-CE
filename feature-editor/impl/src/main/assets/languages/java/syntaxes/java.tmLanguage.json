@@ -602,7 +602,7 @@
 					"name": "comment.block.documentation",
 					"patterns": [
 						{
-							"match": "@(author|deprecated|return|see|serial|since|version)\\b",
+							"match": "@(author|deprecated|return|see|serial|since|version|hide)\\b",
 							"name": "keyword.other.documentation.javadoc.java"
 						},
 						{
