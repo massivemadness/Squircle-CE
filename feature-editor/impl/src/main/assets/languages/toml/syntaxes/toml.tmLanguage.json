@@ -137,7 +137,7 @@
           "patterns": [
             {
               "match": "(?:[A-Za-z0-9_+-]+)|(?:\"[^\"]+\")|(?:'[^']+')",
-              "name": "support.type.property-name.toml"
+              "name": "support.variable.property.toml"
             },
             {
               "match": "\\.",

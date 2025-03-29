@@ -62,7 +62,7 @@ data class FileModel(
             ".mjs", ".cjs", ".jl", ".yaml", ".yml", ".toml", ".gradle", ".mts",
             ".cts", ".smali", ".css", ".scss", ".go", ".tex", ".f77", ".f90", ".f95",
             ".f03", ".f08", ".f18", ".f", ".fpp", ".for", ".ftn", ".pf",
-            ".rs", ".jsx", ".tsx", ".ini"
+            ".rs", ".jsx", ".tsx", ".ini", ".properties"
         )
         val ARCHIVE = arrayOf(
             ".zip", ".jar", ".rar", ".7z", ".tar", ".gz", ".tgz",

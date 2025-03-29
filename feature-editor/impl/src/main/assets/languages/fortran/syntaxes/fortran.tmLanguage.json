@@ -4055,23 +4055,23 @@
         {
           "comment": "Introduced in the Fortran 1977 standard.",
           "match": "(?ix)(\\s*\\.(and|eq|eqv|le|lt|ge|gt|ne|neqv|not|or)\\.)",
-          "name": "keyword.logical.fortran"
+          "name": "keyword.operator.logical.fortran"
         },
         {
           "comment": "Introduced in the Fortran 1990 standard.",
-          "name": "keyword.logical.fortran.modern",
+          "name": "keyword.operator.logical.fortran.modern",
           "match": "(\\=\\=|\\/\\=|\\>\\=|(?<!\\=)\\>|\\<\\=|\\<)"
         }
       ]
     },
     "pointer-operators": {
       "comment": "Introduced in the Fortran 1990 standard.",
-      "name": "keyword.other.point.fortran",
+      "name": "keyword.operator.point.fortran",
       "match": "(\\=\\>)"
     },
     "string-operators": {
       "comment": "Introduced in the Fortran 19?? standard.",
-      "name": "keyword.other.concatination.fortran",
+      "name": "keyword.operator.concatenation.fortran",
       "match": "(\\/\\/)"
     },
     "string-line-continuation-operator": {

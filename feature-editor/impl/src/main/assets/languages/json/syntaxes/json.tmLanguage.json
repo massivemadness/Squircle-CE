@@ -168,7 +168,7 @@
 					"name": "punctuation.support.type.property-name.end.json"
 				}
 			},
-			"name": "string.json support.type.property-name.json",
+			"name": "support.variable.property.json",
 			"patterns": [
 				{
 					"include": "#stringcontent"
