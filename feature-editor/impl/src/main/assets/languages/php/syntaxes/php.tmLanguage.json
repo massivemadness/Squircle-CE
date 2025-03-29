@@ -2744,7 +2744,7 @@
 				{
 					"captures": {
 						"1": {
-							"name": "keyword.other.phpdoc.php"
+							"name": "keyword.other.documentation.phpdoc"
 						},
 						"3": {
 							"name": "storage.modifier.php"
@@ -2758,7 +2758,7 @@
 				{
 					"captures": {
 						"1": {
-							"name": "keyword.other.phpdoc.php"
+							"name": "keyword.other.documentation.phpdoc"
 						},
 						"2": {
 							"name": "markup.underline.link.php"
@@ -2770,7 +2770,7 @@
 					"begin": "(@(?:global|param|property(-(read|write))?|return|throws|var))\\s+(?=[?A-Za-z_\\x{7f}-\\x{10ffff}\\\\]|\\()",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.other.phpdoc.php"
+							"name": "keyword.other.documentation.phpdoc"
 						}
 					},
 					"end": "(?=\\s|\\*/)",
@@ -2789,12 +2789,12 @@
 				},
 				{
 					"match": "(?x)\n@\n(\n  api|abstract|author|category|copyright|example|global|inherit[Dd]oc|internal|\n  license|link|method|property(-(read|write))?|package|param|return|see|since|source|\n  static|subpackage|throws|todo|var|version|uses|deprecated|final|ignore\n)\\b",
-					"name": "keyword.other.phpdoc.php"
+					"name": "keyword.other.documentation.phpdoc"
 				},
 				{
 					"captures": {
 						"1": {
-							"name": "keyword.other.phpdoc.php"
+							"name": "keyword.other.documentation.phpdoc"
 						}
 					},
 					"match": "{(@(link|inherit[Dd]oc)).+?}",

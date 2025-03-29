@@ -2128,7 +2128,7 @@
 											"include": "#inline"
 										},
 										{
-											"include": "text.html.derivative"
+											"include": "text.html.basic"
 										}
 									]
 								},
@@ -2151,7 +2151,7 @@
 											"include": "#inline"
 										},
 										{
-											"include": "text.html.derivative"
+											"include": "text.html.basic"
 										}
 									]
 								},
@@ -2174,7 +2174,7 @@
 											"include": "#inline"
 										},
 										{
-											"include": "text.html.derivative"
+											"include": "text.html.basic"
 										}
 									]
 								},
@@ -2197,7 +2197,7 @@
 											"include": "#inline"
 										},
 										{
-											"include": "text.html.derivative"
+											"include": "text.html.basic"
 										}
 									]
 								},
@@ -2220,7 +2220,7 @@
 											"include": "#inline"
 										},
 										{
-											"include": "text.html.derivative"
+											"include": "text.html.basic"
 										}
 									]
 								},
@@ -2243,7 +2243,7 @@
 											"include": "#inline"
 										},
 										{
-											"include": "text.html.derivative"
+											"include": "text.html.basic"
 										}
 									]
 								},
@@ -2291,7 +2291,7 @@
 						"1": {
 							"patterns": [
 								{
-									"include": "text.html.derivative"
+									"include": "text.html.basic"
 								}
 							]
 						},
@@ -2313,7 +2313,7 @@
 							"begin": "(\\s*|$)",
 							"patterns": [
 								{
-									"include": "text.html.derivative"
+									"include": "text.html.basic"
 								}
 							],
 							"while": "(?i)^(?!.*</(script|style|pre)>)"
@@ -2324,7 +2324,7 @@
 					"begin": "(?i)(^|\\G)\\s*(?=</?[a-zA-Z]+[^\\s/&gt;]*(\\s|$|/?>))",
 					"patterns": [
 						{
-							"include": "text.html.derivative"
+							"include": "text.html.basic"
 						}
 					],
 					"while": "^(?!\\s*$)"
@@ -2333,7 +2333,7 @@
 					"begin": "(^|\\G)\\s*(?=(<[a-zA-Z0-9\\-](/?>|\\s.*?>)|</[a-zA-Z0-9\\-]>)\\s*$)",
 					"patterns": [
 						{
-							"include": "text.html.derivative"
+							"include": "text.html.basic"
 						}
 					],
 					"while": "^(?!\\s*$)"
@@ -2405,7 +2405,7 @@
 					"include": "#inline"
 				},
 				{
-					"include": "text.html.derivative"
+					"include": "text.html.basic"
 				},
 				{
 					"include": "#heading-setext"
@@ -2462,7 +2462,7 @@
 					"include": "#inline"
 				},
 				{
-					"include": "text.html.derivative"
+					"include": "text.html.basic"
 				},
 				{
 					"include": "#heading-setext"
@@ -2595,7 +2595,7 @@
 					"end": "(?<=>)",
 					"patterns": [
 						{
-							"include": "text.html.derivative"
+							"include": "text.html.basic"
 						}
 					]
 				},
@@ -2755,7 +2755,7 @@
 					"end": "(?<=>)",
 					"patterns": [
 						{
-							"include": "text.html.derivative"
+							"include": "text.html.basic"
 						}
 					]
 				},
@@ -3012,7 +3012,7 @@
 							"end": "(?<=>)",
 							"patterns": [
 								{
-									"include": "text.html.derivative"
+									"include": "text.html.basic"
 								}
 							]
 						},

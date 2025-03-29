@@ -157,7 +157,15 @@
       "name": "Markup Headings",
       "scope": "markup.heading",
       "settings": {
-        "foreground": "#EC7600"
+        "foreground": "#E2C077"
+      }
+    },
+    {
+      "name": "Markup Links",
+      "scope": "markup.underline.link",
+      "settings": {
+        "fontStyle": "underline",
+        "foreground": "#ABC16D"
       }
     },
     {
@@ -218,7 +226,7 @@
     },
     {
       "name": "Documentation Highlight",
-      "scope": "storage.type.class.jsdoc,keyword.other.documentation.javadoc",
+      "scope": "keyword.other.documentation",
       "settings": {
         "foreground": "#82C067"
       }

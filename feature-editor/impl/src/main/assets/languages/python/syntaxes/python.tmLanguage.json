@@ -439,7 +439,7 @@
 			"match": "(?x)\n  \\b ([[:alpha:]_]\\w*) \\b\n"
 		},
 		"special-names": {
-			"name": "constant.other.caps.python",
+			"name": "variable.other.property.python",
 			"match": "(?x)\n  \\b\n    # we want to see \"enough\", meaning 2 or more upper-case\n    # letters in the beginning of the constant\n    #\n    # for more details refer to:\n    #   https://github.com/MagicStack/MagicPython/issues/42\n    (\n      _* [[:upper:]] [_\\d]* [[:upper:]]\n    )\n    [[:upper:]\\d]* (_\\w*)?\n  \\b\n"
 		},
 		"curly-braces": {
@@ -1488,12 +1488,12 @@
 			]
 		},
 		"decorator": {
-			"name": "meta.function.decorator.python",
+			"name": "meta.preprocessor.python",
 			"begin": "(?x)\n  ^\\s*\n  ((@)) \\s* (?=[[:alpha:]_]\\w*)\n",
 			"end": "(?x)\n  ( \\) )\n    # trailing whitespace and comments are legal\n    (?: (.*?) (?=\\s*(?:\\#|$)) )\n  | (?=\\n|\\#)\n",
 			"beginCaptures": {
 				"1": {
-					"name": "entity.name.function.decorator.python"
+					"name": "entity.name.other.preprocessor.python"
 				},
 				"2": {
 					"name": "punctuation.definition.decorator.python"
@@ -1525,7 +1525,7 @@
 					"include": "#illegal-object-name"
 				},
 				{
-					"name": "entity.name.function.decorator.python",
+					"name": "entity.name.other.preprocessor.python",
 					"match": "(?x)\n  ([[:alpha:]_]\\w*) | (\\.)\n",
 					"captures": {
 						"2": {
