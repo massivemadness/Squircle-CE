@@ -18,7 +18,7 @@ package com.blacksquircle.ui.ds.modifier
 
 import android.os.SystemClock
 
-internal const val DefaultMs = 300L
+internal const val DefaultMs = 250L
 
 internal fun debounceLambda(action: (() -> Unit), debounceMs: Long): (() -> Unit) {
     return {

@@ -151,7 +151,7 @@
     {
       "grammar": "languages/typescript/syntaxes/typescript.tmLanguage.json",
       "name": "typescript",
-      "scopeName": "source.tsx",
+      "scopeName": "source.ts",
       "languageConfiguration": "languages/typescript/language-configuration.json"
     }
   ]

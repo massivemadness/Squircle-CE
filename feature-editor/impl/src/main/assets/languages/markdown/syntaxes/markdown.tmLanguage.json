@@ -1547,7 +1547,7 @@
 					"contentName": "meta.embedded.block.typescriptreact",
 					"patterns": [
 						{
-							"include": "source.tsx"
+							"include": "source.ts"
 						}
 					]
 				}
