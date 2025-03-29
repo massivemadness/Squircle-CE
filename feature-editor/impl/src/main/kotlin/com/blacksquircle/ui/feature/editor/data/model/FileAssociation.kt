@@ -21,7 +21,6 @@ internal object FileAssociation {
     private val associations = HashMap<String, String>(72)
 
     init {
-        // TODO associations[".as"] = LanguageScope.ACTIONSCRIPT
         associations[".c"] = LanguageScope.C
         associations[".h"] = LanguageScope.C
         associations[".cpp"] = LanguageScope.CPP
@@ -30,13 +29,17 @@ internal object FileAssociation {
         associations[".cs"] = LanguageScope.CSHARP
         associations[".css"] = LanguageScope.CSS
         associations[".scss"] = LanguageScope.CSS
-        // TODO associations[".f90"] = LanguageScope.FORTRAN
-        // TODO associations[".f95"] = LanguageScope.FORTRAN
-        // TODO associations[".f03"] = LanguageScope.FORTRAN
-        // TODO associations[".f08"] = LanguageScope.FORTRAN
-        // TODO associations[".f"] = LanguageScope.FORTRAN
-        // TODO associations[".for"] = LanguageScope.FORTRAN
-        // TODO associations[".ftn"] = LanguageScope.FORTRAN
+        associations[".f03"] = LanguageScope.FORTRAN
+        associations[".f08"] = LanguageScope.FORTRAN
+        associations[".f18"] = LanguageScope.FORTRAN
+        associations[".f77"] = LanguageScope.FORTRAN
+        associations[".f90"] = LanguageScope.FORTRAN
+        associations[".f95"] = LanguageScope.FORTRAN
+        associations[".f"] = LanguageScope.FORTRAN
+        associations[".fpp"] = LanguageScope.FORTRAN
+        associations[".for"] = LanguageScope.FORTRAN
+        associations[".ftn"] = LanguageScope.FORTRAN
+        associations[".pf"] = LanguageScope.FORTRAN
         associations[".go"] = LanguageScope.GO
         associations[".groovy"] = LanguageScope.GROOVY
         associations[".gvy"] = LanguageScope.GROOVY
@@ -82,12 +85,12 @@ internal object FileAssociation {
         associations[".tcsh"] = LanguageScope.SHELL
         associations[".zsh"] = LanguageScope.SHELL
         associations[".bash"] = LanguageScope.SHELL
-        // TODO associations[".smali"] = LanguageScope.SMALI
+        associations[".smali"] = LanguageScope.SMALI
         associations[".sql"] = LanguageScope.SQL
         associations[".sqlite"] = LanguageScope.SQL
         associations[".sqlite2"] = LanguageScope.SQL
         associations[".sqlite3"] = LanguageScope.SQL
-        // TODO associations[".toml"] = LanguageScope.TOML
+        associations[".toml"] = LanguageScope.TOML
         associations[".ts"] = LanguageScope.TYPESCRIPT
         associations[".tsx"] = LanguageScope.TYPESCRIPT
         associations[".mts"] = LanguageScope.TYPESCRIPT

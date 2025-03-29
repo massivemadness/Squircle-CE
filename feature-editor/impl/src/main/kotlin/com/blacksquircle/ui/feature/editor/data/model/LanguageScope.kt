@@ -17,12 +17,11 @@
 package com.blacksquircle.ui.feature.editor.data.model
 
 internal object LanguageScope {
-    const val ACTIONSCRIPT = "actionscript"
     const val C = "source.c"
     const val CPP = "source.cpp"
     const val CSHARP = "source.cs"
     const val CSS = "source.css"
-    const val FORTRAN = "fortran"
+    const val FORTRAN = "source.fortran"
     const val GO = "source.go"
     const val GROOVY = "source.groovy"
     const val HTML = "text.html.basic"
@@ -42,9 +41,9 @@ internal object LanguageScope {
     const val RUBY = "source.ruby"
     const val RUST = "source.rust"
     const val SHELL = "source.shell"
-    const val SMALI = "smali"
+    const val SMALI = "source.smali"
     const val SQL = "source.sql"
-    const val TOML = "toml"
+    const val TOML = "source.toml"
     const val TYPESCRIPT = "source.ts"
     const val VISUALBASIC = "visualbasic"
     const val XML = "xml"

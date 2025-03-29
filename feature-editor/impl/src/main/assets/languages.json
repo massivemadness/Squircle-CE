@@ -25,6 +25,12 @@
       "languageConfiguration": "languages/css/language-configuration.json"
     },
     {
+      "grammar": "languages/fortran/syntaxes/fortran.tmLanguage.json",
+      "name": "fortran",
+      "scopeName": "source.fortran",
+      "languageConfiguration": "languages/fortran/language-configuration.json"
+    },
+    {
       "grammar": "languages/go/syntaxes/go.tmLanguage.json",
       "name": "go",
       "scopeName": "source.go",
@@ -143,10 +149,22 @@
       "languageConfiguration": "languages/shell/language-configuration.json"
     },
     {
+      "grammar": "languages/smali/syntaxes/smali.tmLanguage.json",
+      "name": "smali",
+      "scopeName": "source.smali",
+      "languageConfiguration": "languages/smali/language-configuration.json"
+    },
+    {
       "grammar": "languages/sql/syntaxes/sql.tmLanguage.json",
       "name": "sql",
       "scopeName": "source.sql",
       "languageConfiguration": "languages/sql/language-configuration.json"
+    },
+    {
+      "grammar": "languages/toml/syntaxes/toml.tmLanguage.json",
+      "name": "toml",
+      "scopeName": "source.toml",
+      "languageConfiguration": "languages/toml/language-configuration.json"
     },
     {
       "grammar": "languages/typescript/syntaxes/typescript.tmLanguage.json",
