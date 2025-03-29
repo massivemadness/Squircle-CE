@@ -45,7 +45,7 @@ internal object LanguageScope {
     const val SQL = "source.sql"
     const val TOML = "source.toml"
     const val TYPESCRIPT = "source.ts"
-    const val VISUALBASIC = "visualbasic"
-    const val XML = "xml"
-    const val YAML = "yaml"
+    const val VISUALBASIC = "source.vb"
+    const val XML = "text.xml"
+    const val YAML = "source.yaml"
 }

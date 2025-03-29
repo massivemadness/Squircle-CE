@@ -171,6 +171,24 @@
       "name": "typescript",
       "scopeName": "source.ts",
       "languageConfiguration": "languages/typescript/language-configuration.json"
+    },
+    {
+      "grammar": "languages/visualbasic/syntaxes/visualbasic.tmLanguage.json",
+      "name": "visualbasic",
+      "scopeName": "source.vb",
+      "languageConfiguration": "languages/visualbasic/language-configuration.json"
+    },
+    {
+      "grammar": "languages/xml/syntaxes/xml.tmLanguage.json",
+      "name": "xml",
+      "scopeName": "text.xml",
+      "languageConfiguration": "languages/xml/language-configuration.json"
+    },
+    {
+      "grammar": "languages/yaml/syntaxes/yaml.tmLanguage.json",
+      "name": "yaml",
+      "scopeName": "source.yaml",
+      "languageConfiguration": "languages/yaml/language-configuration.json"
     }
   ]
 }

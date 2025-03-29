@@ -96,17 +96,17 @@ internal object FileAssociation {
         associations[".tsx"] = LanguageScope.TYPESCRIPT
         associations[".mts"] = LanguageScope.TYPESCRIPT
         associations[".cts"] = LanguageScope.TYPESCRIPT
-        // TODO associations[".vb"] = LanguageScope.VISUALBASIC
-        // TODO associations[".bas"] = LanguageScope.VISUALBASIC
-        // TODO associations[".cls"] = LanguageScope.VISUALBASIC
-        // TODO associations[".xhtml"] = LanguageScope.XML
-        // TODO associations[".xht"] = LanguageScope.XML
-        // TODO associations[".xml"] = LanguageScope.XML
-        // TODO associations[".xaml"] = LanguageScope.XML
-        // TODO associations[".xdf"] = LanguageScope.XML
-        // TODO associations[".xmpp"] = LanguageScope.XML
-        // TODO associations[".yaml"] = LanguageScope.YAML
-        // TODO associations[".yml"] = LanguageScope.YAML
+        associations[".vb"] = LanguageScope.VISUALBASIC
+        associations[".bas"] = LanguageScope.VISUALBASIC
+        associations[".cls"] = LanguageScope.VISUALBASIC
+        associations[".xhtml"] = LanguageScope.XML
+        associations[".xht"] = LanguageScope.XML
+        associations[".xml"] = LanguageScope.XML
+        associations[".xaml"] = LanguageScope.XML
+        associations[".xdf"] = LanguageScope.XML
+        associations[".xmpp"] = LanguageScope.XML
+        associations[".yaml"] = LanguageScope.YAML
+        associations[".yml"] = LanguageScope.YAML
     }
 
     fun guessLanguage(extension: String): String {
