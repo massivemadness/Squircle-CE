@@ -67,10 +67,35 @@ class LocalFilesystem : Filesystem {
         if (!sourceFile.exists()) {
             throw FileNotFoundException(source.path)
         }
-        if (destFile.exists()) {
+
+        val sourcePath = sourceFile.absolutePath
+        val destPath = destFile.absolutePath
+        if (sourcePath == destPath) {
             throw FileAlreadyExistsException(destFile.absolutePath)
         }
-        sourceFile.renameTo(destFile)
+
+        if (destFile.exists()) {
+            if (sourcePath.equals(destPath, ignoreCase = true)) {
+                val tempFile = File(sourceFile.parent, "temp_${System.currentTimeMillis()}.tmp")
+                if (!sourceFile.renameTo(tempFile)) {
+                    throw RenameFileException(tempFile.absolutePath)
+                }
+                if (!tempFile.renameTo(destFile)) {
+                    throw RenameFileException(destFile.absolutePath)
+                }
+                return
+            } else {
+                throw FileAlreadyExistsException(destFile.absolutePath)
+            }
+        }
+
+        if (!sourceFile.renameTo(destFile)) {
+            throw RenameFileException(destFile.absolutePath)
+        }
+
+        if (!destFile.exists()) {
+            throw RenameFileException(destFile.absolutePath)
+        }
     }
 
     override fun deleteFile(fileModel: FileModel) {
