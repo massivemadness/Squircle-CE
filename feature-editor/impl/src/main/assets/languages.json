@@ -129,6 +129,30 @@
       "name": "ruby",
       "scopeName": "source.ruby",
       "languageConfiguration": "languages/ruby/language-configuration.json"
+    },
+    {
+      "grammar": "languages/rust/syntaxes/rust.tmLanguage.json",
+      "name": "rust",
+      "scopeName": "source.rust",
+      "languageConfiguration": "languages/rust/language-configuration.json"
+    },
+    {
+      "grammar": "languages/shell/syntaxes/shell.tmLanguage.json",
+      "name": "shell",
+      "scopeName": "source.shell",
+      "languageConfiguration": "languages/shell/language-configuration.json"
+    },
+    {
+      "grammar": "languages/sql/syntaxes/sql.tmLanguage.json",
+      "name": "sql",
+      "scopeName": "source.sql",
+      "languageConfiguration": "languages/sql/language-configuration.json"
+    },
+    {
+      "grammar": "languages/typescript/syntaxes/typescript.tmLanguage.json",
+      "name": "typescript",
+      "scopeName": "source.tsx",
+      "languageConfiguration": "languages/typescript/language-configuration.json"
     }
   ]
 }
