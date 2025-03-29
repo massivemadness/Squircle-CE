@@ -121,16 +121,16 @@
 			"begin": "(?:(\\|)|(>))([1-9])?([-+])?(.*\\n?)",
 			"beginCaptures": {
 				"1": {
-					"name": "keyword.control.flow.block-scalar.literal.yaml"
+					"name": "keyword.operator.block-scalar.literal.yaml"
 				},
 				"2": {
-					"name": "keyword.control.flow.block-scalar.folded.yaml"
+					"name": "keyword.operator.block-scalar.folded.yaml"
 				},
 				"3": {
-					"name": "constant.numeric.indentation-indicator.yaml"
+					"name": "keyword.operator.indentation-indicator.yaml"
 				},
 				"4": {
-					"name": "storage.modifier.chomping-indicator.yaml"
+					"name": "keyword.operator.chomping-indicator.yaml"
 				},
 				"5": {
 					"patterns": [

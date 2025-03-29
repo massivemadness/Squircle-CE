@@ -498,7 +498,7 @@
 							]
 						},
 						"2": {
-							"name": "variable.other.php"
+							"name": "variable.other.property.php"
 						},
 						"3": {
 							"name": "punctuation.definition.variable.php"
@@ -572,7 +572,7 @@
 						{
 							"captures": {
 								"1": {
-									"name": "variable.other.php"
+									"name": "variable.other.property.php"
 								},
 								"2": {
 									"name": "storage.modifier.reference.php"
@@ -716,7 +716,7 @@
 							]
 						},
 						"3": {
-							"name": "variable.other.php"
+							"name": "variable.other.property.php"
 						},
 						"4": {
 							"name": "storage.modifier.reference.php"
@@ -827,7 +827,7 @@
 					]
 				},
 				"3": {
-					"name": "variable.other.php"
+					"name": "variable.other.property.php"
 				},
 				"4": {
 					"name": "punctuation.definition.variable.php"
@@ -1498,7 +1498,7 @@
 							]
 						},
 						"2": {
-							"name": "variable.other.php"
+							"name": "variable.other.property.php"
 						},
 						"3": {
 							"name": "storage.modifier.reference.php"
@@ -1523,7 +1523,7 @@
 							]
 						},
 						"2": {
-							"name": "variable.other.php"
+							"name": "variable.other.property.php"
 						},
 						"3": {
 							"name": "storage.modifier.reference.php"
@@ -1555,7 +1555,7 @@
 					"match": "(?xi)\n((?:(&)\\s*)?(\\$)[a-z_\\x{7f}-\\x{10ffff}][a-z0-9_\\x{7f}-\\x{10ffff}]*) # Variable name with possible reference\n(?=\\s*(?:,|\\)|/[/*]|\\#|$)) # A closing parentheses (end of argument list) or a comma or a comment",
 					"captures": {
 						"1": {
-							"name": "variable.other.php"
+							"name": "variable.other.property.php"
 						},
 						"2": {
 							"name": "storage.modifier.reference.php"
@@ -1570,7 +1570,7 @@
 					"begin": "(?xi)\n((?:(&)\\s*)?(\\$)[a-z_\\x{7f}-\\x{10ffff}][a-z0-9_\\x{7f}-\\x{10ffff}]*) # Variable name with possible reference\n\\s*(=)\\s*",
 					"beginCaptures": {
 						"1": {
-							"name": "variable.other.php"
+							"name": "variable.other.property.php"
 						},
 						"2": {
 							"name": "storage.modifier.reference.php"
@@ -2478,7 +2478,7 @@
 		"invoke-call": {
 			"captures": {
 				"1": {
-					"name": "variable.other.php"
+					"name": "variable.other.property.php"
 				},
 				"2": {
 					"name": "punctuation.definition.variable.php"
@@ -3856,7 +3856,7 @@
 			"patterns": [
 				{
 					"match": "(?i)(\\$+)[a-z_\\x{7f}-\\x{10ffff}][a-z0-9_\\x{7f}-\\x{10ffff}]*",
-					"name": "variable.other.php",
+					"name": "variable.other.property.php",
 					"captures": {
 						"1": {
 							"name": "punctuation.definition.variable.php"
@@ -3903,7 +3903,7 @@
 				{
 					"captures": {
 						"1": {
-							"name": "variable.other.php"
+							"name": "variable.other.property.php"
 						},
 						"2": {
 							"name": "punctuation.definition.variable.php"
@@ -3938,7 +3938,7 @@
 				{
 					"captures": {
 						"1": {
-							"name": "variable.other.php"
+							"name": "variable.other.property.php"
 						},
 						"2": {
 							"name": "punctuation.definition.variable.php"

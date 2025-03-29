@@ -231,29 +231,6 @@
 			"match": "&",
 			"name": "invalid.illegal.bad-ampersand.xml"
 		},
-		"doublequotedString": {
-			"begin": "\"",
-			"beginCaptures": {
-				"0": {
-					"name": "punctuation.definition.string.begin.xml"
-				}
-			},
-			"end": "\"",
-			"endCaptures": {
-				"0": {
-					"name": "punctuation.definition.string.end.xml"
-				}
-			},
-			"name": "string.quoted.double.xml",
-			"patterns": [
-				{
-					"include": "#entity"
-				},
-				{
-					"include": "#bare-ampersand"
-				}
-			]
-		},
 		"entity": {
 			"captures": {
 				"1": {
@@ -312,7 +289,30 @@
 					"name": "punctuation.definition.string.end.xml"
 				}
 			},
-			"name": "string.quoted.single.xml",
+			"name": "string.quoted.single.tag.xml",
+			"patterns": [
+				{
+					"include": "#entity"
+				},
+				{
+					"include": "#bare-ampersand"
+				}
+			]
+		},
+		"doublequotedString": {
+			"begin": "\"",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.xml"
+				}
+			},
+			"end": "\"",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.end.xml"
+				}
+			},
+			"name": "string.quoted.double.tag.xml",
 			"patterns": [
 				{
 					"include": "#entity"
@@ -356,10 +356,10 @@
 					"captures": {
 						"0": {
 							"name": "punctuation.definition.comment.xml"
-						},
-						"end": "--%>",
-						"name": "comment.block.xml"
-					}
+						}
+					},
+					"end": "--%>",
+					"name": "comment.block.xml"
 				},
 				{
 					"begin": "<!--",
@@ -377,7 +377,9 @@
 								"0": {
 									"name": "invalid.illegal.bad-comments-or-CDATA.xml"
 								}
-							}
+							},
+							"end": "",
+							"name": "comment.block.xml"
 						}
 					]
 				}

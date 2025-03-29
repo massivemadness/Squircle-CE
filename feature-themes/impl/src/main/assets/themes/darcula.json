@@ -170,7 +170,7 @@
     },
     {
       "name": "Tag name",
-      "scope": "punctuation.definition.tag.html, punctuation.definition.tag.begin, punctuation.definition.tag.end, entity.name.tag",
+      "scope": "punctuation.definition.tag, punctuation.definition.tag.begin, punctuation.definition.tag.end, entity.name.tag",
       "settings": {
         "foreground": "#E2C077"
       }
@@ -253,13 +253,6 @@
       }
     },
     {
-      "name": "Typescript Namespace",
-      "scope": "ts.meta.entity.name.namespace,tsx.meta.entity.name.namespace",
-      "settings": {
-        "foreground": "#ABB7C5"
-      }
-    },
-    {
       "name": "Regex Character-class",
       "scope": "regex.character-class",
       "settings": {
@@ -278,20 +271,6 @@
       "scope": "entity.name.type.instance.jsdoc",
       "settings": {
         "foreground": "#FEC76C"
-      }
-    },
-    {
-      "name": "YAML entity",
-      "scope": "yaml.entity.name,yaml.string.entity.name",
-      "settings": {
-        "foreground": "#EC7600"
-      }
-    },
-    {
-      "name": "YAML string value",
-      "scope": "yaml.string.out",
-      "settings": {
-        "foreground": "#ABB7C5"
       }
     },
     {
@@ -331,7 +310,7 @@
     },
     {
       "name": "Tag string",
-      "scope": "string.template.tag,string.template.punctuation.tag,string.quoted.punctuation.tag,string.quoted.embedded.tag, string.quoted.double.tag",
+      "scope": "string.template.tag,string.template.punctuation.tag,string.quoted.punctuation.tag,string.quoted.embedded.tag,string.quoted.single.tag,string.quoted.double.tag,string.unquoted.tag",
       "settings": {
         "foreground": "#ABC16D"
       }
@@ -355,13 +334,6 @@
       "scope": "meta.preprocessor,entity.name.other.preprocessor,storage.type.annotation,punctuation.definition.annotation",
       "settings": {
         "foreground": "#C9C54E"
-      }
-    },
-    {
-      "name": "HTML Strings",
-      "scope": "string.unquoted.html,string.quoted.double.html,string.quoted.single.html,string.other.inline-data.html",
-      "settings": {
-        "foreground": "#ABC16D"
       }
     },
     {
@@ -393,13 +365,6 @@
       }
     },
     {
-      "name": "CSS Property-value function",
-      "scope": "property-list.property-value.function",
-      "settings": {
-        "foreground": "#FEC76C"
-      }
-    },
-    {
       "name": "CSS constant variables",
       "scope": "support.constant.property-value.css,support.constant.property-value.scss",
       "settings": {
@@ -407,32 +372,10 @@
       }
     },
     {
-      "name": "CSS Tag",
-      "scope": "css.entity.name.tag,scss.entity.name.tag",
-      "settings": {
-        "foreground": "#EC7600"
-      }
-    },
-    {
       "name": "CSS ID, Selector",
-      "scope": "meta.selector.css, entity.attribute-name.id, entity.other.attribute-name.pseudo-class.css,entity.other.attribute-name.pseudo-element.css",
+      "scope": "meta.selector.css,entity.other.attribute-name.pseudo-class.css,entity.other.attribute-name.pseudo-element.css",
       "settings": {
         "foreground": "#FEC76C"
-      }
-    },
-    {
-      "name": "CSS Keyword",
-      "scope": "keyword.scss,keyword.css",
-      "settings": {
-        "foreground": "#EC7600"
-      }
-    },
-    {
-      "name": "Triple-slash Directive Tag",
-      "scope": "triple-slash.tag",
-      "settings": {
-        "foreground": "#6897BB",
-        "fontStyle": "italic"
       }
     },
     {
@@ -457,57 +400,6 @@
       "scope": "token.debug-token",
       "settings": {
         "foreground": "#B267E6"
-      }
-    },
-    {
-      "name": "Python operators",
-      "scope": "keyword.operator.logical.python",
-      "settings": {
-        "foreground": "#EC7600"
-      }
-    },
-    {
-      "name": "Dart class type",
-      "scope": "support.class.dart",
-      "settings": {
-        "foreground": "#EC7600"
-      }
-    },
-    {
-      "name": "PHP variables",
-      "scope": [
-        "variable.language.php",
-        "variable.other.php"
-      ],
-      "settings": {
-        "foreground": "#BD80B8"
-      }
-    },
-    {
-      "name": "Perl specific",
-      "scope": [
-        "variable.other.readwrite.perl"
-      ],
-      "settings": {
-        "foreground": "#BD80B8"
-      }
-    },
-    {
-      "name": "PHP variables",
-      "scope": [
-        "variable.other.property.php"
-      ],
-      "settings": {
-        "foreground": "#EC7600"
-      }
-    },
-    {
-      "name": "PHP variables",
-      "scope": [
-        "support.variable.property.php"
-      ],
-      "settings": {
-        "foreground": "#FEC76C"
       }
     }
   ],

@@ -92,7 +92,7 @@
 												}
 											},
 											"match": "([^\\s\"'=<>`/]|/(?!>))+",
-											"name": "string.unquoted.html"
+											"name": "string.unquoted.tag.html"
 										},
 										{
 											"begin": "\"",
@@ -111,7 +111,7 @@
 													"name": "source.css"
 												}
 											},
-											"name": "string.quoted.double.html",
+											"name": "string.quoted.double.tag.html",
 											"patterns": [
 												{
 													"include": "#entities"
@@ -135,7 +135,7 @@
 													"name": "source.css"
 												}
 											},
-											"name": "string.quoted.single.html",
+											"name": "string.quoted.single.tag.html",
 											"patterns": [
 												{
 													"include": "#entities"
@@ -191,7 +191,7 @@
 												}
 											},
 											"match": "(([^\\s\"'=<>`/]|/(?!>))+)",
-											"name": "string.unquoted.html"
+											"name": "string.unquoted.tag.html"
 										},
 										{
 											"begin": "\"",
@@ -210,7 +210,7 @@
 													"name": "source.js"
 												}
 											},
-											"name": "string.quoted.double.html",
+											"name": "string.quoted.double.tag.html",
 											"patterns": [
 												{
 													"captures": {
@@ -268,7 +268,7 @@
 													"name": "source.js"
 												}
 											},
-											"name": "string.quoted.single.html",
+											"name": "string.quoted.single.tag.html",
 											"patterns": [
 												{
 													"captures": {
@@ -386,7 +386,7 @@
 					"patterns": [
 						{
 							"match": "([^\\s\"'=<>`/]|/(?!>))+",
-							"name": "string.unquoted.html"
+							"name": "string.unquoted.tag.html"
 						},
 						{
 							"begin": "\"",
@@ -401,7 +401,7 @@
 									"name": "punctuation.definition.string.end.html"
 								}
 							},
-							"name": "string.quoted.double.html",
+							"name": "string.quoted.double.tag.html",
 							"patterns": [
 								{
 									"include": "#entities"
@@ -421,7 +421,7 @@
 									"name": "punctuation.definition.string.end.html"
 								}
 							},
-							"name": "string.quoted.single.html",
+							"name": "string.quoted.single.tag.html",
 							"patterns": [
 								{
 									"include": "#entities"
@@ -521,7 +521,7 @@
 				{
 					"begin": "\"",
 					"end": "\"",
-					"name": "string.quoted.double.html"
+					"name": "string.quoted.double.tag.html"
 				},
 				{
 					"match": "[^\\s>]+",
