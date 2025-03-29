@@ -407,11 +407,11 @@
 		},
 		"attributes": {
 			"comment": "attributes",
-			"name": "meta.attribute.rust",
+			"name": "meta.preprocessor.rust",
 			"begin": "(#)(\\!?)(\\[)",
 			"beginCaptures": {
 				"1": {
-					"name": "punctuation.definition.attribute.rust"
+					"name": "punctuation.definition.annotation.rust"
 				},
 				"3": {
 					"name": "punctuation.brackets.attribute.rust"
