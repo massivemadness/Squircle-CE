@@ -2883,7 +2883,7 @@
 					"begin": ":",
 					"beginCaptures": {
 						"0": {
-							"name": "meta.object-literal.key.js punctuation.separator.key-value.js"
+							"name": "punctuation.separator.key-value.js"
 						}
 					},
 					"end": "(?=,|\\})",
