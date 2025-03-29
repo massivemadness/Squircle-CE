@@ -98,6 +98,37 @@
       "name": "lua",
       "scopeName": "source.lua",
       "languageConfiguration": "languages/lua/language-configuration.json"
+    },
+    {
+      "grammar": "languages/markdown/syntaxes/markdown.tmLanguage.json",
+      "name": "markdown",
+      "scopeName": "text.html.markdown",
+      "languageConfiguration": "languages/markdown/language-configuration.json",
+      "embeddedLanguages": {
+        "meta.embedded.block.html": "html",
+        "source.js": "javascript",
+        "meta.embedded.block.java": "java",
+        "meta.embedded.block.xml": "xml",
+        "meta.embedded.block.python": "python"
+      }
+    },
+    {
+      "grammar": "languages/php/syntaxes/php.tmLanguage.json",
+      "name": "php",
+      "scopeName": "source.php",
+      "languageConfiguration": "languages/php/language-configuration.json"
+    },
+    {
+      "grammar": "languages/python/syntaxes/python.tmLanguage.json",
+      "name": "python",
+      "scopeName": "source.python",
+      "languageConfiguration": "languages/python/language-configuration.json"
+    },
+    {
+      "grammar": "languages/ruby/syntaxes/ruby.tmLanguage.json",
+      "name": "ruby",
+      "scopeName": "source.ruby",
+      "languageConfiguration": "languages/ruby/language-configuration.json"
     }
   ]
 }
