@@ -40,9 +40,9 @@ import com.blacksquircle.ui.core.contract.MimeType
 import com.blacksquircle.ui.core.contract.rememberCreateFileContract
 import com.blacksquircle.ui.core.contract.rememberOpenFileContract
 import com.blacksquircle.ui.core.effect.CleanupEffect
+import com.blacksquircle.ui.core.effect.NavResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.navigateTo
-import com.blacksquircle.ui.core.extensions.observeResult
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -145,11 +145,11 @@ internal fun EditorScreen(
         }
     }
 
-    navController.observeResult(EditorFragment.KEY_CLOSE_MODIFIED) { bundle ->
+    NavResultEffect(EditorFragment.KEY_CLOSE_MODIFIED) { bundle ->
         val fileUuid = bundle.getString(EditorFragment.ARG_FILE_UUID).orEmpty()
         viewModel.onCloseModifiedClicked(fileUuid)
     }
-    navController.observeResult(EditorFragment.KEY_SELECT_LANGUAGE) { bundle ->
+    NavResultEffect(EditorFragment.KEY_SELECT_LANGUAGE) { bundle ->
         val language = bundle.getString(EditorFragment.ARG_LANGUAGE).orEmpty()
         viewModel.onLanguageChanged(language)
     }

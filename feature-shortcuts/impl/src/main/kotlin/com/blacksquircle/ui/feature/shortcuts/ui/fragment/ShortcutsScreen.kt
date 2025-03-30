@@ -21,15 +21,23 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.effect.NavResultEffect
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
@@ -44,12 +52,21 @@ import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.api.model.KeyGroup
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
+import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
+import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
 import com.blacksquircle.ui.feature.shortcuts.ui.composable.keybindingResource
+import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragment.Companion.ARG_REASSIGN
 import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun ShortcutsScreen(viewModel: ShortcutsViewModel) {
+internal fun ShortcutsScreen(
+    navController: NavController,
+    viewModel: ShortcutsViewModel = daggerViewModel { context ->
+        val component = ShortcutsComponent.buildOrGet(context)
+        ShortcutsViewModel.Factory().also(component::inject)
+    }
+) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ShortcutsScreen(
         viewState = viewState,
@@ -57,6 +74,26 @@ internal fun ShortcutsScreen(viewModel: ShortcutsViewModel) {
         onRestoreClicked = viewModel::onRestoreClicked,
         onKeyClicked = viewModel::onKeyClicked,
     )
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.viewEvent.collect { event ->
+            when (event) {
+                is ViewEvent.Toast -> context.showToast(text = event.message)
+                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.PopBackStack -> navController.popBackStack()
+            }
+        }
+    }
+
+    NavResultEffect(ShortcutsFragment.KEY_SAVE) { bundle ->
+        val keybinding = ShortcutMapper.fromBundle(bundle)
+        viewModel.onSaveClicked(keybinding)
+    }
+    NavResultEffect(ShortcutsFragment.KEY_RESOLVE) { bundle ->
+        val reassign = bundle.getBoolean(ARG_REASSIGN)
+        viewModel.onResolveClicked(reassign)
+    }
 }
 
 @Composable

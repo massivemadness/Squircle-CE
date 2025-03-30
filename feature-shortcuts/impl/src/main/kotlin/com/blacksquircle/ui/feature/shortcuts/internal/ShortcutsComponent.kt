@@ -19,8 +19,8 @@ package com.blacksquircle.ui.feature.shortcuts.internal
 import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
-import com.blacksquircle.ui.feature.shortcuts.ui.dialog.KeybindingDialog
-import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragment
+import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.KeybindingViewModel
+import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
 import dagger.Component
 
 @ShortcutsScope
@@ -34,8 +34,8 @@ import dagger.Component
 )
 internal interface ShortcutsComponent {
 
-    fun inject(dialog: KeybindingDialog)
-    fun inject(fragment: ShortcutsFragment)
+    fun inject(factory: ShortcutsViewModel.Factory)
+    fun inject(factory: KeybindingViewModel.ParameterizedFactory)
 
     @Component.Factory
     interface Factory {

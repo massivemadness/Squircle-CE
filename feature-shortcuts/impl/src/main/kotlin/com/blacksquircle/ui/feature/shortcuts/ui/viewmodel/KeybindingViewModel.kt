@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.shortcuts.ui.viewmodel
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
@@ -35,6 +36,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 internal class KeybindingViewModel @AssistedInject constructor(
     @Assisted private val initial: Bundle,
@@ -113,6 +115,17 @@ internal class KeybindingViewModel @AssistedInject constructor(
             isAlt = keybinding.isAlt,
             key = keybinding.key,
         )
+    }
+
+    class ParameterizedFactory(private val initial: Bundle) : ViewModelProvider.Factory {
+
+        @Inject
+        lateinit var viewModelFactory: Factory
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return viewModelFactory.create(initial) as T
+        }
     }
 
     @AssistedFactory

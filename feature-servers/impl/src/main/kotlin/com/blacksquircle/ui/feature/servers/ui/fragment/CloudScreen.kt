@@ -22,12 +22,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.effect.NavResultEffect
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
@@ -35,6 +44,7 @@ import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
+import com.blacksquircle.ui.feature.servers.internal.ServersComponent
 import com.blacksquircle.ui.feature.servers.ui.fragment.internal.ConnectionStatus
 import com.blacksquircle.ui.feature.servers.ui.fragment.internal.ServerModel
 import com.blacksquircle.ui.feature.servers.ui.viewmodel.CloudViewModel
@@ -44,7 +54,13 @@ import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun CloudScreen(viewModel: CloudViewModel) {
+internal fun CloudScreen(
+    navController: NavController,
+    viewModel: CloudViewModel = daggerViewModel { context ->
+        val component = ServersComponent.buildOrGet(context)
+        CloudViewModel.Factory().also(component::inject)
+    },
+) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CloudScreen(
         viewState = viewState,
@@ -52,6 +68,24 @@ internal fun CloudScreen(viewModel: CloudViewModel) {
         onServerClicked = viewModel::onServerClicked,
         onAddServerClicked = viewModel::onAddServerClicked,
     )
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.viewEvent.collect { event ->
+            when (event) {
+                is ViewEvent.Toast -> context.showToast(text = event.message)
+                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.PopBackStack -> navController.popBackStack()
+            }
+        }
+    }
+
+    NavResultEffect(Screen.Server.KEY_SAVE) {
+        viewModel.loadServers()
+    }
+    NavResultEffect(Screen.Server.KEY_DELETE) {
+        viewModel.loadServers()
+    }
 }
 
 @Composable

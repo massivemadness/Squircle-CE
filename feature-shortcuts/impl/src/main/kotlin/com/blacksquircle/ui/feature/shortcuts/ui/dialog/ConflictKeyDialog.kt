@@ -20,11 +20,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragment
 
@@ -36,22 +36,19 @@ internal class ConflictKeyDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                SquircleTheme {
-                    ConflictKeyScreen(
-                        onReassignClicked = { reassign ->
-                            sendFragmentResult(
-                                resultKey = ShortcutsFragment.KEY_RESOLVE,
-                                ShortcutsFragment.ARG_REASSIGN to reassign
-                            )
-                            navController.popBackStack()
-                        }
+    ): View = content {
+        SquircleTheme {
+            ConflictKeyScreen(
+                onReassignClicked = { reassign ->
+                    sendNavigationResult(
+                        key = ShortcutsFragment.KEY_RESOLVE,
+                        result = bundleOf(
+                            ShortcutsFragment.ARG_REASSIGN to reassign
+                        )
                     )
+                    navController.popBackStack()
                 }
-            }
+            )
         }
     }
 }

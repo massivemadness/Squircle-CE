@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.themes.ui.fragment
 
+import android.os.Bundle
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -43,9 +44,9 @@ import androidx.navigation.NavController
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.MimeType
 import com.blacksquircle.ui.core.contract.rememberOpenFileContract
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.navigateTo
-import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -73,7 +74,6 @@ internal fun EditThemeScreen(
         val component = ThemesComponent.buildOrGet(context)
         EditThemeViewModel.ParameterizedFactory(navArgs.id).also(component::inject)
     },
-    sendFragmentResult: (String) -> Unit = {},
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     EditThemeScreen(
@@ -104,7 +104,7 @@ internal fun EditThemeScreen(
                     openFileContract.launch(arrayOf(MimeType.JSON))
                 }
                 is ThemesViewEvent.SendSaveResult -> {
-                    sendFragmentResult(ThemesFragment.KEY_SAVE)
+                    sendNavigationResult(ThemesFragment.KEY_SAVE, Bundle.EMPTY)
                     navController.popBackStack()
                 }
             }

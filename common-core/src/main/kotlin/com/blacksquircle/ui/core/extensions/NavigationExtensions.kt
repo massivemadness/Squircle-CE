@@ -16,15 +16,11 @@
 
 package com.blacksquircle.ui.core.extensions
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
@@ -90,23 +86,4 @@ fun Fragment.observeFragmentResult(resultKey: String, onResult: (Bundle) -> Unit
         this,
         fragmentResultListener
     )
-}
-
-fun NavController.sendResult(key: String, result: Bundle) {
-    previousBackStackEntry?.savedStateHandle?.set(key, result)
-}
-
-@SuppressLint("ComposableNaming")
-@Composable
-fun NavController.observeResult(resultKey: String, onEvent: (Bundle) -> Unit) {
-    val savedStateHandle = currentBackStackEntry?.savedStateHandle
-    val savedStateFlow = savedStateHandle?.getStateFlow<Bundle?>(resultKey, null)
-    val result = savedStateFlow?.collectAsStateWithLifecycle()
-
-    LaunchedEffect(result?.value) {
-        result?.value?.let { bundle ->
-            savedStateHandle[resultKey] = null
-            onEvent(bundle)
-        }
-    }
 }

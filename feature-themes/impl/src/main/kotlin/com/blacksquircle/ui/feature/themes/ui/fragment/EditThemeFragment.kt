@@ -24,7 +24,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.ds.SquircleTheme
 
 internal class EditThemeFragment : Fragment() {
@@ -40,9 +39,6 @@ internal class EditThemeFragment : Fragment() {
             EditThemeScreen(
                 navArgs = navArgs,
                 navController = findNavController(),
-                sendFragmentResult = { resultKey ->
-                    sendFragmentResult(resultKey)
-                }
             )
         }
     }

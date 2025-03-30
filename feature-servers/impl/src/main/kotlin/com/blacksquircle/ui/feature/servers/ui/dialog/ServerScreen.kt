@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.servers.ui.dialog
 
+import android.os.Bundle
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,6 +34,7 @@ import androidx.navigation.NavController
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.MimeType
 import com.blacksquircle.ui.core.contract.rememberOpenFileContract
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
@@ -64,7 +66,6 @@ internal fun ServerScreen(
         val component = ServersComponent.buildOrGet(context)
         ServerViewModel.ParameterizedFactory(navArgs.id).also(component::inject)
     },
-    sendFragmentResult: (String) -> Unit = {},
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ServerScreen(
@@ -100,11 +101,11 @@ internal fun ServerScreen(
                     navController.popBackStack()
                 }
                 is ServerViewEvent.SendSaveResult -> {
-                    sendFragmentResult(Screen.Server.KEY_SAVE)
+                    sendNavigationResult(Screen.Server.KEY_SAVE, Bundle.EMPTY)
                     navController.popBackStack()
                 }
                 is ServerViewEvent.SendDeleteResult -> {
-                    sendFragmentResult(Screen.Server.KEY_DELETE)
+                    sendNavigationResult(Screen.Server.KEY_DELETE, Bundle.EMPTY)
                     navController.popBackStack()
                 }
                 is ServerViewEvent.ChooseFile -> {

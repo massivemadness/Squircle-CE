@@ -59,6 +59,7 @@ import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.MimeType
 import com.blacksquircle.ui.core.contract.rememberCreateFileContract
 import com.blacksquircle.ui.core.effect.CleanupEffect
+import com.blacksquircle.ui.core.effect.NavResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
@@ -123,6 +124,10 @@ internal fun ThemesScreen(
                 }
             }
         }
+    }
+
+    NavResultEffect(ThemesFragment.KEY_SAVE) {
+        viewModel.loadThemes()
     }
 
     CleanupEffect {

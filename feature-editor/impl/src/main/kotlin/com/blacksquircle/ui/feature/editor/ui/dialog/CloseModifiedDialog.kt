@@ -20,13 +20,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.sendResult
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
 
@@ -39,28 +38,23 @@ internal class CloseModifiedDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                SquircleTheme {
-                    CloseModifiedScreen(
-                        fileName = navArgs.fileName,
-                        onConfirmClicked = {
-                            navController.sendResult(
-                                key = EditorFragment.KEY_CLOSE_MODIFIED,
-                                result = bundleOf(
-                                    EditorFragment.ARG_FILE_UUID to navArgs.fileUuid,
-                                )
-                            )
-                            navController.popBackStack()
-                        },
-                        onCancelClicked = {
-                            navController.popBackStack()
-                        }
+    ): View = content {
+        SquircleTheme {
+            CloseModifiedScreen(
+                fileName = navArgs.fileName,
+                onConfirmClicked = {
+                    sendNavigationResult(
+                        key = EditorFragment.KEY_CLOSE_MODIFIED,
+                        result = bundleOf(
+                            EditorFragment.ARG_FILE_UUID to navArgs.fileUuid,
+                        )
                     )
+                    navController.popBackStack()
+                },
+                onCancelClicked = {
+                    navController.popBackStack()
                 }
-            }
+            )
         }
     }
 

@@ -16,82 +16,30 @@
 
 package com.blacksquircle.ui.feature.shortcuts.ui.dialog
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.sendFragmentResult
-import com.blacksquircle.ui.core.extensions.viewModels
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
-import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
-import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragment
-import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutViewEvent
-import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.KeybindingViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
 internal class KeybindingDialog : DialogFragment() {
 
-    @Inject
-    lateinit var viewModelFactory: KeybindingViewModel.Factory
-
-    private val navController by lazy { findNavController() }
     private val navArgs by navArgs<KeybindingDialogArgs>()
-    private val viewModel by viewModels<KeybindingViewModel> {
-        viewModelFactory.create(navArgs.keybinding)
-    }
-
-    override fun onAttach(context: Context) {
-        ShortcutsComponent.buildOrGet(context).inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                SquircleTheme {
-                    KeybindingScreen(viewModel)
-                }
-            }
+    ): View = content {
+        SquircleTheme {
+            KeybindingScreen(
+                navArgs = navArgs,
+                navController = findNavController(),
+            )
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
-    }
-
-    private fun observeViewModel() {
-        viewModel.viewEvent.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { event ->
-                when (event) {
-                    is ViewEvent.PopBackStack -> {
-                        navController.popBackStack()
-                    }
-                    is ShortcutViewEvent.SendSaveResult -> {
-                        sendFragmentResult(
-                            resultKey = ShortcutsFragment.KEY_SAVE,
-                            bundle = ShortcutMapper.toBundle(event.keybinding),
-                        )
-                    }
-                }
-            }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }
