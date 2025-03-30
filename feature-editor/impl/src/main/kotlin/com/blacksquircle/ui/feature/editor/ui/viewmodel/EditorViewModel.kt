@@ -194,7 +194,7 @@ internal class EditorViewModel @Inject constructor(
             return
         }
         val document = documents[selectedPosition].document
-        onCloseClicked(document)
+        onCloseClicked(document, fromUser = true)
     }
 
     fun onContentChanged() {
@@ -314,9 +314,17 @@ internal class EditorViewModel @Inject constructor(
     }
 
     @Suppress("KotlinConstantConditions")
-    fun onCloseClicked(document: DocumentModel) {
+    fun onCloseClicked(document: DocumentModel, fromUser: Boolean = true) {
         viewModelScope.launch {
             try {
+                if (document.modified && fromUser) {
+                    val screen = EditorScreen.CloseModifiedDialogScreen(
+                        fileUuid = document.uuid,
+                        fileName = document.name,
+                    )
+                    _viewEvent.send(ViewEvent.Navigation(screen))
+                    return@launch
+                }
                 /** Calculate new position */
                 val removedPosition = document.position
                 val currentPosition = when {
@@ -444,6 +452,13 @@ internal class EditorViewModel @Inject constructor(
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
+        }
+    }
+
+    fun onCloseModifiedClicked(fileUuid: String) {
+        val document = documents.find { it.document.uuid == fileUuid }
+        if (document != null) {
+            onCloseClicked(document.document, fromUser = false)
         }
     }
 

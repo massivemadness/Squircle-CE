@@ -26,7 +26,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.core.extensions.sendResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
 
@@ -47,12 +47,13 @@ internal class CloseModifiedDialog : DialogFragment() {
                     CloseModifiedScreen(
                         fileName = navArgs.fileName,
                         onConfirmClicked = {
-                            sendFragmentResult(
-                                resultKey = EditorFragment.KEY_CLOSE_MODIFIED,
-                                bundle = bundleOf(
-                                    EditorFragment.ARG_POSITION to navArgs.position,
+                            navController.sendResult(
+                                key = EditorFragment.KEY_CLOSE_MODIFIED,
+                                result = bundleOf(
+                                    EditorFragment.ARG_FILE_UUID to navArgs.fileUuid,
                                 )
                             )
+                            navController.popBackStack()
                         },
                         onCancelClicked = {
                             navController.popBackStack()
@@ -64,7 +65,7 @@ internal class CloseModifiedDialog : DialogFragment() {
     }
 
     companion object {
+        const val ARG_FILE_UUID = "fileUuid"
         const val ARG_FILE_NAME = "fileName"
-        const val ARG_POSITION = "position"
     }
 }

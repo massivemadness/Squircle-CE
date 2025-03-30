@@ -47,10 +47,6 @@ internal class EditorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeFragmentResult(KEY_CLOSE_MODIFIED) { bundle ->
-            /*val position = bundle.getInt(ARG_POSITION)
-            viewModel.obtainEvent(EditorIntent.CloseTab(position, true))*/
-        }
         observeFragmentResult(KEY_SELECT_LANGUAGE) { bundle ->
             /*val language = bundle.getString(ARG_LANGUAGE).orEmpty()
             viewModel.obtainEvent(EditorIntent.SelectLanguage(language))*/
@@ -72,7 +68,7 @@ internal class EditorFragment : Fragment() {
         const val KEY_GOTO_LINE = "KEY_GOTO_LINE"
         const val KEY_INSERT_COLOR = "KEY_INSERT_COLOR"
 
-        const val ARG_POSITION = "ARG_POSITION"
+        const val ARG_FILE_UUID = "ARG_FILE_UUID"
         const val ARG_LANGUAGE = "ARG_LANGUAGE"
         const val ARG_LINE_NUMBER = "ARG_LINE_NUMBER"
         const val ARG_COLOR = "ARG_COLOR"

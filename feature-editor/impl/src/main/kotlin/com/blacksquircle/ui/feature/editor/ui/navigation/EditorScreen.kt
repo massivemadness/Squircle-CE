@@ -25,12 +25,12 @@ import com.blacksquircle.ui.feature.editor.ui.dialog.ForceSyntaxDialog
 
 internal sealed class EditorScreen(route: Any) : Screen(route) {
 
-    data class CloseModifiedDialogScreen(val position: Int, val fileName: String) : EditorScreen(
+    data class CloseModifiedDialogScreen(val fileUuid: String, val fileName: String) : EditorScreen(
         route = NavAction(
             id = R.id.closeModifiedDialog,
             args = bundleOf(
+                CloseModifiedDialog.ARG_FILE_UUID to fileUuid,
                 CloseModifiedDialog.ARG_FILE_NAME to fileName,
-                CloseModifiedDialog.ARG_POSITION to position,
             )
         ),
     )

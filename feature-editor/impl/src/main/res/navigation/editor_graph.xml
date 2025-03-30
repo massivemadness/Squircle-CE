@@ -39,11 +39,11 @@
         android:name="com.blacksquircle.ui.feature.editor.ui.dialog.CloseModifiedDialog"
         android:label="CloseModifiedDialog">
         <argument
-            android:name="fileName"
+            android:name="fileUuid"
             app:argType="string" />
         <argument
-            android:name="position"
-            app:argType="integer" />
+            android:name="fileName"
+            app:argType="string" />
     </dialog>
 
     <dialog
