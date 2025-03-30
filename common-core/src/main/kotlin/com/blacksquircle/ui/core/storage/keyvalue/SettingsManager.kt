@@ -43,6 +43,8 @@ class SettingsManager(private val context: Context) {
         const val KEY_LINE_NUMBERS = "line_numbers"
         const val KEY_HIGHLIGHT_CURRENT_LINE = "highlight_current_line"
         const val KEY_HIGHLIGHT_MATCHING_DELIMITERS = "highlight_matching_delimiters"
+        const val KEY_HIGHLIGHT_CODE_BLOCKS = "highlight_code_blocks"
+        const val KEY_SHOW_INVISIBLE_CHARS = "show_invisible_chars"
         const val KEY_READ_ONLY = "read_only"
 
         // Tabs
@@ -127,6 +129,12 @@ class SettingsManager(private val context: Context) {
     var highlightMatchingDelimiters: Boolean
         get() = sharedPreferences.getBoolean(KEY_HIGHLIGHT_MATCHING_DELIMITERS, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_HIGHLIGHT_MATCHING_DELIMITERS, value).apply()
+    var highlightCodeBlocks: Boolean
+        get() = sharedPreferences.getBoolean(KEY_HIGHLIGHT_CODE_BLOCKS, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_HIGHLIGHT_CODE_BLOCKS, value).apply()
+    var showInvisibleChars: Boolean
+        get() = sharedPreferences.getBoolean(KEY_SHOW_INVISIBLE_CHARS, false)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_SHOW_INVISIBLE_CHARS, value).apply()
     var readOnly: Boolean
         get() = sharedPreferences.getBoolean(KEY_READ_ONLY, false)
         set(value) = sharedPreferences.edit().putBoolean(KEY_READ_ONLY, value).apply()

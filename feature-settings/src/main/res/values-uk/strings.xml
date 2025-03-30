@@ -74,8 +74,6 @@
     <string name="pref_word_wrap_summary">Увімкніть перенесення слів для відображення тексту по ширині екрана.</string>
     <string name="pref_code_completion_title">Завершення коду</string>
     <string name="pref_code_completion_summary">Показати пропозиції автозаповнення.</string>
-    <!--<string name="pref_error_highlighting_title">Error Highlighting</string>
-    <string name="pref_error_highlighting_summary">Enable realtime error highlighting. Restart required.</string>-->
     <string name="pref_pinch_zoom_title">Збільшення жестом</string>
     <string name="pref_pinch_zoom_summary">Увімкнути жест масштабування у редакторі.</string>
     <string name="pref_line_numbers_title">Нумерація рядків</string>

@@ -28,6 +28,8 @@ internal data class EditorHeaderViewState(
     val lineNumbers: Boolean,
     val highlightCurrentLine: Boolean,
     val highlightMatchingDelimiters: Boolean,
+    val highlightCodeBlocks: Boolean,
+    val showInvisibleChars: Boolean,
     val readOnly: Boolean,
     val autoSaveFiles: Boolean,
     val extendedKeyboard: Boolean,

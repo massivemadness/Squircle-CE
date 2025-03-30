@@ -104,6 +104,20 @@ internal class EditorHeaderViewModel @Inject constructor(
         }
     }
 
+    fun onHighlightCodeBlocksChanged(highlightCodeBlocks: Boolean) {
+        viewModelScope.launch {
+            settingsManager.highlightCodeBlocks = highlightCodeBlocks
+            _viewState.value = updateViewState()
+        }
+    }
+
+    fun onShowInvisibleCharsChanged(showInvisibleChars: Boolean) {
+        viewModelScope.launch {
+            settingsManager.showInvisibleChars = showInvisibleChars
+            _viewState.value = updateViewState()
+        }
+    }
+
     fun onReadOnlyChanged(readOnly: Boolean) {
         viewModelScope.launch {
             settingsManager.readOnly = readOnly
@@ -148,6 +162,8 @@ internal class EditorHeaderViewModel @Inject constructor(
             lineNumbers = settingsManager.lineNumbers,
             highlightCurrentLine = settingsManager.highlightCurrentLine,
             highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters,
+            highlightCodeBlocks = settingsManager.highlightCodeBlocks,
+            showInvisibleChars = settingsManager.showInvisibleChars,
             readOnly = settingsManager.readOnly,
             autoSaveFiles = settingsManager.autoSaveFiles,
             extendedKeyboard = settingsManager.extendedKeyboard,

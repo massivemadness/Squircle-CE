@@ -85,7 +85,7 @@ internal class CodeEditor @JvmOverloads constructor(
         text.scrollY = t
     }
 
-    fun setDisplayInvisibleChars(whether: Boolean) {
+    fun setShowInvisibleChars(whether: Boolean) {
         nonPrintablePaintingFlags = if (whether) {
             FLAG_DRAW_WHITESPACE_LEADING or
                 FLAG_DRAW_LINE_SEPARATOR or

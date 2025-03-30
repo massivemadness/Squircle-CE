@@ -29,6 +29,8 @@ internal data class EditorSettings(
     val lineNumbers: Boolean = true,
     val highlightCurrentLine: Boolean = true,
     val highlightMatchingDelimiters: Boolean = true,
+    val highlightCodeBlocks: Boolean = true,
+    val showInvisibleChars: Boolean = false,
     val readOnly: Boolean = false,
     val keyboardPreset: List<KeyModel> = emptyList(),
     val softKeyboard: Boolean = false,

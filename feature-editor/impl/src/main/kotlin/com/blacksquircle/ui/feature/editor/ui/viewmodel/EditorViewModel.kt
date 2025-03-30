@@ -681,6 +681,8 @@ internal class EditorViewModel @Inject constructor(
             lineNumbers = settingsManager.lineNumbers,
             highlightCurrentLine = settingsManager.highlightCurrentLine,
             highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters,
+            highlightCodeBlocks = settingsManager.highlightCodeBlocks,
+            showInvisibleChars = settingsManager.showInvisibleChars,
             readOnly = settingsManager.readOnly,
             keyboardPreset = ("\t" + settingsManager.keyboardPreset).map { char ->
                 val display = if (char == '\t') {

@@ -74,8 +74,6 @@
     <string name="pref_word_wrap_summary">Включите перенос слов для отображения текста по ширине экрана.</string>
     <string name="pref_code_completion_title">Автодополнение кода</string>
     <string name="pref_code_completion_summary">Показывать варианты автодополнения.</string>
-    <!--<string name="pref_error_highlighting_title">Error Highlighting</string>
-    <string name="pref_error_highlighting_summary">Enable realtime error highlighting. Restart required.</string>-->
     <string name="pref_pinch_zoom_title">Увеличение жестом</string>
     <string name="pref_pinch_zoom_summary">Включить жест увеличения текста в редакторе.</string>
     <string name="pref_line_numbers_title">Номера строк</string>
@@ -84,6 +82,10 @@
     <string name="pref_highlight_line_summary">Подсвечивать линию на которой находится курсор.</string>
     <string name="pref_highlight_delimiters_title">Подсвечивать скобки</string>
     <string name="pref_highlight_delimiters_summary">Подсвечивать открытые/закрытые скобки рядом с курсором.</string>
+    <string name="pref_highlight_block_title">Подсвечивать блоки кода</string>
+    <string name="pref_highlight_block_summary">Отрисовывать вертикальные линии, соединяющие парные скобки.</string>
+    <string name="pref_invisible_chars_title">Отображать невидимые символы</string>
+    <string name="pref_invisible_chars_summary">Показывать символы табуляции, пробелов и переносов строк.</string>
     <string name="pref_read_only_title">Только чтение</string>
     <string name="pref_read_only_summary">Запретить редактирование файлов.</string>
     <string name="pref_auto_save_files_title">Авто-сохранение файлов</string>

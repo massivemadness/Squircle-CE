@@ -74,8 +74,6 @@
     <string name="pref_word_wrap_summary">是否依據螢幕寬度自動換行。</string>
     <string name="pref_code_completion_title">程式碼補全</string>
     <string name="pref_code_completion_summary">輸入時將自動在下拉選單中顯示程式碼補全建議。</string>
-    <!--<string name="pref_error_highlighting_title">Error Highlighting</string>
-    <string name="pref_error_highlighting_summary">Enable realtime error highlighting. Restart required.</string>-->
     <string name="pref_pinch_zoom_title">手勢縮放</string>
     <string name="pref_pinch_zoom_summary">在編輯器中啟用縮放手勢。</string>
     <string name="pref_line_numbers_title">行號</string>

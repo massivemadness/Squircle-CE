@@ -56,14 +56,14 @@ internal fun CodeEditor(
             editor.isScalable = settings.pinchZoom
             editor.isLineNumberEnabled = settings.lineNumbers
             editor.isHighlightCurrentLine = settings.highlightCurrentLine
-            editor.isHighlightCurrentBlock = true // TODO new setting
             editor.isHighlightBracketPair = settings.highlightMatchingDelimiters
+            editor.isBlockLineEnabled = settings.highlightCodeBlocks
             editor.isEditable = !settings.readOnly
             editor.tabWidth = settings.tabWidth
             editor.typefaceText = settings.fontType
             editor.typefaceLineNumber = settings.fontType
             editor.colorScheme = editor.createFromRegistry()
-            editor.setDisplayInvisibleChars(false) // TODO new setting
+            editor.setShowInvisibleChars(settings.showInvisibleChars)
             editor.setEditorLanguage(editor.createFromRegistry(language, settings.codeCompletion))
             editor.setText(content)
             editor.syncScroll()

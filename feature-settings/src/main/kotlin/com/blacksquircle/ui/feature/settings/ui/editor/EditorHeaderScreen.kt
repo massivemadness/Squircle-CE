@@ -67,6 +67,8 @@ internal fun EditorHeaderScreen(
         onLineNumbersChanged = viewModel::onLineNumbersChanged,
         onHighlightCurrentLineChanged = viewModel::onHighlightCurrentLineChanged,
         onHighlightMatchingDelimitersChanged = viewModel::onHighlightMatchingDelimitersChanged,
+        onHighlightCodeBlocksChanged = viewModel::onHighlightCodeBlocksChanged,
+        onShowInvisibleCharsChanged = viewModel::onShowInvisibleCharsChanged,
         onReadOnlyChanged = viewModel::onReadOnlyChanged,
         onAutoSaveFilesChanged = viewModel::onAutoSaveFilesChanged,
         onExtendedKeyboardChanged = viewModel::onExtendedKeyboardChanged,
@@ -96,6 +98,8 @@ private fun EditorHeaderScreen(
     onLineNumbersChanged: (Boolean) -> Unit = {},
     onHighlightCurrentLineChanged: (Boolean) -> Unit = {},
     onHighlightMatchingDelimitersChanged: (Boolean) -> Unit = {},
+    onHighlightCodeBlocksChanged: (Boolean) -> Unit = {},
+    onShowInvisibleCharsChanged: (Boolean) -> Unit = {},
     onReadOnlyChanged: (Boolean) -> Unit = {},
     onAutoSaveFilesChanged: (Boolean) -> Unit = {},
     onExtendedKeyboardChanged: (Boolean) -> Unit = {},
@@ -177,6 +181,18 @@ private fun EditorHeaderScreen(
                 onCheckedChange = onHighlightMatchingDelimitersChanged,
             )
             SwitchPreference(
+                title = stringResource(R.string.pref_highlight_block_title),
+                subtitle = stringResource(R.string.pref_highlight_block_summary),
+                checked = viewState.highlightCodeBlocks,
+                onCheckedChange = onHighlightCodeBlocksChanged,
+            )
+            SwitchPreference(
+                title = stringResource(R.string.pref_invisible_chars_title),
+                subtitle = stringResource(R.string.pref_invisible_chars_summary),
+                checked = viewState.showInvisibleChars,
+                onCheckedChange = onShowInvisibleCharsChanged,
+            )
+            SwitchPreference(
                 title = stringResource(R.string.pref_read_only_title),
                 subtitle = stringResource(R.string.pref_read_only_summary),
                 checked = viewState.readOnly,
@@ -237,6 +253,8 @@ private fun EditorHeaderScreenPreview() {
                 lineNumbers = true,
                 highlightCurrentLine = true,
                 highlightMatchingDelimiters = true,
+                highlightCodeBlocks = true,
+                showInvisibleChars = false,
                 readOnly = false,
                 autoSaveFiles = false,
                 extendedKeyboard = true,

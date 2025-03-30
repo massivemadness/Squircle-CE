@@ -87,8 +87,6 @@
     <string name="pref_word_wrap_summary">Activer le renvoi à la ligne pour s\'adapter à la largeur de l\'écran.</string>
     <string name="pref_code_completion_title">Complétion de code</string>
     <string name="pref_code_completion_summary">Afficher les suggestions de saisie semi-automatique.</string>
-    <!--<string name="pref_error_highlighting_title">Mise en surbrillance des erreurs</string>
-    <string name="pref_error_highlighting_summary">Activer la mise en surbrillance des erreurs en temps réel. Un redémarrage est requis.</string>-->
     <string name="pref_pinch_zoom_title">Zoom par pincement</string>
     <string name="pref_pinch_zoom_summary">Activer les gestes de zoom dans l\'éditeur.</string>
     <string name="pref_line_numbers_title">Line Numbers</string>
