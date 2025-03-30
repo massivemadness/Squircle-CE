@@ -28,11 +28,14 @@ internal interface DocumentRepository {
     suspend fun saveDocument(document: DocumentModel, content: TextContent)
     suspend fun cacheDocument(document: DocumentModel, content: TextContent)
 
+    suspend fun reorderDocuments(from: DocumentModel, to: DocumentModel)
+
     suspend fun closeDocument(document: DocumentModel)
     suspend fun closeOtherDocuments(document: DocumentModel)
     suspend fun closeAllDocuments()
 
-    suspend fun reorderDocuments(from: DocumentModel, to: DocumentModel)
+    suspend fun changeDirty(document: DocumentModel, dirty: Boolean)
+    suspend fun changeLanguage(document: DocumentModel, language: String)
 
     suspend fun openExternal(fileUri: Uri, position: Int): DocumentModel
     suspend fun saveExternal(document: DocumentModel, content: TextContent, fileUri: Uri)

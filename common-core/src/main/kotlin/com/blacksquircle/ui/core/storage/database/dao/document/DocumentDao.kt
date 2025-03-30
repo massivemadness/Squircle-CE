@@ -47,21 +47,27 @@ interface DocumentDao {
 
     @Query(
         "UPDATE `${Tables.DOCUMENTS}` SET " +
-            "`modified` = :modified, " +
+            "`dirty` = :dirty, " +
             "`scroll_x` = :scrollX, " +
             "`scroll_y` = :scrollY, " +
             "`selection_start` = :selectionStart, " +
             "`selection_end` = :selectionEnd " +
-            "WHERE `uuid` == :uuid"
+            "WHERE `uuid` = :uuid"
     )
     suspend fun updateProperties(
         uuid: String,
-        modified: Boolean,
+        dirty: Boolean,
         scrollX: Int,
         scrollY: Int,
         selectionStart: Int,
         selectionEnd: Int
     )
+
+    @Query("UPDATE `${Tables.DOCUMENTS}` SET `dirty` = :dirty WHERE `uuid` = :uuid")
+    suspend fun updateDirty(uuid: String, dirty: Boolean)
+
+    @Query("UPDATE `${Tables.DOCUMENTS}` SET `language` = :language WHERE `uuid` = :uuid")
+    suspend fun updateLanguage(uuid: String, language: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(document: DocumentEntity): Long

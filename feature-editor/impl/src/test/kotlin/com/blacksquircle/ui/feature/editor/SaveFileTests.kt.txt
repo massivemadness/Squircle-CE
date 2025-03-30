@@ -77,7 +77,7 @@ class SaveFileTests {
     fun `When modifying the text Then set modified status true`() = runTest {
         // Given
         val documentList = listOf(
-            createDocument(position = 0, fileName = "dirty.txt", modified = false)
+            createDocument(position = 0, fileName = "dirty.txt", dirty = false)
         )
         val selected = documentList[0]
 
@@ -90,7 +90,7 @@ class SaveFileTests {
 
         // Then
         val updatedList = listOf(
-            createDocument(position = 0, fileName = "dirty.txt", modified = true)
+            createDocument(position = 0, fileName = "dirty.txt", dirty = true)
         )
         val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
@@ -100,7 +100,7 @@ class SaveFileTests {
     fun `When saving the file to local storage Then set modified status false`() = runTest {
         // Given
         val documentList = listOf(
-            createDocument(position = 0, fileName = "dirty.txt", modified = true)
+            createDocument(position = 0, fileName = "dirty.txt", dirty = true)
         )
         val selected = documentList[0]
 
@@ -124,7 +124,7 @@ class SaveFileTests {
 
         // Then
         val updatedList = listOf(
-            createDocument(position = 0, fileName = "dirty.txt", modified = false)
+            createDocument(position = 0, fileName = "dirty.txt", dirty = false)
         )
         val toolbarViewState = ToolbarViewState.ActionBar(updatedList, 0)
         assertEquals(toolbarViewState, viewModel.toolbarViewState.value)
@@ -134,7 +134,7 @@ class SaveFileTests {
     fun `When saving the file to cache Then keep modified status false`() = runTest {
         // Given
         val documentList = listOf(
-            createDocument(position = 0, fileName = "dirty.txt", modified = true)
+            createDocument(position = 0, fileName = "dirty.txt", dirty = true)
         )
         val selected = documentList[0]
 

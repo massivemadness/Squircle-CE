@@ -47,10 +47,6 @@ internal class EditorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeFragmentResult(KEY_SELECT_LANGUAGE) { bundle ->
-            /*val language = bundle.getString(ARG_LANGUAGE).orEmpty()
-            viewModel.obtainEvent(EditorIntent.SelectLanguage(language))*/
-        }
         observeFragmentResult(KEY_GOTO_LINE) { bundle ->
             /*val lineNumber = bundle.getInt(ARG_LINE_NUMBER)
             viewModel.obtainEvent(EditorIntent.GotoLineNumber(lineNumber))*/

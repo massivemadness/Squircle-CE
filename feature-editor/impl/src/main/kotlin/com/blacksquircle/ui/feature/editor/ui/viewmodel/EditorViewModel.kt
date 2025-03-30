@@ -129,7 +129,7 @@ internal class EditorViewModel @Inject constructor(
                 val content = documents[selectedPosition].content ?: return@launch
 
                 val updatedDocument = document.copy(
-                    modified = false,
+                    dirty = false,
                     scrollX = content.scrollX,
                     scrollY = content.scrollY,
                     selectionStart = content.selectionStart,
@@ -198,30 +198,46 @@ internal class EditorViewModel @Inject constructor(
     }
 
     fun onContentChanged() {
-        if (selectedPosition !in documents.indices) {
-            return
-        }
+        viewModelScope.launch {
+            try {
+                if (selectedPosition !in documents.indices) {
+                    return@launch
+                }
 
-        val document = documents[selectedPosition].document
-        val content = documents[selectedPosition].content ?: return
+                val document = documents[selectedPosition].document
+                val content = documents[selectedPosition].content ?: return@launch
 
-        if (document.modified) {
-            _viewState.update {
-                it.copy(
-                    canUndo = content.canUndo(),
-                    canRedo = content.canRedo(),
-                )
-            }
-        } else {
-            documents = documents.mapSelected { state ->
-                state.copy(document = state.document.copy(modified = true))
-            }
-            _viewState.update {
-                it.copy(
-                    documents = documents,
-                    canUndo = content.canUndo(),
-                    canRedo = content.canRedo(),
-                )
+                if (document.dirty) {
+                    _viewState.update {
+                        it.copy(
+                            canUndo = content.canUndo(),
+                            canRedo = content.canRedo(),
+                        )
+                    }
+                } else {
+                    val dirty = true
+                    val updatedDocument = document.copy(
+                        dirty = dirty,
+                    )
+
+                    documents = documents.mapSelected { state ->
+                        state.copy(document = updatedDocument)
+                    }
+                    _viewState.update {
+                        it.copy(
+                            documents = documents,
+                            canUndo = content.canUndo(),
+                            canRedo = content.canRedo(),
+                        )
+                    }
+
+                    documentRepository.changeDirty(updatedDocument, dirty)
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
     }
@@ -253,6 +269,45 @@ internal class EditorViewModel @Inject constructor(
                 canUndo = content.canUndo(),
                 canRedo = content.canRedo(),
             )
+        }
+    }
+
+    fun onForceSyntaxClicked() {
+        viewModelScope.launch {
+            if (selectedPosition !in documents.indices) {
+                return@launch
+            }
+            val document = documents[selectedPosition].document
+            val screen = EditorScreen.ForceSyntaxDialogScreen(document.language)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onLanguageChanged(language: String) {
+        viewModelScope.launch {
+            try {
+                if (selectedPosition !in documents.indices) {
+                    return@launch
+                }
+
+                val document = documents[selectedPosition].document.copy(
+                    language = language,
+                )
+
+                documents = documents.mapSelected { state ->
+                    state.copy(document = document)
+                }
+                _viewState.update {
+                    it.copy(documents = documents)
+                }
+
+                documentRepository.changeLanguage(document, language)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
         }
     }
 
@@ -317,7 +372,7 @@ internal class EditorViewModel @Inject constructor(
     fun onCloseClicked(document: DocumentModel, fromUser: Boolean = true) {
         viewModelScope.launch {
             try {
-                if (document.modified && fromUser) {
+                if (document.dirty && fromUser) {
                     val screen = EditorScreen.CloseModifiedDialogScreen(
                         fileUuid = document.uuid,
                         fileName = document.name,
@@ -504,7 +559,7 @@ internal class EditorViewModel @Inject constructor(
 
                 val autoSaveFiles = settingsManager.autoSaveFiles
                 val updatedDocument = document.copy(
-                    modified = if (autoSaveFiles) false else document.modified,
+                    dirty = if (autoSaveFiles) false else document.dirty,
                     scrollX = content.scrollX,
                     scrollY = content.scrollY,
                     selectionStart = content.selectionStart,
@@ -559,7 +614,7 @@ internal class EditorViewModel @Inject constructor(
                     if (fromUser) {
                         val autoSaveFiles = settingsManager.autoSaveFiles
                         val updatedDocument = state.document.copy(
-                            modified = if (autoSaveFiles) false else state.document.modified,
+                            dirty = if (autoSaveFiles) false else state.document.dirty,
                             scrollX = state.content?.scrollX
                                 ?: state.document.scrollX,
                             scrollY = state.content?.scrollY

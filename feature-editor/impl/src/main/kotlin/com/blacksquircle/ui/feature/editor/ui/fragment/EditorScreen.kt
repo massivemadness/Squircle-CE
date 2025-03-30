@@ -86,7 +86,7 @@ internal fun EditorScreen(
         onSelectLineClicked = {},
         onDeleteLineClicked = {},
         onDuplicateLineClicked = {},
-        onForceSyntaxClicked = {},
+        onForceSyntaxClicked = viewModel::onForceSyntaxClicked,
         onInsertColorClicked = {},
         onFindClicked = {},
         onUndoClicked = viewModel::onUndoClicked,
@@ -148,6 +148,10 @@ internal fun EditorScreen(
     navController.observeResult(EditorFragment.KEY_CLOSE_MODIFIED) { bundle ->
         val fileUuid = bundle.getString(EditorFragment.ARG_FILE_UUID).orEmpty()
         viewModel.onCloseModifiedClicked(fileUuid)
+    }
+    navController.observeResult(EditorFragment.KEY_SELECT_LANGUAGE) { bundle ->
+        val language = bundle.getString(EditorFragment.ARG_LANGUAGE).orEmpty()
+        viewModel.onLanguageChanged(language)
     }
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
@@ -296,7 +300,7 @@ private fun EditorScreenPreview() {
                             fileUri = "file://storage/emulated/0/Downloads/untitled.txt",
                             filesystemUuid = "local",
                             language = "plaintext",
-                            modified = false,
+                            dirty = false,
                             position = 0,
                             scrollX = 0,
                             scrollY = 0,

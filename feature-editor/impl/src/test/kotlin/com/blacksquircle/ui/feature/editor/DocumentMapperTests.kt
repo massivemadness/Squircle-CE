@@ -42,7 +42,7 @@ class DocumentMapperTests {
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = LocalFilesystem.LOCAL_UUID,
             language = LanguageScope.TEXT,
-            modified = false,
+            dirty = false,
             position = 0,
             scrollX = 0,
             scrollY = 0,
@@ -58,7 +58,7 @@ class DocumentMapperTests {
         assertEquals(expected.fileUri, actual.fileUri)
         assertEquals(expected.filesystemUuid, actual.filesystemUuid)
         assertEquals(expected.language, actual.language)
-        assertEquals(expected.modified, actual.modified)
+        assertEquals(expected.dirty, actual.dirty)
         assertEquals(expected.position, actual.position)
         assertEquals(expected.scrollX, actual.scrollX)
         assertEquals(expected.scrollY, actual.scrollY)
@@ -74,7 +74,7 @@ class DocumentMapperTests {
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = LocalFilesystem.LOCAL_UUID,
             language = LanguageScope.TEXT,
-            modified = true,
+            dirty = true,
             position = 10,
             scrollX = 0,
             scrollY = 50,
@@ -86,7 +86,7 @@ class DocumentMapperTests {
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = LocalFilesystem.LOCAL_UUID,
             language = LanguageScope.TEXT,
-            modified = true,
+            dirty = true,
             position = 10,
             scrollX = 0,
             scrollY = 50,
@@ -109,7 +109,7 @@ class DocumentMapperTests {
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = LocalFilesystem.LOCAL_UUID,
             language = LanguageScope.TEXT,
-            modified = false,
+            dirty = false,
             position = 10,
             scrollX = 0,
             scrollY = 50,
@@ -121,7 +121,7 @@ class DocumentMapperTests {
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = LocalFilesystem.LOCAL_UUID,
             language = LanguageScope.TEXT,
-            modified = false,
+            dirty = false,
             position = 10,
             scrollX = 0,
             scrollY = 50,

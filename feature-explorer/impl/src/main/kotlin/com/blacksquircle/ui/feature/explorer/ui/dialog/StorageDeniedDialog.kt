@@ -31,7 +31,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.feature.explorer.R
 import timber.log.Timber
 import com.blacksquircle.ui.ds.R as UiR
 

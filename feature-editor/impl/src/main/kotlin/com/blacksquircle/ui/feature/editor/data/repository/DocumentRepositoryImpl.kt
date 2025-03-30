@@ -100,7 +100,7 @@ internal class DocumentRepositoryImpl(
 
             documentDao.updateProperties(
                 uuid = document.uuid,
-                modified = document.modified,
+                dirty = document.dirty,
                 scrollX = content.scrollX,
                 scrollY = content.scrollY,
                 selectionStart = content.selectionStart,
@@ -142,6 +142,18 @@ internal class DocumentRepositoryImpl(
             documentDao.deleteAll()
             cacheManager.deleteAll()
             settingsManager.selectedUuid = ""
+        }
+    }
+
+    override suspend fun changeDirty(document: DocumentModel, dirty: Boolean) {
+        withContext(dispatcherProvider.io()) {
+            documentDao.updateDirty(document.uuid, dirty)
+        }
+    }
+
+    override suspend fun changeLanguage(document: DocumentModel, language: String) {
+        withContext(dispatcherProvider.io()) {
+            documentDao.updateLanguage(document.uuid, language)
         }
     }
 

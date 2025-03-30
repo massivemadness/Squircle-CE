@@ -55,7 +55,7 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 internal fun DocumentTab(
     name: String,
-    modified: Boolean,
+    dirty: Boolean,
     selected: Boolean,
     modifier: Modifier = Modifier,
     onDocumentClicked: () -> Unit = {},
@@ -94,7 +94,7 @@ internal fun DocumentTab(
                 .padding(start = 12.dp)
         ) {
             Text(
-                text = if (modified) "• $name" else name,
+                text = if (dirty) "• $name" else name,
                 color = SquircleTheme.colors.colorTextAndIconPrimary,
                 style = SquircleTheme.typography.text14Bold,
                 textAlign = TextAlign.Center,
@@ -137,13 +137,13 @@ private fun DocumentTabPreview() {
         Row {
             DocumentTab(
                 name = "untitled.txt",
-                modified = false,
+                dirty = false,
                 selected = selected == 0,
                 onDocumentClicked = { selected = 0 },
             )
             DocumentTab(
                 name = "Document.txt",
-                modified = true,
+                dirty = true,
                 selected = selected == 1,
                 onDocumentClicked = { selected = 1 },
             )

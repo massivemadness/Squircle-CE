@@ -18,7 +18,6 @@
 <resources>
 
     <string-array name="language_entries">
-        <item>ActionScript</item>
         <item>C</item>
         <item>C++</item>
         <item>C#</item>
@@ -53,38 +52,37 @@
     </string-array>
 
     <string-array name="language_values">
-        <item>actionscript</item>
-        <item>c</item>
-        <item>cplusplus</item>
-        <item>csharp</item>
-        <item>css</item>
-        <item>fortran</item>
-        <item>go</item>
-        <item>groovy</item>
-        <item>html</item>
-        <item>ini</item>
-        <item>java</item>
-        <item>javascript</item>
-        <item>json</item>
-        <item>julia</item>
-        <item>kotlin</item>
-        <item>latex</item>
-        <item>lisp</item>
-        <item>lua</item>
-        <item>markdown</item>
-        <item>php</item>
-        <item>plaintext</item>
-        <item>python</item>
-        <item>ruby</item>
-        <item>rust</item>
-        <item>shell</item>
-        <item>smali</item>
-        <item>sql</item>
-        <item>toml</item>
-        <item>typescript</item>
-        <item>visualbasic</item>
-        <item>xml</item>
-        <item>yaml</item>
+        <item>source.c</item>
+        <item>source.cpp</item>
+        <item>source.cs</item>
+        <item>source.css</item>
+        <item>source.fortran</item>
+        <item>source.go</item>
+        <item>source.groovy</item>
+        <item>text.html.basic</item>
+        <item>source.ini</item>
+        <item>source.java</item>
+        <item>source.js</item>
+        <item>source.json</item>
+        <item>source.julia</item>
+        <item>source.kotlin</item>
+        <item>text.tex</item>
+        <item>source.lisp</item>
+        <item>source.lua</item>
+        <item>text.html.markdown</item>
+        <item>source.php</item>
+        <item>text.plain</item>
+        <item>source.python</item>
+        <item>source.ruby</item>
+        <item>source.rust</item>
+        <item>source.shell</item>
+        <item>source.smali</item>
+        <item>source.sql</item>
+        <item>source.toml</item>
+        <item>source.ts</item>
+        <item>source.vb</item>
+        <item>text.xml</item>
+        <item>source.yaml</item>
     </string-array>
 
 </resources>

@@ -26,7 +26,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.core.extensions.sendResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
 
@@ -47,16 +47,17 @@ internal class ForceSyntaxDialog : DialogFragment() {
                     ForceSyntaxScreen(
                         selectedValue = navArgs.language,
                         onLanguageSelected = { language ->
-                            sendFragmentResult(
-                                resultKey = EditorFragment.KEY_SELECT_LANGUAGE,
-                                bundle = bundleOf(
+                            navController.sendResult(
+                                key = EditorFragment.KEY_SELECT_LANGUAGE,
+                                result = bundleOf(
                                     EditorFragment.ARG_LANGUAGE to language,
                                 )
                             )
+                            navController.popBackStack()
                         },
                         onCancelClicked = {
                             navController.popBackStack()
-                        }
+                        },
                     )
                 }
             }

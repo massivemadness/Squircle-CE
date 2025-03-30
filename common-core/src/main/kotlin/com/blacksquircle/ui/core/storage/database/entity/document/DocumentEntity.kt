@@ -26,15 +26,14 @@ data class DocumentEntity(
     @PrimaryKey
     @ColumnInfo(name = "uuid")
     val uuid: String,
-    // TODO rename column to 'file_uri'
-    @ColumnInfo(name = "path")
+    @ColumnInfo(name = "file_uri")
     val fileUri: String,
     @ColumnInfo(name = "filesystem_uuid")
     val filesystemUuid: String,
     @ColumnInfo(name = "language")
     val language: String,
-    @ColumnInfo(name = "modified")
-    val modified: Boolean,
+    @ColumnInfo(name = "dirty")
+    val dirty: Boolean,
     @ColumnInfo(name = "position")
     val position: Int,
     @ColumnInfo(name = "scroll_x")
