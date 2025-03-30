@@ -126,14 +126,27 @@ internal class EditorViewModel @Inject constructor(
                 }
 
                 val document = documents[selectedPosition].document
-                val content = documents[selectedPosition].content
+                val content = documents[selectedPosition].content ?: return@launch
 
-                if (content != null) {
-                    documentRepository.saveDocument(document, content)
+                val updatedDocument = document.copy(
+                    modified = false,
+                    scrollX = content.scrollX,
+                    scrollY = content.scrollY,
+                    selectionStart = content.selectionStart,
+                    selectionEnd = content.selectionEnd,
+                )
 
-                    val message = stringProvider.getString(R.string.message_saved)
-                    _viewEvent.send(ViewEvent.Toast(message))
+                documents = documents.mapSelected { state ->
+                    state.copy(document = updatedDocument)
                 }
+                _viewState.update {
+                    it.copy(documents = documents)
+                }
+
+                documentRepository.saveDocument(updatedDocument, content)
+
+                val message = stringProvider.getString(R.string.message_saved)
+                _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -161,14 +174,12 @@ internal class EditorViewModel @Inject constructor(
                 }
 
                 val document = documents[selectedPosition].document
-                val content = documents[selectedPosition].content
+                val content = documents[selectedPosition].content ?: return@launch
 
-                if (content != null) {
-                    documentRepository.saveExternal(document, content, fileUri)
+                documentRepository.saveExternal(document, content, fileUri)
 
-                    val message = stringProvider.getString(R.string.message_saved)
-                    _viewEvent.send(ViewEvent.Toast(message))
-                }
+                val message = stringProvider.getString(R.string.message_saved)
+                _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -474,14 +485,28 @@ internal class EditorViewModel @Inject constructor(
                 }
 
                 val document = documents[selectedPosition].document
-                val content = documents[selectedPosition].content
+                val content = documents[selectedPosition].content ?: return@launch
 
-                if (content != null) {
-                    if (settingsManager.autoSaveFiles) {
-                        documentRepository.saveDocument(document, content)
-                    } else {
-                        documentRepository.cacheDocument(document, content)
-                    }
+                val autoSaveFiles = settingsManager.autoSaveFiles
+                val updatedDocument = document.copy(
+                    modified = if (autoSaveFiles) false else document.modified,
+                    scrollX = content.scrollX,
+                    scrollY = content.scrollY,
+                    selectionStart = content.selectionStart,
+                    selectionEnd = content.selectionEnd,
+                )
+
+                documents = documents.mapSelected { state ->
+                    state.copy(document = updatedDocument)
+                }
+                _viewState.update {
+                    it.copy(documents = documents)
+                }
+
+                if (autoSaveFiles) {
+                    documentRepository.saveDocument(updatedDocument, content)
+                } else {
+                    documentRepository.cacheDocument(updatedDocument, content)
                 }
             } catch (e: CancellationException) {
                 throw e
@@ -517,7 +542,9 @@ internal class EditorViewModel @Inject constructor(
                 documents = documents.mapSelected { state ->
                     /** If it's user-initiated action, save cache and clear tab's content */
                     if (fromUser) {
-                        val selectedDocument = state.document.copy(
+                        val autoSaveFiles = settingsManager.autoSaveFiles
+                        val updatedDocument = state.document.copy(
+                            modified = if (autoSaveFiles) false else state.document.modified,
                             scrollX = state.content?.scrollX
                                 ?: state.document.scrollX,
                             scrollY = state.content?.scrollY
@@ -528,14 +555,14 @@ internal class EditorViewModel @Inject constructor(
                                 ?: state.document.selectionEnd,
                         )
                         if (state.content != null) {
-                            if (settingsManager.autoSaveFiles) {
-                                documentRepository.saveDocument(selectedDocument, state.content)
+                            if (autoSaveFiles) {
+                                documentRepository.saveDocument(updatedDocument, state.content)
                             } else {
-                                documentRepository.cacheDocument(selectedDocument, state.content)
+                                documentRepository.cacheDocument(updatedDocument, state.content)
                             }
                         }
                         state.copy(
-                            document = selectedDocument,
+                            document = updatedDocument,
                             content = null,
                         )
                     } else {
@@ -803,16 +830,6 @@ internal class EditorViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun modifyContent() {
-        if (selectedPosition > -1) {
-            val document = documents[selectedPosition]
-            if (!document.modified) {
-                documents[selectedPosition] = document.copy(modified = true)
-                refreshActionBar()
             }
         }
     }

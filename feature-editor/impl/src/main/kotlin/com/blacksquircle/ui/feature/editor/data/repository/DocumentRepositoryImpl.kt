@@ -98,12 +98,13 @@ internal class DocumentRepositoryImpl(
             cacheManager.create(document)
             cacheManager.saveContent(document, content)
 
-            documentDao.update(
+            documentDao.updateProperties(
                 uuid = document.uuid,
+                modified = document.modified,
                 scrollX = content.scrollX,
                 scrollY = content.scrollY,
-                selStart = content.selectionStart,
-                selEnd = content.selectionEnd
+                selectionStart = content.selectionStart,
+                selectionEnd = content.selectionEnd
             )
         }
     }
