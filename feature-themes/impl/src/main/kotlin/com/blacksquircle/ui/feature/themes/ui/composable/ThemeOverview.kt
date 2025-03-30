@@ -149,10 +149,9 @@ internal fun ThemeOverview(
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(
-                    vertical = 8.dp,
-                    horizontal = 12.dp
-                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp, horizontal = 12.dp),
             ) {
                 Icon(
                     painter = painterResource(UiR.drawable.ic_person),

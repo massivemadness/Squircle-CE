@@ -142,11 +142,11 @@ private fun ThemesScreen(
     onEditClicked: (ThemeModel) -> Unit = {},
     onRemoveClicked: (ThemeModel) -> Unit = {},
 ) {
-    val scrollState = rememberLazyGridState()
+    val lazyListState = rememberLazyGridState()
     val showButton by remember {
         derivedStateOf {
-            scrollState.firstVisibleItemIndex == 0 ||
-                scrollState.lastScrolledBackward
+            lazyListState.firstVisibleItemIndex == 0 ||
+                lazyListState.lastScrolledBackward
         }
     }
 
@@ -232,7 +232,7 @@ private fun ThemesScreen(
             val layoutDirection = LocalLayoutDirection.current
 
             LazyVerticalGrid(
-                state = scrollState,
+                state = lazyListState,
                 columns = GridCells.Adaptive(300.dp),
                 verticalArrangement = Arrangement.spacedBy(itemPadding),
                 horizontalArrangement = Arrangement.spacedBy(itemPadding),

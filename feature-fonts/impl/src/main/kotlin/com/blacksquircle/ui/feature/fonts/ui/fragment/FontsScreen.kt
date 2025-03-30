@@ -21,12 +21,22 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Icon
@@ -43,6 +53,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -129,7 +140,7 @@ private fun FontsScreen(
     onRemoveClicked: (FontModel) -> Unit = {},
     onImportClicked: () -> Unit = {},
 ) {
-    val lazyListState = rememberLazyListState()
+    val lazyListState = rememberLazyGridState()
     val showButton by remember {
         derivedStateOf {
             lazyListState.firstVisibleItemIndex == 0 ||
@@ -214,9 +225,21 @@ private fun FontsScreen(
                 CircularProgress()
                 return@ScaffoldSuite
             }
-            LazyColumn(
+
+            val itemPadding = 8.dp
+            val layoutDirection = LocalLayoutDirection.current
+
+            LazyVerticalGrid(
                 state = lazyListState,
-                contentPadding = contentPadding,
+                columns = GridCells.Adaptive(300.dp),
+                verticalArrangement = Arrangement.spacedBy(itemPadding),
+                horizontalArrangement = Arrangement.spacedBy(itemPadding),
+                contentPadding = PaddingValues(
+                    top = contentPadding.calculateTopPadding() + itemPadding,
+                    start = contentPadding.calculateStartPadding(layoutDirection) + itemPadding,
+                    end = contentPadding.calculateEndPadding(layoutDirection) + itemPadding,
+                    bottom = contentPadding.calculateBottomPadding() + itemPadding,
+                ),
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(
@@ -230,7 +253,6 @@ private fun FontsScreen(
                         onRemoveClicked = { onRemoveClicked(font) },
                         modifier = Modifier.animateItem(),
                     )
-                    HorizontalDivider()
                 }
             }
             if (viewState.fonts.isEmpty()) {
