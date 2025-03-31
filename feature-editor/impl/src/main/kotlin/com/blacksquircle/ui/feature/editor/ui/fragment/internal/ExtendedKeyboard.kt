@@ -77,6 +77,13 @@ internal fun ExtendedKeyboard(
 @Composable
 private fun ExtendedKeyboardPreview() {
     PreviewBackground {
-        ExtendedKeyboard(preset = emptyList())
+        ExtendedKeyboard(
+            preset = "{}();,.=|&![]<>+-/*?:_".map { char ->
+                KeyModel(
+                    display = char.toString(),
+                    value = char,
+                )
+            }
+        )
     }
 }

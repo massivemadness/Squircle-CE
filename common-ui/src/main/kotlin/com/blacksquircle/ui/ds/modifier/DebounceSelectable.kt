@@ -31,6 +31,7 @@ fun Modifier.debounceSelectable(
     selected: Boolean,
     role: Role? = null,
     enabled: Boolean = true,
+    debounce: Boolean = true,
     debounceMs: Long = DefaultMs,
     onClick: () -> Unit
 ) = composed(
@@ -39,6 +40,7 @@ fun Modifier.debounceSelectable(
         properties["selected"] = selected
         properties["role"] = role
         properties["enabled"] = enabled
+        properties["debounce"] = debounce
         properties["debounceMs"] = debounceMs
         properties["onClick"] = onClick
     }
@@ -58,6 +60,7 @@ fun Modifier.debounceSelectable(
         indication = localIndication,
         role = role,
         enabled = enabled,
+        debounce = debounce,
         debounceMs = debounceMs,
         onClick = onClick
     )
@@ -69,10 +72,17 @@ fun Modifier.debounceSelectable(
     indication: Indication?,
     role: Role? = null,
     enabled: Boolean = true,
+    debounce: Boolean = true,
     debounceMs: Long = DefaultMs,
     onClick: (() -> Unit)? = null,
 ): Modifier {
-    val onClickLambda = onClick?.let { debounceLambda(it, debounceMs) }
+    val onClickLambda = onClick?.let { lambda ->
+        if (debounce) {
+            debounceLambda(lambda, debounceMs)
+        } else {
+            lambda
+        }
+    }
     if (onClickLambda == null) {
         return this
     }

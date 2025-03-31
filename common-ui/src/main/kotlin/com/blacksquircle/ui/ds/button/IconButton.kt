@@ -42,11 +42,13 @@ fun IconButton(
     iconColor: Color = SquircleTheme.colors.colorTextAndIconPrimary,
     contentDescription: String? = null,
     enabled: Boolean = true,
+    debounce: Boolean = true,
     anchor: @Composable (() -> Unit)? = null,
     interactionSource: MutableInteractionSource? = null,
     iconButtonSize: IconButtonSize = IconButtonSizeDefaults.M,
 ) {
     Box(
+        contentAlignment = Alignment.Center,
         modifier = modifier
             .size(iconButtonSize.iconSize)
             .debounceClickable(
@@ -57,9 +59,9 @@ fun IconButton(
                 ),
                 onClick = onClick,
                 enabled = enabled,
+                debounce = debounce,
                 role = Role.Button,
-            ),
-        contentAlignment = Alignment.Center
+            )
     ) {
         if (iconResId != null) {
             Icon(

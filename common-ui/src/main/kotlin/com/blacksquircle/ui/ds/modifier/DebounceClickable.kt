@@ -31,6 +31,7 @@ import androidx.compose.ui.semantics.Role
 fun Modifier.debounceClickable(
     role: Role? = null,
     enabled: Boolean = true,
+    debounce: Boolean = true,
     debounceMs: Long = DefaultMs,
     onDoubleClick: (() -> Unit)? = null,
     onLongClickLabel: String? = null,
@@ -43,6 +44,7 @@ fun Modifier.debounceClickable(
             name = "debounceClickable"
             properties["role"] = role
             properties["enabled"] = enabled
+            properties["debounce"] = debounce
             properties["debounceMs"] = debounceMs
             properties["onDoubleClick"] = onDoubleClick
             properties["onLongClickLabel"] = onLongClickLabel
@@ -65,6 +67,7 @@ fun Modifier.debounceClickable(
                 indication = localIndication,
                 role = role,
                 enabled = enabled,
+                debounce = debounce,
                 debounceMs = debounceMs,
                 onDoubleClick = onDoubleClick,
                 onLongClickLabel = onLongClickLabel,
@@ -82,6 +85,7 @@ fun Modifier.debounceClickable(
     indication: Indication?,
     role: Role? = null,
     enabled: Boolean = true,
+    debounce: Boolean = true,
     debounceMs: Long = DefaultMs,
     onDoubleClick: (() -> Unit)? = null,
     onLongClickLabel: String? = null,
@@ -89,9 +93,27 @@ fun Modifier.debounceClickable(
     onClickLabel: String? = null,
     onClick: (() -> Unit)? = null,
 ): Modifier {
-    val onClickLambda = onClick?.let { debounceLambda(it, debounceMs) }
-    val onLongClickLambda = onLongClick?.let { debounceLambda(it, debounceMs) }
-    val onDoubleClickLambda = onDoubleClick?.let { debounceLambda(it, debounceMs) }
+    val onClickLambda = onClick?.let { lambda ->
+        if (debounce) {
+            debounceLambda(lambda, debounceMs)
+        } else {
+            lambda
+        }
+    }
+    val onLongClickLambda = onLongClick?.let { lambda ->
+        if (debounce) {
+            debounceLambda(lambda, debounceMs)
+        } else {
+            lambda
+        }
+    }
+    val onDoubleClickLambda = onDoubleClick?.let { lambda ->
+        if (debounce) {
+            debounceLambda(lambda, debounceMs)
+        } else {
+            lambda
+        }
+    }
     if (onClickLambda == null && onLongClickLambda == null && onDoubleClickLambda == null) {
         return this
     }

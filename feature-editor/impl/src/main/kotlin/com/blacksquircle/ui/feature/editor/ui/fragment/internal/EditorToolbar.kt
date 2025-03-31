@@ -145,11 +145,13 @@ internal fun EditorToolbar(
                 iconResId = R.drawable.ic_undo,
                 onClick = onUndoClicked,
                 enabled = canUndo,
+                debounce = false,
             )
             IconButton(
                 iconResId = R.drawable.ic_redo,
                 onClick = onRedoClicked,
                 enabled = canRedo,
+                debounce = false,
             )
             IconButton(
                 iconResId = R.drawable.ic_dots_vertical,
