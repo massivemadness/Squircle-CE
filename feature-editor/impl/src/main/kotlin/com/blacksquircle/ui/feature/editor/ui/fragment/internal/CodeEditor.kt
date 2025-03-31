@@ -18,10 +18,15 @@ package com.blacksquircle.ui.feature.editor.ui.fragment.internal
 
 import android.view.ViewGroup
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import com.blacksquircle.ui.feature.editor.data.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditor
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditorEvent
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditorState
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.createFromRegistry
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.syncScroll
@@ -30,27 +35,31 @@ import io.github.rosemoe.sora.widget.subscribeAlways
 
 @Composable
 internal fun CodeEditor(
+    state: CodeEditorState,
     content: TextContent,
     language: String,
     settings: EditorSettings,
     modifier: Modifier = Modifier,
     onContentChanged: () -> Unit = {},
 ) {
-    AndroidView(
-        factory = { context ->
-            CodeEditor(context).apply {
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                )
-                subscribeAlways<ContentChangeEvent> { event ->
-                    if (event.action != ContentChangeEvent.ACTION_SET_NEW_TEXT) {
-                        onContentChanged()
-                    }
+    val context = LocalContext.current
+    val view = remember {
+        CodeEditor(context).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+            )
+            subscribeAlways<ContentChangeEvent> { event ->
+                if (event.action != ContentChangeEvent.ACTION_SET_NEW_TEXT) {
+                    onContentChanged()
                 }
             }
-        },
+        }
+    }
+    AndroidView(
+        factory = { view },
         update = { editor ->
+            editor.createSubEventManager()
             editor.setTextSize(settings.fontSize)
             editor.isWordwrap = settings.wordWrap
             editor.isScalable = settings.pinchZoom
@@ -71,4 +80,13 @@ internal fun CodeEditor(
         onRelease = CodeEditor::release,
         modifier = modifier,
     )
+    LaunchedEffect(Unit) {
+        state.eventBus.collect { event ->
+            when (event) {
+                is CodeEditorEvent.Cut -> view.cutText()
+                is CodeEditorEvent.Copy -> view.copyText()
+                is CodeEditorEvent.Paste -> view.pasteText()
+            }
+        }
+    }
 }

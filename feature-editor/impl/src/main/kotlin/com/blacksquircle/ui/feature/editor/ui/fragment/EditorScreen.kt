@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -58,7 +59,10 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.internal.EditorToolbar
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.ErrorStatus
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditorState
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.rememberCodeEditorState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
+import kotlinx.coroutines.launch
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -69,9 +73,11 @@ internal fun EditorScreen(
         EditorViewModel.Factory().also(component::inject)
     },
 ) {
+    val editorState = rememberCodeEditorState()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     EditorScreen(
         viewState = viewState,
+        editorState = editorState,
         onDrawerClicked = viewModel::onDrawerClicked,
         onNewFileClicked = viewModel::onNewFileClicked,
         onOpenFileClicked = viewModel::onOpenFileClicked,
@@ -79,9 +85,9 @@ internal fun EditorScreen(
         onSaveFileAsClicked = viewModel::onSaveFileAsClicked,
         onCloseFileClicked = viewModel::onCloseFileClicked,
         onContentChanged = viewModel::onContentChanged,
-        onCutClicked = {},
-        onCopyClicked = {},
-        onPasteClicked = {},
+        onCutClicked = viewModel::onCutClicked,
+        onCopyClicked = viewModel::onCopyClicked,
+        onPasteClicked = viewModel::onPasteClicked,
         onSelectAllClicked = {},
         onSelectLineClicked = {},
         onDeleteLineClicked = {},
@@ -120,6 +126,7 @@ internal fun EditorScreen(
         }
     }
 
+    val scope = rememberCoroutineScope()
     val activity = LocalActivity.current
     val context = LocalContext.current
     LaunchedEffect(Unit) {
@@ -140,6 +147,11 @@ internal fun EditorScreen(
                 }
                 is EditorViewEvent.SaveAsFileContract -> {
                     saveFileContract.launch(event.fileName)
+                }
+                is EditorViewEvent.Interact -> {
+                    scope.launch {
+                        editorState.send(event.event)
+                    }
                 }
             }
         }
@@ -173,6 +185,7 @@ internal fun EditorScreen(
 @Composable
 private fun EditorScreen(
     viewState: EditorViewState,
+    editorState: CodeEditorState,
     onDrawerClicked: () -> Unit = {},
     onNewFileClicked: () -> Unit = {},
     onOpenFileClicked: () -> Unit = {},
@@ -250,6 +263,7 @@ private fun EditorScreen(
 
             if (!isError && !isLoading && content != null) {
                 CodeEditor(
+                    state = editorState,
                     content = documentState.content,
                     language = documentState.document.language,
                     settings = viewState.settings,
@@ -311,7 +325,8 @@ private fun EditorScreenPreview() {
                 ),
                 selectedDocument = 0,
                 isLoading = true,
-            )
+            ),
+            editorState = rememberCodeEditorState()
         )
     }
 }

@@ -39,6 +39,7 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorState
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditorEvent
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionStart
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
@@ -239,6 +240,27 @@ internal class EditorViewModel @Inject constructor(
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
+        }
+    }
+
+    fun onCutClicked() {
+        viewModelScope.launch {
+            val event = CodeEditorEvent.Cut
+            _viewEvent.send(EditorViewEvent.Interact(event))
+        }
+    }
+
+    fun onCopyClicked() {
+        viewModelScope.launch {
+            val event = CodeEditorEvent.Copy
+            _viewEvent.send(EditorViewEvent.Interact(event))
+        }
+    }
+
+    fun onPasteClicked() {
+        viewModelScope.launch {
+            val event = CodeEditorEvent.Paste
+            _viewEvent.send(EditorViewEvent.Interact(event))
         }
     }
 
