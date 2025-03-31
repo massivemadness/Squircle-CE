@@ -20,10 +20,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.fragment.compose.content
+import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.ds.SquircleTheme
 
 internal class FilesHeaderFragment : Fragment() {
@@ -32,14 +31,9 @@ internal class FilesHeaderFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                SquircleTheme {
-                    FilesHeaderScreen(navController = findNavController())
-                }
-            }
+    ): View = content {
+        SquircleTheme {
+            FilesHeaderScreen(navController = findNavController())
         }
     }
 }

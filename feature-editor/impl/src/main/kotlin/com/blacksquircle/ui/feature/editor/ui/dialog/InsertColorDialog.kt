@@ -20,14 +20,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringResource
 import androidx.core.graphics.toColorInt
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.ColorPickerDialog
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.feature.editor.R
@@ -42,26 +42,23 @@ internal class InsertColorDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                ColorPickerDialog(
-                    title = stringResource(UiR.string.dialog_title_color_picker),
-                    confirmButton = stringResource(R.string.action_insert),
-                    dismissButton = stringResource(android.R.string.cancel),
-                    onColorSelected = { color ->
-                        sendFragmentResult(
-                            resultKey = EditorFragment.KEY_INSERT_COLOR,
-                            bundle = bundleOf(
-                                EditorFragment.ARG_COLOR to color.toHexString().toColorInt()
-                            )
+    ): View = content {
+        SquircleTheme {
+            ColorPickerDialog(
+                title = stringResource(UiR.string.dialog_title_color_picker),
+                confirmButton = stringResource(R.string.action_insert),
+                dismissButton = stringResource(android.R.string.cancel),
+                onColorSelected = { color ->
+                    sendFragmentResult(
+                        resultKey = EditorFragment.KEY_INSERT_COLOR,
+                        bundle = bundleOf(
+                            EditorFragment.ARG_COLOR to color.toHexString().toColorInt()
                         )
-                    },
-                    onDismissClicked = { navController.popBackStack() },
-                    onDismiss = { navController.popBackStack() },
-                )
-            }
+                    )
+                },
+                onDismissClicked = { navController.popBackStack() },
+                onDismiss = { navController.popBackStack() },
+            )
         }
     }
 }

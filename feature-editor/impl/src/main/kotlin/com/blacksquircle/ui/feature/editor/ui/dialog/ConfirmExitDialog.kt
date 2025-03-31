@@ -20,9 +20,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.ds.SquircleTheme
 
@@ -34,21 +33,16 @@ internal class ConfirmExitDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                SquircleTheme {
-                    ConfirmExitScreen(
-                        onConfirmClicked = {
-                            activity?.finish()
-                        },
-                        onCancelClicked = {
-                            navController.popBackStack()
-                        }
-                    )
+    ): View = content {
+        SquircleTheme {
+            ConfirmExitScreen(
+                onConfirmClicked = {
+                    activity?.finish()
+                },
+                onCancelClicked = {
+                    navController.popBackStack()
                 }
-            }
+            )
         }
     }
 }
