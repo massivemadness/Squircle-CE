@@ -23,9 +23,9 @@ import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiProvider
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvider
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiProvider
-import com.blacksquircle.ui.feature.explorer.ui.dialog.TaskDialog
-import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
 import com.blacksquircle.ui.feature.explorer.ui.service.TaskService
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.viewmodel.TaskViewModel
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiDepsProvider
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiProvider
 import dagger.Component
@@ -44,9 +44,9 @@ import dagger.Component
 )
 internal interface ExplorerComponent {
 
-    fun inject(dialog: TaskDialog)
     fun inject(service: TaskService)
-    fun inject(fragment: ExplorerFragment)
+    fun inject(factory: TaskViewModel.ParameterizedFactory)
+    fun inject(factory: ExplorerViewModel.Factory)
 
     @Component.Factory
     interface Factory {

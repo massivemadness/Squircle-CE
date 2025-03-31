@@ -25,9 +25,8 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -42,36 +41,31 @@ internal class StorageDeniedDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                SquircleTheme {
-                    StorageDeniedScreen(
-                        onConfirmClicked = {
-                            try {
-                                val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                    Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
-                                        data = Uri.parse("package:${requireContext().packageName}")
-                                    }
-                                } else {
-                                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                        data = Uri.parse("package:${requireContext().packageName}")
-                                    }
-                                }
-                                startActivity(intent)
-                            } catch (e: ActivityNotFoundException) {
-                                Timber.e(e, e.message)
-                                context?.showToast(UiR.string.common_error_occurred)
+    ): View = content {
+        SquircleTheme {
+            StorageDeniedScreen(
+                onConfirmClicked = {
+                    try {
+                        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                                data = Uri.parse("package:${requireContext().packageName}")
                             }
-                            navController.popBackStack()
-                        },
-                        onCancelClicked = {
-                            navController.popBackStack()
+                        } else {
+                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                data = Uri.parse("package:${requireContext().packageName}")
+                            }
                         }
-                    )
+                        startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        Timber.e(e, e.message)
+                        context?.showToast(UiR.string.common_error_occurred)
+                    }
+                    navController.popBackStack()
+                },
+                onCancelClicked = {
+                    navController.popBackStack()
                 }
-            }
+            )
         }
     }
 }

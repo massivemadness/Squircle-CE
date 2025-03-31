@@ -16,6 +16,10 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.dialog
 
+import android.Manifest
+import android.app.NotificationManager
+import android.content.Intent
+import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,10 +35,20 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.contract.PermissionResult
+import com.blacksquircle.ui.core.contract.rememberNotificationContract
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
@@ -42,12 +56,22 @@ import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.formatDate
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewEvent
+import com.blacksquircle.ui.feature.explorer.ui.service.TaskService
 import com.blacksquircle.ui.feature.explorer.ui.viewmodel.TaskViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
 @Composable
-internal fun TaskScreen(viewModel: TaskViewModel) {
+internal fun TaskScreen(
+    navArgs: TaskDialogArgs,
+    navController: NavController,
+    viewModel: TaskViewModel = daggerViewModel { context ->
+        val component = ExplorerComponent.buildOrGet(context)
+        TaskViewModel.ParameterizedFactory(navArgs.taskId).also(component::inject)
+    }
+) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     TaskScreen(
         viewState = viewState,
@@ -55,6 +79,42 @@ internal fun TaskScreen(viewModel: TaskViewModel) {
         onCancelClicked = viewModel::onCancelClicked,
         onRunInBackgroundClicked = viewModel::onRunInBackgroundClicked,
     )
+
+    val notificationContract = rememberNotificationContract { result ->
+        when (result) {
+            PermissionResult.DENIED,
+            PermissionResult.DENIED_FOREVER -> viewModel.onPermissionDenied()
+            PermissionResult.GRANTED -> viewModel.onPermissionGranted()
+        }
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.viewEvent.collect { event ->
+            when (event) {
+                is ViewEvent.Toast -> context.showToast(text = event.message)
+                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.PopBackStack -> navController.popBackStack()
+                is ExplorerViewEvent.StartService -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        val notificationManager = context.getSystemService<NotificationManager>()
+                        if (notificationManager?.areNotificationsEnabled() == false) {
+                            notificationContract.launch(Manifest.permission.POST_NOTIFICATIONS)
+                            return@collect
+                        }
+                    }
+
+                    val intent = Intent(context, TaskService::class.java).apply {
+                        action = TaskService.ACTION_START_TASK
+                        putExtra(TaskService.ARG_TASK_ID, navArgs.taskId)
+                    }
+                    ContextCompat.startForegroundService(context, intent)
+
+                    navController.popBackStack() // close dialog
+                }
+            }
+        }
+    }
 }
 
 @Composable

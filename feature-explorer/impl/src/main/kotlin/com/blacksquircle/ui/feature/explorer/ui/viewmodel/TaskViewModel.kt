@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.explorer.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.extensions.map
 import com.blacksquircle.ui.core.extensions.onEach
@@ -25,6 +26,7 @@ import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.ui.dialog.TaskViewState
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewEvent
+import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -32,6 +34,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 internal class TaskViewModel @AssistedInject constructor(
     private val taskManager: TaskManager,
@@ -66,12 +69,36 @@ internal class TaskViewModel @AssistedInject constructor(
 
     fun onRunInBackgroundClicked() {
         viewModelScope.launch {
-            _viewEvent.send(ExplorerViewEvent.RunInBackground)
+            _viewEvent.send(ExplorerViewEvent.StartService)
+        }
+    }
+
+    fun onPermissionDenied() {
+        viewModelScope.launch {
+            val screen = ExplorerScreen.NotificationDeniedScreen
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onPermissionGranted() {
+        viewModelScope.launch {
+            _viewEvent.send(ExplorerViewEvent.StartService)
         }
     }
 
     fun onCancelClicked() {
         taskManager.cancel(taskId)
+    }
+
+    class ParameterizedFactory(private val taskId: String) : ViewModelProvider.Factory {
+
+        @Inject
+        lateinit var viewModelFactory: Factory
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return viewModelFactory.create(taskId) as T
+        }
     }
 
     @AssistedFactory

@@ -16,22 +16,46 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.fragment
 
+import android.Manifest
+import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.util.fastForEachIndexed
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.contract.PermissionResult
+import com.blacksquircle.ui.core.contract.rememberStorageContract
+import com.blacksquircle.ui.core.effect.CleanupEffect
+import com.blacksquircle.ui.core.effect.NavResultEffect
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.navigateTo
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
+import com.blacksquircle.ui.feature.explorer.data.utils.clipText
+import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment.Companion.ARG_IS_FOLDER
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment.Companion.ARG_USER_INPUT
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment.Companion.KEY_AUTHENTICATION
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment.Companion.KEY_COMPRESS_FILE
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment.Companion.KEY_CREATE_FILE
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment.Companion.KEY_DELETE_FILE
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment.Companion.KEY_RENAME_FILE
 import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.Breadcrumb
 import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.BreadcrumbNavigation
 import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.ExplorerToolbar
@@ -45,7 +69,13 @@ import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun ExplorerScreen(viewModel: ExplorerViewModel) {
+internal fun ExplorerScreen(
+    navController: NavController,
+    viewModel: ExplorerViewModel = daggerViewModel { context ->
+        val component = ExplorerComponent.buildOrGet(context)
+        ExplorerViewModel.Factory().also(component::inject)
+    }
+) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ExplorerScreen(
         viewState = viewState,
@@ -74,6 +104,68 @@ internal fun ExplorerScreen(viewModel: ExplorerViewModel) {
         onFileSelected = viewModel::onFileSelected,
         onRefreshClicked = viewModel::onRefreshClicked,
     )
+
+    val storageContract = rememberStorageContract { result ->
+        when (result) {
+            PermissionResult.DENIED,
+            PermissionResult.DENIED_FOREVER -> viewModel.onPermissionDenied()
+            PermissionResult.GRANTED -> viewModel.onPermissionGranted()
+        }
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.viewEvent.collect { event ->
+            when (event) {
+                is ViewEvent.Toast -> context.showToast(text = event.message)
+                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.PopBackStack -> navController.popBackStack()
+                is ExplorerViewEvent.RequestPermission -> {
+                    storageContract.launch(
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            Manifest.permission.MANAGE_EXTERNAL_STORAGE
+                        } else {
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        }
+                    )
+                }
+                is ExplorerViewEvent.OpenFileWith -> {
+                    context.openFileWith(event.fileModel)
+                }
+                is ExplorerViewEvent.CopyPath -> {
+                    event.fileModel.path.clipText(context)
+                }
+            }
+        }
+    }
+
+    NavResultEffect(Screen.Server.KEY_SAVE) {
+        viewModel.onFilesystemAdded()
+    }
+    NavResultEffect(KEY_AUTHENTICATION) { bundle ->
+        val credentials = bundle.getString(ARG_USER_INPUT).orEmpty()
+        viewModel.onCredentialsEntered(credentials)
+    }
+    NavResultEffect(KEY_CREATE_FILE) { bundle ->
+        val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+        val isFolder = bundle.getBoolean(ARG_IS_FOLDER)
+        viewModel.createFile(fileName, isFolder)
+    }
+    NavResultEffect(KEY_RENAME_FILE) { bundle ->
+        val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+        viewModel.renameFile(fileName)
+    }
+    NavResultEffect(KEY_DELETE_FILE) {
+        viewModel.deleteFile()
+    }
+    NavResultEffect(KEY_COMPRESS_FILE) { bundle ->
+        val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+        viewModel.compressFiles(fileName)
+    }
+
+    CleanupEffect {
+        ExplorerComponent.release()
+    }
 }
 
 @Composable

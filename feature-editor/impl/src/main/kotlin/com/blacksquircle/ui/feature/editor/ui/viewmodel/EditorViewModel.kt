@@ -799,19 +799,7 @@ internal class EditorViewModel @Inject constructor(
         )
     }
 
-    /*private val _toolbarViewState = MutableStateFlow<ToolbarViewState>(ToolbarViewState.ActionBar())
-    val toolbarViewState: StateFlow<ToolbarViewState> = _toolbarViewState.asStateFlow()
-
-    private val _editorViewState = MutableStateFlow<EditorViewState>(EditorViewState.Loading)
-    val editorViewState: StateFlow<EditorViewState> = _editorViewState.asStateFlow()
-
-    private val _keyboardViewState = MutableStateFlow(KeyboardManager.Mode.NONE)
-    val keyboardViewState: StateFlow<KeyboardManager.Mode> = _keyboardViewState.asStateFlow()
-
-    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
-    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
-
-    private var toolbarMode = ToolbarManager.Mode.DEFAULT
+    /*private var toolbarMode = ToolbarManager.Mode.DEFAULT
     private var keyboardMode = KeyboardManager.Mode.KEYBOARD
     private var findParams = FindParams()
 
@@ -862,40 +850,6 @@ internal class EditorViewModel @Inject constructor(
                 if (selectedPosition > -1) {
                     val color = event.color.toHexString()
                     _viewEvent.send(EditorViewEvent.InsertColor(color))
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun forceSyntax() {
-        viewModelScope.launch {
-            try {
-                if (selectedPosition > -1) {
-                    val document = documents[selectedPosition]
-                    val screen = EditorScreen.ForceSyntaxDialogScreen(document.language.languageName)
-                    _viewEvent.send(ViewEvent.Navigation(screen))
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun forceSyntaxHighlighting(event: EditorIntent.SelectLanguage) {
-        viewModelScope.launch {
-            try {
-                _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
-                if (selectedPosition > -1) {
-                    val document = documents[selectedPosition]
-                    documents[selectedPosition] = document.copy(
-                        language = LanguageFactory.fromName(event.language)
-                    )
-                    documentRepository.updateDocument(document)
-                    refreshActionBar()
                 }
             } catch (e: Exception) {
                 Timber.e(e, e.message)

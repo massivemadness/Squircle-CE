@@ -20,13 +20,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
@@ -40,28 +39,23 @@ internal class AuthDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                SquircleTheme {
-                    AuthScreen(
-                        authMethod = AuthMethod.of(navArgs.authMethod),
-                        onConfirmClicked = { credentials ->
-                            sendFragmentResult(
-                                resultKey = ExplorerFragment.KEY_AUTHENTICATION,
-                                bundle = bundleOf(
-                                    ExplorerFragment.ARG_USER_INPUT to credentials,
-                                )
-                            )
-                            navController.popBackStack()
-                        },
-                        onCancelClicked = {
-                            navController.popBackStack()
-                        },
+    ): View = content {
+        SquircleTheme {
+            AuthScreen(
+                authMethod = AuthMethod.of(navArgs.authMethod),
+                onConfirmClicked = { credentials ->
+                    sendNavigationResult(
+                        key = ExplorerFragment.KEY_AUTHENTICATION,
+                        result = bundleOf(
+                            ExplorerFragment.ARG_USER_INPUT to credentials,
+                        )
                     )
-                }
-            }
+                    navController.popBackStack()
+                },
+                onCancelClicked = {
+                    navController.popBackStack()
+                },
+            )
         }
     }
 

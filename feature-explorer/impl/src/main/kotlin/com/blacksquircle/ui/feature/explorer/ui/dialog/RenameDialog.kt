@@ -20,13 +20,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.blacksquircle.ui.core.extensions.sendFragmentResult
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment
 
@@ -39,27 +38,23 @@ internal class RenameDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                SquircleTheme {
-                    RenameScreen(
-                        currentFileName = navArgs.fileName,
-                        onConfirmClicked = { fileName ->
-                            sendFragmentResult(
-                                resultKey = ExplorerFragment.KEY_RENAME_FILE,
-                                bundle = bundleOf(
-                                    ExplorerFragment.ARG_USER_INPUT to fileName,
-                                )
-                            )
-                        },
-                        onCancelClicked = {
-                            navController.popBackStack()
-                        }
+    ): View = content {
+        SquircleTheme {
+            RenameScreen(
+                currentFileName = navArgs.fileName,
+                onConfirmClicked = { fileName ->
+                    sendNavigationResult(
+                        key = ExplorerFragment.KEY_RENAME_FILE,
+                        result = bundleOf(
+                            ExplorerFragment.ARG_USER_INPUT to fileName,
+                        )
                     )
+                    navController.popBackStack()
+                },
+                onCancelClicked = {
+                    navController.popBackStack()
                 }
-            }
+            )
         }
     }
 

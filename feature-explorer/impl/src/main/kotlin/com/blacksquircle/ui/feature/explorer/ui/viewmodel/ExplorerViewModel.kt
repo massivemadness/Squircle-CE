@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.explorer.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -65,6 +66,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Provider
 import com.blacksquircle.ui.ds.R as UiR
 
 internal class ExplorerViewModel @Inject constructor(
@@ -471,8 +473,6 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun createFile(fileName: String, isFolder: Boolean) {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
-
             val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.createFile(parent, fileName, isFolder)
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
@@ -492,8 +492,6 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun renameFile(fileName: String) {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
-
             val fileModel = taskBuffer.first()
             val taskId = explorerRepository.renameFile(fileModel, fileName)
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
@@ -513,8 +511,6 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun deleteFile() {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
-
             val taskId = explorerRepository.deleteFiles(taskBuffer.toList())
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
@@ -533,8 +529,6 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun compressFiles(fileName: String) {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
-
             val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.compressFiles(taskBuffer.toList(), parent, fileName)
             val screen = ExplorerScreen.TaskDialogScreen(taskId)
@@ -853,5 +847,16 @@ internal class ExplorerViewModel @Inject constructor(
             .filter { if (it.isHidden) showHidden else true }
             .sortedWith(fileComparator(settingsManager.sortMode))
             .sortedBy { it.directory != settingsManager.foldersOnTop }
+    }
+
+    class Factory : ViewModelProvider.Factory {
+
+        @Inject
+        lateinit var viewModelProvider: Provider<ExplorerViewModel>
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return viewModelProvider.get() as T
+        }
     }
 }

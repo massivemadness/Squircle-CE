@@ -27,12 +27,11 @@ import kotlinx.coroutines.flow.stateIn
 fun <T> StateFlow<T>.onEach(
     scope: CoroutineScope,
     action: suspend (T) -> Unit
-): StateFlow<T> = onEach(action)
-    .stateIn(
-        scope = scope,
-        started = SharingStarted.Eagerly,
-        initialValue = value
-    )
+): StateFlow<T> = onEach(action).stateIn(
+    scope = scope,
+    started = SharingStarted.Eagerly,
+    initialValue = value
+)
 
 /** https://github.com/Kotlin/kotlinx.coroutines/issues/2631 */
 fun <T, R> StateFlow<T>.map(
