@@ -23,9 +23,13 @@ plugins {
 android {
     namespace = "com.blacksquircle.ui.core"
 
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.generateKotlin", "true")
+    }
     sourceSets {
         named("androidTest") {
-            assets.srcDir(files("$projectDir/schemas"))
+            assets.srcDir("$projectDir/schemas")
         }
     }
     buildFeatures {
