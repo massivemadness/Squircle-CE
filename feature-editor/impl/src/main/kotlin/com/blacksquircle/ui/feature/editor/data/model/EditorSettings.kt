@@ -32,6 +32,7 @@ internal data class EditorSettings(
     val highlightCodeBlocks: Boolean = true,
     val showInvisibleChars: Boolean = false,
     val readOnly: Boolean = false,
+    val extendedKeyboard: Boolean = false,
     val keyboardPreset: List<KeyModel> = emptyList(),
     val softKeyboard: Boolean = false,
     val autoIndentation: Boolean = true,

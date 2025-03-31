@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -51,12 +52,14 @@ import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.feature.editor.data.model.KeyModel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.CodeEditor
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.DocumentNavigation
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.EditorToolbar
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.ErrorStatus
+import com.blacksquircle.ui.feature.editor.ui.fragment.internal.ExtendedKeyboard
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorState
@@ -104,6 +107,7 @@ internal fun EditorScreen(
         onCloseOthersClicked = viewModel::onCloseOthersClicked,
         onCloseAllClicked = viewModel::onCloseAllClicked,
         onErrorActionClicked = viewModel::onErrorActionClicked,
+        onExtendedKeyClicked = viewModel::onExtendedKeyClicked,
     )
 
     val defaultFileName = stringResource(UiR.string.common_untitled)
@@ -220,6 +224,7 @@ private fun EditorScreen(
     onCloseOthersClicked: (DocumentModel) -> Unit = {},
     onCloseAllClicked: () -> Unit = {},
     onErrorActionClicked: (ErrorAction) -> Unit = {},
+    onExtendedKeyClicked: (KeyModel) -> Unit = {},
 ) {
     ScaffoldSuite(
         topBar = {
@@ -247,9 +252,24 @@ private fun EditorScreen(
                 onSettingsClicked = onSettingsClicked,
             )
         },
+        bottomBar = {
+            val showKeyboard =
+                viewState.settings.extendedKeyboard &&
+                    viewState.documents.isNotEmpty()
+            if (showKeyboard) {
+                ExtendedKeyboard(
+                    preset = viewState.settings.keyboardPreset,
+                    onKeyClick = onExtendedKeyClicked,
+                )
+            }
+        },
         modifier = Modifier.imePadding(),
-    ) { _ ->
-        Column(modifier = Modifier.fillMaxSize()) {
+    ) { contentPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding)
+        ) {
             DocumentNavigation(
                 tabs = viewState.documents,
                 selectedIndex = viewState.selectedDocument,

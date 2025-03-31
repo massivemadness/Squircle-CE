@@ -27,7 +27,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
 import com.blacksquircle.ui.core.effect.sendNavigationResult
-import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.ColorPickerDialog
 import com.blacksquircle.ui.ds.extensions.toHexString

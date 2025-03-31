@@ -601,6 +601,22 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    fun onExtendedKeyClicked(keyModel: KeyModel) {
+        viewModelScope.launch {
+            val char = if (keyModel.value == '\t') {
+                if (settingsManager.useSpacesInsteadOfTabs) {
+                    " ".repeat(4)
+                } else {
+                    "\t"
+                }
+            } else {
+                keyModel.value
+            }
+            val command = EditorCommand.InputText(char.toString())
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
     fun onResumed() {
         viewModelScope.launch {
             try {
@@ -856,6 +872,7 @@ internal class EditorViewModel @Inject constructor(
             highlightCodeBlocks = settingsManager.highlightCodeBlocks,
             showInvisibleChars = settingsManager.showInvisibleChars,
             readOnly = settingsManager.readOnly,
+            extendedKeyboard = settingsManager.extendedKeyboard,
             keyboardPreset = ("\t" + settingsManager.keyboardPreset).map { char ->
                 val display = if (char == '\t') {
                     stringProvider.getString(UiR.string.common_tab)

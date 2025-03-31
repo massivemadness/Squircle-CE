@@ -65,7 +65,7 @@ class Colors internal constructor(
             colorSuccess = Color(0xFF71D98C),
             colorError = Color(0xFFE45356),
             colorBackgroundPrimary = Color(0xFF1E1F22),
-            colorBackgroundSecondary = Color(0xFF2B2D30),
+            colorBackgroundSecondary = Color(0xFF26282D),
             colorBackgroundTertiary = Color(0xFF434448),
             colorTextAndIconPrimary = Color(0xFFFFFFFF),
             colorTextAndIconPrimaryInverse = Color(0xFF000000),
