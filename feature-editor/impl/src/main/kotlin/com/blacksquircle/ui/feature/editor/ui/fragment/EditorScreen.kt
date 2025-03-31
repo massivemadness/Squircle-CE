@@ -93,7 +93,7 @@ internal fun EditorScreen(
         onDeleteLineClicked = viewModel::onDeleteLineClicked,
         onDuplicateLineClicked = viewModel::onDuplicateLineClicked,
         onForceSyntaxClicked = viewModel::onForceSyntaxClicked,
-        onInsertColorClicked = {},
+        onInsertColorClicked = viewModel::onInsertColorClicked,
         onFindClicked = {},
         onUndoClicked = viewModel::onUndoClicked,
         onRedoClicked = viewModel::onRedoClicked,
@@ -164,6 +164,14 @@ internal fun EditorScreen(
     NavResultEffect(EditorFragment.KEY_SELECT_LANGUAGE) { bundle ->
         val language = bundle.getString(EditorFragment.ARG_LANGUAGE).orEmpty()
         viewModel.onLanguageChanged(language)
+    }
+    NavResultEffect(EditorFragment.KEY_GOTO_LINE) { bundle ->
+        val lineNumber = bundle.getInt(EditorFragment.ARG_LINE_NUMBER)
+        viewModel.onLineSelected(lineNumber)
+    }
+    NavResultEffect(EditorFragment.KEY_INSERT_COLOR) { bundle ->
+        val color = bundle.getInt(EditorFragment.ARG_COLOR)
+        viewModel.onColorSelected(color)
     }
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {

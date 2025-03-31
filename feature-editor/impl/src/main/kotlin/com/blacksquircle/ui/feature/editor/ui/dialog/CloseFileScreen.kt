@@ -26,7 +26,7 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.editor.R
 
 @Composable
-internal fun CloseModifiedScreen(
+internal fun CloseFileScreen(
     fileName: String,
     onConfirmClicked: () -> Unit = {},
     onCancelClicked: () -> Unit = {}
@@ -50,8 +50,8 @@ internal fun CloseModifiedScreen(
 
 @PreviewLightDark
 @Composable
-private fun CloseModifiedScreenPreview() {
+private fun CloseFileScreenPreview() {
     PreviewBackground {
-        CloseModifiedScreen(fileName = "untitled")
+        CloseFileScreen(fileName = "untitled")
     }
 }

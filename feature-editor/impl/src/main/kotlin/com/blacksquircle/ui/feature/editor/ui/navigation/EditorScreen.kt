@@ -20,17 +20,17 @@ import androidx.core.os.bundleOf
 import com.blacksquircle.ui.core.extensions.NavAction
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.ui.dialog.CloseModifiedDialog
+import com.blacksquircle.ui.feature.editor.ui.dialog.CloseFileDialog
 import com.blacksquircle.ui.feature.editor.ui.dialog.ForceSyntaxDialog
 
 internal sealed class EditorScreen(route: Any) : Screen(route) {
 
-    data class CloseModifiedDialogScreen(val fileUuid: String, val fileName: String) : EditorScreen(
+    data class CloseFileDialogScreen(val fileUuid: String, val fileName: String) : EditorScreen(
         route = NavAction(
-            id = R.id.closeModifiedDialog,
+            id = R.id.closeFileDialog,
             args = bundleOf(
-                CloseModifiedDialog.ARG_FILE_UUID to fileUuid,
-                CloseModifiedDialog.ARG_FILE_NAME to fileName,
+                CloseFileDialog.ARG_FILE_UUID to fileUuid,
+                CloseFileDialog.ARG_FILE_NAME to fileName,
             )
         ),
     )

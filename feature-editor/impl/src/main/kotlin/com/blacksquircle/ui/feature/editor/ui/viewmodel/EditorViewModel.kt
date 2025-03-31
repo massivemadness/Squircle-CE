@@ -25,6 +25,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
@@ -252,43 +253,43 @@ internal class EditorViewModel @Inject constructor(
 
     fun onCopyClicked() {
         viewModelScope.launch {
-            val event = EditorCommand.Copy
-            _viewEvent.send(EditorViewEvent.Command(event))
+            val command = EditorCommand.Copy
+            _viewEvent.send(EditorViewEvent.Command(command))
         }
     }
 
     fun onPasteClicked() {
         viewModelScope.launch {
-            val event = EditorCommand.Paste
-            _viewEvent.send(EditorViewEvent.Command(event))
+            val command = EditorCommand.Paste
+            _viewEvent.send(EditorViewEvent.Command(command))
         }
     }
 
     fun onSelectAllClicked() {
         viewModelScope.launch {
-            val event = EditorCommand.SelectAll
-            _viewEvent.send(EditorViewEvent.Command(event))
+            val command = EditorCommand.SelectAll
+            _viewEvent.send(EditorViewEvent.Command(command))
         }
     }
 
     fun onSelectLineClicked() {
         viewModelScope.launch {
-            val event = EditorCommand.SelectLine
-            _viewEvent.send(EditorViewEvent.Command(event))
+            val command = EditorCommand.SelectLine
+            _viewEvent.send(EditorViewEvent.Command(command))
         }
     }
 
     fun onDeleteLineClicked() {
         viewModelScope.launch {
-            val event = EditorCommand.DeleteLine
-            _viewEvent.send(EditorViewEvent.Command(event))
+            val command = EditorCommand.DeleteLine
+            _viewEvent.send(EditorViewEvent.Command(command))
         }
     }
 
     fun onDuplicateLineClicked() {
         viewModelScope.launch {
-            val event = EditorCommand.DuplicateLine
-            _viewEvent.send(EditorViewEvent.Command(event))
+            val command = EditorCommand.DuplicateLine
+            _viewEvent.send(EditorViewEvent.Command(command))
         }
     }
 
@@ -361,6 +362,30 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    fun onInsertColorClicked() {
+        viewModelScope.launch {
+            if (selectedPosition !in documents.indices) {
+                return@launch
+            }
+            val screen = EditorScreen.InsertColor
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onColorSelected(color: Int) {
+        viewModelScope.launch {
+            val command = EditorCommand.InputText(color.toHexString())
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    fun onLineSelected(lineNumber: Int) {
+        viewModelScope.launch {
+            val command = EditorCommand.MoveSelection(lineNumber)
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
     fun onSettingsClicked() {
         viewModelScope.launch {
             val screen = Screen.Settings
@@ -423,7 +448,7 @@ internal class EditorViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (document.dirty && fromUser) {
-                    val screen = EditorScreen.CloseModifiedDialogScreen(
+                    val screen = EditorScreen.CloseFileDialogScreen(
                         fileUuid = document.uuid,
                         fileName = document.name,
                     )
@@ -852,61 +877,6 @@ internal class EditorViewModel @Inject constructor(
     /*private var toolbarMode = ToolbarManager.Mode.DEFAULT
     private var keyboardMode = KeyboardManager.Mode.KEYBOARD
     private var findParams = FindParams()
-
-    private fun gotoLine() {
-        viewModelScope.launch {
-            try {
-                if (selectedPosition > -1) {
-                    _viewEvent.send(ViewEvent.Navigation(EditorScreen.GotoLine))
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun gotoLineNumber(event: EditorIntent.GotoLineNumber) {
-        viewModelScope.launch {
-            try {
-                _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
-                if (selectedPosition > -1) {
-                    _viewEvent.send(EditorViewEvent.GotoLine(event.lineNumber))
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun colorPicker() {
-        viewModelScope.launch {
-            try {
-                if (selectedPosition > -1) {
-                    _viewEvent.send(ViewEvent.Navigation(EditorScreen.InsertColor))
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun insertColor(event: EditorIntent.InsertColor) {
-        viewModelScope.launch {
-            try {
-                _viewEvent.send(ViewEvent.PopBackStack()) // close dialog
-                if (selectedPosition > -1) {
-                    val color = event.color.toHexString()
-                    _viewEvent.send(EditorViewEvent.InsertColor(color))
-                }
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
 
     private fun swapKeyboard() {
         _keyboardViewState.update {

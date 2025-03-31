@@ -35,9 +35,9 @@
     </dialog>
 
     <dialog
-        android:id="@+id/closeModifiedDialog"
-        android:name="com.blacksquircle.ui.feature.editor.ui.dialog.CloseModifiedDialog"
-        android:label="CloseModifiedDialog">
+        android:id="@+id/closeFileDialog"
+        android:name="com.blacksquircle.ui.feature.editor.ui.dialog.CloseFileDialog"
+        android:label="CloseFileDialog">
         <argument
             android:name="fileUuid"
             app:argType="string" />

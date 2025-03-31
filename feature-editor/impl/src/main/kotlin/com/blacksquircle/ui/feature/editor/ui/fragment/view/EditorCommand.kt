@@ -17,11 +17,16 @@
 package com.blacksquircle.ui.feature.editor.ui.fragment.view
 
 internal sealed class EditorCommand {
+
     data object Cut : EditorCommand()
     data object Copy : EditorCommand()
     data object Paste : EditorCommand()
+
     data object SelectAll : EditorCommand()
     data object SelectLine : EditorCommand()
     data object DeleteLine : EditorCommand()
     data object DuplicateLine : EditorCommand()
+
+    data class InputText(val text: String) : EditorCommand()
+    data class MoveSelection(val line: Int) : EditorCommand()
 }

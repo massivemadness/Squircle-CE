@@ -26,6 +26,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.core.extensions.sendFragmentResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.ColorPickerDialog
@@ -49,12 +50,13 @@ internal class InsertColorDialog : DialogFragment() {
                 confirmButton = stringResource(R.string.action_insert),
                 dismissButton = stringResource(android.R.string.cancel),
                 onColorSelected = { color ->
-                    sendFragmentResult(
-                        resultKey = EditorFragment.KEY_INSERT_COLOR,
-                        bundle = bundleOf(
+                    sendNavigationResult(
+                        key = EditorFragment.KEY_INSERT_COLOR,
+                        result = bundleOf(
                             EditorFragment.ARG_COLOR to color.toHexString().toColorInt()
                         )
                     )
+                    navController.popBackStack()
                 },
                 onDismissClicked = { navController.popBackStack() },
                 onDismiss = { navController.popBackStack() },

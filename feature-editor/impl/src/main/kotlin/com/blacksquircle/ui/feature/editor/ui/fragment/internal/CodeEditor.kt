@@ -91,6 +91,8 @@ internal fun CodeEditor(
                 is EditorCommand.SelectLine -> view.selectLine()
                 is EditorCommand.DeleteLine -> view.deleteLine()
                 is EditorCommand.DuplicateLine -> view.duplicateLine()
+                is EditorCommand.InputText -> view.pasteText(command.text)
+                is EditorCommand.MoveSelection -> view.setSelection(command.line, 0)
             }
         }
     }

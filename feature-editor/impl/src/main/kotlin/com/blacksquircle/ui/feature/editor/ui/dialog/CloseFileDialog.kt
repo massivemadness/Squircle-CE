@@ -29,10 +29,10 @@ import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorFragment
 
-internal class CloseModifiedDialog : DialogFragment() {
+internal class CloseFileDialog : DialogFragment() {
 
     private val navController by lazy { findNavController() }
-    private val navArgs by navArgs<CloseModifiedDialogArgs>()
+    private val navArgs by navArgs<CloseFileDialogArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +40,7 @@ internal class CloseModifiedDialog : DialogFragment() {
         savedInstanceState: Bundle?
     ): View = content {
         SquircleTheme {
-            CloseModifiedScreen(
+            CloseFileScreen(
                 fileName = navArgs.fileName,
                 onConfirmClicked = {
                     sendNavigationResult(

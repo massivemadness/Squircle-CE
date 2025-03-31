@@ -23,7 +23,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.ui.core.extensions.observeFragmentResult
 import com.blacksquircle.ui.ds.SquircleTheme
 
 internal class EditorFragment : Fragment() {
@@ -35,19 +34,6 @@ internal class EditorFragment : Fragment() {
     ): View = content {
         SquircleTheme {
             EditorScreen(navController = findNavController())
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        observeFragmentResult(KEY_GOTO_LINE) { bundle ->
-            /*val lineNumber = bundle.getInt(ARG_LINE_NUMBER)
-            viewModel.obtainEvent(EditorIntent.GotoLineNumber(lineNumber))*/
-        }
-        observeFragmentResult(KEY_INSERT_COLOR) { bundle ->
-            /*val color = bundle.getInt(ARG_COLOR)
-            viewModel.obtainEvent(EditorIntent.InsertColor(color))*/
         }
     }
 
