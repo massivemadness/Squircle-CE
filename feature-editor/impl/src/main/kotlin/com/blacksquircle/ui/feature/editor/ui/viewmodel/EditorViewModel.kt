@@ -26,12 +26,12 @@ import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.api.factory.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.data.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.data.model.KeyModel
+import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewEvent

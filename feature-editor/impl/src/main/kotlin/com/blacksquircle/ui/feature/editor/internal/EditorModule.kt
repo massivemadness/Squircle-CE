@@ -22,10 +22,10 @@ import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.core.storage.database.AppDatabase
 import com.blacksquircle.ui.core.storage.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.feature.editor.api.factory.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.data.interactor.LanguageInteractorImpl
 import com.blacksquircle.ui.feature.editor.data.manager.CacheManager
 import com.blacksquircle.ui.feature.editor.data.repository.DocumentRepositoryImpl
+import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import dagger.Module
