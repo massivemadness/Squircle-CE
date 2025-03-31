@@ -30,6 +30,9 @@ dependencies {
     // Coroutines
     implementation(libs.coroutines.core)
 
+    // Other
+    implementation(libs.icu4j)
+
     // Modules
     api(project(":filesystems:filesystem-base"))
 }

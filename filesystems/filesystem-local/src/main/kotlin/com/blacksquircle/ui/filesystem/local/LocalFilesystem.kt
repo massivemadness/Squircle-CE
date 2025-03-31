@@ -208,7 +208,7 @@ class LocalFilesystem : Filesystem {
         val charset = if (fileParams.chardet) {
             try {
                 val charsetMatch = CharsetDetector()
-                    .setText(file.readBytes())
+                    .setText(file.inputStream())
                     .detect()
                 charset(charsetMatch.name)
             } catch (e: Exception) {

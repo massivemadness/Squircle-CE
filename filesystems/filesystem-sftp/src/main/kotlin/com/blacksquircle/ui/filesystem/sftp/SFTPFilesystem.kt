@@ -24,6 +24,7 @@ import com.blacksquircle.ui.filesystem.base.model.*
 import com.blacksquircle.ui.filesystem.base.utils.hasFlag
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.filesystem.base.utils.plusFlag
+import com.ibm.icu.text.CharsetDetector
 import com.jcraft.jsch.*
 import com.jcraft.jsch.ChannelSftp.LsEntry
 import kotlinx.coroutines.flow.Flow
@@ -124,7 +125,19 @@ class SFTPFilesystem(
             tempFile.outputStream().use {
                 channel?.get(fileModel.path, it)
             }
-            return tempFile.readText(fileParams.charset)
+            val charset = if (fileParams.chardet) {
+                try {
+                    val charsetMatch = CharsetDetector()
+                        .setText(tempFile.inputStream())
+                        .detect()
+                    charset(charsetMatch.name)
+                } catch (e: Exception) {
+                    Charsets.UTF_8
+                }
+            } else {
+                fileParams.charset
+            }
+            return tempFile.readText(charset)
         } finally {
             tempFile.deleteRecursively()
             disconnect()

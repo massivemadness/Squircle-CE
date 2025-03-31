@@ -24,6 +24,7 @@ import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.*
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.filesystem.base.utils.plusFlag
+import com.ibm.icu.text.CharsetDetector
 import kotlinx.coroutines.flow.Flow
 import org.apache.commons.net.ftp.*
 import java.io.*
@@ -134,7 +135,19 @@ class FTPFilesystem(
             if (!FTPReply.isPositiveCompletion(ftpClient.replyCode)) {
                 throw FileNotFoundException(fileModel.path)
             }
-            return tempFile.readText(fileParams.charset)
+            val charset = if (fileParams.chardet) {
+                try {
+                    val charsetMatch = CharsetDetector()
+                        .setText(tempFile.inputStream())
+                        .detect()
+                    charset(charsetMatch.name)
+                } catch (e: Exception) {
+                    Charsets.UTF_8
+                }
+            } else {
+                fileParams.charset
+            }
+            return tempFile.readText(charset)
         } finally {
             tempFile.deleteRecursively()
             disconnect()
