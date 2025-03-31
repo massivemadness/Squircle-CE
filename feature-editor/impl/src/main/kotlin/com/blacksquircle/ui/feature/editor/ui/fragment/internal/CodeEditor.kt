@@ -25,17 +25,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import com.blacksquircle.ui.feature.editor.data.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditor
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditorEvent
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditorState
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorCommand
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorState
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.createFromRegistry
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.deleteLine
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectLine
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.syncScroll
 import io.github.rosemoe.sora.event.ContentChangeEvent
 import io.github.rosemoe.sora.widget.subscribeAlways
 
 @Composable
 internal fun CodeEditor(
-    state: CodeEditorState,
+    state: EditorState,
     content: TextContent,
     language: String,
     settings: EditorSettings,
@@ -59,7 +61,6 @@ internal fun CodeEditor(
     AndroidView(
         factory = { view },
         update = { editor ->
-            editor.createSubEventManager()
             editor.setTextSize(settings.fontSize)
             editor.isWordwrap = settings.wordWrap
             editor.isScalable = settings.pinchZoom
@@ -81,11 +82,15 @@ internal fun CodeEditor(
         modifier = modifier,
     )
     LaunchedEffect(Unit) {
-        state.eventBus.collect { event ->
-            when (event) {
-                is CodeEditorEvent.Cut -> view.cutText()
-                is CodeEditorEvent.Copy -> view.copyText()
-                is CodeEditorEvent.Paste -> view.pasteText()
+        state.commands.collect { command ->
+            when (command) {
+                is EditorCommand.Cut -> view.cutText()
+                is EditorCommand.Copy -> view.copyText()
+                is EditorCommand.Paste -> view.pasteText()
+                is EditorCommand.SelectAll -> view.selectAll()
+                is EditorCommand.SelectLine -> view.selectLine()
+                is EditorCommand.DeleteLine -> view.deleteLine()
+                is EditorCommand.DuplicateLine -> view.duplicateLine()
             }
         }
     }

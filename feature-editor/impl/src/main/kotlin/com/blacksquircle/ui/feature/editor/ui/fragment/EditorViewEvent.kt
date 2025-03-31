@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.editor.ui.fragment
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditorEvent
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorCommand
 
 internal sealed class EditorViewEvent : ViewEvent() {
 
@@ -29,5 +29,5 @@ internal sealed class EditorViewEvent : ViewEvent() {
     data object OpenFileContract : EditorViewEvent()
     data class SaveAsFileContract(val fileName: String) : EditorViewEvent()
 
-    data class Interact(val event: CodeEditorEvent) : EditorViewEvent()
+    data class Command(val command: EditorCommand) : EditorViewEvent()
 }

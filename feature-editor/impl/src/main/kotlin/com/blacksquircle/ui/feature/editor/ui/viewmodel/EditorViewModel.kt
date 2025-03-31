@@ -39,7 +39,7 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorState
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditorEvent
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorCommand
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionStart
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
@@ -245,22 +245,50 @@ internal class EditorViewModel @Inject constructor(
 
     fun onCutClicked() {
         viewModelScope.launch {
-            val event = CodeEditorEvent.Cut
-            _viewEvent.send(EditorViewEvent.Interact(event))
+            val event = EditorCommand.Cut
+            _viewEvent.send(EditorViewEvent.Command(event))
         }
     }
 
     fun onCopyClicked() {
         viewModelScope.launch {
-            val event = CodeEditorEvent.Copy
-            _viewEvent.send(EditorViewEvent.Interact(event))
+            val event = EditorCommand.Copy
+            _viewEvent.send(EditorViewEvent.Command(event))
         }
     }
 
     fun onPasteClicked() {
         viewModelScope.launch {
-            val event = CodeEditorEvent.Paste
-            _viewEvent.send(EditorViewEvent.Interact(event))
+            val event = EditorCommand.Paste
+            _viewEvent.send(EditorViewEvent.Command(event))
+        }
+    }
+
+    fun onSelectAllClicked() {
+        viewModelScope.launch {
+            val event = EditorCommand.SelectAll
+            _viewEvent.send(EditorViewEvent.Command(event))
+        }
+    }
+
+    fun onSelectLineClicked() {
+        viewModelScope.launch {
+            val event = EditorCommand.SelectLine
+            _viewEvent.send(EditorViewEvent.Command(event))
+        }
+    }
+
+    fun onDeleteLineClicked() {
+        viewModelScope.launch {
+            val event = EditorCommand.DeleteLine
+            _viewEvent.send(EditorViewEvent.Command(event))
+        }
+    }
+
+    fun onDuplicateLineClicked() {
+        viewModelScope.launch {
+            val event = EditorCommand.DuplicateLine
+            _viewEvent.send(EditorViewEvent.Command(event))
         }
     }
 

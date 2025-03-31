@@ -59,8 +59,8 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.internal.EditorToolbar
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.ErrorStatus
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditorState
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.rememberCodeEditorState
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorState
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.rememberEditorState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import kotlinx.coroutines.launch
 import com.blacksquircle.ui.ds.R as UiR
@@ -73,7 +73,7 @@ internal fun EditorScreen(
         EditorViewModel.Factory().also(component::inject)
     },
 ) {
-    val editorState = rememberCodeEditorState()
+    val editorState = rememberEditorState()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     EditorScreen(
         viewState = viewState,
@@ -88,10 +88,10 @@ internal fun EditorScreen(
         onCutClicked = viewModel::onCutClicked,
         onCopyClicked = viewModel::onCopyClicked,
         onPasteClicked = viewModel::onPasteClicked,
-        onSelectAllClicked = {},
-        onSelectLineClicked = {},
-        onDeleteLineClicked = {},
-        onDuplicateLineClicked = {},
+        onSelectAllClicked = viewModel::onSelectAllClicked,
+        onSelectLineClicked = viewModel::onSelectLineClicked,
+        onDeleteLineClicked = viewModel::onDeleteLineClicked,
+        onDuplicateLineClicked = viewModel::onDuplicateLineClicked,
         onForceSyntaxClicked = viewModel::onForceSyntaxClicked,
         onInsertColorClicked = {},
         onFindClicked = {},
@@ -148,9 +148,9 @@ internal fun EditorScreen(
                 is EditorViewEvent.SaveAsFileContract -> {
                     saveFileContract.launch(event.fileName)
                 }
-                is EditorViewEvent.Interact -> {
+                is EditorViewEvent.Command -> {
                     scope.launch {
-                        editorState.send(event.event)
+                        editorState.send(event.command)
                     }
                 }
             }
@@ -185,7 +185,7 @@ internal fun EditorScreen(
 @Composable
 private fun EditorScreen(
     viewState: EditorViewState,
-    editorState: CodeEditorState,
+    editorState: EditorState,
     onDrawerClicked: () -> Unit = {},
     onNewFileClicked: () -> Unit = {},
     onOpenFileClicked: () -> Unit = {},
@@ -326,7 +326,7 @@ private fun EditorScreenPreview() {
                 selectedDocument = 0,
                 isLoading = true,
             ),
-            editorState = rememberCodeEditorState()
+            editorState = rememberEditorState()
         )
     }
 }

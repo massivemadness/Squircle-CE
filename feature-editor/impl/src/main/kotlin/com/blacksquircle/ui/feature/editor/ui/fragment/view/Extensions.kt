@@ -43,6 +43,18 @@ internal val Content.selectionStart: Int
 internal val Content.selectionEnd: Int
     get() = cursor.right
 
+internal fun CodeEditor.selectLine() {
+    val line = cursor.rightLine
+    val column = text.getColumnCount(line)
+    setSelectionRegion(line, 0, line, column)
+}
+
+internal fun CodeEditor.deleteLine() {
+    val line = cursor.rightLine
+    val column = text.getColumnCount(line)
+    text.delete(line, 0, line, column)
+}
+
 internal fun CodeEditor.syncScroll() {
     scroller.startScroll(0, 0, text.scrollX, text.scrollY)
     scroller.abortAnimation()

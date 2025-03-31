@@ -16,25 +16,12 @@
 
 package com.blacksquircle.ui.feature.editor.ui.fragment.view
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.remember
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.receiveAsFlow
-
-@Composable
-internal fun rememberCodeEditorState(): CodeEditorState {
-    return remember { CodeEditorState() }
-}
-
-@Stable
-internal class CodeEditorState {
-
-    private val _eventBus = Channel<CodeEditorEvent>(Channel.BUFFERED)
-    val eventBus: Flow<CodeEditorEvent> = _eventBus.receiveAsFlow()
-
-    suspend fun send(event: CodeEditorEvent) {
-        _eventBus.send(event)
-    }
+internal sealed class EditorCommand {
+    data object Cut : EditorCommand()
+    data object Copy : EditorCommand()
+    data object Paste : EditorCommand()
+    data object SelectAll : EditorCommand()
+    data object SelectLine : EditorCommand()
+    data object DeleteLine : EditorCommand()
+    data object DuplicateLine : EditorCommand()
 }
