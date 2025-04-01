@@ -20,7 +20,6 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -207,7 +206,6 @@ internal fun EditorScreen(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun EditorScreen(
     viewState: EditorViewState,
@@ -280,9 +278,10 @@ private fun EditorScreen(
         bottomBar = {
             val showKeyboard =
                 viewState.settings.extendedKeyboard &&
-                    viewState.documents.isNotEmpty() &&
                     !viewState.settings.readOnly &&
-                    !viewState.isLoading
+                    !viewState.isError &&
+                    !viewState.isLoading &&
+                    !viewState.isEmpty
             if (showKeyboard) {
                 ExtendedKeyboard(
                     preset = viewState.settings.keyboardPreset,
@@ -308,14 +307,13 @@ private fun EditorScreen(
                 modifier = Modifier.fillMaxWidth(),
             )
 
-            val documentState = viewState.documents
-                .getOrNull(viewState.selectedDocument)
-            val content = documentState?.content
-            val searchState = documentState?.searchState
+            val currentDocument = viewState.currentDocument
+            val content = currentDocument?.content
+            val searchState = currentDocument?.searchState
 
+            val isError = viewState.isError
             val isLoading = viewState.isLoading
-            val isEmpty = viewState.documents.isEmpty()
-            val isError = documentState?.errorState != null
+            val isEmpty = viewState.isEmpty
 
             if (!isError && !isLoading && searchState != null) {
                 SearchPanel(
@@ -337,8 +335,8 @@ private fun EditorScreen(
 
             if (!isError && !isLoading && content != null) {
                 CodeEditor(
-                    content = documentState.content,
-                    language = documentState.document.language,
+                    content = currentDocument.content,
+                    language = currentDocument.document.language,
                     settings = viewState.settings,
                     controller = editorController,
                     onContentChanged = onContentChanged,
@@ -350,7 +348,7 @@ private fun EditorScreen(
             if (isError && !isLoading) {
                 Box(Modifier.fillMaxSize()) {
                     ErrorStatus(
-                        errorState = documentState?.errorState,
+                        errorState = currentDocument?.errorState,
                         onActionClicked = onErrorActionClicked,
                         modifier = Modifier.align(Alignment.Center)
                     )

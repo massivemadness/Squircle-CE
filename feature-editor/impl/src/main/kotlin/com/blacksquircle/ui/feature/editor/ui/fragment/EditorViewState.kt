@@ -29,4 +29,14 @@ internal data class EditorViewState(
     val canUndo: Boolean = false,
     val canRedo: Boolean = false,
     val isLoading: Boolean = true,
-) : ViewState()
+) : ViewState() {
+
+    val currentDocument: DocumentState?
+        get() = documents.getOrNull(selectedDocument)
+
+    val isEmpty: Boolean
+        get() = documents.isEmpty()
+
+    val isError: Boolean
+        get() = currentDocument?.errorState != null
+}
