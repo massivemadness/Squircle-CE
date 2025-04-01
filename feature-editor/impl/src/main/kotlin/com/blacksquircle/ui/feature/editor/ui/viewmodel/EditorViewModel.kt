@@ -246,6 +246,7 @@ internal class EditorViewModel @Inject constructor(
 
     fun onCutClicked() {
         viewModelScope.launch {
+            if (settings.readOnly) return@launch
             val event = EditorCommand.Cut
             _viewEvent.send(EditorViewEvent.Command(event))
         }
@@ -260,6 +261,7 @@ internal class EditorViewModel @Inject constructor(
 
     fun onPasteClicked() {
         viewModelScope.launch {
+            if (settings.readOnly) return@launch
             val command = EditorCommand.Paste
             _viewEvent.send(EditorViewEvent.Command(command))
         }
@@ -281,6 +283,7 @@ internal class EditorViewModel @Inject constructor(
 
     fun onDeleteLineClicked() {
         viewModelScope.launch {
+            if (settings.readOnly) return@launch
             val command = EditorCommand.DeleteLine
             _viewEvent.send(EditorViewEvent.Command(command))
         }
@@ -288,6 +291,7 @@ internal class EditorViewModel @Inject constructor(
 
     fun onDuplicateLineClicked() {
         viewModelScope.launch {
+            if (settings.readOnly) return@launch
             val command = EditorCommand.DuplicateLine
             _viewEvent.send(EditorViewEvent.Command(command))
         }
@@ -297,6 +301,8 @@ internal class EditorViewModel @Inject constructor(
         if (selectedPosition !in documents.indices) {
             return
         }
+
+        if (settings.readOnly) return
         val content = documents[selectedPosition].content ?: return
         content.undo()
 
@@ -312,6 +318,8 @@ internal class EditorViewModel @Inject constructor(
         if (selectedPosition !in documents.indices) {
             return
         }
+
+        if (settings.readOnly) return
         val content = documents[selectedPosition].content ?: return
         content.redo()
 
