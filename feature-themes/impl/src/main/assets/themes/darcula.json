@@ -10,7 +10,7 @@
     "highlightedDelimitersBackground": "#33654B",
     "highlightedDelimitersForeground": "#E8E2B7",
     "completionWindowCorner": "#393B40",
-    "completionWindowBackground": "#26282D",
+    "completionWindowBackground": "#2B2D30",
     "completionWindowBackgroundCurrent": "#434448",
     "editor.lineHighlightBackground": "#26282D",
     "editorLineNumber.foreground": "#616366",
