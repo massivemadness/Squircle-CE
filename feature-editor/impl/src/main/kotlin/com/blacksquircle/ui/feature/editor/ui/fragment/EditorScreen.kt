@@ -20,6 +20,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -48,6 +49,7 @@ import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
@@ -59,6 +61,7 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.internal.DocumentNavigati
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.EditorToolbar
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.ErrorStatus
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.ExtendedKeyboard
+import com.blacksquircle.ui.feature.editor.ui.fragment.internal.SearchPanel
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorController
@@ -97,7 +100,17 @@ internal fun EditorScreen(
         onDuplicateLineClicked = viewModel::onDuplicateLineClicked,
         onForceSyntaxClicked = viewModel::onForceSyntaxClicked,
         onInsertColorClicked = viewModel::onInsertColorClicked,
-        onFindClicked = {},
+        onToggleFindClicked = viewModel::onToggleFindClicked,
+        onToggleReplaceClicked = viewModel::onToggleReplaceClicked,
+        onFindTextChanged = viewModel::onFindTextChanged,
+        onReplaceTextChanged = viewModel::onReplaceTextChanged,
+        onRegexClicked = viewModel::onRegexClicked,
+        onMatchCaseClicked = viewModel::onMatchCaseClicked,
+        onWordsOnlyClicked = viewModel::onWordsOnlyClicked,
+        onPreviousMatchClicked = viewModel::onPreviousMatchClicked,
+        onNextMatchClicked = viewModel::onNextMatchClicked,
+        onReplaceMatchClicked = viewModel::onReplaceMatchClicked,
+        onReplaceAllClicked = viewModel::onReplaceAllClicked,
         onUndoClicked = viewModel::onUndoClicked,
         onRedoClicked = viewModel::onRedoClicked,
         onSettingsClicked = viewModel::onSettingsClicked,
@@ -194,6 +207,7 @@ internal fun EditorScreen(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun EditorScreen(
     viewState: EditorViewState,
@@ -215,7 +229,17 @@ private fun EditorScreen(
     onDuplicateLineClicked: () -> Unit = {},
     onForceSyntaxClicked: () -> Unit = {},
     onInsertColorClicked: () -> Unit = {},
-    onFindClicked: () -> Unit = {},
+    onToggleFindClicked: () -> Unit = {},
+    onToggleReplaceClicked: () -> Unit = {},
+    onFindTextChanged: (String) -> Unit = {},
+    onReplaceTextChanged: (String) -> Unit = {},
+    onRegexClicked: () -> Unit = {},
+    onMatchCaseClicked: () -> Unit = {},
+    onWordsOnlyClicked: () -> Unit = {},
+    onPreviousMatchClicked: () -> Unit = {},
+    onNextMatchClicked: () -> Unit = {},
+    onReplaceMatchClicked: () -> Unit = {},
+    onReplaceAllClicked: () -> Unit = {},
     onUndoClicked: () -> Unit = {},
     onRedoClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
@@ -247,7 +271,7 @@ private fun EditorScreen(
                 onDuplicateLineClicked = onDuplicateLineClicked,
                 onForceSyntaxClicked = onForceSyntaxClicked,
                 onInsertColorClicked = onInsertColorClicked,
-                onFindClicked = onFindClicked,
+                onFindClicked = onToggleFindClicked,
                 onUndoClicked = onUndoClicked,
                 onRedoClicked = onRedoClicked,
                 onSettingsClicked = onSettingsClicked,
@@ -257,7 +281,8 @@ private fun EditorScreen(
             val showKeyboard =
                 viewState.settings.extendedKeyboard &&
                     viewState.documents.isNotEmpty() &&
-                    !viewState.settings.readOnly
+                    !viewState.settings.readOnly &&
+                    !viewState.isLoading
             if (showKeyboard) {
                 ExtendedKeyboard(
                     preset = viewState.settings.keyboardPreset,
@@ -286,10 +311,29 @@ private fun EditorScreen(
             val documentState = viewState.documents
                 .getOrNull(viewState.selectedDocument)
             val content = documentState?.content
+            val searchState = documentState?.searchState
 
             val isLoading = viewState.isLoading
             val isEmpty = viewState.documents.isEmpty()
             val isError = documentState?.errorState != null
+
+            if (!isError && !isLoading && searchState != null) {
+                SearchPanel(
+                    searchState = searchState,
+                    onFindTextChanged = onFindTextChanged,
+                    onReplaceTextChanged = onReplaceTextChanged,
+                    onToggleReplaceClicked = onToggleReplaceClicked,
+                    onRegexClicked = onRegexClicked,
+                    onMatchCaseClicked = onMatchCaseClicked,
+                    onWordsOnlyClicked = onWordsOnlyClicked,
+                    onCloseSearchClicked = onToggleFindClicked,
+                    onPreviousMatchClicked = onPreviousMatchClicked,
+                    onNextMatchClicked = onNextMatchClicked,
+                    onReplaceMatchClicked = onReplaceMatchClicked,
+                    onReplaceAllClicked = onReplaceAllClicked,
+                )
+                HorizontalDivider()
+            }
 
             if (!isError && !isLoading && content != null) {
                 CodeEditor(

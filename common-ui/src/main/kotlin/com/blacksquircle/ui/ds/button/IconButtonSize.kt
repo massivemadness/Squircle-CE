@@ -37,7 +37,7 @@ object IconButtonSizeDefaults {
     val XS: IconButtonSize
         get() = IconButtonSize(
             iconSize = 36.dp,
-            rippleSize = 16.dp,
+            rippleSize = 18.dp,
         )
 
     val S: IconButtonSize

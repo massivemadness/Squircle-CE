@@ -30,9 +30,7 @@
     <string name="action_match_case">区分大小写</string>
     <string name="action_words_only">仅匹配单词</string>
     <string name="action_find">查找</string>
-    <string name="action_close_find">关闭查找</string>
     <string name="action_replace">替换</string>
-    <string name="action_close_replace">关闭替换</string>
     <string name="action_goto_line">转到行</string>
     <string name="action_go_to">转到</string>
     <string name="action_force_syntax">强制语法</string>

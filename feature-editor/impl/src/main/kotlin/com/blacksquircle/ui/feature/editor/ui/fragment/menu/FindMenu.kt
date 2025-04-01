@@ -21,21 +21,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
+import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun FileMenu(
+internal fun FindMenu(
     expanded: Boolean,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
-    onNewFileClicked: () -> Unit = {},
-    onOpenFileClicked: () -> Unit = {},
-    onSaveFileClicked: () -> Unit = {},
-    onSaveFileAsClicked: () -> Unit = {},
-    onCloseFileClicked: () -> Unit = {},
+    regex: Boolean = false,
+    matchCase: Boolean = false,
+    wordsOnly: Boolean = false,
+    onRegexClicked: () -> Unit = {},
+    onMatchCaseClicked: () -> Unit = {},
+    onWordsOnlyClicked: () -> Unit = {},
 ) {
     PopupMenu(
         expanded = expanded,
@@ -45,29 +46,34 @@ internal fun FileMenu(
         modifier = modifier,
     ) {
         PopupMenuItem(
-            title = stringResource(R.string.action_new),
-            iconResId = UiR.drawable.ic_plus,
-            onClick = onNewFileClicked,
+            title = stringResource(R.string.action_regex),
+            onClick = onRegexClicked,
+            trailing = {
+                CheckBox(
+                    checked = regex,
+                    onClick = onRegexClicked,
+                )
+            }
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_open),
-            iconResId = UiR.drawable.ic_folder_open,
-            onClick = onOpenFileClicked,
+            title = stringResource(R.string.action_match_case),
+            onClick = onMatchCaseClicked,
+            trailing = {
+                CheckBox(
+                    checked = matchCase,
+                    onClick = onMatchCaseClicked,
+                )
+            }
         )
         PopupMenuItem(
-            title = stringResource(UiR.string.common_save),
-            iconResId = UiR.drawable.ic_save,
-            onClick = onSaveFileClicked,
-        )
-        PopupMenuItem(
-            title = stringResource(R.string.action_save_as),
-            iconResId = UiR.drawable.ic_save_as,
-            onClick = onSaveFileAsClicked,
-        )
-        PopupMenuItem(
-            title = stringResource(R.string.action_close),
-            iconResId = UiR.drawable.ic_close,
-            onClick = onCloseFileClicked,
+            title = stringResource(R.string.action_words_only),
+            onClick = onWordsOnlyClicked,
+            trailing = {
+                CheckBox(
+                    checked = wordsOnly,
+                    onClick = onWordsOnlyClicked,
+                )
+            }
         )
     }
 }

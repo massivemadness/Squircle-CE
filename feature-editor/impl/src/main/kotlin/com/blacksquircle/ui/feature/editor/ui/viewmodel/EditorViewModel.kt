@@ -30,15 +30,16 @@ import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
-import com.blacksquircle.ui.feature.editor.ui.fragment.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.fragment.EditorViewState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
+import com.blacksquircle.ui.feature.editor.ui.fragment.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorState
+import com.blacksquircle.ui.feature.editor.ui.fragment.model.SearchState
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorCommand
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionStart
@@ -266,8 +267,8 @@ internal class EditorViewModel @Inject constructor(
             Shortcut.END_OF_LINE -> onEndOfLineClicked()
             Shortcut.UNDO -> onUndoClicked()
             Shortcut.REDO -> onRedoClicked()
-            Shortcut.FIND -> Unit // TODO onOpenFindClicked()
-            Shortcut.REPLACE -> Unit // TODO onOpenReplaceClicked()
+            Shortcut.FIND -> onToggleFindClicked()
+            Shortcut.REPLACE -> onToggleReplaceClicked()
             Shortcut.GOTO_LINE -> Unit // TODO onGoToLineClicked()
             Shortcut.FORCE_SYNTAX -> onForceSyntaxClicked()
             Shortcut.INSERT_COLOR -> onInsertColorClicked()
@@ -449,14 +450,195 @@ internal class EditorViewModel @Inject constructor(
 
     fun onColorSelected(color: Int) {
         viewModelScope.launch {
-            val command = EditorCommand.InputText(color.toHexString())
+            val command = EditorCommand.Insert(color.toHexString())
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    fun onToggleFindClicked() {
+        if (selectedPosition !in documents.indices) {
+            return
+        }
+
+        documents = documents.mapSelected { state ->
+            val searchState = if (state.searchState == null) SearchState() else null
+            state.copy(searchState = searchState)
+        }
+
+        _viewState.update {
+            it.copy(documents = documents)
+        }
+
+        viewModelScope.launch {
+            val command = EditorCommand.StopSearch
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    fun onToggleReplaceClicked() {
+        if (selectedPosition !in documents.indices) {
+            return
+        }
+
+        documents = documents.mapSelected { state ->
+            val searchState = when {
+                state.searchState == null -> SearchState(replaceShown = true)
+                state.searchState.replaceShown -> state.searchState.copy(replaceShown = false)
+                !state.searchState.replaceShown -> state.searchState.copy(replaceShown = true)
+                else -> state.searchState
+            }
+            state.copy(searchState = searchState)
+        }
+
+        _viewState.update {
+            it.copy(documents = documents)
+        }
+    }
+
+    fun onFindTextChanged(text: String) {
+        if (selectedPosition !in documents.indices) {
+            return
+        }
+
+        val currentSearch = documents[selectedPosition].searchState ?: return
+        val updatedSearch = currentSearch.copy(findText = text)
+
+        documents = documents.mapSelected { state ->
+            state.copy(searchState = updatedSearch)
+        }
+
+        _viewState.update {
+            it.copy(documents = documents)
+        }
+
+        viewModelScope.launch {
+            val command = EditorCommand.Find(updatedSearch)
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    fun onReplaceTextChanged(text: String) {
+        if (selectedPosition !in documents.indices) {
+            return
+        }
+
+        documents = documents.mapSelected { state ->
+            val searchState = state.searchState?.copy(replaceText = text)
+            state.copy(searchState = searchState)
+        }
+
+        _viewState.update {
+            it.copy(documents = documents)
+        }
+    }
+
+    fun onRegexClicked() {
+        if (selectedPosition !in documents.indices) {
+            return
+        }
+
+        val currentSearch = documents[selectedPosition].searchState ?: return
+        val updatedSearch = currentSearch.copy(regex = !currentSearch.regex)
+
+        documents = documents.mapSelected { state ->
+            state.copy(searchState = updatedSearch)
+        }
+
+        _viewState.update {
+            it.copy(documents = documents)
+        }
+
+        viewModelScope.launch {
+            val command = EditorCommand.Find(updatedSearch)
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    fun onMatchCaseClicked() {
+        if (selectedPosition !in documents.indices) {
+            return
+        }
+
+        val currentSearch = documents[selectedPosition].searchState ?: return
+        val updatedSearch = currentSearch.copy(matchCase = !currentSearch.matchCase)
+
+        documents = documents.mapSelected { state ->
+            state.copy(searchState = updatedSearch)
+        }
+
+        _viewState.update {
+            it.copy(documents = documents)
+        }
+
+        viewModelScope.launch {
+            val command = EditorCommand.Find(updatedSearch)
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    fun onWordsOnlyClicked() {
+        if (selectedPosition !in documents.indices) {
+            return
+        }
+
+        val currentSearch = documents[selectedPosition].searchState ?: return
+        val updatedSearch = currentSearch.copy(wordsOnly = !currentSearch.wordsOnly)
+
+        documents = documents.mapSelected { state ->
+            state.copy(searchState = updatedSearch)
+        }
+
+        _viewState.update {
+            it.copy(documents = documents)
+        }
+
+        viewModelScope.launch {
+            val command = EditorCommand.Find(updatedSearch)
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    fun onPreviousMatchClicked() {
+        viewModelScope.launch {
+            val command = EditorCommand.PreviousMatch
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    fun onNextMatchClicked() {
+        viewModelScope.launch {
+            val command = EditorCommand.NextMatch
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    fun onReplaceMatchClicked() {
+        if (selectedPosition !in documents.indices) {
+            return
+        }
+        val searchState = documents[selectedPosition].searchState ?: return
+
+        viewModelScope.launch {
+            val command = EditorCommand.Replace(searchState.replaceText)
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    fun onReplaceAllClicked() {
+        if (selectedPosition !in documents.indices) {
+            return
+        }
+        val searchState = documents[selectedPosition].searchState ?: return
+
+        viewModelScope.launch {
+            val command = EditorCommand.ReplaceAll(searchState.replaceText)
             _viewEvent.send(EditorViewEvent.Command(command))
         }
     }
 
     fun onLineSelected(lineNumber: Int) {
         viewModelScope.launch {
-            val command = EditorCommand.MoveSelection(lineNumber)
+            val command = EditorCommand.GoToLine(lineNumber)
             _viewEvent.send(EditorViewEvent.Command(command))
         }
     }
@@ -681,7 +863,7 @@ internal class EditorViewModel @Inject constructor(
             val command = if (key == '\t') {
                 EditorCommand.IndentOrTab
             } else {
-                EditorCommand.InputText(key.toString())
+                EditorCommand.Insert(key.toString())
             }
             _viewEvent.send(EditorViewEvent.Command(command))
         }
@@ -953,97 +1135,6 @@ internal class EditorViewModel @Inject constructor(
             keybindings = shortcutsInteractor.loadShortcuts(),
         )
     }
-
-    /*private var toolbarMode = ToolbarManager.Mode.DEFAULT
-    private var keyboardMode = KeyboardManager.Mode.KEYBOARD
-    private var findParams = FindParams()
-
-    private fun swapKeyboard() {
-        _keyboardViewState.update {
-            when (keyboardMode) {
-                KeyboardManager.Mode.KEYBOARD -> KeyboardManager.Mode.TOOLS
-                KeyboardManager.Mode.TOOLS -> KeyboardManager.Mode.KEYBOARD
-                KeyboardManager.Mode.NONE -> KeyboardManager.Mode.NONE
-            }.also { mode ->
-                keyboardMode = mode
-            }
-        }
-    }
-
-    private fun panelDefault() {
-        toolbarMode = ToolbarManager.Mode.DEFAULT
-        refreshActionBar()
-    }
-
-    private fun panelFind() {
-        toolbarMode = ToolbarManager.Mode.FIND
-        refreshActionBar()
-    }
-
-    private fun panelFindReplace() {
-        toolbarMode = ToolbarManager.Mode.FIND_REPLACE
-        refreshActionBar()
-    }
-
-    private fun findQuery(event: EditorIntent.FindQuery) {
-        viewModelScope.launch {
-            try {
-                findParams = findParams.copy(query = event.query)
-                refreshActionBar()
-
-                val results = documentRepository.find(event.text, findParams)
-                _viewEvent.send(EditorViewEvent.FindResults(results))
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun findRegex(event: EditorIntent.FindRegex) {
-        viewModelScope.launch {
-            try {
-                findParams = findParams.copy(regex = !findParams.regex)
-                refreshActionBar()
-
-                val results = documentRepository.find(event.text, findParams)
-                _viewEvent.send(EditorViewEvent.FindResults(results))
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun findMatchCase(event: EditorIntent.FindMatchCase) {
-        viewModelScope.launch {
-            try {
-                findParams = findParams.copy(matchCase = !findParams.matchCase)
-                refreshActionBar()
-
-                val results = documentRepository.find(event.text, findParams)
-                _viewEvent.send(EditorViewEvent.FindResults(results))
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    private fun findWordsOnly(event: EditorIntent.FindWordsOnly) {
-        viewModelScope.launch {
-            try {
-                findParams = findParams.copy(wordsOnly = !findParams.wordsOnly)
-                refreshActionBar()
-
-                val results = documentRepository.find(event.text, findParams)
-                _viewEvent.send(EditorViewEvent.FindResults(results))
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }*/
 
     class Factory : ViewModelProvider.Factory {
 

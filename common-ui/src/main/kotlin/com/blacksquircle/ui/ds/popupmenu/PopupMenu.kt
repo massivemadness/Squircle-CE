@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.PopupProperties
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -46,6 +47,7 @@ fun PopupMenu(
     modifier: Modifier = Modifier,
     verticalOffset: Dp = 0.dp,
     horizontalOffset: Dp = 0.dp,
+    properties: PopupProperties = PopupProperties(focusable = true),
     content: @Composable ColumnScope.() -> Unit,
 ) {
     DropdownMenu(
@@ -53,6 +55,7 @@ fun PopupMenu(
         expanded = expanded,
         onDismissRequest = onDismiss,
         offset = DpOffset(horizontalOffset, verticalOffset),
+        properties = properties,
         modifier = modifier.background(SquircleTheme.colors.colorBackgroundTertiary),
     )
 }

@@ -16,6 +16,8 @@
 
 package com.blacksquircle.ui.feature.editor.ui.fragment.view
 
+import com.blacksquircle.ui.feature.editor.ui.fragment.model.SearchState
+
 internal sealed class EditorCommand {
 
     data object Cut : EditorCommand()
@@ -35,6 +37,13 @@ internal sealed class EditorCommand {
     data object StartOfLine : EditorCommand()
     data object EndOfLine : EditorCommand()
 
-    data class InputText(val text: String) : EditorCommand()
-    data class MoveSelection(val line: Int) : EditorCommand()
+    data class Insert(val text: String) : EditorCommand()
+    data class GoToLine(val line: Int) : EditorCommand()
+
+    data class Find(val searchState: SearchState) : EditorCommand()
+    data class Replace(val replacement: String) : EditorCommand()
+    data class ReplaceAll(val replacement: String) : EditorCommand()
+    data object PreviousMatch : EditorCommand()
+    data object NextMatch : EditorCommand()
+    data object StopSearch : EditorCommand()
 }

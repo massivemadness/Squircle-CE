@@ -30,9 +30,7 @@
     <string name="action_match_case">Büyük-Küçük Harfe Duyarlı</string>
     <string name="action_words_only">Sadece Kelimeler</string>
     <string name="action_find">Ara</string>
-    <string name="action_close_find">Aramayı Kapat</string>
     <string name="action_replace">Değiştir</string>
-    <string name="action_close_replace">Değiştiri Kapat</string>
     <string name="action_goto_line">Satıra git</string>
     <string name="action_go_to">Şuraya git</string>
     <string name="action_force_syntax">Sözdizimine Zorla</string>

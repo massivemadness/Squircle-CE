@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.fragment
+package com.blacksquircle.ui.feature.editor.ui.fragment.model
 
 import androidx.compose.runtime.Immutable
-import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
-import com.blacksquircle.ui.feature.editor.ui.fragment.model.EditorSettings
 
 @Immutable
-internal data class EditorViewState(
-    val documents: List<DocumentState> = emptyList(),
-    val selectedDocument: Int = -1,
-    val settings: EditorSettings = EditorSettings(),
-    val canUndo: Boolean = false,
-    val canRedo: Boolean = false,
-    val isLoading: Boolean = true,
-) : ViewState()
+internal data class SearchState(
+    val findText: String = "",
+    val replaceShown: Boolean = false,
+    val replaceText: String = "",
+    val regex: Boolean = false,
+    val matchCase: Boolean = false,
+    val wordsOnly: Boolean = false,
+)

@@ -39,6 +39,7 @@ fun TextButton(
     text: String = "",
     onClick: () -> Unit = {},
     enabled: Boolean = true,
+    debounce: Boolean = true,
     interactionSource: MutableInteractionSource? = null,
     textButtonSize: TextButtonSize = TextButtonSizeDefaults.S,
 ) {
@@ -54,6 +55,7 @@ fun TextButton(
                 interactionSource = interactionSource,
                 indication = ripple(),
                 enabled = enabled,
+                debounce = debounce,
                 onClick = onClick,
                 role = Role.Button,
             )

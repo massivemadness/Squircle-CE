@@ -25,4 +25,5 @@ internal data class DocumentState(
     val document: DocumentModel,
     val content: TextContent? = null,
     val errorState: ErrorState? = null,
+    val searchState: SearchState? = null,
 )

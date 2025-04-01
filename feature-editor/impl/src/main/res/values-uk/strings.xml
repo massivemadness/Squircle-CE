@@ -30,9 +30,7 @@
     <string name="action_match_case">Враховувати регістр</string>
     <string name="action_words_only">Тільки слова</string>
     <string name="action_find">Знайти</string>
-    <string name="action_close_find">Закрити пошук</string>
     <string name="action_replace">Замінити</string>
-    <string name="action_close_replace">Закрити Замінити</string>
     <string name="action_goto_line">Перейти до Рядка</string>
     <string name="action_go_to">Перейти до</string>
     <string name="action_force_syntax">Примусовий синтаксис</string>

@@ -40,6 +40,7 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.view.syncScroll
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.toggleCase
 import io.github.rosemoe.sora.event.ContentChangeEvent
 import io.github.rosemoe.sora.event.KeyBindingEvent
+import io.github.rosemoe.sora.widget.EditorSearcher.SearchOptions
 import io.github.rosemoe.sora.widget.subscribeAlways
 
 @Composable
@@ -128,8 +129,52 @@ internal fun CodeEditor(
                 is EditorCommand.StartOfLine -> view.startOfLine()
                 is EditorCommand.EndOfLine -> view.endOfLine()
 
-                is EditorCommand.InputText -> view.pasteText(command.text)
-                is EditorCommand.MoveSelection -> view.setSelection(command.line, 0)
+                is EditorCommand.Insert -> view.pasteText(command.text)
+                is EditorCommand.GoToLine -> view.setSelection(command.line, 0)
+
+                is EditorCommand.Find -> {
+                    try {
+                        val type = when {
+                            command.searchState.regex -> SearchOptions.TYPE_REGULAR_EXPRESSION
+                            command.searchState.wordsOnly -> SearchOptions.TYPE_WHOLE_WORD
+                            else -> SearchOptions.TYPE_NORMAL
+                        }
+                        val searchOptions = SearchOptions(type, !command.searchState.matchCase)
+                        val findText = command.searchState.findText
+                        if (findText.isNotEmpty()) {
+                            view.searcher.search(findText, searchOptions)
+                        } else {
+                            view.searcher.stopSearch()
+                        }
+                    } catch (e: Exception) {
+                        // ignored
+                    }
+                }
+                is EditorCommand.Replace -> {
+                    if (view.searcher.hasQuery()) {
+                        view.searcher.replaceCurrentMatch(command.replacement)
+                    }
+                }
+                is EditorCommand.ReplaceAll -> {
+                    if (view.searcher.hasQuery()) {
+                        view.searcher.replaceAll(command.replacement)
+                    }
+                }
+                is EditorCommand.PreviousMatch -> {
+                    if (view.searcher.hasQuery()) {
+                        view.searcher.gotoPrevious()
+                    }
+                }
+                is EditorCommand.NextMatch -> {
+                    if (view.searcher.hasQuery()) {
+                        view.searcher.gotoNext()
+                    }
+                }
+                is EditorCommand.StopSearch -> {
+                    if (view.searcher.hasQuery()) {
+                        view.searcher.stopSearch()
+                    }
+                }
             }
         }
     }

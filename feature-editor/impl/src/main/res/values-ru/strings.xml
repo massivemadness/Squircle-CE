@@ -30,9 +30,10 @@
     <string name="action_match_case">Учит. регистр</string>
     <string name="action_words_only">Только слова</string>
     <string name="action_find">Найти</string>
-    <string name="action_close_find">Закрыть поиск</string>
     <string name="action_replace">Заменить</string>
-    <string name="action_close_replace">Закрыть замену</string>
+    <string name="action_replace_all">Заменить все</string>
+    <string name="action_prev">Пред.</string>
+    <string name="action_next">След.</string>
     <string name="action_goto_line">Перейти к строке</string>
     <string name="action_go_to">Перейти</string>
     <string name="action_force_syntax">Синтаксис</string>

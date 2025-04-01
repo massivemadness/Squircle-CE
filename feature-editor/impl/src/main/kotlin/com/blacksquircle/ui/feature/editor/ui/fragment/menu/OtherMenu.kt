@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.PopupProperties
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
@@ -43,6 +44,7 @@ internal fun OtherMenu(
         onDismiss = onDismiss,
         verticalOffset = (-56).dp,
         horizontalOffset = 200.dp,
+        properties = PopupProperties(focusable = false),
         modifier = modifier,
     ) {
         if (!isMediumWidth) {

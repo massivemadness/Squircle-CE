@@ -33,9 +33,7 @@
     <string name="action_match_case">Cas de correspondance</string>
     <string name="action_words_only">Mots Uniquements</string>
     <string name="action_find">Trouver</string>
-    <string name="action_close_find">Fermer Trouver</string>
     <string name="action_replace">Remplacer</string>
-    <string name="action_close_replace">Fermer Remplacer</string>
     <string name="action_goto_line">Aller à la Ligne</string>
     <string name="action_go_to">Aller à</string>
     <string name="action_force_syntax">Force Syntax</string>

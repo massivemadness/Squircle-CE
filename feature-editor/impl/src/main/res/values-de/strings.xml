@@ -33,9 +33,7 @@
     <string name="action_match_case">Groß- und Kleinschreibung berücksichtigen</string>
     <string name="action_words_only">Nur Wörter</string>
     <string name="action_find">Finden</string>
-    <string name="action_close_find">Finden schließen</string>
     <string name="action_replace">Ersetzen</string>
-    <string name="action_close_replace">Ersetzen schließen</string>
     <string name="action_goto_line">Gehe zu Zeile</string>
     <string name="action_go_to">Gehe zu</string>
     <string name="action_force_syntax">Force Syntax</string>

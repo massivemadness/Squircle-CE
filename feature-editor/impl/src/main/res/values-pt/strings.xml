@@ -33,9 +33,7 @@
     <string name="action_match_case">Sensível a maiúsculas</string>
     <string name="action_words_only">Só palavras</string>
     <string name="action_find">Pesquisar</string>
-    <string name="action_close_find">Fechar pesquisar</string>
     <string name="action_replace">Substituir</string>
-    <string name="action_close_replace">Fechar substituir</string>
     <string name="action_goto_line">Ir para a linha</string>
     <string name="action_go_to">Ir para</string>
     <string name="action_force_syntax">Force Syntax</string>
