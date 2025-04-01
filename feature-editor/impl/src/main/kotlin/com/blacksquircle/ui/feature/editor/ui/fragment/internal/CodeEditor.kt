@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.ui.fragment.internal
 
+import android.view.KeyEvent
 import android.view.ViewGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,6 +34,7 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.view.deleteLine
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectLine
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.syncScroll
 import io.github.rosemoe.sora.event.ContentChangeEvent
+import io.github.rosemoe.sora.event.KeyBindingEvent
 import io.github.rosemoe.sora.widget.subscribeAlways
 
 @Composable
@@ -43,6 +45,7 @@ internal fun CodeEditor(
     settings: EditorSettings,
     modifier: Modifier = Modifier,
     onContentChanged: () -> Unit = {},
+    onShortcutPressed: (Boolean, Boolean, Boolean, Int) -> Unit = { _, _, _, _ -> },
 ) {
     val context = LocalContext.current
     val view = remember {
@@ -54,6 +57,17 @@ internal fun CodeEditor(
             subscribeAlways<ContentChangeEvent> { event ->
                 if (event.action != ContentChangeEvent.ACTION_SET_NEW_TEXT) {
                     onContentChanged()
+                }
+            }
+            subscribeAlways<KeyBindingEvent> { event ->
+                if (event.action == KeyEvent.ACTION_DOWN) {
+                    val ctrl = event.isCtrlPressed
+                    val shift = event.isShiftPressed
+                    val alt = event.isAltPressed
+                    if (ctrl || alt) {
+                        event.intercept()
+                        onShortcutPressed(ctrl, shift, alt, event.keyCode)
+                    }
                 }
             }
         }

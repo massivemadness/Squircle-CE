@@ -65,6 +65,8 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorState
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.rememberEditorState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
+import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
+import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import kotlinx.coroutines.launch
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -88,6 +90,7 @@ internal fun EditorScreen(
         onSaveFileAsClicked = viewModel::onSaveFileAsClicked,
         onCloseFileClicked = viewModel::onCloseFileClicked,
         onContentChanged = viewModel::onContentChanged,
+        onShortcutPressed = viewModel::onShortcutPressed,
         onCutClicked = viewModel::onCutClicked,
         onCopyClicked = viewModel::onCopyClicked,
         onPasteClicked = viewModel::onPasteClicked,
@@ -205,6 +208,7 @@ private fun EditorScreen(
     onSaveFileAsClicked: () -> Unit = {},
     onCloseFileClicked: () -> Unit = {},
     onContentChanged: () -> Unit = {},
+    onShortcutPressed: (Boolean, Boolean, Boolean, Int) -> Unit = { _, _, _, _ -> },
     onCutClicked: () -> Unit = {},
     onCopyClicked: () -> Unit = {},
     onPasteClicked: () -> Unit = {},
@@ -297,6 +301,7 @@ private fun EditorScreen(
                     language = documentState.document.language,
                     settings = viewState.settings,
                     onContentChanged = onContentChanged,
+                    onShortcutPressed = onShortcutPressed,
                     modifier = Modifier.fillMaxSize(),
                 )
             }

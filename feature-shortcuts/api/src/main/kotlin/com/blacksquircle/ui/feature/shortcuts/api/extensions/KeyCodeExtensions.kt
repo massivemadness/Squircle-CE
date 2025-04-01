@@ -17,6 +17,8 @@
 package com.blacksquircle.ui.feature.shortcuts.api.extensions
 
 import android.view.KeyEvent
+import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
+import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 
 fun Int.keyCodeToChar(): Char {
     val charCode = when (this) {
@@ -26,4 +28,20 @@ fun Int.keyCodeToChar(): Char {
         else -> KeyEvent(KeyEvent.ACTION_DOWN, this).unicodeChar
     }
     return charCode.toChar()
+}
+
+fun List<Keybinding>.forAction(
+    ctrl: Boolean,
+    shift: Boolean,
+    alt: Boolean,
+    keyCode: Int,
+): Shortcut? {
+    val char = keyCode.keyCodeToChar()
+    val keybinding = find {
+        it.key == char.uppercaseChar() &&
+            it.isCtrl == ctrl &&
+            it.isShift == shift &&
+            it.isAlt == alt
+    }
+    return keybinding?.shortcut
 }

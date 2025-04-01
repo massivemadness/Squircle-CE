@@ -45,7 +45,9 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionStart
 import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
+import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
+import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlinx.coroutines.CancellationException
@@ -241,6 +243,36 @@ internal class EditorViewModel @Inject constructor(
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
+        }
+    }
+
+    fun onShortcutPressed(ctrl: Boolean, shift: Boolean, alt: Boolean, keyCode: Int) {
+        when (settings.keybindings.forAction(ctrl, shift, alt, keyCode)) {
+            Shortcut.NEW -> onNewFileClicked()
+            Shortcut.OPEN -> onOpenFileClicked()
+            Shortcut.SAVE -> onSaveFileClicked()
+            Shortcut.SAVE_AS -> onSaveFileAsClicked()
+            Shortcut.CLOSE -> onCloseFileClicked()
+            Shortcut.CUT -> onCutClicked()
+            Shortcut.COPY -> onCopyClicked()
+            Shortcut.PASTE -> onPasteClicked()
+            Shortcut.SELECT_ALL -> onSelectAllClicked()
+            Shortcut.SELECT_LINE -> onSelectLineClicked()
+            Shortcut.DELETE_LINE -> onDeleteLineClicked()
+            Shortcut.DUPLICATE_LINE -> onDuplicateLineClicked()
+            Shortcut.TOGGLE_CASE -> Unit // TODO onToggleCaseButton()
+            Shortcut.PREV_WORD -> Unit // TODO onPreviousWordButton()
+            Shortcut.NEXT_WORD -> Unit // TODO onNextWordButton()
+            Shortcut.START_OF_LINE -> Unit // TODO onStartOfLineButton()
+            Shortcut.END_OF_LINE -> Unit // TODO onEndOfLineButton()
+            Shortcut.UNDO -> onUndoClicked()
+            Shortcut.REDO -> onRedoClicked()
+            Shortcut.FIND -> Unit // TODO onFindClicked()
+            Shortcut.REPLACE -> Unit // TODO onOpenReplaceButton()
+            Shortcut.GOTO_LINE -> Unit // TODO onGoToLineButton()
+            Shortcut.FORCE_SYNTAX -> onForceSyntaxClicked()
+            Shortcut.INSERT_COLOR -> onInsertColorClicked()
+            else -> Unit
         }
     }
 
