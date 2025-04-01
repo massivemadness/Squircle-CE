@@ -27,7 +27,7 @@ fun Int.keyCodeToChar(): Char {
         KeyEvent.KEYCODE_DEL -> 9003 // ⌫
         else -> KeyEvent(KeyEvent.ACTION_DOWN, this).unicodeChar
     }
-    return charCode.toChar()
+    return charCode.toChar().uppercaseChar()
 }
 
 fun List<Keybinding>.forAction(
@@ -38,7 +38,7 @@ fun List<Keybinding>.forAction(
 ): Shortcut? {
     val char = keyCode.keyCodeToChar()
     val keybinding = find {
-        it.key == char.uppercaseChar() &&
+        it.key == char &&
             it.isCtrl == ctrl &&
             it.isShift == shift &&
             it.isAlt == alt

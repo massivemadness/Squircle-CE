@@ -31,8 +31,13 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorState
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.createFromRegistry
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.deleteLine
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.endOfLine
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.nextWord
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.previousWord
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectLine
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.startOfLine
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.syncScroll
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.toggleCase
 import io.github.rosemoe.sora.event.ContentChangeEvent
 import io.github.rosemoe.sora.event.KeyBindingEvent
 import io.github.rosemoe.sora.widget.subscribeAlways
@@ -109,11 +114,20 @@ internal fun CodeEditor(
                 is EditorCommand.Cut -> view.cutText()
                 is EditorCommand.Copy -> view.copyText()
                 is EditorCommand.Paste -> view.pasteText()
+
                 is EditorCommand.SelectAll -> view.selectAll()
                 is EditorCommand.SelectLine -> view.selectLine()
                 is EditorCommand.DeleteLine -> view.deleteLine()
                 is EditorCommand.DuplicateLine -> view.duplicateLine()
+
                 is EditorCommand.IndentOrTab -> view.indentOrCommitTab()
+                is EditorCommand.ToggleCase -> view.toggleCase()
+
+                is EditorCommand.PreviousWord -> view.previousWord()
+                is EditorCommand.NextWord -> view.nextWord()
+                is EditorCommand.StartOfLine -> view.startOfLine()
+                is EditorCommand.EndOfLine -> view.endOfLine()
+
                 is EditorCommand.InputText -> view.pasteText(command.text)
                 is EditorCommand.MoveSelection -> view.setSelection(command.line, 0)
             }

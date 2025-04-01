@@ -260,16 +260,16 @@ internal class EditorViewModel @Inject constructor(
             Shortcut.SELECT_LINE -> onSelectLineClicked()
             Shortcut.DELETE_LINE -> onDeleteLineClicked()
             Shortcut.DUPLICATE_LINE -> onDuplicateLineClicked()
-            Shortcut.TOGGLE_CASE -> Unit // TODO onToggleCaseButton()
-            Shortcut.PREV_WORD -> Unit // TODO onPreviousWordButton()
-            Shortcut.NEXT_WORD -> Unit // TODO onNextWordButton()
-            Shortcut.START_OF_LINE -> Unit // TODO onStartOfLineButton()
-            Shortcut.END_OF_LINE -> Unit // TODO onEndOfLineButton()
+            Shortcut.TOGGLE_CASE -> onToggleCaseClicked()
+            Shortcut.PREV_WORD -> onPreviousWordClicked()
+            Shortcut.NEXT_WORD -> onNextWordClicked()
+            Shortcut.START_OF_LINE -> onStartOfLineClicked()
+            Shortcut.END_OF_LINE -> onEndOfLineClicked()
             Shortcut.UNDO -> onUndoClicked()
             Shortcut.REDO -> onRedoClicked()
-            Shortcut.FIND -> Unit // TODO onFindClicked()
-            Shortcut.REPLACE -> Unit // TODO onOpenReplaceButton()
-            Shortcut.GOTO_LINE -> Unit // TODO onGoToLineButton()
+            Shortcut.FIND -> Unit // TODO onOpenFindClicked()
+            Shortcut.REPLACE -> Unit // TODO onOpenReplaceClicked()
+            Shortcut.GOTO_LINE -> Unit // TODO onGoToLineClicked()
             Shortcut.FORCE_SYNTAX -> onForceSyntaxClicked()
             Shortcut.INSERT_COLOR -> onInsertColorClicked()
             else -> Unit
@@ -325,6 +325,42 @@ internal class EditorViewModel @Inject constructor(
         viewModelScope.launch {
             if (settings.readOnly) return@launch
             val command = EditorCommand.DuplicateLine
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    private fun onToggleCaseClicked() {
+        viewModelScope.launch {
+            if (settings.readOnly) return@launch
+            val command = EditorCommand.ToggleCase
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    private fun onPreviousWordClicked() {
+        viewModelScope.launch {
+            val command = EditorCommand.PreviousWord
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    private fun onNextWordClicked() {
+        viewModelScope.launch {
+            val command = EditorCommand.NextWord
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    private fun onStartOfLineClicked() {
+        viewModelScope.launch {
+            val command = EditorCommand.StartOfLine
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    private fun onEndOfLineClicked() {
+        viewModelScope.launch {
+            val command = EditorCommand.EndOfLine
             _viewEvent.send(EditorViewEvent.Command(command))
         }
     }

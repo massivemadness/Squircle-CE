@@ -65,8 +65,6 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorState
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.rememberEditorState
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
-import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
-import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import kotlinx.coroutines.launch
 import com.blacksquircle.ui.ds.R as UiR
 

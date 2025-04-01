@@ -23,6 +23,7 @@ import io.github.rosemoe.sora.lang.Language
 import io.github.rosemoe.sora.langs.textmate.TextMateLanguage
 import io.github.rosemoe.sora.text.Content
 import io.github.rosemoe.sora.widget.CodeEditor
+import io.github.rosemoe.sora.widget.SelectionMovement
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 
 internal var Content.scrollX: Int
@@ -53,6 +54,36 @@ internal fun CodeEditor.deleteLine() {
     val line = cursor.rightLine
     val column = text.getColumnCount(line)
     text.delete(line, 0, line, column)
+}
+
+internal fun CodeEditor.toggleCase() {
+    if (isTextSelected) {
+        val left = cursor.left()
+        val right = cursor.right()
+        val replace = text.substring(left.index, right.index)
+        if (replace.all(Char::isUpperCase)) {
+            text.replace(left.index, right.index, replace.lowercase())
+        } else {
+            text.replace(left.index, right.index, replace.uppercase())
+        }
+        setSelectionRegion(left.line, left.column, right.line, right.column)
+    }
+}
+
+internal fun CodeEditor.previousWord() {
+    moveOrExtendSelection(SelectionMovement.PREVIOUS_WORD_BOUNDARY, false)
+}
+
+internal fun CodeEditor.nextWord() {
+    moveOrExtendSelection(SelectionMovement.NEXT_WORD_BOUNDARY, false)
+}
+
+internal fun CodeEditor.startOfLine() {
+    moveOrExtendSelection(SelectionMovement.LINE_START, false)
+}
+
+internal fun CodeEditor.endOfLine() {
+    moveOrExtendSelection(SelectionMovement.LINE_END, false)
 }
 
 internal fun CodeEditor.syncScroll() {
