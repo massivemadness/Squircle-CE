@@ -69,12 +69,20 @@ internal fun CodeEditor.createFromRegistry(): EditorColorScheme {
     }
 }
 
-internal fun CodeEditor.createFromRegistry(language: String, codeCompletion: Boolean): Language {
+internal fun CodeEditor.createFromRegistry(
+    language: String,
+    codeCompletion: Boolean,
+    useTab: Boolean,
+    tabSize: Int,
+): Language {
     return try {
         if (language == LanguageScope.TEXT) {
             return EmptyLanguage()
         }
-        TextMateLanguage.create(language, codeCompletion)
+        TextMateLanguage.create(language, codeCompletion).apply {
+            this.tabSize = tabSize
+            useTab(useTab)
+        }
     } catch (e: Exception) {
         context.showToast(text = "Couldn't load grammar from registry: ${e.message}")
         EmptyLanguage()

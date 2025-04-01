@@ -26,6 +26,7 @@ internal sealed class EditorCommand {
     data object SelectLine : EditorCommand()
     data object DeleteLine : EditorCommand()
     data object DuplicateLine : EditorCommand()
+    data object IndentOrTab : EditorCommand()
 
     data class InputText(val text: String) : EditorCommand()
     data class MoveSelection(val line: Int) : EditorCommand()

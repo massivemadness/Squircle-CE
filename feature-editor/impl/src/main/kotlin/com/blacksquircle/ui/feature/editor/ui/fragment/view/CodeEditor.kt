@@ -88,8 +88,10 @@ internal class CodeEditor @JvmOverloads constructor(
     fun setShowInvisibleChars(whether: Boolean) {
         nonPrintablePaintingFlags = if (whether) {
             FLAG_DRAW_WHITESPACE_LEADING or
-                FLAG_DRAW_LINE_SEPARATOR or
-                FLAG_DRAW_WHITESPACE_IN_SELECTION
+                FLAG_DRAW_WHITESPACE_INNER or
+                FLAG_DRAW_WHITESPACE_IN_SELECTION or
+                FLAG_DRAW_WHITESPACE_TRAILING or
+                FLAG_DRAW_LINE_SEPARATOR
         } else {
             0
         }

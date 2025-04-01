@@ -603,16 +603,11 @@ internal class EditorViewModel @Inject constructor(
 
     fun onExtendedKeyClicked(keyModel: KeyModel) {
         viewModelScope.launch {
-            val char = if (keyModel.value == '\t') {
-                if (settingsManager.useSpacesInsteadOfTabs) {
-                    " ".repeat(4)
-                } else {
-                    "\t"
-                }
+            val command = if (keyModel.value == '\t') {
+                EditorCommand.IndentOrTab
             } else {
-                keyModel.value
+                EditorCommand.InputText(keyModel.value.toString())
             }
-            val command = EditorCommand.InputText(char.toString())
             _viewEvent.send(EditorViewEvent.Command(command))
         }
     }

@@ -74,7 +74,14 @@ internal fun CodeEditor(
             editor.typefaceLineNumber = settings.fontType
             editor.colorScheme = editor.createFromRegistry()
             editor.setShowInvisibleChars(settings.showInvisibleChars)
-            editor.setEditorLanguage(editor.createFromRegistry(language, settings.codeCompletion))
+
+            val editorLanguage = editor.createFromRegistry(
+                language = language,
+                codeCompletion = settings.codeCompletion,
+                useTab = !settings.useSpacesInsteadOfTabs,
+                tabSize = settings.tabWidth,
+            )
+            editor.setEditorLanguage(editorLanguage)
             editor.setText(content)
             editor.syncScroll()
         },
@@ -91,6 +98,7 @@ internal fun CodeEditor(
                 is EditorCommand.SelectLine -> view.selectLine()
                 is EditorCommand.DeleteLine -> view.deleteLine()
                 is EditorCommand.DuplicateLine -> view.duplicateLine()
+                is EditorCommand.IndentOrTab -> view.indentOrCommitTab()
                 is EditorCommand.InputText -> view.pasteText(command.text)
                 is EditorCommand.MoveSelection -> view.setSelection(command.line, 0)
             }
