@@ -24,12 +24,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 @Composable
-internal fun rememberEditorState(): EditorState {
-    return remember { EditorState() }
+internal fun rememberEditorController(): EditorController {
+    return remember { EditorController() }
 }
 
 @Stable
-internal class EditorState {
+internal class EditorController {
 
     private val _commands = Channel<EditorCommand>(Channel.BUFFERED)
     val commands: Flow<EditorCommand> = _commands.receiveAsFlow()

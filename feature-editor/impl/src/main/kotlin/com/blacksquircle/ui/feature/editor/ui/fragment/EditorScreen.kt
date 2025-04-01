@@ -62,8 +62,8 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.internal.ErrorStatus
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.ExtendedKeyboard
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.ErrorAction
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorState
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.rememberEditorState
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorController
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.rememberEditorController
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import kotlinx.coroutines.launch
 import com.blacksquircle.ui.ds.R as UiR
@@ -76,11 +76,11 @@ internal fun EditorScreen(
         EditorViewModel.Factory().also(component::inject)
     },
 ) {
-    val editorState = rememberEditorState()
+    val editorController = rememberEditorController()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     EditorScreen(
         viewState = viewState,
-        editorState = editorState,
+        editorController = editorController,
         onDrawerClicked = viewModel::onDrawerClicked,
         onNewFileClicked = viewModel::onNewFileClicked,
         onOpenFileClicked = viewModel::onOpenFileClicked,
@@ -155,7 +155,7 @@ internal fun EditorScreen(
                 }
                 is EditorViewEvent.Command -> {
                     scope.launch {
-                        editorState.send(event.command)
+                        editorController.send(event.command)
                     }
                 }
             }
@@ -198,7 +198,7 @@ internal fun EditorScreen(
 @Composable
 private fun EditorScreen(
     viewState: EditorViewState,
-    editorState: EditorState,
+    editorController: EditorController,
     onDrawerClicked: () -> Unit = {},
     onNewFileClicked: () -> Unit = {},
     onOpenFileClicked: () -> Unit = {},
@@ -294,10 +294,10 @@ private fun EditorScreen(
 
             if (!isError && !isLoading && content != null) {
                 CodeEditor(
-                    state = editorState,
                     content = documentState.content,
                     language = documentState.document.language,
                     settings = viewState.settings,
+                    controller = editorController,
                     onContentChanged = onContentChanged,
                     onShortcutPressed = onShortcutPressed,
                     modifier = Modifier.fillMaxSize(),
@@ -358,7 +358,7 @@ private fun EditorScreenPreview() {
                 selectedDocument = 0,
                 isLoading = true,
             ),
-            editorState = rememberEditorState()
+            editorController = rememberEditorController()
         )
     }
 }

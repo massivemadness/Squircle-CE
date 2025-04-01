@@ -27,7 +27,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.blacksquircle.ui.feature.editor.data.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditor
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorCommand
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorState
+import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorController
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.createFromRegistry
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.deleteLine
@@ -44,10 +44,10 @@ import io.github.rosemoe.sora.widget.subscribeAlways
 
 @Composable
 internal fun CodeEditor(
-    state: EditorState,
     content: TextContent,
     language: String,
     settings: EditorSettings,
+    controller: EditorController,
     modifier: Modifier = Modifier,
     onContentChanged: () -> Unit = {},
     onShortcutPressed: (Boolean, Boolean, Boolean, Int) -> Unit = { _, _, _, _ -> },
@@ -67,8 +67,8 @@ internal fun CodeEditor(
             subscribeAlways<KeyBindingEvent> { event ->
                 if (event.action == KeyEvent.ACTION_DOWN) {
                     val ctrl = event.isCtrlPressed
-                    val shift = event.isShiftPressed
-                    val alt = event.isAltPressed
+                    val shift = (event.metaState and KeyEvent.META_SHIFT_ON) != 0
+                    val alt = (event.metaState and KeyEvent.META_ALT_ON) != 0
                     if (ctrl || alt) {
                         event.intercept()
                         onShortcutPressed(ctrl, shift, alt, event.keyCode)
@@ -109,7 +109,7 @@ internal fun CodeEditor(
         modifier = modifier,
     )
     LaunchedEffect(Unit) {
-        state.commands.collect { command ->
+        controller.commands.collect { command ->
             when (command) {
                 is EditorCommand.Cut -> view.cutText()
                 is EditorCommand.Copy -> view.copyText()
