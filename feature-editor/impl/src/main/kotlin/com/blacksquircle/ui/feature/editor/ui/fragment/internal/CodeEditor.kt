@@ -24,7 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import com.blacksquircle.ui.feature.editor.data.model.EditorSettings
+import com.blacksquircle.ui.feature.editor.ui.fragment.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.CodeEditor
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorCommand
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorController

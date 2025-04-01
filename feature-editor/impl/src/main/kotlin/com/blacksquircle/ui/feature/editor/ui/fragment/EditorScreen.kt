@@ -52,7 +52,6 @@ import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.data.model.KeyModel
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.fragment.internal.CodeEditor
@@ -226,7 +225,7 @@ private fun EditorScreen(
     onCloseOthersClicked: (DocumentModel) -> Unit = {},
     onCloseAllClicked: () -> Unit = {},
     onErrorActionClicked: (ErrorAction) -> Unit = {},
-    onExtendedKeyClicked: (KeyModel) -> Unit = {},
+    onExtendedKeyClicked: (Char) -> Unit = {},
 ) {
     ScaffoldSuite(
         topBar = {

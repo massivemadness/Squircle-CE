@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.data.model
+package com.blacksquircle.ui.feature.editor.ui.fragment.model
 
 import android.graphics.Typeface
+import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 
+@Immutable
 internal data class EditorSettings(
     val theme: String = "darcula",
     val fontSize: Float = 14f,
@@ -33,7 +35,7 @@ internal data class EditorSettings(
     val showInvisibleChars: Boolean = false,
     val readOnly: Boolean = false,
     val extendedKeyboard: Boolean = false,
-    val keyboardPreset: List<KeyModel> = emptyList(),
+    val keyboardPreset: String = "",
     val softKeyboard: Boolean = false,
     val autoIndentation: Boolean = true,
     val autoCloseBrackets: Boolean = true,

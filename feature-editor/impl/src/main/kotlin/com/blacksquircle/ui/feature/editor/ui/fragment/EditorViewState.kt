@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.editor.ui.fragment
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.editor.data.model.EditorSettings
+import com.blacksquircle.ui.feature.editor.ui.fragment.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.ui.fragment.model.DocumentState
 
 @Immutable

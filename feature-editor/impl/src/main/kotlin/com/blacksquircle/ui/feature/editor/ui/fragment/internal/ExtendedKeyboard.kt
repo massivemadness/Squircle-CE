@@ -30,20 +30,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastForEach
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.feature.editor.data.model.KeyModel
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ExtendedKeyboard(
+    preset: String,
     modifier: Modifier = Modifier,
-    preset: List<KeyModel> = emptyList(),
-    onKeyClick: (KeyModel) -> Unit = {},
+    onKeyClick: (Char) -> Unit = {},
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -53,23 +53,36 @@ internal fun ExtendedKeyboard(
             .background(SquircleTheme.colors.colorBackgroundSecondary)
             .navigationBarsPadding()
     ) {
-        preset.fastForEach { key ->
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .size(42.dp)
-                    .clickable { onKeyClick(key) }
-            ) {
-                Text(
-                    text = key.display,
-                    color = SquircleTheme.colors.colorTextAndIconSecondary,
-                    style = SquircleTheme.typography.text16Medium,
-                    fontFamily = FontFamily(Typeface.MONOSPACE),
-                    textAlign = TextAlign.Center,
-                    maxLines = 1,
-                )
-            }
+        ExtraKey(
+            text = stringResource(UiR.string.common_tab),
+            modifier = Modifier.clickable { onKeyClick('\t') }
+        )
+        preset.forEach { char ->
+            ExtraKey(
+                text = char.toString(),
+                modifier = Modifier.clickable { onKeyClick(char) }
+            )
         }
+    }
+}
+
+@Composable
+private fun ExtraKey(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier.size(42.dp)
+    ) {
+        Text(
+            text = text,
+            color = SquircleTheme.colors.colorTextAndIconSecondary,
+            style = SquircleTheme.typography.text16Medium,
+            fontFamily = FontFamily(Typeface.MONOSPACE),
+            textAlign = TextAlign.Center,
+            maxLines = 1,
+        )
     }
 }
 
@@ -77,13 +90,6 @@ internal fun ExtendedKeyboard(
 @Composable
 private fun ExtendedKeyboardPreview() {
     PreviewBackground {
-        ExtendedKeyboard(
-            preset = "{}();,.=|&![]<>+-/*?:_".map { char ->
-                KeyModel(
-                    display = char.toString(),
-                    value = char,
-                )
-            }
-        )
+        ExtendedKeyboard("{}();,.=|&![]<>+-/*?:_")
     }
 }

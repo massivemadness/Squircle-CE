@@ -30,8 +30,7 @@ import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
-import com.blacksquircle.ui.feature.editor.data.model.EditorSettings
-import com.blacksquircle.ui.feature.editor.data.model.KeyModel
+import com.blacksquircle.ui.feature.editor.ui.fragment.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
@@ -677,12 +676,12 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    fun onExtendedKeyClicked(keyModel: KeyModel) {
+    fun onExtendedKeyClicked(key: Char) {
         viewModelScope.launch {
-            val command = if (keyModel.value == '\t') {
+            val command = if (key == '\t') {
                 EditorCommand.IndentOrTab
             } else {
-                EditorCommand.InputText(keyModel.value.toString())
+                EditorCommand.InputText(key.toString())
             }
             _viewEvent.send(EditorViewEvent.Command(command))
         }
@@ -944,14 +943,7 @@ internal class EditorViewModel @Inject constructor(
             showInvisibleChars = settingsManager.showInvisibleChars,
             readOnly = settingsManager.readOnly,
             extendedKeyboard = settingsManager.extendedKeyboard,
-            keyboardPreset = ("\t" + settingsManager.keyboardPreset).map { char ->
-                val display = if (char == '\t') {
-                    stringProvider.getString(UiR.string.common_tab)
-                } else {
-                    char.toString()
-                }
-                KeyModel(display, char)
-            },
+            keyboardPreset = settingsManager.keyboardPreset,
             softKeyboard = settingsManager.softKeyboard,
             autoIndentation = settingsManager.autoIndentation,
             autoCloseBrackets = settingsManager.autoCloseBrackets,
