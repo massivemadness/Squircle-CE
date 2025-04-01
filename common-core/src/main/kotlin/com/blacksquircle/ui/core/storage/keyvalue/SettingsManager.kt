@@ -54,7 +54,7 @@ class SettingsManager(private val context: Context) {
         // Keyboard
         const val KEY_USE_EXTENDED_KEYBOARD = "use_extended_keyboard"
         const val KEY_KEYBOARD_PRESET = "keyboard_preset"
-        const val KEY_USE_SOFT_KEYBOARD = "soft_keyboard"
+        const val KEY_SOFT_KEYBOARD = "soft_keyboard"
 
         // Code Style
         const val KEY_AUTO_INDENTATION = "auto_indentation"
@@ -153,8 +153,8 @@ class SettingsManager(private val context: Context) {
         get() = sharedPreferences.getString(KEY_KEYBOARD_PRESET, "{}();,.=|&![]<>+-/*?:_") ?: "{}();,.=|&![]<>+-/*?:_"
         set(value) = sharedPreferences.edit().putString(KEY_KEYBOARD_PRESET, value).apply()
     var softKeyboard: Boolean
-        get() = sharedPreferences.getBoolean(KEY_USE_SOFT_KEYBOARD, false)
-        set(value) = sharedPreferences.edit().putBoolean(KEY_USE_SOFT_KEYBOARD, value).apply()
+        get() = sharedPreferences.getBoolean(KEY_SOFT_KEYBOARD, false)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_SOFT_KEYBOARD, value).apply()
 
     var autoIndentation: Boolean
         get() = sharedPreferences.getBoolean(KEY_AUTO_INDENTATION, true)

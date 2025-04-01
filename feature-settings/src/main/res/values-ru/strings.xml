@@ -94,8 +94,8 @@
     <string name="pref_extended_keyboard_summary">Показывать дополнительные символы над клавиатурой.</string>
     <string name="pref_keyboard_preset_title">Клавиатурный пресет</string>
     <string name="pref_keyboard_preset_summary">Настройте раскладку расширенной клавиатуры.</string>
-    <string name="pref_soft_keyboard_title">Soft-клавиатура</string>
-    <string name="pref_soft_keyboard_summary">Использовать soft-клавиатуру в горизонтальном режиме.</string>
+    <string name="pref_soft_keyboard_title">Экранная клавиатура</string>
+    <string name="pref_soft_keyboard_summary">Всегда показывать экранную клавиатуру, даже если подключена аппаратная клавиатура.</string>
     <string name="pref_auto_indent_title">Авто-отступы</string>
     <string name="pref_auto_indent_summary">Автоматически выравнивать новые строки, для соответствия строке выше.</string>
     <string name="pref_close_brackets_title">Авто-закрытие скобок</string>

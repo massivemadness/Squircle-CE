@@ -73,6 +73,7 @@ internal fun CodeEditor(
             editor.typefaceText = settings.fontType
             editor.typefaceLineNumber = settings.fontType
             editor.colorScheme = editor.createFromRegistry()
+            editor.isDisableSoftKbdIfHardKbdAvailable = !settings.softKeyboard
             editor.setShowInvisibleChars(settings.showInvisibleChars)
 
             val editorLanguage = editor.createFromRegistry(

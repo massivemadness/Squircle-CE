@@ -108,8 +108,8 @@
     <string name="pref_extended_keyboard_summary">Show additional keys above the keyboard.</string>
     <string name="pref_keyboard_preset_title">Keyboard Preset</string>
     <string name="pref_keyboard_preset_summary">Choose preset for extended keyboard.</string>
-    <string name="pref_soft_keyboard_title">Soft Keyboard</string>
-    <string name="pref_soft_keyboard_summary">Always use soft keyboard.</string>
+    <string name="pref_soft_keyboard_title">Software Keyboard</string>
+    <string name="pref_soft_keyboard_summary">Always show the software keyboard, even if a hardware keyboard is connected.</string>
 
     <string name="pref_auto_indent_title">Auto Indentation</string>
     <string name="pref_auto_indent_summary">Automatically indent new lines to match the line above.</string>
