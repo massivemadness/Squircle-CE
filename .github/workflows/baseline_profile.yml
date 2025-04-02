@@ -44,8 +44,8 @@ jobs:
 
       - name: Copy Baseline and Startup Profiles
         run: |
-          cp app/src/googlePlayRelease/generated/baselineProfiles/baseline-prof.txt app/src/main/baseline-prof.txt
-          cp app/src/googlePlayRelease/generated/baselineProfiles/startup-prof.txt app/src/main/startup-prof.txt
+          mv app/src/main/generated/baselineProfiles/baseline-prof.txt app/src/main/baseline-prof.txt
+          mv app/src/main/generated/baselineProfiles/startup-prof.txt app/src/main/startup-prof.txt
 
       - name: Commit Baseline Profile
         run: |

@@ -95,3 +95,7 @@ dependencies {
     androidTestImplementation(libs.test.junit.ext)
     androidTestImplementation(libs.test.runner)
 }
+
+baselineProfile {
+    mergeIntoMain = true
+}
