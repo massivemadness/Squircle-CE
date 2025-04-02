@@ -93,7 +93,7 @@ jobs:
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest
 
-  lint:
+  ktlint:
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -147,4 +147,4 @@ jobs:
             gradle-${{ runner.os }}-
 
       - name: Run android lint
-        run: ./gradlew lintRelease -Dlint.baselines.continue=true
+        run: ./gradlew lintRelease
