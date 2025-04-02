@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  generate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -17,12 +17,20 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          
+      - name: Create Keystore
+        run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > app/keystore.jks
+
+      - name: Create local.properties
+        run: |
+          echo "Creating local.properties file"
+          echo "KEYSTORE_PATH=keystore.jks" > local.properties
+          echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> local.properties
+          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
+          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> local.properties
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
-      - name: Build test APKs
-        run: ./gradlew :app:assembleDebug :app:assembleAndroidTest
 
       - name: Generate Baseline Profile
         run: ./gradlew :app:generateBaselineProfile
