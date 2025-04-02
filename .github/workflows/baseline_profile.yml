@@ -29,14 +29,17 @@ jobs:
           echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
           echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> local.properties
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Install System Image
+        run: yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager "system-images;android-34;aosp_atd;x86_64"
+
+      - name: Accept Android SDK licenses
+        run: yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --licenses
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Generate Baseline Profile
-        run: ./gradlew :app:generateBaselineProfile
+        run: ./gradlew :app:generateBaselineProfile -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
 
       - name: Copy Baseline and Startup Profiles
         run: |
