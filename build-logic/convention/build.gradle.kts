@@ -59,5 +59,9 @@ gradlePlugin {
             id = "com.blacksquircle.publish"
             implementationClass = "com.blacksquircle.ui.PublishModulePlugin"
         }
+        register("com.blacksquircle.lint") {
+            id = "com.blacksquircle.lint"
+            implementationClass = "com.blacksquircle.ui.LintConventionPlugin"
+        }
     }
 }

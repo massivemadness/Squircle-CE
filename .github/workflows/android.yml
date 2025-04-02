@@ -48,7 +48,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew :app:assembleRelease
+        run: ./gradlew :app:assembleRelease -PdisableR8=true
 
       - name: Upload APK (Google Play)
         uses: actions/upload-artifact@v4
@@ -59,7 +59,7 @@ jobs:
       - name: Upload APK (F-Droid)
         uses: actions/upload-artifact@v4
         with:
-          name: F-Droid App (Debug)
+          name: F-Droid App (Release)
           path: ./app/build/outputs/apk/fdroid/release/app-fdroid-release.apk
 
       - name: Delete Keystore
@@ -93,7 +93,7 @@ jobs:
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest
 
-  lint:
+  ktlint:
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -120,3 +120,31 @@ jobs:
 
       - name: Run ktlint
         run: ./gradlew ktlintCheck
+
+  android_lint:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Restore Gradle Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Run android lint
+        run: ./gradlew lintRelease

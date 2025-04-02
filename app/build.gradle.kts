@@ -34,9 +34,6 @@ android {
             excludes += "META-INF/versions/9/OSGI-INF/**"
         }
     }
-    lint {
-        baseline = file("lint-baseline.xml")
-    }
 }
 
 dependencies {
