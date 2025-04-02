@@ -29,6 +29,14 @@ android {
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }
+    packaging {
+        resources {
+            excludes += "META-INF/versions/9/OSGI-INF/**"
+        }
+    }
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
 }
 
 dependencies {

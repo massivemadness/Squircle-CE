@@ -33,28 +33,37 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
+      - name: Create Keystore
+        run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > app/keystore.jks
+
       - name: Create local.properties
         run: |
           echo "Creating local.properties file"
-          echo "KEYSTORE_PATH=${{ secrets.KEYSTORE_PATH }}" > local.properties
+          echo "KEYSTORE_PATH=keystore.jks" > local.properties
           echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> local.properties
           echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
           echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> local.properties
 
-      - name: Build with Gradle
-        run: ./gradlew :app:assembleDebug
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-      - name: Upload Debug APK (Google Play)
+      - name: Build with Gradle
+        run: ./gradlew :app:assembleRelease
+
+      - name: Upload APK (Google Play)
         uses: actions/upload-artifact@v4
         with:
-          name: Google Play App (Debug)
-          path: ./app/build/outputs/apk/googlePlay/debug/app-googlePlay-debug.apk
+          name: Google Play App (Release)
+          path: ./app/build/outputs/apk/googlePlay/release/app-googlePlay-release.apk
 
-      - name: Upload Debug APK (F-Droid)
+      - name: Upload APK (F-Droid)
         uses: actions/upload-artifact@v4
         with:
           name: F-Droid App (Debug)
-          path: ./app/build/outputs/apk/fdroid/debug/app-fdroid-debug.apk
+          path: ./app/build/outputs/apk/fdroid/release/app-fdroid-release.apk
+
+      - name: Delete Keystore
+        run: rm app/keystore.jks
 
   test:
     runs-on: ubuntu-latest
