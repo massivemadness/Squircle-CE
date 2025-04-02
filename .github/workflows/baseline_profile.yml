@@ -4,9 +4,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  generate:
     runs-on: ubuntu-latest
     steps:
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls /dev/kvm
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -18,14 +25,22 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Create Keystore
+        run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > app/keystore.jks
+
+      - name: Create local.properties
+        run: |
+          echo "Creating local.properties file"
+          echo "KEYSTORE_PATH=keystore.jks" > local.properties
+          echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> local.properties
+          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
+          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> local.properties
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build test APKs
-        run: ./gradlew :app:assembleDebug :app:assembleAndroidTest
-
       - name: Generate Baseline Profile
-        run: ./gradlew :app:generateBaselineProfile
+        run: ./gradlew :app:generateBaselineProfile -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
 
       - name: Copy Baseline and Startup Profiles
         run: |
@@ -38,6 +53,7 @@ jobs:
           git config --global user.email "github-actions@github.com"
           git checkout -b update-baseline-profile
           git add app/src/main/baseline-prof.txt
+          git add app/src/main/startup-prof.txt
           git commit -m "Update Baseline Profile"
           git push origin update-baseline-profile
         env:

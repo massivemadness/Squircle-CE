@@ -29,7 +29,7 @@ android {
         create<ManagedVirtualDevice>("pixel6Api34") {
             device = "Pixel 6"
             sdkVersion = 34
-            systemImageSource = "google"
+            systemImageSource = "google_apis"
         }
     }
 }
