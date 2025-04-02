@@ -18,10 +18,15 @@ package com.blacksquircle.ui.feature.editor.ui.dialog
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -35,6 +40,7 @@ internal fun GotoLineScreen(
     onConfirmClicked: (Int) -> Unit = {},
     onCancelClicked: () -> Unit = {}
 ) {
+    val focusRequester = remember { FocusRequester() }
     var lineNumber by rememberSaveable { mutableStateOf("") }
 
     AlertDialog(
@@ -48,13 +54,20 @@ internal fun GotoLineScreen(
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                 ),
+                modifier = Modifier.focusRequester(focusRequester)
             )
+            LaunchedEffect(Unit) {
+                focusRequester.requestFocus()
+            }
         },
         confirmButton = stringResource(R.string.action_go_to),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = {
-            val intValue = lineNumber.toIntOrNull() ?: 0
-            onConfirmClicked(intValue)
+            var intValue = lineNumber.toIntOrNull() ?: 0
+            if (intValue <= 0) {
+                intValue = 1
+            }
+            onConfirmClicked(intValue - 1)
         },
         onDismissClicked = onCancelClicked,
         onDismiss = onCancelClicked,

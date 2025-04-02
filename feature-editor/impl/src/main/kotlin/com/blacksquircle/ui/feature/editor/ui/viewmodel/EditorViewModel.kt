@@ -269,7 +269,7 @@ internal class EditorViewModel @Inject constructor(
             Shortcut.REDO -> onRedoClicked()
             Shortcut.FIND -> onToggleFindClicked()
             Shortcut.REPLACE -> onToggleReplaceClicked()
-            Shortcut.GOTO_LINE -> Unit // TODO onGoToLineClicked()
+            Shortcut.GOTO_LINE -> onGoToLineClicked()
             Shortcut.FORCE_SYNTAX -> onForceSyntaxClicked()
             Shortcut.INSERT_COLOR -> onInsertColorClicked()
             else -> Unit
@@ -633,6 +633,16 @@ internal class EditorViewModel @Inject constructor(
         viewModelScope.launch {
             val command = EditorCommand.ReplaceAll(searchState.replaceText)
             _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    fun onGoToLineClicked() {
+        viewModelScope.launch {
+            if (selectedPosition !in documents.indices) {
+                return@launch
+            }
+            val screen = EditorScreen.GotoLine
+            _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 

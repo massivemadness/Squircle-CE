@@ -69,12 +69,6 @@ internal fun SearchPanel(
     onReplaceAllClicked: () -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
-    BackHandler {
-        onCloseSearchClicked()
-    }
 
     Column(modifier.padding(vertical = 8.dp)) {
         Row(Modifier.padding(horizontal = 8.dp)) {
@@ -129,6 +123,10 @@ internal fun SearchPanel(
                         .focusRequester(focusRequester)
                 )
 
+                LaunchedEffect(Unit) {
+                    focusRequester.requestFocus()
+                }
+
                 if (searchState.replaceShown) {
                     Spacer(Modifier.height(8.dp))
 
@@ -182,6 +180,9 @@ internal fun SearchPanel(
                 debounce = true,
             )
         }
+    }
+    BackHandler {
+        onCloseSearchClicked()
     }
 }
 
