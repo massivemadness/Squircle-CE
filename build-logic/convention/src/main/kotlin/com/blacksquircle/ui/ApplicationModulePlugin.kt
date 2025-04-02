@@ -70,7 +70,7 @@ class ApplicationModulePlugin : Plugin<Project> {
                 buildTypes {
                     release {
                         signingConfig = signingConfigs.getByName("release")
-                        isMinifyEnabled = true
+                        isMinifyEnabled = !(project.findProperty("disableR8")?.toString()?.toBoolean() ?: false)
                         isShrinkResources = false
                         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
                     }

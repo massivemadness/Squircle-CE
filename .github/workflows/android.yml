@@ -48,7 +48,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew :app:assembleRelease
+        run: ./gradlew :app:assembleRelease -PdisableR8=true
 
       - name: Upload APK (Google Play)
         uses: actions/upload-artifact@v4
