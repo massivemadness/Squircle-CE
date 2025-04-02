@@ -11,7 +11,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    continue-on-error: false
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -68,7 +67,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    continue-on-error: false
     needs: build
     steps:
       - name: Checkout repository
@@ -97,7 +95,6 @@ jobs:
 
   ktlint:
     runs-on: ubuntu-latest
-    continue-on-error: false
     needs: build
     steps:
       - name: Checkout repository
