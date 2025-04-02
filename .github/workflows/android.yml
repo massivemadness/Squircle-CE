@@ -147,4 +147,4 @@ jobs:
             gradle-${{ runner.os }}-
 
       - name: Run android lint
-        run: ./gradlew lint
+        run: ./gradlew lint -Dlint.baselines.continue=true
