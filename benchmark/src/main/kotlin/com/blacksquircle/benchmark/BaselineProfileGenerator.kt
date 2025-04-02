@@ -16,35 +16,30 @@
 
 package com.blacksquircle.benchmark
 
-import androidx.benchmark.macro.CompilationMode
-import androidx.benchmark.macro.StartupMode
-import androidx.benchmark.macro.StartupTimingMetric
-import androidx.benchmark.macro.junit4.MacrobenchmarkRule
+import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+/**
+ * ./gradlew :app:generateBaselineProfile
+ **/
 @RunWith(AndroidJUnit4::class)
-class StartupBenchmark {
+class BaselineProfileGenerator {
 
     @get:Rule
-    val benchmarkRule = MacrobenchmarkRule()
+    val rule = BaselineProfileRule()
 
     @Test
-    fun startupCompilationNone() = startup(CompilationMode.None())
-
-    @Test
-    fun startupCompilationPartial() = startup(CompilationMode.Partial())
-
-    private fun startup(compilationMode: CompilationMode) {
-        benchmarkRule.measureRepeated(
-            packageName = "com.blacksquircle.ui",
-            metrics = listOf(StartupTimingMetric()),
-            compilationMode = compilationMode,
-            startupMode = StartupMode.COLD,
-            iterations = 5,
+    fun generate() {
+        rule.collect(
+            packageName = InstrumentationRegistry.getArguments().getString("targetAppId")
+                ?: throw Exception("targetAppId not passed as instrumentation runner arg"),
+            includeInStartupProfile = true
         ) {
+            pressHome()
             startActivityAndWait()
         }
     }

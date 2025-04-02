@@ -17,7 +17,6 @@
 package com.blacksquircle.ui
 
 import com.android.build.api.dsl.TestExtension
-import com.android.build.api.variant.TestAndroidComponentsExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -26,7 +25,7 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
-class BenchmarkModulePlugin : Plugin<Project> {
+class TestModulePlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         with(target) {
@@ -37,23 +36,20 @@ class BenchmarkModulePlugin : Plugin<Project> {
 
             configure<TestExtension> {
                 compileSdk = BuildConst.COMPILE_SDK
-                experimentalProperties["android.experimental.self-instrumenting"] = true
 
                 defaultConfig {
                     minSdk = BuildConst.MIN_SDK
                     targetSdk = BuildConst.TARGET_SDK
 
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                }
 
-                    missingDimensionStrategy("store", "fdroid")
+                flavorDimensions += listOf("store")
+                productFlavors {
+                    create("googlePlay") { dimension = "store" }
+                    create("fdroid") { dimension = "store" }
                 }
-                buildTypes {
-                    create("benchmark") {
-                        isDebuggable = true
-                        signingConfig = signingConfigs.getByName("debug")
-                        matchingFallbacks += "release"
-                    }
-                }
+
                 compileOptions {
                     sourceCompatibility = JavaVersion.VERSION_17
                     targetCompatibility = JavaVersion.VERSION_17
@@ -67,11 +63,6 @@ class BenchmarkModulePlugin : Plugin<Project> {
                     named("main") {
                         java.srcDir("src/main/kotlin")
                     }
-                }
-            }
-            configure<TestAndroidComponentsExtension> {
-                beforeVariants {
-                    it.enable = it.buildType == "benchmark"
                 }
             }
         }

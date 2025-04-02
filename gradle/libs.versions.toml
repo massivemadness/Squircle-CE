@@ -44,6 +44,7 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-test = { id = "com.android.test", version.ref = "agp" }
 android-navigation = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
+android-baselineprofile = { id = "androidx.baselineprofile", version.ref = "test-benchmark" }
 
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

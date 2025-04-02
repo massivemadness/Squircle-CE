@@ -1,0 +1,53 @@
+name: Generate Baseline Profile
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build test APKs
+        run: ./gradlew :app:assembleDebug :app:assembleAndroidTest
+
+      - name: Generate Baseline Profile
+        run: ./gradlew :app:generateBaselineProfile
+
+      - name: Copy Baseline and Startup Profiles
+        run: |
+          cp app/src/googlePlayRelease/generated/baselineProfiles/baseline-prof.txt app/src/main/baseline-prof.txt
+          cp app/src/googlePlayRelease/generated/baselineProfiles/startup-prof.txt app/src/main/startup-prof.txt
+
+      - name: Commit Baseline Profile
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git checkout -b update-baseline-profile
+          git add app/src/main/baseline-prof.txt
+          git commit -m "Update Baseline Profile"
+          git push origin update-baseline-profile
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: update-baseline-profile
+          base: master
+          title: "Update Baseline Profile"
+          body: "This PR updates the Baseline Profile file."

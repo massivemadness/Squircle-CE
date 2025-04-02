@@ -16,6 +16,7 @@
 
 plugins {
     id("com.blacksquircle.application")
+    alias(libs.plugins.android.baselineprofile)
 }
 
 android {
@@ -49,7 +50,6 @@ dependencies {
     coreLibraryDesugaring(libs.android.desugaring)
 
     // Google Play
-    val googlePlayImplementation by configurations
     googlePlayImplementation(libs.appupdate)
 
     // UI
@@ -86,6 +86,9 @@ dependencies {
     implementation(project(":feature-themes:impl"))
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
+
+    // Baseline Profile
+    baselineProfile(project(":benchmark"))
 
     // Tests
     testImplementation(libs.test.junit)

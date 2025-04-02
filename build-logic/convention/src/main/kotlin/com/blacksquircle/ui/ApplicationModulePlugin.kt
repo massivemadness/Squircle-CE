@@ -75,13 +75,6 @@ class ApplicationModulePlugin : Plugin<Project> {
                         isShrinkResources = false
                         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
                     }
-                    create("benchmark") {
-                        initWith(buildTypes.getByName("release"))
-                        signingConfig = signingConfigs.getByName("debug")
-                        matchingFallbacks += listOf("release")
-                        isMinifyEnabled = false
-                        isDebuggable = false
-                    }
                 }
                 compileOptions {
                     sourceCompatibility = JavaVersion.VERSION_17
