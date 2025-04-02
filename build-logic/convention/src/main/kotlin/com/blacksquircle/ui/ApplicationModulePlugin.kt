@@ -34,6 +34,7 @@ class ApplicationModulePlugin : Plugin<Project> {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
                 apply("com.google.devtools.ksp")
+                apply("com.blacksquircle.lint")
             }
 
             configure<BaseAppModuleExtension> {

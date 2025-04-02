@@ -32,6 +32,7 @@ class FeatureModulePlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
+                apply("com.blacksquircle.lint")
             }
 
             configure<LibraryExtension> {
