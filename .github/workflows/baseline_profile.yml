@@ -5,7 +5,7 @@ on:
 
 jobs:
   generate:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest  # Use macOS for hardware acceleration
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -29,14 +29,11 @@ jobs:
           echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
           echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> local.properties
 
-      - name: Start emulator and generate Baseline Profile
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 34
-          arch: x86_64
-          profile: Pixel_6
-          disable-animations: true
-          script: ./gradlew :app:generateBaselineProfile
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Generate Baseline Profile
+        run: ./gradlew :app:generateBaselineProfile
 
       - name: Copy Baseline and Startup Profiles
         run: |
