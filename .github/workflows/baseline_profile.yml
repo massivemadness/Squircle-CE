@@ -17,7 +17,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          
+
       - name: Create Keystore
         run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > app/keystore.jks
 
@@ -29,11 +29,14 @@ jobs:
           echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
           echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> local.properties
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Generate Baseline Profile
-        run: ./gradlew :app:generateBaselineProfile
+      - name: Start emulator and generate Baseline Profile
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          profile: Pixel_6
+          disable-animations: true
+          script: ./gradlew :app:generateBaselineProfile
 
       - name: Copy Baseline and Startup Profiles
         run: |
@@ -46,6 +49,7 @@ jobs:
           git config --global user.email "github-actions@github.com"
           git checkout -b update-baseline-profile
           git add app/src/main/baseline-prof.txt
+          git add app/src/main/startup-prof.txt
           git commit -m "Update Baseline Profile"
           git push origin update-baseline-profile
         env:
