@@ -59,7 +59,7 @@ jobs:
       - name: Upload APK (F-Droid)
         uses: actions/upload-artifact@v4
         with:
-          name: F-Droid App (Debug)
+          name: F-Droid App (Release)
           path: ./app/build/outputs/apk/fdroid/release/app-fdroid-release.apk
 
       - name: Delete Keystore
