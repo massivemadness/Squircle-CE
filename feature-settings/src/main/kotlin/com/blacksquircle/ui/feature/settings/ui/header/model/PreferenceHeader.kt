@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.navigation
+package com.blacksquircle.ui.feature.settings.ui.header.model
 
-abstract class Screen(val route: Any) {
-    object Explorer : Screen("blacksquircle://explorer")
-    object Settings : Screen("blacksquircle://settings")
-    object Fonts : Screen("blacksquircle://fonts")
-    object Themes : Screen("blacksquircle://themes")
-    object Server : Screen("blacksquircle://settings/cloud/create") {
-        const val KEY_SAVE = "KEY_SAVE"
-        const val KEY_DELETE = "KEY_DELETE"
-    }
-}
+import androidx.compose.runtime.Immutable
+
+@Immutable
+internal data class PreferenceHeader(
+    val title: Int,
+    val subtitle: Int,
+    val selected: Boolean,
+    val screen: Any,
+)

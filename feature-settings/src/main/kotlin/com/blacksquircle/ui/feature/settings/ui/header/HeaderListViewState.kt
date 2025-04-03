@@ -18,8 +18,15 @@ package com.blacksquircle.ui.feature.settings.ui.header
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
+import com.blacksquircle.ui.feature.servers.api.navigation.CloudScreen
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
+import com.blacksquircle.ui.feature.settings.ui.AboutHeaderScreen
+import com.blacksquircle.ui.feature.settings.ui.AppHeaderScreen
+import com.blacksquircle.ui.feature.settings.ui.CodeStyleHeaderScreen
+import com.blacksquircle.ui.feature.settings.ui.EditorHeaderScreen
+import com.blacksquircle.ui.feature.settings.ui.FilesHeaderScreen
+import com.blacksquircle.ui.feature.settings.ui.header.model.PreferenceHeader
+import com.blacksquircle.ui.feature.shortcuts.api.navigation.ShortcutsScreen
 
 @Immutable
 internal data class HeaderListViewState(
@@ -28,43 +35,43 @@ internal data class HeaderListViewState(
             title = R.string.pref_header_application_title,
             subtitle = R.string.pref_header_application_summary,
             selected = false,
-            screen = SettingsScreen.Application,
+            screen = AppHeaderScreen,
         ),
         PreferenceHeader(
             title = R.string.pref_header_editor_title,
             subtitle = R.string.pref_header_editor_summary,
             selected = false,
-            screen = SettingsScreen.Editor,
+            screen = EditorHeaderScreen,
         ),
         PreferenceHeader(
             title = R.string.pref_header_codeStyle_title,
             subtitle = R.string.pref_header_codeStyle_summary,
             selected = false,
-            screen = SettingsScreen.CodeStyle,
+            screen = CodeStyleHeaderScreen,
         ),
         PreferenceHeader(
             title = R.string.pref_header_files_title,
             subtitle = R.string.pref_header_files_summary,
             selected = false,
-            screen = SettingsScreen.Files,
+            screen = FilesHeaderScreen,
         ),
         PreferenceHeader(
             title = R.string.pref_header_keybindings_title,
             subtitle = R.string.pref_header_keybindings_summary,
             selected = false,
-            screen = SettingsScreen.Keybindings,
+            screen = ShortcutsScreen,
         ),
         PreferenceHeader(
             title = R.string.pref_header_cloud_title,
             subtitle = R.string.pref_header_cloud_summary,
             selected = false,
-            screen = SettingsScreen.Cloud,
+            screen = CloudScreen,
         ),
         PreferenceHeader(
             title = R.string.pref_header_about_title,
             subtitle = R.string.pref_header_about_summary,
             selected = false,
-            screen = SettingsScreen.About,
+            screen = AboutHeaderScreen,
         ),
     )
 ) : ViewState()

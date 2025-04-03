@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.application
+package com.blacksquircle.ui.feature.settings.ui.application.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

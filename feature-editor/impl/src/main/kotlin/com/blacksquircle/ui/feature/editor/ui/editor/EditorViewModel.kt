@@ -22,7 +22,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.ds.extensions.toHexString
@@ -658,8 +657,8 @@ internal class EditorViewModel @Inject constructor(
 
     fun onSettingsClicked() {
         viewModelScope.launch {
-            val screen = Screen.Settings
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            // TODO val screen = HeaderListScreen
+            // _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 

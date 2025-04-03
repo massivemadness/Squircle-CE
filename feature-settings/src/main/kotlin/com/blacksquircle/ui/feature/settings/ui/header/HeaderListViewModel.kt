@@ -20,7 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.navigation.Screen
+import com.blacksquircle.ui.feature.settings.ui.header.model.PreferenceHeader
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
-internal class HeaderViewModel @Inject constructor() : ViewModel() {
+internal class HeaderListViewModel @Inject constructor() : ViewModel() {
 
     private val _viewState = MutableStateFlow(HeaderListViewState())
     val viewState: StateFlow<HeaderListViewState> = _viewState.asStateFlow()
@@ -45,16 +45,16 @@ internal class HeaderViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun onHeaderClicked(screen: Screen) {
+    fun onHeaderClicked(header: PreferenceHeader) {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            _viewEvent.send(ViewEvent.Navigation(header.screen))
         }
     }
 
     class Factory : ViewModelProvider.Factory {
 
         @Inject
-        lateinit var viewModelProvider: Provider<HeaderViewModel>
+        lateinit var viewModelProvider: Provider<HeaderListViewModel>
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

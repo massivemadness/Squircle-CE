@@ -20,7 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.settings.ui.navigation.SettingsScreen
+import com.blacksquircle.ui.feature.changelog.ui.ChangelogScreen
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -46,7 +46,7 @@ internal class AboutHeaderViewModel @Inject constructor() : ViewModel() {
             if (counter < 10) {
                 counter++
             } else {
-                val screen = SettingsScreen.ChangeLog
+                val screen = ChangelogScreen
                 _viewEvent.send(ViewEvent.Navigation(screen))
             }
         }

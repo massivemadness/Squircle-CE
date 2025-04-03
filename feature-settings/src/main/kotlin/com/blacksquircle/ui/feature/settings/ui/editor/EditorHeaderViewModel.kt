@@ -20,8 +20,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.feature.fonts.api.navigation.FontsScreen
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,7 +57,7 @@ internal class EditorHeaderViewModel @Inject constructor(
 
     fun onFontTypeClicked() {
         viewModelScope.launch {
-            val screen = Screen.Fonts
+            val screen = FontsScreen
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
