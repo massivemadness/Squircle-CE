@@ -29,6 +29,11 @@ import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
+import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.ConfirmExitDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.InsertColorDialog
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
@@ -43,7 +48,6 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.model.SearchState
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorCommand
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionStart
-import com.blacksquircle.ui.feature.editor.ui.navigation.EditorScreen
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
@@ -102,7 +106,7 @@ internal class EditorViewModel @Inject constructor(
     fun onBackClicked() {
         viewModelScope.launch {
             if (settingsManager.confirmExit) {
-                val screen = EditorScreen.ConfirmExit
+                val screen = ConfirmExitDialog
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } else {
                 _viewEvent.send(ViewEvent.PopBackStack())
@@ -405,7 +409,7 @@ internal class EditorViewModel @Inject constructor(
                 return@launch
             }
             val document = documents[selectedPosition].document
-            val screen = EditorScreen.ForceSyntaxDialogScreen(document.language)
+            val screen = ForceSyntaxDialog(document.language)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -443,7 +447,7 @@ internal class EditorViewModel @Inject constructor(
             if (selectedPosition !in documents.indices) {
                 return@launch
             }
-            val screen = EditorScreen.InsertColor
+            val screen = InsertColorDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -641,7 +645,7 @@ internal class EditorViewModel @Inject constructor(
             if (selectedPosition !in documents.indices) {
                 return@launch
             }
-            val screen = EditorScreen.GotoLine
+            val screen = GoToLineDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -715,7 +719,7 @@ internal class EditorViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (document.dirty && fromUser) {
-                    val screen = EditorScreen.CloseFileDialogScreen(
+                    val screen = CloseFileDialog(
                         fileUuid = document.uuid,
                         fileName = document.name,
                     )

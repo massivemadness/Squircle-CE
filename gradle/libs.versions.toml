@@ -23,6 +23,7 @@ vectordrawable = "1.2.0"
 lifecycle = "2.8.7"
 navigation = "2.8.9"
 room = "2.6.1"
+serialization = "1.8.1"
 gson = "2.12.1"
 ftpclient = "3.9.0"
 jsch = "0.2.13"
@@ -51,6 +52,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -70,6 +72,7 @@ appupdate = { module = "com.google.android.play:app-update-ktx", version.ref = "
 superuser = { module = "com.github.topjohnwu.libsu:io", version.ref = "superuser" }
 bouncycastle = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }
 ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
+serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 ftpclient = { module = "commons-net:commons-net", version.ref = "ftpclient" }
 jsch = { module = "com.github.mwiede:jsch", version.ref = "jsch" }

@@ -30,13 +30,34 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.feature.editor.ui.fragment.ARG_LINE_NUMBER
+import com.blacksquircle.ui.feature.editor.ui.fragment.KEY_GOTO_LINE
 
 @Composable
-internal fun GotoLineScreen(
+internal fun GoToLineScreen(navController: NavController) {
+    GotoLineScreen(
+        onConfirmClicked = { lineNumber ->
+            sendNavigationResult(
+                key = KEY_GOTO_LINE,
+                result = bundleOf(ARG_LINE_NUMBER to lineNumber)
+            )
+            navController.popBackStack()
+        },
+        onCancelClicked = {
+            navController.popBackStack()
+        }
+    )
+}
+
+@Composable
+private fun GotoLineScreen(
     onConfirmClicked: (Int) -> Unit = {},
     onCancelClicked: () -> Unit = {}
 ) {

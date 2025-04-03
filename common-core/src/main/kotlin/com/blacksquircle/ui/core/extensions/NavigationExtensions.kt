@@ -18,9 +18,6 @@ package com.blacksquircle.ui.core.extensions
 
 import android.os.Bundle
 import androidx.core.net.toUri
-import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentResultListener
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
@@ -30,10 +27,13 @@ import com.blacksquircle.ui.core.navigation.Screen
 data class NavAction(val id: Int, val args: Bundle? = null)
 
 fun NavController.navigateTo(
-    screen: Screen,
+    screen: Any,
     options: NavOptions? = null,
     extras: Navigator.Extras? = null,
 ) {
+    if (screen !is Screen) {
+        throw IllegalArgumentException()
+    }
     when (screen.route) {
         is String -> navigate(
             deepLink = screen.route.toUri(),
@@ -64,26 +64,4 @@ fun NavController.navigateTo(
 
         else -> throw IllegalArgumentException("Route is not supported")
     }
-}
-
-fun Fragment.sendFragmentResult(resultKey: String, vararg pairs: Pair<String, Any?>) {
-    requireActivity().supportFragmentManager.setFragmentResult(
-        resultKey,
-        bundleOf(*pairs)
-    )
-}
-
-fun Fragment.sendFragmentResult(resultKey: String, bundle: Bundle = Bundle.EMPTY) {
-    requireActivity().supportFragmentManager.setFragmentResult(resultKey, bundle)
-}
-
-fun Fragment.observeFragmentResult(resultKey: String, onResult: (Bundle) -> Unit) {
-    val fragmentResultListener = FragmentResultListener { _, result ->
-        onResult(result)
-    }
-    requireActivity().supportFragmentManager.setFragmentResultListener(
-        resultKey,
-        this,
-        fragmentResultListener
-    )
 }

@@ -31,15 +31,41 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.modifier.debounceClickable
 import com.blacksquircle.ui.ds.radio.Radio
 import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
+import com.blacksquircle.ui.feature.editor.ui.fragment.ARG_LANGUAGE
+import com.blacksquircle.ui.feature.editor.ui.fragment.KEY_SELECT_LANGUAGE
 
 @Composable
 internal fun ForceSyntaxScreen(
+    navArgs: ForceSyntaxDialog,
+    navController: NavController
+) {
+    ForceSyntaxScreen(
+        selectedValue = navArgs.languageName,
+        onLanguageSelected = { language ->
+            sendNavigationResult(
+                key = KEY_SELECT_LANGUAGE,
+                result = bundleOf(ARG_LANGUAGE to language)
+            )
+            navController.popBackStack()
+        },
+        onCancelClicked = {
+            navController.popBackStack()
+        },
+    )
+}
+
+@Composable
+private fun ForceSyntaxScreen(
     selectedValue: String,
     onLanguageSelected: (String) -> Unit = {},
     onCancelClicked: () -> Unit = {}

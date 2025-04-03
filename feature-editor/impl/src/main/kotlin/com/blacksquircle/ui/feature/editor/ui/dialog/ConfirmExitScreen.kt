@@ -16,10 +16,12 @@
 
 package com.blacksquircle.ui.feature.editor.ui.dialog
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.navigation.NavController
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
@@ -27,7 +29,16 @@ import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun ConfirmExitScreen(
+internal fun ConfirmExitScreen(navController: NavController) {
+    val activity = LocalActivity.current
+    ConfirmExitScreen(
+        onConfirmClicked = { activity?.finish() },
+        onCancelClicked = { navController.popBackStack() }
+    )
+}
+
+@Composable
+private fun ConfirmExitScreen(
     onConfirmClicked: () -> Unit = {},
     onCancelClicked: () -> Unit = {}
 ) {

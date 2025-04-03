@@ -14,23 +14,24 @@
  * limitations under the License.
  */
 
-plugins {
-    id("com.blacksquircle.kotlin")
-    alias(libs.plugins.kotlin.serialization)
-}
+package com.blacksquircle.ui.feature.editor.api.navigation
 
-dependencies {
+import kotlinx.serialization.Serializable
 
-    // Core
-    implementation(libs.kotlin.stdlib)
-    compileOnly(libs.android.platform)
+@Serializable
+data object EditorScreen
 
-    // Coroutines
-    implementation(libs.coroutines.core)
+@Serializable
+data class CloseFileDialog(val fileUuid: String, val fileName: String)
 
-    // Network
-    implementation(libs.serialization)
+@Serializable
+data class ForceSyntaxDialog(val languageName: String)
 
-    // Modules
-    api(project(":filesystems:filesystem-base"))
-}
+@Serializable
+data object GoToLineDialog
+
+@Serializable
+data object InsertColorDialog
+
+@Serializable
+data object ConfirmExitDialog

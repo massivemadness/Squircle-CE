@@ -20,13 +20,39 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileDialog
+import com.blacksquircle.ui.feature.editor.ui.fragment.ARG_FILE_UUID
+import com.blacksquircle.ui.feature.editor.ui.fragment.KEY_CLOSE_FILE
 
 @Composable
 internal fun CloseFileScreen(
+    navArgs: CloseFileDialog,
+    navController: NavController,
+) {
+    CloseFileScreen(
+        fileName = navArgs.fileName,
+        onConfirmClicked = {
+            sendNavigationResult(
+                key = KEY_CLOSE_FILE,
+                result = bundleOf(ARG_FILE_UUID to navArgs.fileUuid)
+            )
+            navController.popBackStack()
+        },
+        onCancelClicked = {
+            navController.popBackStack()
+        }
+    )
+}
+
+@Composable
+private fun CloseFileScreen(
     fileName: String,
     onConfirmClicked: () -> Unit = {},
     onCancelClicked: () -> Unit = {}

@@ -44,7 +44,6 @@ import com.blacksquircle.ui.core.contract.rememberOpenFileContract
 import com.blacksquircle.ui.core.effect.CleanupEffect
 import com.blacksquircle.ui.core.effect.NavResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
-import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -68,6 +67,16 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.view.rememberEditorContro
 import com.blacksquircle.ui.feature.editor.ui.viewmodel.EditorViewModel
 import kotlinx.coroutines.launch
 import com.blacksquircle.ui.ds.R as UiR
+
+internal const val KEY_CLOSE_FILE = "KEY_CLOSE_FILE"
+internal const val KEY_SELECT_LANGUAGE = "KEY_SELECT_LANGUAGE"
+internal const val KEY_GOTO_LINE = "KEY_GOTO_LINE"
+internal const val KEY_INSERT_COLOR = "KEY_INSERT_COLOR"
+
+internal const val ARG_FILE_UUID = "ARG_FILE_UUID"
+internal const val ARG_LANGUAGE = "ARG_LANGUAGE"
+internal const val ARG_LINE_NUMBER = "ARG_LINE_NUMBER"
+internal const val ARG_COLOR = "ARG_COLOR"
 
 @Composable
 internal fun EditorScreen(
@@ -149,7 +158,7 @@ internal fun EditorScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> {
                     if (!navController.popBackStack()) {
                         activity?.finish()
@@ -173,20 +182,20 @@ internal fun EditorScreen(
         }
     }
 
-    NavResultEffect(EditorFragment.KEY_CLOSE_MODIFIED) { bundle ->
-        val fileUuid = bundle.getString(EditorFragment.ARG_FILE_UUID).orEmpty()
+    NavResultEffect(KEY_CLOSE_FILE) { bundle ->
+        val fileUuid = bundle.getString(ARG_FILE_UUID).orEmpty()
         viewModel.onCloseModifiedClicked(fileUuid)
     }
-    NavResultEffect(EditorFragment.KEY_SELECT_LANGUAGE) { bundle ->
-        val language = bundle.getString(EditorFragment.ARG_LANGUAGE).orEmpty()
+    NavResultEffect(KEY_SELECT_LANGUAGE) { bundle ->
+        val language = bundle.getString(ARG_LANGUAGE).orEmpty()
         viewModel.onLanguageChanged(language)
     }
-    NavResultEffect(EditorFragment.KEY_GOTO_LINE) { bundle ->
-        val lineNumber = bundle.getInt(EditorFragment.ARG_LINE_NUMBER)
+    NavResultEffect(KEY_GOTO_LINE) { bundle ->
+        val lineNumber = bundle.getInt(ARG_LINE_NUMBER)
         viewModel.onLineSelected(lineNumber)
     }
-    NavResultEffect(EditorFragment.KEY_INSERT_COLOR) { bundle ->
-        val color = bundle.getInt(EditorFragment.ARG_COLOR)
+    NavResultEffect(KEY_INSERT_COLOR) { bundle ->
+        val color = bundle.getInt(ARG_COLOR)
         viewModel.onColorSelected(color)
     }
 
