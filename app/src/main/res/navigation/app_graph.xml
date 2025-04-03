@@ -18,11 +18,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/app_graph"
-    app:startDestination="@id/explorer_graph">
-
-    <include
-        android:id="@+id/explorer_graph"
-        app:graph="@navigation/explorer_graph" />
+    app:startDestination="@id/settings_graph">
 
     <include
         android:id="@+id/settings_graph"

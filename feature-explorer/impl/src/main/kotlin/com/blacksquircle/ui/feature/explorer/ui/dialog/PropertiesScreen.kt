@@ -26,11 +26,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesDialog
 import com.blacksquircle.ui.feature.explorer.data.utils.formatDate
 import com.blacksquircle.ui.feature.explorer.data.utils.formatSize
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -40,6 +42,19 @@ import com.blacksquircle.ui.filesystem.base.utils.plusFlag
 
 @Composable
 internal fun PropertiesScreen(
+    navArgs: PropertiesDialog,
+    navController: NavController,
+) {
+    PropertiesScreen(
+        fileModel = TODO(),
+        onCancelClicked = {
+            navController.popBackStack()
+        }
+    )
+}
+
+@Composable
+private fun PropertiesScreen(
     fileModel: FileModel,
     onCancelClicked: () -> Unit = {}
 ) {

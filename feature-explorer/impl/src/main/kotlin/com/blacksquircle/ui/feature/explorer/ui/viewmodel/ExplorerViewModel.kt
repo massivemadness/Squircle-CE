@@ -26,6 +26,14 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.CreateDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
@@ -39,7 +47,6 @@ import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.fragment.model.BreadcrumbState
 import com.blacksquircle.ui.feature.explorer.ui.fragment.model.ErrorState
-import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
@@ -296,7 +303,7 @@ internal class ExplorerViewModel @Inject constructor(
                 )
             }
 
-            val screen = ExplorerScreen.CreateDialogScreen
+            val screen = CreateDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -313,7 +320,7 @@ internal class ExplorerViewModel @Inject constructor(
                 )
             }
 
-            val screen = ExplorerScreen.RenameDialogScreen(taskBuffer.first().name)
+            val screen = RenameDialog(taskBuffer.first().name)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -330,7 +337,7 @@ internal class ExplorerViewModel @Inject constructor(
                 )
             }
 
-            val screen = ExplorerScreen.DeleteDialogScreen(taskBuffer.first().name, taskBuffer.size)
+            val screen = DeleteDialog(taskBuffer.first().name, taskBuffer.size)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -388,7 +395,7 @@ internal class ExplorerViewModel @Inject constructor(
     fun onPropertiesClicked() {
         viewModelScope.launch {
             val fileModel = selectedFiles.first()
-            val screen = ExplorerScreen.PropertiesDialogScreen(fileModel)
+            val screen = PropertiesDialog // TODO
             _viewEvent.send(ViewEvent.Navigation(screen))
             resetBuffer()
         }
@@ -414,7 +421,7 @@ internal class ExplorerViewModel @Inject constructor(
                 )
             }
 
-            val screen = ExplorerScreen.CompressDialogScreen
+            val screen = CompressDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -429,12 +436,12 @@ internal class ExplorerViewModel @Inject constructor(
                 }
 
                 ErrorAction.ENTER_PASSWORD -> {
-                    val screen = ExplorerScreen.AuthDialogScreen(AuthMethod.PASSWORD)
+                    val screen = AuthDialog(AuthMethod.PASSWORD)
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 }
 
                 ErrorAction.ENTER_PASSPHRASE -> {
-                    val screen = ExplorerScreen.AuthDialogScreen(AuthMethod.KEY)
+                    val screen = AuthDialog(AuthMethod.KEY)
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 }
 
@@ -445,7 +452,7 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onPermissionDenied() {
         viewModelScope.launch {
-            val screen = ExplorerScreen.StorageDeniedScreen
+            val screen = StorageDeniedDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -475,7 +482,7 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.createFile(parent, fileName, isFolder)
-            val screen = ExplorerScreen.TaskDialogScreen(taskId)
+            val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
             resetBuffer()
@@ -494,7 +501,7 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             val fileModel = taskBuffer.first()
             val taskId = explorerRepository.renameFile(fileModel, fileName)
-            val screen = ExplorerScreen.TaskDialogScreen(taskId)
+            val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
             resetBuffer()
@@ -512,7 +519,7 @@ internal class ExplorerViewModel @Inject constructor(
     fun deleteFile() {
         viewModelScope.launch {
             val taskId = explorerRepository.deleteFiles(taskBuffer.toList())
-            val screen = ExplorerScreen.TaskDialogScreen(taskId)
+            val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
             resetBuffer()
@@ -531,7 +538,7 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.compressFiles(taskBuffer.toList(), parent, fileName)
-            val screen = ExplorerScreen.TaskDialogScreen(taskId)
+            val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
             resetBuffer()
@@ -550,7 +557,7 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.cutFiles(taskBuffer.toList(), parent)
-            val screen = ExplorerScreen.TaskDialogScreen(taskId)
+            val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
             resetBuffer()
@@ -569,7 +576,7 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.copyFiles(taskBuffer.toList(), parent)
-            val screen = ExplorerScreen.TaskDialogScreen(taskId)
+            val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
             resetBuffer()
@@ -588,7 +595,7 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.extractFiles(fileModel, parent)
-            val screen = ExplorerScreen.TaskDialogScreen(taskId)
+            val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
             resetBuffer()

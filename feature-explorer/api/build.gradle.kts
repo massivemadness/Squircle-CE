@@ -16,12 +16,17 @@
 
 plugins {
     id("com.blacksquircle.kotlin")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 dependencies {
 
     // Core
     implementation(libs.kotlin.stdlib)
+    compileOnly(libs.android.platform)
+
+    // Network
+    implementation(libs.serialization)
 
     // Modules
     api(project(":filesystems:filesystem-base"))

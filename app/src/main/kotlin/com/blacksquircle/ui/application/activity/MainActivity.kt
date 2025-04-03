@@ -30,6 +30,7 @@ import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.editor.api.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.navigation.editorGraph
+import com.blacksquircle.ui.feature.explorer.ui.navigation.explorerGraph
 import com.blacksquircle.ui.internal.di.AppComponent
 import com.blacksquircle.ui.utils.InAppUpdate
 import javax.inject.Inject
@@ -60,11 +61,13 @@ internal class MainActivity : ComponentActivity() {
                     startDestination = EditorScreen
                 ) {
                     editorGraph(navController)
+                    explorerGraph(navController)
                 }
             }
         }
 
         // TODO
+
         /*inAppUpdate.checkForUpdates(this) {
             Snackbar.make(navHost, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.action_restart) { inAppUpdate.completeUpdate() }

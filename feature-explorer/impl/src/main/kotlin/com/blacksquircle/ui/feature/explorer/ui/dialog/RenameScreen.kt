@@ -23,15 +23,41 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ARG_USER_INPUT
+import com.blacksquircle.ui.feature.explorer.ui.fragment.KEY_RENAME_FILE
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun RenameScreen(
+    navArgs: RenameDialog,
+    navController: NavController,
+) {
+    RenameScreen(
+        currentFileName = navArgs.fileName,
+        onConfirmClicked = { fileName ->
+            sendNavigationResult(
+                key = KEY_RENAME_FILE,
+                result = bundleOf(ARG_USER_INPUT to fileName)
+            )
+            navController.popBackStack()
+        },
+        onCancelClicked = {
+            navController.popBackStack()
+        }
+    )
+}
+
+@Composable
+private fun RenameScreen(
     currentFileName: String,
     onConfirmClicked: (String) -> Unit = {},
     onCancelClicked: () -> Unit = {}

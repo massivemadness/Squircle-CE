@@ -46,7 +46,6 @@ import androidx.navigation.NavController
 import com.blacksquircle.ui.core.contract.PermissionResult
 import com.blacksquircle.ui.core.contract.rememberNotificationContract
 import com.blacksquircle.ui.core.extensions.daggerViewModel
-import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -54,6 +53,7 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
 import com.blacksquircle.ui.feature.explorer.data.utils.formatDate
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
@@ -65,7 +65,7 @@ import kotlinx.coroutines.isActive
 
 @Composable
 internal fun TaskScreen(
-    navArgs: TaskDialogArgs,
+    navArgs: TaskDialog,
     navController: NavController,
     viewModel: TaskViewModel = daggerViewModel { context ->
         val component = ExplorerComponent.buildOrGet(context)
@@ -93,7 +93,7 @@ internal fun TaskScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
                 is ExplorerViewEvent.StartService -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

@@ -28,16 +28,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ARG_IS_FOLDER
+import com.blacksquircle.ui.feature.explorer.ui.fragment.ARG_USER_INPUT
+import com.blacksquircle.ui.feature.explorer.ui.fragment.KEY_CREATE_FILE
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun CreateScreen(
+internal fun CreateScreen(navController: NavController) {
+    CreateScreen(
+        onConfirmClicked = { isFolder, fileName ->
+            sendNavigationResult(
+                key = KEY_CREATE_FILE,
+                result = bundleOf(
+                    ARG_USER_INPUT to fileName,
+                    ARG_IS_FOLDER to isFolder,
+                )
+            )
+            navController.popBackStack()
+        },
+        onCancelClicked = {
+            navController.popBackStack()
+        }
+    )
+}
+
+@Composable
+private fun CreateScreen(
     onConfirmClicked: (Boolean, String) -> Unit = { _, _ -> },
     onCancelClicked: () -> Unit = {}
 ) {

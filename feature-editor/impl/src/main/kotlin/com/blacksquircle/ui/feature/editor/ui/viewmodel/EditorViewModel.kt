@@ -48,6 +48,7 @@ import com.blacksquircle.ui.feature.editor.ui.fragment.model.SearchState
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.EditorCommand
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionStart
+import com.blacksquircle.ui.feature.explorer.api.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
@@ -98,7 +99,7 @@ internal class EditorViewModel @Inject constructor(
 
     fun onDrawerClicked() {
         viewModelScope.launch {
-            val screen = Screen.Explorer
+            val screen = ExplorerScreen
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }

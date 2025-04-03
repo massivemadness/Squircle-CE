@@ -22,11 +22,11 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.extensions.map
 import com.blacksquircle.ui.core.extensions.onEach
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.feature.explorer.api.navigation.NotificationDeniedDialog
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.ui.dialog.TaskViewState
 import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewEvent
-import com.blacksquircle.ui.feature.explorer.ui.navigation.ExplorerScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -75,7 +75,7 @@ internal class TaskViewModel @AssistedInject constructor(
 
     fun onPermissionDenied() {
         viewModelScope.launch {
-            val screen = ExplorerScreen.NotificationDeniedScreen
+            val screen = NotificationDeniedDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }

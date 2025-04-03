@@ -36,7 +36,6 @@ import com.blacksquircle.ui.core.contract.rememberStorageContract
 import com.blacksquircle.ui.core.effect.CleanupEffect
 import com.blacksquircle.ui.core.effect.NavResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
-import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.navigation.Screen
@@ -49,13 +48,6 @@ import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
-import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment.Companion.ARG_IS_FOLDER
-import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment.Companion.ARG_USER_INPUT
-import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment.Companion.KEY_AUTHENTICATION
-import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment.Companion.KEY_COMPRESS_FILE
-import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment.Companion.KEY_CREATE_FILE
-import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment.Companion.KEY_DELETE_FILE
-import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerFragment.Companion.KEY_RENAME_FILE
 import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.Breadcrumb
 import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.BreadcrumbNavigation
 import com.blacksquircle.ui.feature.explorer.ui.fragment.internal.ExplorerToolbar
@@ -67,6 +59,15 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.blacksquircle.ui.ds.R as UiR
+
+internal const val KEY_AUTHENTICATION = "KEY_AUTHENTICATION"
+internal const val KEY_COMPRESS_FILE = "KEY_COMPRESS_FILE"
+internal const val KEY_CREATE_FILE = "KEY_CREATE_FILE"
+internal const val KEY_RENAME_FILE = "KEY_RENAME_FILE"
+internal const val KEY_DELETE_FILE = "KEY_DELETE_FILE"
+
+internal const val ARG_USER_INPUT = "ARG_USER_INPUT"
+internal const val ARG_IS_FOLDER = "ARG_IS_FOLDER"
 
 @Composable
 internal fun ExplorerScreen(
@@ -118,7 +119,7 @@ internal fun ExplorerScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
                 is ExplorerViewEvent.RequestPermission -> {
                     storageContract.launch(

@@ -16,18 +16,44 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.dialog
 
+import android.os.Bundle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteDialog
+import com.blacksquircle.ui.feature.explorer.ui.fragment.KEY_DELETE_FILE
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun DeleteScreen(
+    navArgs: DeleteDialog,
+    navController: NavController,
+) {
+    DeleteScreen(
+        fileName = navArgs.fileName,
+        fileCount = navArgs.fileCount,
+        onConfirmClicked = {
+            sendNavigationResult(
+                key = KEY_DELETE_FILE,
+                result = Bundle.EMPTY,
+            )
+            navController.popBackStack()
+        },
+        onCancelClicked = {
+            navController.popBackStack()
+        }
+    )
+}
+
+@Composable
+private fun DeleteScreen(
     fileName: String,
     fileCount: Int,
     onConfirmClicked: () -> Unit = {},
