@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.editor.domain.repository
 
 import android.net.Uri
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
+import com.blacksquircle.ui.feature.editor.ui.editor.view.TextContent
 
 internal interface DocumentRepository {
 

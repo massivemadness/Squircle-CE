@@ -18,6 +18,7 @@ plugins {
     id("com.blacksquircle.feature")
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -55,6 +56,9 @@ dependencies {
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
     testImplementation(libs.coroutines.test)
+
+    // Network
+    implementation(libs.serialization)
 
     // DI
     implementation(libs.dagger)

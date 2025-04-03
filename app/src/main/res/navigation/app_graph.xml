@@ -40,8 +40,4 @@
         android:id="@+id/shortcuts_graph"
         app:graph="@navigation/shortcuts_graph" />
 
-    <include
-        android:id="@+id/changelog_graph"
-        app:graph="@navigation/changelog_graph" />
-
 </navigation>

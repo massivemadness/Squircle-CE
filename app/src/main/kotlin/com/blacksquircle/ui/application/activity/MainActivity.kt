@@ -28,9 +28,10 @@ import com.blacksquircle.ui.application.viewmodel.MainViewModel
 import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.changelog.ui.changelogGraph
 import com.blacksquircle.ui.feature.editor.api.navigation.EditorScreen
-import com.blacksquircle.ui.feature.editor.ui.navigation.editorGraph
-import com.blacksquircle.ui.feature.explorer.ui.navigation.explorerGraph
+import com.blacksquircle.ui.feature.editor.ui.editorGraph
+import com.blacksquircle.ui.feature.explorer.ui.explorerGraph
 import com.blacksquircle.ui.internal.di.AppComponent
 import com.blacksquircle.ui.utils.InAppUpdate
 import javax.inject.Inject
@@ -62,6 +63,7 @@ internal class MainActivity : ComponentActivity() {
                 ) {
                     editorGraph(navController)
                     explorerGraph(navController)
+                    changelogGraph(navController)
                 }
             }
         }
