@@ -23,7 +23,6 @@ dependencies {
 
     // Core
     implementation(libs.kotlin.stdlib)
-    compileOnly(libs.android.platform)
 
     // Network
     implementation(libs.serialization)

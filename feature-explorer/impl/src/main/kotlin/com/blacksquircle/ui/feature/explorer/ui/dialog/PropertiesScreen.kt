@@ -35,7 +35,6 @@ import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesDialog
 import com.blacksquircle.ui.feature.explorer.data.utils.formatDate
 import com.blacksquircle.ui.feature.explorer.data.utils.formatSize
-import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.Permission
 import com.blacksquircle.ui.filesystem.base.utils.hasFlag
 import com.blacksquircle.ui.filesystem.base.utils.plusFlag
@@ -46,7 +45,11 @@ internal fun PropertiesScreen(
     navController: NavController,
 ) {
     PropertiesScreen(
-        fileModel = TODO(),
+        fileName = navArgs.fileName,
+        filePath = navArgs.filePath,
+        fileSize = navArgs.fileSize,
+        lastModified = navArgs.lastModified,
+        permission = navArgs.permission,
         onCancelClicked = {
             navController.popBackStack()
         }
@@ -55,7 +58,11 @@ internal fun PropertiesScreen(
 
 @Composable
 private fun PropertiesScreen(
-    fileModel: FileModel,
+    fileName: String,
+    filePath: String,
+    fileSize: Long,
+    lastModified: Long,
+    permission: Int,
     onCancelClicked: () -> Unit = {}
 ) {
     AlertDialog(
@@ -63,7 +70,7 @@ private fun PropertiesScreen(
         content = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 TextField(
-                    inputText = fileModel.name,
+                    inputText = fileName,
                     labelText = stringResource(R.string.properties_name),
                     readOnly = true,
                 )
@@ -71,7 +78,7 @@ private fun PropertiesScreen(
                 Spacer(Modifier.height(8.dp))
 
                 TextField(
-                    inputText = fileModel.path,
+                    inputText = filePath,
                     labelText = stringResource(R.string.properties_path),
                     readOnly = true,
                 )
@@ -79,7 +86,7 @@ private fun PropertiesScreen(
                 Spacer(Modifier.height(8.dp))
 
                 TextField(
-                    inputText = fileModel.lastModified.formatDate(
+                    inputText = lastModified.formatDate(
                         pattern = stringResource(R.string.properties_date_format)
                     ),
                     labelText = stringResource(R.string.properties_modified),
@@ -89,7 +96,7 @@ private fun PropertiesScreen(
                 Spacer(Modifier.height(8.dp))
 
                 TextField(
-                    inputText = fileModel.size.formatSize(),
+                    inputText = fileSize.formatSize(),
                     labelText = stringResource(R.string.properties_size),
                     readOnly = true,
                 )
@@ -99,15 +106,15 @@ private fun PropertiesScreen(
                 Row {
                     CheckBox(
                         title = stringResource(R.string.properties_readable),
-                        checked = fileModel.permission hasFlag Permission.OWNER_READ,
+                        checked = permission hasFlag Permission.OWNER_READ,
                     )
                     CheckBox(
                         title = stringResource(R.string.properties_writable),
-                        checked = fileModel.permission hasFlag Permission.OWNER_WRITE,
+                        checked = permission hasFlag Permission.OWNER_WRITE,
                     )
                     CheckBox(
                         title = stringResource(R.string.properties_executable),
-                        checked = fileModel.permission hasFlag Permission.OWNER_EXECUTE,
+                        checked = permission hasFlag Permission.OWNER_EXECUTE,
                     )
                 }
             }
@@ -123,14 +130,11 @@ private fun PropertiesScreen(
 private fun PropertiesScreenPreview() {
     PreviewBackground {
         PropertiesScreen(
-            fileModel = FileModel(
-                fileUri = "file:///storage/emulated/0/untitled",
-                filesystemUuid = "123",
-                size = 1024 * 1024,
-                lastModified = System.currentTimeMillis(),
-                directory = true,
-                permission = Permission.OWNER_READ plusFlag Permission.OWNER_WRITE,
-            )
+            fileName = "untitled.txt",
+            filePath = "/storage/emulated/0/untitled.txt",
+            fileSize = 1024 * 1024,
+            lastModified = System.currentTimeMillis(),
+            permission = Permission.OWNER_READ plusFlag Permission.OWNER_WRITE,
         )
     }
 }

@@ -41,7 +41,13 @@ data object CompressDialog
 data class TaskDialog(val taskId: String)
 
 @Serializable
-data object PropertiesDialog // TODO pass fileUri and filesystemUuid
+data class PropertiesDialog(
+    val fileName: String,
+    val filePath: String,
+    val fileSize: Long,
+    val lastModified: Long,
+    val permission: Int,
+)
 
 @Serializable
 data object StorageDeniedDialog

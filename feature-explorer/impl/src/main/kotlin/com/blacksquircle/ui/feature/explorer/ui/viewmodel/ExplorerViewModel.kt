@@ -395,7 +395,13 @@ internal class ExplorerViewModel @Inject constructor(
     fun onPropertiesClicked() {
         viewModelScope.launch {
             val fileModel = selectedFiles.first()
-            val screen = PropertiesDialog // TODO
+            val screen = PropertiesDialog(
+                fileName = fileModel.name,
+                filePath = fileModel.path,
+                fileSize = fileModel.size,
+                lastModified = fileModel.lastModified,
+                permission = fileModel.permission,
+            )
             _viewEvent.send(ViewEvent.Navigation(screen))
             resetBuffer()
         }
