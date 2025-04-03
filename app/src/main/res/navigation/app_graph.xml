@@ -29,10 +29,6 @@
         app:graph="@navigation/themes_graph" />
 
     <include
-        android:id="@+id/servers_graph"
-        app:graph="@navigation/servers_graph" />
-
-    <include
         android:id="@+id/shortcuts_graph"
         app:graph="@navigation/shortcuts_graph" />
 

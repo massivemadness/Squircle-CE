@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.fragment
+package com.blacksquircle.ui.feature.servers.ui.cloud
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
@@ -36,18 +36,17 @@ import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.servers.R
+import com.blacksquircle.ui.feature.servers.api.navigation.CloudScreen
 import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
 import com.blacksquircle.ui.feature.servers.internal.ServersComponent
-import com.blacksquircle.ui.feature.servers.ui.fragment.internal.ConnectionStatus
-import com.blacksquircle.ui.feature.servers.ui.fragment.internal.ServerModel
-import com.blacksquircle.ui.feature.servers.ui.viewmodel.CloudViewModel
+import com.blacksquircle.ui.feature.servers.ui.cloud.compose.ConnectionStatus
+import com.blacksquircle.ui.feature.servers.ui.cloud.model.ServerModel
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.ServerType
@@ -66,7 +65,7 @@ internal fun CloudScreen(
         viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
         onServerClicked = viewModel::onServerClicked,
-        onAddServerClicked = viewModel::onAddServerClicked,
+        onCreateClicked = viewModel::onCreateClicked,
     )
 
     val context = LocalContext.current
@@ -80,10 +79,10 @@ internal fun CloudScreen(
         }
     }
 
-    NavResultEffect(Screen.Server.KEY_SAVE) {
+    NavResultEffect(CloudScreen.KEY_SAVE) {
         viewModel.loadServers()
     }
-    NavResultEffect(Screen.Server.KEY_DELETE) {
+    NavResultEffect(CloudScreen.KEY_DELETE) {
         viewModel.loadServers()
     }
 }
@@ -93,7 +92,7 @@ private fun CloudScreen(
     viewState: CloudViewState,
     onBackClicked: () -> Unit = {},
     onServerClicked: (ServerConfig) -> Unit = {},
-    onAddServerClicked: () -> Unit = {},
+    onCreateClicked: () -> Unit = {},
 ) {
     ScaffoldSuite(
         topBar = {
@@ -133,7 +132,7 @@ private fun CloudScreen(
             item {
                 Preference(
                     title = stringResource(R.string.pref_add_server_title),
-                    onClick = onAddServerClicked,
+                    onClick = onCreateClicked,
                 )
             }
         }

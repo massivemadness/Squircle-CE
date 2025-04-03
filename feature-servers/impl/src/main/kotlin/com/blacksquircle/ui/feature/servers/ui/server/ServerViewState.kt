@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.dialog
+package com.blacksquircle.ui.feature.servers.ui.server
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
+import com.blacksquircle.ui.feature.servers.ui.server.compose.PassphraseAction
+import com.blacksquircle.ui.feature.servers.ui.server.compose.PasswordAction
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerType
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.dialog.internal
+package com.blacksquircle.ui.feature.servers.ui.server.compose
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,7 +29,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.servers.R
-import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState
+import com.blacksquircle.ui.feature.servers.ui.server.ServerViewState
 import com.blacksquircle.ui.filesystem.base.model.ServerType
 
 private const val HINT_ADDRESS = "192.168.21.101"

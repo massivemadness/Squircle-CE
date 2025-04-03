@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.dialog
+package com.blacksquircle.ui.feature.servers.ui.server
 
 import android.os.Bundle
 import androidx.compose.foundation.layout.Column
@@ -41,30 +41,29 @@ import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.servers.R
+import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
 import com.blacksquircle.ui.feature.servers.internal.ServersComponent
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerAddress
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerAuthMethod
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerFolder
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerKeyFile
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerName
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerPassphrase
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerPassword
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerScheme
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.ServerUsername
-import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
-import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerViewModel
+import com.blacksquircle.ui.feature.servers.ui.server.compose.PassphraseAction
+import com.blacksquircle.ui.feature.servers.ui.server.compose.PasswordAction
+import com.blacksquircle.ui.feature.servers.ui.server.compose.ServerAddress
+import com.blacksquircle.ui.feature.servers.ui.server.compose.ServerAuthMethod
+import com.blacksquircle.ui.feature.servers.ui.server.compose.ServerFolder
+import com.blacksquircle.ui.feature.servers.ui.server.compose.ServerKeyFile
+import com.blacksquircle.ui.feature.servers.ui.server.compose.ServerName
+import com.blacksquircle.ui.feature.servers.ui.server.compose.ServerPassphrase
+import com.blacksquircle.ui.feature.servers.ui.server.compose.ServerPassword
+import com.blacksquircle.ui.feature.servers.ui.server.compose.ServerScheme
+import com.blacksquircle.ui.feature.servers.ui.server.compose.ServerUsername
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerType
 
 @Composable
 internal fun ServerScreen(
-    navArgs: ServerDialogArgs,
+    navArgs: ServerDialog,
     navController: NavController,
     viewModel: ServerViewModel = daggerViewModel { context ->
         val component = ServersComponent.buildOrGet(context)
-        ServerViewModel.ParameterizedFactory(navArgs.id).also(component::inject)
+        ServerViewModel.ParameterizedFactory(navArgs.serverId).also(component::inject)
     },
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()

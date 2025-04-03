@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.navigation
+package com.blacksquircle.ui.feature.servers.ui.server
 
-import com.blacksquircle.ui.core.navigation.Screen
+import com.blacksquircle.ui.core.mvi.ViewEvent
 
-internal sealed class ServersScreen(route: Any) : Screen(route) {
+internal sealed class ServerViewEvent : ViewEvent() {
 
-    data class EditServer(val serverId: String) : ServersScreen(
-        route = "blacksquircle://settings/cloud/edit/$serverId",
-    )
+    data object SendSaveResult : ServerViewEvent()
+    data object SendDeleteResult : ServerViewEvent()
+    data object ChooseFile : ServerViewEvent()
 }

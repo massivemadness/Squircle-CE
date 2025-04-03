@@ -14,31 +14,26 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.dialog.internal
+package com.blacksquircle.ui.feature.servers.ui.server.compose
 
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.servers.R
 
 @Composable
 @NonRestartableComposable
-internal fun ServerUsername(
-    username: String,
-    onUsernameChanged: (String) -> Unit,
+internal fun ServerFolder(
+    initialDir: String,
+    onInitialDirChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     TextField(
-        inputText = username,
-        labelText = stringResource(R.string.hint_username),
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Next,
-        ),
-        onInputChanged = onUsernameChanged,
+        inputText = initialDir,
+        labelText = stringResource(R.string.hint_initial_dir),
+        onInputChanged = onInitialDirChanged,
         modifier = modifier,
     )
 }

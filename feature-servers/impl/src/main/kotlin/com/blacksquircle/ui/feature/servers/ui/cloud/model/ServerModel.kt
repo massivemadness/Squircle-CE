@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.navigation
+package com.blacksquircle.ui.feature.servers.ui.cloud.model
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
+import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
+import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
-internal sealed class ServerViewEvent : ViewEvent() {
-
-    data object SendSaveResult : ServerViewEvent()
-    data object SendDeleteResult : ServerViewEvent()
-    data object ChooseFile : ServerViewEvent()
-}
+@Immutable
+internal data class ServerModel(
+    val config: ServerConfig,
+    val status: ServerStatus,
+)

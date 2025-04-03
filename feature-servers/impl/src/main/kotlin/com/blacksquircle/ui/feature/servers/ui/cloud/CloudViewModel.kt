@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.viewmodel
+package com.blacksquircle.ui.feature.servers.ui.cloud
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.navigation.Screen
+import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
 import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
-import com.blacksquircle.ui.feature.servers.ui.fragment.CloudViewState
-import com.blacksquircle.ui.feature.servers.ui.fragment.internal.ServerModel
-import com.blacksquircle.ui.feature.servers.ui.navigation.ServersScreen
+import com.blacksquircle.ui.feature.servers.ui.cloud.model.ServerModel
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -57,14 +55,14 @@ internal class CloudViewModel @Inject constructor(
 
     fun onServerClicked(serverConfig: ServerConfig) {
         viewModelScope.launch {
-            val screen = ServersScreen.EditServer(serverConfig.uuid)
+            val screen = ServerDialog(serverConfig.uuid)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 
-    fun onAddServerClicked() {
+    fun onCreateClicked() {
         viewModelScope.launch {
-            val screen = Screen.Server
+            val screen = ServerDialog(null)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }

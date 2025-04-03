@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.viewmodel
+package com.blacksquircle.ui.feature.servers.ui.server
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
@@ -22,12 +22,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
-import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState
-import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState.Companion.DEFAULT_FTP_PORT
-import com.blacksquircle.ui.feature.servers.ui.dialog.ServerViewState.Companion.DEFAULT_SFTP_PORT
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PassphraseAction
-import com.blacksquircle.ui.feature.servers.ui.dialog.internal.PasswordAction
-import com.blacksquircle.ui.feature.servers.ui.navigation.ServerViewEvent
+import com.blacksquircle.ui.feature.servers.ui.server.ServerViewState.Companion.DEFAULT_FTP_PORT
+import com.blacksquircle.ui.feature.servers.ui.server.ServerViewState.Companion.DEFAULT_SFTP_PORT
+import com.blacksquircle.ui.feature.servers.ui.server.compose.PassphraseAction
+import com.blacksquircle.ui.feature.servers.ui.server.compose.PasswordAction
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.ServerType

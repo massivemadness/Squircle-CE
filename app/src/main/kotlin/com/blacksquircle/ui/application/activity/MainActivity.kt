@@ -33,6 +33,7 @@ import com.blacksquircle.ui.feature.editor.api.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.editorGraph
 import com.blacksquircle.ui.feature.explorer.ui.explorerGraph
 import com.blacksquircle.ui.feature.fonts.ui.fontsGraph
+import com.blacksquircle.ui.feature.servers.ui.serversGraph
 import com.blacksquircle.ui.internal.di.AppComponent
 import com.blacksquircle.ui.utils.InAppUpdate
 import javax.inject.Inject
@@ -62,10 +63,11 @@ internal class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = EditorScreen
                 ) {
+                    changelogGraph(navController)
                     editorGraph(navController)
                     explorerGraph(navController)
                     fontsGraph(navController)
-                    changelogGraph(navController)
+                    serversGraph(navController)
                 }
             }
         }

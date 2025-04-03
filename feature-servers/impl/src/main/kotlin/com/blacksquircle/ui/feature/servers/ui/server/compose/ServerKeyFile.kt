@@ -14,31 +14,38 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.dialog.internal
+package com.blacksquircle.ui.feature.servers.ui.server.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.util.fastMap
-import com.blacksquircle.ui.ds.dropdown.Dropdown
+import androidx.compose.ui.res.stringResource
+import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.button.IconButton
+import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
+import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.servers.R
-import com.blacksquircle.ui.filesystem.base.model.ServerType
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 @NonRestartableComposable
-internal fun ServerScheme(
-    scheme: String,
-    onSchemeChanged: (String) -> Unit,
+internal fun ServerKeyFile(
+    keyId: String,
+    onChooseFileClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Dropdown(
-        entries = stringArrayResource(R.array.server_type),
-        entryValues = ServerType.entries
-            .fastMap(ServerType::value)
-            .toTypedArray(),
-        currentValue = scheme,
-        onValueSelected = onSchemeChanged,
+    TextField(
+        inputText = keyId,
+        labelText = stringResource(R.string.hint_key_file),
+        readOnly = true,
+        endContent = {
+            IconButton(
+                iconResId = UiR.drawable.ic_folder_open,
+                iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                iconButtonSize = IconButtonSizeDefaults.S,
+                onClick = onChooseFileClicked,
+            )
+        },
         modifier = modifier,
     )
 }

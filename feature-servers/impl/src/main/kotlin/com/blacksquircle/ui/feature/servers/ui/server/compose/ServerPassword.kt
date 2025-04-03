@@ -14,42 +14,36 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.dialog.internal
+package com.blacksquircle.ui.feature.servers.ui.server.compose
 
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.util.fastMap
-import com.blacksquircle.ui.ds.dropdown.Dropdown
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.servers.R
 
 @Composable
 @NonRestartableComposable
-internal fun PasswordAction(
-    passwordAction: PasswordAction,
-    onPasswordActionChanged: (String) -> Unit,
+internal fun ServerPassword(
+    password: String,
+    onPasswordChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Dropdown(
-        entries = stringArrayResource(R.array.passwordAction),
-        entryValues = PasswordAction.entries
-            .fastMap(PasswordAction::value)
-            .toTypedArray(),
-        currentValue = passwordAction.value,
-        onValueSelected = onPasswordActionChanged,
+    TextField(
+        inputText = password,
+        labelText = stringResource(R.string.hint_password),
+        keyboardOptions = KeyboardOptions(
+            autoCorrectEnabled = false,
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Next,
+        ),
+        visualTransformation = PasswordVisualTransformation(),
+        onInputChanged = onPasswordChanged,
         modifier = modifier,
     )
-}
-
-internal enum class PasswordAction(val value: String) {
-    ASK_FOR_PASSWORD("ask_for_password"),
-    SAVE_PASSWORD("save_password");
-
-    companion object {
-
-        fun of(value: String): PasswordAction {
-            return checkNotNull(entries.find { it.value == value })
-        }
-    }
 }

@@ -14,26 +14,42 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.dialog.internal
+package com.blacksquircle.ui.feature.servers.ui.server.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import com.blacksquircle.ui.ds.textfield.TextField
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.util.fastMap
+import com.blacksquircle.ui.ds.dropdown.Dropdown
 import com.blacksquircle.ui.feature.servers.R
 
 @Composable
 @NonRestartableComposable
-internal fun ServerFolder(
-    initialDir: String,
-    onInitialDirChanged: (String) -> Unit,
+internal fun PasswordAction(
+    passwordAction: PasswordAction,
+    onPasswordActionChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    TextField(
-        inputText = initialDir,
-        labelText = stringResource(R.string.hint_initial_dir),
-        onInputChanged = onInitialDirChanged,
+    Dropdown(
+        entries = stringArrayResource(R.array.passwordAction),
+        entryValues = PasswordAction.entries
+            .fastMap(PasswordAction::value)
+            .toTypedArray(),
+        currentValue = passwordAction.value,
+        onValueSelected = onPasswordActionChanged,
         modifier = modifier,
     )
+}
+
+internal enum class PasswordAction(val value: String) {
+    ASK_FOR_PASSWORD("ask_for_password"),
+    SAVE_PASSWORD("save_password");
+
+    companion object {
+
+        fun of(value: String): PasswordAction {
+            return checkNotNull(entries.find { it.value == value })
+        }
+    }
 }

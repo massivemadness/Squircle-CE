@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.dialog.internal
+package com.blacksquircle.ui.feature.servers.ui.server.compose
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable

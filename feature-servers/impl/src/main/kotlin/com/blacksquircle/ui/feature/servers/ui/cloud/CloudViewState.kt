@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.fragment
+package com.blacksquircle.ui.feature.servers.ui.cloud
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.servers.ui.fragment.internal.ServerModel
+import com.blacksquircle.ui.feature.servers.ui.cloud.model.ServerModel
 
 @Immutable
 internal data class CloudViewState(

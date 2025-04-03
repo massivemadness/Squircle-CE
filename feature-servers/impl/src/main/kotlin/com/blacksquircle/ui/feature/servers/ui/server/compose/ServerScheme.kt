@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.dialog.internal
+package com.blacksquircle.ui.feature.servers.ui.server.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
@@ -23,33 +23,22 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.util.fastMap
 import com.blacksquircle.ui.ds.dropdown.Dropdown
 import com.blacksquircle.ui.feature.servers.R
+import com.blacksquircle.ui.filesystem.base.model.ServerType
 
 @Composable
 @NonRestartableComposable
-internal fun PassphraseAction(
-    passphraseAction: PassphraseAction,
-    onPassphraseActionChanged: (String) -> Unit,
+internal fun ServerScheme(
+    scheme: String,
+    onSchemeChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Dropdown(
-        entries = stringArrayResource(R.array.passphraseAction),
-        entryValues = PassphraseAction.entries
-            .fastMap(PassphraseAction::value)
+        entries = stringArrayResource(R.array.server_type),
+        entryValues = ServerType.entries
+            .fastMap(ServerType::value)
             .toTypedArray(),
-        currentValue = passphraseAction.value,
-        onValueSelected = onPassphraseActionChanged,
+        currentValue = scheme,
+        onValueSelected = onSchemeChanged,
         modifier = modifier,
     )
-}
-
-internal enum class PassphraseAction(val value: String) {
-    ASK_FOR_PASSPHRASE("ask_for_passphrase"),
-    SAVE_PASSPHRASE("save_passphrase");
-
-    companion object {
-
-        fun of(value: String): PassphraseAction {
-            return checkNotNull(entries.find { it.value == value })
-        }
-    }
 }

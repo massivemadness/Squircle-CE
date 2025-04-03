@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.dialog.internal
+package com.blacksquircle.ui.feature.servers.ui.server.compose
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
@@ -22,28 +22,23 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.servers.R
 
 @Composable
 @NonRestartableComposable
-internal fun ServerPassword(
-    password: String,
-    onPasswordChanged: (String) -> Unit,
+internal fun ServerUsername(
+    username: String,
+    onUsernameChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     TextField(
-        inputText = password,
-        labelText = stringResource(R.string.hint_password),
+        inputText = username,
+        labelText = stringResource(R.string.hint_username),
         keyboardOptions = KeyboardOptions(
-            autoCorrectEnabled = false,
-            keyboardType = KeyboardType.Password,
             imeAction = ImeAction.Next,
         ),
-        visualTransformation = PasswordVisualTransformation(),
-        onInputChanged = onPasswordChanged,
+        onInputChanged = onUsernameChanged,
         modifier = modifier,
     )
 }

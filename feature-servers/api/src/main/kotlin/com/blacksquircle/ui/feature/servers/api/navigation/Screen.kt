@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.ui.fragment.internal
+package com.blacksquircle.ui.feature.servers.api.navigation
 
-import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
+import kotlinx.serialization.Serializable
 
-internal data class ServerModel(
-    val config: ServerConfig,
-    val status: ServerStatus,
-)
+@Serializable
+data object CloudScreen {
+    const val KEY_SAVE = "KEY_SAVE"
+    const val KEY_DELETE = "KEY_DELETE"
+}
+
+@Serializable
+data class ServerDialog(val serverId: String?)
