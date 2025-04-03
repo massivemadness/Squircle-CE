@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-plugins {
-    id("com.blacksquircle.kotlin")
-    alias(libs.plugins.kotlin.serialization)
-}
+package com.blacksquircle.ui.feature.fonts.ui
 
-dependencies {
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
+import com.blacksquircle.ui.feature.fonts.api.navigation.FontsScreen
+import com.blacksquircle.ui.feature.fonts.ui.fonts.FontsScreen
 
-    // Core
-    implementation(libs.kotlin.stdlib)
-    compileOnly(libs.android.platform)
-
-    // Network
-    implementation(libs.serialization)
+fun NavGraphBuilder.fontsGraph(navController: NavHostController) {
+    composable<FontsScreen> {
+        FontsScreen(navController)
+    }
 }

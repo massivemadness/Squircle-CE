@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.ui.viewmodel
+package com.blacksquircle.ui.feature.fonts.ui.fonts
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
@@ -26,7 +26,6 @@ import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
-import com.blacksquircle.ui.feature.fonts.ui.fragment.FontsViewState
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -136,7 +135,7 @@ internal class FontsViewModel @Inject constructor(
 
     fun onImportClicked() {
         viewModelScope.launch {
-            _viewEvent.send(FontViewEvent.ChooseFont)
+            _viewEvent.send(FontsViewEvent.ChooseFont)
         }
     }
 

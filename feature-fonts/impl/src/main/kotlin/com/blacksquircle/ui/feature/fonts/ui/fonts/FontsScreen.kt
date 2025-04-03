@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.ui.fragment
+package com.blacksquircle.ui.feature.fonts.ui.fonts
 
 import android.graphics.Typeface
 import androidx.activity.compose.BackHandler
@@ -34,7 +34,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -76,9 +75,7 @@ import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.internal.FontsComponent
-import com.blacksquircle.ui.feature.fonts.ui.composable.FontOverview
-import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontViewEvent
-import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
+import com.blacksquircle.ui.feature.fonts.ui.fonts.compose.FontOverview
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -113,7 +110,7 @@ internal fun FontsScreen(
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
-                is FontViewEvent.ChooseFont -> openFileContract.launch(
+                is FontsViewEvent.ChooseFont -> openFileContract.launch(
                     arrayOf(MimeType.OCTET_STREAM, MimeType.X_FONT, MimeType.FONT)
                 )
             }

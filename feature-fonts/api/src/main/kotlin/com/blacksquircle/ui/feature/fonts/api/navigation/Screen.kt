@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.ui.viewmodel
+package com.blacksquircle.ui.feature.fonts.api.navigation
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
+import kotlinx.serialization.Serializable
 
-internal sealed class FontViewEvent : ViewEvent() {
-    data object ChooseFont : FontViewEvent()
-}
+@Serializable
+data object FontsScreen

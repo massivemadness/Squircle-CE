@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.ui.composable
+package com.blacksquircle.ui.feature.fonts.ui.fonts.compose
 
 import android.graphics.Typeface
 import androidx.compose.foundation.border

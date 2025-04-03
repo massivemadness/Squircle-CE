@@ -25,10 +25,6 @@
         app:graph="@navigation/settings_graph" />
 
     <include
-        android:id="@+id/fonts_graph"
-        app:graph="@navigation/fonts_graph" />
-
-    <include
         android:id="@+id/themes_graph"
         app:graph="@navigation/themes_graph" />
 

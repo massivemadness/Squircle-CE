@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-plugins {
-    id("com.blacksquircle.kotlin")
-    alias(libs.plugins.kotlin.serialization)
-}
+package com.blacksquircle.ui.feature.fonts.ui.fonts
 
-dependencies {
+import com.blacksquircle.ui.core.mvi.ViewEvent
 
-    // Core
-    implementation(libs.kotlin.stdlib)
-    compileOnly(libs.android.platform)
-
-    // Network
-    implementation(libs.serialization)
+internal sealed class FontsViewEvent : ViewEvent() {
+    data object ChooseFont : FontsViewEvent()
 }
