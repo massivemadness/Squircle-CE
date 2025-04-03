@@ -25,12 +25,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Create Keystore
-        run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > app/keystore.jks
-
-      - name: Create local.properties
+      - name: Setup Keystore and local.properties
         run: |
-          echo "Creating local.properties file"
+          echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > app/keystore.jks
           echo "KEYSTORE_PATH=keystore.jks" > local.properties
           echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> local.properties
           echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
@@ -53,9 +50,9 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CI_TOKEN }}
           branch: update-baseline-profile
           base: master
-          title: "Update Baseline Profiles"
-          body: "This PR updates the Baseline Profiles."
+          title: "Update Baseline Profile"
+          body: "This PR updates the Baseline Profile."
           commit-message: Update Baseline Profile

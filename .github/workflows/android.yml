@@ -34,12 +34,9 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
-      - name: Create Keystore
-        run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > app/keystore.jks
-
-      - name: Create local.properties
+      - name: Setup Keystore and local.properties
         run: |
-          echo "Creating local.properties file"
+          echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > app/keystore.jks
           echo "KEYSTORE_PATH=keystore.jks" > local.properties
           echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> local.properties
           echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
@@ -147,5 +144,5 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
-      - name: Run android lint
-        run: ./gradlew lintRelease
+      - name: Run Android Lint
+        run: ./gradlew lint
