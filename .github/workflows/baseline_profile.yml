@@ -47,17 +47,8 @@ jobs:
           mv app/src/main/generated/baselineProfiles/baseline-prof.txt app/src/main/baseline-prof.txt
           mv app/src/main/generated/baselineProfiles/startup-prof.txt app/src/main/startup-prof.txt
 
-      - name: Commit Baseline Profile
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git checkout -b update-baseline-profile
-          git add app/src/main/baseline-prof.txt
-          git add app/src/main/startup-prof.txt
-          git commit -m "Update Baseline Profile"
-          git push origin update-baseline-profile
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Delete Keystore
+        run: rm app/keystore.jks
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
@@ -65,5 +56,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: update-baseline-profile
           base: master
-          title: "Update Baseline Profile"
-          body: "This PR updates the Baseline Profile file."
+          title: "Update Baseline Profiles"
+          body: "This PR updates the Baseline Profiles."
+          commit-message: Update Baseline Profile
