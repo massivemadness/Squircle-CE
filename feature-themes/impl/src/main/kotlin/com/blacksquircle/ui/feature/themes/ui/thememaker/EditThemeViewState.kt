@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.fragment
+package com.blacksquircle.ui.feature.themes.ui.thememaker
 
 import androidx.annotation.ColorInt
 import androidx.compose.runtime.Immutable

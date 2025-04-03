@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.composable
+package com.blacksquircle.ui.feature.themes.ui.themes.compose
 
 import android.graphics.Typeface
 import androidx.compose.foundation.background

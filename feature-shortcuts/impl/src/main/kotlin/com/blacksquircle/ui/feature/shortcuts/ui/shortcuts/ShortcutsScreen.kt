@@ -56,10 +56,10 @@ import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
 import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.compose.keybindingResource
 import com.blacksquircle.ui.ds.R as UiR
 
-const val KEY_SAVE = "KEY_SAVE"
-const val KEY_RESOLVE = "KEY_RESOLVE"
+internal const val KEY_SAVE = "KEY_SAVE"
+internal const val KEY_RESOLVE = "KEY_RESOLVE"
 
-const val ARG_REASSIGN = "ARG_REASSIGN"
+internal const val ARG_REASSIGN = "ARG_REASSIGN"
 
 @Composable
 internal fun ShortcutsScreen(

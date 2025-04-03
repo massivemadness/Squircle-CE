@@ -37,12 +37,13 @@ import com.blacksquircle.ui.core.contract.rememberOpenFileContract
 import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.navigation.Screen
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.servers.R
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
 import com.blacksquircle.ui.feature.servers.internal.ServersComponent
+import com.blacksquircle.ui.feature.servers.ui.cloud.KEY_DELETE
+import com.blacksquircle.ui.feature.servers.ui.cloud.KEY_SAVE
 import com.blacksquircle.ui.feature.servers.ui.server.compose.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.server.compose.PasswordAction
 import com.blacksquircle.ui.feature.servers.ui.server.compose.ServerAddress
@@ -100,11 +101,11 @@ internal fun ServerScreen(
                     navController.popBackStack()
                 }
                 is ServerViewEvent.SendSaveResult -> {
-                    sendNavigationResult(Screen.Server.KEY_SAVE, Bundle.EMPTY)
+                    sendNavigationResult(KEY_SAVE, Bundle.EMPTY)
                     navController.popBackStack()
                 }
                 is ServerViewEvent.SendDeleteResult -> {
-                    sendNavigationResult(Screen.Server.KEY_DELETE, Bundle.EMPTY)
+                    sendNavigationResult(KEY_DELETE, Bundle.EMPTY)
                     navController.popBackStack()
                 }
                 is ServerViewEvent.ChooseFile -> {

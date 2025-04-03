@@ -21,8 +21,8 @@ import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiDepsProvider
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiProvider
-import com.blacksquircle.ui.feature.themes.ui.viewmodel.EditThemeViewModel
-import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
+import com.blacksquircle.ui.feature.themes.ui.thememaker.EditThemeViewModel
+import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewModel
 import dagger.Component
 
 @ThemesScope

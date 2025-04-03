@@ -23,7 +23,7 @@ import com.blacksquircle.ui.feature.shortcuts.api.model.KeyGroup
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutsRepository
-import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
+import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ShortcutsViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

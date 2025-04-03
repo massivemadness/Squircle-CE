@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.fragment
+package com.blacksquircle.ui.feature.themes.ui.thememaker
 
 import android.os.Bundle
 import androidx.compose.foundation.layout.Column
@@ -46,7 +46,6 @@ import com.blacksquircle.ui.core.contract.MimeType
 import com.blacksquircle.ui.core.contract.rememberOpenFileContract
 import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.core.extensions.daggerViewModel
-import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -59,20 +58,21 @@ import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.themes.R
+import com.blacksquircle.ui.feature.themes.api.navigation.EditThemeScreen
 import com.blacksquircle.ui.feature.themes.domain.model.Property
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 import com.blacksquircle.ui.feature.themes.internal.ThemesComponent
-import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesViewEvent
-import com.blacksquircle.ui.feature.themes.ui.viewmodel.EditThemeViewModel
+import com.blacksquircle.ui.feature.themes.ui.themes.KEY_SAVE
+import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewEvent
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun EditThemeScreen(
-    navArgs: EditThemeFragmentArgs,
+    navArgs: EditThemeScreen,
     navController: NavController,
     viewModel: EditThemeViewModel = daggerViewModel { context ->
         val component = ThemesComponent.buildOrGet(context)
-        EditThemeViewModel.ParameterizedFactory(navArgs.id).also(component::inject)
+        EditThemeViewModel.ParameterizedFactory(navArgs.themeId).also(component::inject)
     },
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
@@ -98,13 +98,13 @@ internal fun EditThemeScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
                 is ThemesViewEvent.ChooseImportFile -> {
                     openFileContract.launch(arrayOf(MimeType.JSON))
                 }
                 is ThemesViewEvent.SendSaveResult -> {
-                    sendNavigationResult(ThemesFragment.KEY_SAVE, Bundle.EMPTY)
+                    sendNavigationResult(KEY_SAVE, Bundle.EMPTY)
                     navController.popBackStack()
                 }
             }

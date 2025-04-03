@@ -24,12 +24,4 @@
         android:id="@+id/settings_graph"
         app:graph="@navigation/settings_graph" />
 
-    <include
-        android:id="@+id/themes_graph"
-        app:graph="@navigation/themes_graph" />
-
-    <include
-        android:id="@+id/shortcuts_graph"
-        app:graph="@navigation/shortcuts_graph" />
-
 </navigation>

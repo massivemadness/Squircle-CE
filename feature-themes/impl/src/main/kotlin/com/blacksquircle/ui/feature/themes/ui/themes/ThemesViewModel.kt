@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.viewmodel
+package com.blacksquircle.ui.feature.themes.ui.themes
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
@@ -26,11 +26,9 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.themes.R
+import com.blacksquircle.ui.feature.themes.api.navigation.EditThemeScreen
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.feature.themes.ui.fragment.ThemesViewState
-import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesScreen
-import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesViewEvent
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -92,7 +90,7 @@ internal class ThemesViewModel @Inject constructor(
 
     fun onCreateClicked() {
         viewModelScope.launch {
-            // val screen = ThemesScreen.CreateThemeScreen
+            // val screen = EditThemeScreen(null)
             // TODO _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -158,7 +156,7 @@ internal class ThemesViewModel @Inject constructor(
 
     fun onEditClicked(themeModel: ThemeModel) {
         viewModelScope.launch {
-            val screen = ThemesScreen.EditThemeScreen(themeModel.uuid)
+            val screen = EditThemeScreen(themeModel.uuid)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }

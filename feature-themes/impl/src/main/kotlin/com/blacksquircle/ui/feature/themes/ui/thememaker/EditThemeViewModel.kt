@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.viewmodel
+package com.blacksquircle.ui.feature.themes.ui.thememaker
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
@@ -29,8 +29,7 @@ import com.blacksquircle.ui.feature.themes.domain.model.Property
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.feature.themes.ui.fragment.EditThemeViewState
-import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesViewEvent
+import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewEvent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

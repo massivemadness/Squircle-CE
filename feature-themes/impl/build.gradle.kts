@@ -19,6 +19,7 @@ plugins {
     alias(libs.plugins.android.navigation)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -58,10 +59,11 @@ dependencies {
     // AAC
     implementation(libs.androidx.viewmodel)
     implementation(libs.androidx.lifecycle)
-    implementation(libs.androidx.navigation)
+    implementation(libs.androidx.navigation.compose)
 
     // Network
     implementation(libs.gson)
+    implementation(libs.serialization)
 
     // Coroutines
     implementation(libs.coroutines.core)

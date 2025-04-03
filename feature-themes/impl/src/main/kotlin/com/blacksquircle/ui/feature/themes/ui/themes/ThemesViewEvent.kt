@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.navigation
+package com.blacksquircle.ui.feature.themes.ui.themes
 
-import com.blacksquircle.ui.core.navigation.Screen
+import com.blacksquircle.ui.core.mvi.ViewEvent
 
-internal sealed class ThemesScreen(route: Any) : Screen(route) {
-
-    data object CreateThemeScreen : ThemesScreen("blacksquircle://themes/create")
-    data class EditThemeScreen(val uuid: String) : ThemesScreen("blacksquircle://themes/update/$uuid")
+internal sealed class ThemesViewEvent : ViewEvent() {
+    data class ChooseExportFile(val themeName: String) : ThemesViewEvent()
+    data object ChooseImportFile : ThemesViewEvent()
+    data object SendSaveResult : ThemesViewEvent()
 }

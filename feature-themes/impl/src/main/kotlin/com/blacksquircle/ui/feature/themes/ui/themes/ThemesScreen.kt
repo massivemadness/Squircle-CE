@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.fragment
+package com.blacksquircle.ui.feature.themes.ui.themes
 
 import android.graphics.Typeface
 import androidx.activity.compose.BackHandler
@@ -61,7 +61,6 @@ import com.blacksquircle.ui.core.contract.rememberCreateFileContract
 import com.blacksquircle.ui.core.effect.CleanupEffect
 import com.blacksquircle.ui.core.effect.NavResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
-import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -78,11 +77,11 @@ import com.blacksquircle.ui.editorkit.utils.EditorTheme
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.internal.ThemesComponent
-import com.blacksquircle.ui.feature.themes.ui.composable.ThemeOverview
-import com.blacksquircle.ui.feature.themes.ui.navigation.ThemesViewEvent
-import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
+import com.blacksquircle.ui.feature.themes.ui.themes.compose.ThemeOverview
 import com.blacksquircle.ui.language.javascript.JavaScriptLanguage
 import com.blacksquircle.ui.ds.R as UiR
+
+internal const val KEY_SAVE = "KEY_SAVE"
 
 @Composable
 internal fun ThemesScreen(
@@ -117,7 +116,7 @@ internal fun ThemesScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
                 is ThemesViewEvent.ChooseExportFile -> {
                     createFileContract.launch(event.themeName)
@@ -126,7 +125,7 @@ internal fun ThemesScreen(
         }
     }
 
-    NavResultEffect(ThemesFragment.KEY_SAVE) {
+    NavResultEffect(KEY_SAVE) {
         viewModel.loadThemes()
     }
 

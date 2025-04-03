@@ -16,10 +16,14 @@
 
 plugins {
     id("com.blacksquircle.kotlin")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 dependencies {
 
     // Core
     implementation(libs.kotlin.stdlib)
+
+    // Network
+    implementation(libs.serialization)
 }
