@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.shortcuts.ui.viewmodel
+package com.blacksquircle.ui.feature.shortcuts.ui.keybinding
 
-import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
-import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
-import com.blacksquircle.ui.feature.shortcuts.ui.dialog.KeybindingViewState
-import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutViewEvent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -39,7 +35,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class KeybindingViewModel @AssistedInject constructor(
-    @Assisted private val initial: Bundle,
+    @Assisted private val keybinding: Keybinding,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(initialViewState())
@@ -96,7 +92,7 @@ internal class KeybindingViewModel @AssistedInject constructor(
                 isAlt = viewState.isAlt,
                 key = viewState.key,
             )
-            _viewEvent.send(ShortcutViewEvent.SendSaveResult(keybinding))
+            _viewEvent.send(KeybindingViewEvent.SendSaveResult(keybinding))
         }
     }
 
@@ -107,7 +103,6 @@ internal class KeybindingViewModel @AssistedInject constructor(
     }
 
     private fun initialViewState(): KeybindingViewState {
-        val keybinding = ShortcutMapper.fromBundle(initial)
         return KeybindingViewState(
             shortcut = keybinding.shortcut,
             isCtrl = keybinding.isCtrl,
@@ -117,19 +112,19 @@ internal class KeybindingViewModel @AssistedInject constructor(
         )
     }
 
-    class ParameterizedFactory(private val initial: Bundle) : ViewModelProvider.Factory {
+    class ParameterizedFactory(private val keybinding: Keybinding) : ViewModelProvider.Factory {
 
         @Inject
         lateinit var viewModelFactory: Factory
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return viewModelFactory.create(initial) as T
+            return viewModelFactory.create(keybinding) as T
         }
     }
 
     @AssistedFactory
     interface Factory {
-        fun create(@Assisted initial: Bundle): KeybindingViewModel
+        fun create(@Assisted keybinding: Keybinding): KeybindingViewModel
     }
 }

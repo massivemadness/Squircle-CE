@@ -14,19 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.shortcuts.ui.navigation
+package com.blacksquircle.ui.feature.shortcuts.ui.keybinding
 
-import com.blacksquircle.ui.core.navigation.Screen
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
-import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
-import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragmentDirections
 
-internal sealed class ShortcutScreen(route: Any) : Screen(route) {
-
-    data class EditDialogScreen(val keybinding: Keybinding) : ShortcutScreen(
-        route = ShortcutsFragmentDirections.toKeybindingDialog(ShortcutMapper.toBundle(keybinding))
-    )
-    data object ConflictDialogScreen : ShortcutScreen(
-        route = ShortcutsFragmentDirections.toConflictKeyDialog()
-    )
+internal sealed class KeybindingViewEvent : ViewEvent() {
+    class SendSaveResult(val keybinding: Keybinding) : KeybindingViewEvent()
 }

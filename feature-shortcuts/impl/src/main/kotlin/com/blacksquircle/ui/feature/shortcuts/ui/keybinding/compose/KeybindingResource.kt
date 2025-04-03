@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.shortcuts.ui.composable
+package com.blacksquircle.ui.feature.shortcuts.ui.keybinding.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable

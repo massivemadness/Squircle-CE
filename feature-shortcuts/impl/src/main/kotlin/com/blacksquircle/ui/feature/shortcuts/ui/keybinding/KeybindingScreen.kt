@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.shortcuts.ui.dialog
+package com.blacksquircle.ui.feature.shortcuts.ui.keybinding
 
 import android.view.KeyEvent
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -44,7 +44,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.core.extensions.daggerViewModel
-import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -54,21 +53,28 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextFieldAdvanced
 import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.keyCodeToChar
+import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
+import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingDialog
 import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
 import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
-import com.blacksquircle.ui.feature.shortcuts.ui.composable.keybindingResource
-import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragment
-import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutViewEvent
-import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.KeybindingViewModel
+import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.compose.keybindingResource
+import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.KEY_SAVE
 
 @Composable
 internal fun KeybindingScreen(
-    navArgs: KeybindingDialogArgs,
+    navArgs: EditKeybindingDialog,
     navController: NavController,
     viewModel: KeybindingViewModel = daggerViewModel { context ->
         val component = ShortcutsComponent.buildOrGet(context)
-        KeybindingViewModel.ParameterizedFactory(navArgs.keybinding).also(component::inject)
+        val keybinding = Keybinding(
+            shortcut = navArgs.shortcut,
+            isCtrl = navArgs.isCtrl,
+            isShift = navArgs.isShift,
+            isAlt = navArgs.isAlt,
+            key = navArgs.key,
+        )
+        KeybindingViewModel.ParameterizedFactory(keybinding).also(component::inject)
     }
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
@@ -88,11 +94,11 @@ internal fun KeybindingScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
-                is ShortcutViewEvent.SendSaveResult -> {
+                is KeybindingViewEvent.SendSaveResult -> {
                     sendNavigationResult(
-                        key = ShortcutsFragment.KEY_SAVE,
+                        key = KEY_SAVE,
                         result = ShortcutMapper.toBundle(event.keybinding)
                     )
                     navController.popBackStack()

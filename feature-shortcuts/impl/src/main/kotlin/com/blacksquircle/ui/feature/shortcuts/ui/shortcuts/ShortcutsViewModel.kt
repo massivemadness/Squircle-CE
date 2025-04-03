@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.shortcuts.ui.viewmodel
+package com.blacksquircle.ui.feature.shortcuts.ui.shortcuts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -22,9 +22,9 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
+import com.blacksquircle.ui.feature.shortcuts.api.navigation.ConflictKeyDialog
+import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingDialog
 import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutsRepository
-import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsViewState
-import com.blacksquircle.ui.feature.shortcuts.ui.navigation.ShortcutScreen
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -77,7 +77,13 @@ internal class ShortcutsViewModel @Inject constructor(
 
     fun onKeyClicked(keybinding: Keybinding) {
         viewModelScope.launch {
-            val screen = ShortcutScreen.EditDialogScreen(keybinding)
+            val screen = EditKeybindingDialog(
+                shortcut = keybinding.shortcut,
+                isCtrl = keybinding.isCtrl,
+                isShift = keybinding.isShift,
+                isAlt = keybinding.isAlt,
+                key = keybinding.key,
+            )
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -96,7 +102,7 @@ internal class ShortcutsViewModel @Inject constructor(
                     pendingKey = keybinding
                     conflictKey = existingKey
 
-                    val screen = ShortcutScreen.ConflictDialogScreen
+                    val screen = ConflictKeyDialog
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 } else {
                     shortcutsRepository.reassign(keybinding)

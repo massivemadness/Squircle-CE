@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.shortcuts.ui.fragment
+package com.blacksquircle.ui.feature.shortcuts.ui.keybinding
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.shortcuts.api.model.KeyGroup
-import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
+import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 
 @Immutable
-internal data class ShortcutsViewState(
-    val shortcuts: Map<KeyGroup, List<Keybinding>> = emptyMap(),
+internal data class KeybindingViewState(
+    val shortcut: Shortcut = Shortcut.CUT,
+    val isCtrl: Boolean = false,
+    val isShift: Boolean = false,
+    val isAlt: Boolean = false,
+    val key: Char = '\u0000',
 ) : ViewState()

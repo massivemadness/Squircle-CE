@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.shortcuts.ui.navigation
+package com.blacksquircle.ui.feature.shortcuts.ui.shortcuts
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
+import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.core.mvi.ViewState
+import com.blacksquircle.ui.feature.shortcuts.api.model.KeyGroup
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 
-internal sealed class ShortcutViewEvent : ViewEvent() {
-    class SendSaveResult(val keybinding: Keybinding) : ShortcutViewEvent()
-}
+@Immutable
+internal data class ShortcutsViewState(
+    val shortcuts: Map<KeyGroup, List<Keybinding>> = emptyMap(),
+) : ViewState()

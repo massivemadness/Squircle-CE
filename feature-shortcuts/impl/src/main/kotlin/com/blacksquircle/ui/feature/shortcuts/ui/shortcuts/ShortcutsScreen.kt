@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.shortcuts.ui.fragment
+package com.blacksquircle.ui.feature.shortcuts.ui.shortcuts
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
@@ -35,7 +35,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.NavResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
-import com.blacksquircle.ui.core.extensions.navigateTo
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -54,10 +53,13 @@ import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
 import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
-import com.blacksquircle.ui.feature.shortcuts.ui.composable.keybindingResource
-import com.blacksquircle.ui.feature.shortcuts.ui.fragment.ShortcutsFragment.Companion.ARG_REASSIGN
-import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
+import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.compose.keybindingResource
 import com.blacksquircle.ui.ds.R as UiR
+
+const val KEY_SAVE = "KEY_SAVE"
+const val KEY_RESOLVE = "KEY_RESOLVE"
+
+const val ARG_REASSIGN = "ARG_REASSIGN"
 
 @Composable
 internal fun ShortcutsScreen(
@@ -80,17 +82,17 @@ internal fun ShortcutsScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigateTo(event.screen)
+                is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
             }
         }
     }
 
-    NavResultEffect(ShortcutsFragment.KEY_SAVE) { bundle ->
+    NavResultEffect(KEY_SAVE) { bundle ->
         val keybinding = ShortcutMapper.fromBundle(bundle)
         viewModel.onSaveClicked(keybinding)
     }
-    NavResultEffect(ShortcutsFragment.KEY_RESOLVE) { bundle ->
+    NavResultEffect(KEY_RESOLVE) { bundle ->
         val reassign = bundle.getBoolean(ARG_REASSIGN)
         viewModel.onResolveClicked(reassign)
     }

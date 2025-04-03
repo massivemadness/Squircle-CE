@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.shortcuts.ui.dialog
+package com.blacksquircle.ui.feature.shortcuts.api.navigation
 
-import androidx.compose.runtime.Immutable
-import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
+import kotlinx.serialization.Serializable
 
-@Immutable
-internal data class KeybindingViewState(
-    val shortcut: Shortcut = Shortcut.CUT,
-    val isCtrl: Boolean = false,
-    val isShift: Boolean = false,
-    val isAlt: Boolean = false,
-    val key: Char = '\u0000',
-) : ViewState()
+@Serializable
+data object ShortcutsScreen
+
+@Serializable
+data class EditKeybindingDialog(
+    val shortcut: Shortcut,
+    val isCtrl: Boolean,
+    val isShift: Boolean,
+    val isAlt: Boolean,
+    val key: Char,
+)
+
+@Serializable
+data object ConflictKeyDialog
