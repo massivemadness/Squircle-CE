@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.PopupProperties
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.feature.editor.R
@@ -41,7 +40,6 @@ internal fun FileMenu(
         expanded = expanded,
         onDismiss = onDismiss,
         verticalOffset = (-56).dp,
-        properties = PopupProperties(focusable = false),
         modifier = modifier,
     ) {
         PopupMenuItem(

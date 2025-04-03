@@ -42,7 +42,9 @@ internal fun FindMenu(
         expanded = expanded,
         onDismiss = onDismiss,
         verticalOffset = (-56).dp,
-        properties = PopupProperties(focusable = false),
+        properties = PopupProperties(
+            focusable = false // keep keyboard in focus
+        ),
         modifier = modifier,
     ) {
         PopupMenuItem(
