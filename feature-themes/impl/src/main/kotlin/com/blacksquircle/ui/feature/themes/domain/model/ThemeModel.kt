@@ -16,8 +16,6 @@
 
 package com.blacksquircle.ui.feature.themes.domain.model
 
-import com.blacksquircle.ui.editorkit.model.ColorScheme
-
 internal data class ThemeModel(
     val uuid: String,
     val name: String,

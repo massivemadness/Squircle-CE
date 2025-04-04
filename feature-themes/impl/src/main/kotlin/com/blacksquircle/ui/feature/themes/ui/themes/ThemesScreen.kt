@@ -74,6 +74,7 @@ import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.themes.R
+import com.blacksquircle.ui.feature.themes.domain.model.EditorTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.internal.ThemesComponent
 import com.blacksquircle.ui.feature.themes.ui.themes.compose.ThemeOverview
@@ -254,7 +255,6 @@ private fun ThemesScreen(
                         themeModel = theme,
                         isSelected = theme.uuid == viewState.selectedTheme,
                         typeface = viewState.typeface,
-                        language = viewState.language,
                         onSelectClicked = { onSelectClicked(theme) },
                         onExportClicked = { onExportClicked(theme) },
                         onEditClicked = { onEditClicked(theme) },
@@ -298,7 +298,6 @@ private fun ThemesScreenPreview() {
                 ),
                 selectedTheme = "1",
                 typeface = Typeface.MONOSPACE,
-                language = JavaScriptLanguage(),
                 isLoading = false,
             ),
         )
