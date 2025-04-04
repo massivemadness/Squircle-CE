@@ -37,6 +37,7 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     debugImplementation(libs.androidx.compose.manifest)
     debugImplementation(libs.androidx.compose.tooling)
+    implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.skydoves.colorpicker.compose)
 }
