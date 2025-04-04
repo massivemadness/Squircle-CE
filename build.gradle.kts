@@ -18,7 +18,6 @@ plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.android.test) apply false
-    alias(libs.plugins.android.navigation) apply false
     alias(libs.plugins.android.baselineprofile) apply false
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.android) apply false
@@ -97,7 +96,7 @@ koverReport {
 val ktlint: Configuration by configurations.creating
 
 dependencies {
-    ktlint(libs.ktlint) {
+    ktlint(libs.pinterest.ktlint) {
         attributes {
             attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
         }

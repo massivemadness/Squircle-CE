@@ -16,7 +16,9 @@
 
 plugins {
     id("com.blacksquircle.application")
+    alias(libs.plugins.android.application)
     alias(libs.plugins.android.baselineprofile)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.kotlin.serialization)
@@ -45,50 +47,32 @@ android {
 
 dependencies {
 
-    // Core
-    implementation(libs.kotlin.stdlib)
-    implementation(libs.androidx.core)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.fragment.compose)
-    implementation(libs.androidx.splashscreen)
-    implementation(libs.androidx.profileinstaller)
-    implementation(libs.timber)
-    coreLibraryDesugaring(libs.android.desugaring)
-
-    // Google Play
-    googlePlayImplementation(libs.appupdate)
-
-    // UI
     implementation(libs.androidx.appcompat)
-    implementation(libs.materialdesign)
-
-    // Compose
-    implementation(libs.compose.ui)
-    implementation(libs.compose.foundation)
-    implementation(libs.compose.material)
-    implementation(libs.compose.adaptive)
-    implementation(libs.compose.preview)
-    debugImplementation(libs.compose.tooling)
-    debugImplementation(libs.compose.manifest)
-
-    // AAC
-    implementation(libs.androidx.viewmodel)
-    implementation(libs.androidx.lifecycle)
-    implementation(libs.androidx.navigation)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.material3.windowsizeclass)
+    implementation(libs.androidx.compose.tooling.preview)
+    implementation(libs.androidx.compose.ui)
+    debugImplementation(libs.androidx.compose.manifest)
+    debugImplementation(libs.androidx.compose.tooling)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.profileinstaller)
 
-    // Network
-    implementation(libs.serialization)
+    googlePlayImplementation(libs.google.appupdate)
+    implementation(libs.google.dagger)
+    implementation(libs.jakewharton.timber)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    testImplementation(libs.kotlinx.coroutines.test)
+    implementation(libs.kotlinx.serialization)
 
-    // Coroutines
-    implementation(libs.coroutines.core)
-    implementation(libs.coroutines.android)
-
-    // DI
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
-
-    // Modules
+    implementation(project(":common-core"))
+    implementation(project(":common-ui"))
     implementation(project(":feature-changelog"))
     implementation(project(":feature-editor:api"))
     implementation(project(":feature-editor:impl"))
@@ -104,13 +88,11 @@ dependencies {
     implementation(project(":feature-shortcuts:impl"))
     implementation(project(":feature-themes:api"))
     implementation(project(":feature-themes:impl"))
-    implementation(project(":common-core"))
-    implementation(project(":common-ui"))
-
-    // Baseline Profile
     baselineProfile(project(":benchmark"))
 
-    // Tests
+    coreLibraryDesugaring(libs.android.tools.desugaring)
+    ksp(libs.google.dagger.compiler)
+
     testImplementation(libs.test.junit)
     androidTestImplementation(libs.test.junit.ext)
     androidTestImplementation(libs.test.runner)

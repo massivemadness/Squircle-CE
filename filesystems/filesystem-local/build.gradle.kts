@@ -20,16 +20,9 @@ plugins {
 
 dependencies {
 
-    // Core
-    implementation(libs.kotlin.stdlib)
+    implementation(libs.ibm.icu4j)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.lingala.zip4j)
 
-    // Coroutines
-    implementation(libs.coroutines.core)
-
-    // Other
-    implementation(libs.zip4j)
-    implementation(libs.icu4j)
-
-    // Modules
     api(project(":filesystems:filesystem-base"))
 }

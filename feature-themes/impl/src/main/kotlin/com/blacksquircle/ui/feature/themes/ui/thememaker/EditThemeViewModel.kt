@@ -23,8 +23,8 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.ds.extensions.toHexString
-import com.blacksquircle.ui.editorkit.model.ColorScheme
 import com.blacksquircle.ui.feature.themes.R
+import com.blacksquircle.ui.feature.themes.domain.model.ColorScheme
 import com.blacksquircle.ui.feature.themes.domain.model.Property
 import com.blacksquircle.ui.feature.themes.domain.model.PropertyItem
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel

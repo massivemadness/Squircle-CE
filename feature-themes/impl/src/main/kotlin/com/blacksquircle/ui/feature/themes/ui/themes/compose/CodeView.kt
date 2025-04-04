@@ -16,37 +16,33 @@
 
 package com.blacksquircle.ui.feature.themes.ui.themes.compose
 
+import android.graphics.Typeface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.util.fastForEach
-import com.blacksquircle.ui.editorkit.model.ColorScheme
-import com.blacksquircle.ui.language.base.Language
-import com.blacksquircle.ui.language.base.model.SyntaxHighlightResult
-import com.blacksquircle.ui.language.base.model.TextStructure
-import com.blacksquircle.ui.language.base.model.TokenType
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
+import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.feature.themes.domain.model.ColorScheme
+import com.blacksquircle.ui.feature.themes.domain.model.EditorTheme
 
 @Composable
 internal fun CodeView(
-    text: String,
-    language: Language,
     colorScheme: ColorScheme,
     textStyle: TextStyle,
     modifier: Modifier = Modifier
 ) {
-    val annotatedString = remember(text, language, colorScheme) {
-        val textStructure = TextStructure(text)
-        val syntaxResults = language.getStyler().execute(textStructure)
-        syntaxHighlight(
-            text = textStructure.text,
-            colorScheme = colorScheme,
-            syntaxResults = syntaxResults,
-        )
+    val annotatedString = remember(colorScheme) {
+        parseStyledText(JAVASCRIPT_SAMPLE, colorScheme)
     }
     Text(
         text = annotatedString,
@@ -56,31 +52,76 @@ internal fun CodeView(
     )
 }
 
-private fun syntaxHighlight(
-    text: CharSequence,
-    colorScheme: ColorScheme,
-    syntaxResults: List<SyntaxHighlightResult>
-) = buildAnnotatedString {
-    append(text)
-    syntaxResults.fastForEach { result ->
-        val colorInt = when (result.tokenType) {
-            TokenType.NUMBER -> colorScheme.numberColor
-            TokenType.OPERATOR -> colorScheme.operatorColor
-            TokenType.KEYWORD -> colorScheme.keywordColor
-            TokenType.TYPE -> colorScheme.typeColor
-            TokenType.LANG_CONST -> colorScheme.langConstColor
-            TokenType.PREPROCESSOR -> colorScheme.preprocessorColor
-            TokenType.VARIABLE -> colorScheme.variableColor
-            TokenType.METHOD -> colorScheme.methodColor
-            TokenType.STRING -> colorScheme.stringColor
-            TokenType.COMMENT -> colorScheme.commentColor
-            TokenType.TAG -> colorScheme.tagColor
-            TokenType.TAG_NAME -> colorScheme.tagNameColor
-            TokenType.ATTR_NAME -> colorScheme.attrNameColor
-            TokenType.ATTR_VALUE -> colorScheme.attrValueColor
-            TokenType.ENTITY_REF -> colorScheme.entityRefColor
+@Preview
+@Composable
+private fun CodeViewPreview() {
+    PreviewBackground {
+        CodeView(
+            colorScheme = EditorTheme.DARCULA,
+            textStyle = TextStyle(
+                fontFamily = FontFamily(Typeface.MONOSPACE),
+                fontWeight = FontWeight.Normal,
+                fontSize = 10.sp
+            ),
+        )
+    }
+}
+
+/**
+ * It would be an "overkill" to use sora editor for a theme preview.
+ * So, this is an approximation of how the theme would look like.
+ */
+private val JAVASCRIPT_SAMPLE = """
+    <keyword>function</keyword> <function>makeIterator</function>(array) {
+      <keyword>var</keyword> index <operator>=</operator> <number>0</number>;
+      <keyword>return</keyword> {
+        <variable>next</variable>: <keyword>function</keyword>() {
+          <keyword>return</keyword> index <operator><</operator> array.length
+            <operator>?</operator> { <variable>value</variable>: array[index<operator>++</operator>], <variable>done</variable>: <keyword>false</keyword> }
+            <operator>:</operator> { <variable>done</variable>: <keyword>true</keyword> }
         }
-        val spanStyle = SpanStyle(color = Color(colorInt))
-        addStyle(spanStyle, result.start, result.end)
+      };
+    }
+
+    <keyword>var</keyword> it = <function>makeIterator</function>([<string>"simple"</string>, <string>"iterator"</string>]);
+
+    console.<function>log</function>(it.<function>next</function>()); <comment>// done: false</comment>
+    console.<function>log</function>(it.<function>next</function>()); <comment>// done: false</comment>
+    console.<function>log</function>(it.<function>next</function>()); <comment>// done: true</comment>
+""".trimIndent()
+
+@Suppress("SameParameterValue")
+private fun parseStyledText(input: String, colorScheme: ColorScheme): AnnotatedString {
+    return buildAnnotatedString {
+        val regex = "<(\\w+)>(.*?)</\\1>".toRegex()
+        var lastIndex = 0
+
+        regex.findAll(input).forEach { match ->
+            val tag = match.groups[1]?.value ?: ""
+            val content = match.groups[2]?.value ?: ""
+            val startIndex = match.range.first
+            val endIndex = match.range.last + 1
+
+            append(input.substring(lastIndex, startIndex))
+
+            withStyle(
+                style = when (tag) {
+                    "keyword" -> SpanStyle(color = Color(colorScheme.keywordColor))
+                    "function" -> SpanStyle(color = Color(colorScheme.methodColor))
+                    "operator" -> SpanStyle(color = Color(colorScheme.operatorColor))
+                    "number" -> SpanStyle(color = Color(colorScheme.numberColor))
+                    "variable" -> SpanStyle(color = Color(colorScheme.variableColor))
+                    "string" -> SpanStyle(color = Color(colorScheme.stringColor))
+                    "comment" -> SpanStyle(color = Color(colorScheme.commentColor))
+                    else -> SpanStyle()
+                }
+            ) {
+                append(content)
+            }
+
+            lastIndex = endIndex
+        }
+
+        append(input.substring(lastIndex))
     }
 }

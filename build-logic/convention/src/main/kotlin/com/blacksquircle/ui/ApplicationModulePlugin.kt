@@ -32,8 +32,6 @@ class ApplicationModulePlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.application")
-                apply("org.jetbrains.kotlin.android")
-                apply("com.google.devtools.ksp")
                 apply("com.blacksquircle.lint")
             }
 

@@ -19,6 +19,7 @@ import com.android.build.api.dsl.ManagedVirtualDevice
 plugins {
     id("com.blacksquircle.test")
     alias(libs.plugins.android.baselineprofile)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -41,7 +42,6 @@ baselineProfile {
 
 dependencies {
 
-    // Tests
     implementation(libs.test.junit)
     implementation(libs.test.junit.ext)
     implementation(libs.test.runner)
@@ -51,7 +51,9 @@ dependencies {
 androidComponents {
     onVariants { variant ->
         val artifactsLoader = variant.artifacts.getBuiltArtifactsLoader()
-        val applicationId = variant.testedApks.map { artifactsLoader.load(it)?.applicationId }
+        val applicationId = variant.testedApks.map {
+            artifactsLoader.load(it)?.applicationId.orEmpty()
+        }
         variant.instrumentationRunnerArguments.put("targetAppId", applicationId)
     }
 }

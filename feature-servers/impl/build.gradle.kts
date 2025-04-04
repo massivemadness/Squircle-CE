@@ -16,7 +16,8 @@
 
 plugins {
     id("com.blacksquircle.feature")
-    alias(libs.plugins.android.navigation)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.kotlin.serialization)
@@ -32,49 +33,33 @@ android {
 
 dependencies {
 
-    // Core
-    implementation(libs.kotlin.stdlib)
-    implementation(libs.androidx.core)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.fragment.compose)
-    implementation(libs.timber)
-
-    // Compose
-    implementation(libs.compose.ui)
-    implementation(libs.compose.foundation)
-    implementation(libs.compose.material)
-    implementation(libs.compose.preview)
-    debugImplementation(libs.compose.tooling)
-    debugImplementation(libs.compose.manifest)
-
-    // AAC
-    implementation(libs.androidx.viewmodel)
-    implementation(libs.androidx.lifecycle)
-    implementation(libs.androidx.navigation)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.tooling.preview)
+    implementation(libs.androidx.compose.ui)
+    debugImplementation(libs.androidx.compose.manifest)
+    debugImplementation(libs.androidx.compose.tooling)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.google.dagger)
+    implementation(libs.jakewharton.timber)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    testImplementation(libs.kotlinx.coroutines.test)
+    implementation(libs.kotlinx.serialization)
 
-    // Coroutines
-    implementation(libs.coroutines.core)
-    implementation(libs.coroutines.android)
-    testImplementation(libs.coroutines.test)
+    ksp(libs.google.dagger.compiler)
 
-    // Network
-    implementation(libs.serialization)
-
-    // DI
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
-
-    // Modules
-    implementation(project(":feature-servers:api"))
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
-
+    implementation(project(":feature-servers:api"))
     implementation(project(":filesystems:filesystem-ftp"))
     implementation(project(":filesystems:filesystem-ftps"))
     implementation(project(":filesystems:filesystem-sftp"))
 
-    // Tests
     testImplementation(libs.test.junit)
     testImplementation(libs.test.mockk)
     androidTestImplementation(libs.test.junit.ext)

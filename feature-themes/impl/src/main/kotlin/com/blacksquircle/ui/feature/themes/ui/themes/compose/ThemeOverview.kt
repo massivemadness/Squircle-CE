@@ -53,11 +53,9 @@ import com.blacksquircle.ui.ds.extensions.isColorDark
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
-import com.blacksquircle.ui.editorkit.utils.EditorTheme
 import com.blacksquircle.ui.feature.themes.R
+import com.blacksquircle.ui.feature.themes.domain.model.EditorTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
-import com.blacksquircle.ui.language.base.Language
-import com.blacksquircle.ui.language.javascript.JavaScriptLanguage
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -65,7 +63,6 @@ internal fun ThemeOverview(
     themeModel: ThemeModel,
     isSelected: Boolean,
     typeface: Typeface,
-    language: Language,
     onSelectClicked: () -> Unit,
     onExportClicked: () -> Unit,
     onEditClicked: () -> Unit,
@@ -134,8 +131,6 @@ internal fun ThemeOverview(
             }
 
             CodeView(
-                text = JAVASCRIPT_SAMPLE,
-                language = language,
                 colorScheme = themeModel.colorScheme,
                 textStyle = TextStyle(
                     fontFamily = FontFamily(typeface),
@@ -186,25 +181,6 @@ internal fun ThemeOverview(
     }
 }
 
-private val JAVASCRIPT_SAMPLE = """
-    function makeIterator(array) {
-      var index = 0;
-      return {
-        next: function() {
-          return index < array.length
-            ? { value: array[index++], done: false }
-            : { done: true }
-        }
-      };
-    }
-
-    var it = makeIterator(["simple", "iterator"]);
-
-    console.log(it.next()); // done: false
-    console.log(it.next()); // done: false
-    console.log(it.next()); // done: true
-""".trimIndent()
-
 @PreviewLightDark
 @Composable
 private fun ThemeOverviewPreview() {
@@ -219,7 +195,6 @@ private fun ThemeOverviewPreview() {
             ),
             isSelected = false,
             typeface = Typeface.MONOSPACE,
-            language = JavaScriptLanguage(),
             onSelectClicked = {},
             onExportClicked = {},
             onEditClicked = {},

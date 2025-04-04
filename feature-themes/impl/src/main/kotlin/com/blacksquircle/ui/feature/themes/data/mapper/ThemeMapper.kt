@@ -19,11 +19,11 @@ package com.blacksquircle.ui.feature.themes.data.mapper
 import androidx.core.graphics.toColorInt
 import com.blacksquircle.ui.core.storage.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.ds.extensions.toHexString
-import com.blacksquircle.ui.editorkit.model.ColorScheme
-import com.blacksquircle.ui.editorkit.utils.EditorTheme
 import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
 import com.blacksquircle.ui.feature.themes.data.model.ExternalScheme
 import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
+import com.blacksquircle.ui.feature.themes.domain.model.ColorScheme
+import com.blacksquircle.ui.feature.themes.domain.model.EditorTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import java.util.*
 
