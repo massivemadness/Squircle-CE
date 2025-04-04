@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+rootProject.name = "Squircle-CE"
+
 pluginManagement {
     includeBuild("build-logic")
     includeBuild("sora-editor")

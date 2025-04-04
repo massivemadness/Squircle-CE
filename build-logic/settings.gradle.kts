@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+rootProject.name = "build-logic"
+
 dependencyResolutionManagement {
     repositories {
         google()

@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.editor.ui.editor.view
 import android.content.Context
 import android.util.AttributeSet
 import com.blacksquircle.ui.feature.editor.R
+import io.github.rosemoe.sora.text.Content
 import io.github.rosemoe.sora.R as SoraR
 import io.github.rosemoe.sora.widget.CodeEditor as SoraEditor
 
@@ -28,7 +29,7 @@ import io.github.rosemoe.sora.widget.CodeEditor as SoraEditor
  * - Changed divider and linenumber margins
  * - Changed vertical scroll thumb's drawable
  * - Added support for minimum gutter width
- * - Added scroll X and Y coordinates in [TextContent]
+ * - Added scroll X and Y coordinates in [Content]
  * - Added cleaner version of [setNonPrintablePaintingFlags]
  * - Disabled cursor animation
  * - Disabled line number panel
@@ -77,12 +78,6 @@ internal class CodeEditor @JvmOverloads constructor(
         } else {
             gutterWidth
         }
-    }
-
-    override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
-        super.onScrollChanged(l, t, oldl, oldt)
-        text.scrollX = l
-        text.scrollY = t
     }
 
     fun setShowInvisibleChars(whether: Boolean) {

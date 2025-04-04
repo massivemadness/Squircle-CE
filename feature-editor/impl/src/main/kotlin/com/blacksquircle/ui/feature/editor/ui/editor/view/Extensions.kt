@@ -26,18 +26,6 @@ import io.github.rosemoe.sora.widget.CodeEditor
 import io.github.rosemoe.sora.widget.SelectionMovement
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 
-internal var Content.scrollX: Int
-    get() = (this as? TextContent)?.scrollX ?: 0
-    set(value) {
-        (this as? TextContent)?.scrollX = value
-    }
-
-internal var Content.scrollY: Int
-    get() = (this as? TextContent)?.scrollY ?: 0
-    set(value) {
-        (this as? TextContent)?.scrollY = value
-    }
-
 internal val Content.selectionStart: Int
     get() = cursor.left
 
