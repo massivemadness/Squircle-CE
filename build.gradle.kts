@@ -112,6 +112,7 @@ tasks.register<JavaExec>("ktlintCheck") {
         "**/src/**/*.kt",
         "**.kts",
         "!**/build/**",
+        "!sora-editor/**" // Exclude submodule from ktlint
     )
 }
 
@@ -126,5 +127,6 @@ tasks.register<JavaExec>("ktlintFormat") {
         "**/src/**/*.kt",
         "**.kts",
         "!**/build/**",
+        "!sora-editor/**" // Exclude submodule from ktlint
     )
 }

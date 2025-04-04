@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
+rootProject.name = "Squircle-CE"
+
 pluginManagement {
     includeBuild("build-logic")
+    includeBuild("sora-editor")
     repositories {
         google()
         mavenCentral()
@@ -65,3 +68,5 @@ include(
     // TODO ":filesystems:filesystem-dropbox",
     // TODO ":filesystems:filesystem-googledrive",
 )
+
+includeBuild("sora-editor")

@@ -28,7 +28,6 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorCommand
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorController
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.ui.editor.view.CodeEditor
-import com.blacksquircle.ui.feature.editor.ui.editor.view.TextContent
 import com.blacksquircle.ui.feature.editor.ui.editor.view.createFromRegistry
 import com.blacksquircle.ui.feature.editor.ui.editor.view.deleteLine
 import com.blacksquircle.ui.feature.editor.ui.editor.view.endOfLine
@@ -40,12 +39,13 @@ import com.blacksquircle.ui.feature.editor.ui.editor.view.syncScroll
 import com.blacksquircle.ui.feature.editor.ui.editor.view.toggleCase
 import io.github.rosemoe.sora.event.ContentChangeEvent
 import io.github.rosemoe.sora.event.KeyBindingEvent
+import io.github.rosemoe.sora.text.Content
 import io.github.rosemoe.sora.widget.EditorSearcher.SearchOptions
 import io.github.rosemoe.sora.widget.subscribeAlways
 
 @Composable
 internal fun CodeEditor(
-    content: TextContent,
+    content: Content,
     language: String,
     settings: EditorSettings,
     controller: EditorController,

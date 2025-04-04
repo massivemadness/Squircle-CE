@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.editor.data.manager
 import com.blacksquircle.ui.feature.editor.data.utils.readFile
 import com.blacksquircle.ui.feature.editor.data.utils.writeFile
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.feature.editor.ui.editor.view.TextContent
+import io.github.rosemoe.sora.text.Content
 import io.github.rosemoe.sora.text.UndoManager
 import java.io.File
 
@@ -29,7 +29,7 @@ internal class CacheManager(private val cacheDir: File) {
         return cacheFile(document, postfix = TEXT).exists()
     }
 
-    fun saveContent(document: DocumentModel, content: TextContent) {
+    fun saveContent(document: DocumentModel, content: Content) {
         val textFile = cacheFile(document, postfix = TEXT)
         if (!textFile.exists()) {
             textFile.createNewFile()
@@ -43,14 +43,14 @@ internal class CacheManager(private val cacheDir: File) {
         content.undoManager.writeFile(historyFile)
     }
 
-    fun loadContent(document: DocumentModel): TextContent {
+    fun loadContent(document: DocumentModel): Content {
         val textFile = cacheFile(document, postfix = TEXT)
         if (!textFile.exists()) {
             textFile.createNewFile()
         }
 
         val text = textFile.readText()
-        val content = TextContent(text)
+        val content = Content(text)
 
         val selectionStart = content.indexer.getCharPosition(document.selectionStart)
         val selectionEnd = content.indexer.getCharPosition(document.selectionEnd)
