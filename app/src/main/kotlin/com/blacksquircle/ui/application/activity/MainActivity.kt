@@ -21,6 +21,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.material.Surface
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -28,6 +29,7 @@ import com.blacksquircle.ui.application.viewmodel.MainViewModel
 import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.animation.NavigationTransition
 import com.blacksquircle.ui.feature.changelog.ui.changelogGraph
 import com.blacksquircle.ui.feature.editor.api.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.editorGraph
@@ -61,19 +63,25 @@ internal class MainActivity : ComponentActivity() {
 
         setContent {
             SquircleTheme {
-                val navController = rememberNavController()
-                NavHost(
-                    navController = navController,
-                    startDestination = EditorScreen
-                ) {
-                    changelogGraph(navController)
-                    editorGraph(navController)
-                    explorerGraph(navController)
-                    fontsGraph(navController)
-                    serversGraph(navController)
-                    settingsGraph(navController)
-                    shortcutsGraph(navController)
-                    themesGraph(navController)
+                Surface(color = SquircleTheme.colors.colorBackgroundPrimary) {
+                    val navController = rememberNavController()
+                    NavHost(
+                        navController = navController,
+                        startDestination = EditorScreen,
+                        enterTransition = { NavigationTransition.EnterTransition },
+                        exitTransition = { NavigationTransition.ExitTransition },
+                        popEnterTransition = { NavigationTransition.PopEnterTransition },
+                        popExitTransition = { NavigationTransition.PopExitTransition },
+                    ) {
+                        changelogGraph(navController)
+                        editorGraph(navController)
+                        explorerGraph(navController)
+                        fontsGraph(navController)
+                        serversGraph(navController)
+                        settingsGraph(navController)
+                        shortcutsGraph(navController)
+                        themesGraph(navController)
+                    }
                 }
             }
         }
