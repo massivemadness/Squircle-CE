@@ -89,7 +89,7 @@ jobs:
             gradle-${{ runner.os }}-
 
       - name: Run unit tests
-        run: ./gradlew testDebugUnitTest
+        run: ./gradlew testDebugUnitTest --no-configuration-cache
 
   ktlint:
     runs-on: ubuntu-latest
@@ -117,7 +117,7 @@ jobs:
             gradle-${{ runner.os }}-
 
       - name: Run ktlint
-        run: ./gradlew ktlintCheck
+        run: ./gradlew ktlintCheck --no-configuration-cache
 
   android_lint:
     runs-on: ubuntu-latest
@@ -145,4 +145,4 @@ jobs:
             gradle-${{ runner.os }}-
 
       - name: Run Android Lint
-        run: ./gradlew lint
+        run: ./gradlew lint --no-configuration-cache
