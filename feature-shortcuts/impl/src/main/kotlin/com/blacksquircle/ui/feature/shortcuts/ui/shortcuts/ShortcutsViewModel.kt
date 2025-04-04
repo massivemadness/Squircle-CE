@@ -82,7 +82,7 @@ internal class ShortcutsViewModel @Inject constructor(
                 isCtrl = keybinding.isCtrl,
                 isShift = keybinding.isShift,
                 isAlt = keybinding.isAlt,
-                key = keybinding.key,
+                keyCode = keybinding.key.code,
             )
             _viewEvent.send(ViewEvent.Navigation(screen))
         }

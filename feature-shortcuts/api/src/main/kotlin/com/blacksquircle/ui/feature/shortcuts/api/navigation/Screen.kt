@@ -28,7 +28,7 @@ data class EditKeybindingDialog(
     val isCtrl: Boolean,
     val isShift: Boolean,
     val isAlt: Boolean,
-    val key: Char,
+    val keyCode: Int,
 )
 
 @Serializable

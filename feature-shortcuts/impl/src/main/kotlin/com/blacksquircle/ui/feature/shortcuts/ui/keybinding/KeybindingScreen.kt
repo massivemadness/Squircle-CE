@@ -72,7 +72,7 @@ internal fun KeybindingScreen(
             isCtrl = navArgs.isCtrl,
             isShift = navArgs.isShift,
             isAlt = navArgs.isAlt,
-            key = navArgs.key,
+            key = Char(navArgs.keyCode),
         )
         KeybindingViewModel.ParameterizedFactory(keybinding).also(component::inject)
     }
