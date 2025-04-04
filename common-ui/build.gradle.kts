@@ -34,8 +34,6 @@ dependencies {
     implementation(libs.androidx.splashscreen)
 
     // UI
-    implementation(libs.androidx.appcompat)
-    implementation(libs.materialdesign)
     implementation(libs.colorpicker)
 
     // Compose

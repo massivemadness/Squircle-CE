@@ -39,10 +39,8 @@ android {
 dependencies {
 
     // Core
-    implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.core)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.fragment.compose)
     implementation(libs.timber)
     coreLibraryDesugaring(libs.android.desugaring)
 
@@ -57,8 +55,8 @@ dependencies {
     implementation(libs.sora.textmate)
 
     // AAC
-    implementation(libs.androidx.viewmodel)
-    implementation(libs.androidx.lifecycle)
+    implementation(libs.androidx.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.compose)
     implementation(libs.androidx.navigation.compose)
 
     // Network
@@ -79,10 +77,6 @@ dependencies {
     implementation(project(":feature-themes:api"))
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
-
-    // TODO remove
-    implementation(project(":editorkit:editorkit"))
-    implementation(project(":editorkit:language-javascript"))
 
     // Tests
     testImplementation(libs.test.junit)

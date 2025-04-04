@@ -73,12 +73,10 @@ import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
-import com.blacksquircle.ui.editorkit.utils.EditorTheme
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.internal.ThemesComponent
 import com.blacksquircle.ui.feature.themes.ui.themes.compose.ThemeOverview
-import com.blacksquircle.ui.language.javascript.JavaScriptLanguage
 import com.blacksquircle.ui.ds.R as UiR
 
 internal const val KEY_SAVE = "KEY_SAVE"

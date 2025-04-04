@@ -33,10 +33,8 @@ android {
 dependencies {
 
     // Core
-    implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.core)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.fragment.compose)
     implementation(libs.timber)
 
     // Compose
@@ -50,7 +48,6 @@ dependencies {
     // AAC
     implementation(libs.androidx.viewmodel.compose)
     implementation(libs.androidx.lifecycle.compose)
-    implementation(libs.androidx.navigation) // xml
     implementation(libs.androidx.navigation.compose)
 
     // Coroutines

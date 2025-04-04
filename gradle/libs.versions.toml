@@ -7,13 +7,11 @@ ksp = "2.1.10-1.0.29"
 kover = "0.7.4"
 core = "1.15.0"
 activity = "1.10.1"
-fragment = "1.8.6"
 splashscreen = "1.0.1"
 profile-installer = "1.4.1"
 timber = "5.0.1"
 appupdate = "2.1.0"
 appcompat = "1.7.0"
-material = "1.12.0"
 compose = "1.7.8"
 adaptive = "1.3.1"
 colorpicker = "1.1.2"
@@ -59,10 +57,8 @@ plugin-android = { module = "com.android.tools.build:gradle", version.ref = "agp
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 # plugin-kover = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
 
-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 android-platform = { module = "com.google.android:android", version.ref = "android-platform" }
 android-desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "android-desugaring" }
-materialdesign = { module = "com.google.android.material:material", version.ref = "material" }
 colorpicker = { module = "com.github.skydoves:colorpicker-compose", version.ref = "colorpicker" }
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 sora-editor = { module = "io.github.Rosemoe.sora-editor:editor", version.ref = "sora" }
@@ -85,17 +81,13 @@ coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", ve
 
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "core" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
-androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragment" }
 androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }
 androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profile-installer" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-vectordrawable = { module = "androidx.vectordrawable:vectordrawable", version.ref = "vectordrawable" }
 androidx-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "lifecycle" }
-androidx-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
-androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
-androidx-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 androidx-room = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }

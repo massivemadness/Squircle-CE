@@ -40,19 +40,15 @@ android {
 dependencies {
 
     // Core
-    implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.core)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.fragment.compose)
     implementation(libs.timber)
 
     // UI
     implementation(libs.androidx.appcompat)
-    implementation(libs.materialdesign)
 
     // AAC
     implementation(libs.androidx.service)
-    implementation(libs.androidx.viewmodel)
     implementation(libs.androidx.viewmodel.compose)
     implementation(libs.androidx.lifecycle.compose)
     implementation(libs.androidx.navigation.compose)

@@ -21,7 +21,6 @@ plugins {
 dependencies {
 
     // Core
-    implementation(libs.kotlin.stdlib)
     implementation(libs.bouncycastle)
 
     // Network
