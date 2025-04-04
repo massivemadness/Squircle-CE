@@ -69,6 +69,7 @@ dependencies {
     implementation(project(":feature-changelog"))
     implementation(project(":feature-fonts:api"))
     implementation(project(":feature-servers:api"))
+    implementation(project(":feature-settings:api"))
     implementation(project(":feature-shortcuts:api"))
     implementation(project(":feature-themes:api"))
     implementation(project(":common-core"))

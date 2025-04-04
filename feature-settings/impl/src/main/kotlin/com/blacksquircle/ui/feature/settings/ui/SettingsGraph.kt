@@ -19,31 +19,18 @@ package com.blacksquircle.ui.feature.settings.ui
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.blacksquircle.ui.feature.settings.api.navigation.AboutHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.AppHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.CodeStyleHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.EditorHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.FilesHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.settings.ui.about.AboutHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.application.AppHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.header.HeaderListScreen
-import kotlinx.serialization.Serializable
-
-@Serializable
-data object HeaderListScreen
-
-@Serializable
-data object AppHeaderScreen
-
-@Serializable
-data object EditorHeaderScreen
-
-@Serializable
-data object CodeStyleHeaderScreen
-
-@Serializable
-data object FilesHeaderScreen
-
-@Serializable
-data object AboutHeaderScreen
 
 fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
     composable<HeaderListScreen> {

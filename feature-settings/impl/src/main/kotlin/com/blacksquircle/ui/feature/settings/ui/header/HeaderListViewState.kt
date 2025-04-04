@@ -20,11 +20,11 @@ import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.servers.api.navigation.CloudScreen
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.ui.AboutHeaderScreen
-import com.blacksquircle.ui.feature.settings.ui.AppHeaderScreen
-import com.blacksquircle.ui.feature.settings.ui.CodeStyleHeaderScreen
-import com.blacksquircle.ui.feature.settings.ui.EditorHeaderScreen
-import com.blacksquircle.ui.feature.settings.ui.FilesHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.AboutHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.AppHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.CodeStyleHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.EditorHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.FilesHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.header.model.PreferenceHeader
 import com.blacksquircle.ui.feature.shortcuts.api.navigation.ShortcutsScreen
 

@@ -13,8 +13,8 @@ files:
     translation: /feature-fonts/impl/src/main/res/values-%android_code%/%original_file_name%
   - source: /feature-servers/impl/src/main/res/values/strings.xml
     translation: /feature-servers/impl/src/main/res/values-%android_code%/%original_file_name%
-  - source: /feature-settings/src/main/res/values/strings.xml
-    translation: /feature-settings/src/main/res/values-%android_code%/%original_file_name%
+  - source: /feature-settings/impl/src/main/res/values/strings.xml
+    translation: /feature-settings/impl/src/main/res/values-%android_code%/%original_file_name%
   - source: /feature-shortcuts/impl/src/main/res/values/strings.xml
     translation: /feature-shortcuts/impl/src/main/res/values-%android_code%/%original_file_name%
   - source: /feature-themes/impl/src/main/res/values/strings.xml

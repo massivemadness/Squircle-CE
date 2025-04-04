@@ -47,6 +47,7 @@ import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionStart
 import com.blacksquircle.ui.feature.explorer.api.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
+import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
@@ -657,8 +658,8 @@ internal class EditorViewModel @Inject constructor(
 
     fun onSettingsClicked() {
         viewModelScope.launch {
-            // TODO val screen = HeaderListScreen
-            // _viewEvent.send(ViewEvent.Navigation(screen))
+            val screen = HeaderListScreen
+            _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 
