@@ -20,7 +20,5 @@ plugins {
 }
 
 dependencies {
-
-    // Network
-    implementation(libs.serialization)
+    implementation(libs.kotlinx.serialization)
 }

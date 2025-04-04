@@ -21,15 +21,10 @@ plugins {
 
 dependencies {
 
-    // Core
-    compileOnly(libs.android.platform)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.serialization)
 
-    // Coroutines
-    implementation(libs.coroutines.core)
+    compileOnly(libs.android.tools.platform)
 
-    // Network
-    implementation(libs.serialization)
-
-    // Modules
     api(project(":filesystems:filesystem-base"))
 }

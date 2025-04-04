@@ -21,9 +21,7 @@ plugins {
 
 dependencies {
 
-    // Core
-    compileOnly(libs.android.platform)
+    implementation(libs.kotlinx.serialization)
 
-    // Network
-    implementation(libs.serialization)
+    compileOnly(libs.android.tools.platform)
 }

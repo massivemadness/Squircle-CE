@@ -20,18 +20,10 @@ plugins {
 
 dependencies {
 
-    // Core
-    implementation(libs.bouncycastle)
+    implementation(libs.bouncycastle.bcprov)
+    implementation(libs.ibm.icu4j)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.mwiede.jsch)
 
-    // Network
-    implementation(libs.jsch)
-
-    // Coroutines
-    implementation(libs.coroutines.core)
-
-    // Other
-    implementation(libs.icu4j)
-
-    // Modules
     api(project(":filesystems:filesystem-base"))
 }

@@ -19,7 +19,5 @@ plugins {
 }
 
 dependencies {
-
-    // Coroutines
-    implementation(libs.coroutines.core)
+    implementation(libs.kotlinx.coroutines.core)
 }

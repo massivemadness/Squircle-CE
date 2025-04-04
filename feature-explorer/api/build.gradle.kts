@@ -21,9 +21,7 @@ plugins {
 
 dependencies {
 
-    // Network
-    implementation(libs.serialization)
+    implementation(libs.kotlinx.serialization)
 
-    // Modules
     api(project(":filesystems:filesystem-base"))
 }

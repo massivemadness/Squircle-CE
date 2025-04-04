@@ -28,13 +28,9 @@ android {
 
 dependencies {
 
-    // Coroutines
-    implementation(libs.coroutines.core)
+    implementation(libs.ibm.icu4j)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.topjohnwu.libsu.io)
 
-    // Other
-    implementation(libs.icu4j)
-    implementation(libs.superuser)
-
-    // Modules
     api(project(":filesystems:filesystem-base"))
 }

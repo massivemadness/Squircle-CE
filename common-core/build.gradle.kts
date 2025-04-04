@@ -39,27 +39,21 @@ android {
 
 dependencies {
 
-    // Core
-    implementation(libs.androidx.core)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.timber)
-
-    // UI
     implementation(libs.androidx.appcompat)
-
-    // AAC
-    implementation(libs.androidx.service)
-    implementation(libs.androidx.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.compose)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.service)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.room)
-    ksp(libs.androidx.room.compiler)
-
-    // DI
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
-
-    // Tests
+    implementation(libs.google.dagger)
+    implementation(libs.jakewharton.timber)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.test)
     implementation(libs.test.junit)
-    implementation(libs.coroutines.test)
+
+    ksp(libs.androidx.room.compiler)
+    ksp(libs.google.dagger.compiler)
 }

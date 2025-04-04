@@ -31,42 +31,30 @@ android {
 
 dependencies {
 
-    // Core
-    implementation(libs.androidx.core)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.timber)
-
-    // Compose
-    implementation(libs.compose.ui)
-    implementation(libs.compose.foundation)
-    implementation(libs.compose.material)
-    implementation(libs.compose.preview)
-    debugImplementation(libs.compose.tooling)
-    debugImplementation(libs.compose.manifest)
-
-    // AAC
-    implementation(libs.androidx.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.compose)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.tooling.preview)
+    implementation(libs.androidx.compose.ui)
+    debugImplementation(libs.androidx.compose.manifest)
+    debugImplementation(libs.androidx.compose.tooling)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.google.dagger)
+    implementation(libs.jakewharton.timber)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    testImplementation(libs.kotlinx.coroutines.test)
+    implementation(libs.kotlinx.serialization)
 
-    // Coroutines
-    implementation(libs.coroutines.core)
-    implementation(libs.coroutines.android)
-    testImplementation(libs.coroutines.test)
+    ksp(libs.google.dagger.compiler)
 
-    // Network
-    implementation(libs.serialization)
-
-    // DI
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
-
-    // Modules
-    implementation(project(":feature-fonts:api"))
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
+    implementation(project(":feature-fonts:api"))
 
-    // Tests
     testImplementation(libs.test.junit)
     testImplementation(libs.test.mockk)
     androidTestImplementation(libs.test.junit.ext)

@@ -20,15 +20,9 @@ plugins {
 
 dependencies {
 
-    // Network
-    implementation(libs.ftpclient)
+    implementation(libs.apache.ftpclient)
+    implementation(libs.ibm.icu4j)
+    implementation(libs.kotlinx.coroutines.core)
 
-    // Coroutines
-    implementation(libs.coroutines.core)
-
-    // Other
-    implementation(libs.icu4j)
-
-    // Modules
     api(project(":filesystems:filesystem-base"))
 }
