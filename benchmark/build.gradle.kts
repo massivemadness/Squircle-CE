@@ -19,6 +19,7 @@ import com.android.build.api.dsl.ManagedVirtualDevice
 plugins {
     id("com.blacksquircle.test")
     alias(libs.plugins.android.baselineprofile)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {

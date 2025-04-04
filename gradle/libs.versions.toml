@@ -39,16 +39,15 @@ zip4j = "2.11.5"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-plugin" }
+android-baselineprofile = { id = "androidx.baselineprofile", version.ref = "test-benchmark" }
 android-library = { id = "com.android.library", version.ref = "android-plugin" }
 android-test = { id = "com.android.test", version.ref = "android-plugin" }
-android-navigation = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
-android-baselineprofile = { id = "androidx.baselineprofile", version.ref = "test-benchmark" }
 
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 [libraries]
@@ -90,13 +89,13 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
-ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
+libsu-io = { module = "com.github.topjohnwu.libsu:io", version.ref = "superuser" }
 lingala-zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
 mwiede-jsch = { module = "com.github.mwiede:jsch", version.ref = "jsch" }
+pinterest-ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
 skydoves-colorpicker-compose = { module = "com.github.skydoves:colorpicker-compose", version.ref = "colorpicker" }
 sora-editor = { module = "io.github.Rosemoe.sora-editor:editor", version.ref = "sora" }
 sora-textmate = { module = "io.github.Rosemoe.sora-editor:language-textmate", version.ref = "sora" }
-topjohnwu-libsu-io = { module = "com.github.topjohnwu.libsu:io", version.ref = "superuser" }
 
 test-junit = { module = "junit:junit", version.ref = "junit" }
 test-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }

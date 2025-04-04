@@ -16,6 +16,8 @@
 
 plugins {
     id("com.blacksquircle.feature")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -30,7 +32,7 @@ dependencies {
 
     implementation(libs.ibm.icu4j)
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.topjohnwu.libsu.io)
+    implementation(libs.libsu.io)
 
     api(project(":filesystems:filesystem-base"))
 }
