@@ -23,3 +23,4 @@ ktlint_standard_function-signature = disabled
 ktlint_standard_function-naming = disabled
 ktlint_standard_property-naming = disabled
 ktlint_standard_comment-wrapping = disabled
+ktlint_standard_filename = disabled

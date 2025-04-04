@@ -16,6 +16,7 @@
 
 plugins {
     id("com.blacksquircle.kotlin")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 dependencies {
@@ -26,6 +27,9 @@ dependencies {
 
     // Coroutines
     implementation(libs.coroutines.core)
+
+    // Network
+    implementation(libs.serialization)
 
     // Modules
     api(project(":filesystems:filesystem-base"))

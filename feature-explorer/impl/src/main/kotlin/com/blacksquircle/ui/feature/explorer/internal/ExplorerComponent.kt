@@ -23,9 +23,9 @@ import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiProvider
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvider
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiProvider
-import com.blacksquircle.ui.feature.explorer.ui.service.TaskService
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.TaskViewModel
+import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.task.TaskService
+import com.blacksquircle.ui.feature.explorer.ui.task.TaskViewModel
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiDepsProvider
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiProvider
 import dagger.Component

@@ -25,9 +25,9 @@ import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
-import com.blacksquircle.ui.feature.themes.ui.fragment.ThemeViewStateProvider
-import com.blacksquircle.ui.feature.themes.ui.fragment.ThemesViewState
-import com.blacksquircle.ui.feature.themes.ui.viewmodel.ThemesViewModel
+import com.blacksquircle.ui.feature.themes.ui.themes.ThemeViewStateProvider
+import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewModel
+import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewState
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

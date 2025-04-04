@@ -19,6 +19,7 @@ plugins {
     alias(libs.plugins.android.navigation)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -73,6 +74,7 @@ dependencies {
     implementation(project(":feature-editor:api"))
     implementation(project(":feature-explorer:api"))
     implementation(project(":feature-fonts:api"))
+    implementation(project(":feature-settings:api"))
     implementation(project(":feature-shortcuts:api"))
     implementation(project(":feature-themes:api"))
     implementation(project(":common-core"))

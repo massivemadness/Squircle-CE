@@ -18,23 +18,31 @@ package com.blacksquircle.ui.application.activity
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.updatePadding
-import androidx.fragment.app.FragmentContainerView
-import com.blacksquircle.ui.R
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import com.blacksquircle.ui.application.viewmodel.MainViewModel
-import com.blacksquircle.ui.core.extensions.applySystemWindowInsets
 import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.core.extensions.viewModels
+import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.feature.changelog.ui.changelogGraph
+import com.blacksquircle.ui.feature.editor.api.navigation.EditorScreen
+import com.blacksquircle.ui.feature.editor.ui.editorGraph
+import com.blacksquircle.ui.feature.explorer.ui.explorerGraph
+import com.blacksquircle.ui.feature.fonts.ui.fontsGraph
+import com.blacksquircle.ui.feature.servers.ui.serversGraph
+import com.blacksquircle.ui.feature.settings.ui.settingsGraph
+import com.blacksquircle.ui.feature.shortcuts.ui.shortcutsGraph
+import com.blacksquircle.ui.feature.themes.ui.themesGraph
 import com.blacksquircle.ui.internal.di.AppComponent
 import com.blacksquircle.ui.utils.InAppUpdate
-import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 import javax.inject.Provider
 
-internal class MainActivity : AppCompatActivity() {
+internal class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var inAppUpdate: InAppUpdate
@@ -48,22 +56,35 @@ internal class MainActivity : AppCompatActivity() {
         installSplashScreen()
         AppComponent.buildOrGet(this).inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val navHost = findViewById<FragmentContainerView>(R.id.nav_host)
-
         enableEdgeToEdge()
         window.fullscreenMode(viewModel.fullScreenMode)
 
-        navHost.applySystemWindowInsets(false) { left, _, right, _ ->
-            navHost.updatePadding(left = left, right = right)
+        setContent {
+            SquircleTheme {
+                val navController = rememberNavController()
+                NavHost(
+                    navController = navController,
+                    startDestination = EditorScreen
+                ) {
+                    changelogGraph(navController)
+                    editorGraph(navController)
+                    explorerGraph(navController)
+                    fontsGraph(navController)
+                    serversGraph(navController)
+                    settingsGraph(navController)
+                    shortcutsGraph(navController)
+                    themesGraph(navController)
+                }
+            }
         }
 
-        inAppUpdate.checkForUpdates(this) {
+        // TODO
+
+        /*inAppUpdate.checkForUpdates(this) {
             Snackbar.make(navHost, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.action_restart) { inAppUpdate.completeUpdate() }
                 .show()
-        }
+        }*/
 
         if (savedInstanceState == null) {
             viewModel.handleIntent(intent)

@@ -19,8 +19,8 @@ package com.blacksquircle.ui.feature.servers.internal
 import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
-import com.blacksquircle.ui.feature.servers.ui.viewmodel.CloudViewModel
-import com.blacksquircle.ui.feature.servers.ui.viewmodel.ServerViewModel
+import com.blacksquircle.ui.feature.servers.ui.cloud.CloudViewModel
+import com.blacksquircle.ui.feature.servers.ui.server.ServerViewModel
 import dagger.Component
 
 @ServersScope

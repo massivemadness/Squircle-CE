@@ -27,10 +27,10 @@ import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.Task
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.explorer.ui.fragment.ExplorerViewState
-import com.blacksquircle.ui.feature.explorer.ui.fragment.model.BreadcrumbState
-import com.blacksquircle.ui.feature.explorer.ui.fragment.model.ErrorState
-import com.blacksquircle.ui.feature.explorer.ui.viewmodel.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewState
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem

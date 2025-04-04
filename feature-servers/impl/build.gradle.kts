@@ -19,6 +19,7 @@ plugins {
     alias(libs.plugins.android.navigation)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -50,11 +51,15 @@ dependencies {
     implementation(libs.androidx.viewmodel)
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.navigation)
+    implementation(libs.androidx.navigation.compose)
 
     // Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
     testImplementation(libs.coroutines.test)
+
+    // Network
+    implementation(libs.serialization)
 
     // DI
     implementation(libs.dagger)

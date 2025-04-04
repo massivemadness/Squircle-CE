@@ -30,9 +30,9 @@ import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.data.utils.charsetFor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionEnd
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionStart
+import com.blacksquircle.ui.feature.editor.ui.editor.view.TextContent
+import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionEnd
+import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionStart
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams

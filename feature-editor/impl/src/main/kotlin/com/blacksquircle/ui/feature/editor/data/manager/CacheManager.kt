@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.editor.data.manager
 import com.blacksquircle.ui.feature.editor.data.utils.readFile
 import com.blacksquircle.ui.feature.editor.data.utils.writeFile
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
+import com.blacksquircle.ui.feature.editor.ui.editor.view.TextContent
 import io.github.rosemoe.sora.text.UndoManager
 import java.io.File
 

@@ -17,6 +17,9 @@
 plugins {
     id("com.blacksquircle.application")
     alias(libs.plugins.android.baselineprofile)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -26,6 +29,9 @@ android {
         applicationId = "com.blacksquircle.ui"
         versionCode = 10024
         versionName = "2025.1.0"
+    }
+    buildFeatures {
+        compose = true
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
@@ -56,10 +62,23 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.materialdesign)
 
+    // Compose
+    implementation(libs.compose.ui)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material)
+    implementation(libs.compose.adaptive)
+    implementation(libs.compose.preview)
+    debugImplementation(libs.compose.tooling)
+    debugImplementation(libs.compose.manifest)
+
     // AAC
     implementation(libs.androidx.viewmodel)
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.navigation)
+    implementation(libs.androidx.navigation.compose)
+
+    // Network
+    implementation(libs.serialization)
 
     // Coroutines
     implementation(libs.coroutines.core)
@@ -79,7 +98,8 @@ dependencies {
     implementation(project(":feature-fonts:impl"))
     implementation(project(":feature-servers:api"))
     implementation(project(":feature-servers:impl"))
-    implementation(project(":feature-settings"))
+    implementation(project(":feature-settings:api"))
+    implementation(project(":feature-settings:impl"))
     implementation(project(":feature-shortcuts:api"))
     implementation(project(":feature-shortcuts:impl"))
     implementation(project(":feature-themes:api"))

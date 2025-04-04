@@ -23,8 +23,8 @@ import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
-import com.blacksquircle.ui.feature.fonts.ui.fragment.FontsViewState
-import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
+import com.blacksquircle.ui.feature.fonts.ui.fonts.FontsViewModel
+import com.blacksquircle.ui.feature.fonts.ui.fonts.FontsViewState
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

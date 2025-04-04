@@ -19,8 +19,8 @@ package com.blacksquircle.ui.feature.shortcuts.internal
 import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
-import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.KeybindingViewModel
-import com.blacksquircle.ui.feature.shortcuts.ui.viewmodel.ShortcutsViewModel
+import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.KeybindingViewModel
+import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ShortcutsViewModel
 import dagger.Component
 
 @ShortcutsScope
