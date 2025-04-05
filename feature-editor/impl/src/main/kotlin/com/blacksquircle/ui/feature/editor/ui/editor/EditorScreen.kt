@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.DrawerValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,6 +38,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.MimeType
 import com.blacksquircle.ui.core.contract.rememberCreateFileContract
@@ -48,6 +51,8 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
+import com.blacksquircle.ui.ds.drawer.DrawerState
+import com.blacksquircle.ui.ds.drawer.rememberDrawerState
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
@@ -64,6 +69,8 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorController
 import com.blacksquircle.ui.feature.editor.ui.editor.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.editor.model.rememberEditorController
+import com.blacksquircle.ui.feature.explorer.api.navigation.ExplorerScreen
+import com.blacksquircle.ui.feature.explorer.ui.explorerGraph
 import kotlinx.coroutines.launch
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -85,12 +92,24 @@ internal fun EditorScreen(
         EditorViewModel.Factory().also(component::inject)
     },
 ) {
+    val scope = rememberCoroutineScope()
     val editorController = rememberEditorController()
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+
     EditorScreen(
         viewState = viewState,
+        drawerState = drawerState,
         editorController = editorController,
-        onDrawerClicked = viewModel::onDrawerClicked,
+        onDrawerClicked = {
+            scope.launch {
+                if (drawerState.isOpen) {
+                    drawerState.close()
+                } else {
+                    drawerState.open()
+                }
+            }
+        },
         onNewFileClicked = viewModel::onNewFileClicked,
         onOpenFileClicked = viewModel::onOpenFileClicked,
         onSaveFileClicked = viewModel::onSaveFileClicked,
@@ -150,7 +169,6 @@ internal fun EditorScreen(
         }
     }
 
-    val scope = rememberCoroutineScope()
     val activity = LocalActivity.current
     val context = LocalContext.current
     LaunchedEffect(Unit) {
@@ -163,15 +181,19 @@ internal fun EditorScreen(
                         activity?.finish()
                     }
                 }
+
                 is EditorViewEvent.CreateFileContract -> {
                     newFileContract.launch(defaultFileName)
                 }
+
                 is EditorViewEvent.OpenFileContract -> {
                     openFileContract.launch(arrayOf(MimeType.ANY))
                 }
+
                 is EditorViewEvent.SaveAsFileContract -> {
                     saveFileContract.launch(event.fileName)
                 }
+
                 is EditorViewEvent.Command -> {
                     scope.launch {
                         editorController.send(event.command)
@@ -206,7 +228,13 @@ internal fun EditorScreen(
     }
 
     BackHandler {
-        viewModel.onBackClicked()
+        if (drawerState.isOpen) {
+            scope.launch {
+                drawerState.close()
+            }
+        } else {
+            viewModel.onBackClicked()
+        }
     }
 
     CleanupEffect {
@@ -218,6 +246,7 @@ internal fun EditorScreen(
 private fun EditorScreen(
     viewState: EditorViewState,
     editorController: EditorController,
+    drawerState: DrawerState,
     onDrawerClicked: () -> Unit = {},
     onNewFileClicked: () -> Unit = {},
     onOpenFileClicked: () -> Unit = {},
@@ -295,6 +324,17 @@ private fun EditorScreen(
                     preset = viewState.settings.keyboardPreset,
                     onKeyClick = onExtendedKeyClicked,
                 )
+            }
+        },
+        drawerState = drawerState,
+        drawerGesturesEnabled = drawerState.isOpen,
+        drawerContent = {
+            val nestedNavController = rememberNavController()
+            NavHost(
+                navController = nestedNavController,
+                startDestination = ExplorerScreen,
+            ) {
+                explorerGraph(nestedNavController)
             }
         },
         modifier = Modifier.imePadding(),
@@ -407,7 +447,8 @@ private fun EditorScreenPreview() {
                 selectedDocument = 0,
                 isLoading = true,
             ),
-            editorController = rememberEditorController()
+            editorController = rememberEditorController(),
+            drawerState = rememberDrawerState(DrawerValue.Closed)
         )
     }
 }

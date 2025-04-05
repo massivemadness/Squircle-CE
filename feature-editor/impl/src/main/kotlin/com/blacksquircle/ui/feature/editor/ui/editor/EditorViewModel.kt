@@ -45,7 +45,6 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.ErrorState
 import com.blacksquircle.ui.feature.editor.ui.editor.model.SearchState
 import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionStart
-import com.blacksquircle.ui.feature.explorer.api.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
@@ -93,13 +92,6 @@ internal class EditorViewModel @Inject constructor(
 
     init {
         loadDocuments()
-    }
-
-    fun onDrawerClicked() {
-        viewModelScope.launch {
-            val screen = ExplorerScreen
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
     }
 
     fun onBackClicked() {
