@@ -93,13 +93,9 @@ internal class MainActivity : ComponentActivity() {
             }
         }
 
-        viewModel.viewEvent.flowWithLifecycle(lifecycle)
-            .onEach { event ->
-                when (event) {
-                    is MainViewEvent.FullScreen -> {
-                        window.fullscreenMode(event.value)
-                    }
-                }
+        viewModel.viewState.flowWithLifecycle(lifecycle)
+            .onEach { state ->
+                window.fullscreenMode(state.fullscreenMode)
             }
             .launchIn(lifecycleScope)
 

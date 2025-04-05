@@ -22,7 +22,6 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.core.theme.Theme
-import com.blacksquircle.ui.core.theme.ThemeManager
 import com.blacksquircle.ui.feature.themes.api.navigation.ThemesScreen
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -36,7 +35,6 @@ import javax.inject.Provider
 
 internal class AppHeaderViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
-    private val themeManager: ThemeManager,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(updateViewState())
@@ -54,7 +52,6 @@ internal class AppHeaderViewModel @Inject constructor(
     fun onThemeChanged(theme: Theme) {
         viewModelScope.launch {
             settingsManager.appTheme = theme.value
-            themeManager.apply(theme)
             _viewState.value = updateViewState()
         }
     }

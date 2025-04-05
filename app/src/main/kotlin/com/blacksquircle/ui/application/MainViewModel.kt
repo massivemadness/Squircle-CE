@@ -19,30 +19,33 @@ package com.blacksquircle.ui.application
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.core.theme.Theme
+import com.blacksquircle.ui.core.theme.ThemeManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class MainViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
+    private val themeManager: ThemeManager,
     private val editorInteractor: EditorInteractor,
 ) : ViewModel() {
 
-    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
-    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
+    private val _viewState = MutableStateFlow(updateViewState())
+    val viewState: StateFlow<MainViewState> = _viewState.asStateFlow()
 
     init {
-        settingsManager.setListener(SettingsManager.KEY_FULLSCREEN_MODE) {
-            toggleFullscreenMode()
+        settingsManager.setListener(SettingsManager.KEY_APP_THEME) {
+            val theme = Theme.of(settingsManager.appTheme)
+            themeManager.apply(theme)
         }
-
-        // Initial value
-        toggleFullscreenMode()
+        settingsManager.setListener(SettingsManager.KEY_FULLSCREEN_MODE) {
+            _viewState.value = updateViewState()
+        }
     }
 
     fun handleIntent(intent: Intent?) {
@@ -54,10 +57,9 @@ internal class MainViewModel @Inject constructor(
         }
     }
 
-    private fun toggleFullscreenMode() {
-        viewModelScope.launch {
-            val fullscreenMode = settingsManager.fullScreenMode
-            _viewEvent.send(MainViewEvent.FullScreen(fullscreenMode))
-        }
+    private fun updateViewState(): MainViewState {
+        return MainViewState(
+            fullscreenMode = settingsManager.fullScreenMode,
+        )
     }
 }

@@ -16,8 +16,10 @@
 
 package com.blacksquircle.ui.application
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
+import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.core.mvi.ViewState
 
-internal sealed class MainViewEvent : ViewEvent {
-    data class FullScreen(val value: Boolean) : MainViewEvent()
-}
+@Immutable
+internal data class MainViewState(
+    val fullscreenMode: Boolean,
+) : ViewState
