@@ -16,8 +16,8 @@
 
 package com.blacksquircle.ui.feature.shortcuts.ui
 
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
@@ -28,7 +28,7 @@ import com.blacksquircle.ui.feature.shortcuts.ui.conflict.ConflictKeyScreen
 import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.KeybindingScreen
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ShortcutsScreen
 
-fun NavGraphBuilder.shortcutsGraph(navController: NavController) {
+fun NavGraphBuilder.shortcutsGraph(navController: NavHostController) {
     composable<ShortcutsScreen> {
         ShortcutsScreen(navController)
     }

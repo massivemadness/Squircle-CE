@@ -16,11 +16,13 @@
 
 package com.blacksquircle.ui.feature.explorer.ui
 
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
+import com.blacksquircle.ui.ds.extensions.LocalNavController
 import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CreateDialog
@@ -78,4 +80,13 @@ fun NavGraphBuilder.explorerGraph(navController: NavHostController) {
     dialog<NotificationDeniedDialog> {
         NotificationDeniedScreen(navController)
     }
+}
+
+/**
+ * FIXME Requires :feature-explorer:impl dependency.
+ * Waiting for navigation3?
+ */
+@Composable
+fun DrawerExplorer() {
+    ExplorerScreen(LocalNavController.current)
 }

@@ -126,10 +126,6 @@ internal class ExplorerViewModel @Inject constructor(
             _viewState.update {
                 it.copy(selectedFiles = selectedFiles)
             }
-        } else {
-            viewModelScope.launch {
-                _viewEvent.send(ViewEvent.PopBackStack())
-            }
         }
     }
 

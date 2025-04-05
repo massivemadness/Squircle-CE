@@ -41,8 +41,8 @@ object ToolbarSizeDefaults {
         get() = ToolbarSize(
             height = 48.dp,
             shadowSize = 4.dp,
-            emptyIconPadding = 16.dp,
-            emptyActionsPadding = 16.dp,
+            emptyIconPadding = 8.dp,
+            emptyActionsPadding = 8.dp,
             iconButtonSize = IconButtonSizeDefaults.M,
             iconButtonPadding = PaddingValues(start = 4.dp),
             contentPadding = PaddingValues(horizontal = 12.dp),
@@ -53,8 +53,8 @@ object ToolbarSizeDefaults {
         get() = ToolbarSize(
             height = 56.dp,
             shadowSize = 4.dp,
-            emptyIconPadding = 16.dp,
-            emptyActionsPadding = 16.dp,
+            emptyIconPadding = 8.dp,
+            emptyActionsPadding = 8.dp,
             iconButtonSize = IconButtonSizeDefaults.L,
             iconButtonPadding = PaddingValues(0.dp),
             contentPadding = PaddingValues(horizontal = 12.dp),

@@ -64,6 +64,7 @@ dependencies {
     implementation(project(":common-ui"))
     implementation(project(":feature-editor:api"))
     implementation(project(":feature-explorer:api"))
+    implementation(project(":feature-explorer:impl"))
     implementation(project(":feature-fonts:api"))
     implementation(project(":feature-settings:api"))
     implementation(project(":feature-shortcuts:api"))
