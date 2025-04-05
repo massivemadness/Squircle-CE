@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.extensions.indexOf
+import com.blacksquircle.ui.core.extensions.indexOrNull
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
@@ -100,7 +101,7 @@ internal class EditorViewModel @Inject constructor(
                 val screen = ConfirmExitDialog
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } else {
-                _viewEvent.send(ViewEvent.PopBackStack())
+                _viewEvent.send(ViewEvent.PopBackStack)
             }
         }
     }
@@ -1062,8 +1063,10 @@ internal class EditorViewModel @Inject constructor(
 
                 val documentList = documentRepository.loadDocuments()
 
-                documents = documentList.map { document -> DocumentState(document) }
-                selectedPosition = documentList.indexOf { it.uuid == settingsManager.selectedUuid }
+                documents = documentList
+                    .map { document -> DocumentState(document) }
+                selectedPosition = documentList
+                    .indexOrNull { it.uuid == settingsManager.selectedUuid } ?: 0
 
                 _viewState.update {
                     it.copy(

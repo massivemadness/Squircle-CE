@@ -27,4 +27,4 @@ internal data class KeybindingViewState(
     val isShift: Boolean = false,
     val isAlt: Boolean = false,
     val key: Char = '\u0000',
-) : ViewState()
+) : ViewState

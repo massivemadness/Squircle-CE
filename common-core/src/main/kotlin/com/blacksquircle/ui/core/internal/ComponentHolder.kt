@@ -18,18 +18,4 @@ package com.blacksquircle.ui.core.internal
 
 import androidx.lifecycle.ViewModel
 
-class ComponentHolder<T>(val component: T, private val release: () -> Unit) : ViewModel() {
-
-    override fun onCleared() {
-        super.onCleared()
-        release()
-    }
-}
-
-internal class ViewModelWithCallback(private val release: () -> Unit) : ViewModel() {
-
-    override fun onCleared() {
-        super.onCleared()
-        release()
-    }
-}
+internal class ComponentHolder : ViewModel()

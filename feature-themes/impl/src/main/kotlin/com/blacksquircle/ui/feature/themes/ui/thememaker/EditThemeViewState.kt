@@ -37,7 +37,7 @@ internal data class EditThemeViewState(
     },
     val invalidName: Boolean = false,
     val invalidAuthor: Boolean = false,
-) : ViewState() {
+) : ViewState {
 
     @ColorInt
     fun getColor(property: Property): Int {

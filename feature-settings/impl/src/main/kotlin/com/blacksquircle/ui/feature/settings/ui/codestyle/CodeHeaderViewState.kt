@@ -26,4 +26,4 @@ internal data class CodeHeaderViewState(
     val autoCloseQuotes: Boolean,
     val useSpacesInsteadOfTabs: Boolean,
     val tabWidth: Int,
-) : ViewState()
+) : ViewState

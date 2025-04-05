@@ -47,7 +47,7 @@ internal class TaskViewModel @AssistedInject constructor(
     val viewState = taskManager.monitor(taskId)
         .onEach(viewModelScope) { task ->
             if (task.isFinished) {
-                _viewEvent.send(ViewEvent.PopBackStack())
+                _viewEvent.send(ViewEvent.PopBackStack)
             }
         }
         .map(viewModelScope) { task ->
@@ -62,7 +62,7 @@ internal class TaskViewModel @AssistedInject constructor(
 
     fun onBackClicked() {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack())
+            _viewEvent.send(ViewEvent.PopBackStack)
         }
     }
 

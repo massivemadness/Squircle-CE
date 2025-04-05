@@ -207,7 +207,7 @@ internal class ServerViewModel @AssistedInject constructor(
 
     fun onCancelClicked() {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack())
+            _viewEvent.send(ViewEvent.PopBackStack)
         }
     }
 

@@ -38,4 +38,4 @@ internal data class ExplorerViewState(
     val viewMode: ViewMode = ViewMode.COMPACT_LIST,
     val taskType: TaskType = TaskType.CREATE,
     val isLoading: Boolean = true,
-) : ViewState()
+) : ViewState

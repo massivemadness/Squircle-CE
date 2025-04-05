@@ -16,12 +16,8 @@
 
 package com.blacksquircle.ui.core.mvi
 
-import android.content.Intent
-
-abstract class ViewEvent {
-
-    data class Toast(val message: String) : ViewEvent()
-    data class NewIntent(val intent: Intent) : ViewEvent()
-    data class Navigation(val screen: Any) : ViewEvent()
-    data class PopBackStack(val data: Any? = null) : ViewEvent()
+interface ViewEvent {
+    data class Toast(val message: String) : ViewEvent
+    data class Navigation(val screen: Any) : ViewEvent
+    data object PopBackStack : ViewEvent
 }

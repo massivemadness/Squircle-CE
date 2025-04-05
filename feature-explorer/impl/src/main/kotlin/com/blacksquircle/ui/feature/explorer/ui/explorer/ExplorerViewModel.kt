@@ -258,7 +258,7 @@ internal class ExplorerViewModel @Inject constructor(
                     FileType.DEFAULT,
                     FileType.TEXT -> {
                         editorInteractor.openFile(fileModel)
-                        _viewEvent.send(ViewEvent.PopBackStack())
+                        _viewEvent.send(ViewEvent.PopBackStack)
                     }
 
                     else -> onOpenWithClicked(fileModel)

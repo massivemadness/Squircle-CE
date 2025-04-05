@@ -68,7 +68,7 @@ internal class EditThemeViewModel @AssistedInject constructor(
 
     fun onBackClicked() {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack())
+            _viewEvent.send(ViewEvent.PopBackStack)
         }
     }
 

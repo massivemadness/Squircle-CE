@@ -25,4 +25,4 @@ internal data class AppHeaderViewState(
     val appTheme: Theme,
     val fullscreenMode: Boolean,
     val confirmExit: Boolean,
-) : ViewState()
+) : ViewState
