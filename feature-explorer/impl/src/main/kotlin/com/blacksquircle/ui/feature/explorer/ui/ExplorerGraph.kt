@@ -87,6 +87,9 @@ fun NavGraphBuilder.explorerGraph(navController: NavHostController) {
  * Waiting for navigation3?
  */
 @Composable
-fun DrawerExplorer() {
-    ExplorerScreen(LocalNavController.current)
+fun DrawerExplorer(closeDrawer: () -> Unit) {
+    ExplorerScreen(
+        navController = LocalNavController.current,
+        closeDrawer = closeDrawer,
+    )
 }

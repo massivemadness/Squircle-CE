@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.servers.ui.server
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
 
-internal sealed class ServerViewEvent : ViewEvent() {
+internal sealed class ServerViewEvent : ViewEvent {
 
     data object SendSaveResult : ServerViewEvent()
     data object SendDeleteResult : ServerViewEvent()

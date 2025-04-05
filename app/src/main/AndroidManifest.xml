@@ -39,7 +39,7 @@
         android:requestLegacyExternalStorage="true">
 
         <activity
-            android:name=".application.activity.MainActivity"
+            android:name=".application.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:configChanges="keyboard|keyboardHidden"
             android:launchMode="singleTask"

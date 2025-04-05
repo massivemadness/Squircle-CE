@@ -74,4 +74,4 @@ internal data class HeaderListViewState(
             screen = AboutHeaderScreen,
         ),
     )
-) : ViewState()
+) : ViewState

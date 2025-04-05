@@ -16,4 +16,4 @@
 
 package com.blacksquircle.ui.core.mvi
 
-abstract class ViewState
+interface ViewState

@@ -29,4 +29,4 @@ internal data class ThemesViewState(
     val selectedTheme: String = "",
     val typeface: Typeface = TypefaceProvider.DEFAULT,
     val isLoading: Boolean = true,
-) : ViewState()
+) : ViewState

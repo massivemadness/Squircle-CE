@@ -17,11 +17,11 @@
 package com.blacksquircle.ui.feature.editor.internal
 
 import android.content.Context
+import com.blacksquircle.ui.core.database.AppDatabase
+import com.blacksquircle.ui.core.database.dao.document.DocumentDao
+import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.Directories
-import com.blacksquircle.ui.core.storage.database.AppDatabase
-import com.blacksquircle.ui.core.storage.database.dao.document.DocumentDao
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.data.interactor.LanguageInteractorImpl
 import com.blacksquircle.ui.feature.editor.data.manager.CacheManager
 import com.blacksquircle.ui.feature.editor.data.repository.DocumentRepositoryImpl

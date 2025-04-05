@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.internal.di
 
 import android.content.Context
-import com.blacksquircle.ui.application.activity.MainActivity
+import com.blacksquircle.ui.application.MainActivity
 import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreModule
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider

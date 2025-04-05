@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.settings.ui.application
 
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -32,7 +31,6 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
-import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.theme.Theme
@@ -114,17 +112,11 @@ private fun AppHeaderScreen(
                 subtitle = stringResource(R.string.pref_color_scheme_summary),
                 onClick = onColorSchemeClicked,
             )
-
-            val activity = LocalActivity.current
-
             SwitchPreference(
                 title = stringResource(R.string.pref_fullscreen_title),
                 subtitle = stringResource(R.string.pref_fullscreen_summary),
                 checked = viewState.fullscreenMode,
-                onCheckedChange = { value ->
-                    onFullscreenChanged(value)
-                    activity?.window?.fullscreenMode(value)
-                },
+                onCheckedChange = onFullscreenChanged,
             )
             HorizontalDivider()
             PreferenceGroup(

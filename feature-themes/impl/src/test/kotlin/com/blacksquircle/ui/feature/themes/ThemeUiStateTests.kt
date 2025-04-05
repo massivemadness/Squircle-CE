@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.themes
 import android.graphics.Typeface
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor

@@ -23,4 +23,4 @@ import com.blacksquircle.ui.feature.servers.ui.cloud.model.ServerModel
 @Immutable
 internal data class CloudViewState(
     val servers: List<ServerModel> = emptyList()
-) : ViewState()
+) : ViewState

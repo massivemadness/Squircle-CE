@@ -18,11 +18,11 @@ package com.blacksquircle.ui.feature.servers.data.repository
 
 import android.content.Context
 import android.net.Uri
+import com.blacksquircle.ui.core.database.dao.path.PathDao
+import com.blacksquircle.ui.core.database.dao.server.ServerDao
+import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.Directories
-import com.blacksquircle.ui.core.storage.database.dao.path.PathDao
-import com.blacksquircle.ui.core.storage.database.dao.server.ServerDao
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
 import com.blacksquircle.ui.feature.servers.data.cache.ServerCredentials
 import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper

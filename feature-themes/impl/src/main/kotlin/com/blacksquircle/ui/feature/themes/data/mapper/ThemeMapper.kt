@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.themes.data.mapper
 
 import androidx.core.graphics.toColorInt
-import com.blacksquircle.ui.core.storage.database.entity.theme.ThemeEntity
+import com.blacksquircle.ui.core.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
 import com.blacksquircle.ui.feature.themes.data.model.ExternalScheme

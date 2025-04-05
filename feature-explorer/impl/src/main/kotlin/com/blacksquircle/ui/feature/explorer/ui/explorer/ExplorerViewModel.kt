@@ -22,7 +22,7 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
@@ -125,6 +125,10 @@ internal class ExplorerViewModel @Inject constructor(
             selectedFiles = emptyList()
             _viewState.update {
                 it.copy(selectedFiles = selectedFiles)
+            }
+        } else {
+            viewModelScope.launch {
+                _viewEvent.send(ViewEvent.PopBackStack)
             }
         }
     }
@@ -258,7 +262,7 @@ internal class ExplorerViewModel @Inject constructor(
                     FileType.DEFAULT,
                     FileType.TEXT -> {
                         editorInteractor.openFile(fileModel)
-                        _viewEvent.send(ViewEvent.PopBackStack())
+                        _viewEvent.send(ViewEvent.PopBackStack)
                     }
 
                     else -> onOpenWithClicked(fileModel)

@@ -43,10 +43,14 @@ class TestModulePlugin : Plugin<Project> {
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
 
-                flavorDimensions += listOf("store")
+                flavorDimensions += listOf("platform_services")
                 productFlavors {
-                    create("googlePlay") { dimension = "store" }
-                    create("fdroid") { dimension = "store" }
+                    create("gms") {
+                        dimension = "platform_services"
+                    }
+                    create("fdroid") {
+                        dimension = "platform_services"
+                    }
                 }
 
                 compileOptions {

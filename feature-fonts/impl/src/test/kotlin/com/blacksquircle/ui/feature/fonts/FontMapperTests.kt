@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.fonts
 
 import android.graphics.Typeface
-import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
+import com.blacksquircle.ui.core.database.entity.font.FontEntity
 import com.blacksquircle.ui.feature.fonts.data.mapper.FontMapper
 import com.blacksquircle.ui.feature.fonts.data.model.AssetsFont
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel

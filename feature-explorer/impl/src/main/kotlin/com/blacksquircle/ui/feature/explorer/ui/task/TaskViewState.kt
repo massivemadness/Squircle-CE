@@ -27,4 +27,4 @@ internal data class TaskViewState(
     val totalCount: Int = -1,
     val details: String = "",
     val timestamp: Long = System.currentTimeMillis(),
-) : ViewState()
+) : ViewState

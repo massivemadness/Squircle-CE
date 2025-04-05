@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.editor.ui.editor
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorCommand
 
-internal sealed class EditorViewEvent : ViewEvent() {
+internal sealed class EditorViewEvent : ViewEvent {
 
     data object CreateFileContract : EditorViewEvent()
     data object OpenFileContract : EditorViewEvent()

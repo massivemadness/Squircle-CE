@@ -17,10 +17,10 @@
 package com.blacksquircle.ui.feature.themes.internal
 
 import android.content.Context
+import com.blacksquircle.ui.core.database.AppDatabase
+import com.blacksquircle.ui.core.database.dao.theme.ThemeDao
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.database.AppDatabase
-import com.blacksquircle.ui.core.storage.database.dao.theme.ThemeDao
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import com.blacksquircle.ui.feature.themes.data.interactor.ThemesInteractorImpl
 import com.blacksquircle.ui.feature.themes.data.repository.ThemesRepositoryImpl

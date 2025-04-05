@@ -23,17 +23,17 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.blacksquircle.ui.core.internal.ViewModelWithCallback
+import com.blacksquircle.ui.core.internal.ComponentHolder
 
 @Composable
 @NonRestartableComposable
 fun CleanupEffect(onCleared: () -> Unit) {
     val onClearedState by rememberUpdatedState(onCleared)
-    val viewModel = viewModel<ViewModelWithCallback>(
+    val viewModel = viewModel<ComponentHolder>(
         factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return ViewModelWithCallback { onClearedState() } as T
+                return ComponentHolder().apply { addCloseable(onClearedState) } as T
             }
         }
     )

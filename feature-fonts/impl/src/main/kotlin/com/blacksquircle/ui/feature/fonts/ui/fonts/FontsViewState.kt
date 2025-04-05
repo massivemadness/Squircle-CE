@@ -26,4 +26,4 @@ internal data class FontsViewState(
     val fonts: List<FontModel> = emptyList(),
     val selectedFont: String = "",
     val isLoading: Boolean = true,
-) : ViewState()
+) : ViewState

@@ -30,4 +30,4 @@ internal data class FilesHeaderViewState(
     val foldersOnTop: Boolean,
     val viewMode: String,
     val sortMode: String,
-) : ViewState()
+) : ViewState

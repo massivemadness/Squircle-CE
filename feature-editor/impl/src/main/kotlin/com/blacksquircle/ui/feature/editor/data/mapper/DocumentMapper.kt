@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.data.mapper
 
-import com.blacksquircle.ui.core.storage.database.entity.document.DocumentEntity
+import com.blacksquircle.ui.core.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.feature.editor.data.model.FileAssociation
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel

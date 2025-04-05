@@ -18,9 +18,9 @@ package com.blacksquircle.ui.core.internal
 
 import android.content.Context
 import androidx.room.Room
-import com.blacksquircle.ui.core.storage.database.AppDatabase
-import com.blacksquircle.ui.core.storage.database.AppDatabaseImpl
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.database.AppDatabase
+import com.blacksquircle.ui.core.database.AppDatabaseImpl
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.core.theme.ThemeManager
 import dagger.Module
 import dagger.Provides

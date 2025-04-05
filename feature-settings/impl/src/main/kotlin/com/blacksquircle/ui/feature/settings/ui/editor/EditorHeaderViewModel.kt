@@ -20,7 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.fonts.api.navigation.FontsScreen
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -44,7 +44,7 @@ internal class EditorHeaderViewModel @Inject constructor(
 
     fun onBackClicked() {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack())
+            _viewEvent.send(ViewEvent.PopBackStack)
         }
     }
 

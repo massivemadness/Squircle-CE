@@ -40,7 +40,7 @@ internal data class ServerViewState(
     val passphrase: String = "",
     val invalidName: Boolean = false,
     val invalidAddress: Boolean = false,
-) : ViewState() {
+) : ViewState {
 
     companion object {
         const val DEFAULT_FTP_PORT = 21

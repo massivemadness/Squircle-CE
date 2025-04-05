@@ -46,19 +46,19 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew :app:assembleRelease --no-configuration-cache -PdisableR8=true
+        run: ./gradlew :app:assembleNonMinifiedRelease --no-configuration-cache
 
       - name: Upload APK (Google Play)
         uses: actions/upload-artifact@v4
         with:
           name: Google Play App (Release)
-          path: ./app/build/outputs/apk/googlePlay/release/app-googlePlay-release.apk
+          path: ./app/build/outputs/apk/gms/nonMinifiedRelease/app-gms-nonMinifiedRelease.apk
 
       - name: Upload APK (F-Droid)
         uses: actions/upload-artifact@v4
         with:
           name: F-Droid App (Release)
-          path: ./app/build/outputs/apk/fdroid/release/app-fdroid-release.apk
+          path: ./app/build/outputs/apk/fdroid/nonMinifiedRelease/app-fdroid-nonMinifiedRelease.apk
 
       - name: Delete Keystore
         run: rm app/keystore.jks

@@ -35,4 +35,4 @@ internal data class EditorHeaderViewState(
     val extendedKeyboard: Boolean,
     val keyboardPreset: String,
     val softKeyboard: Boolean,
-) : ViewState()
+) : ViewState

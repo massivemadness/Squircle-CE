@@ -24,4 +24,4 @@ import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 @Immutable
 internal data class ShortcutsViewState(
     val shortcuts: Map<KeyGroup, List<Keybinding>> = emptyMap(),
-) : ViewState()
+) : ViewState

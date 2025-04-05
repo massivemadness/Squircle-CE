@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.themes.ui.themes
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
 
-internal sealed class ThemesViewEvent : ViewEvent() {
+internal sealed class ThemesViewEvent : ViewEvent {
     data class ChooseExportFile(val themeName: String) : ThemesViewEvent()
     data object ChooseImportFile : ThemesViewEvent()
     data object SendSaveResult : ThemesViewEvent()
