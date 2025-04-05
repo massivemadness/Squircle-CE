@@ -38,8 +38,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.MimeType
 import com.blacksquircle.ui.core.contract.rememberCreateFileContract
@@ -69,8 +67,7 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorController
 import com.blacksquircle.ui.feature.editor.ui.editor.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.editor.model.rememberEditorController
-import com.blacksquircle.ui.feature.explorer.api.navigation.ExplorerScreen
-import com.blacksquircle.ui.feature.explorer.ui.explorerGraph
+import com.blacksquircle.ui.feature.explorer.ui.DrawerExplorer
 import kotlinx.coroutines.launch
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -328,15 +325,7 @@ private fun EditorScreen(
         },
         drawerState = drawerState,
         drawerGesturesEnabled = drawerState.isOpen,
-        drawerContent = {
-            val nestedNavController = rememberNavController()
-            NavHost(
-                navController = nestedNavController,
-                startDestination = ExplorerScreen,
-            ) {
-                explorerGraph(nestedNavController)
-            }
-        },
+        drawerContent = { DrawerExplorer() },
         modifier = Modifier.imePadding(),
     ) { contentPadding ->
         Column(
