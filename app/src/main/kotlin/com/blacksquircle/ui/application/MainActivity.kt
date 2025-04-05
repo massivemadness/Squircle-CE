@@ -21,6 +21,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.Surface
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -51,7 +52,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import javax.inject.Provider
 
-internal class MainActivity : ComponentActivity() {
+internal class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var inAppUpdate: InAppUpdate
