@@ -325,7 +325,9 @@ private fun EditorScreen(
         },
         drawerState = drawerState,
         drawerGesturesEnabled = drawerState.isOpen,
-        drawerContent = { DrawerExplorer() },
+        drawerContent = {
+            DrawerExplorer(onDrawerClicked)
+        },
         modifier = Modifier.imePadding(),
     ) { contentPadding ->
         Column(

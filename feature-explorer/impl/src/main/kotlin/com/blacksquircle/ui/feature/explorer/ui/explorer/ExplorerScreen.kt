@@ -74,7 +74,8 @@ internal fun ExplorerScreen(
     viewModel: ExplorerViewModel = daggerViewModel { context ->
         val component = ExplorerComponent.buildOrGet(context)
         ExplorerViewModel.Factory().also(component::inject)
-    }
+    },
+    closeDrawer: () -> Unit = {},
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ExplorerScreen(
@@ -119,7 +120,7 @@ internal fun ExplorerScreen(
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
+                is ViewEvent.PopBackStack -> closeDrawer()
                 is ExplorerViewEvent.RequestPermission -> {
                     storageContract.launch(
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
