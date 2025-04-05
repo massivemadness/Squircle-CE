@@ -86,7 +86,7 @@ internal fun ExplorerToolbar(
 
     Toolbar(
         title = if (selectionMode) selectedFiles.size.toString() else null,
-        navigationIcon = if (selectionMode) UiR.drawable.ic_back else UiR.drawable.ic_close,
+        navigationIcon = if (selectionMode) UiR.drawable.ic_back else null,
         onNavigationClicked = onBackClicked,
         navigationActions = {
             if (selectionMode) {

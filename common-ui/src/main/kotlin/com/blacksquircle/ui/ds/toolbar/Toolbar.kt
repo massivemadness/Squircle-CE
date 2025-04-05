@@ -208,7 +208,7 @@ private fun ToolbarPreview() {
                     iconButtonSize = IconButtonSizeDefaults.L,
                 )
             },
-            toolbarSize = ToolbarSizeDefaults.S
+            toolbarSize = ToolbarSizeDefaults.M
         )
     }
 }
