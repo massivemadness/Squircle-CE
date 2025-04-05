@@ -146,6 +146,13 @@ internal class EditorHeaderViewModel @Inject constructor(
         }
     }
 
+    fun onResetKeyboardClicked() {
+        viewModelScope.launch {
+            settingsManager.remove(SettingsManager.KEY_KEYBOARD_PRESET)
+            _viewState.value = updateViewState()
+        }
+    }
+
     fun onSoftKeyboardChanged(softKeyboard: Boolean) {
         viewModelScope.launch {
             settingsManager.softKeyboard = softKeyboard

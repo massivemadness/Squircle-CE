@@ -26,6 +26,7 @@ internal data class EditorViewState(
     val documents: List<DocumentState> = emptyList(),
     val selectedDocument: Int = -1,
     val settings: EditorSettings = EditorSettings(),
+    val showExtraKeys: Boolean = false,
     val canUndo: Boolean = false,
     val canRedo: Boolean = false,
     val isLoading: Boolean = true,

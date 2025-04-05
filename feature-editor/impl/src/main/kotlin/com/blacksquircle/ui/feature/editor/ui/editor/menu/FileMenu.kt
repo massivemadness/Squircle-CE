@@ -64,7 +64,7 @@ internal fun FileMenu(
         )
         PopupMenuItem(
             title = stringResource(R.string.action_close),
-            iconResId = UiR.drawable.ic_close,
+            iconResId = UiR.drawable.ic_file_remove,
             onClick = onCloseFileClicked,
         )
     }

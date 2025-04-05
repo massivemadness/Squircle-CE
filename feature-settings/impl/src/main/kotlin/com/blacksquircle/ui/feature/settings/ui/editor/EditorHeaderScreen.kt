@@ -74,6 +74,7 @@ internal fun EditorHeaderScreen(
         onAutoSaveFilesChanged = viewModel::onAutoSaveFilesChanged,
         onExtendedKeyboardChanged = viewModel::onExtendedKeyboardChanged,
         onKeyboardPresetChanged = viewModel::onKeyboardPresetChanged,
+        onResetKeyboardClicked = viewModel::onResetKeyboardClicked,
         onSoftKeyboardChanged = viewModel::onSoftKeyboardChanged,
     )
 
@@ -107,6 +108,7 @@ private fun EditorHeaderScreen(
     onAutoSaveFilesChanged: (Boolean) -> Unit = {},
     onExtendedKeyboardChanged: (Boolean) -> Unit = {},
     onKeyboardPresetChanged: (String) -> Unit = {},
+    onResetKeyboardClicked: () -> Unit = {},
     onSoftKeyboardChanged: (Boolean) -> Unit = {},
 ) {
     ScaffoldSuite(
@@ -226,12 +228,13 @@ private fun EditorHeaderScreen(
                 subtitle = stringResource(R.string.pref_keyboard_preset_summary),
                 enabled = viewState.extendedKeyboard,
                 confirmButton = stringResource(UiR.string.common_save),
-                dismissButton = stringResource(android.R.string.cancel),
+                dismissButton = stringResource(R.string.action_reset),
                 labelText = stringResource(R.string.hint_enter_preset_chars),
                 helpText = stringResource(R.string.message_preset_disclaimer),
                 inputTextStyle = TextStyle(fontFamily = FontFamily.Monospace),
                 inputValue = viewState.keyboardPreset,
-                onInputConfirmed = onKeyboardPresetChanged,
+                onConfirmClicked = onKeyboardPresetChanged,
+                onDismissClicked = onResetKeyboardClicked,
             )
             SwitchPreference(
                 title = stringResource(R.string.pref_soft_keyboard_title),
