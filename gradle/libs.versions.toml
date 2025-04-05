@@ -53,7 +53,6 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "android-plugin" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-# plugin-kover = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
 
 android-tools-desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "android-desugaring" }
 android-tools-platform = { module = "com.google.android:android", version.ref = "android-platform" }

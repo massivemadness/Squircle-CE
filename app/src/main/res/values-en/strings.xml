@@ -15,7 +15,11 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="action_restart">Restart</string>
-    <string name="message_in_app_update_ready">App is ready to update</string>
-    <string name="message_in_app_update_failed">Update installation failed</string>
+
+    <string name="action_install">Install</string>
+    <string name="action_later">Later</string>
+
+    <string name="dialog_title_update">Update available</string>
+    <string name="dialog_message_update">A new version of the app is available. You can install it now, or update later through the app store.</string>
+
 </resources>

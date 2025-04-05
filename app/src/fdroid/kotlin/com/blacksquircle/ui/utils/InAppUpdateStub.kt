@@ -17,15 +17,8 @@
 package com.blacksquircle.ui.utils
 
 import android.app.Activity
-import timber.log.Timber
 
 internal class InAppUpdateStub : InAppUpdate {
-
-    override fun checkForUpdates(activity: Activity, onComplete: () -> Unit) {
-        Timber.d("checkForUpdates")
-    }
-
-    override fun completeUpdate() {
-        Timber.d("completeUpdate")
-    }
+    override fun checkForUpdates(activity: Activity, onUpdateAvailable: () -> Unit) = Unit
+    override fun installUpdate(activity: Activity) = Unit
 }

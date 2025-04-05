@@ -23,10 +23,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material.Surface
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.core.extensions.viewModels
@@ -87,6 +89,14 @@ internal class MainActivity : ComponentActivity() {
                             settingsGraph(navController)
                             shortcutsGraph(navController)
                             themesGraph(navController)
+                            dialog<UpdateDialog> {
+                                UpdateScreen(navController, inAppUpdate)
+                            }
+                        }
+                    }
+                    LaunchedEffect(Unit) {
+                        inAppUpdate.checkForUpdates(this@MainActivity) {
+                            navController.navigate(UpdateDialog)
                         }
                     }
                 }
@@ -98,14 +108,6 @@ internal class MainActivity : ComponentActivity() {
                 window.fullscreenMode(state.fullscreenMode)
             }
             .launchIn(lifecycleScope)
-
-        // TODO
-
-        /*inAppUpdate.checkForUpdates(this) {
-            Snackbar.make(navHost, R.string.message_in_app_update_ready, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.action_restart) { inAppUpdate.completeUpdate() }
-                .show()
-        }*/
 
         if (savedInstanceState == null) {
             viewModel.handleIntent(intent)

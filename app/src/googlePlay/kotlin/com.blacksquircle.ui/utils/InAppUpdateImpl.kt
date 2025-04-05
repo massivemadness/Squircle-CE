@@ -20,85 +20,43 @@ import android.app.Activity
 import android.content.Context
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.InstallState
-import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.*
 import timber.log.Timber
 
 internal class InAppUpdateImpl(context: Context) : InAppUpdate {
 
-    companion object {
-
-        private const val PRIORITY_HIGH = 5
-        private const val PRIORITY_M_HIGH = 4
-        private const val PRIORITY_MEDIUM = 3
-        private const val PRIORITY_M_LOW = 2
-        private const val PRIORITY_LOW = 1
-
-        private const val UPDATE_REQUEST_CODE = 500
+    private val appUpdateManager by lazy {
+        AppUpdateManagerFactory.create(context)
     }
 
-    private val appUpdateManager by lazy { AppUpdateManagerFactory.create(context) }
+    private var appUpdateInfo: AppUpdateInfo? = null
 
-    override fun checkForUpdates(activity: Activity, onComplete: () -> Unit) {
-        Timber.d("checkForUpdates")
-        appUpdateManager.registerListener(object : InstallStateUpdatedListener {
-            override fun onStateUpdate(state: InstallState) {
-                if (state.installStatus == InstallStatus.DOWNLOADED) {
-                    appUpdateManager.unregisterListener(this)
-                    onComplete.invoke()
-                }
-            }
-        })
+    override fun checkForUpdates(activity: Activity, onUpdateAvailable: () -> Unit) {
+        if (appUpdateInfo != null) {
+            return
+        }
         appUpdateManager.appUpdateInfo
-            .addOnSuccessListener { info ->
-                if (info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-                    val clientStalenessDays = info.clientVersionStalenessDays ?: 0
-                    when (info.updatePriority) {
-                        PRIORITY_HIGH -> {
-                            startUpdate(activity, info, AppUpdateType.IMMEDIATE)
-                        }
-                        PRIORITY_M_HIGH -> {
-                            if (clientStalenessDays >= 5 && info.isImmediateUpdateAllowed) {
-                                startUpdate(activity, info, AppUpdateType.IMMEDIATE)
-                            } else if (info.isFlexibleUpdateAllowed) {
-                                startUpdate(activity, info, AppUpdateType.FLEXIBLE)
-                            }
-                        }
-                        PRIORITY_MEDIUM -> {
-                            if (clientStalenessDays >= 15 && info.isImmediateUpdateAllowed) {
-                                startUpdate(activity, info, AppUpdateType.IMMEDIATE)
-                            } else if (info.isFlexibleUpdateAllowed) {
-                                startUpdate(activity, info, AppUpdateType.FLEXIBLE)
-                            }
-                        }
-                        PRIORITY_M_LOW -> {
-                            if (clientStalenessDays >= 30 && info.isImmediateUpdateAllowed) {
-                                startUpdate(activity, info, AppUpdateType.IMMEDIATE)
-                            } else if (info.isFlexibleUpdateAllowed) {
-                                startUpdate(activity, info, AppUpdateType.FLEXIBLE)
-                            }
-                        }
-                        PRIORITY_LOW -> {
-                            startUpdate(activity, info, AppUpdateType.FLEXIBLE)
-                        }
-                    }
+            .addOnSuccessListener { appUpdateInfo ->
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+                    this.appUpdateInfo = appUpdateInfo
+                    onUpdateAvailable()
                 }
             }
-            .addOnFailureListener {
-                Timber.e(it, it.message)
+            .addOnFailureListener { e ->
+                Timber.e(e, e.message)
             }
     }
 
-    override fun completeUpdate() {
-        Timber.d("completeUpdate")
-        appUpdateManager.completeUpdate()
-    }
-
-    private fun startUpdate(activity: Activity, info: AppUpdateInfo, type: Int) {
-        appUpdateManager.startUpdateFlowForResult(info, type, activity, UPDATE_REQUEST_CODE)
+    override fun installUpdate(activity: Activity) {
+        appUpdateInfo?.let { appUpdateInfo ->
+            appUpdateManager.startUpdateFlow(
+                appUpdateInfo,
+                activity,
+                AppUpdateOptions.defaultOptions(AppUpdateType.IMMEDIATE),
+            )
+        }
     }
 }
