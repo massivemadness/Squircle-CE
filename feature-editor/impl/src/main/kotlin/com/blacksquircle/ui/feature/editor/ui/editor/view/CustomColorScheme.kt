@@ -137,7 +137,10 @@ internal class CustomColorScheme(
         }
         val completionBackground = rawTheme["completionWindowBackground"] as String?
         if (completionBackground != null) {
-            setColor(COMPLETION_WND_BACKGROUND, Color.parseColor(completionBackground))
+            val color = Color.parseColor(completionBackground)
+            setColor(COMPLETION_WND_BACKGROUND, color)
+            setColor(TEXT_ACTION_WINDOW_BACKGROUND, color)
+            setColor(DIAGNOSTIC_TOOLTIP_BACKGROUND, color)
         }
         val completionBackgroundCurrent = rawTheme["completionWindowBackgroundCurrent"] as String?
         if (completionBackgroundCurrent != null) {
