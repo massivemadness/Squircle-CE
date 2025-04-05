@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.application.activity
+package com.blacksquircle.ui.application
 
 import android.content.Intent
 import android.os.Bundle
@@ -24,9 +24,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material.Surface
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.blacksquircle.ui.application.viewmodel.MainViewModel
 import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.core.extensions.viewModels
 import com.blacksquircle.ui.ds.SquircleTheme
@@ -43,6 +44,8 @@ import com.blacksquircle.ui.feature.shortcuts.ui.shortcutsGraph
 import com.blacksquircle.ui.feature.themes.ui.themesGraph
 import com.blacksquircle.ui.internal.di.AppComponent
 import com.blacksquircle.ui.utils.InAppUpdate
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -61,8 +64,6 @@ internal class MainActivity : ComponentActivity() {
         AppComponent.buildOrGet(this).inject(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        window.fullscreenMode(viewModel.fullScreenMode)
-
         setContent {
             SquircleTheme {
                 Surface(color = SquircleTheme.colors.colorBackgroundPrimary) {
@@ -91,6 +92,16 @@ internal class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+        viewModel.viewEvent.flowWithLifecycle(lifecycle)
+            .onEach { event ->
+                when (event) {
+                    is MainViewEvent.FullScreen -> {
+                        window.fullscreenMode(event.value)
+                    }
+                }
+            }
+            .launchIn(lifecycleScope)
 
         // TODO
 

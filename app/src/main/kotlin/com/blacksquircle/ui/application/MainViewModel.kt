@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.application.viewmodel
+package com.blacksquircle.ui.application
 
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,8 +33,17 @@ internal class MainViewModel @Inject constructor(
     private val editorInteractor: EditorInteractor,
 ) : ViewModel() {
 
-    val fullScreenMode: Boolean
-        get() = settingsManager.fullScreenMode
+    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
+    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
+
+    init {
+        settingsManager.setListener(SettingsManager.KEY_FULLSCREEN_MODE) {
+            toggleFullscreenMode()
+        }
+
+        // Initial value
+        toggleFullscreenMode()
+    }
 
     fun handleIntent(intent: Intent?) {
         viewModelScope.launch {
@@ -38,6 +51,13 @@ internal class MainViewModel @Inject constructor(
                 val fileUri = intent.data ?: return@launch
                 editorInteractor.openFileUri(fileUri)
             }
+        }
+    }
+
+    private fun toggleFullscreenMode() {
+        viewModelScope.launch {
+            val fullscreenMode = settingsManager.fullScreenMode
+            _viewEvent.send(MainViewEvent.FullScreen(fullscreenMode))
         }
     }
 }

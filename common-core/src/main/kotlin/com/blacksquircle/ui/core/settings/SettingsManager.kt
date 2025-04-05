@@ -20,6 +20,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.blacksquircle.ui.core.theme.Theme
 
+typealias OnChangedListener = () -> Unit
+
 class SettingsManager(private val context: Context) {
 
     companion object {
@@ -203,6 +205,16 @@ class SettingsManager(private val context: Context) {
         get() = sharedPreferences.getString(KEY_FILESYSTEM, "local") ?: "local"
         set(value) = sharedPreferences.edit().putString(KEY_FILESYSTEM, value).apply()
 
+    private val listeners = HashMap<String, OnChangedListener>()
+
+    init {
+        sharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
+            if (key in listeners.keys) {
+                listeners[key]?.invoke()
+            }
+        }
+    }
+
     fun load(key: String, defaultValue: String): String {
         return sharedPreferences.getString(key, defaultValue) ?: defaultValue
     }
@@ -213,5 +225,9 @@ class SettingsManager(private val context: Context) {
 
     fun remove(key: String) {
         sharedPreferences.edit().remove(key).apply()
+    }
+
+    fun setListener(key: String, onValueChanged: OnChangedListener) {
+        listeners[key] = onValueChanged
     }
 }
