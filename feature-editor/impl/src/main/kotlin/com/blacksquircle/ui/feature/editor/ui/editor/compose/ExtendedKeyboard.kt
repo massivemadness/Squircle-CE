@@ -34,6 +34,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -48,7 +50,6 @@ import com.blacksquircle.ui.ds.R as UiR
 
 private const val TypeIcon = "type_icon"
 private const val TypeKey = "type_key"
-
 private const val ItemOptions = "key_options"
 private const val ItemOpenFile = "key_open_file"
 private const val ItemSaveFile = "key_save_file"
@@ -87,7 +88,7 @@ internal fun ExtendedKeyboard(
         ) {
             ExtraKey(
                 iconResId = if (showExtraKeys) {
-                    UiR.drawable.ic_arrow_up
+                    UiR.drawable.ic_arrow_left
                 } else {
                     UiR.drawable.ic_arrow_right
                 },
@@ -191,6 +192,7 @@ private fun ExtraKey(
     iconResId: Int? = null,
     debounce: Boolean = false,
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
@@ -199,7 +201,10 @@ private fun ExtraKey(
             .background(SquircleTheme.colors.colorBackgroundTertiary)
             .debounceClickable(
                 debounce = debounce,
-                onClick = onClick,
+                onClick = {
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                    onClick()
+                },
             )
     ) {
         if (iconResId != null) {
