@@ -16,6 +16,7 @@
   -->
 <resources>
     <string name="hint_line">Линия:</string>
+    <string name="action_file">Файл</string>
     <string name="action_close">Закрыть</string>
     <string name="action_close_others">Закрыть другие</string>
     <string name="action_close_all">Закрыть все</string>
@@ -23,6 +24,7 @@
     <string name="action_new">Новый файл</string>
     <string name="action_open">Открыть</string>
     <string name="action_save_as">Сохранить как</string>
+    <string name="action_edit">Правка</string>
     <string name="action_select_line">Выделить строку</string>
     <string name="action_delete_line">Удалить строку</string>
     <string name="action_duplicate_line">Повторить строку</string>
@@ -36,6 +38,8 @@
     <string name="action_next">След.</string>
     <string name="action_goto_line">Перейти к строке</string>
     <string name="action_go_to">Перейти</string>
+    <string name="action_undo">Отменить</string>
+    <string name="action_redo">Повторить</string>
     <string name="action_force_syntax">Синтаксис</string>
     <string name="action_insert_color">Вставить цвет</string>
     <string name="action_settings">Настройки</string>
