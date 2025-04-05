@@ -1,6 +1,20 @@
 # https://github.com/massivemadness/Squircle-CE/issues/167
 -keep class com.jcraft.jsch.** { *; }
 
+# Compose type-safe navigation
+-keep @kotlinx.serialization.Serializable class * {
+    *;
+}
+-keepclassmembers class * {
+    @kotlinx.serialization.SerialName <fields>;
+}
+-keepnames class * {
+    @kotlinx.serialization.SerialName <fields>;
+}
+
+# TextMate
+-keep class org.eclipse.tm4e.** { *; }
+
 # Unresolved classes
 -dontwarn com.sun.jna.Library
 -dontwarn com.sun.jna.Memory

@@ -69,12 +69,11 @@ class ApplicationModulePlugin : Plugin<Project> {
                         keyPassword = "${properties["KEY_PASSWORD"]}"
                     }
                 }
-
                 buildTypes {
                     release {
                         signingConfig = signingConfigs.getByName("release")
-                        isMinifyEnabled = !(project.findProperty("disableR8")?.toString()?.toBoolean() ?: false)
-                        isShrinkResources = false
+                        isMinifyEnabled = true
+                        isShrinkResources = true
                         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
                     }
                 }
