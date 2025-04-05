@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CancellationException
 
-private val DrawerPositionalThreshold = 56.dp
+private val DrawerPositionalThreshold = 200.dp
 private val DrawerVelocityThreshold = 400.dp
 
 @Composable
