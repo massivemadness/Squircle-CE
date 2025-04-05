@@ -52,7 +52,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Google Play App (Release)
-          path: ./app/build/outputs/apk/googlePlay/release/app-googlePlay-release.apk
+          path: ./app/build/outputs/apk/gms/release/app-gms-release.apk
 
       - name: Upload APK (F-Droid)
         uses: actions/upload-artifact@v4

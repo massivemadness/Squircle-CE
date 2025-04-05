@@ -45,10 +45,14 @@ class ApplicationModulePlugin : Plugin<Project> {
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
 
-                setFlavorDimensions(listOf("store"))
+                setFlavorDimensions(listOf("platform_services"))
                 productFlavors {
-                    create("googlePlay") { dimension = "store" }
-                    create("fdroid") { dimension = "store" }
+                    create("gms") {
+                        dimension = "platform_services"
+                    }
+                    create("fdroid") {
+                        dimension = "platform_services"
+                    }
                 }
 
                 val properties = Properties().apply {
