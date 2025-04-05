@@ -23,6 +23,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -80,7 +82,11 @@ fun ListPreference(
             verticalScroll = false,
             horizontalPadding = false,
             content = {
-                LazyColumn {
+                val selectedIndex = entryValues.indexOf(selectedValue)
+                val lazyListState = rememberLazyListState(
+                    initialFirstVisibleItemIndex = selectedIndex
+                )
+                LazyColumn(state = lazyListState) {
                     itemsIndexed(entryValues) { index, value ->
                         val interactionSource = remember { MutableInteractionSource() }
                         Box(
@@ -94,7 +100,7 @@ fun ListPreference(
                         ) {
                             Radio(
                                 title = entries[index],
-                                checked = value == selectedValue,
+                                checked = index == selectedIndex,
                                 onClick = {
                                     showDialog = false
                                     onValueSelected(value)
