@@ -15,7 +15,8 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="action_restart">Обновить</string>
-    <string name="message_in_app_update_ready">Обновление загружено</string>
-    <string name="message_in_app_update_failed">Произошла ошибка при установке пакета</string>
+    <string name="action_install">Установить</string>
+    <string name="action_later">Позже</string>
+    <string name="dialog_title_update">Доступно обновление</string>
+    <string name="dialog_message_update">Доступна новая версия приложения. Вы можете установить ее сейчас, или обновить позже в магазине приложений.</string>
 </resources>
