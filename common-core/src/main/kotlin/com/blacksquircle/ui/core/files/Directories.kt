@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.storage
+package com.blacksquircle.ui.core.files
 
 import android.content.Context
 import java.io.File

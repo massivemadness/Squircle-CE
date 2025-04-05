@@ -23,7 +23,7 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.contract.FileType
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.api.navigation.EditThemeScreen

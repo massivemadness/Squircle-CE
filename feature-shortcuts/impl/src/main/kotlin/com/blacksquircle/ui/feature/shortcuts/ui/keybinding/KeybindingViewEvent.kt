@@ -19,6 +19,6 @@ package com.blacksquircle.ui.feature.shortcuts.ui.keybinding
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 
-internal sealed class KeybindingViewEvent : ViewEvent() {
+internal sealed class KeybindingViewEvent : ViewEvent {
     class SendSaveResult(val keybinding: Keybinding) : KeybindingViewEvent()
 }

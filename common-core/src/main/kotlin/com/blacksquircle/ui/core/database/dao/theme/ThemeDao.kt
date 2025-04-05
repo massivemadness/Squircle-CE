@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.storage.database.dao.server
+package com.blacksquircle.ui.core.database.dao.theme
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.blacksquircle.ui.core.storage.database.entity.server.ServerEntity
-import com.blacksquircle.ui.core.storage.database.utils.Tables
+import com.blacksquircle.ui.core.database.entity.theme.ThemeEntity
+import com.blacksquircle.ui.core.database.utils.Tables
 
 @Dao
-interface ServerDao {
+interface ThemeDao {
 
-    @Query("SELECT * FROM `${Tables.SERVERS}`")
-    suspend fun loadAll(): List<ServerEntity>
+    @Query("SELECT * FROM `${Tables.THEMES}`")
+    suspend fun loadAll(): List<ThemeEntity>
 
-    @Query("DELETE FROM `${Tables.SERVERS}`")
+    @Query("DELETE FROM `${Tables.THEMES}`")
     suspend fun deleteAll()
 
-    @Query("SELECT * FROM `${Tables.SERVERS}` WHERE `uuid` = :uuid")
-    suspend fun load(uuid: String): ServerEntity
+    @Query("SELECT * FROM `${Tables.THEMES}` WHERE `uuid` = :uuid")
+    suspend fun load(uuid: String): ThemeEntity
 
-    @Query("DELETE FROM `${Tables.SERVERS}` WHERE `uuid` = :uuid")
+    @Query("DELETE FROM `${Tables.THEMES}` WHERE `uuid` = :uuid")
     suspend fun delete(uuid: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(serverEntity: ServerEntity): Long
+    suspend fun insert(themeEntity: ThemeEntity): Long
 }

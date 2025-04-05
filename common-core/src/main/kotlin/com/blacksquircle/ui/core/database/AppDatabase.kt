@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.storage.database.entity.font
+package com.blacksquircle.ui.core.database
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.blacksquircle.ui.core.storage.database.utils.Tables
+import com.blacksquircle.ui.core.database.dao.document.DocumentDao
+import com.blacksquircle.ui.core.database.dao.font.FontDao
+import com.blacksquircle.ui.core.database.dao.path.PathDao
+import com.blacksquircle.ui.core.database.dao.server.ServerDao
+import com.blacksquircle.ui.core.database.dao.theme.ThemeDao
 
-@Entity(tableName = Tables.FONTS)
-data class FontEntity(
-    @PrimaryKey
-    @ColumnInfo(name = "uuid")
-    val fontUuid: String,
-    @ColumnInfo(name = "name")
-    val fontName: String,
-)
+interface AppDatabase {
+    fun documentDao(): DocumentDao
+    fun fontDao(): FontDao
+    fun pathDao(): PathDao
+    fun serverDao(): ServerDao
+    fun themeDao(): ThemeDao
+}

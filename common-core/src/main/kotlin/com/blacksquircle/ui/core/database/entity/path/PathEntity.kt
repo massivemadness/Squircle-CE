@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.storage.database.utils
+package com.blacksquircle.ui.core.database.entity.path
 
-object Tables {
-    const val DOCUMENTS = "tbl_documents"
-    const val FONTS = "tbl_fonts"
-    const val PATHS = "tbl_paths"
-    const val SERVERS = "tbl_servers"
-    const val THEMES = "tbl_themes"
-}
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.blacksquircle.ui.core.database.utils.Tables
+
+@Entity(tableName = Tables.PATHS)
+data class PathEntity(
+    @PrimaryKey
+    @ColumnInfo(name = "filesystem_uuid")
+    val filesystemUuid: String,
+    @ColumnInfo(name = "file_uri")
+    val fileUri: String,
+)

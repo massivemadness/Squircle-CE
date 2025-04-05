@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.data.mapper
 
-import com.blacksquircle.ui.core.storage.database.entity.path.PathEntity
+import com.blacksquircle.ui.core.database.entity.path.PathEntity
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 internal object FileMapper {

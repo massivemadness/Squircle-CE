@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.storage.database
+package com.blacksquircle.ui.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.blacksquircle.ui.core.storage.database.dao.document.DocumentDao
-import com.blacksquircle.ui.core.storage.database.dao.font.FontDao
-import com.blacksquircle.ui.core.storage.database.dao.path.PathDao
-import com.blacksquircle.ui.core.storage.database.dao.server.ServerDao
-import com.blacksquircle.ui.core.storage.database.dao.theme.ThemeDao
-import com.blacksquircle.ui.core.storage.database.entity.document.DocumentEntity
-import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
-import com.blacksquircle.ui.core.storage.database.entity.path.PathEntity
-import com.blacksquircle.ui.core.storage.database.entity.server.ServerEntity
-import com.blacksquircle.ui.core.storage.database.entity.theme.ThemeEntity
+import com.blacksquircle.ui.core.database.dao.document.DocumentDao
+import com.blacksquircle.ui.core.database.dao.font.FontDao
+import com.blacksquircle.ui.core.database.dao.path.PathDao
+import com.blacksquircle.ui.core.database.dao.server.ServerDao
+import com.blacksquircle.ui.core.database.dao.theme.ThemeDao
+import com.blacksquircle.ui.core.database.entity.document.DocumentEntity
+import com.blacksquircle.ui.core.database.entity.font.FontEntity
+import com.blacksquircle.ui.core.database.entity.path.PathEntity
+import com.blacksquircle.ui.core.database.entity.server.ServerEntity
+import com.blacksquircle.ui.core.database.entity.theme.ThemeEntity
 
 @Database(
     entities = [

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.storage.database.dao.path
+package com.blacksquircle.ui.core.database.dao.path
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.blacksquircle.ui.core.storage.database.entity.path.PathEntity
-import com.blacksquircle.ui.core.storage.database.utils.Tables
+import com.blacksquircle.ui.core.database.entity.path.PathEntity
+import com.blacksquircle.ui.core.database.utils.Tables
 
 @Dao
 interface PathDao {

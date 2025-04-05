@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.storage.database.entity.theme
+package com.blacksquircle.ui.core.database.entity.theme
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.blacksquircle.ui.core.storage.database.utils.Tables
+import com.blacksquircle.ui.core.database.utils.Tables
 
 @Entity(tableName = Tables.THEMES)
 data class ThemeEntity(

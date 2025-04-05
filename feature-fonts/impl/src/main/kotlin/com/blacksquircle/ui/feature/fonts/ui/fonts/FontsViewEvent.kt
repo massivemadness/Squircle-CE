@@ -18,6 +18,6 @@ package com.blacksquircle.ui.feature.fonts.ui.fonts
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
 
-internal sealed class FontsViewEvent : ViewEvent() {
+internal sealed class FontsViewEvent : ViewEvent {
     data object ChooseFont : FontsViewEvent()
 }

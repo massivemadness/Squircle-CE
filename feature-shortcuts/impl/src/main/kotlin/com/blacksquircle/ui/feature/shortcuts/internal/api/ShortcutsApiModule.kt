@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.shortcuts.internal.api
 
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.shortcuts.data.interactor.ShortcutsInteractorImpl
 import com.blacksquircle.ui.feature.shortcuts.data.repository.ShortcutsRepositoryImpl

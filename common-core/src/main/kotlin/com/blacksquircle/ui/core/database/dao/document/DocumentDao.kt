@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.storage.database.dao.document
+package com.blacksquircle.ui.core.database.dao.document
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.blacksquircle.ui.core.storage.database.entity.document.DocumentEntity
-import com.blacksquircle.ui.core.storage.database.utils.Tables
+import com.blacksquircle.ui.core.database.entity.document.DocumentEntity
+import com.blacksquircle.ui.core.database.utils.Tables
 
 @Dao
 interface DocumentDao {

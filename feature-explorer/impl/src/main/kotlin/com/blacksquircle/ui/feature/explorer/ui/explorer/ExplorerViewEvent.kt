@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.explorer.ui.explorer
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
-internal sealed class ExplorerViewEvent : ViewEvent() {
+internal sealed class ExplorerViewEvent : ViewEvent {
 
     data object RequestPermission : ExplorerViewEvent()
     data object StartService : ExplorerViewEvent()

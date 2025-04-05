@@ -17,10 +17,10 @@
 package com.blacksquircle.ui.feature.explorer.internal
 
 import android.content.Context
+import com.blacksquircle.ui.core.database.AppDatabase
+import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.database.AppDatabase
-import com.blacksquircle.ui.core.storage.database.dao.path.PathDao
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl

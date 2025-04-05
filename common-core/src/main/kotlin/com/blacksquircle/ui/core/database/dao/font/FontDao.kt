@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.storage.database.dao.font
+package com.blacksquircle.ui.core.database.dao.font
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
-import com.blacksquircle.ui.core.storage.database.utils.Tables
+import com.blacksquircle.ui.core.database.entity.font.FontEntity
+import com.blacksquircle.ui.core.database.utils.Tables
 
 @Dao
 interface FontDao {

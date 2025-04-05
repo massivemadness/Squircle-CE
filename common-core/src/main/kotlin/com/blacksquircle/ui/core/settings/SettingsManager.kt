@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.storage.keyvalue
+package com.blacksquircle.ui.core.settings
 
 import android.content.Context
 import android.content.SharedPreferences
