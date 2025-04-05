@@ -143,7 +143,8 @@ internal fun EditorScreen(
         onCloseOthersClicked = viewModel::onCloseOthersClicked,
         onCloseAllClicked = viewModel::onCloseAllClicked,
         onErrorActionClicked = viewModel::onErrorActionClicked,
-        onExtendedKeyClicked = viewModel::onExtendedKeyClicked,
+        onExtraKeyClicked = viewModel::onExtraKeyClicked,
+        onExtraOptionsClicked = viewModel::onExtraOptionsClicked,
     )
 
     val defaultFileName = stringResource(UiR.string.common_untitled)
@@ -281,7 +282,8 @@ private fun EditorScreen(
     onCloseOthersClicked: (DocumentModel) -> Unit = {},
     onCloseAllClicked: () -> Unit = {},
     onErrorActionClicked: (ErrorAction) -> Unit = {},
-    onExtendedKeyClicked: (Char) -> Unit = {},
+    onExtraKeyClicked: (Char) -> Unit = {},
+    onExtraOptionsClicked: () -> Unit = {},
 ) {
     ScaffoldSuite(
         topBar = {
@@ -312,6 +314,7 @@ private fun EditorScreen(
         bottomBar = {
             val showKeyboard =
                 viewState.settings.extendedKeyboard &&
+                    viewState.settings.keyboardPreset.isNotEmpty() &&
                     !viewState.settings.readOnly &&
                     !viewState.isError &&
                     !viewState.isLoading &&
@@ -319,7 +322,14 @@ private fun EditorScreen(
             if (showKeyboard) {
                 ExtendedKeyboard(
                     preset = viewState.settings.keyboardPreset,
-                    onKeyClick = onExtendedKeyClicked,
+                    showExtraKeys = viewState.showExtraKeys,
+                    onExtraKeyClicked = onExtraKeyClicked,
+                    onExtraOptionsClicked = onExtraOptionsClicked,
+                    onOpenFileClicked = onOpenFileClicked,
+                    onSaveFileClicked = onSaveFileClicked,
+                    onCloseFileClicked = onCloseFileClicked,
+                    onUndoClicked = onUndoClicked,
+                    onRedoClicked = onRedoClicked,
                 )
             }
         },

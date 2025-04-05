@@ -26,17 +26,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
+import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.EditMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.FileMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.OtherMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.ToolsMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.model.MenuType
+import com.blacksquircle.ui.ds.R as UiR
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
@@ -65,6 +68,7 @@ internal fun EditorToolbar(
     onSettingsClicked: () -> Unit = {},
 ) {
     val activity = LocalActivity.current
+    val focusManager = LocalFocusManager.current
     val windowSizeClass = if (activity != null) {
         calculateWindowSizeClass(activity)
     } else {
@@ -80,18 +84,20 @@ internal fun EditorToolbar(
     }
 
     Toolbar(
-        navigationIcon = R.drawable.ic_menu,
+        navigationIcon = UiR.drawable.ic_menu,
         onNavigationClicked = onDrawerClicked,
         navigationActions = {
             if (isMediumWidth) {
                 IconButton(
-                    iconResId = R.drawable.ic_save,
+                    iconResId = UiR.drawable.ic_save,
                     onClick = onSaveFileClicked,
+                    contentDescription = stringResource(UiR.string.common_save)
                 )
             }
             IconButton(
-                iconResId = R.drawable.ic_folder,
+                iconResId = UiR.drawable.ic_folder,
                 onClick = { menuType = MenuType.FILE },
+                contentDescription = stringResource(R.string.action_file),
                 anchor = {
                     FileMenu(
                         expanded = menuType == MenuType.FILE,
@@ -105,8 +111,9 @@ internal fun EditorToolbar(
                 }
             )
             IconButton(
-                iconResId = R.drawable.ic_pencil,
+                iconResId = UiR.drawable.ic_pencil,
                 onClick = { menuType = MenuType.EDIT },
+                contentDescription = stringResource(R.string.action_edit),
                 anchor = {
                     EditMenu(
                         expanded = menuType == MenuType.EDIT,
@@ -123,8 +130,9 @@ internal fun EditorToolbar(
             )
             if (isMediumWidth) {
                 IconButton(
-                    iconResId = R.drawable.ic_wrench,
+                    iconResId = UiR.drawable.ic_wrench,
                     onClick = { menuType = MenuType.TOOLS },
+                    contentDescription = stringResource(R.string.action_tools),
                     anchor = {
                         ToolsMenu(
                             expanded = menuType == MenuType.TOOLS,
@@ -137,25 +145,29 @@ internal fun EditorToolbar(
             }
             if (isMediumWidth) {
                 IconButton(
-                    iconResId = R.drawable.ic_file_find,
+                    iconResId = UiR.drawable.ic_file_find,
                     onClick = onFindClicked,
+                    contentDescription = stringResource(R.string.action_find)
                 )
             }
             IconButton(
-                iconResId = R.drawable.ic_undo,
+                iconResId = UiR.drawable.ic_undo,
                 onClick = onUndoClicked,
                 enabled = canUndo,
                 debounce = false,
+                contentDescription = stringResource(R.string.action_undo)
             )
             IconButton(
-                iconResId = R.drawable.ic_redo,
+                iconResId = UiR.drawable.ic_redo,
                 onClick = onRedoClicked,
                 enabled = canRedo,
                 debounce = false,
+                contentDescription = stringResource(R.string.action_redo)
             )
             IconButton(
-                iconResId = R.drawable.ic_dots_vertical,
+                iconResId = UiR.drawable.ic_dots_vertical,
                 onClick = { menuType = MenuType.OTHER },
+                contentDescription = stringResource(UiR.string.common_menu),
                 anchor = {
                     OtherMenu(
                         isMediumWidth = isMediumWidth,
@@ -163,7 +175,11 @@ internal fun EditorToolbar(
                         onDismiss = { menuType = null },
                         onFindClicked = { menuType = null; onFindClicked() },
                         onToolsClicked = { menuType = MenuType.TOOLS },
-                        onSettingsClicked = { menuType = null; onSettingsClicked() }
+                        onSettingsClicked = {
+                            focusManager.clearFocus(force = true)
+                            menuType = null
+                            onSettingsClicked()
+                        }
                     )
                     if (!isMediumWidth) {
                         ToolsMenu(

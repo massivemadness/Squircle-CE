@@ -864,7 +864,7 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    fun onExtendedKeyClicked(key: Char) {
+    fun onExtraKeyClicked(key: Char) {
         viewModelScope.launch {
             val command = if (key == '\t') {
                 EditorCommand.IndentOrTab
@@ -872,6 +872,12 @@ internal class EditorViewModel @Inject constructor(
                 EditorCommand.Insert(key.toString())
             }
             _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    fun onExtraOptionsClicked() {
+        _viewState.update {
+            it.copy(showExtraKeys = !it.showExtraKeys)
         }
     }
 
@@ -1133,7 +1139,7 @@ internal class EditorViewModel @Inject constructor(
             showInvisibleChars = settingsManager.showInvisibleChars,
             readOnly = settingsManager.readOnly,
             extendedKeyboard = settingsManager.extendedKeyboard,
-            keyboardPreset = settingsManager.keyboardPreset,
+            keyboardPreset = settingsManager.keyboardPreset.toMutableList().distinct(),
             softKeyboard = settingsManager.softKeyboard,
             autoIndentation = settingsManager.autoIndentation,
             autoCloseBrackets = settingsManager.autoCloseBrackets,

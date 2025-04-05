@@ -24,5 +24,6 @@
     <string name="common_selected">Selected</string>
     <string name="common_yes">Yes</string>
     <string name="common_no">No</string>
+    <string name="common_menu">Menu</string>
     <string name="dialog_title_color_picker">Color Picker</string>
 </resources>
