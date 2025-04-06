@@ -22,7 +22,7 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
 import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import com.blacksquircle.ui.feature.servers.ui.cloud.model.ServerModel
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import kotlinx.coroutines.channels.Channel
@@ -34,7 +34,7 @@ import javax.inject.Provider
 import kotlin.coroutines.cancellation.CancellationException
 
 internal class CloudViewModel @Inject constructor(
-    private val serversRepository: ServersRepository,
+    private val serverRepository: ServerRepository,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(CloudViewState())
@@ -70,7 +70,7 @@ internal class CloudViewModel @Inject constructor(
     fun loadServers() {
         viewModelScope.launch {
             try {
-                val servers = serversRepository.loadServers().map { config ->
+                val servers = serverRepository.loadServers().map { config ->
                     ServerModel(
                         config = config,
                         status = ServerStatus.Checking,
@@ -93,7 +93,7 @@ internal class CloudViewModel @Inject constructor(
     private fun checkAvailability(serverConfig: ServerConfig) {
         viewModelScope.launch {
             try {
-                val latency = serversRepository.checkAvailability(serverConfig)
+                val latency = serverRepository.checkAvailability(serverConfig)
                 _viewState.update { state ->
                     state.copy(
                         servers = state.servers.map { server ->

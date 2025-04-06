@@ -26,9 +26,9 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 import com.blacksquircle.ui.feature.servers.data.factory.ServerFilesystemFactoryImpl
-import com.blacksquircle.ui.feature.servers.data.interactor.ServersInteractorImpl
-import com.blacksquircle.ui.feature.servers.data.repository.ServersRepositoryImpl
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.servers.data.interactor.ServerInteractorImpl
+import com.blacksquircle.ui.feature.servers.data.repository.ServerRepositoryImpl
+import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -54,8 +54,8 @@ object ServersApiModule {
         serverDao: ServerDao,
         pathDao: PathDao,
         context: Context,
-    ): ServersRepository {
-        return ServersRepositoryImpl(
+    ): ServerRepository {
+        return ServerRepositoryImpl(
             serverFilesystemFactory = serverFilesystemFactory,
             settingsManager = settingsManager,
             dispatcherProvider = dispatcherProvider,
@@ -67,8 +67,8 @@ object ServersApiModule {
 
     @Provides
     @Singleton
-    fun provideServersInteractor(serversRepository: ServersRepository): ServersInteractor {
-        return ServersInteractorImpl(serversRepository)
+    fun provideServersInteractor(serverRepository: ServerRepository): ServersInteractor {
+        return ServerInteractorImpl(serverRepository)
     }
 
     @Provides

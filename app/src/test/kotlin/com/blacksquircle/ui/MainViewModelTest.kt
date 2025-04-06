@@ -46,7 +46,7 @@ class MainViewModelTest {
 
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val themeManager = mockk<ThemeManager>()
-    private val editorInteractor = mockk<EditorInteractor>(relaxUnitFun = true)
+    private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
 
     @Test
     fun `When screen opens Then subscribe to preference changes`() = runTest {

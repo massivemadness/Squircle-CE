@@ -21,7 +21,7 @@ import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
 import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import com.blacksquircle.ui.feature.servers.ui.cloud.CloudViewModel
 import com.blacksquircle.ui.feature.servers.ui.cloud.CloudViewState
 import com.blacksquircle.ui.feature.servers.ui.cloud.model.ServerModel
@@ -47,7 +47,7 @@ class CloudViewModelTest {
     @get:Rule
     val timberConsoleRule = TimberConsoleRule()
 
-    private val serversRepository = mockk<ServersRepository>(relaxed = true)
+    private val serverRepository = mockk<ServerRepository>(relaxed = true)
 
     @Test
     fun `When back pressed Then send popBackStack event`() = runTest {
@@ -99,8 +99,8 @@ class CloudViewModelTest {
             createServerConfig(uuid = "2"),
             createServerConfig(uuid = "3"),
         )
-        coEvery { serversRepository.loadServers() } returns servers
-        coEvery { serversRepository.checkAvailability(any()) } coAnswers { delay(200); 200L }
+        coEvery { serverRepository.loadServers() } returns servers
+        coEvery { serverRepository.checkAvailability(any()) } coAnswers { delay(200); 200L }
 
         // When
         val viewModel = createViewModel() // init {}
@@ -115,9 +115,9 @@ class CloudViewModelTest {
         )
         assertEquals(viewState, viewModel.viewState.value)
 
-        coVerify(exactly = 1) { serversRepository.checkAvailability(servers[0]) }
-        coVerify(exactly = 1) { serversRepository.checkAvailability(servers[1]) }
-        coVerify(exactly = 1) { serversRepository.checkAvailability(servers[2]) }
+        coVerify(exactly = 1) { serverRepository.checkAvailability(servers[0]) }
+        coVerify(exactly = 1) { serverRepository.checkAvailability(servers[1]) }
+        coVerify(exactly = 1) { serverRepository.checkAvailability(servers[2]) }
     }
 
     @Test
@@ -125,8 +125,8 @@ class CloudViewModelTest {
         // Given
         val latency = 200L
         val servers = listOf(createServerConfig())
-        coEvery { serversRepository.loadServers() } returns servers
-        coEvery { serversRepository.checkAvailability(any()) } returns latency
+        coEvery { serverRepository.loadServers() } returns servers
+        coEvery { serverRepository.checkAvailability(any()) } returns latency
 
         // When
         val viewModel = createViewModel() // init {}
@@ -143,7 +143,7 @@ class CloudViewModelTest {
         )
         assertEquals(viewState, viewModel.viewState.value)
 
-        coVerify(exactly = 1) { serversRepository.checkAvailability(servers[0]) }
+        coVerify(exactly = 1) { serverRepository.checkAvailability(servers[0]) }
     }
 
     @Test
@@ -151,8 +151,8 @@ class CloudViewModelTest {
         // Given
         val exception = UnknownHostException()
         val servers = listOf(createServerConfig())
-        coEvery { serversRepository.loadServers() } returns servers
-        coEvery { serversRepository.checkAvailability(any()) } throws exception
+        coEvery { serverRepository.loadServers() } returns servers
+        coEvery { serverRepository.checkAvailability(any()) } throws exception
 
         // When
         val viewModel = createViewModel() // init {}
@@ -169,10 +169,10 @@ class CloudViewModelTest {
         )
         assertEquals(viewState, viewModel.viewState.value)
 
-        coVerify(exactly = 1) { serversRepository.checkAvailability(servers[0]) }
+        coVerify(exactly = 1) { serverRepository.checkAvailability(servers[0]) }
     }
 
     private fun createViewModel(): CloudViewModel {
-        return CloudViewModel(serversRepository)
+        return CloudViewModel(serverRepository)
     }
 }

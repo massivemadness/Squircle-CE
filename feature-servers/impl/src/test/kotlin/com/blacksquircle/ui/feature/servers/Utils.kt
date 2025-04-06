@@ -16,8 +16,7 @@
 
 package com.blacksquircle.ui.feature.servers
 
-import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
-import com.blacksquircle.ui.feature.servers.ui.cloud.model.ServerModel
+import com.blacksquircle.ui.core.database.entity.server.ServerEntity
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.ServerType
@@ -50,12 +49,30 @@ internal fun createServerConfig(
     )
 }
 
-internal fun createServerModel(
-    config: ServerConfig = createServerConfig(),
-    status: ServerStatus = ServerStatus.Checking,
-): ServerModel {
-    return ServerModel(
-        config = config,
-        status = status,
+internal fun createServerEntity(
+    uuid: String = "1",
+    scheme: ServerType = ServerType.FTP,
+    name: String = "Server",
+    address: String = "192.168.1.1",
+    port: Int = 21,
+    initialDir: String = "/",
+    authMethod: AuthMethod = AuthMethod.PASSWORD,
+    username: String = "username",
+    password: String? = null,
+    keyId: String? = null,
+    passphrase: String? = null,
+): ServerEntity {
+    return ServerEntity(
+        uuid = uuid,
+        scheme = scheme.value,
+        name = name,
+        address = address,
+        port = port,
+        initialDir = initialDir,
+        authMethod = authMethod.ordinal,
+        username = username,
+        password = password,
+        keyId = keyId,
+        passphrase = passphrase,
     )
 }

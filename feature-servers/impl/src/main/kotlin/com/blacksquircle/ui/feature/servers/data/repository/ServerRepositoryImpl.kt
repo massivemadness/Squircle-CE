@@ -26,7 +26,7 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
 import com.blacksquircle.ui.feature.servers.data.cache.ServerCredentials
 import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import kotlinx.coroutines.withContext
@@ -34,14 +34,14 @@ import java.io.File
 import java.io.IOException
 import java.util.UUID
 
-internal class ServersRepositoryImpl(
+internal class ServerRepositoryImpl(
     private val serverFilesystemFactory: ServerFilesystemFactory,
     private val settingsManager: SettingsManager,
     private val dispatcherProvider: DispatcherProvider,
     private val serverDao: ServerDao,
     private val pathDao: PathDao,
     private val context: Context,
-) : ServersRepository {
+) : ServerRepository {
 
     override suspend fun authenticate(uuid: String, credentials: String) {
         withContext(dispatcherProvider.io()) {

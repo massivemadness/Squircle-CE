@@ -17,22 +17,22 @@
 package com.blacksquircle.ui.feature.servers.data.interactor
 
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
-internal class ServersInteractorImpl(
-    private val serversRepository: ServersRepository,
+internal class ServerInteractorImpl(
+    private val serverRepository: ServerRepository,
 ) : ServersInteractor {
 
     override suspend fun authenticate(uuid: String, credentials: String) {
-        serversRepository.authenticate(uuid, credentials)
+        serverRepository.authenticate(uuid, credentials)
     }
 
     override suspend fun loadServers(): List<ServerConfig> {
-        return serversRepository.loadServers()
+        return serverRepository.loadServers()
     }
 
     override suspend fun loadServer(uuid: String): ServerConfig {
-        return serversRepository.loadServer(uuid)
+        return serverRepository.loadServer(uuid)
     }
 }

@@ -41,7 +41,7 @@ class ThemesRepositoryImplTest {
     private val dispatcherProvider = TestDispatcherProvider()
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val themesInteractor = mockk<ThemesInteractor>(relaxed = true)
-    private val themeDao = mockk<ThemeDao>(relaxUnitFun = true)
+    private val themeDao = mockk<ThemeDao>(relaxed = true)
     private val context = mockk<Context>()
 
     private val themesRepository = ThemesRepositoryImpl(

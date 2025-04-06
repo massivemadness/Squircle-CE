@@ -42,7 +42,7 @@ class FontsRepositoryImplTest {
 
     private val dispatcherProvider = TestDispatcherProvider()
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
-    private val fontDao = mockk<FontDao>(relaxUnitFun = true)
+    private val fontDao = mockk<FontDao>(relaxed = true)
     private val context = mockk<Context>()
     private val typeface = mockk<Typeface>()
 

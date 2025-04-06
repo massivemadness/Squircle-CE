@@ -25,8 +25,8 @@ import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
 import com.blacksquircle.ui.feature.servers.data.factory.ServerFilesystemFactoryImpl
-import com.blacksquircle.ui.feature.servers.data.repository.ServersRepositoryImpl
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.servers.data.repository.ServerRepositoryImpl
+import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import dagger.Module
 import dagger.Provides
 
@@ -51,8 +51,8 @@ internal object ServersModule {
         serverDao: ServerDao,
         pathDao: PathDao,
         context: Context,
-    ): ServersRepository {
-        return ServersRepositoryImpl(
+    ): ServerRepository {
+        return ServerRepositoryImpl(
             serverFilesystemFactory = serverFilesystemFactory,
             settingsManager = settingsManager,
             dispatcherProvider = dispatcherProvider,

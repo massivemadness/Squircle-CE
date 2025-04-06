@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import com.blacksquircle.ui.feature.servers.ui.server.compose.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.server.compose.PasswordAction
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
@@ -42,7 +42,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class ServerViewModel @AssistedInject constructor(
-    private val serversRepository: ServersRepository,
+    private val serverRepository: ServerRepository,
     @Assisted private val serverId: String?,
 ) : ViewModel() {
 
@@ -112,7 +112,7 @@ internal class ServerViewModel @AssistedInject constructor(
     fun onKeyFileSelected(fileUri: Uri) {
         viewModelScope.launch {
             try {
-                val keyId = serversRepository.saveKeyFile(fileUri)
+                val keyId = serverRepository.saveKeyFile(fileUri)
                 _viewState.update {
                     it.copy(keyId = keyId)
                 }
@@ -174,7 +174,7 @@ internal class ServerViewModel @AssistedInject constructor(
             viewModelScope.launch {
                 try {
                     val serverConfig = viewState.value.toConfig(serverId)
-                    serversRepository.upsertServer(serverConfig)
+                    serverRepository.upsertServer(serverConfig)
                     _viewEvent.send(ServerViewEvent.SendSaveResult)
                 } catch (e: CancellationException) {
                     throw e
@@ -190,7 +190,7 @@ internal class ServerViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 val serverConfig = viewState.value.toConfig(serverId)
-                serversRepository.deleteServer(serverConfig)
+                serverRepository.deleteServer(serverConfig)
                 _viewEvent.send(ServerViewEvent.SendDeleteResult)
             } catch (e: CancellationException) {
                 throw e
@@ -213,7 +213,7 @@ internal class ServerViewModel @AssistedInject constructor(
         }
         viewModelScope.launch {
             try {
-                val serverConfig = serversRepository.loadServer(serverId.orEmpty())
+                val serverConfig = serverRepository.loadServer(serverId.orEmpty())
                 _viewState.value = ServerViewState.create(serverConfig)
             } catch (e: CancellationException) {
                 throw e

@@ -20,7 +20,7 @@ import android.net.Uri
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
-import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
+import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import com.blacksquircle.ui.feature.servers.ui.server.ServerViewEvent
 import com.blacksquircle.ui.feature.servers.ui.server.ServerViewModel
 import com.blacksquircle.ui.feature.servers.ui.server.ServerViewState
@@ -49,7 +49,7 @@ class ServerViewModelTest {
     @get:Rule
     val timberConsoleRule = TimberConsoleRule()
 
-    private val serversRepository = mockk<ServersRepository>(relaxed = true)
+    private val serverRepository = mockk<ServerRepository>(relaxed = true)
 
     @Before
     fun setup() {
@@ -67,7 +67,7 @@ class ServerViewModelTest {
 
         // Then
         assertEquals(viewState, viewModel.viewState.value)
-        coVerify(exactly = 0) { serversRepository.loadServer(any()) }
+        coVerify(exactly = 0) { serverRepository.loadServer(any()) }
     }
 
     @Test
@@ -75,7 +75,7 @@ class ServerViewModelTest {
         // Given
         val serverId = "1"
         val serverConfig = createServerConfig(uuid = serverId)
-        coEvery { serversRepository.loadServer(serverId) } returns serverConfig
+        coEvery { serverRepository.loadServer(serverId) } returns serverConfig
 
         // When
         val viewModel = createViewModel(serverId)
@@ -83,7 +83,7 @@ class ServerViewModelTest {
 
         // Then
         assertEquals(viewState, viewModel.viewState.value)
-        coVerify(exactly = 1) { serversRepository.loadServer(serverId) }
+        coVerify(exactly = 1) { serverRepository.loadServer(serverId) }
     }
 
     @Test
@@ -201,7 +201,7 @@ class ServerViewModelTest {
         val viewModel = createViewModel()
         val keyUri = mockk<Uri>()
         val keyId = "key_id"
-        coEvery { serversRepository.saveKeyFile(keyUri) } returns keyId
+        coEvery { serverRepository.saveKeyFile(keyUri) } returns keyId
 
         // When
         viewModel.onKeyFileSelected(keyUri)
@@ -210,7 +210,7 @@ class ServerViewModelTest {
         val viewState = ServerViewState(keyId = keyId)
         assertEquals(viewState, viewModel.viewState.value)
 
-        coVerify(exactly = 1) { serversRepository.saveKeyFile(keyUri) }
+        coVerify(exactly = 1) { serverRepository.saveKeyFile(keyUri) }
     }
 
     @Test
@@ -300,7 +300,7 @@ class ServerViewModelTest {
 
         assertEquals(viewState, viewModel.viewState.value)
         assertEquals(viewEvent, viewModel.viewEvent.first())
-        coVerify(exactly = 1) { serversRepository.upsertServer(serverConfig) }
+        coVerify(exactly = 1) { serverRepository.upsertServer(serverConfig) }
     }
 
     @Test
@@ -324,7 +324,7 @@ class ServerViewModelTest {
         )
 
         assertEquals(viewState, viewModel.viewState.value)
-        coVerify(exactly = 0) { serversRepository.upsertServer(any()) }
+        coVerify(exactly = 0) { serverRepository.upsertServer(any()) }
     }
 
     @Test
@@ -332,14 +332,14 @@ class ServerViewModelTest {
         // Given
         val serverId = "1"
         val serverConfig = createServerConfig(uuid = serverId)
-        coEvery { serversRepository.loadServer(serverId) } returns serverConfig
+        coEvery { serverRepository.loadServer(serverId) } returns serverConfig
         val viewModel = createViewModel(serverId)
 
         // When
         viewModel.onDeleteClicked()
 
         // Then
-        coVerify(exactly = 1) { serversRepository.deleteServer(serverConfig) }
+        coVerify(exactly = 1) { serverRepository.deleteServer(serverConfig) }
     }
 
     @Test
@@ -357,7 +357,7 @@ class ServerViewModelTest {
 
     private fun createViewModel(serverId: String? = null): ServerViewModel {
         return ServerViewModel(
-            serversRepository = serversRepository,
+            serverRepository = serverRepository,
             serverId = serverId
         )
     }

@@ -20,7 +20,7 @@ import android.net.Uri
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
 // internal
-interface ServersRepository {
+interface ServerRepository {
 
     suspend fun authenticate(uuid: String, credentials: String)
     suspend fun checkAvailability(serverConfig: ServerConfig): Long
