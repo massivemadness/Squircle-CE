@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.themes
 
 import android.graphics.Typeface
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
@@ -28,11 +29,13 @@ import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewModel
 import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewState
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -41,7 +44,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ThemeUiStateTests {
+class ThemesViewModelTests {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -49,10 +52,10 @@ class ThemeUiStateTests {
     @get:Rule
     val timberConsoleRule = TimberConsoleRule()
 
-    private val stringProvider = mockk<StringProvider>()
-    private val fontsInteractor = mockk<FontsInteractor>()
-    private val themesRepository = mockk<ThemesRepository>()
-    private val settingsManager = mockk<SettingsManager>()
+    private val stringProvider = mockk<StringProvider>(relaxed = true)
+    private val fontsInteractor = mockk<FontsInteractor>(relaxed = true)
+    private val themesRepository = mockk<ThemesRepository>(relaxed = true)
+    private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val typeface = mockk<Typeface>()
 
     @Before
@@ -60,12 +63,23 @@ class ThemeUiStateTests {
         mockkObject(TypefaceProvider)
         every { TypefaceProvider.DEFAULT } returns typeface
         coEvery { fontsInteractor.loadFont(any()) } returns typeface
-        every { settingsManager.editorTheme } returns ""
-        every { settingsManager.fontType } returns ""
     }
 
     @Test
-    fun `When opening the screen Then display loading state`() = runTest {
+    fun `When back pressed Then send popBackStack event`() = runTest {
+        // Given
+        val viewModel = createViewModel()
+
+        // When
+        viewModel.onBackClicked()
+
+        // Then
+        val expected = ViewEvent.PopBackStack
+        assertEquals(expected, viewModel.viewEvent.first())
+    }
+
+    @Test
+    fun `When screen opens Then display loading state`() = runTest {
         // Given
         coEvery { themesRepository.loadThemes("") } coAnswers { delay(200); emptyList() }
 
@@ -162,6 +176,71 @@ class ThemeUiStateTests {
             isLoading = false,
         )
         assertEquals(viewState, viewModel.viewState.value)
+    }
+
+    @Test
+    fun `When user clearing search query Then reload theme list`() = runTest {
+        // Given
+        val viewModel = createViewModel()
+
+        // When
+        viewModel.onQueryChanged("Source")
+        advanceUntilIdle()
+        viewModel.onClearQueryClicked()
+        advanceUntilIdle()
+
+        // Then
+        coVerify(exactly = 1) { themesRepository.loadThemes("Source") }
+        coVerify(exactly = 2) { themesRepository.loadThemes("") }
+    }
+
+    @Test
+    fun `When theme selected Then save selection`() = runTest {
+        // Given
+        val themeModel = ThemeModel(
+            uuid = "1",
+            name = "Darcula",
+            author = "Squircle CE",
+            colorScheme = mockk(),
+            isExternal = true,
+        )
+        val viewModel = createViewModel()
+
+        // When
+        viewModel.onSelectClicked(themeModel)
+
+        // Then
+        val viewState = ThemesViewState(selectedTheme = themeModel.uuid)
+        assertEquals(viewState, viewModel.viewState.value)
+        coVerify(exactly = 1) { themesRepository.selectTheme(themeModel) }
+    }
+
+    @Test
+    fun `When theme removed Then remove theme`() = runTest {
+        // Given
+        val themeModel = ThemeModel(
+            uuid = "1",
+            name = "Darcula",
+            author = "Squircle CE",
+            colorScheme = mockk(),
+            isExternal = true,
+        )
+        coEvery { themesRepository.loadThemes(any()) } returns listOf(themeModel)
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        // When
+        viewModel.onRemoveClicked(themeModel)
+
+        // Then
+        val viewState = ThemesViewState(
+            themes = emptyList(),
+            selectedTheme = "",
+            typeface = typeface,
+            isLoading = false,
+        )
+        assertEquals(viewState, viewModel.viewState.value)
+        coVerify(exactly = 1) { themesRepository.removeTheme(themeModel) }
     }
 
     private fun createViewModel(): ThemesViewModel {

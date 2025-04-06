@@ -19,14 +19,12 @@ package com.blacksquircle.ui.feature.fonts
 import android.content.Context
 import android.graphics.Typeface
 import com.blacksquircle.ui.core.database.dao.font.FontDao
-import com.blacksquircle.ui.core.database.entity.font.FontEntity
 import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FONT_TYPE
 import com.blacksquircle.ui.core.tests.TestDispatcherProvider
 import com.blacksquircle.ui.feature.fonts.data.repository.FontsRepositoryImpl
 import com.blacksquircle.ui.feature.fonts.data.utils.createTypefaceFromPath
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -69,11 +67,8 @@ class FontsRepositoryImplTest {
     @Test
     fun `When loading fonts Then load from assets and database`() = runTest {
         // Given
-        val customFont = FontEntity(
-            fontUuid = "custom",
-            fontName = "Custom Mono",
-        )
-        coEvery { fontDao.loadAll() } returns listOf(customFont)
+        val fontEntity = createFontEntity()
+        coEvery { fontDao.loadAll() } returns listOf(fontEntity)
 
         // When
         val fonts = fontsRepository.loadFonts("")
@@ -86,36 +81,25 @@ class FontsRepositoryImplTest {
     @Test
     fun `When loading with query Then filter out by name`() = runTest {
         // Given
-        val customFont = FontEntity(
-            fontUuid = "custom",
-            fontName = "Custom Mono",
+        val fontEntity = createFontEntity(name = "Custom Font")
+        val fontModel = createFontModel(
+            name = "Custom Font",
+            typeface = typeface,
         )
-        coEvery { fontDao.loadAll() } returns listOf(customFont)
+        coEvery { fontDao.loadAll() } returns listOf(fontEntity)
 
         // When
-        val fonts = fontsRepository.loadFonts("Custom Mono")
+        val fonts = fontsRepository.loadFonts("Custom Font")
 
         // Then
-        val expected = listOf(
-            FontModel(
-                uuid = customFont.fontUuid,
-                name = customFont.fontName,
-                typeface = typeface,
-                isExternal = true,
-            )
-        )
+        val expected = listOf(fontModel)
         assertEquals(expected, fonts)
     }
 
     @Test
     fun `When select font Then update selected font`() = runTest {
         // Given
-        val fontModel = FontModel(
-            uuid = "custom",
-            name = "Custom Mono",
-            typeface = typeface,
-            isExternal = true,
-        )
+        val fontModel = createFontModel()
 
         // When
         fontsRepository.selectFont(fontModel)
@@ -127,12 +111,7 @@ class FontsRepositoryImplTest {
     @Test
     fun `When remove font Then delete from database`() = runTest {
         // Given
-        val fontModel = FontModel(
-            uuid = "custom",
-            name = "Custom Mono",
-            typeface = typeface,
-            isExternal = true,
-        )
+        val fontModel = createFontModel()
         every { settingsManager.fontType } returns "different"
 
         // When
@@ -146,12 +125,7 @@ class FontsRepositoryImplTest {
     @Test
     fun `When remove selected font Then reset selected font`() = runTest {
         // Given
-        val fontModel = FontModel(
-            uuid = "custom",
-            name = "Custom Mono",
-            typeface = typeface,
-            isExternal = true,
-        )
+        val fontModel = createFontModel()
         every { settingsManager.fontType } returns fontModel.uuid
 
         // When

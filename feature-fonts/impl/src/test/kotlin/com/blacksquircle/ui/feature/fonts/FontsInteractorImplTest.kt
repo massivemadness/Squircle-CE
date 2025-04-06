@@ -18,33 +18,41 @@ package com.blacksquircle.ui.feature.fonts
 
 import android.content.Context
 import android.graphics.Typeface
-import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.tests.TestDispatcherProvider
 import com.blacksquircle.ui.feature.fonts.data.interactor.FontsInteractorImpl
 import com.blacksquircle.ui.feature.fonts.data.model.AssetsFont
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 
 class FontsInteractorImplTest {
 
+    private val typeface = mockk<Typeface>()
     private val dispatcherProvider = TestDispatcherProvider()
     private val context = mockk<Context>()
 
-    private val fontsInteractor = FontsInteractorImpl(dispatcherProvider, context)
+    private val fontsInteractor = FontsInteractorImpl(
+        dispatcherProvider = dispatcherProvider,
+        context = context
+    )
+
+    @Before
+    fun setup() {
+        mockkStatic(Typeface::class)
+        every { Typeface.createFromAsset(any(), any()) } returns typeface
+
+        every { context.assets } returns mockk()
+    }
 
     @Test
     fun `When loading internal font Then load from assets`() = runTest {
         // Given
         val fontId = AssetsFont.DROID_SANS_MONO.fontId
-        mockkStatic(Typeface::class)
-        every { Typeface.createFromAsset(any(), any()) } returns mockk()
-        every { context.assets } returns mockk()
 
         // When
         fontsInteractor.loadFont(fontId)
@@ -54,21 +62,15 @@ class FontsInteractorImplTest {
     }
 
     @Test
-    @Ignore("Need more time to figure it out")
+    @Ignore("TODO: Mock font file")
     fun `When loading external font Then load from file`() = runTest {
         // Given
-        val fontId = "external_font_id"
-        val fontPath = "fonts"
-
-        mockkObject(Directories)
-        every { Directories.fontsDir(context) } returns mockk()
-        mockkStatic(Typeface::class)
-        every { Typeface.createFromFile(any<String>()) } returns mockk()
+        val fontId = "external font"
 
         // When
         fontsInteractor.loadFont(fontId)
 
         // Then
-        verify(exactly = 1) { Typeface.createFromFile(fontPath) }
+        verify(exactly = 1) { Typeface.createFromFile(any<String>()) }
     }
 }
