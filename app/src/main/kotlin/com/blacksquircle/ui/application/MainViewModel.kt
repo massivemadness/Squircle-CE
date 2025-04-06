@@ -20,6 +20,8 @@ import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_APP_THEME
+import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FULLSCREEN_MODE
 import com.blacksquircle.ui.core.theme.Theme
 import com.blacksquircle.ui.core.theme.ThemeManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
@@ -39,11 +41,11 @@ internal class MainViewModel @Inject constructor(
     val viewState: StateFlow<MainViewState> = _viewState.asStateFlow()
 
     init {
-        settingsManager.setListener(SettingsManager.KEY_APP_THEME) {
+        settingsManager.setListener(KEY_APP_THEME) {
             val theme = Theme.of(settingsManager.appTheme)
             themeManager.apply(theme)
         }
-        settingsManager.setListener(SettingsManager.KEY_FULLSCREEN_MODE) {
+        settingsManager.setListener(KEY_FULLSCREEN_MODE) {
             _viewState.value = updateViewState()
         }
     }

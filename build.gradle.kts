@@ -48,9 +48,8 @@ fun KoverProjectExtension.applyRules() {
     reports {
         filters {
             excludes {
-                packages(
-                    "io.github.rosemoe.sora",
-                    "org.eclipse.tm4e",
+                annotatedBy(
+                    "kotlinx.serialization.Serializable",
                 )
                 classes(
                     // Android classes
