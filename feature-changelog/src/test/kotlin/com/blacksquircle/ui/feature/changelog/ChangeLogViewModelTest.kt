@@ -17,6 +17,8 @@
 package com.blacksquircle.ui.feature.changelog
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.tests.MainDispatcherRule
+import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel
 import com.blacksquircle.ui.feature.changelog.domain.repository.ChangelogRepository
 import com.blacksquircle.ui.feature.changelog.ui.changelog.ChangeLogViewModel
@@ -27,9 +29,16 @@ import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import org.junit.Rule
 import org.junit.Test
 
 class ChangeLogViewModelTest {
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
+    @get:Rule
+    val timberConsoleRule = TimberConsoleRule()
 
     private val changelogRepository = mockk<ChangelogRepository>()
 

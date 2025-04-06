@@ -60,11 +60,9 @@ fun KoverProjectExtension.applyRules() {
                     "*Worker*",
                     "*Service*",
                     "*BroadcastReceiver*",
-
                     // Android generated
                     "*.databinding.*",
                     "*.BuildConfig",
-
                     // Dagger
                     "*Component",
                     "*Component\$*",
@@ -72,16 +70,13 @@ fun KoverProjectExtension.applyRules() {
                     "*Module\$*",
                     "*Scope",
                     "*_MembersInjector",
-
                     // Dagger generated
                     "*Dagger*",
                     "*_Provide*Factory*",
                     "*_Factory*",
-
                     // Room
                     "*.database.*",
                     "*.dao.*",
-
                     // UI
                     "*App*",
                     "*GraphKt*",
@@ -92,7 +87,6 @@ fun KoverProjectExtension.applyRules() {
                     "*Extensions*",
                     "*ViewModel\$Factory",
                     "*ViewModel\$ParameterizedFactory",
-
                     // Code style
                     "*.api.*",
                     "*.internal.*",

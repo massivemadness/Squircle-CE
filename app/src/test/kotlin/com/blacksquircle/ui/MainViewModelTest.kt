@@ -23,6 +23,8 @@ import com.blacksquircle.ui.application.MainViewState
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_APP_THEME
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FULLSCREEN_MODE
+import com.blacksquircle.ui.core.tests.MainDispatcherRule
+import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.core.theme.ThemeManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import io.mockk.coVerify
@@ -31,9 +33,16 @@ import io.mockk.mockk
 import io.mockk.verify
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.test.runTest
+import org.junit.Rule
 import org.junit.Test
 
 class MainViewModelTest {
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
+    @get:Rule
+    val timberConsoleRule = TimberConsoleRule()
 
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val themeManager = mockk<ThemeManager>()
