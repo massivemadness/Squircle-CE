@@ -28,7 +28,7 @@ import org.junit.Ignore
 import org.junit.Test
 import java.io.InputStream
 
-class ChangelogRepositoryTests {
+class ChangelogRepositoryTest {
 
     @Test
     @Ignore("Unstable on CI")

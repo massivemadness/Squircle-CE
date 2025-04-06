@@ -90,6 +90,8 @@ fun KoverProjectExtension.applyRules() {
                     "*ScreenKt\$*",
                     "*Composable*",
                     "*Extensions*",
+                    "*ViewModel\$Factory",
+                    "*ViewModel\$ParameterizedFactory",
 
                     // Code style
                     "*.api.*",

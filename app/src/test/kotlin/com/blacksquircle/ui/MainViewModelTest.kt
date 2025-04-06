@@ -40,7 +40,7 @@ class MainViewModelTest {
     private val editorInteractor = mockk<EditorInteractor>(relaxUnitFun = true)
 
     @Test
-    fun `When screen opened Then subscribe to preference changes`() = runTest {
+    fun `When screen opens Then subscribe to preference changes`() = runTest {
         // When
         createViewModel() // init {}
 
@@ -50,7 +50,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `When screen opened Then load settings`() = runTest {
+    fun `When screen opens Then load settings`() = runTest {
         // Given
         val fullScreenMode = true
         every { settingsManager.fullScreenMode } returns fullScreenMode
