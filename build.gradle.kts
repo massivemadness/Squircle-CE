@@ -1,3 +1,5 @@
+import kotlinx.kover.gradle.plugin.dsl.KoverProjectExtension
+
 /*
  * Copyright 2025 Squircle CE contributors.
  *
@@ -26,69 +28,83 @@ plugins {
     alias(libs.plugins.kotlin.kover)
 }
 
+// ./gradlew :app:koverHtmlReport
 subprojects {
-    apply(plugin = "org.jetbrains.kotlinx.kover")
-    pluginManager.withPlugin("com.android.library") {
-        koverMerge("debug")
-    }
-    pluginManager.withPlugin("com.android.application") {
-        koverMerge("fdroidDebug")
-    }
-    rootProject.dependencies.add("kover", this)
-}
-
-fun Project.koverMerge(buildVariant: String) {
-    koverReport {
-        defaults {
-            mergeWith(buildVariant)
+    afterEvaluate {
+        val applyKover =
+            pluginManager.hasPlugin("com.blacksquircle.application") ||
+                pluginManager.hasPlugin("com.blacksquircle.feature") ||
+                pluginManager.hasPlugin("com.blacksquircle.kotlin")
+        if (applyKover) {
+            apply(plugin = "org.jetbrains.kotlinx.kover")
+            kover {
+                applyRules()
+            }
         }
     }
 }
 
-// ./gradlew :koverHtmlReport
-koverReport {
-    filters {
-        excludes {
-            classes(
-                // Android classes
-                "*Application*",
-                "*Activity*",
-                "*Fragment*",
-                "*Dialog*",
-                "*Worker*",
-                // Android generated
-                "*.databinding.*",
-                "*.BuildConfig",
-                // Hilt generated
-                "hilt_aggregated_deps.*",
-                "*_Factory*",
-                "*_Provide*Factory*",
-                "*_HiltModules*",
-                "*_MembersInjector*",
-                // NavComponent generated
-                "*FragmentArgs",
-                "*FragmentArgs\$*",
-                "*FragmentDirections",
-                "*FragmentDirections\$*",
-                // Room generated
-                "*Dao_Impl",
-                "*Dao_Impl\$*",
-                // Code style
-                "*App*",
-                "*Extensions*",
-                "*.internal.*",
-                "*.model.*",
-                "*.entity.*",
-                "*.adapter.*",
-                "*.customview.*",
-                "*.view.*",
-                "*.widget.*",
-                "*.dialog.*",
-                "*.fragment.*",
-                "*.navigation.*",
-                "*.lexer.*",
-                "*.editorkit.*",
-            )
+fun KoverProjectExtension.applyRules() {
+    reports {
+        filters {
+            excludes {
+                packages(
+                    "io.github.rosemoe.sora",
+                    "org.eclipse.tm4e",
+                )
+                classes(
+                    // Android classes
+                    "*Application*",
+                    "*Activity*",
+                    "*Fragment*",
+                    "*Dialog*",
+                    "*Worker*",
+                    "*Service*",
+                    "*BroadcastReceiver*",
+
+                    // Android generated
+                    "*.databinding.*",
+                    "*.BuildConfig",
+
+                    // Dagger
+                    "*Component",
+                    "*Component\$*",
+                    "*Module",
+                    "*Module\$*",
+                    "*Scope",
+                    "*_MembersInjector",
+
+                    // Dagger generated
+                    "*Dagger*",
+                    "*_Provide*Factory*",
+                    "*_Factory*",
+
+                    // Room
+                    "*.database.*",
+                    "*.dao.*",
+
+                    // UI
+                    "*App*",
+                    "*GraphKt*",
+                    "*GraphKt\$*",
+                    "*ScreenKt*",
+                    "*ScreenKt\$*",
+                    "*Composable*",
+                    "*Extensions*",
+
+                    // Code style
+                    "*.api.*",
+                    "*.internal.*",
+                    "*.model.*",
+                    "*.entity.*",
+                    "*.exception.*",
+                    "*.compose.*",
+                    "*.core.*",
+                    "*.ds.*",
+                    "*.view.*",
+                    "*.menu.*",
+                )
+            }
         }
     }
 }
