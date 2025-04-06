@@ -22,12 +22,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.servers.domain.repository.ServersRepository
-import com.blacksquircle.ui.feature.servers.ui.server.ServerViewState.Companion.DEFAULT_FTP_PORT
-import com.blacksquircle.ui.feature.servers.ui.server.ServerViewState.Companion.DEFAULT_SFTP_PORT
 import com.blacksquircle.ui.feature.servers.ui.server.compose.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.server.compose.PasswordAction
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.ServerType
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -42,7 +39,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.UUID
 import javax.inject.Inject
 
 internal class ServerViewModel @AssistedInject constructor(
@@ -177,7 +173,7 @@ internal class ServerViewModel @AssistedInject constructor(
         if (isServerNameValid && isServerAddressValid) {
             viewModelScope.launch {
                 try {
-                    val serverConfig = viewState.value.toServerConfig()
+                    val serverConfig = viewState.value.toConfig(serverId)
                     serversRepository.upsertServer(serverConfig)
                     _viewEvent.send(ServerViewEvent.SendSaveResult)
                 } catch (e: CancellationException) {
@@ -193,7 +189,7 @@ internal class ServerViewModel @AssistedInject constructor(
     fun onDeleteClicked() {
         viewModelScope.launch {
             try {
-                val serverConfig = viewState.value.toServerConfig()
+                val serverConfig = viewState.value.toConfig(serverId)
                 serversRepository.deleteServer(serverConfig)
                 _viewEvent.send(ServerViewEvent.SendDeleteResult)
             } catch (e: CancellationException) {
@@ -218,30 +214,7 @@ internal class ServerViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 val serverConfig = serversRepository.loadServer(serverId.orEmpty())
-                _viewState.update {
-                    it.copy(
-                        scheme = serverConfig.scheme,
-                        name = serverConfig.name,
-                        address = serverConfig.address,
-                        port = serverConfig.port.toString(),
-                        initialDir = serverConfig.initialDir,
-                        passwordAction = if (serverConfig.password.isNullOrEmpty()) {
-                            PasswordAction.ASK_FOR_PASSWORD
-                        } else {
-                            PasswordAction.SAVE_PASSWORD
-                        },
-                        passphraseAction = if (serverConfig.passphrase.isNullOrEmpty()) {
-                            PassphraseAction.ASK_FOR_PASSPHRASE
-                        } else {
-                            PassphraseAction.SAVE_PASSPHRASE
-                        },
-                        authMethod = serverConfig.authMethod,
-                        username = serverConfig.username,
-                        password = serverConfig.password.orEmpty(),
-                        keyId = serverConfig.keyId.orEmpty(),
-                        passphrase = serverConfig.passphrase.orEmpty(),
-                    )
-                }
+                _viewState.value = ServerViewState.create(serverConfig)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -249,41 +222,6 @@ internal class ServerViewModel @AssistedInject constructor(
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
-    }
-
-    private fun ServerViewState.toServerConfig(): ServerConfig {
-        return ServerConfig(
-            uuid = serverId ?: UUID.randomUUID().toString(),
-            scheme = scheme,
-            name = name.trim(),
-            address = address.trim(),
-            port = port.toIntOrNull() ?: when (scheme) {
-                ServerType.FTP,
-                ServerType.FTPS,
-                ServerType.FTPES -> DEFAULT_FTP_PORT
-                ServerType.SFTP -> DEFAULT_SFTP_PORT
-            },
-            initialDir = initialDir.trim(),
-            authMethod = authMethod,
-            username = username.trim(),
-            password = if (
-                authMethod == AuthMethod.PASSWORD &&
-                passwordAction == PasswordAction.SAVE_PASSWORD
-            ) {
-                password.trim()
-            } else {
-                null
-            },
-            keyId = if (authMethod == AuthMethod.KEY) keyId else null,
-            passphrase = if (
-                authMethod == AuthMethod.KEY &&
-                passphraseAction == PassphraseAction.SAVE_PASSPHRASE
-            ) {
-                passphrase.trim()
-            } else {
-                null
-            },
-        )
     }
 
     class ParameterizedFactory(private val serverId: String?) : ViewModelProvider.Factory {
