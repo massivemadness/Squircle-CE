@@ -20,6 +20,6 @@ import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFacto
 import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
 
 interface ServersApiDepsProvider {
-    fun provideServersInteractor(): ServersInteractor
+    fun provideServerInteractor(): ServersInteractor
     fun provideServerFilesystemFactory(): ServerFilesystemFactory
 }

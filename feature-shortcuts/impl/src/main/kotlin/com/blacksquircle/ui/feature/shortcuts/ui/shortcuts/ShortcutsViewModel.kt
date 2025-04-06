@@ -24,7 +24,7 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.navigation.ConflictKeyDialog
 import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingDialog
-import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutsRepository
+import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -36,7 +36,7 @@ import com.blacksquircle.ui.ds.R as UiR
 
 internal class ShortcutsViewModel @Inject constructor(
     private val stringProvider: StringProvider,
-    private val shortcutsRepository: ShortcutsRepository,
+    private val shortcutRepository: ShortcutRepository,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(ShortcutsViewState())
@@ -62,7 +62,7 @@ internal class ShortcutsViewModel @Inject constructor(
     fun onRestoreClicked() {
         viewModelScope.launch {
             try {
-                shortcutsRepository.restoreDefaults()
+                shortcutRepository.restoreDefaults()
                 loadShortcuts()
             } catch (e: CancellationException) {
                 throw e
@@ -105,7 +105,7 @@ internal class ShortcutsViewModel @Inject constructor(
                     val screen = ConflictKeyDialog
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 } else {
-                    shortcutsRepository.reassign(keybinding)
+                    shortcutRepository.reassign(keybinding)
                     loadShortcuts()
                 }
             } catch (e: CancellationException) {
@@ -123,8 +123,8 @@ internal class ShortcutsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (reassign) {
-                    shortcutsRepository.disable(checkNotNull(conflictKey))
-                    shortcutsRepository.reassign(checkNotNull(pendingKey))
+                    shortcutRepository.disable(checkNotNull(conflictKey))
+                    shortcutRepository.reassign(checkNotNull(pendingKey))
                 }
                 pendingKey = null
                 conflictKey = null
@@ -143,7 +143,7 @@ internal class ShortcutsViewModel @Inject constructor(
     private fun loadShortcuts() {
         viewModelScope.launch {
             try {
-                shortcuts = shortcutsRepository.loadShortcuts()
+                shortcuts = shortcutRepository.loadShortcuts()
                 _viewState.value = ShortcutsViewState(
                     shortcuts = shortcuts.groupBy { it.shortcut.group },
                 )

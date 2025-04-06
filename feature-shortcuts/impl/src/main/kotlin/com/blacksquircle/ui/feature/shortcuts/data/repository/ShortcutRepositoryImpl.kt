@@ -20,13 +20,13 @@ import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
-import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutsRepository
+import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutRepository
 import kotlinx.coroutines.withContext
 
-internal class ShortcutsRepositoryImpl(
+internal class ShortcutRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
-) : ShortcutsRepository {
+) : ShortcutRepository {
 
     override suspend fun loadShortcuts(): List<Keybinding> {
         return withContext(dispatcherProvider.io()) {

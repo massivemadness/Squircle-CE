@@ -47,7 +47,7 @@ object ServersApiModule {
 
     @Provides
     @Singleton
-    fun provideServersRepository(
+    fun provideServerRepository(
         serverFilesystemFactory: ServerFilesystemFactory,
         settingsManager: SettingsManager,
         dispatcherProvider: DispatcherProvider,
@@ -67,7 +67,7 @@ object ServersApiModule {
 
     @Provides
     @Singleton
-    fun provideServersInteractor(serverRepository: ServerRepository): ServersInteractor {
+    fun provideServerInteractor(serverRepository: ServerRepository): ServersInteractor {
         return ServerInteractorImpl(serverRepository)
     }
 

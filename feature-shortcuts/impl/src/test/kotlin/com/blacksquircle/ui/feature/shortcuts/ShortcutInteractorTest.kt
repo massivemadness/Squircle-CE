@@ -14,24 +14,26 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.shortcuts.internal
+package com.blacksquircle.ui.feature.shortcuts
 
-import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.shortcuts.data.repository.ShortcutRepositoryImpl
+import com.blacksquircle.ui.feature.shortcuts.data.interactor.ShortcutInteractorImpl
 import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutRepository
-import dagger.Module
-import dagger.Provides
+import io.mockk.coVerify
+import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
+import org.junit.Test
 
-@Module
-internal object ShortcutsModule {
+class ShortcutInteractorTest {
 
-    @Provides
-    @ShortcutsScope
-    fun provideShortcutRepository(
-        dispatcherProvider: DispatcherProvider,
-        settingsManager: SettingsManager,
-    ): ShortcutRepository {
-        return ShortcutRepositoryImpl(dispatcherProvider, settingsManager)
+    private val shortcutRepository = mockk<ShortcutRepository>(relaxed = true)
+    private val shortcutInteractor = ShortcutInteractorImpl(shortcutRepository)
+
+    @Test
+    fun `When load shortcuts Then load from repository`() = runTest {
+        // When
+        shortcutInteractor.loadShortcuts()
+
+        // Then
+        coVerify(exactly = 1) { shortcutRepository.loadShortcuts() }
     }
 }

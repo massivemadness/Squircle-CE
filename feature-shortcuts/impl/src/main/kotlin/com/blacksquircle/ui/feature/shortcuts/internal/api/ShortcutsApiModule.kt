@@ -19,9 +19,9 @@ package com.blacksquircle.ui.feature.shortcuts.internal.api
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
-import com.blacksquircle.ui.feature.shortcuts.data.interactor.ShortcutsInteractorImpl
-import com.blacksquircle.ui.feature.shortcuts.data.repository.ShortcutsRepositoryImpl
-import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutsRepository
+import com.blacksquircle.ui.feature.shortcuts.data.interactor.ShortcutInteractorImpl
+import com.blacksquircle.ui.feature.shortcuts.data.repository.ShortcutRepositoryImpl
+import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -31,16 +31,16 @@ object ShortcutsApiModule {
 
     @Provides
     @Singleton
-    fun provideShortcutsRepository(
+    fun provideShortcutRepository(
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
-    ): ShortcutsRepository {
-        return ShortcutsRepositoryImpl(dispatcherProvider, settingsManager)
+    ): ShortcutRepository {
+        return ShortcutRepositoryImpl(dispatcherProvider, settingsManager)
     }
 
     @Provides
     @Singleton
-    fun provideShortcutsInteractor(shortcutsRepository: ShortcutsRepository): ShortcutsInteractor {
-        return ShortcutsInteractorImpl(shortcutsRepository)
+    fun provideShortcutInteractor(shortcutRepository: ShortcutRepository): ShortcutsInteractor {
+        return ShortcutInteractorImpl(shortcutRepository)
     }
 }

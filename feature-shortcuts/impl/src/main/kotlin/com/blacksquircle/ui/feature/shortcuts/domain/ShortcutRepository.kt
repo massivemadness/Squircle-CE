@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.shortcuts.domain
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 
 // internal
-interface ShortcutsRepository {
+interface ShortcutRepository {
 
     suspend fun loadShortcuts(): List<Keybinding>
     suspend fun restoreDefaults()

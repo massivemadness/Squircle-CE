@@ -44,7 +44,7 @@ internal object ServersModule {
 
     @Provides
     @ServersScope
-    fun provideServersRepository(
+    fun provideServerRepository(
         serverFilesystemFactory: ServerFilesystemFactory,
         settingsManager: SettingsManager,
         dispatcherProvider: DispatcherProvider,

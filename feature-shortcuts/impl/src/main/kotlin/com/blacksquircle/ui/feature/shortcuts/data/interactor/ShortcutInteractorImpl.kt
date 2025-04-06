@@ -18,13 +18,13 @@ package com.blacksquircle.ui.feature.shortcuts.data.interactor
 
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
-import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutsRepository
+import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutRepository
 
-internal class ShortcutsInteractorImpl(
-    private val shortcutsRepository: ShortcutsRepository,
+internal class ShortcutInteractorImpl(
+    private val shortcutRepository: ShortcutRepository,
 ) : ShortcutsInteractor {
 
     override suspend fun loadShortcuts(): List<Keybinding> {
-        return shortcutsRepository.loadShortcuts()
+        return shortcutRepository.loadShortcuts()
     }
 }
