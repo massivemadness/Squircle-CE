@@ -217,8 +217,7 @@ class KeybindingViewModelTest {
         viewModel.onCancelClicked()
 
         // Then
-        val expected = ViewEvent.PopBackStack
-        Assert.assertEquals(expected, viewModel.viewEvent.first())
+        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
     }
 
     private fun createViewModel(): KeybindingViewModel {

@@ -74,8 +74,7 @@ class ThemesViewModelTest {
         viewModel.onBackClicked()
 
         // Then
-        val expected = ViewEvent.PopBackStack
-        assertEquals(expected, viewModel.viewEvent.first())
+        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
     }
 
     @Test
