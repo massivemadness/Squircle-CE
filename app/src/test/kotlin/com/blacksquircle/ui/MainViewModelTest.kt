@@ -45,7 +45,7 @@ class MainViewModelTest {
     val timberConsoleRule = TimberConsoleRule()
 
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
-    private val themeManager = mockk<ThemeManager>()
+    private val themeManager = mockk<ThemeManager>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
 
     @Test

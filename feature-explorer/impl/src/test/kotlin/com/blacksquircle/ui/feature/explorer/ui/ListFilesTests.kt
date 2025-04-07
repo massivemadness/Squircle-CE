@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer
+package com.blacksquircle.ui.feature.explorer.ui
 
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
+import com.blacksquircle.ui.feature.explorer.createFile
+import com.blacksquircle.ui.feature.explorer.createFilesystem
+import com.blacksquircle.ui.feature.explorer.createFolder
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.defaultFilesystems
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.Task
@@ -51,41 +55,19 @@ class ListFilesTests {
     @get:Rule
     val timberConsoleRule = TimberConsoleRule()
 
-    private val stringProvider = mockk<StringProvider>()
-    private val settingsManager = mockk<SettingsManager>()
-    private val taskManager = mockk<TaskManager>()
-    private val explorerRepository = mockk<ExplorerRepository>()
-    private val editorInteractor = mockk<EditorInteractor>()
-    private val serverInteractor = mockk<ServerInteractor>()
+    private val stringProvider = mockk<StringProvider>(relaxed = true)
+    private val settingsManager = mockk<SettingsManager>(relaxed = true)
+    private val taskManager = mockk<TaskManager>(relaxed = true)
+    private val explorerRepository = mockk<ExplorerRepository>(relaxed = true)
+    private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
+    private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
 
     @Before
     fun setup() {
-        every { stringProvider.getString(R.string.message_access_denied) } returns "Access denied"
-        every { stringProvider.getString(R.string.message_access_required) } returns "Access required"
-        every { stringProvider.getString(R.string.storage_local) } returns "Local Storage"
-        every { stringProvider.getString(R.string.storage_root) } returns "Root Directory"
-        every { stringProvider.getString(R.string.storage_add) } returns "Add Server"
-
         every { settingsManager.showHidden } returns true
-        every { settingsManager.showHidden = any() } just Runs
-        every { settingsManager.foldersOnTop } returns true
-        every { settingsManager.foldersOnTop = any() } just Runs
-        every { settingsManager.viewMode } returns "compact_list"
-        every { settingsManager.viewMode = any() } just Runs
-        every { settingsManager.sortMode } returns "sort_by_name"
-        every { settingsManager.sortMode = any() } just Runs
         every { settingsManager.filesystem } returns LocalFilesystem.LOCAL_UUID
         every { settingsManager.filesystem = any() } just Runs
-
         every { taskManager.monitor(any()) } returns MutableStateFlow(Task("", TaskType.CREATE))
-
-        every { explorerRepository.createFile(any(), any(), any()) } returns ""
-        every { explorerRepository.renameFile(any(), any()) } returns ""
-        every { explorerRepository.deleteFiles(any()) } returns ""
-        every { explorerRepository.copyFiles(any(), any()) } returns ""
-        every { explorerRepository.cutFiles(any(), any()) } returns ""
-        every { explorerRepository.compressFiles(any(), any(), any()) } returns ""
-        every { explorerRepository.extractFiles(any(), any()) } returns ""
 
         coEvery { serverInteractor.loadServers() } returns emptyList()
         coEvery { explorerRepository.loadFilesystems() } returns defaultFilesystems()
@@ -100,9 +82,9 @@ class ListFilesTests {
         // Given
         val defaultLocation = createFilesystem().defaultLocation
         val fileList = listOf(
-            createFolder(fileName = "Documents/first"),
-            createFolder(fileName = "Documents/second"),
-            createFolder(fileName = "Documents/third"),
+            createFolder(name = "Documents/first"),
+            createFolder(name = "Documents/second"),
+            createFolder(name = "Documents/third"),
         )
         coEvery { explorerRepository.listFiles(defaultLocation) } returns fileList
 
@@ -127,14 +109,14 @@ class ListFilesTests {
         // Given
         val defaultLocation = createFilesystem().defaultLocation
         val rootFiles = listOf(
-            createFolder(fileName = "Documents/folder_1"),
-            createFolder(fileName = "Documents/folder_2"),
-            createFolder(fileName = "Documents/folder_3"),
+            createFolder(name = "Documents/folder_1"),
+            createFolder(name = "Documents/folder_2"),
+            createFolder(name = "Documents/folder_3"),
         )
         val dirFiles = listOf(
-            createFile(fileName = "Documents/folder_1/test_1.txt"),
-            createFile(fileName = "Documents/folder_1/test_2.txt"),
-            createFile(fileName = "Documents/folder_1/test_3.txt"),
+            createFile(name = "Documents/folder_1/test_1.txt"),
+            createFile(name = "Documents/folder_1/test_2.txt"),
+            createFile(name = "Documents/folder_1/test_3.txt"),
         )
         coEvery { explorerRepository.listFiles(defaultLocation) } returns rootFiles
         coEvery { explorerRepository.listFiles(rootFiles[0]) } returns dirFiles
@@ -197,8 +179,6 @@ class ListFilesTests {
                     fileModel = defaultLocation,
                     fileList = emptyList(),
                     errorState = ErrorState(
-                        title = "Access denied",
-                        subtitle = "Access required",
                         action = ErrorAction.REQUEST_PERMISSIONS,
                     )
                 ),

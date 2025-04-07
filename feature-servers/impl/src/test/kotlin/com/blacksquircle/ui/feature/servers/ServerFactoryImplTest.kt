@@ -22,6 +22,7 @@ import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
 import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
 import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
 import io.mockk.mockk
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import java.io.File
@@ -45,7 +46,7 @@ class ServerFactoryImplTest {
         val filesystem = serverFilesystemFactory.create(serverConfig)
 
         // Then
-        assert(filesystem is FTPFilesystem)
+        assertTrue(filesystem is FTPFilesystem)
     }
 
     @Test
@@ -57,7 +58,7 @@ class ServerFactoryImplTest {
         val filesystem = serverFilesystemFactory.create(serverConfig)
 
         // Then
-        assert(filesystem is FTPSFilesystem)
+        assertTrue(filesystem is FTPSFilesystem)
     }
 
     @Test
@@ -69,7 +70,7 @@ class ServerFactoryImplTest {
         val filesystem = serverFilesystemFactory.create(serverConfig)
 
         // Then
-        assert(filesystem is FTPSFilesystem)
+        assertTrue(filesystem is FTPSFilesystem)
     }
 
     @Test
@@ -81,6 +82,6 @@ class ServerFactoryImplTest {
         val filesystem = serverFilesystemFactory.create(serverConfig)
 
         // Then
-        assert(filesystem is SFTPFilesystem)
+        assertTrue(filesystem is SFTPFilesystem)
     }
 }

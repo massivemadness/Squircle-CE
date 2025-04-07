@@ -46,18 +46,30 @@ internal fun defaultFilesystems(): List<FilesystemModel> {
     )
 }
 
-internal fun createFile(fileName: String): FileModel {
+internal fun createFile(
+    name: String,
+    size: Long = 100L,
+    lastModified: Long = 100L
+): FileModel {
     return FileModel(
-        fileUri = "file:///storage/emulated/0/$fileName",
+        fileUri = "file:///storage/emulated/0/$name",
         filesystemUuid = LocalFilesystem.LOCAL_UUID,
+        size = size,
+        lastModified = lastModified,
         directory = false,
     )
 }
 
-internal fun createFolder(fileName: String): FileModel {
+internal fun createFolder(
+    name: String,
+    size: Long = 100L,
+    lastModified: Long = 100L
+): FileModel {
     return FileModel(
-        fileUri = "file:///storage/emulated/0/$fileName",
+        fileUri = "file:///storage/emulated/0/$name",
         filesystemUuid = LocalFilesystem.LOCAL_UUID,
+        size = size,
+        lastModified = lastModified,
         directory = true,
     )
 }
