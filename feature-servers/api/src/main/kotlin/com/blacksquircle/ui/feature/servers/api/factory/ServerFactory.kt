@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.api.interactor
+package com.blacksquircle.ui.feature.servers.api.factory
 
+import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
-interface ServersInteractor {
-
-    suspend fun authenticate(uuid: String, credentials: String)
-    suspend fun loadServers(): List<ServerConfig>
-    suspend fun loadServer(uuid: String): ServerConfig
+interface ServerFactory {
+    fun create(serverConfig: ServerConfig): Filesystem
 }

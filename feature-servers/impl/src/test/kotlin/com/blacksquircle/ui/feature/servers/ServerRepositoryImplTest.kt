@@ -21,7 +21,7 @@ import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.database.dao.server.ServerDao
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.core.tests.TestDispatcherProvider
-import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
+import com.blacksquircle.ui.feature.servers.api.factory.ServerFactory
 import com.blacksquircle.ui.feature.servers.data.cache.ServerCredentials
 import com.blacksquircle.ui.feature.servers.data.repository.ServerRepositoryImpl
 import com.blacksquircle.ui.filesystem.base.Filesystem
@@ -42,7 +42,7 @@ import org.junit.Test
 
 class ServerRepositoryImplTest {
 
-    private val serverFilesystemFactory = mockk<ServerFilesystemFactory>()
+    private val serverFactory = mockk<ServerFactory>()
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val dispatcherProvider = TestDispatcherProvider()
     private val serverDao = mockk<ServerDao>(relaxed = true)
@@ -50,7 +50,7 @@ class ServerRepositoryImplTest {
     private val context = mockk<Context>()
 
     private val serverRepository = ServerRepositoryImpl(
-        serverFilesystemFactory = serverFilesystemFactory,
+        serverFactory = serverFactory,
         settingsManager = settingsManager,
         dispatcherProvider = dispatcherProvider,
         serverDao = serverDao,
@@ -90,13 +90,13 @@ class ServerRepositoryImplTest {
         val serverConfig = createServerConfig()
         val filesystem = mockk<Filesystem>()
         every { filesystem.ping() } answers { Thread.sleep(200) }
-        every { serverFilesystemFactory.create(serverConfig) } returns filesystem
+        every { serverFactory.create(serverConfig) } returns filesystem
 
         // When
         val latency = serverRepository.checkAvailability(serverConfig)
 
         // Then
-        verify(exactly = 1) { serverFilesystemFactory.create(serverConfig) }
+        verify(exactly = 1) { serverFactory.create(serverConfig) }
         verify(exactly = 1) { filesystem.ping() }
         assertTrue(latency >= 200)
     }

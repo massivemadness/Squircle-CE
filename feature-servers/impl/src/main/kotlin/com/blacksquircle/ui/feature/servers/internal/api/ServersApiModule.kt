@@ -23,9 +23,9 @@ import com.blacksquircle.ui.core.database.dao.server.ServerDao
 import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
-import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
-import com.blacksquircle.ui.feature.servers.data.factory.ServerFilesystemFactoryImpl
+import com.blacksquircle.ui.feature.servers.api.factory.ServerFactory
+import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
+import com.blacksquircle.ui.feature.servers.data.factory.ServerFactoryImpl
 import com.blacksquircle.ui.feature.servers.data.interactor.ServerInteractorImpl
 import com.blacksquircle.ui.feature.servers.data.repository.ServerRepositoryImpl
 import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
@@ -38,8 +38,8 @@ object ServersApiModule {
 
     @Provides
     @Singleton
-    fun provideServerFilesystemFactory(context: Context): ServerFilesystemFactory {
-        return ServerFilesystemFactoryImpl(
+    fun provideServerFilesystemFactory(context: Context): ServerFactory {
+        return ServerFactoryImpl(
             cacheDir = Directories.cacheDir(context),
             keysDir = Directories.keysDir(context),
         )
@@ -48,7 +48,7 @@ object ServersApiModule {
     @Provides
     @Singleton
     fun provideServerRepository(
-        serverFilesystemFactory: ServerFilesystemFactory,
+        serverFactory: ServerFactory,
         settingsManager: SettingsManager,
         dispatcherProvider: DispatcherProvider,
         serverDao: ServerDao,
@@ -56,7 +56,7 @@ object ServersApiModule {
         context: Context,
     ): ServerRepository {
         return ServerRepositoryImpl(
-            serverFilesystemFactory = serverFilesystemFactory,
+            serverFactory = serverFactory,
             settingsManager = settingsManager,
             dispatcherProvider = dispatcherProvider,
             serverDao = serverDao,
@@ -67,7 +67,7 @@ object ServersApiModule {
 
     @Provides
     @Singleton
-    fun provideServerInteractor(serverRepository: ServerRepository): ServersInteractor {
+    fun provideServerInteractor(serverRepository: ServerRepository): ServerInteractor {
         return ServerInteractorImpl(serverRepository)
     }
 

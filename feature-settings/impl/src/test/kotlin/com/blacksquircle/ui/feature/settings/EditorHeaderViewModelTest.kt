@@ -20,6 +20,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.core.tests.MainDispatcherRule
 import com.blacksquircle.ui.core.tests.TimberConsoleRule
+import com.blacksquircle.ui.feature.fonts.api.navigation.FontsScreen
 import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderViewState
 import io.mockk.every
@@ -107,6 +108,19 @@ class EditorHeaderViewModelTest {
         // Then
         assertEquals(16, viewModel.viewState.value.fontSize)
         verify(exactly = 1) { settingsManager.fontSize = 16 }
+    }
+
+    @Test
+    fun `When font type clicked Then open fonts screen`() = runTest {
+        // Given
+        val viewModel = createViewModel()
+
+        // When
+        viewModel.onFontTypeClicked()
+
+        // Then
+        val expected = ViewEvent.Navigation(FontsScreen)
+        assertEquals(expected, viewModel.viewEvent.first())
     }
 
     @Test
@@ -275,6 +289,18 @@ class EditorHeaderViewModelTest {
         // Then
         assertEquals("abc", viewModel.viewState.value.keyboardPreset)
         verify(exactly = 1) { settingsManager.keyboardPreset = "abc" }
+    }
+
+    @Test
+    fun `When reset keyboard clicked Then restore default preset`() = runTest {
+        // Given
+        val viewModel = createViewModel()
+
+        // When
+        viewModel.onResetKeyboardClicked()
+
+        // Then
+        verify(exactly = 1) { settingsManager.remove(SettingsManager.KEY_KEYBOARD_PRESET) }
     }
 
     @Test

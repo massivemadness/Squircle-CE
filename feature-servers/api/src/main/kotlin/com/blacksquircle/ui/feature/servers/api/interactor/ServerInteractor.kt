@@ -16,9 +16,11 @@
 
 package com.blacksquircle.ui.feature.servers.api.interactor
 
-import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
-interface ServerFilesystemFactory {
-    fun create(serverConfig: ServerConfig): Filesystem
+interface ServerInteractor {
+
+    suspend fun authenticate(uuid: String, credentials: String)
+    suspend fun loadServers(): List<ServerConfig>
+    suspend fun loadServer(uuid: String): ServerConfig
 }

@@ -16,13 +16,13 @@
 
 package com.blacksquircle.ui.feature.servers.data.interactor
 
-import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
+import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
 internal class ServerInteractorImpl(
     private val serverRepository: ServerRepository,
-) : ServersInteractor {
+) : ServerInteractor {
 
     override suspend fun authenticate(uuid: String, credentials: String) {
         serverRepository.authenticate(uuid, credentials)

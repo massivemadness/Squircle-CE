@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.servers
 
-import com.blacksquircle.ui.feature.servers.data.factory.ServerFilesystemFactoryImpl
+import com.blacksquircle.ui.feature.servers.data.factory.ServerFactoryImpl
 import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.ftp.FTPFilesystem
 import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
@@ -26,12 +26,12 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import java.io.File
 
-class ServerFilesystemFactoryImplTest {
+class ServerFactoryImplTest {
 
     private val cacheDir = mockk<File>()
     private val keysDir = mockk<File>()
 
-    private val serverFilesystemFactory = ServerFilesystemFactoryImpl(
+    private val serverFilesystemFactory = ServerFactoryImpl(
         cacheDir = cacheDir,
         keysDir = keysDir
     )

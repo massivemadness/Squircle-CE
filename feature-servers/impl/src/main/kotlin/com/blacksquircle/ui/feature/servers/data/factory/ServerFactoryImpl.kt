@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.servers.data.factory
 
-import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
+import com.blacksquircle.ui.feature.servers.api.factory.ServerFactory
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.ServerType
@@ -25,10 +25,10 @@ import com.blacksquircle.ui.filesystem.ftps.FTPSFilesystem
 import com.blacksquircle.ui.filesystem.sftp.SFTPFilesystem
 import java.io.File
 
-internal class ServerFilesystemFactoryImpl(
+internal class ServerFactoryImpl(
     private val cacheDir: File,
     private val keysDir: File,
-) : ServerFilesystemFactory {
+) : ServerFactory {
 
     override fun create(serverConfig: ServerConfig): Filesystem {
         return when (serverConfig.scheme) {

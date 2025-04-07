@@ -31,7 +31,7 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
-import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
+import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import io.mockk.*
@@ -56,7 +56,7 @@ class ListFilesTests {
     private val taskManager = mockk<TaskManager>()
     private val explorerRepository = mockk<ExplorerRepository>()
     private val editorInteractor = mockk<EditorInteractor>()
-    private val serversInteractor = mockk<ServersInteractor>()
+    private val serverInteractor = mockk<ServerInteractor>()
 
     @Before
     fun setup() {
@@ -87,7 +87,7 @@ class ListFilesTests {
         every { explorerRepository.compressFiles(any(), any(), any()) } returns ""
         every { explorerRepository.extractFiles(any(), any()) } returns ""
 
-        coEvery { serversInteractor.loadServers() } returns emptyList()
+        coEvery { serverInteractor.loadServers() } returns emptyList()
         coEvery { explorerRepository.loadFilesystems() } returns defaultFilesystems()
         coEvery { explorerRepository.loadBreadcrumbs(any()) } coAnswers {
             val filesystemModel = args.first() as FilesystemModel
@@ -215,7 +215,7 @@ class ListFilesTests {
             taskManager = taskManager,
             editorInteractor = editorInteractor,
             explorerRepository = explorerRepository,
-            serversInteractor = serversInteractor,
+            serverInteractor = serverInteractor,
         )
     }
 
