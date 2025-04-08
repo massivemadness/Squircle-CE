@@ -21,10 +21,6 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 
-internal fun createFilesystem(): FilesystemModel {
-    return defaultFilesystems().first()
-}
-
 internal fun defaultFilesystems(): List<FilesystemModel> {
     return listOf(
         FilesystemModel(
@@ -43,6 +39,19 @@ internal fun defaultFilesystems(): List<FilesystemModel> {
                 filesystemUuid = RootFilesystem.ROOT_UUID,
             ),
         )
+    )
+}
+
+internal fun createFilesystem(
+    uuid: String = LocalFilesystem.LOCAL_UUID,
+): FilesystemModel {
+    return FilesystemModel(
+        uuid = uuid,
+        title = "Filesystem",
+        defaultLocation = FileModel(
+            fileUri = "file:///storage/emulated/0/",
+            filesystemUuid = uuid,
+        ),
     )
 }
 

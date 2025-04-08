@@ -27,7 +27,6 @@ import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.KeybindingViewState
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 

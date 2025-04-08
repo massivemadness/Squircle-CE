@@ -53,8 +53,8 @@ dependencies {
     implementation(libs.jakewharton.timber)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.test)
-    implementation(libs.test.junit)
+    implementation(libs.kotlinx.coroutines.test) // TODO exclude from source
+    implementation(libs.test.junit) // TODO exclude from source
 
     ksp(libs.androidx.room.compiler)
     ksp(libs.google.dagger.compiler)

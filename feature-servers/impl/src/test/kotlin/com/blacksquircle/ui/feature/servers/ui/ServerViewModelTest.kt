@@ -59,7 +59,7 @@ class ServerViewModelTest {
     }
 
     @Test
-    fun `When opening screen Then display empty state`() = runTest {
+    fun `When screen opens Then display empty state`() = runTest {
         // Given
         val viewState = ServerViewState(isEditMode = false)
 
