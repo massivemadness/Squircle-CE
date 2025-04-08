@@ -1069,10 +1069,12 @@ internal class EditorViewModel @Inject constructor(
 
                 val documentList = documentRepository.loadDocuments()
 
-                documents = documentList
-                    .map { document -> DocumentState(document) }
-                selectedPosition = documentList
-                    .indexOrNull { it.uuid == settingsManager.selectedUuid } ?: 0
+                documents = documentList.map { document -> DocumentState(document) }
+                selectedPosition = if (documentList.isNotEmpty()) {
+                    documentList.indexOrNull { it.uuid == settingsManager.selectedUuid } ?: 0
+                } else {
+                    -1
+                }
 
                 _viewState.update {
                     it.copy(

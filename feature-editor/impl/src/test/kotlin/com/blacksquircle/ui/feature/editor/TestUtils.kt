@@ -34,10 +34,10 @@ internal fun createDocument(
         language = LanguageScope.TEXT,
         modified = modified,
         position = position,
-        scrollX = 1,
-        scrollY = 2,
-        selectionStart = 3,
-        selectionEnd = 4,
+        scrollX = 0,
+        scrollY = 0,
+        selectionStart = 0,
+        selectionEnd = 0,
     )
 }
 
@@ -54,9 +54,9 @@ internal fun createDocumentEntity(
         language = LanguageScope.TEXT,
         modified = modified,
         position = position,
-        scrollX = 1,
-        scrollY = 2,
-        selectionStart = 3,
-        selectionEnd = 4,
+        scrollX = 0,
+        scrollY = 0,
+        selectionStart = 0,
+        selectionEnd = 0,
     )
 }
