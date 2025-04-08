@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f4c6b5d408e001ff10b0f93b05b0f48d",
+    "identityHash": "378cd96fd136006fee838744d7a68801",
     "entities": [
       {
         "tableName": "tbl_documents",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `file_uri` TEXT NOT NULL, `filesystem_uuid` TEXT NOT NULL, `language` TEXT NOT NULL, `dirty` INTEGER NOT NULL, `position` INTEGER NOT NULL, `scroll_x` INTEGER NOT NULL, `scroll_y` INTEGER NOT NULL, `selection_start` INTEGER NOT NULL, `selection_end` INTEGER NOT NULL, PRIMARY KEY(`uuid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `file_uri` TEXT NOT NULL, `filesystem_uuid` TEXT NOT NULL, `language` TEXT NOT NULL, `modified` INTEGER NOT NULL, `position` INTEGER NOT NULL, `scroll_x` INTEGER NOT NULL, `scroll_y` INTEGER NOT NULL, `selection_start` INTEGER NOT NULL, `selection_end` INTEGER NOT NULL, PRIMARY KEY(`uuid`))",
         "fields": [
           {
             "fieldPath": "uuid",
@@ -33,8 +33,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "dirty",
-            "columnName": "dirty",
+            "fieldPath": "modified",
+            "columnName": "modified",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -408,7 +408,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f4c6b5d408e001ff10b0f93b05b0f48d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '378cd96fd136006fee838744d7a68801')"
     ]
   }
 }

@@ -32,8 +32,8 @@ data class DocumentEntity(
     val filesystemUuid: String,
     @ColumnInfo(name = "language")
     val language: String,
-    @ColumnInfo(name = "dirty")
-    val dirty: Boolean,
+    @ColumnInfo(name = "modified")
+    val modified: Boolean,
     @ColumnInfo(name = "position")
     val position: Int,
     @ColumnInfo(name = "scroll_x")

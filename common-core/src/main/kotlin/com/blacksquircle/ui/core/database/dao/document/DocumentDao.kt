@@ -47,7 +47,7 @@ interface DocumentDao {
 
     @Query(
         "UPDATE `${Tables.DOCUMENTS}` SET " +
-            "`dirty` = :dirty, " +
+            "`modified` = :modified, " +
             "`scroll_x` = :scrollX, " +
             "`scroll_y` = :scrollY, " +
             "`selection_start` = :selectionStart, " +
@@ -56,15 +56,15 @@ interface DocumentDao {
     )
     suspend fun updateProperties(
         uuid: String,
-        dirty: Boolean,
+        modified: Boolean,
         scrollX: Int,
         scrollY: Int,
         selectionStart: Int,
         selectionEnd: Int
     )
 
-    @Query("UPDATE `${Tables.DOCUMENTS}` SET `dirty` = :dirty WHERE `uuid` = :uuid")
-    suspend fun updateDirty(uuid: String, dirty: Boolean)
+    @Query("UPDATE `${Tables.DOCUMENTS}` SET `modified` = :modified WHERE `uuid` = :uuid")
+    suspend fun updateModified(uuid: String, modified: Boolean)
 
     @Query("UPDATE `${Tables.DOCUMENTS}` SET `language` = :language WHERE `uuid` = :uuid")
     suspend fun updateLanguage(uuid: String, language: String)

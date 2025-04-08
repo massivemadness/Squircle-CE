@@ -436,7 +436,7 @@ private fun EditorScreenPreview() {
                             fileUri = "file://storage/emulated/0/Downloads/untitled.txt",
                             filesystemUuid = "local",
                             language = "plaintext",
-                            dirty = false,
+                            modified = false,
                             position = 0,
                             scrollX = 0,
                             scrollY = 0,

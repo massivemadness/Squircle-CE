@@ -34,7 +34,7 @@ internal interface DocumentRepository {
     suspend fun closeOtherDocuments(document: DocumentModel)
     suspend fun closeAllDocuments()
 
-    suspend fun changeDirty(document: DocumentModel, dirty: Boolean)
+    suspend fun changeModified(document: DocumentModel, modified: Boolean)
     suspend fun changeLanguage(document: DocumentModel, language: String)
 
     suspend fun openExternal(fileUri: Uri, position: Int): DocumentModel

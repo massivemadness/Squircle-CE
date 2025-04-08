@@ -23,14 +23,14 @@ import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 internal fun createDocument(
     position: Int,
     fileName: String,
-    dirty: Boolean = false,
+    modified: Boolean = false,
 ): DocumentModel {
     return DocumentModel(
         uuid = fileName,
         fileUri = "file:///storage/emulated/0/$fileName",
         filesystemUuid = LocalFilesystem.LOCAL_UUID,
         language = LanguageScope.TEXT,
-        dirty = dirty,
+        modified = modified,
         position = position,
         scrollX = 1,
         scrollY = 2,

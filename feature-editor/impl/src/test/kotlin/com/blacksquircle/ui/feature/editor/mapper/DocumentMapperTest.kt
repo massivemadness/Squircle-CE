@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor
+package com.blacksquircle.ui.feature.editor.mapper
 
 import com.blacksquircle.ui.core.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
@@ -42,7 +42,7 @@ class DocumentMapperTest {
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = LocalFilesystem.LOCAL_UUID,
             language = LanguageScope.TEXT,
-            dirty = false,
+            modified = false,
             position = 0,
             scrollX = 0,
             scrollY = 0,
@@ -58,7 +58,7 @@ class DocumentMapperTest {
         assertEquals(expected.fileUri, actual.fileUri)
         assertEquals(expected.filesystemUuid, actual.filesystemUuid)
         assertEquals(expected.language, actual.language)
-        assertEquals(expected.dirty, actual.dirty)
+        assertEquals(expected.modified, actual.modified)
         assertEquals(expected.position, actual.position)
         assertEquals(expected.scrollX, actual.scrollX)
         assertEquals(expected.scrollY, actual.scrollY)
@@ -74,7 +74,7 @@ class DocumentMapperTest {
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = LocalFilesystem.LOCAL_UUID,
             language = LanguageScope.TEXT,
-            dirty = true,
+            modified = true,
             position = 10,
             scrollX = 0,
             scrollY = 50,
@@ -86,7 +86,7 @@ class DocumentMapperTest {
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = LocalFilesystem.LOCAL_UUID,
             language = LanguageScope.TEXT,
-            dirty = true,
+            modified = true,
             position = 10,
             scrollX = 0,
             scrollY = 50,
@@ -109,7 +109,7 @@ class DocumentMapperTest {
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = LocalFilesystem.LOCAL_UUID,
             language = LanguageScope.TEXT,
-            dirty = false,
+            modified = false,
             position = 10,
             scrollX = 0,
             scrollY = 50,
@@ -121,7 +121,7 @@ class DocumentMapperTest {
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = LocalFilesystem.LOCAL_UUID,
             language = LanguageScope.TEXT,
-            dirty = false,
+            modified = false,
             position = 10,
             scrollX = 0,
             scrollY = 50,
