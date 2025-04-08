@@ -34,7 +34,7 @@ class FontsInteractorImplTest {
 
     private val typeface = mockk<Typeface>()
     private val dispatcherProvider = TestDispatcherProvider()
-    private val context = mockk<Context>()
+    private val context = mockk<Context>(relaxed = true)
 
     private val fontsInteractor = FontsInteractorImpl(
         dispatcherProvider = dispatcherProvider,

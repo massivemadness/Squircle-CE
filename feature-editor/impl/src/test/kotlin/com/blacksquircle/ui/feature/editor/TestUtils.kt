@@ -16,17 +16,39 @@
 
 package com.blacksquircle.ui.feature.editor
 
+import com.blacksquircle.ui.core.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.feature.editor.data.model.LanguageScope
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 
 internal fun createDocument(
-    position: Int,
+    uuid: String,
     fileName: String,
+    position: Int = 0,
     modified: Boolean = false,
 ): DocumentModel {
     return DocumentModel(
-        uuid = fileName,
+        uuid = uuid,
+        fileUri = "file:///storage/emulated/0/$fileName",
+        filesystemUuid = LocalFilesystem.LOCAL_UUID,
+        language = LanguageScope.TEXT,
+        modified = modified,
+        position = position,
+        scrollX = 1,
+        scrollY = 2,
+        selectionStart = 3,
+        selectionEnd = 4,
+    )
+}
+
+internal fun createDocumentEntity(
+    uuid: String,
+    fileName: String,
+    position: Int = 0,
+    modified: Boolean = false,
+): DocumentEntity {
+    return DocumentEntity(
+        uuid = uuid,
         fileUri = "file:///storage/emulated/0/$fileName",
         filesystemUuid = LocalFilesystem.LOCAL_UUID,
         language = LanguageScope.TEXT,

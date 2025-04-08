@@ -55,7 +55,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import java.io.File
 
-class ExplorerRepositoryTest {
+class ExplorerRepositoryImplTest {
 
     private val dispatcherProvider = TestDispatcherProvider()
     private val settingsManager = mockk<SettingsManager>(relaxed = true)

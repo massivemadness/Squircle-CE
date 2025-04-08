@@ -28,7 +28,7 @@ class ServerCredentialsTest {
     private val testPassword = "secret"
 
     @After
-    fun teardown() {
+    fun cleanup() {
         ServerCredentials.remove(testUuid)
     }
 

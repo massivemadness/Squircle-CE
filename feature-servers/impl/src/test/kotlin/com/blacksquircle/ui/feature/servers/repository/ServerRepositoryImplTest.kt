@@ -49,7 +49,7 @@ class ServerRepositoryImplTest {
     private val dispatcherProvider = TestDispatcherProvider()
     private val serverDao = mockk<ServerDao>(relaxed = true)
     private val pathDao = mockk<PathDao>(relaxed = true)
-    private val context = mockk<Context>()
+    private val context = mockk<Context>(relaxed = true)
 
     private val serverRepository = ServerRepositoryImpl(
         serverFactory = serverFactory,
@@ -69,7 +69,7 @@ class ServerRepositoryImplTest {
     }
 
     @After
-    fun teardown() {
+    fun cleanup() {
         ServerCredentials.remove(serverId)
     }
 

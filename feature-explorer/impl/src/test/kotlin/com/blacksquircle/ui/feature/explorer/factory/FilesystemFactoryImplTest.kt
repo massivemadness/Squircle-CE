@@ -35,7 +35,7 @@ class FilesystemFactoryImplTest {
 
     private val serverFactory = mockk<ServerFactory>(relaxed = true)
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
-    private val context = mockk<Context>()
+    private val context = mockk<Context>(relaxed = true)
 
     private val filesystemFactory = FilesystemFactoryImpl(
         serverFactory = serverFactory,

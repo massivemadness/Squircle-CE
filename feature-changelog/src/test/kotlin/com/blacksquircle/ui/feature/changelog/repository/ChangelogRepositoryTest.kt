@@ -36,7 +36,7 @@ class ChangelogRepositoryTest {
     fun `When loading changelog Then read data from resource file`() = runTest {
         // Given
         val resources = mockk<Resources>()
-        val context = mockk<Context>()
+        val context = mockk<Context>(relaxed = true)
         every { context.resources } returns resources
         every { resources.openRawResource(any()) } returns InputStream.nullInputStream()
 

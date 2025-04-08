@@ -41,7 +41,7 @@ class ThemesInteractorImplTest {
     private val themeRegistry = mockk<ThemeRegistry>(relaxed = true)
     private val themeSource = mockk<IThemeSource>(relaxed = true)
     private val dispatcherProvider = TestDispatcherProvider()
-    private val context = mockk<Context>()
+    private val context = mockk<Context>(relaxed = true)
 
     private val themesInteractor = ThemesInteractorImpl(
         dispatcherProvider = dispatcherProvider,
