@@ -37,7 +37,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Generate Baseline Profile
-        run: ./gradlew :app:generateBaselineProfile -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
+        run: ./gradlew :app:generateBaselineProfile --no-configuration-cache -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
 
       - name: Copy Baseline and Startup Profiles
         run: |
