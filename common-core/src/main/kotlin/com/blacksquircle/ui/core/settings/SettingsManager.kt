@@ -223,7 +223,7 @@ class SettingsManager(private val context: Context) {
         sharedPreferences.edit().remove(key).apply()
     }
 
-    fun setListener(key: String, onValueChanged: OnChangedListener) {
+    fun registerListener(key: String, onValueChanged: OnChangedListener) {
         listeners[key] = onValueChanged
     }
 }

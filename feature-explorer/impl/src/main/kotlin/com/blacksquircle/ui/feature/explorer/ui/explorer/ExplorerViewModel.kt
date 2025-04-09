@@ -23,6 +23,10 @@ import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FOLDERS_ON_TOP
+import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_SHOW_HIDDEN_FILES
+import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_SORT_MODE
+import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_VIEW_MODE
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
@@ -94,18 +98,6 @@ internal class ExplorerViewModel @Inject constructor(
         set(value) {
             settingsManager.filesystem = value
         }
-    private var showHidden: Boolean
-        get() = settingsManager.showHidden
-        set(value) {
-            settingsManager.showHidden = value
-        }
-    private var sortMode: SortMode
-        get() = SortMode.of(settingsManager.sortMode)
-        set(value) {
-            settingsManager.sortMode = value.value
-        }
-    private val viewMode: ViewMode
-        get() = ViewMode.of(settingsManager.viewMode)
 
     private var taskType: TaskType = TaskType.CREATE
     private var taskBuffer: List<FileModel> = emptyList()
@@ -115,6 +107,11 @@ internal class ExplorerViewModel @Inject constructor(
     private var selectedBreadcrumb: Int = -1
     private var searchQuery: String = ""
     private var currentJob: Job? = null
+
+    private var showHidden = settingsManager.showHidden
+    private var foldersOnTop = settingsManager.foldersOnTop
+    private var viewMode = ViewMode.of(settingsManager.viewMode)
+    private var sortMode = SortMode.of(settingsManager.sortMode)
 
     init {
         loadFilesystems()
@@ -189,50 +186,24 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onQueryChanged(query: String) {
         searchQuery = query
-        _viewState.update {
-            it.copy(
-                breadcrumbs = breadcrumbs.mapSelected { state ->
-                    state.copy(fileList = state.fileList.applyFilter())
-                },
-                searchQuery = searchQuery,
-            )
-        }
+        reapplyFilter()
     }
 
     fun onClearQueryClicked() {
         searchQuery = ""
-        _viewState.update {
-            it.copy(
-                breadcrumbs = breadcrumbs.mapSelected { state ->
-                    state.copy(fileList = state.fileList.applyFilter())
-                },
-                searchQuery = searchQuery,
-            )
-        }
+        reapplyFilter()
     }
 
     fun onShowHiddenClicked() {
-        showHidden = !showHidden
-        _viewState.update {
-            it.copy(
-                breadcrumbs = breadcrumbs.mapSelected { state ->
-                    state.copy(fileList = state.fileList.applyFilter())
-                },
-                showHidden = showHidden,
-            )
-        }
+        this.showHidden = !showHidden
+        settingsManager.showHidden = showHidden
+        reapplyFilter()
     }
 
-    fun onSortModeSelected(value: SortMode) {
-        sortMode = value
-        _viewState.update {
-            it.copy(
-                breadcrumbs = breadcrumbs.mapSelected { state ->
-                    state.copy(fileList = state.fileList.applyFilter())
-                },
-                sortMode = sortMode,
-            )
-        }
+    fun onSortModeSelected(sortMode: SortMode) {
+        this.sortMode = sortMode
+        settingsManager.sortMode = sortMode.value
+        reapplyFilter()
     }
 
     fun onHomeClicked() {
@@ -695,6 +666,8 @@ internal class ExplorerViewModel @Inject constructor(
     private fun loadFilesystems() {
         viewModelScope.launch {
             try {
+                registerOnPreferenceChangeListeners()
+
                 filesystems = explorerRepository.loadFilesystems()
 
                 val filesystemModel = filesystems.find { it.uuid == selectedFilesystem }
@@ -722,6 +695,41 @@ internal class ExplorerViewModel @Inject constructor(
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
+        }
+    }
+
+    private fun registerOnPreferenceChangeListeners() {
+        settingsManager.registerListener(KEY_SHOW_HIDDEN_FILES) {
+            val newValue = settingsManager.showHidden
+            if (showHidden == newValue) {
+                return@registerListener
+            }
+            showHidden = newValue
+            reapplyFilter()
+        }
+        settingsManager.registerListener(KEY_FOLDERS_ON_TOP) {
+            val newValue = settingsManager.foldersOnTop
+            if (foldersOnTop == newValue) {
+                return@registerListener
+            }
+            foldersOnTop = newValue
+            reapplyFilter()
+        }
+        settingsManager.registerListener(KEY_SORT_MODE) {
+            val newValue = SortMode.of(settingsManager.sortMode)
+            if (sortMode == newValue) {
+                return@registerListener
+            }
+            sortMode = newValue
+            reapplyFilter()
+        }
+        settingsManager.registerListener(KEY_VIEW_MODE) {
+            val newValue = ViewMode.of(settingsManager.viewMode)
+            if (viewMode == newValue) {
+                return@registerListener
+            }
+            viewMode = newValue
+            reapplyFilter()
         }
     }
 
@@ -857,8 +865,22 @@ internal class ExplorerViewModel @Inject constructor(
     private fun List<FileModel>.applyFilter(): List<FileModel> {
         return filter { it.name.contains(searchQuery, ignoreCase = true) }
             .filter { if (it.isHidden) showHidden else true }
-            .sortedWith(fileComparator(settingsManager.sortMode))
-            .sortedBy { it.directory != settingsManager.foldersOnTop }
+            .sortedWith(fileComparator(sortMode.value))
+            .sortedBy { it.directory != foldersOnTop }
+    }
+
+    private fun reapplyFilter() {
+        _viewState.update {
+            it.copy(
+                breadcrumbs = breadcrumbs.mapSelected { state ->
+                    state.copy(fileList = state.fileList.applyFilter())
+                },
+                searchQuery = searchQuery,
+                showHidden = showHidden,
+                sortMode = sortMode,
+                viewMode = viewMode,
+            )
+        }
     }
 
     class Factory : ViewModelProvider.Factory {

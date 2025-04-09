@@ -54,8 +54,8 @@ class MainViewModelTest {
         createViewModel() // init {}
 
         // Then
-        verify(exactly = 1) { settingsManager.setListener(KEY_APP_THEME, any()) }
-        verify(exactly = 1) { settingsManager.setListener(KEY_FULLSCREEN_MODE, any()) }
+        verify(exactly = 1) { settingsManager.registerListener(KEY_APP_THEME, any()) }
+        verify(exactly = 1) { settingsManager.registerListener(KEY_FULLSCREEN_MODE, any()) }
     }
 
     @Test

@@ -41,11 +41,11 @@ internal class MainViewModel @Inject constructor(
     val viewState: StateFlow<MainViewState> = _viewState.asStateFlow()
 
     init {
-        settingsManager.setListener(KEY_APP_THEME) {
+        settingsManager.registerListener(KEY_APP_THEME) {
             val theme = Theme.of(settingsManager.appTheme)
             themeManager.apply(theme)
         }
-        settingsManager.setListener(KEY_FULLSCREEN_MODE) {
+        settingsManager.registerListener(KEY_FULLSCREEN_MODE) {
             _viewState.value = updateViewState()
         }
     }
