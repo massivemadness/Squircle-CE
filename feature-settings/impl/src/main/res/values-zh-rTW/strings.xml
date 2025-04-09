@@ -94,10 +94,8 @@
     <string name="pref_soft_keyboard_summary">永遠使用螢幕鍵盤。</string>
     <string name="pref_auto_indent_title">自動縮排</string>
     <string name="pref_auto_indent_summary">根據前一行自動縮排新的行。</string>
-    <string name="pref_close_brackets_title">括號閉合</string>
-    <string name="pref_close_brackets_summary">輸入時自動合併小括號、中括號或大括號。</string>
-    <string name="pref_close_quotes_title">引號閉合</string>
-    <string name="pref_close_quotes_summary">輸入時自動閉合單引號或雙引號。</string>
+    <string name="pref_auto_close_pairs_title">括號閉合</string>
+    <string name="pref_auto_close_pairs_summary">輸入時自動合併小括號、中括號或大括號。</string>
     <string name="pref_use_spaces_not_tabs_title">空格代替製表符</string>
     <string name="pref_use_spaces_not_tabs_summary">自動縮排時插入空格代替製表符</string>
     <string name="pref_tab_width_title">製表符個數</string>

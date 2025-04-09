@@ -22,7 +22,6 @@ import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 // internal
 interface ServerRepository {
 
-    suspend fun authenticate(uuid: String, credentials: String)
     suspend fun checkAvailability(serverConfig: ServerConfig): Long
     suspend fun saveKeyFile(fileUri: Uri): String
 

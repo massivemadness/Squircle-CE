@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.editor.ui.editor
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +33,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.Lifecycle
@@ -238,6 +240,10 @@ internal fun EditorScreen(
     CleanupEffect {
         EditorComponent.release()
     }
+
+    ReportDrawnWhen {
+        !viewState.isLoading
+    }
 }
 
 @Composable
@@ -336,6 +342,9 @@ private fun EditorScreen(
         drawerState = drawerState,
         drawerGesturesEnabled = drawerState.isOpen,
         drawerContent = {
+            if (LocalInspectionMode.current) {
+                return@ScaffoldSuite
+            }
             DrawerExplorer(onDrawerClicked)
         },
         modifier = Modifier.imePadding(),

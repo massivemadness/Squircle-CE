@@ -108,10 +108,8 @@
 
     <string name="pref_auto_indent_title">Identação automática</string>
     <string name="pref_auto_indent_summary">Identar novas linhas automaticamente para serem compatíveis com as de cima.</string>
-    <string name="pref_close_brackets_title">Fechar colchetes automaticamente</string>
-    <string name="pref_close_brackets_summary">Fechar parênteses, colchetes e chaves automaticamente.</string>
-    <string name="pref_close_quotes_title">Fechar aspas automaticamente</string>
-    <string name="pref_close_quotes_summary">Fecha aspas automaticamente.</string>
+    <string name="pref_auto_close_pairs_title">Fechar colchetes automaticamente</string>
+    <string name="pref_auto_close_pairs_summary">Fechar parênteses, colchetes e chaves automaticamente.</string>
     <string name="pref_use_spaces_not_tabs_title">Usar espaços em vez de tabs</string>
     <string name="pref_use_spaces_not_tabs_summary">Usar espaços em vez de tabs nas identações automáticas.</string>
     <string name="pref_tab_width_title">Largura do tab</string>

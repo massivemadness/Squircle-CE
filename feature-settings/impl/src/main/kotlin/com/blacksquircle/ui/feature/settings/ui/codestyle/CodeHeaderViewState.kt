@@ -22,8 +22,7 @@ import com.blacksquircle.ui.core.mvi.ViewState
 @Immutable
 internal data class CodeHeaderViewState(
     val autoIndentation: Boolean,
-    val autoCloseBrackets: Boolean,
-    val autoCloseQuotes: Boolean,
+    val autoClosePairs: Boolean,
     val useSpacesInsteadOfTabs: Boolean,
     val tabWidth: Int,
 ) : ViewState

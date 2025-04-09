@@ -54,16 +54,9 @@ internal class CodeHeaderViewModel @Inject constructor(
         }
     }
 
-    fun onAutoBracketsChanged(autoBrackets: Boolean) {
+    fun onAutoClosePairsChanged(autoQuotes: Boolean) {
         viewModelScope.launch {
-            settingsManager.autoCloseBrackets = autoBrackets
-            _viewState.value = updateViewState()
-        }
-    }
-
-    fun onAutoQuotesChanged(autoQuotes: Boolean) {
-        viewModelScope.launch {
-            settingsManager.autoCloseQuotes = autoQuotes
+            settingsManager.autoClosePairs = autoQuotes
             _viewState.value = updateViewState()
         }
     }
@@ -85,8 +78,7 @@ internal class CodeHeaderViewModel @Inject constructor(
     private fun updateViewState(): CodeHeaderViewState {
         return CodeHeaderViewState(
             autoIndentation = settingsManager.autoIndentation,
-            autoCloseBrackets = settingsManager.autoCloseBrackets,
-            autoCloseQuotes = settingsManager.autoCloseQuotes,
+            autoClosePairs = settingsManager.autoClosePairs,
             useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs,
             tabWidth = settingsManager.tabWidth,
         )

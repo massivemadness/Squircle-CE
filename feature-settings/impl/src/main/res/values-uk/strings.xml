@@ -94,10 +94,8 @@
     <string name="pref_soft_keyboard_summary">Завжди використовувати soft-клавіатуру.</string>
     <string name="pref_auto_indent_title">Автовідступ</string>
     <string name="pref_auto_indent_summary">Автоматично відступати нові рядки відповідно до рядку вище.</string>
-    <string name="pref_close_brackets_title">Автозакриття дужок</string>
-    <string name="pref_close_brackets_summary">Автоматично закривати відкриті дужки під час введення.</string>
-    <string name="pref_close_quotes_title">Автозакриття лапок</string>
-    <string name="pref_close_quotes_summary">Автоматично закривати відкриті лапки під час введення.</string>
+    <string name="pref_auto_close_pairs_title">Автозакриття дужок</string>
+    <string name="pref_auto_close_pairs_summary">Автоматично закривати відкриті дужки під час введення.</string>
     <string name="pref_use_spaces_not_tabs_title">Використовувати пробіли замість табуляції</string>
     <string name="pref_use_spaces_not_tabs_summary">Вставляти пробіли замість табуляції під час використання автовідступів.</string>
     <string name="pref_tab_width_title">Ширина табуляції</string>

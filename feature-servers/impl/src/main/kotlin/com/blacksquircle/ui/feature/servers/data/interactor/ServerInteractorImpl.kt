@@ -17,7 +17,9 @@
 package com.blacksquircle.ui.feature.servers.data.interactor
 
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
+import com.blacksquircle.ui.feature.servers.data.cache.ServerCredentials
 import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
 internal class ServerInteractorImpl(
@@ -25,7 +27,7 @@ internal class ServerInteractorImpl(
 ) : ServerInteractor {
 
     override suspend fun authenticate(uuid: String, credentials: String) {
-        serverRepository.authenticate(uuid, credentials)
+        ServerCredentials.put(uuid, credentials)
     }
 
     override suspend fun loadServers(): List<ServerConfig> {
@@ -33,6 +35,15 @@ internal class ServerInteractorImpl(
     }
 
     override suspend fun loadServer(uuid: String): ServerConfig {
-        return serverRepository.loadServer(uuid)
+        val serverConfig = serverRepository.loadServer(uuid)
+        val authorizedConfig = when (serverConfig.authMethod) {
+            AuthMethod.PASSWORD -> serverConfig.copy(
+                password = ServerCredentials.get(uuid) ?: serverConfig.password
+            )
+            AuthMethod.KEY -> serverConfig.copy(
+                passphrase = ServerCredentials.get(uuid) ?: serverConfig.passphrase
+            )
+        }
+        return authorizedConfig
     }
 }

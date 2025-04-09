@@ -27,7 +27,6 @@ import com.blacksquircle.ui.feature.servers.api.factory.ServerFactory
 import com.blacksquircle.ui.feature.servers.data.cache.ServerCredentials
 import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper
 import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
-import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -42,12 +41,6 @@ internal class ServerRepositoryImpl(
     private val pathDao: PathDao,
     private val context: Context,
 ) : ServerRepository {
-
-    override suspend fun authenticate(uuid: String, credentials: String) {
-        withContext(dispatcherProvider.io()) {
-            ServerCredentials.put(uuid, credentials)
-        }
-    }
 
     override suspend fun checkAvailability(serverConfig: ServerConfig): Long {
         return withContext(dispatcherProvider.io()) {
@@ -85,17 +78,7 @@ internal class ServerRepositoryImpl(
     override suspend fun loadServer(uuid: String): ServerConfig {
         return withContext(dispatcherProvider.io()) {
             val serverEntity = serverDao.load(uuid)
-            val serverConfig = ServerMapper.toModel(serverEntity)
-            when (serverConfig.authMethod) {
-                AuthMethod.PASSWORD -> serverConfig.copy(
-                    password = ServerCredentials.get(uuid)
-                        ?: serverConfig.password
-                )
-                AuthMethod.KEY -> serverConfig.copy(
-                    passphrase = ServerCredentials.get(uuid)
-                        ?: serverConfig.passphrase
-                )
-            }
+            ServerMapper.toModel(serverEntity)
         }
     }
 

@@ -95,12 +95,6 @@ internal fun DocumentNavigation(
 
         HorizontalDivider(Modifier.align(Alignment.BottomCenter))
     }
-
-    /* FIXME LaunchedEffect(selectedIndex) {
-        if (selectedIndex > -1) {
-            scrollState.animateScrollToItem(selectedIndex)
-        }
-    }*/
 }
 
 @PreviewLightDark

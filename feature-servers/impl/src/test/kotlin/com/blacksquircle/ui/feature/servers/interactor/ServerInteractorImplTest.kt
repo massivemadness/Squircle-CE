@@ -16,11 +16,21 @@
 
 package com.blacksquircle.ui.feature.servers.interactor
 
+import com.blacksquircle.ui.feature.servers.createServerConfig
+import com.blacksquircle.ui.feature.servers.data.cache.ServerCredentials
 import com.blacksquircle.ui.feature.servers.data.interactor.ServerInteractorImpl
 import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.unmockkObject
+import io.mockk.verify
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.test.runTest
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 
 class ServerInteractorImplTest {
@@ -28,21 +38,34 @@ class ServerInteractorImplTest {
     private val serverRepository = mockk<ServerRepository>(relaxed = true)
     private val serverInteractor = ServerInteractorImpl(serverRepository)
 
-    @Test
-    fun `When authentication called Then authenticate in repository`() = runTest {
-        // Given
-        val uuid = "12345"
-        val password = "secret"
+    private val serverId = "12345"
+    private val serverPassword = "secret"
 
-        // When
-        serverInteractor.authenticate(uuid, password)
+    @Before
+    fun setup() {
+        ServerCredentials.remove(serverId)
+    }
 
-        // Then
-        coVerify(exactly = 1) { serverRepository.authenticate(uuid, password) }
+    @After
+    fun cleanup() {
+        ServerCredentials.remove(serverId)
     }
 
     @Test
-    fun `When load servers Then load from repository`() = runTest {
+    fun `When authenticate on server Then save credentials in memory`() = runTest {
+        // Given
+        mockkObject(ServerCredentials)
+
+        // When
+        serverInteractor.authenticate(serverId, serverPassword)
+
+        // Then
+        verify(exactly = 1) { ServerCredentials.put(serverId, serverPassword) }
+        unmockkObject(ServerCredentials)
+    }
+
+    @Test
+    fun `When loading servers Then load from repository`() = runTest {
         // When
         serverInteractor.loadServers()
 
@@ -51,14 +74,40 @@ class ServerInteractorImplTest {
     }
 
     @Test
-    fun `When load server Then load from repository`() = runTest {
+    fun `When server with no password Then load credentials from memory`() = runTest {
         // Given
-        val uuid = "12345"
+        val serverConfig = createServerConfig(
+            uuid = serverId,
+            authMethod = AuthMethod.PASSWORD,
+            password = null, // requires authentication
+        )
+        coEvery { serverRepository.loadServer(serverId) } returns serverConfig
+        ServerCredentials.put(serverId, serverPassword)
 
         // When
-        serverInteractor.loadServer(uuid)
+        val server = serverInteractor.loadServer(serverId)
 
         // Then
-        coVerify(exactly = 1) { serverRepository.loadServer(uuid) }
+        assertEquals(serverPassword, server.password)
+        coVerify(exactly = 1) { serverRepository.loadServer(serverId) }
+    }
+
+    @Test
+    fun `When server has no passphrase Then load credentials from memory`() = runTest {
+        // Given
+        val serverConfig = createServerConfig(
+            uuid = serverId,
+            authMethod = AuthMethod.KEY,
+            passphrase = null, // requires authentication
+        )
+        coEvery { serverRepository.loadServer(serverId) } returns serverConfig
+        ServerCredentials.put(serverId, serverPassword)
+
+        // When
+        val server = serverInteractor.loadServer(serverId)
+
+        // Then
+        assertEquals(serverPassword, server.passphrase)
+        coVerify(exactly = 1) { serverRepository.loadServer(serverId) }
     }
 }

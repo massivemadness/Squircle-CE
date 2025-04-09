@@ -108,10 +108,8 @@
 
     <string name="pref_auto_indent_title">Auto-Einrückung</string>
     <string name="pref_auto_indent_summary">Neue Zeilen automatisch einrücken, um zu den vorheringen zu passen.</string>
-    <string name="pref_close_brackets_title">Klammern automatisch schließen</string>
-    <string name="pref_close_brackets_summary">Klammern beim Tippen automatisch schließen.</string>
-    <string name="pref_close_quotes_title">Anführungszeichen automatisch schließen</string>
-    <string name="pref_close_quotes_summary">Automatisch Hochkommata/Anführungszeichen schließen.</string>
+    <string name="pref_auto_close_pairs_title">Klammern automatisch schließen</string>
+    <string name="pref_auto_close_pairs_summary">Klammern beim Tippen automatisch schließen.</string>
     <string name="pref_use_spaces_not_tabs_title">Leerzeichen statt Tabs benutzen</string>
     <string name="pref_use_spaces_not_tabs_summary">Leerzeichen anstelle von Tabulatoren einsetzen, wenn Auto-Einrückung verwendet wird.</string>
     <string name="pref_tab_width_title">Tabulatorbreite</string>

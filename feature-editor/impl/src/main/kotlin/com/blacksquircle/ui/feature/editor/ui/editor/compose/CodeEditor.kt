@@ -99,6 +99,8 @@ internal fun CodeEditor(
             val editorLanguage = editor.createFromRegistry(
                 language = language,
                 codeCompletion = settings.codeCompletion,
+                autoIndentation = settings.autoIndentation,
+                autoClosePairs = settings.autoClosePairs,
                 useTab = !settings.useSpacesInsteadOfTabs,
                 tabSize = settings.tabWidth,
             )
