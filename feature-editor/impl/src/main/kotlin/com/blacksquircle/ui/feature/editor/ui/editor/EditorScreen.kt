@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.editor.ui.editor
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -146,6 +147,10 @@ internal fun EditorScreen(
         onExtraKeyClicked = viewModel::onExtraKeyClicked,
         onExtraOptionsClicked = viewModel::onExtraOptionsClicked,
     )
+
+    ReportDrawnWhen {
+        !viewState.isLoading
+    }
 
     val defaultFileName = stringResource(UiR.string.common_untitled)
     val newFileContract = rememberCreateFileContract(MimeType.TEXT) { result ->
