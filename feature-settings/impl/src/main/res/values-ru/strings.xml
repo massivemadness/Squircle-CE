@@ -98,10 +98,8 @@
     <string name="pref_soft_keyboard_summary">Всегда показывать экранную клавиатуру, даже если подключена аппаратная клавиатура.</string>
     <string name="pref_auto_indent_title">Авто-отступы</string>
     <string name="pref_auto_indent_summary">Автоматически выравнивать новые строки, для соответствия строке выше.</string>
-    <string name="pref_close_brackets_title">Авто-закрытие скобок</string>
-    <string name="pref_close_brackets_summary">Автоматически закрывать открытые скобки во время ввода.</string>
-    <string name="pref_close_quotes_title">Авто-закрытие кавычек</string>
-    <string name="pref_close_quotes_summary">Автоматически закрывать открытые кавычки во время ввода.</string>
+    <string name="pref_auto_close_pairs_title">Авто-закрытие парных символов</string>
+    <string name="pref_auto_close_pairs_summary">Автоматически закрывать открытые скобки при вводе.</string>
     <string name="pref_use_spaces_not_tabs_title">Пробелы вместо табов</string>
     <string name="pref_use_spaces_not_tabs_summary">Вставлять пробелы вместо табов при использовании авто-отступов.</string>
     <string name="pref_tab_width_title">Ширина табов</string>
