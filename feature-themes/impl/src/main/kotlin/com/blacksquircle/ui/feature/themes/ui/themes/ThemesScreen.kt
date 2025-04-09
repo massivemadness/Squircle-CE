@@ -208,7 +208,8 @@ private fun ThemesScreen(
             )
         },
         floatingActionButton = {
-            AnimatedVisibility(
+            // Do we really need it?
+            /*AnimatedVisibility(
                 visible = showButton,
                 enter = scaleIn(),
                 exit = scaleOut(),
@@ -218,7 +219,7 @@ private fun ThemesScreen(
                     onClick = onCreateClicked,
                     modifier = Modifier.padding(8.dp)
                 )
-            }
+            }*/
         },
         modifier = Modifier.imePadding()
     ) { contentPadding ->
