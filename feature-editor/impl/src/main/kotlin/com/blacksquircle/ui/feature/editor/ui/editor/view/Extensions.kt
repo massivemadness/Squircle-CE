@@ -91,6 +91,7 @@ internal fun CodeEditor.createFromRegistry(): EditorColorScheme {
 internal fun CodeEditor.createFromRegistry(
     language: String,
     codeCompletion: Boolean,
+    autoIndentation: Boolean,
     autoClosePairs: Boolean,
     useTab: Boolean,
     tabSize: Int,
@@ -101,6 +102,7 @@ internal fun CodeEditor.createFromRegistry(
         }
         TextMateLanguage.create(language, codeCompletion).apply {
             this.tabSize = tabSize
+            newlineHandler.isEnabled = autoIndentation
             symbolPairs.setEnabled(autoClosePairs)
             useTab(useTab)
         }
