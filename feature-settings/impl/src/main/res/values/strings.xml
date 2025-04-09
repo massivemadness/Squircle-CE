@@ -113,10 +113,8 @@
 
     <string name="pref_auto_indent_title">Auto Indentation</string>
     <string name="pref_auto_indent_summary">Automatically indent new lines to match the line above.</string>
-    <string name="pref_close_brackets_title">Auto-close Brackets</string>
-    <string name="pref_close_brackets_summary">Automatically close open parenthesis/bracket/brace when typing.</string>
-    <string name="pref_close_quotes_title">Auto-close Quotes</string>
-    <string name="pref_close_quotes_summary">Automatically close single/double quote when typing.</string>
+    <string name="pref_auto_close_pairs_title">Auto-close Pairs</string>
+    <string name="pref_auto_close_pairs_summary">Automatically close open parenthesis/bracket/brace when typing.</string>
     <string name="pref_use_spaces_not_tabs_title">Use spaces instead of tabs</string>
     <string name="pref_use_spaces_not_tabs_summary">Insert spaces instead of tabs when using auto-indentation.</string>
     <string name="pref_tab_width_title">Tab Width</string>

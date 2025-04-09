@@ -60,8 +60,7 @@ class SettingsManager(private val context: Context) {
 
         // Code Style
         const val KEY_AUTO_INDENTATION = "auto_indentation"
-        const val KEY_AUTO_CLOSE_BRACKETS = "auto_close_brackets"
-        const val KEY_AUTO_CLOSE_QUOTES = "auto_close_quotes"
+        const val KEY_AUTO_CLOSE_PAIRS = "auto_close_pairs"
 
         // Tab Options
         const val KEY_USE_SPACES_NOT_TABS = "use_spaces_not_tabs"
@@ -161,12 +160,9 @@ class SettingsManager(private val context: Context) {
     var autoIndentation: Boolean
         get() = sharedPreferences.getBoolean(KEY_AUTO_INDENTATION, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_AUTO_INDENTATION, value).apply()
-    var autoCloseBrackets: Boolean
-        get() = sharedPreferences.getBoolean(KEY_AUTO_CLOSE_BRACKETS, true)
-        set(value) = sharedPreferences.edit().putBoolean(KEY_AUTO_CLOSE_BRACKETS, value).apply()
-    var autoCloseQuotes: Boolean
-        get() = sharedPreferences.getBoolean(KEY_AUTO_CLOSE_QUOTES, true)
-        set(value) = sharedPreferences.edit().putBoolean(KEY_AUTO_CLOSE_QUOTES, value).apply()
+    var autoClosePairs: Boolean
+        get() = sharedPreferences.getBoolean(KEY_AUTO_CLOSE_PAIRS, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_AUTO_CLOSE_PAIRS, value).apply()
 
     var useSpacesInsteadOfTabs: Boolean
         get() = sharedPreferences.getBoolean(KEY_USE_SPACES_NOT_TABS, true)

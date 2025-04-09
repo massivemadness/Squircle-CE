@@ -18,9 +18,6 @@ package com.blacksquircle.ui.feature.themes.ui.themes
 
 import android.graphics.Typeface
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -65,7 +62,6 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.ds.button.FloatingButton
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.emptyview.EmptyView
@@ -208,7 +204,6 @@ private fun ThemesScreen(
             )
         },
         floatingActionButton = {
-            // Do we really need it?
             /*AnimatedVisibility(
                 visible = showButton,
                 enter = scaleIn(),

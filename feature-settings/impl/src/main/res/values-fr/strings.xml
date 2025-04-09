@@ -108,10 +108,8 @@
 
     <string name="pref_auto_indent_title">Indentation Automatique</string>
     <string name="pref_auto_indent_summary">Indenter automatiquement les nouvelles lignes pour qu\'elles correspondent à la ligne précédente.</string>
-    <string name="pref_close_brackets_title">Parenthèses à fermeture automatique</string>
-    <string name="pref_close_brackets_summary">Fermer automatiquement les parenthèses/crochets/accolades ouverts lors de la saisie.</string>
-    <string name="pref_close_quotes_title">Guillemets à fermeture automatique</string>
-    <string name="pref_close_quotes_summary">Fermer automatiquement les guillemets simples/doubles lors de la saisie.</string>
+    <string name="pref_auto_close_pairs_title">Parenthèses à fermeture automatique</string>
+    <string name="pref_auto_close_pairs_summary">Fermer automatiquement les parenthèses/crochets/accolades ouverts lors de la saisie.</string>
     <string name="pref_use_spaces_not_tabs_title">Utiliser des espaces au lieu de tabulations</string>
     <string name="pref_use_spaces_not_tabs_summary">Insertion d\'espaces au lieu de tabulations lors de l\'utilisation de l\'indentation automatique.</string>
     <string name="pref_tab_width_title">Largeur d\'onglet</string>

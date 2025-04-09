@@ -57,8 +57,7 @@ internal fun CodeHeaderScreen(
         viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
         onAutoIndentChanged = viewModel::onAutoIndentChanged,
-        onAutoBracketsChanged = viewModel::onAutoBracketsChanged,
-        onAutoQuotesChanged = viewModel::onAutoQuotesChanged,
+        onAutoClosePairsChanged = viewModel::onAutoClosePairsChanged,
         onUseSpacesChanged = viewModel::onUseSpacesChanged,
         onTabWidthChanged = viewModel::onTabWidthChanged,
     )
@@ -80,8 +79,7 @@ private fun CodeHeaderScreen(
     viewState: CodeHeaderViewState,
     onBackClicked: () -> Unit = {},
     onAutoIndentChanged: (Boolean) -> Unit = {},
-    onAutoBracketsChanged: (Boolean) -> Unit = {},
-    onAutoQuotesChanged: (Boolean) -> Unit = {},
+    onAutoClosePairsChanged: (Boolean) -> Unit = {},
     onUseSpacesChanged: (Boolean) -> Unit = {},
     onTabWidthChanged: (Int) -> Unit = {},
 ) {
@@ -110,16 +108,10 @@ private fun CodeHeaderScreen(
                 onCheckedChange = onAutoIndentChanged,
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_close_brackets_title),
-                subtitle = stringResource(R.string.pref_close_brackets_summary),
-                checked = viewState.autoCloseBrackets,
-                onCheckedChange = onAutoBracketsChanged,
-            )
-            SwitchPreference(
-                title = stringResource(R.string.pref_close_quotes_title),
-                subtitle = stringResource(R.string.pref_close_quotes_summary),
-                checked = viewState.autoCloseQuotes,
-                onCheckedChange = onAutoQuotesChanged,
+                title = stringResource(R.string.pref_auto_close_pairs_title),
+                subtitle = stringResource(R.string.pref_auto_close_pairs_summary),
+                checked = viewState.autoClosePairs,
+                onCheckedChange = onAutoClosePairsChanged,
             )
             HorizontalDivider()
             PreferenceGroup(
@@ -154,8 +146,7 @@ private fun CodeHeaderScreenPreview() {
         CodeHeaderScreen(
             viewState = CodeHeaderViewState(
                 autoIndentation = true,
-                autoCloseBrackets = true,
-                autoCloseQuotes = true,
+                autoClosePairs = true,
                 useSpacesInsteadOfTabs = true,
                 tabWidth = 4,
             ),

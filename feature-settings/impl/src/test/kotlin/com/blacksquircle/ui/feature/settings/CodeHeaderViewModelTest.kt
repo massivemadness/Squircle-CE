@@ -45,8 +45,7 @@ class CodeHeaderViewModelTest {
     fun `When screen opens Then read settings`() = runTest {
         // Given
         every { settingsManager.autoIndentation } returns true
-        every { settingsManager.autoCloseBrackets } returns true
-        every { settingsManager.autoCloseQuotes } returns true
+        every { settingsManager.autoClosePairs } returns true
         every { settingsManager.useSpacesInsteadOfTabs } returns false
         every { settingsManager.tabWidth } returns 8
 
@@ -56,8 +55,7 @@ class CodeHeaderViewModelTest {
         // Then
         val viewState = CodeHeaderViewState(
             autoIndentation = true,
-            autoCloseBrackets = true,
-            autoCloseQuotes = true,
+            autoClosePairs = true,
             useSpacesInsteadOfTabs = false,
             tabWidth = 8,
         )
@@ -91,31 +89,17 @@ class CodeHeaderViewModelTest {
     }
 
     @Test
-    fun `When auto close brackets changed Then update view state`() = runTest {
+    fun `When auto close pairs changed Then update view state`() = runTest {
         // Given
-        every { settingsManager.autoCloseBrackets } returns true andThen false
+        every { settingsManager.autoClosePairs } returns true andThen false
 
         // When
         val viewModel = createViewModel()
-        viewModel.onAutoBracketsChanged(false)
+        viewModel.onAutoClosePairsChanged(false)
 
         // Then
-        assertEquals(false, viewModel.viewState.value.autoCloseBrackets)
-        verify(exactly = 1) { settingsManager.autoCloseBrackets = false }
-    }
-
-    @Test
-    fun `When auto close quotes changed Then update view state`() = runTest {
-        // Given
-        every { settingsManager.autoCloseQuotes } returns true andThen false
-
-        // When
-        val viewModel = createViewModel()
-        viewModel.onAutoQuotesChanged(false)
-
-        // Then
-        assertEquals(false, viewModel.viewState.value.autoCloseQuotes)
-        verify(exactly = 1) { settingsManager.autoCloseQuotes = false }
+        assertEquals(false, viewModel.viewState.value.autoClosePairs)
+        verify(exactly = 1) { settingsManager.autoClosePairs = false }
     }
 
     @Test

@@ -91,6 +91,7 @@ internal fun CodeEditor.createFromRegistry(): EditorColorScheme {
 internal fun CodeEditor.createFromRegistry(
     language: String,
     codeCompletion: Boolean,
+    autoClosePairs: Boolean,
     useTab: Boolean,
     tabSize: Int,
 ): Language {
@@ -100,6 +101,7 @@ internal fun CodeEditor.createFromRegistry(
         }
         TextMateLanguage.create(language, codeCompletion).apply {
             this.tabSize = tabSize
+            symbolPairs.setEnabled(autoClosePairs)
             useTab(useTab)
         }
     } catch (e: Exception) {

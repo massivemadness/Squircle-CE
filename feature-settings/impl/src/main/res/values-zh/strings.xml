@@ -94,10 +94,8 @@
     <string name="pref_soft_keyboard_summary">始终使用软键盘。</string>
     <string name="pref_auto_indent_title">自动缩进</string>
     <string name="pref_auto_indent_summary">根据上面的行自动缩进新行。</string>
-    <string name="pref_close_brackets_title">括号闭合</string>
-    <string name="pref_close_brackets_summary">输入时自动闭合小括号、方括号或大括号。</string>
-    <string name="pref_close_quotes_title">引号闭合</string>
-    <string name="pref_close_quotes_summary">输入时自动闭合单引号或双引号。</string>
+    <string name="pref_auto_close_pairs_title">括号闭合</string>
+    <string name="pref_auto_close_pairs_summary">输入时自动闭合小括号、方括号或大括号。</string>
     <string name="pref_use_spaces_not_tabs_title">空格代替制表符</string>
     <string name="pref_use_spaces_not_tabs_summary">自动缩进时插入空格代替制表符</string>
     <string name="pref_tab_width_title">制表符个数</string>
