@@ -100,7 +100,7 @@ internal class DocumentRepositoryImpl(
 
             documentDao.updateProperties(
                 uuid = document.uuid,
-                dirty = document.dirty,
+                modified = document.modified,
                 scrollX = content.scrollX,
                 scrollY = content.scrollY,
                 selectionStart = content.selectionStart,
@@ -145,9 +145,9 @@ internal class DocumentRepositoryImpl(
         }
     }
 
-    override suspend fun changeDirty(document: DocumentModel, dirty: Boolean) {
+    override suspend fun changeModified(document: DocumentModel, modified: Boolean) {
         withContext(dispatcherProvider.io()) {
-            documentDao.updateDirty(document.uuid, dirty)
+            documentDao.updateModified(document.uuid, modified)
         }
     }
 

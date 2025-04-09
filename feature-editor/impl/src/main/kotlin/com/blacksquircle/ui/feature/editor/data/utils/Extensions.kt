@@ -17,11 +17,10 @@
 package com.blacksquircle.ui.feature.editor.data.utils
 
 import java.nio.charset.Charset
-import java.nio.charset.UnsupportedCharsetException
 
 internal fun charsetFor(charsetName: String): Charset = try {
     Charset.forName(charsetName)
-} catch (e: UnsupportedCharsetException) {
+} catch (e: Throwable) {
     e.printStackTrace()
     Charsets.UTF_8
 }

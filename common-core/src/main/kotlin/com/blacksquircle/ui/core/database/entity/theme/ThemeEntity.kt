@@ -30,9 +30,6 @@ data class ThemeEntity(
     val name: String,
     @ColumnInfo(name = "author")
     val author: String,
-    @Deprecated("Legacy column")
-    @ColumnInfo(name = "description")
-    val description: String,
     @ColumnInfo(name = "text_color")
     val textColor: String,
     @ColumnInfo(name = "cursor_color")

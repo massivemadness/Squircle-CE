@@ -18,10 +18,15 @@ package com.blacksquircle.ui.core.tests
 
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 
 class TestDispatcherProvider : DispatcherProvider {
-    override fun io(): CoroutineDispatcher = Dispatchers.Unconfined
-    override fun default(): CoroutineDispatcher = Dispatchers.Unconfined
-    override fun main(): CoroutineDispatcher = Dispatchers.Unconfined
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val testDispatcher = UnconfinedTestDispatcher()
+
+    override fun io(): CoroutineDispatcher = testDispatcher
+    override fun default(): CoroutineDispatcher = testDispatcher
+    override fun main(): CoroutineDispatcher = testDispatcher
 }

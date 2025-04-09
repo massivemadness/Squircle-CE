@@ -16,10 +16,10 @@
 
 package com.blacksquircle.ui.feature.servers.api.internal
 
-import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
-import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
+import com.blacksquircle.ui.feature.servers.api.factory.ServerFactory
+import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 
 interface ServersApiDepsProvider {
-    fun provideServersInteractor(): ServersInteractor
-    fun provideServerFilesystemFactory(): ServerFilesystemFactory
+    fun provideServerInteractor(): ServerInteractor
+    fun provideServerFilesystemFactory(): ServerFactory
 }

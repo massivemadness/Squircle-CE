@@ -44,7 +44,7 @@ import com.blacksquircle.ui.feature.explorer.domain.model.ViewMode
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
-import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
+import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
 import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
@@ -80,7 +80,7 @@ internal class ExplorerViewModel @Inject constructor(
     private val taskManager: TaskManager,
     private val editorInteractor: EditorInteractor,
     private val explorerRepository: ExplorerRepository,
-    private val serversInteractor: ServersInteractor,
+    private val serverInteractor: ServerInteractor,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(ExplorerViewState())
@@ -469,7 +469,7 @@ internal class ExplorerViewModel @Inject constructor(
     fun onCredentialsEntered(credentials: String) {
         viewModelScope.launch {
             try {
-                serversInteractor.authenticate(selectedFilesystem, credentials)
+                serverInteractor.authenticate(selectedFilesystem, credentials)
                 val breadcrumb = breadcrumbs[selectedBreadcrumb]
                 loadFiles(breadcrumb.fileModel, fromUser = false)
             } catch (e: CancellationException) {

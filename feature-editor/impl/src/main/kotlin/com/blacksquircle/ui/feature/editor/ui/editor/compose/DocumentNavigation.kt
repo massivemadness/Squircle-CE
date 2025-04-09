@@ -72,7 +72,7 @@ internal fun DocumentNavigation(
                 ReorderableItem(reorderableLazyListState, state.document.uuid) { isDragging ->
                     DocumentTab(
                         name = state.document.name,
-                        dirty = state.document.dirty,
+                        modified = state.document.modified,
                         selected = i == selectedIndex,
                         onDocumentClicked = { onDocumentClicked(state) },
                         onCloseClicked = { onCloseClicked(state) },
@@ -116,7 +116,7 @@ private fun DocumentNavigationPreview() {
                         fileUri = "file://storage/emulated/0/Downloads/untitled.txt",
                         filesystemUuid = "local",
                         language = "plaintext",
-                        dirty = false,
+                        modified = false,
                         position = 0,
                         scrollX = 0,
                         scrollY = 0,

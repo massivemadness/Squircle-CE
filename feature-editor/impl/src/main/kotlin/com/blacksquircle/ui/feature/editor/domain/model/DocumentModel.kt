@@ -25,7 +25,7 @@ internal data class DocumentModel(
     val fileUri: String,
     val filesystemUuid: String,
     val language: String,
-    val dirty: Boolean,
+    val modified: Boolean,
     val position: Int,
     val scrollX: Int,
     val scrollY: Int,

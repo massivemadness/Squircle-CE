@@ -129,7 +129,7 @@ internal class EditorViewModel @Inject constructor(
                 val content = documents[selectedPosition].content ?: return@launch
 
                 val updatedDocument = document.copy(
-                    dirty = false,
+                    modified = false,
                     scrollX = content.scrollX,
                     scrollY = content.scrollY,
                     selectionStart = content.selectionStart,
@@ -207,7 +207,7 @@ internal class EditorViewModel @Inject constructor(
                 val document = documents[selectedPosition].document
                 val content = documents[selectedPosition].content ?: return@launch
 
-                if (document.dirty) {
+                if (document.modified) {
                     _viewState.update {
                         it.copy(
                             canUndo = content.canUndo(),
@@ -215,9 +215,9 @@ internal class EditorViewModel @Inject constructor(
                         )
                     }
                 } else {
-                    val dirty = true
+                    val modified = true
                     val updatedDocument = document.copy(
-                        dirty = dirty,
+                        modified = modified,
                     )
 
                     documents = documents.mapSelected { state ->
@@ -231,7 +231,7 @@ internal class EditorViewModel @Inject constructor(
                         )
                     }
 
-                    documentRepository.changeDirty(updatedDocument, dirty)
+                    documentRepository.changeModified(updatedDocument, modified)
                 }
             } catch (e: CancellationException) {
                 throw e
@@ -710,7 +710,7 @@ internal class EditorViewModel @Inject constructor(
     fun onCloseClicked(document: DocumentModel, fromUser: Boolean = true) {
         viewModelScope.launch {
             try {
-                if (document.dirty && fromUser) {
+                if (document.modified && fromUser) {
                     val screen = CloseFileDialog(
                         fileUuid = document.uuid,
                         fileName = document.name,
@@ -914,7 +914,7 @@ internal class EditorViewModel @Inject constructor(
 
                 val autoSaveFiles = settingsManager.autoSaveFiles
                 val updatedDocument = document.copy(
-                    dirty = if (autoSaveFiles) false else document.dirty,
+                    modified = if (autoSaveFiles) false else document.modified,
                     scrollX = content.scrollX,
                     scrollY = content.scrollY,
                     selectionStart = content.selectionStart,
@@ -969,7 +969,7 @@ internal class EditorViewModel @Inject constructor(
                     if (fromUser) {
                         val autoSaveFiles = settingsManager.autoSaveFiles
                         val updatedDocument = state.document.copy(
-                            dirty = if (autoSaveFiles) false else state.document.dirty,
+                            modified = if (autoSaveFiles) false else state.document.modified,
                             scrollX = state.content?.scrollX
                                 ?: state.document.scrollX,
                             scrollY = state.content?.scrollY
@@ -1069,10 +1069,12 @@ internal class EditorViewModel @Inject constructor(
 
                 val documentList = documentRepository.loadDocuments()
 
-                documents = documentList
-                    .map { document -> DocumentState(document) }
-                selectedPosition = documentList
-                    .indexOrNull { it.uuid == settingsManager.selectedUuid } ?: 0
+                documents = documentList.map { document -> DocumentState(document) }
+                selectedPosition = if (documentList.isNotEmpty()) {
+                    documentList.indexOrNull { it.uuid == settingsManager.selectedUuid } ?: 0
+                } else {
+                    -1
+                }
 
                 _viewState.update {
                     it.copy(

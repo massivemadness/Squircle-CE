@@ -18,16 +18,16 @@ package com.blacksquircle.ui.feature.explorer.data.factory
 
 import android.content.Context
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
-import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
-import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
+import com.blacksquircle.ui.feature.servers.api.factory.ServerFactory
+import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.blacksquircle.ui.filesystem.saf.SAFFilesystem
 
 internal class FilesystemFactoryImpl(
-    private val serverFilesystemFactory: ServerFilesystemFactory,
-    private val serversInteractor: ServersInteractor,
+    private val serverFactory: ServerFactory,
+    private val serverInteractor: ServerInteractor,
     private val context: Context,
 ) : FilesystemFactory {
 
@@ -37,8 +37,8 @@ internal class FilesystemFactoryImpl(
             RootFilesystem.ROOT_UUID -> RootFilesystem()
             SAFFilesystem.SAF_UUID -> SAFFilesystem(context)
             else -> {
-                val serverConfig = serversInteractor.loadServer(uuid)
-                serverFilesystemFactory.create(serverConfig)
+                val serverConfig = serverInteractor.loadServer(uuid)
+                serverFactory.create(serverConfig)
             }
         }
     }

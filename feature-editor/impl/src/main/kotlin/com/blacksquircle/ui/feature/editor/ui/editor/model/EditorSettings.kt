@@ -18,13 +18,14 @@ package com.blacksquircle.ui.feature.editor.ui.editor.model
 
 import android.graphics.Typeface
 import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 
 @Immutable
 internal data class EditorSettings(
     val theme: String = "darcula",
     val fontSize: Float = 14f,
-    val fontType: Typeface = Typeface.MONOSPACE,
+    val fontType: Typeface = TypefaceProvider.DEFAULT,
     val wordWrap: Boolean = true,
     val codeCompletion: Boolean = true,
     val pinchZoom: Boolean = true,

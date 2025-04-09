@@ -163,8 +163,8 @@ internal class EditorHeaderViewModel @Inject constructor(
     private fun updateViewState(): EditorHeaderViewState {
         return EditorHeaderViewState(
             fontSize = settingsManager.fontSize,
-            codeCompletion = settingsManager.codeCompletion,
             wordWrap = settingsManager.wordWrap,
+            codeCompletion = settingsManager.codeCompletion,
             pinchZoom = settingsManager.pinchZoom,
             lineNumbers = settingsManager.lineNumbers,
             highlightCurrentLine = settingsManager.highlightCurrentLine,

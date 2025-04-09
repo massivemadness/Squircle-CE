@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "66c0177529804d9ca1874f7f7c90f68b",
+    "identityHash": "378cd96fd136006fee838744d7a68801",
     "entities": [
       {
         "tableName": "tbl_documents",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `file_uri` TEXT NOT NULL, `filesystem_uuid` TEXT NOT NULL, `language` TEXT NOT NULL, `dirty` INTEGER NOT NULL, `position` INTEGER NOT NULL, `scroll_x` INTEGER NOT NULL, `scroll_y` INTEGER NOT NULL, `selection_start` INTEGER NOT NULL, `selection_end` INTEGER NOT NULL, PRIMARY KEY(`uuid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `file_uri` TEXT NOT NULL, `filesystem_uuid` TEXT NOT NULL, `language` TEXT NOT NULL, `modified` INTEGER NOT NULL, `position` INTEGER NOT NULL, `scroll_x` INTEGER NOT NULL, `scroll_y` INTEGER NOT NULL, `selection_start` INTEGER NOT NULL, `selection_end` INTEGER NOT NULL, PRIMARY KEY(`uuid`))",
         "fields": [
           {
             "fieldPath": "uuid",
@@ -33,8 +33,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "dirty",
-            "columnName": "dirty",
+            "fieldPath": "modified",
+            "columnName": "modified",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -212,7 +212,7 @@
       },
       {
         "tableName": "tbl_themes",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `name` TEXT NOT NULL, `author` TEXT NOT NULL, `description` TEXT NOT NULL, `text_color` TEXT NOT NULL, `cursor_color` TEXT NOT NULL, `background_color` TEXT NOT NULL, `gutter_color` TEXT NOT NULL, `gutter_divider_color` TEXT NOT NULL, `gutter_current_line_number_color` TEXT NOT NULL, `gutter_text_color` TEXT NOT NULL, `selected_line_color` TEXT NOT NULL, `selection_color` TEXT NOT NULL, `suggestion_query_color` TEXT NOT NULL, `find_result_background_color` TEXT NOT NULL, `delimiter_background_color` TEXT NOT NULL, `number_color` TEXT NOT NULL, `operator_color` TEXT NOT NULL, `keyword_color` TEXT NOT NULL, `type_color` TEXT NOT NULL, `lang_const_color` TEXT NOT NULL, `preprocessor_color` TEXT NOT NULL, `variable_color` TEXT NOT NULL, `method_color` TEXT NOT NULL, `string_color` TEXT NOT NULL, `comment_color` TEXT NOT NULL, `tag_color` TEXT NOT NULL, `tag_name_color` TEXT NOT NULL, `attr_name_color` TEXT NOT NULL, `attr_value_color` TEXT NOT NULL, `entity_ref_color` TEXT NOT NULL, PRIMARY KEY(`uuid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `name` TEXT NOT NULL, `author` TEXT NOT NULL, `text_color` TEXT NOT NULL, `cursor_color` TEXT NOT NULL, `background_color` TEXT NOT NULL, `gutter_color` TEXT NOT NULL, `gutter_divider_color` TEXT NOT NULL, `gutter_current_line_number_color` TEXT NOT NULL, `gutter_text_color` TEXT NOT NULL, `selected_line_color` TEXT NOT NULL, `selection_color` TEXT NOT NULL, `suggestion_query_color` TEXT NOT NULL, `find_result_background_color` TEXT NOT NULL, `delimiter_background_color` TEXT NOT NULL, `number_color` TEXT NOT NULL, `operator_color` TEXT NOT NULL, `keyword_color` TEXT NOT NULL, `type_color` TEXT NOT NULL, `lang_const_color` TEXT NOT NULL, `preprocessor_color` TEXT NOT NULL, `variable_color` TEXT NOT NULL, `method_color` TEXT NOT NULL, `string_color` TEXT NOT NULL, `comment_color` TEXT NOT NULL, `tag_color` TEXT NOT NULL, `tag_name_color` TEXT NOT NULL, `attr_name_color` TEXT NOT NULL, `attr_value_color` TEXT NOT NULL, `entity_ref_color` TEXT NOT NULL, PRIMARY KEY(`uuid`))",
         "fields": [
           {
             "fieldPath": "uuid",
@@ -229,12 +229,6 @@
           {
             "fieldPath": "author",
             "columnName": "author",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "description",
-            "columnName": "description",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -414,7 +408,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '66c0177529804d9ca1874f7f7c90f68b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '378cd96fd136006fee838744d7a68801')"
     ]
   }
 }

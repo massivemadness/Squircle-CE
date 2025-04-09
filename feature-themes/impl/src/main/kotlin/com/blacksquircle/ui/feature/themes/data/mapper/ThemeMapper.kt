@@ -94,7 +94,6 @@ internal object ThemeMapper {
             uuid = themeModel.uuid,
             name = themeModel.name,
             author = themeModel.author,
-            description = "",
             textColor = themeModel.colorScheme.textColor.toHexString(),
             cursorColor = themeModel.colorScheme.cursorColor.toHexString(),
             backgroundColor = themeModel.colorScheme.backgroundColor.toHexString(),

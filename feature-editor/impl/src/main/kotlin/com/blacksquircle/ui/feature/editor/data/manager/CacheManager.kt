@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.data.manager
 
+import androidx.annotation.VisibleForTesting
 import com.blacksquircle.ui.feature.editor.data.utils.readFile
 import com.blacksquircle.ui.feature.editor.data.utils.writeFile
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
@@ -107,7 +108,10 @@ internal class CacheManager(private val cacheDir: File) {
     }
 
     companion object {
-        private const val TEXT = "text.txt"
-        private const val HISTORY = "history.txt"
+        @VisibleForTesting
+        const val TEXT = "text.txt"
+
+        @VisibleForTesting
+        const val HISTORY = "history.txt"
     }
 }
