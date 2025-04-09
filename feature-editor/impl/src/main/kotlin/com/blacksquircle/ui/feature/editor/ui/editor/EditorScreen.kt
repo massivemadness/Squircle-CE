@@ -148,10 +148,6 @@ internal fun EditorScreen(
         onExtraOptionsClicked = viewModel::onExtraOptionsClicked,
     )
 
-    ReportDrawnWhen {
-        !viewState.isLoading
-    }
-
     val defaultFileName = stringResource(UiR.string.common_untitled)
     val newFileContract = rememberCreateFileContract(MimeType.TEXT) { result ->
         when (result) {
@@ -242,6 +238,10 @@ internal fun EditorScreen(
 
     CleanupEffect {
         EditorComponent.release()
+    }
+
+    ReportDrawnWhen {
+        !viewState.isLoading
     }
 }
 
