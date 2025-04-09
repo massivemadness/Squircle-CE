@@ -61,7 +61,6 @@ class ServerRepositoryImplTest {
     )
 
     private val serverId = "12345"
-    private val serverPassword = "secret"
 
     @Before
     fun setup() {
@@ -71,19 +70,6 @@ class ServerRepositoryImplTest {
     @After
     fun cleanup() {
         ServerCredentials.remove(serverId)
-    }
-
-    @Test
-    fun `When authenticate on server Then save credentials in memory`() = runTest {
-        // Given
-        mockkObject(ServerCredentials)
-
-        // When
-        serverRepository.authenticate(serverId, serverPassword)
-
-        // Then
-        verify(exactly = 1) { ServerCredentials.put(serverId, serverPassword) }
-        unmockkObject(ServerCredentials)
     }
 
     @Test
@@ -119,7 +105,7 @@ class ServerRepositoryImplTest {
     }
 
     @Test
-    fun `When server with no password Then load credentials from memory`() = runTest {
+    fun `When loading server Then load from database`() = runTest {
         // Given
         val serverEntity = createServerEntity(
             uuid = serverId,
@@ -127,68 +113,12 @@ class ServerRepositoryImplTest {
             password = null,
         )
         coEvery { serverDao.load(serverId) } returns serverEntity
-        ServerCredentials.put(serverId, serverPassword)
 
         // When
         val server = serverRepository.loadServer(serverId)
 
         // Then
-        assertEquals(server.password, serverPassword)
-        coVerify(exactly = 1) { serverDao.load(serverId) }
-    }
-
-    @Test
-    fun `When server with no passphrase Then load credentials from memory`() = runTest {
-        // Given
-        val serverEntity = createServerEntity(
-            uuid = serverId,
-            authMethod = AuthMethod.KEY,
-            passphrase = null,
-        )
-        coEvery { serverDao.load(serverId) } returns serverEntity
-        ServerCredentials.put(serverId, serverPassword)
-
-        // When
-        val server = serverRepository.loadServer(serverId)
-
-        // Then
-        assertEquals(server.passphrase, serverPassword)
-        coVerify(exactly = 1) { serverDao.load(serverId) }
-    }
-
-    @Test
-    fun `When server has password Then keep it`() = runTest {
-        // Given
-        val serverEntity = createServerEntity(
-            uuid = serverId,
-            authMethod = AuthMethod.PASSWORD,
-            password = serverPassword,
-        )
-        coEvery { serverDao.load(serverId) } returns serverEntity
-
-        // When
-        val server = serverRepository.loadServer(serverId)
-
-        // Then
-        assertEquals(server.password, serverPassword)
-        coVerify(exactly = 1) { serverDao.load(serverId) }
-    }
-
-    @Test
-    fun `When server has passphrase Then keep it`() = runTest {
-        // Given
-        val serverEntity = createServerEntity(
-            uuid = serverId,
-            authMethod = AuthMethod.KEY,
-            passphrase = serverPassword,
-        )
-        coEvery { serverDao.load(serverId) } returns serverEntity
-
-        // When
-        val server = serverRepository.loadServer(serverId)
-
-        // Then
-        assertEquals(server.passphrase, serverPassword)
+        assertEquals(null, server.password)
         coVerify(exactly = 1) { serverDao.load(serverId) }
     }
 
