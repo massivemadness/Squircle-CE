@@ -103,7 +103,6 @@
         "entity.name.scope-resolution"
       ],
       "settings": {
-        "fontStyle": "",
         "foreground": "#CB4B16"
       }
     },
@@ -239,47 +238,6 @@
       "settings": {}
     },
     {
-      "name": "Invalid",
-      "scope": "invalid",
-      "settings": {
-        "foreground": "#DC322F"
-      }
-    },
-    {
-      "name": "diff: header",
-      "scope": [
-        "meta.diff",
-        "meta.diff.header"
-      ],
-      "settings": {
-        "fontStyle": "italic",
-        "foreground": "#268BD2"
-      }
-    },
-    {
-      "name": "diff: deleted",
-      "scope": "markup.deleted",
-      "settings": {
-        "fontStyle": "",
-        "foreground": "#DC322F"
-      }
-    },
-    {
-      "name": "diff: changed",
-      "scope": "markup.changed",
-      "settings": {
-        "fontStyle": "",
-        "foreground": "#CB4B16"
-      }
-    },
-    {
-      "name": "diff: inserted",
-      "scope": "markup.inserted",
-      "settings": {
-        "foreground": "#859900"
-      }
-    },
-    {
       "name": "Markup Quote",
       "scope": "markup.quote",
       "settings": {
@@ -327,7 +285,6 @@
       "name": "Markup Inline",
       "scope": "markup.inline.raw",
       "settings": {
-        "fontStyle": "",
         "foreground": "#2AA198"
       }
     },
@@ -343,7 +300,6 @@
       "name": "Markup Setext Header",
       "scope": "markup.heading.setext",
       "settings": {
-        "fontStyle": "",
         "foreground": "#268BD2"
       }
     }

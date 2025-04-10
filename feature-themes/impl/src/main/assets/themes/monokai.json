@@ -20,7 +20,7 @@
     "editorIndentGuide.activeBackground": "#C8BBAC",
     "editorCursor.foreground": "#BBBBBB",
     "editorHandle.foreground": "#EB347E",
-    "editorWhitespace.foreground": "#F8F8F8"
+    "editorWhitespace.foreground": "#5B5A4F"
   },
   "tokenColors": [
     {
