@@ -34,7 +34,6 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,9 +51,6 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.blacksquircle.ui.core.contract.ContractResult
-import com.blacksquircle.ui.core.contract.MimeType
-import com.blacksquircle.ui.core.contract.rememberCreateFileContract
 import com.blacksquircle.ui.core.effect.CleanupEffect
 import com.blacksquircle.ui.core.effect.NavResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
@@ -92,19 +88,9 @@ internal fun ThemesScreen(
         onBackClicked = viewModel::onBackClicked,
         onQueryChanged = viewModel::onQueryChanged,
         onClearQueryClicked = viewModel::onClearQueryClicked,
-        onCreateClicked = viewModel::onCreateClicked,
         onSelectClicked = viewModel::onSelectClicked,
-        onExportClicked = viewModel::onExportClicked,
-        onEditClicked = viewModel::onEditClicked,
         onRemoveClicked = viewModel::onRemoveClicked,
     )
-
-    val createFileContract = rememberCreateFileContract(MimeType.JSON) { result ->
-        when (result) {
-            is ContractResult.Success -> viewModel.onExportFileSelected(result.uri)
-            is ContractResult.Canceled -> Unit
-        }
-    }
 
     val context = LocalContext.current
     LaunchedEffect(Unit) {
@@ -113,9 +99,6 @@ internal fun ThemesScreen(
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
-                is ThemesViewEvent.ChooseExportFile -> {
-                    createFileContract.launch(event.themeName)
-                }
             }
         }
     }
@@ -135,20 +118,9 @@ private fun ThemesScreen(
     onBackClicked: () -> Unit = {},
     onQueryChanged: (String) -> Unit = {},
     onClearQueryClicked: () -> Unit = {},
-    onCreateClicked: () -> Unit = {},
     onSelectClicked: (ThemeModel) -> Unit = {},
-    onExportClicked: (ThemeModel) -> Unit = {},
-    onEditClicked: (ThemeModel) -> Unit = {},
     onRemoveClicked: (ThemeModel) -> Unit = {},
 ) {
-    val lazyListState = rememberLazyGridState()
-    val showButton by remember {
-        derivedStateOf {
-            lazyListState.firstVisibleItemIndex == 0 ||
-                lazyListState.lastScrolledBackward
-        }
-    }
-
     ScaffoldSuite(
         topBar = {
             var searchMode by rememberSaveable {
@@ -231,7 +203,7 @@ private fun ThemesScreen(
             val layoutDirection = LocalLayoutDirection.current
 
             LazyVerticalGrid(
-                state = lazyListState,
+                state = rememberLazyGridState(),
                 columns = GridCells.Adaptive(300.dp),
                 verticalArrangement = Arrangement.spacedBy(itemPadding),
                 horizontalArrangement = Arrangement.spacedBy(itemPadding),
@@ -252,8 +224,6 @@ private fun ThemesScreen(
                         isSelected = theme.uuid == viewState.selectedTheme,
                         typeface = viewState.typeface,
                         onSelectClicked = { onSelectClicked(theme) },
-                        onExportClicked = { onExportClicked(theme) },
-                        onEditClicked = { onEditClicked(theme) },
                         onRemoveClicked = { onRemoveClicked(theme) },
                         modifier = Modifier.animateItem(),
                     )

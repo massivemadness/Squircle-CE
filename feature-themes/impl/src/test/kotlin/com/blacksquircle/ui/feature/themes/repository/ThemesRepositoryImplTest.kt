@@ -16,79 +16,55 @@
 
 package com.blacksquircle.ui.feature.themes.repository
 
-import android.content.Context
-import com.blacksquircle.ui.core.database.dao.theme.ThemeDao
-import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_EDITOR_THEME
 import com.blacksquircle.ui.core.tests.TestDispatcherProvider
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
-import com.blacksquircle.ui.feature.themes.createThemeEntity
 import com.blacksquircle.ui.feature.themes.createThemeModel
+import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper
+import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
 import com.blacksquircle.ui.feature.themes.data.repository.ThemesRepositoryImpl
-import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
-import java.io.File
 
 class ThemesRepositoryImplTest {
 
     private val dispatcherProvider = TestDispatcherProvider()
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val themesInteractor = mockk<ThemesInteractor>(relaxed = true)
-    private val themeDao = mockk<ThemeDao>(relaxed = true)
-    private val context = mockk<Context>(relaxed = true)
 
     private val themesRepository = ThemesRepositoryImpl(
         dispatcherProvider = dispatcherProvider,
         settingsManager = settingsManager,
         themesInteractor = themesInteractor,
-        themeDao = themeDao,
-        context = context
     )
-
-    @Before
-    fun setup() {
-        mockkObject(Directories)
-        every { Directories.themesDir(context) } returns mockk<File>().apply {
-            every { path } returns ""
-        }
-    }
 
     @Test
     fun `When loading themes Then load from assets and database`() = runTest {
         // Given
-        val themeEntity = createThemeEntity(name = "Custom Theme")
-        coEvery { themeDao.loadAll() } returns listOf(themeEntity)
+        val themeList = AssetsTheme.entries.map(ThemeMapper::toModel)
 
         // When
         val themes = themesRepository.loadThemes("")
 
         // Then
-        assert(themes.isNotEmpty())
-        coVerify(exactly = 1) { themeDao.loadAll() }
+        assertEquals(themeList, themes)
     }
 
     @Test
     fun `When loading with query Then filter out by name`() = runTest {
         // Given
-        val themeEntity = createThemeEntity(name = "Custom Theme")
-        val themeModel = createThemeModel(name = "Custom Theme")
-        coEvery { themeDao.loadAll() } returns listOf(themeEntity)
+        val themeList = AssetsTheme.entries.map(ThemeMapper::toModel).take(1)
 
         // When
-        val themes = themesRepository.loadThemes("Custom Theme")
+        val themes = themesRepository.loadThemes("Darcula")
 
         // Then
-        val expected = listOf(themeModel)
-        assertEquals(expected, themes)
+        assertEquals(themeList, themes)
     }
 
     @Test
@@ -113,7 +89,7 @@ class ThemesRepositoryImplTest {
         themesRepository.removeTheme(themeModel)
 
         // Then
-        coVerify(exactly = 1) { themeDao.delete(themeModel.uuid) }
+        // coVerify(exactly = 1) { themeDao.delete(themeModel.uuid) }
         verify(exactly = 0) { settingsManager.remove(KEY_EDITOR_THEME) }
     }
 
@@ -127,7 +103,7 @@ class ThemesRepositoryImplTest {
         themesRepository.removeTheme(themeModel)
 
         // Then
-        coVerify(exactly = 1) { themeDao.delete(themeModel.uuid) }
+        // coVerify(exactly = 1) { themeDao.delete(themeModel.uuid) }
         verify(exactly = 1) { settingsManager.remove(KEY_EDITOR_THEME) }
     }
 }

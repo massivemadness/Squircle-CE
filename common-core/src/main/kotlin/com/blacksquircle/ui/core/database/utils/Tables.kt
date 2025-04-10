@@ -21,5 +21,4 @@ object Tables {
     const val FONTS = "tbl_fonts"
     const val PATHS = "tbl_paths"
     const val SERVERS = "tbl_servers"
-    const val THEMES = "tbl_themes"
 }

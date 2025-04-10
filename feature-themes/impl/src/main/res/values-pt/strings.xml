@@ -18,48 +18,10 @@
 <resources>
 
     <string name="label_themes">Temas</string>
-    <string name="label_new_theme">Novo tema</string>
 
-    <string name="hint_enter_theme_name">Insira o nome do tema</string>
-    <string name="hint_enter_theme_author">Insira o nome do autor do tema</string>
-
-    <string name="action_import">Importar</string>
-    <string name="action_export">Exportar</string>
-    <string name="action_edit">Editar</string>
     <string name="action_remove">Remover</string>
 
-    <string name="message_saved">Salvo</string>
     <string name="message_selected">«%1$s» selecionado</string>
-    <string name="message_new_theme_available">Nova tema disponível: %1$s</string>
     <string name="message_theme_removed">O tema «%1$s» foi removido</string>
-    <string name="message_theme_syntax_exception">Um erro ocorreu ao ler o arquivo do tema</string>
-
-    <string name="theme_property_text_color">Define a cor do texto</string>
-    <string name="theme_property_cursor_color">Defines the cursor color of the editor</string>
-    <string name="theme_property_background_color">Define a cor do fundo</string>
-    <string name="theme_property_gutter_color">Define a cor do contador de linhas</string>
-    <string name="theme_property_gutter_divider_color">Define a cor do divisor entre o texto e o contador de linhas</string>
-    <string name="theme_property_gutter_current_line_number_color">Define a cor do ponteiro</string>
-    <string name="theme_property_gutter_text_color">Define a cor dos números no contador de linhas</string>
-    <string name="theme_property_selected_line_color">Define a cor do texto selecionado</string>
-    <string name="theme_property_selection_color">Define a cor da seleção de texto</string>
-    <string name="theme_property_suggestion_query_color">Define a cor do texto no menu de autocompletação</string>
-    <string name="theme_property_find_result_background_color">Define a cor do fundo do texto encontrado na pesquisa</string>
-    <string name="theme_property_delimiter_background_color">Define a cor do fundo do delimitador de colchetes</string>
-    <string name="theme_property_numbers_color">Define a cor do realce dos números de cores: 123, 0.5, 0xFF, etc.</string>
-    <string name="theme_property_operators_color">Define a cor do realce dos operadores: +-*/=, [, ], {, }, (, )</string>
-    <string name="theme_property_keywords_color">Define a cor do realce das palavras-chave: function, if, else, etc.</string>
-    <string name="theme_property_types_color">Define a cor do realce dos valores: const, var, let, etc.</string>
-    <string name="theme_property_lang_const_color">Define a cor do realce das constantes: true, false, null, etc.</string>
-    <string name="theme_property_preprocessor_color">Define a cor dos pré-processamentos e de anotações: @Override, #include, …</string>
-    <string name="theme_property_variables_color">Define a cor das variáveis</string>
-    <string name="theme_property_methods_color">Define a cor dos métodos</string>
-    <string name="theme_property_strings_color">Define a cor das strings</string>
-    <string name="theme_property_comments_color">Define a cor dos comentários de cor: //, /**/</string>
-    <string name="theme_property_tag_color">Define a cor das tags de idioma: &lt;, &lt;&gt;, /&gt;</string>
-    <string name="theme_property_tag_name_color">Define a cor dos nomes das tags de idioma: &lt;tag&gt;</string>
-    <string name="theme_property_attr_name_color">Define a cor das atribuições de nome: &lt;tag attr=…/&gt;</string>
-    <string name="theme_property_attr_value_color">Define a cor das atribuições de valore: &lt;tag attr=\"value\"/&gt;</string>
-    <string name="theme_property_entity_ref_color">Define a cor das entidades de referência: &amp;amp; &amp;lt; &amp;gt; …</string>
 
 </resources>

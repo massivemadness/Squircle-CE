@@ -20,6 +20,3 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data object ThemesScreen
-
-@Serializable
-data class EditThemeScreen(val themeId: String?)

@@ -16,18 +16,12 @@
 
 package com.blacksquircle.ui.feature.themes.domain.repository
 
-import android.net.Uri
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 internal interface ThemesRepository {
 
     suspend fun loadThemes(query: String): List<ThemeModel>
-    suspend fun loadTheme(uuid: String): ThemeModel
 
-    suspend fun importTheme(fileUri: Uri): ThemeModel
-    suspend fun exportTheme(themeModel: ThemeModel, fileUri: Uri)
-
-    suspend fun createTheme(themeModel: ThemeModel)
     suspend fun removeTheme(themeModel: ThemeModel)
     suspend fun selectTheme(themeModel: ThemeModel)
 }

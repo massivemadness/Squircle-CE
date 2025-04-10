@@ -17,8 +17,6 @@
 package com.blacksquircle.ui.feature.themes.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.database.AppDatabase
-import com.blacksquircle.ui.core.database.dao.theme.ThemeDao
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
@@ -49,20 +47,11 @@ internal object ThemesModule {
         dispatcherProvider: DispatcherProvider,
         themesInteractor: ThemesInteractor,
         settingsManager: SettingsManager,
-        themeDao: ThemeDao,
-        context: Context,
     ): ThemesRepository {
         return ThemesRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
             themesInteractor = themesInteractor,
             settingsManager = settingsManager,
-            themeDao = themeDao,
-            context = context,
         )
-    }
-
-    @Provides
-    fun provideThemeDao(appDatabase: AppDatabase): ThemeDao {
-        return appDatabase.themeDao()
     }
 }

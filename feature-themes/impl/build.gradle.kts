@@ -51,7 +51,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.google.dagger)
-    implementation(libs.google.gson)
     implementation(libs.jakewharton.timber)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
