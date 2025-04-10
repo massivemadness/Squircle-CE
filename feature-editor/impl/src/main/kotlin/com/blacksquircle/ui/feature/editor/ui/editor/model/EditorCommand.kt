@@ -26,8 +26,6 @@ internal sealed class EditorCommand {
     data object SelectLine : EditorCommand()
     data object DeleteLine : EditorCommand()
     data object DuplicateLine : EditorCommand()
-
-    data object IndentOrTab : EditorCommand()
     data object ToggleCase : EditorCommand()
 
     data object PreviousWord : EditorCommand()
@@ -36,11 +34,12 @@ internal sealed class EditorCommand {
     data object EndOfLine : EditorCommand()
 
     data class Insert(val text: String) : EditorCommand()
-    data class GoToLine(val line: Int) : EditorCommand()
+    data object IndentOrTab : EditorCommand()
 
     data class Find(val searchState: SearchState) : EditorCommand()
     data class Replace(val replacement: String) : EditorCommand()
     data class ReplaceAll(val replacement: String) : EditorCommand()
+    data class GoToLine(val line: Int) : EditorCommand()
     data object PreviousMatch : EditorCommand()
     data object NextMatch : EditorCommand()
     data object StopSearch : EditorCommand()
