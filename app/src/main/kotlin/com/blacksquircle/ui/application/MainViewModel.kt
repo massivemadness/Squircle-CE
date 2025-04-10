@@ -50,6 +50,12 @@ internal class MainViewModel @Inject constructor(
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        settingsManager.unregisterListener(KEY_APP_THEME)
+        settingsManager.unregisterListener(KEY_FULLSCREEN_MODE)
+    }
+
     fun handleIntent(intent: Intent?) {
         viewModelScope.launch {
             if (intent != null) {

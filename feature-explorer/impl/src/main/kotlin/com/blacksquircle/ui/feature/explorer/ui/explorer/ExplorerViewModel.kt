@@ -115,6 +115,12 @@ internal class ExplorerViewModel @Inject constructor(
 
     init {
         loadFilesystems()
+        registerOnPreferenceChangeListeners()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        unregisterOnPreferenceChangeListeners()
     }
 
     fun onBackClicked() {
@@ -666,8 +672,6 @@ internal class ExplorerViewModel @Inject constructor(
     private fun loadFilesystems() {
         viewModelScope.launch {
             try {
-                registerOnPreferenceChangeListeners()
-
                 filesystems = explorerRepository.loadFilesystems()
 
                 val filesystemModel = filesystems.find { it.uuid == selectedFilesystem }
@@ -731,6 +735,13 @@ internal class ExplorerViewModel @Inject constructor(
             viewMode = newValue
             reapplyFilter()
         }
+    }
+
+    private fun unregisterOnPreferenceChangeListeners() {
+        settingsManager.unregisterListener(KEY_SHOW_HIDDEN_FILES)
+        settingsManager.unregisterListener(KEY_FOLDERS_ON_TOP)
+        settingsManager.unregisterListener(KEY_SORT_MODE)
+        settingsManager.unregisterListener(KEY_VIEW_MODE)
     }
 
     private fun resetBuffer() {
