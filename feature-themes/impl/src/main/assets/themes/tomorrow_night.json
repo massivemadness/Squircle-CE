@@ -11,7 +11,7 @@
     "highlightedDelimitersForeground": "#C6C8C6",
     "completionWindowCorner": "#4B4D51",
     "completionWindowBackground": "#222426",
-    "completionWindowBackgroundCurrent": "#434448",
+    "completionWindowBackgroundCurrent": "#2C2D2F",
     "editor.lineHighlightBackground": "#2D2F33",
     "editorLineNumber.foreground": "#C6C8C6",
     "editorLineNumber.activeForeground": "#FFFFFF",
@@ -19,7 +19,7 @@
     "editorIndentGuide.background": "#4B4D51",
     "editorIndentGuide.activeBackground": "#FFFFFF",
     "editorCursor.foreground": "#BBBBBB",
-    "editorHandle.foreground": "#FF8000",
+    "editorHandle.foreground": "#AD95B8",
     "editorWhitespace.foreground": "#C6C8C6"
   },
   "tokenColors": [
@@ -146,7 +146,7 @@
       "scope": "markup.underline.link",
       "settings": {
         "fontStyle": "underline",
-        "foreground": "#ABC16D"
+        "foreground": "#B7BC73"
       }
     },
     {

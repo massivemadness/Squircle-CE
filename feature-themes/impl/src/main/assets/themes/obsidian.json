@@ -11,7 +11,7 @@
     "highlightedDelimitersForeground": "#E0E2E4",
     "completionWindowCorner": "#67777B",
     "completionWindowBackground": "#31393C",
-    "completionWindowBackgroundCurrent": "#67777B",
+    "completionWindowBackgroundCurrent": "#394144",
     "editor.lineHighlightBackground": "#31393C",
     "editorLineNumber.foreground": "#859599",
     "editorLineNumber.activeForeground": "#E0E0E0",
