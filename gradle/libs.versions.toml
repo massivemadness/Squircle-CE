@@ -26,7 +26,7 @@ mockk = "1.13.17"
 navigation = "2.8.9"
 profile-installer = "1.4.1"
 reorderable = "2.4.3"
-room = "2.6.1"
+room = "2.7.0"
 serialization = "1.8.1"
 sora = "0.23.5"
 splashscreen = "1.0.1"
@@ -41,6 +41,7 @@ android-application = { id = "com.android.application", version.ref = "android-p
 android-baselineprofile = { id = "androidx.baselineprofile", version.ref = "test-benchmark" }
 android-library = { id = "com.android.library", version.ref = "android-plugin" }
 android-test = { id = "com.android.test", version.ref = "android-plugin" }
+android-room = { id = "androidx.room", version.ref = "room" }
 
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

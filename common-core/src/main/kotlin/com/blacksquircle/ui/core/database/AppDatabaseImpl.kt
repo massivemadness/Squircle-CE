@@ -39,7 +39,7 @@ import com.blacksquircle.ui.core.database.entity.server.ServerEntity
 abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
 
     companion object {
-        const val DATABASE_NAME = "app_database"
+        const val DATABASE_NAME = "app_database.db"
     }
 
     abstract override fun documentDao(): DocumentDao

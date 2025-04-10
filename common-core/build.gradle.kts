@@ -17,6 +17,7 @@
 plugins {
     id("com.blacksquircle.feature")
     alias(libs.plugins.android.library)
+    alias(libs.plugins.android.room)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp)
@@ -25,9 +26,9 @@ plugins {
 android {
     namespace = "com.blacksquircle.ui.core"
 
-    ksp {
-        arg("room.schemaLocation", "$projectDir/schemas")
-        arg("room.generateKotlin", "true")
+    room {
+        schemaDirectory("$projectDir/schemas")
+        generateKotlin = true
     }
     sourceSets {
         named("androidTest") {
