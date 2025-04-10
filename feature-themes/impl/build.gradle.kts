@@ -26,14 +26,14 @@ plugins {
 android {
     namespace = "com.blacksquircle.ui.feature.themes"
 
-    buildFeatures {
-        compose = true
-    }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }
     testOptions {
-        unitTests.isReturnDefaultValues = true
+        unitTests.isReturnDefaultValues = true // TODO remove
+    }
+    buildFeatures {
+        compose = true
     }
 }
 
@@ -61,6 +61,8 @@ dependencies {
 
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
+    testImplementation(project(":common-test"))
+
     implementation(project(":feature-fonts:api"))
     implementation(project(":feature-themes:api"))
 

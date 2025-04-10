@@ -17,8 +17,6 @@
 package com.blacksquircle.ui.feature.servers.ui
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.tests.MainDispatcherRule
-import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
 import com.blacksquircle.ui.feature.servers.createServerConfig
 import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
@@ -26,6 +24,8 @@ import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import com.blacksquircle.ui.feature.servers.ui.cloud.CloudViewModel
 import com.blacksquircle.ui.feature.servers.ui.cloud.CloudViewState
 import com.blacksquircle.ui.feature.servers.ui.cloud.model.ServerModel
+import com.blacksquircle.ui.test.rule.MainDispatcherRule
+import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

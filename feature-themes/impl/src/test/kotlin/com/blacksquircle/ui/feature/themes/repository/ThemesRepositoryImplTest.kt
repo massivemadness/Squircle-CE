@@ -18,12 +18,12 @@ package com.blacksquircle.ui.feature.themes.repository
 
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_EDITOR_THEME
-import com.blacksquircle.ui.core.tests.TestDispatcherProvider
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import com.blacksquircle.ui.feature.themes.createThemeModel
 import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper
 import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
 import com.blacksquircle.ui.feature.themes.data.repository.ThemesRepositoryImpl
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

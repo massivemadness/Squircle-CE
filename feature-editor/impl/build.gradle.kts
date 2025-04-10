@@ -62,6 +62,8 @@ dependencies {
 
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
+    testImplementation(project(":common-test"))
+
     implementation(project(":feature-editor:api"))
     implementation(project(":feature-explorer:api"))
     implementation(project(":feature-explorer:impl"))

@@ -17,10 +17,10 @@
 package com.blacksquircle.ui.feature.shortcuts.repository
 
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.core.tests.TestDispatcherProvider
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import com.blacksquircle.ui.feature.shortcuts.data.repository.ShortcutRepositoryImpl
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

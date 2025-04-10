@@ -17,12 +17,12 @@
 package com.blacksquircle.ui.feature.changelog.ui
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.tests.MainDispatcherRule
-import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.changelog.domain.model.ReleaseModel
 import com.blacksquircle.ui.feature.changelog.domain.repository.ChangelogRepository
 import com.blacksquircle.ui.feature.changelog.ui.changelog.ChangeLogViewModel
 import com.blacksquircle.ui.feature.changelog.ui.changelog.ChangeLogViewState
+import com.blacksquircle.ui.test.rule.MainDispatcherRule
+import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

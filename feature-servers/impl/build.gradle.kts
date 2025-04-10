@@ -55,6 +55,8 @@ dependencies {
 
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
+    testImplementation(project(":common-test"))
+
     implementation(project(":feature-servers:api"))
     implementation(project(":filesystems:filesystem-ftp"))
     implementation(project(":filesystems:filesystem-ftps"))

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.tests
+package com.blacksquircle.ui.test.rule
 
-import com.blacksquircle.ui.core.logger.ConsoleTree
+import com.blacksquircle.ui.test.logger.ConsoleTree
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import timber.log.Timber

@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.tests
+package com.blacksquircle.ui.test.provider
 
-import kotlinx.coroutines.Dispatchers
+import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.*
-import org.junit.rules.TestWatcher
-import org.junit.runner.Description
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 
-@OptIn(ExperimentalCoroutinesApi::class)
-class MainDispatcherRule(
-    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
-) : TestWatcher() {
+class TestDispatcherProvider : DispatcherProvider {
 
-    override fun starting(description: Description) {
-        Dispatchers.setMain(testDispatcher)
-    }
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val testDispatcher = UnconfinedTestDispatcher()
 
-    override fun finished(description: Description) {
-        Dispatchers.resetMain()
-    }
+    override fun io(): CoroutineDispatcher = testDispatcher
+    override fun default(): CoroutineDispatcher = testDispatcher
+    override fun main(): CoroutineDispatcher = testDispatcher
 }

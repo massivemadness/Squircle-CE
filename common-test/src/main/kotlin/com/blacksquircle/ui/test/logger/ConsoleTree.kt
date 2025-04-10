@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.logger
+package com.blacksquircle.ui.test.logger
 
 import android.util.Log
 import timber.log.Timber

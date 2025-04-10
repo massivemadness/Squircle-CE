@@ -18,8 +18,6 @@ package com.blacksquircle.ui.feature.shortcuts.ui
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
-import com.blacksquircle.ui.core.tests.MainDispatcherRule
-import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.shortcuts.api.model.KeyGroup
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
@@ -27,6 +25,8 @@ import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingDialo
 import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutRepository
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ShortcutsViewModel
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ShortcutsViewState
+import com.blacksquircle.ui.test.rule.MainDispatcherRule
+import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

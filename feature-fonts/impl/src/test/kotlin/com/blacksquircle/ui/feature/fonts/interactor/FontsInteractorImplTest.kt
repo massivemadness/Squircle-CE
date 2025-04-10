@@ -18,9 +18,9 @@ package com.blacksquircle.ui.feature.fonts.interactor
 
 import android.content.Context
 import android.graphics.Typeface
-import com.blacksquircle.ui.core.tests.TestDispatcherProvider
 import com.blacksquircle.ui.feature.fonts.data.interactor.FontsInteractorImpl
 import com.blacksquircle.ui.feature.fonts.data.model.AssetsFont
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic

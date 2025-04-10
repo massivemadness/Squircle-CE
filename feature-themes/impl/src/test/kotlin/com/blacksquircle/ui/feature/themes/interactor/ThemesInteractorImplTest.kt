@@ -19,9 +19,9 @@ package com.blacksquircle.ui.feature.themes.interactor
 import android.content.Context
 import android.content.res.AssetManager
 import com.blacksquircle.ui.core.files.Directories
-import com.blacksquircle.ui.core.tests.TestDispatcherProvider
 import com.blacksquircle.ui.feature.themes.data.interactor.ThemesInteractorImpl
 import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry
 import io.mockk.every
 import io.mockk.mockk
