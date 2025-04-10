@@ -21,10 +21,10 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.extensions.isPermissionGranted
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.database.dao.path.PathDao
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
@@ -33,7 +33,7 @@ import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
+import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
@@ -49,7 +49,7 @@ internal class ExplorerRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
     private val taskManager: TaskManager,
-    private val serversInteractor: ServersInteractor,
+    private val serverInteractor: ServerInteractor,
     private val filesystemFactory: FilesystemFactory,
     private val pathDao: PathDao,
     private val context: Context,
@@ -79,7 +79,7 @@ internal class ExplorerRepositoryImpl(
                     ),
                 ),
             )
-            val serverFilesystems = serversInteractor.loadServers().map { config ->
+            val serverFilesystems = serverInteractor.loadServers().map { config ->
                 val scheme = config.scheme.value
                 val path = config.initialDir.trim(File.separatorChar)
                 val fileUri = if (path.isNotEmpty()) scheme + File.separator + path else scheme

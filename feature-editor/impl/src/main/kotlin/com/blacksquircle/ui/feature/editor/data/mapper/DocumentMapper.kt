@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.data.mapper
 
-import com.blacksquircle.ui.core.storage.database.entity.document.DocumentEntity
+import com.blacksquircle.ui.core.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.feature.editor.data.model.FileAssociation
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -40,7 +40,7 @@ internal object DocumentMapper {
             fileUri = fileModel.fileUri,
             filesystemUuid = fileModel.filesystemUuid,
             language = FileAssociation.guessLanguage(fileModel.extension),
-            dirty = false,
+            modified = false,
             position = position,
             scrollX = 0,
             scrollY = 0,
@@ -55,7 +55,7 @@ internal object DocumentMapper {
             fileUri = documentEntity.fileUri,
             filesystemUuid = documentEntity.filesystemUuid,
             language = documentEntity.language,
-            dirty = documentEntity.dirty,
+            modified = documentEntity.modified,
             position = documentEntity.position,
             scrollX = documentEntity.scrollX,
             scrollY = documentEntity.scrollY,
@@ -70,7 +70,7 @@ internal object DocumentMapper {
             fileUri = documentModel.fileUri,
             filesystemUuid = documentModel.filesystemUuid,
             language = documentModel.language,
-            dirty = documentModel.dirty,
+            modified = documentModel.modified,
             position = documentModel.position,
             scrollX = documentModel.scrollX,
             scrollY = documentModel.scrollY,

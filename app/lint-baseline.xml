@@ -30,15 +30,4 @@
             file="$GRADLE_USER_HOME/caches/modules-2/files-2.1/commons-net/commons-net/3.9.0/5a4e26802e0a5a42938f987976b55dae4a6cc636/commons-net-3.9.0.jar"/>
     </issue>
 
-    <issue
-        id="UnusedResources"
-        message="The resource `R.string.message_in_app_update_failed` appears to be unused"
-        errorLine1="    &lt;string name=&quot;message_in_app_update_failed&quot;>Update installation failed&lt;/string>"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="25"
-            column="13"/>
-    </issue>
-
 </issues>

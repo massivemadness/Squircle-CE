@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
+rootProject.name = "Squircle-CE"
+
 pluginManagement {
     includeBuild("build-logic")
+    includeBuild("sora-editor")
     repositories {
         google()
         mavenCentral()
@@ -46,7 +49,8 @@ include(
     ":feature-fonts:impl",
     ":feature-servers:api",
     ":feature-servers:impl",
-    ":feature-settings",
+    ":feature-settings:api",
+    ":feature-settings:impl",
     ":feature-shortcuts:api",
     ":feature-shortcuts:impl",
     ":feature-themes:api",
@@ -65,39 +69,4 @@ include(
     // TODO ":filesystems:filesystem-googledrive",
 )
 
-include(
-    ":editorkit:editorkit",
-    ":editorkit:language-base",
-    ":editorkit:language-actionscript",
-    ":editorkit:language-c",
-    ":editorkit:language-cpp",
-    ":editorkit:language-csharp",
-    ":editorkit:language-css",
-    ":editorkit:language-fortran",
-    ":editorkit:language-go",
-    ":editorkit:language-groovy",
-    ":editorkit:language-html",
-    ":editorkit:language-ini",
-    ":editorkit:language-java",
-    ":editorkit:language-javascript",
-    ":editorkit:language-json",
-    ":editorkit:language-julia",
-    ":editorkit:language-kotlin",
-    ":editorkit:language-latex",
-    ":editorkit:language-lisp",
-    ":editorkit:language-lua",
-    ":editorkit:language-markdown",
-    ":editorkit:language-php",
-    ":editorkit:language-plaintext",
-    ":editorkit:language-python",
-    ":editorkit:language-ruby",
-    ":editorkit:language-rust",
-    ":editorkit:language-shell",
-    ":editorkit:language-smali",
-    ":editorkit:language-sql",
-    ":editorkit:language-toml",
-    ":editorkit:language-typescript",
-    ":editorkit:language-visualbasic",
-    ":editorkit:language-xml",
-    ":editorkit:language-yaml",
-)
+includeBuild("sora-editor")

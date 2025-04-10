@@ -17,9 +17,9 @@
 package com.blacksquircle.ui.feature.shortcuts.internal
 
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
-import com.blacksquircle.ui.feature.shortcuts.data.repository.ShortcutsRepositoryImpl
-import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutsRepository
+import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.feature.shortcuts.data.repository.ShortcutRepositoryImpl
+import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutRepository
 import dagger.Module
 import dagger.Provides
 
@@ -28,10 +28,10 @@ internal object ShortcutsModule {
 
     @Provides
     @ShortcutsScope
-    fun provideShortcutsRepository(
+    fun provideShortcutRepository(
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
-    ): ShortcutsRepository {
-        return ShortcutsRepositoryImpl(dispatcherProvider, settingsManager)
+    ): ShortcutRepository {
+        return ShortcutRepositoryImpl(dispatcherProvider, settingsManager)
     }
 }

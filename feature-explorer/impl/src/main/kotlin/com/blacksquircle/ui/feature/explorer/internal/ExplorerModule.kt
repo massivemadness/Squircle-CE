@@ -17,15 +17,15 @@
 package com.blacksquircle.ui.feature.explorer.internal
 
 import android.content.Context
+import com.blacksquircle.ui.core.database.AppDatabase
+import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.database.AppDatabase
-import com.blacksquircle.ui.core.storage.database.dao.path.PathDao
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
+import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import dagger.Module
 import dagger.Provides
 
@@ -44,7 +44,7 @@ internal object ExplorerModule {
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         taskManager: TaskManager,
-        serversInteractor: ServersInteractor,
+        serverInteractor: ServerInteractor,
         filesystemFactory: FilesystemFactory,
         pathDao: PathDao,
         context: Context,
@@ -53,7 +53,7 @@ internal object ExplorerModule {
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
             taskManager = taskManager,
-            serversInteractor = serversInteractor,
+            serverInteractor = serverInteractor,
             filesystemFactory = filesystemFactory,
             pathDao = pathDao,
             context = context,

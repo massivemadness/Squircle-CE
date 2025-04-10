@@ -37,7 +37,7 @@ You can contribute by reporting issues, suggesting features, or submitting pull 
 
 #### Available flavors
 
-* `googlePlay`: A flavor used for publishing the app
+* `gms`: A flavor used for publishing the app
   on [Google Play](https://play.google.com/store/apps/details?id=com.blacksquircle.ui)
 * `fdroid`: A flavor used for publishing the app
   on [F-Droid](https://f-droid.org/packages/com.blacksquircle.ui/)

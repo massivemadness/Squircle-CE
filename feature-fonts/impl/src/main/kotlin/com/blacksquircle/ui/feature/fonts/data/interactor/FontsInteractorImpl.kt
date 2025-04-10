@@ -19,8 +19,8 @@ package com.blacksquircle.ui.feature.fonts.data.interactor
 import android.content.Context
 import android.graphics.Typeface
 import com.blacksquircle.ui.core.contract.FileType
+import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.fonts.data.model.AssetsFont
 import kotlinx.coroutines.withContext

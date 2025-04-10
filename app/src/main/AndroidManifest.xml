@@ -39,7 +39,7 @@
         android:requestLegacyExternalStorage="true">
 
         <activity
-            android:name=".application.activity.MainActivity"
+            android:name=".application.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:configChanges="keyboard|keyboardHidden"
             android:launchMode="singleTask"
@@ -153,7 +153,7 @@
         </provider>
 
         <service
-            android:name=".feature.explorer.ui.service.TaskService"
+            android:name=".feature.explorer.ui.task.TaskService"
             android:foregroundServiceType="dataSync"
             android:exported="false">
             <intent-filter>

@@ -19,5 +19,5 @@ package com.blacksquircle.ui.feature.shortcuts.api.internal
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 
 interface ShortcutsApiDepsProvider {
-    fun provideShortcutsInteractor(): ShortcutsInteractor
+    fun provideShortcutInteractor(): ShortcutsInteractor
 }

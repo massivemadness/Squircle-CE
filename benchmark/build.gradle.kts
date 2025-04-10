@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.ManagedVirtualDevice
+
 /*
  * Copyright 2025 Squircle CE contributors.
  *
@@ -15,19 +17,43 @@
  */
 
 plugins {
-    id("com.blacksquircle.benchmark")
+    id("com.blacksquircle.test")
+    alias(libs.plugins.android.baselineprofile)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
     namespace = "com.blacksquircle.benchmark"
     targetProjectPath = ":app"
+
+    testOptions.managedDevices.allDevices {
+        create<ManagedVirtualDevice>("pixel6Api34") {
+            device = "Pixel 6"
+            sdkVersion = 34
+            systemImageSource = "google_apis"
+        }
+    }
+}
+
+baselineProfile {
+    managedDevices += "pixel6Api34"
+    useConnectedDevices = false
 }
 
 dependencies {
 
-    // Tests
     implementation(libs.test.junit)
     implementation(libs.test.junit.ext)
     implementation(libs.test.runner)
     implementation(libs.test.macrobenchmark)
+}
+
+androidComponents {
+    onVariants { variant ->
+        val artifactsLoader = variant.artifacts.getBuiltArtifactsLoader()
+        val applicationId = variant.testedApks.map {
+            artifactsLoader.load(it)?.applicationId.orEmpty()
+        }
+        variant.instrumentationRunnerArguments.put("targetAppId", applicationId)
+    }
 }

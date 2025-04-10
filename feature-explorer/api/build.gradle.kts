@@ -16,13 +16,12 @@
 
 plugins {
     id("com.blacksquircle.kotlin")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 dependencies {
 
-    // Core
-    implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlinx.serialization)
 
-    // Modules
     api(project(":filesystems:filesystem-base"))
 }

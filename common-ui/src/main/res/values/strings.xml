@@ -26,6 +26,7 @@
     <string name="common_selected">Selected</string>
     <string name="common_yes">Yes</string>
     <string name="common_no">No</string>
+    <string name="common_menu">Menu</string>
 
     <string name="common_untitled" translatable="false">untitled</string>
     <string name="common_ctrl" translatable="false">Ctrl</string>

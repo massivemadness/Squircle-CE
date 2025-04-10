@@ -17,10 +17,9 @@
 package com.blacksquircle.ui.core.extensions
 
 import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.HasDefaultViewModelProviderFactory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -29,16 +28,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 
-inline fun <reified VM : ViewModel> Fragment.viewModels(
-    crossinline viewModelProducer: () -> VM,
-): Lazy<VM> {
-    return viewModels(
-        storeProducer = { this },
-        viewModelProducer = viewModelProducer,
-    )
-}
-
-inline fun <reified VM : ViewModel> FragmentActivity.viewModels(
+inline fun <reified VM : ViewModel> ComponentActivity.viewModels(
     crossinline viewModelProducer: () -> VM,
 ): Lazy<VM> {
     return viewModels(

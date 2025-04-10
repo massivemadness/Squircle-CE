@@ -2,7 +2,8 @@ name: Android CI
 
 on:
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - "master"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -33,12 +34,9 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
-      - name: Create Keystore
-        run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > app/keystore.jks
-
-      - name: Create local.properties
+      - name: Setup Keystore and local.properties
         run: |
-          echo "Creating local.properties file"
+          echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > app/keystore.jks
           echo "KEYSTORE_PATH=keystore.jks" > local.properties
           echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> local.properties
           echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
@@ -48,19 +46,19 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew :app:assembleRelease -PdisableR8=true
+        run: ./gradlew :app:assembleNonMinifiedRelease --no-configuration-cache
 
       - name: Upload APK (Google Play)
         uses: actions/upload-artifact@v4
         with:
           name: Google Play App (Release)
-          path: ./app/build/outputs/apk/googlePlay/release/app-googlePlay-release.apk
+          path: ./app/build/outputs/apk/gms/nonMinifiedRelease/app-gms-nonMinifiedRelease.apk
 
       - name: Upload APK (F-Droid)
         uses: actions/upload-artifact@v4
         with:
           name: F-Droid App (Release)
-          path: ./app/build/outputs/apk/fdroid/release/app-fdroid-release.apk
+          path: ./app/build/outputs/apk/fdroid/nonMinifiedRelease/app-fdroid-nonMinifiedRelease.apk
 
       - name: Delete Keystore
         run: rm app/keystore.jks
@@ -91,7 +89,7 @@ jobs:
             gradle-${{ runner.os }}-
 
       - name: Run unit tests
-        run: ./gradlew testDebugUnitTest
+        run: ./gradlew testDebugUnitTest --no-configuration-cache
 
   ktlint:
     runs-on: ubuntu-latest
@@ -119,7 +117,7 @@ jobs:
             gradle-${{ runner.os }}-
 
       - name: Run ktlint
-        run: ./gradlew ktlintCheck
+        run: ./gradlew ktlintCheck --no-configuration-cache
 
   android_lint:
     runs-on: ubuntu-latest
@@ -146,5 +144,5 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
-      - name: Run android lint
-        run: ./gradlew lintRelease
+      - name: Run Android Lint
+        run: ./gradlew lint --no-configuration-cache

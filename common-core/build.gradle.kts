@@ -16,6 +16,8 @@
 
 plugins {
     id("com.blacksquircle.feature")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp)
 }
@@ -39,31 +41,21 @@ android {
 
 dependencies {
 
-    // Core
-    implementation(libs.kotlin.stdlib)
-    implementation(libs.androidx.core)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.fragment.compose)
-    implementation(libs.timber)
-
-    // UI
     implementation(libs.androidx.appcompat)
-    implementation(libs.materialdesign)
-
-    // AAC
-    implementation(libs.androidx.service)
-    implementation(libs.androidx.viewmodel)
-    implementation(libs.androidx.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.compose)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.service)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.room)
+    implementation(libs.google.dagger)
+    implementation(libs.jakewharton.timber)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.test) // TODO exclude from source
+    implementation(libs.test.junit) // TODO exclude from source
+
     ksp(libs.androidx.room.compiler)
-
-    // DI
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
-
-    // Tests
-    implementation(libs.test.junit)
-    implementation(libs.coroutines.test)
+    ksp(libs.google.dagger.compiler)
 }

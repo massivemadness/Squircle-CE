@@ -19,11 +19,11 @@ package com.blacksquircle.ui.feature.fonts.data.repository
 import android.content.Context
 import android.net.Uri
 import com.blacksquircle.ui.core.contract.FileType
+import com.blacksquircle.ui.core.database.dao.font.FontDao
+import com.blacksquircle.ui.core.database.entity.font.FontEntity
+import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.Directories
-import com.blacksquircle.ui.core.storage.database.dao.font.FontDao
-import com.blacksquircle.ui.core.storage.database.entity.font.FontEntity
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.fonts.data.mapper.FontMapper
 import com.blacksquircle.ui.feature.fonts.data.model.AssetsFont
 import com.blacksquircle.ui.feature.fonts.data.utils.createTypefaceFromPath

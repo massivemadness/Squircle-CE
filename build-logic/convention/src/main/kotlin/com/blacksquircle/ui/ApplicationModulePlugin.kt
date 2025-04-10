@@ -32,8 +32,6 @@ class ApplicationModulePlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.application")
-                apply("org.jetbrains.kotlin.android")
-                apply("com.google.devtools.ksp")
                 apply("com.blacksquircle.lint")
             }
 
@@ -47,10 +45,14 @@ class ApplicationModulePlugin : Plugin<Project> {
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
 
-                setFlavorDimensions(listOf("store"))
+                setFlavorDimensions(listOf("platform_services"))
                 productFlavors {
-                    create("googlePlay") { dimension = "store" }
-                    create("fdroid") { dimension = "store" }
+                    create("gms") {
+                        dimension = "platform_services"
+                    }
+                    create("fdroid") {
+                        dimension = "platform_services"
+                    }
                 }
 
                 val properties = Properties().apply {
@@ -67,20 +69,12 @@ class ApplicationModulePlugin : Plugin<Project> {
                         keyPassword = "${properties["KEY_PASSWORD"]}"
                     }
                 }
-
                 buildTypes {
                     release {
                         signingConfig = signingConfigs.getByName("release")
-                        isMinifyEnabled = !(project.findProperty("disableR8")?.toString()?.toBoolean() ?: false)
-                        isShrinkResources = false
+                        isMinifyEnabled = true
+                        isShrinkResources = true
                         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-                    }
-                    create("benchmark") {
-                        initWith(buildTypes.getByName("release"))
-                        signingConfig = signingConfigs.getByName("debug")
-                        matchingFallbacks += listOf("release")
-                        isMinifyEnabled = false
-                        isDebuggable = false
                     }
                 }
                 compileOptions {

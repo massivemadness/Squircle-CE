@@ -43,9 +43,9 @@ gradlePlugin {
             id = "com.blacksquircle.application"
             implementationClass = "com.blacksquircle.ui.ApplicationModulePlugin"
         }
-        register("com.blacksquircle.benchmark") {
-            id = "com.blacksquircle.benchmark"
-            implementationClass = "com.blacksquircle.ui.BenchmarkModulePlugin"
+        register("com.blacksquircle.test") {
+            id = "com.blacksquircle.test"
+            implementationClass = "com.blacksquircle.ui.TestModulePlugin"
         }
         register("com.blacksquircle.feature") {
             id = "com.blacksquircle.feature"

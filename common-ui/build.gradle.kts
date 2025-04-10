@@ -16,7 +16,8 @@
 
 plugins {
     id("com.blacksquircle.feature")
-    alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
 
@@ -30,23 +31,15 @@ android {
 
 dependencies {
 
-    // Core
-    implementation(libs.androidx.splashscreen)
-
-    // UI
     implementation(libs.androidx.appcompat)
-    implementation(libs.materialdesign)
-    implementation(libs.colorpicker)
-
-    // Compose
-    implementation(libs.compose.ui)
-    implementation(libs.compose.foundation)
-    implementation(libs.compose.material)
-    implementation(libs.compose.preview)
-    debugImplementation(libs.compose.tooling)
-    debugImplementation(libs.compose.manifest)
-
-    // DI
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.tooling.preview)
+    implementation(libs.androidx.compose.ui)
+    debugImplementation(libs.androidx.compose.manifest)
+    debugImplementation(libs.androidx.compose.tooling)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.skydoves.colorpicker.compose)
 }

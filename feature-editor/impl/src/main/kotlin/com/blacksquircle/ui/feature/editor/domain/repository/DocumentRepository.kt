@@ -18,15 +18,15 @@ package com.blacksquircle.ui.feature.editor.domain.repository
 
 import android.net.Uri
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
+import io.github.rosemoe.sora.text.Content
 
 internal interface DocumentRepository {
 
     suspend fun loadDocuments(): List<DocumentModel>
 
-    suspend fun loadDocument(document: DocumentModel): TextContent
-    suspend fun saveDocument(document: DocumentModel, content: TextContent)
-    suspend fun cacheDocument(document: DocumentModel, content: TextContent)
+    suspend fun loadDocument(document: DocumentModel): Content
+    suspend fun saveDocument(document: DocumentModel, content: Content)
+    suspend fun cacheDocument(document: DocumentModel, content: Content)
 
     suspend fun reorderDocuments(from: DocumentModel, to: DocumentModel)
 
@@ -34,9 +34,9 @@ internal interface DocumentRepository {
     suspend fun closeOtherDocuments(document: DocumentModel)
     suspend fun closeAllDocuments()
 
-    suspend fun changeDirty(document: DocumentModel, dirty: Boolean)
+    suspend fun changeModified(document: DocumentModel, modified: Boolean)
     suspend fun changeLanguage(document: DocumentModel, language: String)
 
     suspend fun openExternal(fileUri: Uri, position: Int): DocumentModel
-    suspend fun saveExternal(document: DocumentModel, content: TextContent, fileUri: Uri)
+    suspend fun saveExternal(document: DocumentModel, content: Content, fileUri: Uri)
 }

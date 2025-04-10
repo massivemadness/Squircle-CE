@@ -19,8 +19,8 @@ package com.blacksquircle.ui.feature.explorer.internal.api
 import android.content.Context
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.factory.FilesystemFactoryImpl
-import com.blacksquircle.ui.feature.servers.api.interactor.ServerFilesystemFactory
-import com.blacksquircle.ui.feature.servers.api.interactor.ServersInteractor
+import com.blacksquircle.ui.feature.servers.api.factory.ServerFactory
+import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -31,13 +31,13 @@ object ExplorerApiModule {
     @Provides
     @Singleton
     fun provideFilesystemFactory(
-        serverFilesystemFactory: ServerFilesystemFactory,
-        serversInteractor: ServersInteractor,
+        serverFactory: ServerFactory,
+        serverInteractor: ServerInteractor,
         context: Context,
     ): FilesystemFactory {
         return FilesystemFactoryImpl(
-            serverFilesystemFactory = serverFilesystemFactory,
-            serversInteractor = serversInteractor,
+            serverFactory = serverFactory,
+            serverInteractor = serverInteractor,
             context = context,
         )
     }

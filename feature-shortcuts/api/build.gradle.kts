@@ -16,11 +16,12 @@
 
 plugins {
     id("com.blacksquircle.kotlin")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 dependencies {
 
-    // Core
-    implementation(libs.kotlin.stdlib)
-    compileOnly(libs.android.platform)
+    implementation(libs.kotlinx.serialization)
+
+    compileOnly(libs.android.tools.platform)
 }

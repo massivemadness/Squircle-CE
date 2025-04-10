@@ -22,7 +22,7 @@ internal enum class TaskType(val value: String) {
     DELETE("delete"),
     CUT("cut"),
     COPY("copy"),
-    COMPRESS("paste"),
+    COMPRESS("compress"),
     EXTRACT("extract");
 
     companion object {

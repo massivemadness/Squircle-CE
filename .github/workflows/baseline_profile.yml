@@ -1,0 +1,58 @@
+name: Generate Baseline Profile
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls /dev/kvm
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Keystore and local.properties
+        run: |
+          echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > app/keystore.jks
+          echo "KEYSTORE_PATH=keystore.jks" > local.properties
+          echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> local.properties
+          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
+          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> local.properties
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Generate Baseline Profile
+        run: ./gradlew :app:generateBaselineProfile --no-configuration-cache -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
+
+      - name: Copy Baseline and Startup Profiles
+        run: |
+          mv app/src/main/generated/baselineProfiles/baseline-prof.txt app/src/main/baseline-prof.txt
+          mv app/src/main/generated/baselineProfiles/startup-prof.txt app/src/main/startup-prof.txt
+
+      - name: Delete Keystore
+        run: rm app/keystore.jks
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.CI_TOKEN }}
+          branch: update-baseline-profile
+          base: master
+          title: "Update Baseline Profile"
+          body: "This PR updates the Baseline Profile."
+          commit-message: Update Baseline Profile

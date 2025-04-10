@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.fonts.internal
 import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
-import com.blacksquircle.ui.feature.fonts.ui.viewmodel.FontsViewModel
+import com.blacksquircle.ui.feature.fonts.ui.fonts.FontsViewModel
 import dagger.Component
 
 @FontsScope

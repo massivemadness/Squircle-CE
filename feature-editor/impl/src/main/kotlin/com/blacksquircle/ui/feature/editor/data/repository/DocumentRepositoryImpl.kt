@@ -22,23 +22,23 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import com.blacksquircle.ui.core.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.database.dao.document.DocumentDao
-import com.blacksquircle.ui.core.storage.keyvalue.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.data.manager.CacheManager
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.data.utils.charsetFor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.TextContent
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionEnd
-import com.blacksquircle.ui.feature.editor.ui.fragment.view.selectionStart
+import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionEnd
+import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionStart
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams
 import com.blacksquircle.ui.filesystem.base.model.LineBreak
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.saf.SAFFilesystem
+import io.github.rosemoe.sora.text.Content
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
@@ -57,7 +57,7 @@ internal class DocumentRepositoryImpl(
         }
     }
 
-    override suspend fun loadDocument(document: DocumentModel): TextContent {
+    override suspend fun loadDocument(document: DocumentModel): Content {
         return withContext(dispatcherProvider.io()) {
             val documentEntity = DocumentMapper.toEntity(document)
             documentDao.insert(documentEntity)
@@ -72,14 +72,14 @@ internal class DocumentRepositoryImpl(
                     chardet = settingsManager.encodingAutoDetect,
                     charset = charsetFor(settingsManager.encodingForOpening),
                 )
-                TextContent(filesystem.loadFile(fileModel, fileParams)).also { content ->
+                Content(filesystem.loadFile(fileModel, fileParams)).also { content ->
                     cacheDocument(document, content)
                 }
             }
         }
     }
 
-    override suspend fun saveDocument(document: DocumentModel, content: TextContent) {
+    override suspend fun saveDocument(document: DocumentModel, content: Content) {
         withContext(dispatcherProvider.io()) {
             val filesystem = filesystemFactory.create(document.filesystemUuid)
             val fileModel = DocumentMapper.toModel(document)
@@ -93,14 +93,14 @@ internal class DocumentRepositoryImpl(
         }
     }
 
-    override suspend fun cacheDocument(document: DocumentModel, content: TextContent) {
+    override suspend fun cacheDocument(document: DocumentModel, content: Content) {
         withContext(dispatcherProvider.io()) {
             cacheManager.create(document)
             cacheManager.saveContent(document, content)
 
             documentDao.updateProperties(
                 uuid = document.uuid,
-                dirty = document.dirty,
+                modified = document.modified,
                 scrollX = content.scrollX,
                 scrollY = content.scrollY,
                 selectionStart = content.selectionStart,
@@ -145,9 +145,9 @@ internal class DocumentRepositoryImpl(
         }
     }
 
-    override suspend fun changeDirty(document: DocumentModel, dirty: Boolean) {
+    override suspend fun changeModified(document: DocumentModel, modified: Boolean) {
         withContext(dispatcherProvider.io()) {
-            documentDao.updateDirty(document.uuid, dirty)
+            documentDao.updateModified(document.uuid, modified)
         }
     }
 
@@ -214,7 +214,7 @@ internal class DocumentRepositoryImpl(
         }
     }
 
-    override suspend fun saveExternal(document: DocumentModel, content: TextContent, fileUri: Uri) {
+    override suspend fun saveExternal(document: DocumentModel, content: Content, fileUri: Uri) {
         withContext(dispatcherProvider.io()) {
             val filesystemUuid = SAFFilesystem.SAF_UUID
             val filesystem = filesystemFactory.create(filesystemUuid)

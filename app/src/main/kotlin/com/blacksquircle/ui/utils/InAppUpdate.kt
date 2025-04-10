@@ -19,6 +19,6 @@ package com.blacksquircle.ui.utils
 import android.app.Activity
 
 internal interface InAppUpdate {
-    fun checkForUpdates(activity: Activity, onComplete: () -> Unit)
-    fun completeUpdate()
+    fun checkForUpdates(activity: Activity, onUpdateAvailable: () -> Unit)
+    fun installUpdate(activity: Activity)
 }

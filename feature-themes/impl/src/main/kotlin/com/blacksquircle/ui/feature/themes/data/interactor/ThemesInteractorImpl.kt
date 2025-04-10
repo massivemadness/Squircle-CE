@@ -18,8 +18,8 @@ package com.blacksquircle.ui.feature.themes.data.interactor
 
 import android.content.Context
 import com.blacksquircle.ui.core.contract.FileType
+import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.core.storage.Directories
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry

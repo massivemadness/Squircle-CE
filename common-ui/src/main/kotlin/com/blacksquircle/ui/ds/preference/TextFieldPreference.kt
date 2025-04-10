@@ -41,7 +41,8 @@ fun TextFieldPreference(
     helpText: String? = null,
     inputTextStyle: TextStyle = LocalTextStyle.current,
     inputValue: String = "",
-    onInputConfirmed: (String) -> Unit = {},
+    onConfirmClicked: (String) -> Unit = {},
+    onDismissClicked: () -> Unit = {},
     dialogShown: Boolean = false,
     dialogTitle: String? = null,
 ) {
@@ -69,11 +70,12 @@ fun TextFieldPreference(
             confirmButton = confirmButton,
             onConfirmClicked = {
                 showDialog = false
-                onInputConfirmed(text.value)
+                onConfirmClicked(text.value)
             },
             dismissButton = dismissButton,
             onDismissClicked = {
                 showDialog = false
+                onDismissClicked()
             },
             onDismiss = { showDialog = false },
         )
