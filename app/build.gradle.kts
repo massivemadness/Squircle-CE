@@ -32,9 +32,6 @@ android {
         versionCode = 10024
         versionName = "2025.1.0"
     }
-    buildFeatures {
-        compose = true
-    }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }
@@ -42,6 +39,9 @@ android {
         resources {
             excludes += "META-INF/versions/9/OSGI-INF/**"
         }
+    }
+    buildFeatures {
+        compose = true
     }
 }
 
