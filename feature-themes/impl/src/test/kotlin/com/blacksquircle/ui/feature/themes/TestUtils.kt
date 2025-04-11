@@ -16,51 +16,10 @@
 
 package com.blacksquircle.ui.feature.themes
 
-import com.blacksquircle.ui.core.database.entity.theme.ThemeEntity
 import com.blacksquircle.ui.feature.themes.domain.model.ColorScheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
-private const val STUB_COLOR_HEX = "#000000"
 private const val STUB_COLOR_INT = 0x000000
-
-internal fun createThemeEntity(
-    uuid: String = "1",
-    name: String = "Darcula",
-    author: String = "Squircle CE",
-): ThemeEntity {
-    return ThemeEntity(
-        uuid = uuid,
-        name = name,
-        author = author,
-        textColor = STUB_COLOR_HEX,
-        cursorColor = STUB_COLOR_HEX,
-        backgroundColor = STUB_COLOR_HEX,
-        gutterColor = STUB_COLOR_HEX,
-        gutterDividerColor = STUB_COLOR_HEX,
-        gutterCurrentLineNumberColor = STUB_COLOR_HEX,
-        gutterTextColor = STUB_COLOR_HEX,
-        selectedLineColor = STUB_COLOR_HEX,
-        selectionColor = STUB_COLOR_HEX,
-        suggestionQueryColor = STUB_COLOR_HEX,
-        findResultBackgroundColor = STUB_COLOR_HEX,
-        delimiterBackgroundColor = STUB_COLOR_HEX,
-        numberColor = STUB_COLOR_HEX,
-        operatorColor = STUB_COLOR_HEX,
-        keywordColor = STUB_COLOR_HEX,
-        typeColor = STUB_COLOR_HEX,
-        langConstColor = STUB_COLOR_HEX,
-        preprocessorColor = STUB_COLOR_HEX,
-        variableColor = STUB_COLOR_HEX,
-        methodColor = STUB_COLOR_HEX,
-        stringColor = STUB_COLOR_HEX,
-        commentColor = STUB_COLOR_HEX,
-        tagColor = STUB_COLOR_HEX,
-        tagNameColor = STUB_COLOR_HEX,
-        attrNameColor = STUB_COLOR_HEX,
-        attrValueColor = STUB_COLOR_HEX,
-        entityRefColor = STUB_COLOR_HEX,
-    )
-}
 
 internal fun createThemeModel(
     uuid: String = "1",

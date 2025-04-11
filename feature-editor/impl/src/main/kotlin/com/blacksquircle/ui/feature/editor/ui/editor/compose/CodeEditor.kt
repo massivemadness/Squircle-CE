@@ -122,8 +122,6 @@ internal fun CodeEditor(
                 is EditorCommand.SelectLine -> view.selectLine()
                 is EditorCommand.DeleteLine -> view.deleteLine()
                 is EditorCommand.DuplicateLine -> view.duplicateLine()
-
-                is EditorCommand.IndentOrTab -> view.indentOrCommitTab()
                 is EditorCommand.ToggleCase -> view.toggleCase()
 
                 is EditorCommand.PreviousWord -> view.previousWord()
@@ -131,8 +129,16 @@ internal fun CodeEditor(
                 is EditorCommand.StartOfLine -> view.startOfLine()
                 is EditorCommand.EndOfLine -> view.endOfLine()
 
-                is EditorCommand.Insert -> view.pasteText(command.text)
-                is EditorCommand.GoToLine -> view.setSelection(command.line, 0)
+                is EditorCommand.Insert -> {
+                    if (view.isFocused) {
+                        view.pasteText(command.text)
+                    }
+                }
+                is EditorCommand.IndentOrTab -> {
+                    if (view.isFocused) {
+                        view.indentOrCommitTab()
+                    }
+                }
 
                 is EditorCommand.Find -> {
                     try {
@@ -161,6 +167,9 @@ internal fun CodeEditor(
                     if (view.searcher.hasQuery()) {
                         view.searcher.replaceAll(command.replacement)
                     }
+                }
+                is EditorCommand.GoToLine -> {
+                    view.setSelection(command.line, 0)
                 }
                 is EditorCommand.PreviousMatch -> {
                     if (view.searcher.hasQuery()) {

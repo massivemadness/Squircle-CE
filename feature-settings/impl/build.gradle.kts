@@ -56,6 +56,8 @@ dependencies {
 
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
+    testImplementation(project(":common-test"))
+
     implementation(project(":feature-changelog"))
     implementation(project(":feature-fonts:api"))
     implementation(project(":feature-servers:api"))

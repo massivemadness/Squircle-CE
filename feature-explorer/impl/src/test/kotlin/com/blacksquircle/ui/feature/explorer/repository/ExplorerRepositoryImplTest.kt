@@ -24,7 +24,6 @@ import androidx.core.content.ContextCompat
 import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.database.entity.path.PathEntity
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.core.tests.TestDispatcherProvider
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.createFile
 import com.blacksquircle.ui.feature.explorer.createFolder
@@ -42,6 +41,7 @@ import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

@@ -18,8 +18,6 @@ package com.blacksquircle.ui.feature.servers.ui
 
 import android.net.Uri
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.tests.MainDispatcherRule
-import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.servers.createServerConfig
 import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import com.blacksquircle.ui.feature.servers.ui.server.ServerViewEvent
@@ -29,6 +27,8 @@ import com.blacksquircle.ui.feature.servers.ui.server.compose.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.server.compose.PasswordAction
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerType
+import com.blacksquircle.ui.test.rule.MainDispatcherRule
+import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

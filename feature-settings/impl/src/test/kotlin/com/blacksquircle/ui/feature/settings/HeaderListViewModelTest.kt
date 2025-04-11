@@ -17,11 +17,11 @@
 package com.blacksquircle.ui.feature.settings
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.tests.MainDispatcherRule
-import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.settings.api.navigation.AppHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.header.HeaderListViewModel
 import com.blacksquircle.ui.feature.settings.ui.header.model.PreferenceHeader
+import com.blacksquircle.ui.test.rule.MainDispatcherRule
+import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

@@ -21,7 +21,6 @@ import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiDepsProvider
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiProvider
-import com.blacksquircle.ui.feature.themes.ui.thememaker.EditThemeViewModel
 import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewModel
 import dagger.Component
 
@@ -38,7 +37,6 @@ import dagger.Component
 internal interface ThemesComponent {
 
     fun inject(factory: ThemesViewModel.Factory)
-    fun inject(factory: EditThemeViewModel.ParameterizedFactory)
 
     @Component.Factory
     interface Factory {

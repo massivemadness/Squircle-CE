@@ -19,18 +19,11 @@ package com.blacksquircle.ui.feature.themes.ui
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
-import com.blacksquircle.ui.feature.themes.api.navigation.EditThemeScreen
 import com.blacksquircle.ui.feature.themes.api.navigation.ThemesScreen
-import com.blacksquircle.ui.feature.themes.ui.thememaker.EditThemeScreen
 import com.blacksquircle.ui.feature.themes.ui.themes.ThemesScreen
 
 fun NavGraphBuilder.themesGraph(navController: NavHostController) {
     composable<ThemesScreen> {
         ThemesScreen(navController)
-    }
-    composable<EditThemeScreen> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<EditThemeScreen>()
-        EditThemeScreen(navArgs, navController)
     }
 }

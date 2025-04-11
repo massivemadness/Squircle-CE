@@ -18,11 +18,11 @@ package com.blacksquircle.ui.feature.settings
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.core.tests.MainDispatcherRule
-import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewState
 import com.blacksquircle.ui.filesystem.base.model.LineBreak
+import com.blacksquircle.ui.test.rule.MainDispatcherRule
+import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

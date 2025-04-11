@@ -16,43 +16,7 @@
   -->
 <resources>
     <string name="label_themes">Темы</string>
-    <string name="label_new_theme">Новая тема</string>
-    <string name="hint_enter_theme_name">Название темы</string>
-    <string name="hint_enter_theme_author">Автор темы</string>
-    <string name="action_import">Импорт</string>
-    <string name="action_export">Экспорт</string>
-    <string name="action_edit">Изменить</string>
     <string name="action_remove">Удалить</string>
-    <string name="message_saved">Сохранено</string>
     <string name="message_selected">Выбран «%1$s»</string>
-    <string name="message_new_theme_available">Добавлена новая тема: %1$s</string>
     <string name="message_theme_removed">Тема «%1$s» удалена</string>
-    <string name="message_theme_syntax_exception">Произошла ошибка при чтении файла темы</string>
-    <string name="theme_property_text_color">Определяет цвет текста редактора</string>
-    <string name="theme_property_cursor_color">Определяет цвет курсора редактора</string>
-    <string name="theme_property_background_color">Определяет цвет фона редактора</string>
-    <string name="theme_property_gutter_color">Определяет цвет фона панели номеров строк</string>
-    <string name="theme_property_gutter_divider_color">Определяет цвет разделителя панели номеров строк</string>
-    <string name="theme_property_gutter_current_line_number_color">Определяет цвет текущего номера строки в панели номеров строк</string>
-    <string name="theme_property_gutter_text_color">Определяет цвет номеров в панели номеров строк</string>
-    <string name="theme_property_selected_line_color">Определяет цвет текущей строки в редакторе</string>
-    <string name="theme_property_selection_color">Определяет цвет выделения текста в редакторе</string>
-    <string name="theme_property_suggestion_query_color">Определяет цвет поискового запроса в выпадающем меню</string>
-    <string name="theme_property_find_result_background_color">Определяет цвет найденных результатов в поиске</string>
-    <string name="theme_property_delimiter_background_color">Определяет цвет фона совпадающих скобок</string>
-    <string name="theme_property_numbers_color">Определяет цвет чисел подсветки синтаксиса: 123, 0.5, 0xFF, и тд.</string>
-    <string name="theme_property_operators_color">Определяет цвет операторов подсветки синтаксиса: +-*/=, [, ], {, }, (, )</string>
-    <string name="theme_property_keywords_color">Определяет цвет ключевых слов подсветки синтаксиса: function, if, else, и тд.</string>
-    <string name="theme_property_types_color">Определяет цвет типов подсветки синтаксиса: const, var, let, и тд.</string>
-    <string name="theme_property_lang_const_color">Определяет цвет языковых констант подсветки синтаксиса: true, false, null, и тд.</string>
-    <string name="theme_property_preprocessor_color">Определяет цвет препроцессоров и аннотаций: @Override, #include, …</string>
-    <string name="theme_property_variables_color">Определяет цвет переменных подсветки синтаксиса</string>
-    <string name="theme_property_methods_color">Определяет цвет методов подсветки синтаксиса</string>
-    <string name="theme_property_strings_color">Определяет цвет строк подсветки синтаксиса</string>
-    <string name="theme_property_comments_color">Определяет цвет комментариев подсветки синтаксиса: //, /**/</string>
-    <string name="theme_property_tag_color">Определяет цвет тегов в разметке: &lt;, &lt;&gt;, /&gt;</string>
-    <string name="theme_property_tag_name_color">Определяет цвет названия у тегов в разметке: &lt;tag&gt;</string>
-    <string name="theme_property_attr_name_color">Определяет цвет названия у аттрибутов в разметке: &lt;tag attr=…/&gt;</string>
-    <string name="theme_property_attr_value_color">Определяет цвет значения у аттрибутов в разметке: &lt;tag attr=\"value\"/&gt;</string>
-    <string name="theme_property_entity_ref_color">Определяет цвет символов-мнемоников в разметке: &amp;amp; &amp;lt; &amp;gt; …</string>
 </resources>

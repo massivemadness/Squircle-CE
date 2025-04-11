@@ -18,10 +18,10 @@ package com.blacksquircle.ui.feature.settings
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.core.tests.MainDispatcherRule
-import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderViewState
+import com.blacksquircle.ui.test.rule.MainDispatcherRule
+import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

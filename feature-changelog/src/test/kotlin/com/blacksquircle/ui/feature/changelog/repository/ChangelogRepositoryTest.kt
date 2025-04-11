@@ -18,9 +18,9 @@ package com.blacksquircle.ui.feature.changelog.repository
 
 import android.content.Context
 import android.content.res.Resources
-import com.blacksquircle.ui.core.tests.TestDispatcherProvider
 import com.blacksquircle.ui.feature.changelog.R
 import com.blacksquircle.ui.feature.changelog.data.repository.ChangelogRepositoryImpl
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

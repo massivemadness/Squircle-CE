@@ -202,13 +202,14 @@ class SettingsManager(private val context: Context) {
         set(value) = sharedPreferences.edit().putString(KEY_FILESYSTEM, value).apply()
 
     private val listeners = HashMap<String, OnChangedListener>()
+    private val callback = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+        if (key in listeners.keys) {
+            listeners[key]?.invoke()
+        }
+    }
 
     init {
-        sharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
-            if (key in listeners.keys) {
-                listeners[key]?.invoke()
-            }
-        }
+        sharedPreferences.registerOnSharedPreferenceChangeListener(callback)
     }
 
     fun load(key: String, defaultValue: String): String {
@@ -225,5 +226,9 @@ class SettingsManager(private val context: Context) {
 
     fun registerListener(key: String, onValueChanged: OnChangedListener) {
         listeners[key] = onValueChanged
+    }
+
+    fun unregisterListener(key: String) {
+        listeners.remove(key)
     }
 }

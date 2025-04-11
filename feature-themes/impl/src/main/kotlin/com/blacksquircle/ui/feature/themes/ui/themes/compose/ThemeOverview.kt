@@ -30,8 +30,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,8 +49,6 @@ import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.OutlinedButton
 import com.blacksquircle.ui.ds.extensions.isColorDark
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
-import com.blacksquircle.ui.ds.popupmenu.PopupMenu
-import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.domain.model.EditorTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
@@ -64,8 +60,6 @@ internal fun ThemeOverview(
     isSelected: Boolean,
     typeface: Typeface,
     onSelectClicked: () -> Unit,
-    onExportClicked: () -> Unit,
-    onEditClicked: () -> Unit,
     onRemoveClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -98,34 +92,11 @@ internal fun ThemeOverview(
                         .padding(horizontal = 12.dp)
                 )
                 if (themeModel.isExternal) {
-                    var expanded by rememberSaveable { mutableStateOf(false) }
                     IconButton(
-                        iconResId = UiR.drawable.ic_dots_vertical,
+                        iconResId = UiR.drawable.ic_close,
                         iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                        onClick = { expanded = !expanded },
-                        anchor = {
-                            PopupMenu(
-                                expanded = expanded,
-                                onDismiss = { expanded = false },
-                                verticalOffset = (-48).dp,
-                            ) {
-                                PopupMenuItem(
-                                    title = stringResource(R.string.action_export),
-                                    onClick = { onExportClicked(); expanded = false },
-                                    iconResId = UiR.drawable.ic_file_export,
-                                )
-                                PopupMenuItem(
-                                    title = stringResource(R.string.action_edit),
-                                    onClick = { onEditClicked(); expanded = false },
-                                    iconResId = UiR.drawable.ic_pencil,
-                                )
-                                PopupMenuItem(
-                                    title = stringResource(R.string.action_remove),
-                                    onClick = { onRemoveClicked(); expanded = false },
-                                    iconResId = UiR.drawable.ic_delete,
-                                )
-                            }
-                        }
+                        contentDescription = stringResource(R.string.action_remove),
+                        onClick = onRemoveClicked,
                     )
                 }
             }
@@ -196,8 +167,6 @@ private fun ThemeOverviewPreview() {
             isSelected = false,
             typeface = Typeface.MONOSPACE,
             onSelectClicked = {},
-            onExportClicked = {},
-            onEditClicked = {},
             onRemoveClicked = {},
         )
     }

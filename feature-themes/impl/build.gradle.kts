@@ -26,14 +26,14 @@ plugins {
 android {
     namespace = "com.blacksquircle.ui.feature.themes"
 
-    buildFeatures {
-        compose = true
-    }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }
     testOptions {
-        unitTests.isReturnDefaultValues = true
+        unitTests.isReturnDefaultValues = true // TODO remove
+    }
+    buildFeatures {
+        compose = true
     }
 }
 
@@ -51,7 +51,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.google.dagger)
-    implementation(libs.google.gson)
     implementation(libs.jakewharton.timber)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
@@ -62,6 +61,8 @@ dependencies {
 
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
+    testImplementation(project(":common-test"))
+
     implementation(project(":feature-fonts:api"))
     implementation(project(":feature-themes:api"))
 

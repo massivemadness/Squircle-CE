@@ -83,6 +83,7 @@ internal fun FontOverview(
                 IconButton(
                     iconResId = UiR.drawable.ic_close,
                     iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                    contentDescription = stringResource(R.string.action_remove),
                     onClick = onRemoveClicked,
                 )
             }

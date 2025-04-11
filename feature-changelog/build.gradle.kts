@@ -55,6 +55,7 @@ dependencies {
 
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
+    testImplementation(project(":common-test"))
 
     testImplementation(libs.test.junit)
     testImplementation(libs.test.mockk)

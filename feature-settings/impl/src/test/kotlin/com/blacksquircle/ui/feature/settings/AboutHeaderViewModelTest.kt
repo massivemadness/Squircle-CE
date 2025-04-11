@@ -17,10 +17,10 @@
 package com.blacksquircle.ui.feature.settings
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.tests.MainDispatcherRule
-import com.blacksquircle.ui.core.tests.TimberConsoleRule
 import com.blacksquircle.ui.feature.changelog.ui.ChangelogScreen
 import com.blacksquircle.ui.feature.settings.ui.about.AboutHeaderViewModel
+import com.blacksquircle.ui.test.rule.MainDispatcherRule
+import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -53,7 +53,7 @@ class AboutHeaderViewModelTest {
         val viewModel = createViewModel()
 
         // When
-        for (i in 0 until 10) {
+        for (i in 0 until 5) {
             viewModel.onChangelogClicked()
         }
 

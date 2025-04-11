@@ -81,6 +81,11 @@ class ApplicationModulePlugin : Plugin<Project> {
                     sourceCompatibility = JavaVersion.VERSION_17
                     targetCompatibility = JavaVersion.VERSION_17
                 }
+                bundle {
+                    language {
+                        enableSplit = false
+                    }
+                }
                 tasks.withType<KotlinJvmCompile>().configureEach {
                     compilerOptions {
                         jvmTarget.set(JvmTarget.JVM_17)

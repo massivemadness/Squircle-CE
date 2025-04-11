@@ -43,7 +43,7 @@ internal class AboutHeaderViewModel @Inject constructor() : ViewModel() {
 
     fun onChangelogClicked() {
         viewModelScope.launch {
-            if (counter < 10) {
+            if (counter < 5) {
                 counter++
             } else {
                 val screen = ChangelogScreen

@@ -16,17 +16,14 @@
 
 package com.blacksquircle.ui.feature.themes.ui.themes
 
-import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.contract.FileType
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.themes.R
-import com.blacksquircle.ui.feature.themes.api.navigation.EditThemeScreen
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
 import kotlinx.coroutines.Job
@@ -58,7 +55,6 @@ internal class ThemesViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private var pendingExport: ThemeModel? = null
     private var currentJob: Job? = null
 
     init {
@@ -88,13 +84,6 @@ internal class ThemesViewModel @Inject constructor(
         }
     }
 
-    fun onCreateClicked() {
-        viewModelScope.launch {
-            val screen = EditThemeScreen(null)
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
-    }
-
     fun onSelectClicked(themeModel: ThemeModel) {
         viewModelScope.launch {
             try {
@@ -120,44 +109,6 @@ internal class ThemesViewModel @Inject constructor(
                     ),
                 )
             }
-        }
-    }
-
-    fun onExportClicked(themeModel: ThemeModel) {
-        viewModelScope.launch {
-            pendingExport = themeModel
-            val themeName = themeModel.name + FileType.JSON
-            _viewEvent.send(ThemesViewEvent.ChooseExportFile(themeName))
-        }
-    }
-
-    fun onExportFileSelected(fileUri: Uri) {
-        viewModelScope.launch {
-            try {
-                if (pendingExport != null) {
-                    themesRepository.exportTheme(pendingExport!!, fileUri)
-                    pendingExport = null
-                }
-                _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_saved)),
-                )
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(
-                    ViewEvent.Toast(
-                        stringProvider.getString(UiR.string.common_error_occurred),
-                    ),
-                )
-            }
-        }
-    }
-
-    fun onEditClicked(themeModel: ThemeModel) {
-        viewModelScope.launch {
-            val screen = EditThemeScreen(themeModel.uuid)
-            _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 

@@ -1,0 +1,2 @@
+.github/**/*.png filter=lfs diff=lfs merge=lfs -text
+fastlane/**/*.png filter=lfs diff=lfs merge=lfs -text

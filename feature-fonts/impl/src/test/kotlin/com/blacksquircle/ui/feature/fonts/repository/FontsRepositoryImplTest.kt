@@ -22,11 +22,11 @@ import com.blacksquircle.ui.core.database.dao.font.FontDao
 import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FONT_TYPE
-import com.blacksquircle.ui.core.tests.TestDispatcherProvider
 import com.blacksquircle.ui.feature.fonts.createFontEntity
 import com.blacksquircle.ui.feature.fonts.createFontModel
 import com.blacksquircle.ui.feature.fonts.data.repository.FontsRepositoryImpl
 import com.blacksquircle.ui.feature.fonts.data.utils.createTypefaceFromPath
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
