@@ -61,7 +61,7 @@ jobs:
       - name: Upload APK to Play Store
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: com.blacksquircle.ui
           track: production
           releaseFiles: ./app/build/outputs/apk/gms/release/app-gms-release.apk
