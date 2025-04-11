@@ -14,14 +14,9 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="label_themes">Temas</string>
-
     <string name="action_remove">Remover</string>
-
     <string name="message_selected">«%1$s» selecionado</string>
     <string name="message_theme_removed">O tema «%1$s» foi removido</string>
-
 </resources>
