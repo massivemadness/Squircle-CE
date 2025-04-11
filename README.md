@@ -1,6 +1,6 @@
 # Squircle CE
 
-<img src="https://raw.githubusercontent.com/massivemadness/Squircle-CE/master/.github/images/repository-icon.png" alt="Squircle CE" width="120" align="left">
+<img src="https://media.githubusercontent.com/media/massivemadness/Squircle-CE/refs/heads/master/.github/images/repository-icon.png" alt="Squircle CE" width="120" align="left">
 
 <b>Squircle CE</b> is a fast and free multi-language code editor for Android.
 
@@ -54,7 +54,7 @@ on Crowdin, join the project and contact the project owner.
 
 ## Screenshots
 
-<img src="https://raw.githubusercontent.com/massivemadness/Squircle-CE/master/.github/images/repository-screenshots.png">
+<img src="https://media.githubusercontent.com/media/massivemadness/Squircle-CE/refs/heads/master/.github/images/repository-screenshots.png">
 
 ## License
 
