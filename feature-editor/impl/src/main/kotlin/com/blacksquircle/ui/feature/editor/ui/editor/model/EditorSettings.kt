@@ -23,7 +23,6 @@ import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 
 @Immutable
 internal data class EditorSettings(
-    val theme: String = "darcula",
     val fontSize: Float = 14f,
     val fontType: Typeface = TypefaceProvider.DEFAULT,
     val wordWrap: Boolean = true,

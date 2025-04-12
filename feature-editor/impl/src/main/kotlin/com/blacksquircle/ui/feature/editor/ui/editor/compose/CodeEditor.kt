@@ -28,6 +28,7 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorCommand
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorController
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.ui.editor.view.CodeEditor
+import com.blacksquircle.ui.feature.editor.ui.editor.view.SquircleScheme
 import com.blacksquircle.ui.feature.editor.ui.editor.view.createFromRegistry
 import com.blacksquircle.ui.feature.editor.ui.editor.view.deleteLine
 import com.blacksquircle.ui.feature.editor.ui.editor.view.endOfLine
@@ -76,6 +77,7 @@ internal fun CodeEditor(
                     }
                 }
             }
+            colorScheme = SquircleScheme.create()
         }
     }
     AndroidView(
@@ -92,7 +94,6 @@ internal fun CodeEditor(
             editor.tabWidth = settings.tabWidth
             editor.typefaceText = settings.fontType
             editor.typefaceLineNumber = settings.fontType
-            editor.colorScheme = editor.createFromRegistry()
             editor.isDisableSoftKbdIfHardKbdAvailable = !settings.softKeyboard
             editor.setShowInvisibleChars(settings.showInvisibleChars)
 

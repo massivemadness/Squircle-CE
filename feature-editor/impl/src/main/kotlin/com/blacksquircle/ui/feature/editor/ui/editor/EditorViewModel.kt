@@ -1121,7 +1121,6 @@ internal class EditorViewModel @Inject constructor(
 
     private suspend fun loadSettings(): EditorSettings {
         return EditorSettings(
-            theme = settingsManager.editorTheme,
             fontSize = settingsManager.fontSize.toFloat(),
             fontType = fontsInteractor.loadFont(settingsManager.fontType),
             wordWrap = settingsManager.wordWrap,

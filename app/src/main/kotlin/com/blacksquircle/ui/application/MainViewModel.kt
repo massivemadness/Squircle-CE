@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -46,7 +47,7 @@ internal class MainViewModel @Inject constructor(
     private val languageInteractor: LanguageInteractor,
 ) : ViewModel() {
 
-    private val _viewState = MutableStateFlow(updateViewState())
+    private val _viewState = MutableStateFlow(initialViewState())
     val viewState: StateFlow<MainViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
@@ -75,14 +76,22 @@ internal class MainViewModel @Inject constructor(
         }
     }
 
+    private suspend fun loadTheme() {
+        try {
+            val appTheme = themeInteractor.loadTheme(settingsManager.editorTheme)
+            _viewState.update {
+                it.copy(appTheme = appTheme)
+            }
+        } catch (e: Exception) {
+            Timber.e(e, e.message)
+        }
+    }
+
     private fun loadComponents() {
         viewModelScope.launch {
             try {
                 // Step 1: Load current theme
-                val appTheme = themeInteractor.loadTheme(settingsManager.editorTheme)
-                _viewState.update {
-                    it.copy(appTheme = appTheme)
-                }
+                loadTheme()
 
                 // Step 2: Load syntax files
                 languageInteractor.loadGrammars()
@@ -100,10 +109,16 @@ internal class MainViewModel @Inject constructor(
 
     private fun registerOnPreferenceChangeListeners() {
         settingsManager.registerListener(KEY_EDITOR_THEME) {
-            _viewState.value = updateViewState()
+            viewModelScope.launch {
+                loadTheme()
+            }
         }
         settingsManager.registerListener(KEY_FULLSCREEN_MODE) {
-            _viewState.value = updateViewState()
+            viewModelScope.launch {
+                _viewState.update {
+                    it.copy(fullscreenMode = settingsManager.fullScreenMode)
+                }
+            }
         }
     }
 
@@ -112,9 +127,10 @@ internal class MainViewModel @Inject constructor(
         settingsManager.unregisterListener(KEY_FULLSCREEN_MODE)
     }
 
-    private fun updateViewState(): MainViewState {
+    private fun initialViewState(): MainViewState {
         return MainViewState(
             isLoading = true,
+            appTheme = null,
             fullscreenMode = settingsManager.fullScreenMode,
         )
     }
