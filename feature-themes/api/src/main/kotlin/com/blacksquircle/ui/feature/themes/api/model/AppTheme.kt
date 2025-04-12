@@ -14,9 +14,20 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.internal.inappupdate
+package com.blacksquircle.ui.feature.themes.api.model
 
-internal interface InAppUpdate {
-    fun checkForUpdates(onUpdateAvailable: () -> Unit)
-    fun installUpdate()
-}
+data class AppTheme(
+    val type: Theme,
+    val colorPrimary: Int?,
+    val colorOutline: Int?,
+    val colorSuccess: Int?,
+    val colorError: Int?,
+    val colorBackgroundPrimary: Int?,
+    val colorBackgroundSecondary: Int?,
+    val colorBackgroundTertiary: Int?,
+    val colorTextAndIconPrimary: Int?,
+    val colorTextAndIconPrimaryInverse: Int?,
+    val colorTextAndIconSecondary: Int?,
+    val colorTextAndIconDisabled: Int?,
+    val colorTextAndIconAdditional: Int?,
+)

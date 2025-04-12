@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.internal.inappupdate
 
 import android.app.Activity
+import com.blacksquircle.ui.internal.provider.inappupdate.InAppUpdate
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions

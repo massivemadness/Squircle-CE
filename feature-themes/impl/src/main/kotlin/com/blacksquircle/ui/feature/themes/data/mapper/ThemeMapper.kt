@@ -16,7 +16,11 @@
 
 package com.blacksquircle.ui.feature.themes.data.mapper
 
+import android.graphics.Color
+import com.blacksquircle.ui.feature.themes.api.model.AppTheme
+import com.blacksquircle.ui.feature.themes.api.model.Theme
 import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
+import com.blacksquircle.ui.feature.themes.data.model.ThemeBody
 import com.blacksquircle.ui.feature.themes.domain.model.EditorTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
@@ -39,6 +43,32 @@ internal object ThemeMapper {
                 AssetsTheme.THEME_VISUAL_STUDIO -> EditorTheme.VISUAL_STUDIO
             },
             isExternal = false,
+        )
+    }
+
+    fun toModel(themeBody: ThemeBody): AppTheme {
+        return AppTheme(
+            type = Theme.of(themeBody.type.orEmpty()),
+            colorPrimary = themeBody.colors?.colorPrimary?.let(Color::parseColor),
+            colorOutline = themeBody.colors?.colorOutline.let(Color::parseColor),
+            colorSuccess = themeBody.colors?.colorSuccess.let(Color::parseColor),
+            colorError = themeBody.colors?.colorError.let(Color::parseColor),
+            colorBackgroundPrimary =
+                themeBody.colors?.colorBackgroundPrimary.let(Color::parseColor),
+            colorBackgroundSecondary =
+                themeBody.colors?.colorBackgroundSecondary.let(Color::parseColor),
+            colorBackgroundTertiary =
+                themeBody.colors?.colorBackgroundTertiary.let(Color::parseColor),
+            colorTextAndIconPrimary =
+                themeBody.colors?.colorTextAndIconPrimary.let(Color::parseColor),
+            colorTextAndIconPrimaryInverse =
+                themeBody.colors?.colorTextAndIconPrimaryInverse.let(Color::parseColor),
+            colorTextAndIconSecondary =
+                themeBody.colors?.colorTextAndIconSecondary.let(Color::parseColor),
+            colorTextAndIconDisabled =
+                themeBody.colors?.colorTextAndIconDisabled.let(Color::parseColor),
+            colorTextAndIconAdditional =
+                themeBody.colors?.colorTextAndIconAdditional.let(Color::parseColor),
         )
     }
 }

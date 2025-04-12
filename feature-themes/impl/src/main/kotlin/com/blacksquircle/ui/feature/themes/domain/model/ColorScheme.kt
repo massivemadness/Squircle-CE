@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.themes.domain.model
 
 import androidx.annotation.ColorInt
 
-// FIXME a copy from :editorkit module
 internal data class ColorScheme(
     @ColorInt val textColor: Int,
     @ColorInt val cursorColor: Int,

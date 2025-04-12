@@ -17,13 +17,9 @@
 package com.blacksquircle.ui
 
 import android.app.Application
-import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
 import com.blacksquircle.ui.core.logger.AndroidTree
-import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.core.theme.Theme
-import com.blacksquircle.ui.core.theme.ThemeManager
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiProvider
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvider
@@ -50,14 +46,6 @@ internal class SquircleApp : Application(),
 
     private val appComponent: AppComponent
         get() = AppComponent.buildOrGet(this)
-
-    override fun attachBaseContext(base: Context) {
-        val settingsManager = SettingsManager(base)
-        val themeManager = ThemeManager(base)
-        val theme = Theme.of(settingsManager.appTheme)
-        themeManager.apply(theme)
-        super.attachBaseContext(base)
-    }
 
     override fun onCreate() {
         super.onCreate()

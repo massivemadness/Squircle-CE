@@ -30,14 +30,15 @@ import androidx.core.util.Consumer
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.blacksquircle.ui.application.extensions.parseColors
 import com.blacksquircle.ui.application.loading.LoadingScreen
 import com.blacksquircle.ui.application.update.KEY_INSTALL_UPDATE
 import com.blacksquircle.ui.application.update.rememberInAppUpdate
 import com.blacksquircle.ui.core.effect.NavResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.fullscreenMode
+import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.theme.Theme
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.animation.NavigationTransition
 import com.blacksquircle.ui.ds.extensions.LocalNavController
@@ -61,8 +62,9 @@ internal fun MainScreen(
     },
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+    val viewColors = parseColors(viewState.appTheme)
     if (viewState.isLoading) {
-        SquircleTheme(darkTheme = viewState.appTheme == Theme.DARK) {
+        SquircleTheme(colors = viewColors) {
             Surface(color = SquircleTheme.colors.colorBackgroundPrimary) {
                 LoadingScreen()
             }
@@ -73,7 +75,7 @@ internal fun MainScreen(
     val navController = rememberNavController()
     val inAppUpdate = rememberInAppUpdate()
 
-    SquircleTheme(darkTheme = viewState.appTheme == Theme.DARK) {
+    SquircleTheme(colors = viewColors) {
         Surface(color = SquircleTheme.colors.colorBackgroundPrimary) {
             CompositionLocalProvider(LocalNavController provides navController) {
                 NavHost(
@@ -123,6 +125,7 @@ internal fun MainScreen(
     LaunchedEffect(Unit) {
         viewModel.viewEvent.collect { event ->
             when (event) {
+                is ViewEvent.Toast -> activity?.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
             }

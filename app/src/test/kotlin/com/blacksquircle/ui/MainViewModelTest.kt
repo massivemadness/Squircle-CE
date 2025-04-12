@@ -21,13 +21,13 @@ import android.net.Uri
 import com.blacksquircle.ui.application.MainViewModel
 import com.blacksquircle.ui.application.MainViewState
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_APP_THEME
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FULLSCREEN_MODE
-import com.blacksquircle.ui.core.theme.Theme
-import com.blacksquircle.ui.core.theme.ThemeManager
+import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_THEME_TYPE
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
+import com.blacksquircle.ui.feature.themes.api.model.Theme
+import com.blacksquircle.ui.internal.provider.theme.ThemeManager
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
@@ -61,14 +61,14 @@ class MainViewModelTest {
         createViewModel() // init {}
 
         // Then
-        verify(exactly = 1) { settingsManager.registerListener(KEY_APP_THEME, any()) }
+        verify(exactly = 1) { settingsManager.registerListener(KEY_THEME_TYPE, any()) }
         verify(exactly = 1) { settingsManager.registerListener(KEY_FULLSCREEN_MODE, any()) }
     }
 
     @Test
     fun `When screen opens Then load settings`() = runTest {
         // Given
-        every { settingsManager.appTheme } returns Theme.DARK.value
+        every { settingsManager.themeType } returns Theme.DARK.value
         every { settingsManager.fullScreenMode } returns true
 
         coEvery { themeInteractor.loadTheme(any()) } coAnswers { delay(200) }
@@ -80,7 +80,7 @@ class MainViewModelTest {
         // Then
         val viewState = MainViewState(
             isLoading = true,
-            appTheme = Theme.DARK,
+            theme = Theme.DARK,
             fullscreenMode = true,
         )
         assertEquals(viewState, viewModel.viewState.value)

@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.internal.inappupdate
 
 import android.app.Activity
+import com.blacksquircle.ui.internal.provider.inappupdate.InAppUpdate
 
 @Suppress("UNUSED_PARAMETER")
 internal class InAppUpdateImpl(activity: Activity) : InAppUpdate {

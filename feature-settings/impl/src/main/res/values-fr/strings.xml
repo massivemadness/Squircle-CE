@@ -26,9 +26,6 @@
     <string name="message_app_theme_disclaimer">Requires Android 10 or newer</string>
     <string name="message_preset_disclaimer">Vous pouvez répéter les caractères</string>
 
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-
     <string name="sort_by_name">Trier par Nom</string>
     <string name="sort_by_size">Trier par Taille</string>
     <string name="sort_by_date">Trier par Date</string>

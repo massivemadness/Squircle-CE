@@ -22,13 +22,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_APP_THEME
+import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_EDITOR_THEME
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FULLSCREEN_MODE
-import com.blacksquircle.ui.core.theme.Theme
-import com.blacksquircle.ui.core.theme.ThemeManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,7 +41,6 @@ import javax.inject.Provider
 
 internal class MainViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
-    private val themeManager: ThemeManager,
     private val themeInteractor: ThemeInteractor,
     private val editorInteractor: EditorInteractor,
     private val languageInteractor: LanguageInteractor,
@@ -79,23 +77,29 @@ internal class MainViewModel @Inject constructor(
 
     private fun loadComponents() {
         viewModelScope.launch {
-            // Step 1: Load syntax files
-            languageInteractor.loadGrammars()
+            try {
+                // Step 1: Load current theme
+                val appTheme = themeInteractor.loadTheme(settingsManager.editorTheme)
+                _viewState.update {
+                    it.copy(appTheme = appTheme)
+                }
 
-            // Step 2: Load current theme
-            themeInteractor.loadTheme(settingsManager.editorTheme)
-
-            // Done
-            _viewState.update {
-                it.copy(isLoading = false)
+                // Step 2: Load syntax files
+                languageInteractor.loadGrammars()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            } finally {
+                _viewState.update {
+                    it.copy(isLoading = false)
+                }
             }
         }
     }
 
     private fun registerOnPreferenceChangeListeners() {
-        settingsManager.registerListener(KEY_APP_THEME) {
-            val theme = Theme.of(settingsManager.appTheme)
-            themeManager.apply(theme) // change splash background
+        settingsManager.registerListener(KEY_EDITOR_THEME) {
             _viewState.value = updateViewState()
         }
         settingsManager.registerListener(KEY_FULLSCREEN_MODE) {
@@ -104,14 +108,13 @@ internal class MainViewModel @Inject constructor(
     }
 
     private fun unregisterOnPreferenceChangeListeners() {
-        settingsManager.unregisterListener(KEY_APP_THEME)
+        settingsManager.unregisterListener(KEY_EDITOR_THEME)
         settingsManager.unregisterListener(KEY_FULLSCREEN_MODE)
     }
 
     private fun updateViewState(): MainViewState {
         return MainViewState(
             isLoading = true,
-            appTheme = Theme.of(settingsManager.appTheme),
             fullscreenMode = settingsManager.fullScreenMode,
         )
     }

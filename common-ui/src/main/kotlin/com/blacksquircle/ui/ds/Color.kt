@@ -40,6 +40,7 @@ class Colors internal constructor(
     val colorTextAndIconSecondary: Color,
     val colorTextAndIconDisabled: Color,
     val colorTextAndIconAdditional: Color,
+    val isDark: Boolean,
 ) {
 
     companion object {
@@ -57,6 +58,7 @@ class Colors internal constructor(
             colorTextAndIconSecondary = Color(0xFF7F8290),
             colorTextAndIconDisabled = Color(0xFFA9ADBC),
             colorTextAndIconAdditional = Color(0xFF8CCEF7),
+            isDark = false,
         )
 
         fun darkColors() = Colors(
@@ -72,12 +74,43 @@ class Colors internal constructor(
             colorTextAndIconSecondary = Color(0xFFBCBCBC),
             colorTextAndIconDisabled = Color(0xFF6E6E6E),
             colorTextAndIconAdditional = Color(0xFFFFBB33),
+            isDark = true,
+        )
+
+        fun dynamicColors(
+            colorPrimary: Color,
+            colorOutline: Color,
+            colorSuccess: Color,
+            colorError: Color,
+            colorBackgroundPrimary: Color,
+            colorBackgroundSecondary: Color,
+            colorBackgroundTertiary: Color,
+            colorTextAndIconPrimary: Color,
+            colorTextAndIconPrimaryInverse: Color,
+            colorTextAndIconSecondary: Color,
+            colorTextAndIconDisabled: Color,
+            colorTextAndIconAdditional: Color,
+            isDark: Boolean,
+        ) = Colors(
+            colorPrimary = colorPrimary,
+            colorOutline = colorOutline,
+            colorSuccess = colorSuccess,
+            colorError = colorError,
+            colorBackgroundPrimary = colorBackgroundPrimary,
+            colorBackgroundSecondary = colorBackgroundSecondary,
+            colorBackgroundTertiary = colorBackgroundTertiary,
+            colorTextAndIconPrimary = colorTextAndIconPrimary,
+            colorTextAndIconPrimaryInverse = colorTextAndIconPrimaryInverse,
+            colorTextAndIconSecondary = colorTextAndIconSecondary,
+            colorTextAndIconDisabled = colorTextAndIconDisabled,
+            colorTextAndIconAdditional = colorTextAndIconAdditional,
+            isDark = isDark,
         )
     }
 
     @SuppressLint("ConflictingOnColor")
-    fun toMaterialColors(darkTheme: Boolean): MaterialColors {
-        return if (darkTheme) {
+    fun toMaterialColors(): MaterialColors {
+        return if (isDark) {
             materialDarkColors(
                 primary = colorPrimary,
                 primaryVariant = colorPrimary,

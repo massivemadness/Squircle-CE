@@ -21,51 +21,60 @@ import com.blacksquircle.ui.core.contract.FileType
 import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
+import com.blacksquircle.ui.feature.themes.api.model.AppTheme
+import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper
 import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
+import com.blacksquircle.ui.feature.themes.data.model.ThemeBody
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
 import org.eclipse.tm4e.core.registry.IThemeSource
-import timber.log.Timber
 import java.io.File
 
+@OptIn(ExperimentalSerializationApi::class)
 internal class ThemeInteractorImpl(
     private val dispatcherProvider: DispatcherProvider,
+    private val jsonParser: Json,
     private val context: Context
 ) : ThemeInteractor {
 
     private val themesDir: File
         get() = Directories.themesDir(context)
 
-    override suspend fun loadTheme(themeId: String) {
-        withContext(dispatcherProvider.io()) {
-            try {
-                val themeRegistry = ThemeRegistry.getInstance()
+    override suspend fun loadTheme(themeId: String): AppTheme {
+        return withContext(dispatcherProvider.io()) {
+            val themeRegistry = ThemeRegistry.getInstance()
 
-                /** Check if [themeId] is in assets */
-                val assetsTheme = AssetsTheme.find(themeId)
-                if (assetsTheme != null) {
-                    val relativePath = assetsTheme.themeUri.substring(ASSET_PATH.length)
-                    val themeSource = IThemeSource.fromInputStream(
-                        /* stream = */ context.assets.open(relativePath),
-                        /* fileName = */ relativePath.substringAfterLast(File.separator),
-                        /* charset = */ Charsets.UTF_8
-                    )
-                    themeRegistry.loadTheme(themeSource, true)
-                    return@withContext
-                }
+            /** Check if [themeId] is in assets */
+            val assetsTheme = AssetsTheme.find(themeId)
+            if (assetsTheme != null) {
+                val relativePath = assetsTheme.themeUri.substring(ASSET_PATH.length)
+                val themeSource = IThemeSource.fromInputStream(
+                    /* stream = */ context.assets.open(relativePath),
+                    /* fileName = */ relativePath.substringAfterLast(File.separator),
+                    /* charset = */ Charsets.UTF_8
+                )
+                themeRegistry.loadTheme(themeSource, true)
 
-                /** Couldn't find in assets, look in [themesDir] */
-                val themeFile = File(themesDir, themeId + FileType.JSON)
-                if (themeFile.exists()) {
-                    val themeSource = IThemeSource.fromFile(themeFile)
-                    themeRegistry.loadTheme(themeSource, true)
-                    return@withContext
-                }
-
-                throw IllegalStateException("Theme $themeId not found")
-            } catch (e: Exception) {
-                Timber.e(e, "Couldn't load theme into registry: ${e.message}")
+                val themeBody = jsonParser
+                    .decodeFromStream<ThemeBody>(context.assets.open(relativePath))
+                return@withContext ThemeMapper.toModel(themeBody)
             }
+
+            /** Couldn't find in assets, look in [themesDir] */
+            val themeFile = File(themesDir, themeId + FileType.JSON)
+            if (themeFile.exists()) {
+                val themeSource = IThemeSource.fromFile(themeFile)
+                themeRegistry.loadTheme(themeSource, true)
+
+                val themeBody = jsonParser
+                    .decodeFromStream<ThemeBody>(themeFile.inputStream())
+                return@withContext ThemeMapper.toModel(themeBody)
+            }
+
+            throw IllegalStateException("Theme $themeId not found")
         }
     }
 

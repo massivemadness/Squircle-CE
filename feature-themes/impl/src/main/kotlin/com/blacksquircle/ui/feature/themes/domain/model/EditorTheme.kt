@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.themes.domain.model
 
 import android.graphics.Color
 
-// FIXME a copy from :editorkit module
 internal object EditorTheme {
 
     val DARCULA = ColorScheme(

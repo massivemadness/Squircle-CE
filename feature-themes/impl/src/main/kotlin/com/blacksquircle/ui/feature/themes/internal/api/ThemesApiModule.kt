@@ -22,6 +22,7 @@ import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
 import com.blacksquircle.ui.feature.themes.data.interactor.ThemeInteractorImpl
 import dagger.Module
 import dagger.Provides
+import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 @Module
@@ -31,10 +32,12 @@ object ThemesApiModule {
     @Singleton
     fun provideThemeInteractor(
         dispatcherProvider: DispatcherProvider,
+        jsonParser: Json,
         context: Context,
     ): ThemeInteractor {
         return ThemeInteractorImpl(
             dispatcherProvider = dispatcherProvider,
+            jsonParser = jsonParser,
             context = context,
         )
     }

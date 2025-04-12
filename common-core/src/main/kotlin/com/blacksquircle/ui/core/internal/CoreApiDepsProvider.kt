@@ -21,13 +21,13 @@ import com.blacksquircle.ui.core.database.AppDatabase
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.core.theme.ThemeManager
+import kotlinx.serialization.json.Json
 
 interface CoreApiDepsProvider {
     fun provideContext(): Context
     fun provideDispatcherProvider(): DispatcherProvider
     fun provideStringProvider(): StringProvider
-    fun provideThemeManager(): ThemeManager
     fun provideSettingsManager(): SettingsManager
     fun provideAppDatabase(): AppDatabase
+    fun provideJsonParser(): Json
 }

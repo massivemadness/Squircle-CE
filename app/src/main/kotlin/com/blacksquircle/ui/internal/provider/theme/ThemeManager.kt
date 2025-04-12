@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.theme
+package com.blacksquircle.ui.internal.provider.theme
 
 import android.app.UiModeManager
 import android.content.Context
 import android.os.Build
+import com.blacksquircle.ui.feature.themes.api.model.Theme
 
-class ThemeManager(private val context: Context) {
+internal class ThemeManager(private val context: Context) {
 
     fun apply(theme: Theme) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

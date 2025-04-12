@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.core.theme.Theme
 import com.blacksquircle.ui.feature.themes.api.navigation.ThemesScreen
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -49,13 +48,6 @@ internal class AppHeaderViewModel @Inject constructor(
         }
     }
 
-    fun onThemeChanged(theme: Theme) {
-        viewModelScope.launch {
-            settingsManager.appTheme = theme.value
-            _viewState.value = updateViewState()
-        }
-    }
-
     fun onColorSchemeClicked() {
         viewModelScope.launch {
             val screen = ThemesScreen
@@ -79,7 +71,6 @@ internal class AppHeaderViewModel @Inject constructor(
 
     private fun updateViewState(): AppHeaderViewState {
         return AppHeaderViewState(
-            appTheme = Theme.of(settingsManager.appTheme),
             fullscreenMode = settingsManager.fullScreenMode,
             confirmExit = settingsManager.confirmExit,
         )

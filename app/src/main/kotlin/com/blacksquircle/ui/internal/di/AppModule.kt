@@ -21,6 +21,7 @@ import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.internal.provider.coroutine.DispatcherProviderImpl
 import com.blacksquircle.ui.internal.provider.resources.StringProviderImpl
+import com.blacksquircle.ui.internal.provider.theme.ThemeManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -38,5 +39,11 @@ internal object AppModule {
     @Singleton
     fun provideStringProvider(context: Context): StringProvider {
         return StringProviderImpl(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideThemeManager(context: Context): ThemeManager {
+        return ThemeManager(context)
     }
 }

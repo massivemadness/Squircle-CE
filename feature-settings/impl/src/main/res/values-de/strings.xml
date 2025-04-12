@@ -26,9 +26,6 @@
     <string name="message_app_theme_disclaimer">Requires Android 10 or newer</string>
     <string name="message_preset_disclaimer">Sie können Zeichen mehrfach wiederholen</string>
 
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-
     <string name="sort_by_name">Nach Name sortieren</string>
     <string name="sort_by_size">Nach Größe sortieren</string>
     <string name="sort_by_date">Nach Datum sortieren</string>

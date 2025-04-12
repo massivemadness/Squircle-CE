@@ -95,11 +95,11 @@ internal class CustomColorScheme(
         if (selectionHighlight != null) {
             setColor(MATCHED_TEXT_BACKGROUND, Color.parseColor(selectionHighlight))
         }
-        val delimiterBackground = rawTheme["highlightedDelimitersBackground"] as String?
+        val delimiterBackground = rawTheme["editor.highlightedDelimitersBackground"] as String?
         if (delimiterBackground != null) {
             setColor(HIGHLIGHTED_DELIMITERS_BACKGROUND, Color.parseColor(delimiterBackground))
         }
-        val delimiterForeground = rawTheme["highlightedDelimitersForeground"] as String?
+        val delimiterForeground = rawTheme["editor.highlightedDelimitersForeground"] as String?
         if (delimiterForeground != null) {
             setColor(HIGHLIGHTED_DELIMITERS_FOREGROUND, Color.parseColor(delimiterForeground))
         }
@@ -131,18 +131,18 @@ internal class CustomColorScheme(
         if (invisibles != null) {
             setColor(NON_PRINTABLE_CHAR, Color.parseColor(invisibles))
         }
-        val completionWindowCorner = rawTheme["completionWindowCorner"] as String?
+        val completionWindowCorner = rawTheme["editor.completionWindowCorner"] as String?
         if (completionWindowCorner != null) {
             setColor(COMPLETION_WND_CORNER, Color.parseColor(completionWindowCorner))
         }
-        val completionBackground = rawTheme["completionWindowBackground"] as String?
+        val completionBackground = rawTheme["editor.completionWindowBackground"] as String?
         if (completionBackground != null) {
             val color = Color.parseColor(completionBackground)
             setColor(COMPLETION_WND_BACKGROUND, color)
             setColor(TEXT_ACTION_WINDOW_BACKGROUND, color)
             setColor(DIAGNOSTIC_TOOLTIP_BACKGROUND, color)
         }
-        val completionBackgroundCurrent = rawTheme["completionWindowBackgroundCurrent"] as String?
+        val completionBackgroundCurrent = rawTheme["editor.completionWindowBackgroundCurrent"] as String?
         if (completionBackgroundCurrent != null) {
             setColor(COMPLETION_WND_ITEM_CURRENT, Color.parseColor(completionBackgroundCurrent))
         }

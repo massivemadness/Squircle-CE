@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.application
+package com.blacksquircle.ui.feature.themes.api.model
 
-import androidx.compose.runtime.Immutable
-import com.blacksquircle.ui.core.mvi.ViewState
+enum class Theme(val value: String) {
+    LIGHT("light"),
+    DARK("dark");
 
-@Immutable
-internal data class AppHeaderViewState(
-    val fullscreenMode: Boolean,
-    val confirmExit: Boolean,
-) : ViewState
+    companion object {
+
+        fun of(value: String): Theme {
+            return entries.find { it.value == value } ?: DARK
+        }
+    }
+}

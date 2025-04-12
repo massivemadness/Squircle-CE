@@ -19,8 +19,8 @@ package com.blacksquircle.ui.application.update
 import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import com.blacksquircle.ui.internal.inappupdate.InAppUpdate
 import com.blacksquircle.ui.internal.inappupdate.InAppUpdateImpl
+import com.blacksquircle.ui.internal.provider.inappupdate.InAppUpdate
 
 @Composable
 internal fun rememberInAppUpdate(): InAppUpdate {

@@ -50,8 +50,8 @@ internal class ThemeRepositoryImpl(
 
     override suspend fun selectTheme(themeModel: ThemeModel) {
         withContext(dispatcherProvider.io()) {
-            settingsManager.editorTheme = themeModel.uuid
             themeInteractor.loadTheme(themeModel.uuid)
+            settingsManager.editorTheme = themeModel.uuid
         }
     }
 }

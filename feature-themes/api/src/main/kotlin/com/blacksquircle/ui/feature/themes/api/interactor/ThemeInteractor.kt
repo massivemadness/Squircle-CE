@@ -16,6 +16,8 @@
 
 package com.blacksquircle.ui.feature.themes.api.interactor
 
+import com.blacksquircle.ui.feature.themes.api.model.AppTheme
+
 interface ThemeInteractor {
-    suspend fun loadTheme(themeId: String)
+    suspend fun loadTheme(themeId: String): AppTheme
 }

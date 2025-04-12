@@ -33,7 +33,7 @@ fun SquircleTheme(
         LocalColors provides colors,
         LocalTypography provides SquircleTheme.typography,
     ) {
-        MaterialTheme(colors = colors.toMaterialColors(darkTheme)) {
+        MaterialTheme(colors = colors.toMaterialColors()) {
             ProvideTextStyle(Typography.Default) {
                 content()
             }
