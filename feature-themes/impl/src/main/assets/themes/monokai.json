@@ -3,43 +3,43 @@
   "author": "Squircle CE",
   "type": "dark",
   "colors": {
-    "global.colorPrimary": "#FF8000",
-    "global.colorOutline": "#393B40",
-    "global.colorSuccess": "#71D98C",
-    "global.colorError": "#E45356",
-    "global.colorBackgroundPrimary": "#272822",
-    "global.colorBackgroundSecondary": "#414339",
-    "global.colorBackgroundTertiary": "#3E3F43",
-    "global.colorTextAndIconPrimary": "#FFFFFF",
-    "global.colorTextAndIconPrimaryInverse": "#000000",
-    "global.colorTextAndIconSecondary": "#BCBCBC",
-    "global.colorTextAndIconDisabled": "#6E6E6E",
-    "global.colorTextAndIconAdditional": "#FFBB33",
-    "editor.background": "#272822",
-    "editor.foreground": "#F8F8F8",
-    "editor.whitespace": "#5B5A4F",
-    "editor.cursor": "#BBBBBB",
-    "editor.handle": "#EB347E",
-    "editor.selection.background": "#666666",
-    "editor.currentLine.background": "#34352D",
-    "editor.highlightedDelimiters.background": "#5F5E5A",
-    "editor.highlightedDelimiters.foreground": "#F8F8F8",
-    "editor.matchHighlight.background": "#5F5E5A",
-    "editor.lineNumber.divider": "#5B5A4F",
-    "editor.lineNumber.background": "#272822",
-    "editor.lineNumber.foreground": "#5B5A4F",
-    "editor.lineNumber.activeForeground": "#C8BBAC",
-    "editor.indentGuide.background": "#5B5A4F",
-    "editor.indentGuide.activeBackground": "#C8BBAC",
-    "editor.popupWindow.corner": "#5B5A4F",
-    "editor.popupWindow.background": "#414339",
-    "editor.popupWindow.activeBackground": "#75715E"
+    "global.colorPrimary": "#E4DB82",
+    "global.colorOutline": "#3B3C36",
+    "global.colorSuccess": "#8BE041",
+    "global.colorError": "#E53F73",
+    "global.colorBackgroundPrimary": "#1D1E19",
+    "global.colorBackgroundSecondary": "#272823",
+    "global.colorBackgroundTertiary": "#32332D",
+    "global.colorTextAndIconPrimary": "#FDFFF2",
+    "global.colorTextAndIconPrimaryInverse": "#161613",
+    "global.colorTextAndIconSecondary": "#9FA19A",
+    "global.colorTextAndIconDisabled": "#575850",
+    "global.colorTextAndIconAdditional": "#E4DB82",
+    "editor.background": "#1D1E19",
+    "editor.foreground": "#FDFFF2",
+    "editor.whitespace": "#575850",
+    "editor.cursor": "#FDFFF2",
+    "editor.handle": "#E4DB82",
+    "editor.selection.background": "#3E3F39",
+    "editor.currentLine.background": "#262621",
+    "editor.highlightedDelimiters.background": "#50504D",
+    "editor.highlightedDelimiters.foreground": "#FDFFF2",
+    "editor.matchHighlight.background": "#50504D",
+    "editor.lineNumber.divider": "#3B3C36",
+    "editor.lineNumber.background": "#1D1E19",
+    "editor.lineNumber.foreground": "#575850",
+    "editor.lineNumber.activeForeground": "#C0C1B6",
+    "editor.indentGuide.background": "#3B3C36",
+    "editor.indentGuide.activeBackground": "#575850",
+    "editor.popupWindow.corner": "#575850",
+    "editor.popupWindow.background": "#272823",
+    "editor.popupWindow.activeBackground": "#32332D"
   },
   "tokenColors": [
     {
       "settings": {
-        "background": "#272822",
-        "foreground": "#F8F8F8"
+        "background": "#1D1E19",
+        "foreground": "#FDFFF2"
       }
     },
     {
@@ -50,7 +50,7 @@
         "variable.legacy.builtin.python"
       ],
       "settings": {
-        "foreground": "#F8F8F8"
+        "foreground": "#FDFFF2"
       }
     },
     {
@@ -83,7 +83,7 @@
         "meta.template.expression"
       ],
       "settings": {
-        "foreground": "#F8F8F8"
+        "foreground": "#FDFFF2"
       }
     },
     {
@@ -111,7 +111,7 @@
       "name": "Variable",
       "scope": "variable",
       "settings": {
-        "foreground": "#F8F8F8"
+        "foreground": "#FDFFF2"
       }
     },
     {
