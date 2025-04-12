@@ -14,20 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.internal.di
+package com.blacksquircle.ui.internal.inappupdate
 
-import com.blacksquircle.ui.utils.InAppUpdate
-import com.blacksquircle.ui.utils.InAppUpdateStub
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
-
-@Module
-internal object InAppUpdateModule {
-
-    @Provides
-    @Singleton
-    fun provideInAppUpdate(): InAppUpdate {
-        return InAppUpdateStub()
-    }
+internal interface InAppUpdate {
+    fun checkForUpdates(onUpdateAvailable: () -> Unit)
+    fun installUpdate()
 }

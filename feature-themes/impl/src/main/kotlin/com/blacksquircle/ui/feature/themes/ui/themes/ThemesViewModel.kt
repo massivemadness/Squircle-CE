@@ -25,7 +25,7 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
-import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
+import com.blacksquircle.ui.feature.themes.domain.repository.ThemeRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -45,7 +45,7 @@ import com.blacksquircle.ui.ds.R as UiR
 internal class ThemesViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val fontsInteractor: FontsInteractor,
-    private val themesRepository: ThemesRepository,
+    private val themeRepository: ThemeRepository,
     private val settingsManager: SettingsManager,
 ) : ViewModel() {
 
@@ -87,7 +87,7 @@ internal class ThemesViewModel @Inject constructor(
     fun onSelectClicked(themeModel: ThemeModel) {
         viewModelScope.launch {
             try {
-                themesRepository.selectTheme(themeModel)
+                themeRepository.selectTheme(themeModel)
                 _viewState.update {
                     it.copy(selectedTheme = themeModel.uuid)
                 }
@@ -115,7 +115,7 @@ internal class ThemesViewModel @Inject constructor(
     fun onRemoveClicked(themeModel: ThemeModel) {
         viewModelScope.launch {
             try {
-                themesRepository.removeTheme(themeModel)
+                themeRepository.removeTheme(themeModel)
                 _viewState.update { state ->
                     state.copy(
                         themes = state.themes.filterNot { it == themeModel },
@@ -151,7 +151,7 @@ internal class ThemesViewModel @Inject constructor(
                     it.copy(isLoading = true)
                 }
 
-                val themes = themesRepository.loadThemes(query)
+                val themes = themeRepository.loadThemes(query)
                 val typeface = fontsInteractor.loadFont(settingsManager.fontType)
                 delay(300L) // too fast, avoid blinking
 

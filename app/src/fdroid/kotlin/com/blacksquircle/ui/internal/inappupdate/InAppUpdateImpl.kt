@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils
+package com.blacksquircle.ui.internal.inappupdate
 
 import android.app.Activity
 
-internal class InAppUpdateStub : InAppUpdate {
-    override fun checkForUpdates(activity: Activity, onUpdateAvailable: () -> Unit) = Unit
-    override fun installUpdate(activity: Activity) = Unit
+@Suppress("UNUSED_PARAMETER")
+internal class InAppUpdateImpl(activity: Activity) : InAppUpdate {
+    override fun checkForUpdates(onUpdateAvailable: () -> Unit) = Unit
+    override fun installUpdate() = Unit
 }

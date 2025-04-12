@@ -53,7 +53,7 @@ internal class SquircleApp : Application(),
 
     override fun attachBaseContext(base: Context) {
         val settingsManager = SettingsManager(base)
-        val themeManager = ThemeManager()
+        val themeManager = ThemeManager(base)
         val theme = Theme.of(settingsManager.appTheme)
         themeManager.apply(theme)
         super.attachBaseContext(base)

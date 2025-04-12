@@ -16,8 +16,12 @@
 
 package com.blacksquircle.ui.feature.editor.internal.api
 
+import android.content.Context
+import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
+import com.blacksquircle.ui.feature.editor.api.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.data.interactor.EditorInteractorImpl
+import com.blacksquircle.ui.feature.editor.data.interactor.LanguageInteractorImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -29,5 +33,17 @@ object EditorApiModule {
     @Singleton
     fun provideEditorInteractor(): EditorInteractor {
         return EditorInteractorImpl()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLanguageInteractor(
+        dispatcherProvider: DispatcherProvider,
+        context: Context,
+    ): LanguageInteractor {
+        return LanguageInteractorImpl(
+            dispatcherProvider = dispatcherProvider,
+            context = context,
+        )
     }
 }

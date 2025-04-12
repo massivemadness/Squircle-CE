@@ -31,8 +31,8 @@ object CoreModule {
 
     @Provides
     @Singleton
-    fun provideThemeManager(): ThemeManager {
-        return ThemeManager()
+    fun provideThemeManager(context: Context): ThemeManager {
+        return ThemeManager(context)
     }
 
     @Provides

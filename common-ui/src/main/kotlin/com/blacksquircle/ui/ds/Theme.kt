@@ -26,10 +26,9 @@ import androidx.compose.runtime.ReadOnlyComposable
 @Composable
 fun SquircleTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    colors: Colors = if (darkTheme) Colors.darkColors() else Colors.lightColors(),
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) Colors.darkColors() else Colors.lightColors()
-
     CompositionLocalProvider(
         LocalColors provides colors,
         LocalTypography provides SquircleTheme.typography,

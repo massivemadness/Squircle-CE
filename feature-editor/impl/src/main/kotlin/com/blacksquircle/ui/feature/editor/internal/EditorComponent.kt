@@ -28,8 +28,6 @@ import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiDepsProvider
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiProvider
 import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiDepsProvider
 import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiProvider
-import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiDepsProvider
-import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiProvider
 import dagger.Component
 
 @EditorScope
@@ -43,7 +41,6 @@ import dagger.Component
         ExplorerApiDepsProvider::class,
         FontsApiDepsProvider::class,
         ShortcutsApiDepsProvider::class,
-        ThemesApiDepsProvider::class,
     ]
 )
 internal interface EditorComponent {
@@ -58,7 +55,6 @@ internal interface EditorComponent {
             explorerApiDepsProvider: ExplorerApiDepsProvider,
             fontsApiDepsProvider: FontsApiDepsProvider,
             shortcutsApiDepsProvider: ShortcutsApiDepsProvider,
-            themesApiDepsProvider: ThemesApiDepsProvider,
         ): EditorComponent
     }
 
@@ -78,8 +74,6 @@ internal interface EditorComponent {
                     .provideFontsApiDepsProvider(),
                 shortcutsApiDepsProvider = (context.applicationContext as ShortcutsApiProvider)
                     .provideShortcutsApiDepsProvider(),
-                themesApiDepsProvider = (context.applicationContext as ThemesApiProvider)
-                    .provideThemesApiDepsProvider(),
             ).also {
                 component = it
             }

@@ -48,10 +48,8 @@ android {
 dependencies {
 
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.material3.windowsizeclass)
     implementation(libs.androidx.compose.tooling.preview)
     implementation(libs.androidx.compose.ui)
     debugImplementation(libs.androidx.compose.manifest)
@@ -73,6 +71,8 @@ dependencies {
 
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
+    testImplementation(project(":common-test"))
+
     implementation(project(":feature-changelog"))
     implementation(project(":feature-editor:api"))
     implementation(project(":feature-editor:impl"))

@@ -25,7 +25,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module(includes = [InAppUpdateModule::class])
+@Module
 internal object AppModule {
 
     @Provides

@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.api.interactor
+package com.blacksquircle.ui.feature.themes.domain.repository
 
-interface ThemesInteractor {
-    suspend fun loadTheme(themeId: String)
+import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
+
+internal interface ThemeRepository {
+
+    suspend fun loadThemes(query: String): List<ThemeModel>
+
+    suspend fun removeTheme(themeModel: ThemeModel)
+    suspend fun selectTheme(themeModel: ThemeModel)
 }

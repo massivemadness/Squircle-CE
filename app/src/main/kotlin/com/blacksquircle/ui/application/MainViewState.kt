@@ -18,8 +18,11 @@ package com.blacksquircle.ui.application
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
+import com.blacksquircle.ui.core.theme.Theme
 
 @Immutable
 internal data class MainViewState(
+    val isLoading: Boolean,
+    val appTheme: Theme,
     val fullscreenMode: Boolean,
 ) : ViewState

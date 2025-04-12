@@ -14,8 +14,19 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.domain.interactor
+package com.blacksquircle.ui.application
 
-interface LanguageInteractor {
-    suspend fun loadGrammars()
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.dialog
+import com.blacksquircle.ui.application.update.UpdateScreen
+import kotlinx.serialization.Serializable
+
+@Serializable
+data object UpdateDialog
+
+fun NavGraphBuilder.mainGraph(navController: NavHostController) {
+    dialog<UpdateDialog> {
+        UpdateScreen(navController)
+    }
 }

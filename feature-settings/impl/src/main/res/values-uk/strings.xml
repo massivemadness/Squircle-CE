@@ -22,7 +22,6 @@
     <string name="message_preset_disclaimer">Ви можете повторювати символи декілька разів</string>
     <string name="theme_light">Світла</string>
     <string name="theme_dark">Темна</string>
-    <string name="theme_auto">Авто</string>
     <string name="sort_by_name">Сортувати за назвою</string>
     <string name="sort_by_size">Сортувати за розміром</string>
     <string name="sort_by_date">Сортувати за датою</string>

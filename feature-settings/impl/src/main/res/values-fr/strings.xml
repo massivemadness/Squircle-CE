@@ -28,7 +28,6 @@
 
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
-    <string name="theme_auto">Auto</string>
 
     <string name="sort_by_name">Trier par Nom</string>
     <string name="sort_by_size">Trier par Taille</string>

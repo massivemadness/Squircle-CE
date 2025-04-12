@@ -16,8 +16,8 @@
 
 package com.blacksquircle.ui.feature.themes.api.internal
 
-import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
+import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
 
 interface ThemesApiDepsProvider {
-    fun provideThemesInteractor(): ThemesInteractor
+    fun provideThemeInteractor(): ThemeInteractor
 }

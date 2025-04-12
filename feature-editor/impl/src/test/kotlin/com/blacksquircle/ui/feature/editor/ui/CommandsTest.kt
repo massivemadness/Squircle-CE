@@ -21,14 +21,12 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
-import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.editor.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.editor.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorCommand
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
-import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.every
@@ -55,10 +53,8 @@ class CommandsTest {
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val documentRepository = mockk<DocumentRepository>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
-    private val themesInteractor = mockk<ThemesInteractor>(relaxed = true)
     private val fontsInteractor = mockk<FontsInteractor>(relaxed = true)
     private val shortcutsInteractor = mockk<ShortcutsInteractor>(relaxed = true)
-    private val languageInteractor = mockk<LanguageInteractor>(relaxed = true)
 
     @Before
     fun setup() {
@@ -198,10 +194,8 @@ class CommandsTest {
             settingsManager = settingsManager,
             documentRepository = documentRepository,
             editorInteractor = editorInteractor,
-            themesInteractor = themesInteractor,
             fontsInteractor = fontsInteractor,
             shortcutsInteractor = shortcutsInteractor,
-            languageInteractor = languageInteractor,
         )
     }
 }

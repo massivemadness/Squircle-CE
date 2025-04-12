@@ -19,10 +19,10 @@ package com.blacksquircle.ui.feature.themes.internal
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
-import com.blacksquircle.ui.feature.themes.data.interactor.ThemesInteractorImpl
-import com.blacksquircle.ui.feature.themes.data.repository.ThemesRepositoryImpl
-import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
+import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
+import com.blacksquircle.ui.feature.themes.data.interactor.ThemeInteractorImpl
+import com.blacksquircle.ui.feature.themes.data.repository.ThemeRepositoryImpl
+import com.blacksquircle.ui.feature.themes.domain.repository.ThemeRepository
 import dagger.Module
 import dagger.Provides
 
@@ -31,11 +31,11 @@ internal object ThemesModule {
 
     @Provides
     @ThemesScope
-    fun provideThemesInteractor(
+    fun provideThemeInteractor(
         dispatcherProvider: DispatcherProvider,
         context: Context,
-    ): ThemesInteractor {
-        return ThemesInteractorImpl(
+    ): ThemeInteractor {
+        return ThemeInteractorImpl(
             dispatcherProvider = dispatcherProvider,
             context = context,
         )
@@ -43,14 +43,14 @@ internal object ThemesModule {
 
     @Provides
     @ThemesScope
-    fun provideThemesRepository(
+    fun provideThemeRepository(
         dispatcherProvider: DispatcherProvider,
-        themesInteractor: ThemesInteractor,
+        themeInteractor: ThemeInteractor,
         settingsManager: SettingsManager,
-    ): ThemesRepository {
-        return ThemesRepositoryImpl(
+    ): ThemeRepository {
+        return ThemeRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
-            themesInteractor = themesInteractor,
+            themeInteractor = themeInteractor,
             settingsManager = settingsManager,
         )
     }

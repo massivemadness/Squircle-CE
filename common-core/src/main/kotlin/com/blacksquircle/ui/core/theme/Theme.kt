@@ -18,8 +18,7 @@ package com.blacksquircle.ui.core.theme
 
 enum class Theme(val value: String) {
     LIGHT("light"),
-    DARK("dark"),
-    SYSTEM_DEFAULT("system_default");
+    DARK("dark");
 
     companion object {
 

@@ -24,6 +24,6 @@
         <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
 
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar" />
+    <style name="AppTheme" parent="android:Theme.Material.NoActionBar" />
 
 </resources>

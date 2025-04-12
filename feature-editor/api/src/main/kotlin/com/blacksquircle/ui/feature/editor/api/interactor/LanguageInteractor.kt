@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils
+package com.blacksquircle.ui.feature.editor.api.interactor
 
-import android.app.Activity
-
-internal interface InAppUpdate {
-    fun checkForUpdates(activity: Activity, onUpdateAvailable: () -> Unit)
-    fun installUpdate(activity: Activity)
+interface LanguageInteractor {
+    suspend fun loadGrammars()
 }

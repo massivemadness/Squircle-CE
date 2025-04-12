@@ -20,7 +20,7 @@ import android.content.Context
 import com.blacksquircle.ui.core.contract.FileType
 import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
+import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
 import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry
 import kotlinx.coroutines.withContext
@@ -28,10 +28,10 @@ import org.eclipse.tm4e.core.registry.IThemeSource
 import timber.log.Timber
 import java.io.File
 
-internal class ThemesInteractorImpl(
+internal class ThemeInteractorImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val context: Context
-) : ThemesInteractor {
+) : ThemeInteractor {
 
     private val themesDir: File
         get() = Directories.themesDir(context)

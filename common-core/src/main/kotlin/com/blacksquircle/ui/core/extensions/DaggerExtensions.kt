@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.core.extensions
 
 import android.content.Context
-import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.HasDefaultViewModelProviderFactory
@@ -27,31 +26,6 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-
-inline fun <reified VM : ViewModel> ComponentActivity.viewModels(
-    crossinline viewModelProducer: () -> VM,
-): Lazy<VM> {
-    return viewModels(
-        storeProducer = { this },
-        viewModelProducer = viewModelProducer,
-    )
-}
-
-inline fun <reified VM : ViewModel> viewModels(
-    crossinline storeProducer: () -> ViewModelStoreOwner,
-    crossinline viewModelProducer: () -> VM
-): Lazy<VM> {
-    return lazy(LazyThreadSafetyMode.NONE) {
-        val viewModelFactory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <VM : ViewModel> create(modelClass: Class<VM>): VM {
-                return viewModelProducer() as VM
-            }
-        }
-        val viewModelProvider = ViewModelProvider(storeProducer(), viewModelFactory)
-        viewModelProvider[VM::class.java]
-    }
-}
 
 @Composable
 inline fun <reified VM : ViewModel> daggerViewModel(

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Squircle CE contributors.
+ * Copyright 2025 Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.internal.di
+package com.blacksquircle.ui.application.update
 
-import android.content.Context
-import com.blacksquircle.ui.utils.InAppUpdate
-import com.blacksquircle.ui.utils.InAppUpdateImpl
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import androidx.activity.compose.LocalActivity
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import com.blacksquircle.ui.internal.inappupdate.InAppUpdate
+import com.blacksquircle.ui.internal.inappupdate.InAppUpdateImpl
 
-@Module
-internal object InAppUpdateModule {
-
-    @Provides
-    @Singleton
-    fun provideInAppUpdate(context: Context): InAppUpdate {
-        return InAppUpdateImpl(context)
-    }
+@Composable
+internal fun rememberInAppUpdate(): InAppUpdate {
+    val activity = LocalActivity.current
+        ?: error("CompositionLocal LocalActivity not present")
+    return remember { InAppUpdateImpl(activity) }
 }

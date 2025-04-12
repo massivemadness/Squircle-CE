@@ -33,16 +33,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.core.theme.Theme
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -53,26 +47,6 @@ import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.ds.modifier.debounceClickable
 import com.blacksquircle.ui.ds.radio.Radio
 import com.blacksquircle.ui.feature.settings.R
-
-private val LeftHalfShape = object : Shape {
-    override fun createOutline(
-        size: Size,
-        layoutDirection: LayoutDirection,
-        density: Density
-    ): Outline {
-        return Outline.Rectangle(Rect(0f, 0f, size.width / 2, size.height))
-    }
-}
-
-private val RightHalfShape = object : Shape {
-    override fun createOutline(
-        size: Size,
-        layoutDirection: LayoutDirection,
-        density: Density
-    ): Outline {
-        return Outline.Rectangle(Rect(size.width / 2, 0f, size.width, size.height))
-    }
-}
 
 @Composable
 internal fun ThemePreference(
@@ -95,11 +69,6 @@ internal fun ThemePreference(
             title = stringResource(R.string.theme_light),
             checked = selectedTheme == Theme.LIGHT,
             onClick = { onThemeSelected(Theme.LIGHT) }
-        )
-        SystemTheme(
-            title = stringResource(R.string.theme_auto),
-            checked = selectedTheme == Theme.SYSTEM_DEFAULT,
-            onClick = { onThemeSelected(Theme.SYSTEM_DEFAULT) }
         )
     }
 }
@@ -151,44 +120,6 @@ private fun LightTheme(
                 colorTop = SquircleTheme.colors.colorBackgroundTertiary,
                 colorMiddle = SquircleTheme.colors.colorTextAndIconDisabled,
                 colorBottom = SquircleTheme.colors.colorBackgroundTertiary,
-            )
-        }
-        if (title.isNotEmpty()) {
-            Spacer(Modifier.height(12.dp))
-            Radio(
-                title = title,
-                checked = checked,
-                onClick = onClick,
-            )
-        }
-    }
-}
-
-@Composable
-private fun SystemTheme(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
-    title: String = "",
-    checked: Boolean = false,
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.mergeSemantics(),
-    ) {
-        Box {
-            LightTheme(
-                onClick = onClick,
-                modifier = Modifier.graphicsLayer {
-                    shape = LeftHalfShape
-                    clip = true
-                }
-            )
-            DarkTheme(
-                onClick = onClick,
-                modifier = Modifier.graphicsLayer {
-                    shape = RightHalfShape
-                    clip = true
-                }
             )
         }
         if (title.isNotEmpty()) {

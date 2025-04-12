@@ -35,7 +35,6 @@ import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.InsertColorDialog
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
-import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
@@ -51,7 +50,6 @@ import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
-import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -74,10 +72,8 @@ internal class EditorViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
     private val documentRepository: DocumentRepository,
     private val editorInteractor: EditorInteractor,
-    private val themesInteractor: ThemesInteractor,
     private val fontsInteractor: FontsInteractor,
     private val shortcutsInteractor: ShortcutsInteractor,
-    private val languageInteractor: LanguageInteractor,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(EditorViewState())
@@ -1063,9 +1059,6 @@ internal class EditorViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 settings = loadSettings()
-
-                themesInteractor.loadTheme(settings.theme)
-                languageInteractor.loadGrammars()
 
                 val documentList = documentRepository.loadDocuments()
 

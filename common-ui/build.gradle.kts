@@ -31,7 +31,6 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.tooling.preview)
