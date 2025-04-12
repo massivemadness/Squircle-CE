@@ -20,37 +20,37 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class ThemeBody(
+internal data class ExternalTheme(
     @SerialName("type")
-    val type: String?,
+    val type: String? = null,
     @SerialName("colors")
-    val colors: ThemeColors?,
+    val colors: ExternalColors? = null,
 )
 
 @Serializable
-internal data class ThemeColors(
+internal data class ExternalColors(
     @SerialName("global.colorPrimary")
-    val colorPrimary: String?,
+    val colorPrimary: String? = null,
     @SerialName("global.colorOutline")
-    val colorOutline: String?,
+    val colorOutline: String? = null,
     @SerialName("global.colorSuccess")
-    val colorSuccess: String?,
+    val colorSuccess: String? = null,
     @SerialName("global.colorError")
-    val colorError: String?,
+    val colorError: String? = null,
     @SerialName("global.colorBackgroundPrimary")
-    val colorBackgroundPrimary: String?,
+    val colorBackgroundPrimary: String? = null,
     @SerialName("global.colorBackgroundSecondary")
-    val colorBackgroundSecondary: String?,
+    val colorBackgroundSecondary: String? = null,
     @SerialName("global.colorBackgroundTertiary")
-    val colorBackgroundTertiary: String?,
+    val colorBackgroundTertiary: String? = null,
     @SerialName("global.colorTextAndIconPrimary")
-    val colorTextAndIconPrimary: String?,
+    val colorTextAndIconPrimary: String? = null,
     @SerialName("global.colorTextAndIconPrimaryInverse")
-    val colorTextAndIconPrimaryInverse: String?,
+    val colorTextAndIconPrimaryInverse: String? = null,
     @SerialName("global.colorTextAndIconSecondary")
-    val colorTextAndIconSecondary: String?,
+    val colorTextAndIconSecondary: String? = null,
     @SerialName("global.colorTextAndIconDisabled")
-    val colorTextAndIconDisabled: String?,
+    val colorTextAndIconDisabled: String? = null,
     @SerialName("global.colorTextAndIconAdditional")
-    val colorTextAndIconAdditional: String?,
+    val colorTextAndIconAdditional: String? = null,
 )

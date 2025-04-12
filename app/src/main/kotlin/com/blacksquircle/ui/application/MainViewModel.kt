@@ -80,7 +80,7 @@ internal class MainViewModel @Inject constructor(
         try {
             val appTheme = themeInteractor.loadTheme(settingsManager.editorTheme)
             _viewState.update {
-                it.copy(appTheme = appTheme)
+                it.copy(colorScheme = appTheme)
             }
         } catch (e: Exception) {
             Timber.e(e, e.message)
@@ -130,7 +130,7 @@ internal class MainViewModel @Inject constructor(
     private fun initialViewState(): MainViewState {
         return MainViewState(
             isLoading = true,
-            appTheme = null,
+            colorScheme = null,
             fullscreenMode = settingsManager.fullScreenMode,
         )
     }

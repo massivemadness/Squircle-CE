@@ -32,21 +32,21 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.feature.themes.domain.model.ColorScheme
-import com.blacksquircle.ui.feature.themes.domain.model.EditorTheme
+import com.blacksquircle.ui.feature.themes.data.model.EditorTheme
+import com.blacksquircle.ui.feature.themes.domain.model.ColorModel
 
 @Composable
 internal fun CodeView(
-    colorScheme: ColorScheme,
+    colors: ColorModel,
     textStyle: TextStyle,
     modifier: Modifier = Modifier
 ) {
-    val annotatedString = remember(colorScheme) {
-        parseStyledText(JAVASCRIPT_SAMPLE, colorScheme)
+    val annotatedString = remember(colors) {
+        parseStyledText(JAVASCRIPT_SAMPLE, colors)
     }
     Text(
         text = annotatedString,
-        color = Color(colorScheme.textColor),
+        color = Color(colors.textColor),
         style = textStyle,
         modifier = modifier
     )
@@ -57,7 +57,7 @@ internal fun CodeView(
 private fun CodeViewPreview() {
     PreviewBackground {
         CodeView(
-            colorScheme = EditorTheme.DARCULA,
+            colors = EditorTheme.DARCULA,
             textStyle = TextStyle(
                 fontFamily = FontFamily(Typeface.MONOSPACE),
                 fontWeight = FontWeight.Normal,
@@ -91,7 +91,7 @@ private val JAVASCRIPT_SAMPLE = """
 """.trimIndent()
 
 @Suppress("SameParameterValue")
-private fun parseStyledText(input: String, colorScheme: ColorScheme): AnnotatedString {
+private fun parseStyledText(input: String, colors: ColorModel): AnnotatedString {
     return buildAnnotatedString {
         val regex = "<(\\w+)>(.*?)</\\1>".toRegex()
         var lastIndex = 0
@@ -106,13 +106,13 @@ private fun parseStyledText(input: String, colorScheme: ColorScheme): AnnotatedS
 
             withStyle(
                 style = when (tag) {
-                    "keyword" -> SpanStyle(color = Color(colorScheme.keywordColor))
-                    "function" -> SpanStyle(color = Color(colorScheme.methodColor))
-                    "operator" -> SpanStyle(color = Color(colorScheme.operatorColor))
-                    "number" -> SpanStyle(color = Color(colorScheme.numberColor))
-                    "variable" -> SpanStyle(color = Color(colorScheme.variableColor))
-                    "string" -> SpanStyle(color = Color(colorScheme.stringColor))
-                    "comment" -> SpanStyle(color = Color(colorScheme.commentColor))
+                    "keyword" -> SpanStyle(color = Color(colors.keywordColor))
+                    "function" -> SpanStyle(color = Color(colors.functionColor))
+                    "operator" -> SpanStyle(color = Color(colors.operatorColor))
+                    "number" -> SpanStyle(color = Color(colors.numberColor))
+                    "variable" -> SpanStyle(color = Color(colors.variableColor))
+                    "string" -> SpanStyle(color = Color(colors.stringColor))
+                    "comment" -> SpanStyle(color = Color(colors.commentColor))
                     else -> SpanStyle()
                 }
             ) {

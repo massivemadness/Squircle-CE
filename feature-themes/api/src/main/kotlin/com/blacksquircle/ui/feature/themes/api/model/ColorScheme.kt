@@ -16,8 +16,8 @@
 
 package com.blacksquircle.ui.feature.themes.api.model
 
-data class AppTheme(
-    val type: Theme,
+data class ColorScheme(
+    val type: ThemeType,
     val colorPrimary: Int?,
     val colorOutline: Int?,
     val colorSuccess: Int?,

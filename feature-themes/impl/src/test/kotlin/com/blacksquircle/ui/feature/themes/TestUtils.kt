@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.themes
 
-import com.blacksquircle.ui.feature.themes.domain.model.ColorScheme
+import com.blacksquircle.ui.feature.themes.domain.model.ColorModel
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 private const val STUB_COLOR_INT = 0x000000
@@ -31,34 +31,16 @@ internal fun createThemeModel(
         uuid = uuid,
         name = name,
         author = author,
-        colorScheme = ColorScheme(
+        colors = ColorModel(
             textColor = STUB_COLOR_INT,
-            cursorColor = STUB_COLOR_INT,
             backgroundColor = STUB_COLOR_INT,
-            gutterColor = STUB_COLOR_INT,
-            gutterDividerColor = STUB_COLOR_INT,
-            gutterCurrentLineNumberColor = STUB_COLOR_INT,
-            gutterTextColor = STUB_COLOR_INT,
-            selectedLineColor = STUB_COLOR_INT,
-            selectionColor = STUB_COLOR_INT,
-            suggestionQueryColor = STUB_COLOR_INT,
-            findResultBackgroundColor = STUB_COLOR_INT,
-            delimiterBackgroundColor = STUB_COLOR_INT,
             numberColor = STUB_COLOR_INT,
             operatorColor = STUB_COLOR_INT,
             keywordColor = STUB_COLOR_INT,
-            typeColor = STUB_COLOR_INT,
-            langConstColor = STUB_COLOR_INT,
-            preprocessorColor = STUB_COLOR_INT,
             variableColor = STUB_COLOR_INT,
-            methodColor = STUB_COLOR_INT,
+            functionColor = STUB_COLOR_INT,
             stringColor = STUB_COLOR_INT,
             commentColor = STUB_COLOR_INT,
-            tagColor = STUB_COLOR_INT,
-            tagNameColor = STUB_COLOR_INT,
-            attrNameColor = STUB_COLOR_INT,
-            attrValueColor = STUB_COLOR_INT,
-            entityRefColor = STUB_COLOR_INT,
         ),
         isExternal = isExternal,
     )

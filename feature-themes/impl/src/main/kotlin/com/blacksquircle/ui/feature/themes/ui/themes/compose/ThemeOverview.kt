@@ -29,8 +29,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,7 +48,7 @@ import com.blacksquircle.ui.ds.button.OutlinedButton
 import com.blacksquircle.ui.ds.extensions.isColorDark
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.feature.themes.R
-import com.blacksquircle.ui.feature.themes.domain.model.EditorTheme
+import com.blacksquircle.ui.feature.themes.data.model.EditorTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -64,7 +62,7 @@ internal fun ThemeOverview(
     modifier: Modifier = Modifier
 ) {
     val shape = RoundedCornerShape(6.dp)
-    val backgroundColor = themeModel.colorScheme.backgroundColor
+    val backgroundColor = themeModel.colors.backgroundColor
     val isDarkTheme = backgroundColor.isColorDark()
 
     SquircleTheme(darkTheme = isDarkTheme) {
@@ -102,7 +100,7 @@ internal fun ThemeOverview(
             }
 
             CodeView(
-                colorScheme = themeModel.colorScheme,
+                colors = themeModel.colors,
                 textStyle = TextStyle(
                     fontFamily = FontFamily(typeface),
                     fontWeight = FontWeight.Normal,
@@ -161,7 +159,7 @@ private fun ThemeOverviewPreview() {
                 uuid = "1",
                 name = "Darcula",
                 author = "Squircle CE",
-                colorScheme = EditorTheme.DARCULA,
+                colors = EditorTheme.DARCULA,
                 isExternal = true,
             ),
             isSelected = false,

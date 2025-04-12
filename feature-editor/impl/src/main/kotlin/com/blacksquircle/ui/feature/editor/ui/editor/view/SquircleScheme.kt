@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.editor.ui.editor.view
 
 import android.graphics.Color
-import com.blacksquircle.ui.feature.themes.api.model.Theme
+import com.blacksquircle.ui.feature.themes.api.model.ThemeType
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry.ThemeChangeListener
 import io.github.rosemoe.sora.langs.textmate.registry.model.ThemeModel
@@ -152,7 +152,7 @@ internal class SquircleScheme private constructor(
     override fun isDark(): Boolean {
         val rawTheme = rawTheme as? RawTheme ?: return false
         val rawType = rawTheme["type"] as String? ?: return false
-        return rawType == Theme.DARK.value
+        return rawType == ThemeType.DARK.value
     }
 
     override fun getColor(type: Int): Int {

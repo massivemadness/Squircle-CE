@@ -21,10 +21,10 @@ import com.blacksquircle.ui.core.contract.FileType
 import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
-import com.blacksquircle.ui.feature.themes.api.model.AppTheme
+import com.blacksquircle.ui.feature.themes.api.model.ColorScheme
 import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper
 import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
-import com.blacksquircle.ui.feature.themes.data.model.ThemeBody
+import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
 import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -43,7 +43,7 @@ internal class ThemeInteractorImpl(
     private val themesDir: File
         get() = Directories.themesDir(context)
 
-    override suspend fun loadTheme(themeId: String): AppTheme {
+    override suspend fun loadTheme(themeId: String): ColorScheme {
         return withContext(dispatcherProvider.io()) {
             val themeRegistry = ThemeRegistry.getInstance()
 
@@ -58,9 +58,9 @@ internal class ThemeInteractorImpl(
                 )
                 themeRegistry.loadTheme(themeSource, true)
 
-                val themeBody = jsonParser
-                    .decodeFromStream<ThemeBody>(context.assets.open(relativePath))
-                return@withContext ThemeMapper.toModel(themeBody)
+                val externalTheme = jsonParser
+                    .decodeFromStream<ExternalTheme>(context.assets.open(relativePath))
+                return@withContext ThemeMapper.toColorScheme(externalTheme)
             }
 
             /** Couldn't find in assets, look in [themesDir] */
@@ -69,9 +69,9 @@ internal class ThemeInteractorImpl(
                 val themeSource = IThemeSource.fromFile(themeFile)
                 themeRegistry.loadTheme(themeSource, true)
 
-                val themeBody = jsonParser
-                    .decodeFromStream<ThemeBody>(themeFile.inputStream())
-                return@withContext ThemeMapper.toModel(themeBody)
+                val externalTheme = jsonParser
+                    .decodeFromStream<ExternalTheme>(themeFile.inputStream())
+                return@withContext ThemeMapper.toColorScheme(externalTheme)
             }
 
             throw IllegalStateException("Theme $themeId not found")

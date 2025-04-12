@@ -26,7 +26,7 @@ import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_THEME_TY
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
-import com.blacksquircle.ui.feature.themes.api.model.Theme
+import com.blacksquircle.ui.feature.themes.api.model.ThemeType
 import com.blacksquircle.ui.internal.provider.theme.ThemeManager
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
@@ -68,7 +68,7 @@ class MainViewModelTest {
     @Test
     fun `When screen opens Then load settings`() = runTest {
         // Given
-        every { settingsManager.themeType } returns Theme.DARK.value
+        every { settingsManager.themeType } returns ThemeType.DARK.value
         every { settingsManager.fullScreenMode } returns true
 
         coEvery { themeInteractor.loadTheme(any()) } coAnswers { delay(200) }
@@ -80,7 +80,7 @@ class MainViewModelTest {
         // Then
         val viewState = MainViewState(
             isLoading = true,
-            theme = Theme.DARK,
+            theme = ThemeType.DARK,
             fullscreenMode = true,
         )
         assertEquals(viewState, viewModel.viewState.value)

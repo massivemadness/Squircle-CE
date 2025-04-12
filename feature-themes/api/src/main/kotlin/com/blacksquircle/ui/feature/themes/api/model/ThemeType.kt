@@ -16,13 +16,13 @@
 
 package com.blacksquircle.ui.feature.themes.api.model
 
-enum class Theme(val value: String) {
+enum class ThemeType(val value: String) {
     LIGHT("light"),
     DARK("dark");
 
     companion object {
 
-        fun of(value: String): Theme {
+        fun of(value: String): ThemeType {
             return entries.find { it.value == value } ?: DARK
         }
     }

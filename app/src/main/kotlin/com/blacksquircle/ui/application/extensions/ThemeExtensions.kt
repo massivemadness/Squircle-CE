@@ -16,46 +16,45 @@
 
 package com.blacksquircle.ui.application.extensions
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 import com.blacksquircle.ui.ds.Colors
-import com.blacksquircle.ui.feature.themes.api.model.AppTheme
-import com.blacksquircle.ui.feature.themes.api.model.Theme
+import com.blacksquircle.ui.feature.themes.api.model.ColorScheme
+import com.blacksquircle.ui.feature.themes.api.model.ThemeType
 
 @Composable
 @ReadOnlyComposable
-internal fun parseColors(appTheme: AppTheme?): Colors {
-    val isDarkTheme = isSystemInDarkTheme()
-    val parentTheme = if (isDarkTheme) Colors.darkColors() else Colors.lightColors()
-    if (appTheme == null) {
-        return parentTheme
+internal fun toComposeColors(colorScheme: ColorScheme?): Colors {
+    val defaultTheme = when (colorScheme?.type) {
+        ThemeType.LIGHT -> Colors.lightColors()
+        ThemeType.DARK -> Colors.darkColors()
+        else -> Colors.darkColors()
+    }
+    if (colorScheme == null) {
+        return defaultTheme
     }
     return Colors.dynamicColors(
-        colorPrimary = appTheme.colorPrimary?.let(::Color) ?: parentTheme.colorPrimary,
-        colorOutline = appTheme.colorOutline?.let(::Color) ?: parentTheme.colorOutline,
-        colorSuccess = appTheme.colorSuccess?.let(::Color) ?: parentTheme.colorSuccess,
-        colorError = appTheme.colorError?.let(::Color) ?: parentTheme.colorError,
-        colorBackgroundPrimary = appTheme.colorBackgroundPrimary?.let(::Color)
-            ?: parentTheme.colorBackgroundPrimary,
-        colorBackgroundSecondary = appTheme.colorBackgroundSecondary?.let(::Color)
-            ?: parentTheme.colorBackgroundSecondary,
-        colorBackgroundTertiary = appTheme.colorBackgroundTertiary?.let(::Color)
-            ?: parentTheme.colorBackgroundTertiary,
-        colorTextAndIconPrimary = appTheme.colorTextAndIconPrimary?.let(::Color)
-            ?: parentTheme.colorTextAndIconPrimary,
-        colorTextAndIconPrimaryInverse = appTheme.colorTextAndIconPrimaryInverse?.let(::Color)
-            ?: parentTheme.colorTextAndIconPrimaryInverse,
-        colorTextAndIconSecondary = appTheme.colorTextAndIconSecondary?.let(::Color)
-            ?: parentTheme.colorTextAndIconSecondary,
-        colorTextAndIconDisabled = appTheme.colorTextAndIconDisabled?.let(::Color)
-            ?: parentTheme.colorTextAndIconDisabled,
-        colorTextAndIconAdditional = appTheme.colorTextAndIconAdditional?.let(::Color)
-            ?: parentTheme.colorTextAndIconAdditional,
-        isDark = when (appTheme.type) {
-            Theme.LIGHT -> false
-            Theme.DARK -> true
-        }
+        colorPrimary = colorScheme.colorPrimary?.let(::Color) ?: defaultTheme.colorPrimary,
+        colorOutline = colorScheme.colorOutline?.let(::Color) ?: defaultTheme.colorOutline,
+        colorSuccess = colorScheme.colorSuccess?.let(::Color) ?: defaultTheme.colorSuccess,
+        colorError = colorScheme.colorError?.let(::Color) ?: defaultTheme.colorError,
+        colorBackgroundPrimary = colorScheme.colorBackgroundPrimary?.let(::Color)
+            ?: defaultTheme.colorBackgroundPrimary,
+        colorBackgroundSecondary = colorScheme.colorBackgroundSecondary?.let(::Color)
+            ?: defaultTheme.colorBackgroundSecondary,
+        colorBackgroundTertiary = colorScheme.colorBackgroundTertiary?.let(::Color)
+            ?: defaultTheme.colorBackgroundTertiary,
+        colorTextAndIconPrimary = colorScheme.colorTextAndIconPrimary?.let(::Color)
+            ?: defaultTheme.colorTextAndIconPrimary,
+        colorTextAndIconPrimaryInverse = colorScheme.colorTextAndIconPrimaryInverse?.let(::Color)
+            ?: defaultTheme.colorTextAndIconPrimaryInverse,
+        colorTextAndIconSecondary = colorScheme.colorTextAndIconSecondary?.let(::Color)
+            ?: defaultTheme.colorTextAndIconSecondary,
+        colorTextAndIconDisabled = colorScheme.colorTextAndIconDisabled?.let(::Color)
+            ?: defaultTheme.colorTextAndIconDisabled,
+        colorTextAndIconAdditional = colorScheme.colorTextAndIconAdditional?.let(::Color)
+            ?: defaultTheme.colorTextAndIconAdditional,
+        isDark = colorScheme.type == ThemeType.DARK,
     )
 }

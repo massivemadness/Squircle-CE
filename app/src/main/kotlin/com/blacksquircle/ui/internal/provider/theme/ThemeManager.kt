@@ -19,15 +19,15 @@ package com.blacksquircle.ui.internal.provider.theme
 import android.app.UiModeManager
 import android.content.Context
 import android.os.Build
-import com.blacksquircle.ui.feature.themes.api.model.Theme
+import com.blacksquircle.ui.feature.themes.api.model.ThemeType
 
 internal class ThemeManager(private val context: Context) {
 
-    fun apply(theme: Theme) {
+    fun apply(type: ThemeType) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val mode = when (theme) {
-                Theme.LIGHT -> UiModeManager.MODE_NIGHT_NO
-                Theme.DARK -> UiModeManager.MODE_NIGHT_YES
+            val mode = when (type) {
+                ThemeType.LIGHT -> UiModeManager.MODE_NIGHT_NO
+                ThemeType.DARK -> UiModeManager.MODE_NIGHT_YES
             }
             val uiModeManager = context.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
             uiModeManager.setApplicationNightMode(mode)

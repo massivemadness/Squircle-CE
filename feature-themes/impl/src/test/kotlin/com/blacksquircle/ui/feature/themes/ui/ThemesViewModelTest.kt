@@ -121,7 +121,7 @@ class ThemesViewModelTest {
                 name = "Darcula",
                 author = "Squircle CE",
                 isExternal = true,
-                colorScheme = mockk()
+                colors = mockk()
             ),
         )
         coEvery { themeRepository.loadThemes("") } returns themeList
@@ -148,14 +148,14 @@ class ThemesViewModelTest {
                 name = "Darcula",
                 author = "Squircle CE",
                 isExternal = true,
-                colorScheme = mockk()
+                colors = mockk()
             ),
             ThemeModel(
                 uuid = "2",
                 name = "Eclipse",
                 author = "Squircle CE",
                 isExternal = true,
-                colorScheme = mockk()
+                colors = mockk()
             ),
         )
         coEvery { themeRepository.loadThemes("") } returns themeList
@@ -200,7 +200,7 @@ class ThemesViewModelTest {
             uuid = "1",
             name = "Darcula",
             author = "Squircle CE",
-            colorScheme = mockk(),
+            colors = mockk(),
             isExternal = true,
         )
         val viewModel = createViewModel()
@@ -221,7 +221,7 @@ class ThemesViewModelTest {
             uuid = "1",
             name = "Darcula",
             author = "Squircle CE",
-            colorScheme = mockk(),
+            colors = mockk(),
             isExternal = true,
         )
         coEvery { themeRepository.loadThemes(any()) } returns listOf(themeModel)
