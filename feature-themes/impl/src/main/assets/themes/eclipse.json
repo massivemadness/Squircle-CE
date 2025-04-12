@@ -3,37 +3,37 @@
   "author": "Squircle CE",
   "type": "light",
   "colors": {
-    "global.colorPrimary": "#3E73B9",
+    "global.colorPrimary": "#980167",
     "global.colorOutline": "#E0E0E0",
     "global.colorSuccess": "#008860",
-    "global.colorError": "#CD0000",
+    "global.colorError": "#B6011E",
     "global.colorBackgroundPrimary": "#FFFFFF",
     "global.colorBackgroundSecondary": "#FFFFFF",
-    "global.colorBackgroundTertiary": "#F0F1F4",
+    "global.colorBackgroundTertiary": "#F3F3F3",
     "global.colorTextAndIconPrimary": "#000000",
     "global.colorTextAndIconPrimaryInverse": "#FFFFFF",
     "global.colorTextAndIconSecondary": "#7F8290",
     "global.colorTextAndIconDisabled": "#A9ADBC",
-    "global.colorTextAndIconAdditional": "#8CCEF7",
+    "global.colorTextAndIconAdditional": "#FFAE49",
     "editor.background": "#FFFFFF",
     "editor.foreground": "#000000",
     "editor.whitespace": "#ADADAD",
     "editor.cursor": "#000000",
-    "editor.handle": "#3E73B9",
+    "editor.handle": "#980167",
     "editor.selection.background": "#AFD1FB",
     "editor.currentLine.background": "#E8F2FE",
-    "editor.highlightedDelimiters.background": "#7BBCFE",
+    "editor.highlightedDelimiters.background": "#B5D5FB",
     "editor.highlightedDelimiters.foreground": "#000000",
     "editor.matchHighlight.background": "#E2FEDE",
-    "editor.lineNumber.divider": "#D4D4D4",
+    "editor.lineNumber.divider": "#E0E0E0",
     "editor.lineNumber.background": "#FFFFFF",
     "editor.lineNumber.foreground": "#ADADAD",
     "editor.lineNumber.activeForeground": "#828282",
-    "editor.indentGuide.background": "#D4D4D4",
+    "editor.indentGuide.background": "#E0E0E0",
     "editor.indentGuide.activeBackground": "#828282",
-    "editor.popupWindow.corner": "#D4D4D4",
+    "editor.popupWindow.corner": "#E0E0E0",
     "editor.popupWindow.background": "#FFFFFF",
-    "editor.popupWindow.activeBackground": "#F0F1F4"
+    "editor.popupWindow.activeBackground": "#F3F3F3"
   },
   "tokenColors": [
     {
@@ -60,7 +60,7 @@
       "name": "Strings",
       "scope": "string",
       "settings": {
-        "foreground": "#2602F5"
+        "foreground": "#290DE8"
       }
     },
     {
@@ -81,7 +81,7 @@
       "name": "Number",
       "scope": "constant.numeric",
       "settings": {
-        "foreground": "#0000F5"
+        "foreground": "#290DE8"
       }
     },
     {
@@ -159,7 +159,7 @@
       "scope": "markup.underline.link",
       "settings": {
         "fontStyle": "underline",
-        "foreground": "#2602F5"
+        "foreground": "#290DE8"
       }
     },
     {
@@ -180,7 +180,7 @@
       "name": "Tag value",
       "scope": "support.constant.property-value,string.quoted.single.tag,string.quoted.double.tag,string.unquoted.tag",
       "settings": {
-        "foreground": "#2602F5"
+        "foreground": "#290DE8"
       }
     },
     {
