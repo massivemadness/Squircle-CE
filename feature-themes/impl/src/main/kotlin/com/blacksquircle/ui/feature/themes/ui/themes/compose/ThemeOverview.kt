@@ -63,9 +63,11 @@ internal fun ThemeOverview(
 ) {
     val shape = RoundedCornerShape(6.dp)
     val backgroundColor = themeModel.colors.backgroundColor
-    val isDarkTheme = backgroundColor.isColorDark()
 
-    SquircleTheme(darkTheme = isDarkTheme) {
+    SquircleTheme(
+        darkTheme = backgroundColor.isColorDark(),
+        applySystemBars = false,
+    ) {
         Column(
             modifier = modifier
                 .clip(shape)

@@ -16,15 +16,11 @@
 
 package com.blacksquircle.ui.application.extensions
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 import com.blacksquircle.ui.ds.Colors
 import com.blacksquircle.ui.feature.themes.api.model.ColorScheme
 import com.blacksquircle.ui.feature.themes.api.model.ThemeType
 
-@Composable
-@ReadOnlyComposable
 internal fun toComposeColors(colorScheme: ColorScheme?): Colors {
     val defaultTheme = when (colorScheme?.type) {
         ThemeType.LIGHT -> Colors.lightColors()
