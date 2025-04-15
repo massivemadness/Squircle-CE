@@ -18,6 +18,8 @@ package com.blacksquircle.ui.feature.editor.repository
 
 import android.content.Context
 import com.blacksquircle.ui.core.database.dao.document.DocumentDao
+import com.blacksquircle.ui.core.extensions.PermissionException
+import com.blacksquircle.ui.core.extensions.isStorageAccessGranted
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.createDocument
 import com.blacksquircle.ui.feature.editor.createDocumentEntity
@@ -34,6 +36,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.verify
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.test.runTest
@@ -114,6 +117,21 @@ class DocumentRepositoryImplTest {
         )
         verify(exactly = 1) { filesystem.loadFile(fileModel, any()) }
         verify(exactly = 1) { settingsManager.selectedUuid = document.uuid }
+    }
+
+    @Test(expected = PermissionException::class)
+    fun `When loading content without permission Then throw PermissionException`() = runTest {
+        // Given
+        val document = createDocument("12345", "file.txt")
+        every { cacheManager.isCached(document) } returns false
+
+        mockkStatic(Context::isStorageAccessGranted)
+        every { context.isStorageAccessGranted() } returns false
+
+        // When
+        documentRepository.loadDocument(document)
+
+        // Then - throws exception
     }
 
     @Test
