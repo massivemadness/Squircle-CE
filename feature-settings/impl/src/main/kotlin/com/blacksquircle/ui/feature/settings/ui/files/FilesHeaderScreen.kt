@@ -16,11 +16,6 @@
 
 package com.blacksquircle.ui.feature.settings.ui.files
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
-import android.provider.Settings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -37,6 +32,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.openStoragePermissions
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -49,7 +45,6 @@ import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
-import timber.log.Timber
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -82,23 +77,7 @@ internal fun FilesHeaderScreen(
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
-                is FilesHeaderViewEvent.OpenStorageSettings -> {
-                    try {
-                        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
-                                data = Uri.parse("package:${context.packageName}")
-                            }
-                        } else {
-                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                data = Uri.parse("package:${context.packageName}")
-                            }
-                        }
-                        context.startActivity(intent)
-                    } catch (e: ActivityNotFoundException) {
-                        Timber.e(e, e.message)
-                        context.showToast(UiR.string.common_error_occurred)
-                    }
-                }
+                is FilesHeaderViewEvent.OpenStorageSettings -> context.openStoragePermissions()
             }
         }
     }

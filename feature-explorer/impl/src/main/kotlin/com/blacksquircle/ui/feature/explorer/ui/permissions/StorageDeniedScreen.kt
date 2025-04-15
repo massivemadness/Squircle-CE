@@ -16,23 +16,17 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.permissions
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
-import android.provider.Settings
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.navigation.NavController
-import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.extensions.openStoragePermissions
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.explorer.R
-import timber.log.Timber
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -40,21 +34,7 @@ internal fun StorageDeniedScreen(navController: NavController) {
     val context = LocalContext.current
     StorageDeniedScreen(
         onConfirmClicked = {
-            try {
-                val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
-                        data = Uri.parse("package:${context.packageName}")
-                    }
-                } else {
-                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                        data = Uri.parse("package:${context.packageName}")
-                    }
-                }
-                context.startActivity(intent)
-            } catch (e: ActivityNotFoundException) {
-                Timber.e(e, e.message)
-                context.showToast(UiR.string.common_error_occurred)
-            }
+            context.openStoragePermissions()
             navController.popBackStack()
         },
         onCancelClicked = {

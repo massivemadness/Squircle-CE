@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.ui
 
+import com.blacksquircle.ui.core.extensions.PermissionException
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
@@ -29,7 +30,6 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
-import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.clearMocks

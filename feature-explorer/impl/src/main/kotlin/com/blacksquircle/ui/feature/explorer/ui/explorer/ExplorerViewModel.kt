@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.explorer.ui.explorer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.blacksquircle.ui.core.extensions.PermissionException
 import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
@@ -56,7 +57,6 @@ import com.blacksquircle.ui.filesystem.base.exception.EncryptedArchiveException
 import com.blacksquircle.ui.filesystem.base.exception.FileAlreadyExistsException
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.exception.InvalidArchiveException
-import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.exception.SplitArchiveException
 import com.blacksquircle.ui.filesystem.base.exception.UnsupportedArchiveException
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
@@ -647,7 +647,7 @@ internal class ExplorerViewModel @Inject constructor(
                 }
             } catch (e: CancellationException) {
                 throw e
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Timber.e(e, e.message)
 
                 /** Clear list and show error */
@@ -756,7 +756,7 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun errorState(e: Exception): ErrorState {
+    private fun errorState(e: Throwable): ErrorState {
         return when (e) {
             is PermissionException -> ErrorState(
                 icon = UiR.drawable.ic_file_error,
