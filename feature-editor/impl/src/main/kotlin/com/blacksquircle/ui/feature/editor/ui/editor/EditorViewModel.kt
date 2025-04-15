@@ -20,6 +20,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.blacksquircle.ui.core.extensions.PermissionException
 import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.extensions.indexOrNull
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -46,6 +47,7 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.ErrorState
 import com.blacksquircle.ui.feature.editor.ui.editor.model.SearchState
 import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionStart
+import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
@@ -858,6 +860,10 @@ internal class EditorViewModel @Inject constructor(
     fun onErrorActionClicked(errorAction: ErrorAction) {
         viewModelScope.launch {
             when (errorAction) {
+                ErrorAction.REQUEST_PERMISSIONS -> {
+                    val screen = StorageDeniedDialog
+                    _viewEvent.send(ViewEvent.Navigation(screen))
+                }
                 ErrorAction.CLOSE_DOCUMENT -> onCloseFileClicked()
                 ErrorAction.UNDEFINED -> Unit
             }
@@ -1106,12 +1112,20 @@ internal class EditorViewModel @Inject constructor(
     }
 
     private fun errorState(e: Throwable): ErrorState {
-        return ErrorState(
-            icon = UiR.drawable.ic_file_error,
-            title = stringProvider.getString(UiR.string.common_error_occurred),
-            subtitle = e.message.orEmpty(),
-            action = ErrorAction.CLOSE_DOCUMENT,
-        )
+        return when (e) {
+            is PermissionException -> ErrorState(
+                icon = UiR.drawable.ic_file_error,
+                title = stringProvider.getString(UiR.string.message_access_denied),
+                subtitle = stringProvider.getString(UiR.string.message_access_required),
+                action = ErrorAction.REQUEST_PERMISSIONS,
+            )
+            else -> ErrorState(
+                icon = UiR.drawable.ic_file_error,
+                title = stringProvider.getString(UiR.string.common_error_occurred),
+                subtitle = e.message.orEmpty(),
+                action = ErrorAction.CLOSE_DOCUMENT,
+            )
+        }
     }
 
     private inline fun List<DocumentState>.mapSelected(

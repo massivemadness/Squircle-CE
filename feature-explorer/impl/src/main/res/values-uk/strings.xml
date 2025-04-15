@@ -19,7 +19,6 @@
     <string name="hint_enter_archive_name">Вкажіть назву архіву</string>
     <string name="hint_enter_password">Уведіть пароль</string>
     <string name="hint_enter_passphrase">Уведіть фразу-пароль</string>
-    <string name="action_grant_access">Надати доступ</string>
     <string name="action_authenticate">Автентифікація</string>
     <string name="action_create">Створити</string>
     <string name="action_copy_path">Копіювати шлях</string>
@@ -61,8 +60,6 @@
     <string name="message_auth_required">Потрібна авторизація</string>
     <string name="message_enter_password">Введіть пароль для підключення до сервера</string>
     <string name="message_enter_passphrase">Введіть фразу-пароль для підключення до сервера</string>
-    <string name="message_access_denied">Доступ заборонено</string>
-    <string name="message_access_required">Додаток потребує дозволу для роботи з файлами</string>
     <string name="message_cannot_be_opened">Неможливо відкрити файл</string>
     <string name="message_invalid_file_name">Неприпустима назва файла</string>
     <string name="message_file_already_exists">Такий файл вже існує</string>

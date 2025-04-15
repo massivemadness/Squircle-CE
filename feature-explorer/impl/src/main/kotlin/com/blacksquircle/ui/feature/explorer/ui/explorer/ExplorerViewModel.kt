@@ -760,8 +760,8 @@ internal class ExplorerViewModel @Inject constructor(
         return when (e) {
             is PermissionException -> ErrorState(
                 icon = UiR.drawable.ic_file_error,
-                title = stringProvider.getString(R.string.message_access_denied),
-                subtitle = stringProvider.getString(R.string.message_access_required),
+                title = stringProvider.getString(UiR.string.message_access_denied),
+                subtitle = stringProvider.getString(UiR.string.message_access_required),
                 action = ErrorAction.REQUEST_PERMISSIONS,
             )
 

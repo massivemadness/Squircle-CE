@@ -23,5 +23,8 @@
     <string name="common_select">選擇</string>
     <string name="common_yes">確定</string>
     <string name="common_no">取消</string>
+    <string name="common_grant_access">授予訪問權限</string>
+    <string name="message_access_denied">沒有存儲空間訪問權限</string>
+    <string name="message_access_required">為了能正常編寫程式，必須授予存儲權限</string>
     <string name="dialog_title_color_picker">顏色選擇器</string>
 </resources>

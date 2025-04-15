@@ -17,10 +17,8 @@
 package com.blacksquircle.ui.feature.explorer.repository
 
 import android.content.Context
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Environment
-import androidx.core.content.ContextCompat
 import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.database.entity.path.PathEntity
 import com.blacksquircle.ui.core.extensions.PermissionException
