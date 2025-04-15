@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.editor.ui.editor.model
 
 internal enum class ErrorAction {
+    REQUEST_PERMISSIONS,
     CLOSE_DOCUMENT,
     UNDEFINED,
 }

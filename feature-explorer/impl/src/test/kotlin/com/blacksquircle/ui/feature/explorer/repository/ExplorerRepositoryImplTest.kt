@@ -17,12 +17,12 @@
 package com.blacksquircle.ui.feature.explorer.repository
 
 import android.content.Context
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Environment
-import androidx.core.content.ContextCompat
 import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.database.entity.path.PathEntity
+import com.blacksquircle.ui.core.extensions.PermissionException
+import com.blacksquircle.ui.core.extensions.isStorageAccessGranted
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.createFile
@@ -34,7 +34,6 @@ import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
-import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
@@ -194,8 +193,8 @@ class ExplorerRepositoryImplTest {
     @Test(expected = PermissionException::class)
     fun `When list files without permission Then throw PermissionException`() = runTest {
         // Given
-        mockkStatic(ContextCompat::class)
-        every { ContextCompat.checkSelfPermission(context, any()) } returns PackageManager.PERMISSION_DENIED
+        mockkStatic(Context::isStorageAccessGranted)
+        every { context.isStorageAccessGranted() } returns false
 
         // When
         val fileModel = createFolder("Documents")
@@ -207,8 +206,8 @@ class ExplorerRepositoryImplTest {
     @Test
     fun `When list files Then return file list`() = runTest {
         // Given
-        mockkStatic(ContextCompat::class)
-        every { ContextCompat.checkSelfPermission(context, any()) } returns PackageManager.PERMISSION_GRANTED
+        mockkStatic(Context::isStorageAccessGranted)
+        every { context.isStorageAccessGranted() } returns true
 
         val parent = createFolder("Documents")
         val path = PathEntity(

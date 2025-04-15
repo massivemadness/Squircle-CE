@@ -16,13 +16,12 @@
 
 package com.blacksquircle.ui.feature.explorer.data.repository
 
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import com.blacksquircle.ui.core.database.dao.path.PathDao
-import com.blacksquircle.ui.core.extensions.isPermissionGranted
+import com.blacksquircle.ui.core.extensions.PermissionException
+import com.blacksquircle.ui.core.extensions.isStorageAccessGranted
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.R
@@ -34,7 +33,6 @@ import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
-import com.blacksquircle.ui.filesystem.base.exception.PermissionException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
@@ -133,14 +131,8 @@ internal class ExplorerRepositoryImpl(
 
     override suspend fun listFiles(parent: FileModel): List<FileModel> {
         return withContext(dispatcherProvider.io()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                if (!Environment.isExternalStorageManager()) {
-                    throw PermissionException()
-                }
-            } else {
-                if (!context.isPermissionGranted(WRITE_EXTERNAL_STORAGE)) {
-                    throw PermissionException()
-                }
+            if (!context.isStorageAccessGranted()) {
+                throw PermissionException()
             }
 
             val filesystem = filesystemFactory.create(currentFilesystem)

@@ -26,6 +26,7 @@ import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 @NonRestartableComposable
@@ -40,7 +41,7 @@ internal fun ErrorStatus(
             title = errorState.title,
             subtitle = errorState.subtitle,
             action = when (errorState.action) {
-                ErrorAction.REQUEST_PERMISSIONS -> stringResource(R.string.action_grant_access)
+                ErrorAction.REQUEST_PERMISSIONS -> stringResource(UiR.string.common_grant_access)
                 ErrorAction.ENTER_PASSWORD,
                 ErrorAction.ENTER_PASSPHRASE -> stringResource(R.string.action_authenticate)
                 else -> null
@@ -57,8 +58,8 @@ private fun ExplorerErrorPreview() {
     PreviewBackground {
         ErrorStatus(
             errorState = ErrorState(
-                title = stringResource(R.string.message_access_denied),
-                subtitle = stringResource(R.string.message_access_required),
+                title = stringResource(UiR.string.message_access_denied),
+                subtitle = stringResource(UiR.string.message_access_required),
                 action = ErrorAction.REQUEST_PERMISSIONS,
             ),
         )
