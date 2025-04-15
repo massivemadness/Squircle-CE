@@ -107,6 +107,9 @@ class DocumentRepositoryImplTest {
         val document = createDocument("12345", "file.txt")
         every { cacheManager.isCached(document) } returns false
 
+        mockkStatic(Context::isStorageAccessGranted)
+        every { context.isStorageAccessGranted() } returns true
+
         // When
         documentRepository.loadDocument(document)
 
@@ -139,6 +142,9 @@ class DocumentRepositoryImplTest {
         // Given
         val document = createDocument("12345", "file.txt")
         every { cacheManager.isCached(document) } returns false
+
+        mockkStatic(Context::isStorageAccessGranted)
+        every { context.isStorageAccessGranted() } returns true
 
         // When
         documentRepository.loadDocument(document)
