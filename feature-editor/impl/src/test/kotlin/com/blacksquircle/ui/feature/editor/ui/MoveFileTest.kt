@@ -20,8 +20,8 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
-import com.blacksquircle.ui.feature.editor.api.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.createDocument
+import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.editor.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
@@ -259,6 +259,7 @@ class MoveFileTest {
             editorInteractor = editorInteractor,
             fontsInteractor = fontsInteractor,
             shortcutsInteractor = shortcutsInteractor,
+            languageInteractor = languageInteractor,
         )
     }
 }

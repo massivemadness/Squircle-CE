@@ -36,6 +36,7 @@ import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.InsertColorDialog
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
+import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
@@ -76,6 +77,7 @@ internal class EditorViewModel @Inject constructor(
     private val editorInteractor: EditorInteractor,
     private val fontsInteractor: FontsInteractor,
     private val shortcutsInteractor: ShortcutsInteractor,
+    private val languageInteractor: LanguageInteractor,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(EditorViewState())
@@ -1067,6 +1069,7 @@ internal class EditorViewModel @Inject constructor(
                 settings = loadSettings()
 
                 val documentList = documentRepository.loadDocuments()
+                languageInteractor.loadGrammars()
 
                 documents = documentList.map { document -> DocumentState(document) }
                 selectedPosition = if (documentList.isNotEmpty()) {

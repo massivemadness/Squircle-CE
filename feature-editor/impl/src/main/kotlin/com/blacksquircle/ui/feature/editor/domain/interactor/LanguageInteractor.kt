@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.api.interactor
+package com.blacksquircle.ui.feature.editor.domain.interactor
 
 interface LanguageInteractor {
     suspend fun loadGrammars()

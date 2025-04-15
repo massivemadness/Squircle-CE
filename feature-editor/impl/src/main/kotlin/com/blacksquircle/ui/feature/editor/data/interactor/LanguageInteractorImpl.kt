@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.editor.data.interactor
 
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.feature.editor.api.interactor.LanguageInteractor
+import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry
 import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver

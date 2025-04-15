@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileDialog
 import com.blacksquircle.ui.feature.editor.createDocument
+import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.editor.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
@@ -52,6 +53,7 @@ class CloseFileTest {
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
     private val fontsInteractor = mockk<FontsInteractor>(relaxed = true)
     private val shortcutsInteractor = mockk<ShortcutsInteractor>(relaxed = true)
+    private val languageInteractor = mockk<LanguageInteractor>(relaxed = true)
 
     @Before
     fun setup() {
@@ -334,6 +336,7 @@ class CloseFileTest {
             editorInteractor = editorInteractor,
             fontsInteractor = fontsInteractor,
             shortcutsInteractor = shortcutsInteractor,
+            languageInteractor = languageInteractor,
         )
     }
 }

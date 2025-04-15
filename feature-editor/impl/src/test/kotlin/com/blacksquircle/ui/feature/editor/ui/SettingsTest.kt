@@ -22,6 +22,7 @@ import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.navigation.ConfirmExitDialog
+import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.editor.EditorViewModel
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
@@ -54,6 +55,7 @@ class SettingsTest {
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
     private val fontsInteractor = mockk<FontsInteractor>(relaxed = true)
     private val shortcutsInteractor = mockk<ShortcutsInteractor>(relaxed = true)
+    private val languageInteractor = mockk<LanguageInteractor>(relaxed = true)
 
     @Before
     fun setup() {
@@ -104,15 +106,15 @@ class SettingsTest {
     @Test
     fun `When app is resumed Then reload settings`() = runTest {
         // Given
-        every { settingsManager.editorTheme } returns "theme_1" andThen "theme_2"
+        every { settingsManager.fontSize } returns 14 andThen 16
 
         // When
         val viewModel = createViewModel()
         viewModel.onResumed()
 
         // Then
-        assertEquals("theme_2", viewModel.viewState.value.settings.theme)
-        verify(exactly = 2) { settingsManager.editorTheme }
+        assertEquals(16f, viewModel.viewState.value.settings.fontSize)
+        verify(exactly = 2) { settingsManager.fontSize }
     }
 
     private fun createViewModel(): EditorViewModel {
@@ -123,6 +125,7 @@ class SettingsTest {
             editorInteractor = editorInteractor,
             fontsInteractor = fontsInteractor,
             shortcutsInteractor = shortcutsInteractor,
+            languageInteractor = languageInteractor,
         )
     }
 }

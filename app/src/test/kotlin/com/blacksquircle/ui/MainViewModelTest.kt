@@ -21,12 +21,11 @@ import android.net.Uri
 import com.blacksquircle.ui.application.MainViewModel
 import com.blacksquircle.ui.application.MainViewState
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_EDITOR_THEME
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FULLSCREEN_MODE
-import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_THEME_TYPE
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
-import com.blacksquircle.ui.feature.editor.api.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
-import com.blacksquircle.ui.feature.themes.api.model.ThemeType
+import com.blacksquircle.ui.feature.themes.api.model.ColorScheme
 import com.blacksquircle.ui.internal.provider.theme.ThemeManager
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
@@ -53,7 +52,8 @@ class MainViewModelTest {
     private val themeManager = mockk<ThemeManager>(relaxed = true)
     private val themeInteractor = mockk<ThemeInteractor>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
-    private val languageInteractor = mockk<LanguageInteractor>(relaxed = true)
+
+    private val colorScheme = mockk<ColorScheme>(relaxed = true)
 
     @Test
     fun `When screen opens Then subscribe to preference changes`() = runTest {
@@ -61,18 +61,20 @@ class MainViewModelTest {
         createViewModel() // init {}
 
         // Then
-        verify(exactly = 1) { settingsManager.registerListener(KEY_THEME_TYPE, any()) }
+        verify(exactly = 1) { settingsManager.registerListener(KEY_EDITOR_THEME, any()) }
         verify(exactly = 1) { settingsManager.registerListener(KEY_FULLSCREEN_MODE, any()) }
     }
 
     @Test
     fun `When screen opens Then load settings`() = runTest {
         // Given
-        every { settingsManager.themeType } returns ThemeType.DARK.value
+        every { settingsManager.editorTheme } returns "darcula"
         every { settingsManager.fullScreenMode } returns true
 
-        coEvery { themeInteractor.loadTheme(any()) } coAnswers { delay(200) }
-        coEvery { languageInteractor.loadGrammars() } coAnswers { delay(200) }
+        coEvery { themeInteractor.loadTheme(any()) } coAnswers {
+            delay(200)
+            colorScheme
+        }
 
         // When
         val viewModel = createViewModel() // init {}
@@ -80,7 +82,7 @@ class MainViewModelTest {
         // Then
         val viewState = MainViewState(
             isLoading = true,
-            theme = ThemeType.DARK,
+            colorScheme = null,
             fullscreenMode = true,
         )
         assertEquals(viewState, viewModel.viewState.value)
@@ -123,7 +125,6 @@ class MainViewModelTest {
             themeManager = themeManager,
             themeInteractor = themeInteractor,
             editorInteractor = editorInteractor,
-            languageInteractor = languageInteractor,
         )
     }
 }

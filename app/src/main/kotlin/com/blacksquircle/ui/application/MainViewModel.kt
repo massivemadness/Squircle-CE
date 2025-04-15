@@ -25,8 +25,8 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_EDITOR_THEME
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FULLSCREEN_MODE
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
-import com.blacksquircle.ui.feature.editor.api.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
+import com.blacksquircle.ui.internal.provider.theme.ThemeManager
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -36,15 +36,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
 internal class MainViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
+    private val themeManager: ThemeManager,
     private val themeInteractor: ThemeInteractor,
     private val editorInteractor: EditorInteractor,
-    private val languageInteractor: LanguageInteractor,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(initialViewState())
@@ -54,7 +53,7 @@ internal class MainViewModel @Inject constructor(
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
     init {
-        loadComponents()
+        loadTheme()
         registerOnPreferenceChangeListeners()
     }
 
@@ -76,25 +75,16 @@ internal class MainViewModel @Inject constructor(
         }
     }
 
-    private suspend fun loadTheme() {
-        try {
-            val appTheme = themeInteractor.loadTheme(settingsManager.editorTheme)
-            _viewState.update {
-                it.copy(colorScheme = appTheme)
-            }
-        } catch (e: Exception) {
-            Timber.e(e, e.message)
-        }
-    }
-
-    private fun loadComponents() {
+    private fun loadTheme() {
         viewModelScope.launch {
             try {
-                // Step 1: Load current theme
-                loadTheme()
+                val colorScheme = themeInteractor.loadTheme(settingsManager.editorTheme)
 
-                // Step 2: Load syntax files
-                languageInteractor.loadGrammars()
+                _viewState.update {
+                    it.copy(colorScheme = colorScheme)
+                }
+
+                themeManager.apply(colorScheme.type)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -109,9 +99,7 @@ internal class MainViewModel @Inject constructor(
 
     private fun registerOnPreferenceChangeListeners() {
         settingsManager.registerListener(KEY_EDITOR_THEME) {
-            viewModelScope.launch {
-                loadTheme()
-            }
+            loadTheme()
         }
         settingsManager.registerListener(KEY_FULLSCREEN_MODE) {
             viewModelScope.launch {
