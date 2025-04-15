@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
-import com.blacksquircle.ui.core.extensions.openStoragePermissions
+import com.blacksquircle.ui.core.extensions.openStorageSettings
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -77,7 +77,7 @@ internal fun FilesHeaderScreen(
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
-                is FilesHeaderViewEvent.OpenStorageSettings -> context.openStoragePermissions()
+                is FilesHeaderViewEvent.OpenStorageSettings -> context.openStorageSettings()
             }
         }
     }

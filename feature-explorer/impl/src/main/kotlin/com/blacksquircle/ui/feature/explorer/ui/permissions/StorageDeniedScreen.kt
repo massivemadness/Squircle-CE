@@ -22,7 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.navigation.NavController
-import com.blacksquircle.ui.core.extensions.openStoragePermissions
+import com.blacksquircle.ui.core.extensions.openStorageSettings
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
@@ -34,7 +34,7 @@ internal fun StorageDeniedScreen(navController: NavController) {
     val context = LocalContext.current
     StorageDeniedScreen(
         onConfirmClicked = {
-            context.openStoragePermissions()
+            context.openStorageSettings()
             navController.popBackStack()
         },
         onCancelClicked = {

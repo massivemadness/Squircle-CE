@@ -42,7 +42,7 @@ fun Context.isStorageAccessGranted(): Boolean {
     }
 }
 
-fun Context.openStoragePermissions() {
+fun Context.openStorageSettings() {
     try {
         val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
@@ -52,6 +52,18 @@ fun Context.openStoragePermissions() {
             Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                 data = Uri.parse("package:$packageName")
             }
+        }
+        startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
+        Timber.e(e, e.message)
+        showToast(text = e.message.orEmpty())
+    }
+}
+
+fun Context.openAppSettings() {
+    try {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            data = Uri.parse("package:$packageName")
         }
         startActivity(intent)
     } catch (e: ActivityNotFoundException) {
