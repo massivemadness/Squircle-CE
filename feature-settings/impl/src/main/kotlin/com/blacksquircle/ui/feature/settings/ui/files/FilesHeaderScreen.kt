@@ -16,6 +16,11 @@
 
 package com.blacksquircle.ui.feature.settings.ui.files
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -37,12 +42,14 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.preference.ListPreference
+import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.preference.SwitchPreference
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
+import timber.log.Timber
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -61,6 +68,7 @@ internal fun FilesHeaderScreen(
         onEncodingForOpeningChanged = viewModel::onEncodingForOpeningChanged,
         onEncodingForSavingChanged = viewModel::onEncodingForSavingChanged,
         onLineBreaksForSavingChanged = viewModel::onLineBreakForSavingChanged,
+        onStorageAccessClicked = viewModel::onStorageAccessClicked,
         onShowHiddenChanged = viewModel::onShowHiddenChanged,
         onFoldersOnTopChanged = viewModel::onFoldersOnTopChanged,
         onViewModeChanged = viewModel::onViewModeChanged,
@@ -74,6 +82,23 @@ internal fun FilesHeaderScreen(
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
+                is FilesHeaderViewEvent.OpenStorageSettings -> {
+                    try {
+                        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                                data = Uri.parse("package:${context.packageName}")
+                            }
+                        } else {
+                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                data = Uri.parse("package:${context.packageName}")
+                            }
+                        }
+                        context.startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        Timber.e(e, e.message)
+                        context.showToast(UiR.string.common_error_occurred)
+                    }
+                }
             }
         }
     }
@@ -87,6 +112,7 @@ private fun FilesHeaderScreen(
     onEncodingForOpeningChanged: (String) -> Unit = {},
     onEncodingForSavingChanged: (String) -> Unit = {},
     onLineBreaksForSavingChanged: (String) -> Unit = {},
+    onStorageAccessClicked: () -> Unit = {},
     onShowHiddenChanged: (Boolean) -> Unit = {},
     onFoldersOnTopChanged: (Boolean) -> Unit = {},
     onViewModeChanged: (String) -> Unit = {},
@@ -107,6 +133,15 @@ private fun FilesHeaderScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(contentPadding)
         ) {
+            PreferenceGroup(
+                title = stringResource(R.string.pref_category_permissions)
+            )
+            Preference(
+                title = stringResource(R.string.pref_storage_access_title),
+                subtitle = stringResource(R.string.pref_storage_access_summary),
+                onClick = onStorageAccessClicked,
+            )
+            HorizontalDivider()
             PreferenceGroup(
                 title = stringResource(R.string.pref_category_encoding)
             )

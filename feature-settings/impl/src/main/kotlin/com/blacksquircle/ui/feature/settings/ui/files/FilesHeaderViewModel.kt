@@ -48,6 +48,12 @@ internal class FilesHeaderViewModel @Inject constructor(
         }
     }
 
+    fun onStorageAccessClicked() {
+        viewModelScope.launch {
+            _viewEvent.send(FilesHeaderViewEvent.OpenStorageSettings)
+        }
+    }
+
     fun onEncodingAutoDetectChanged(encodingAutoDetect: Boolean) {
         viewModelScope.launch {
             settingsManager.encodingAutoDetect = encodingAutoDetect
