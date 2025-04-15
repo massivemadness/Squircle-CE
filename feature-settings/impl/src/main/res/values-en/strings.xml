@@ -50,6 +50,7 @@
     <string name="pref_category_keyboard">Keyboard</string>
     <string name="pref_category_code_style">Code Style</string>
     <string name="pref_category_tab_options">Tab Options</string>
+    <string name="pref_category_permissions">Permissions</string>
     <string name="pref_category_encoding">Encoding</string>
     <string name="pref_category_linebreaks">Linebreaks</string>
     <string name="pref_category_file_manager">File Manager</string>
@@ -101,6 +102,8 @@
     <string name="pref_use_spaces_not_tabs_summary">Insert spaces instead of tabs when using auto-indentation.</string>
     <string name="pref_tab_width_title">Tab Width</string>
     <string name="pref_tab_width_summary">Specify the displayed width of tabs in the editor.</string>
+    <string name="pref_storage_access_title">Storage Access</string>
+    <string name="pref_storage_access_summary">Open settings to grant access to device storage</string>
     <string name="pref_encoding_auto_detect_title">Encoding auto-detect</string>
     <string name="pref_encoding_auto_detect_summary">Encoding auto-detection is useful for multi-byte language.</string>
     <string name="pref_encoding_for_opening_title">Encoding for opening files</string>

@@ -23,6 +23,8 @@ import android.net.Uri
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import com.blacksquircle.ui.core.database.dao.document.DocumentDao
+import com.blacksquircle.ui.core.extensions.PermissionException
+import com.blacksquircle.ui.core.extensions.isStorageAccessGranted
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.data.manager.CacheManager
@@ -66,6 +68,9 @@ internal class DocumentRepositoryImpl(
             if (cacheManager.isCached(document)) {
                 cacheManager.loadContent(document)
             } else {
+                if (!context.isStorageAccessGranted()) {
+                    throw PermissionException()
+                }
                 val filesystem = filesystemFactory.create(document.filesystemUuid)
                 val fileModel = DocumentMapper.toModel(document)
                 val fileParams = FileParams(

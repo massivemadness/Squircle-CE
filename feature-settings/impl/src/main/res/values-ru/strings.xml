@@ -50,6 +50,7 @@
     <string name="pref_category_keyboard">Клавиатура</string>
     <string name="pref_category_code_style">Стиль кода</string>
     <string name="pref_category_tab_options">Табуляция</string>
+    <string name="pref_category_permissions">Разрешения</string>
     <string name="pref_category_encoding">Кодировка</string>
     <string name="pref_category_linebreaks">Разделители строк</string>
     <string name="pref_category_file_manager">Проводник</string>
@@ -101,6 +102,8 @@
     <string name="pref_use_spaces_not_tabs_summary">Вставлять пробелы вместо табов при использовании авто-отступов.</string>
     <string name="pref_tab_width_title">Ширина табов</string>
     <string name="pref_tab_width_summary">Указанная ширина будет использоваться для каждого таба в редакторе.</string>
+    <string name="pref_storage_access_title">Доступ к хранилищу</string>
+    <string name="pref_storage_access_summary">Открыть настройки, чтобы предоставить доступ к хранилищу устройства</string>
     <string name="pref_encoding_auto_detect_title">Автоопределение кодировки</string>
     <string name="pref_encoding_auto_detect_summary">Подбирать правильную кодировку автоматически при открытии файла.</string>
     <string name="pref_encoding_for_opening_title">Кодировка для открытия</string>

@@ -181,19 +181,15 @@ internal fun EditorScreen(
                         activity?.finish()
                     }
                 }
-
                 is EditorViewEvent.CreateFileContract -> {
                     newFileContract.launch(defaultFileName)
                 }
-
                 is EditorViewEvent.OpenFileContract -> {
                     openFileContract.launch(arrayOf(MimeType.ANY))
                 }
-
                 is EditorViewEvent.SaveAsFileContract -> {
                     saveFileContract.launch(event.fileName)
                 }
-
                 is EditorViewEvent.Command -> {
                     scope.launch {
                         editorController.send(event.command)

@@ -32,11 +32,13 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.openStorageSettings
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.preference.ListPreference
+import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.preference.SwitchPreference
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
@@ -61,6 +63,7 @@ internal fun FilesHeaderScreen(
         onEncodingForOpeningChanged = viewModel::onEncodingForOpeningChanged,
         onEncodingForSavingChanged = viewModel::onEncodingForSavingChanged,
         onLineBreaksForSavingChanged = viewModel::onLineBreakForSavingChanged,
+        onStorageAccessClicked = viewModel::onStorageAccessClicked,
         onShowHiddenChanged = viewModel::onShowHiddenChanged,
         onFoldersOnTopChanged = viewModel::onFoldersOnTopChanged,
         onViewModeChanged = viewModel::onViewModeChanged,
@@ -74,6 +77,7 @@ internal fun FilesHeaderScreen(
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
+                is FilesHeaderViewEvent.OpenStorageSettings -> context.openStorageSettings()
             }
         }
     }
@@ -87,6 +91,7 @@ private fun FilesHeaderScreen(
     onEncodingForOpeningChanged: (String) -> Unit = {},
     onEncodingForSavingChanged: (String) -> Unit = {},
     onLineBreaksForSavingChanged: (String) -> Unit = {},
+    onStorageAccessClicked: () -> Unit = {},
     onShowHiddenChanged: (Boolean) -> Unit = {},
     onFoldersOnTopChanged: (Boolean) -> Unit = {},
     onViewModeChanged: (String) -> Unit = {},
@@ -107,6 +112,15 @@ private fun FilesHeaderScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(contentPadding)
         ) {
+            PreferenceGroup(
+                title = stringResource(R.string.pref_category_permissions)
+            )
+            Preference(
+                title = stringResource(R.string.pref_storage_access_title),
+                subtitle = stringResource(R.string.pref_storage_access_summary),
+                onClick = onStorageAccessClicked,
+            )
+            HorizontalDivider()
             PreferenceGroup(
                 title = stringResource(R.string.pref_category_encoding)
             )

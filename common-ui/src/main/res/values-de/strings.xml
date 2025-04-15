@@ -25,6 +25,11 @@
     <string name="common_select">Auswählen</string>
     <string name="common_yes">Ja</string>
     <string name="common_no">Nein</string>
+    <string name="common_grant_access">Zugriff zulassen</string>
+
+    <string name="message_access_denied">Zugriff abgelehnt</string>
+    <string name="message_access_required">Anwendung benötigt Speicherzugriff, um mit Dateien zu arbeiten</string>
+
     <string name="dialog_title_color_picker">Farbauswahl</string>
 
 </resources>
