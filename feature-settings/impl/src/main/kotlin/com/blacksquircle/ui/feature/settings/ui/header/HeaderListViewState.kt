@@ -25,6 +25,7 @@ import com.blacksquircle.ui.feature.settings.api.navigation.AppHeaderScreen
 import com.blacksquircle.ui.feature.settings.api.navigation.CodeStyleHeaderScreen
 import com.blacksquircle.ui.feature.settings.api.navigation.EditorHeaderScreen
 import com.blacksquircle.ui.feature.settings.api.navigation.FilesHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.GitHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.header.model.PreferenceHeader
 import com.blacksquircle.ui.feature.shortcuts.api.navigation.ShortcutsScreen
 
@@ -66,6 +67,12 @@ internal data class HeaderListViewState(
             subtitle = R.string.pref_header_cloud_summary,
             selected = false,
             screen = CloudScreen,
+        ),
+        PreferenceHeader(
+            title = "Git",
+            subtitle = "Git settings",
+            selected = false,
+            screen = GitHeaderScreen,
         ),
         PreferenceHeader(
             title = R.string.pref_header_about_title,

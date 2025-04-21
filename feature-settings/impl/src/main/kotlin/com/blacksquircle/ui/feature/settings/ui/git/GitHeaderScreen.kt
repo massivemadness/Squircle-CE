@@ -22,6 +22,12 @@ import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
+import com.blacksquircle.ui.feature.settings.R
+import com.blacksquircle.ui.ds.R as UiR
+import com.blacksquircle.ui.ds.toolbar.Toolbar
+import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.Modifier
 
 @Composable
 internal fun GitHeaderScreen(
@@ -33,7 +39,6 @@ internal fun GitHeaderScreen(
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     GitHeaderScreen(
-        viewState = viewState,
         onBackClicked = viewModel::onBackClicked
     )
 
@@ -46,5 +51,37 @@ internal fun GitHeaderScreen(
                 is ViewEvent.PopBackStack -> navController.popBackStack()
             }
         }
+    }
+}
+
+@Composable
+private fun AboutHeaderScreen(
+    onBackClicked: () -> Unit = {}
+) {
+    ScaffoldSuite(
+        topBar = {
+            Toolbar(
+                title = stringResource("Git"),
+                navigationIcon = UiR.drawable.ic_back,
+                onNavigationClicked = onBackClicked,
+            )
+        },
+        modifier = Modifier.imePadding()
+    ) { contentPadding ->
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(contentPadding)
+        ) {
+            // todo
+        }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun GitHeaderScreenPreview() {
+    PreviewBackground {
+        GitHeaderScreen()
     }
 }
