@@ -43,7 +43,7 @@ internal class GitHeaderViewModel @Inject constructor() : ViewModel() {
     class Factory : ViewModelProvider.Factory {
 
         @Inject
-        lateinit var viewModelProvider: Provider<AboutHeaderViewModel>
+        lateinit var viewModelProvider: Provider<GitHeaderViewModel>
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
