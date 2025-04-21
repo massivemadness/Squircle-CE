@@ -37,6 +37,7 @@ internal fun OtherMenu(
     onFindClicked: () -> Unit = {},
     onToolsClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
+    onGitClicked: () -> Unit = {}
 ) {
     PopupMenu(
         expanded = expanded,
@@ -64,6 +65,11 @@ internal fun OtherMenu(
                 }
             )
         }
+        PopupMenuItem(
+            title = "Git",
+            iconResId = UiR.drawable.ic_git,
+            onClick = onGitClicked,
+        )
         PopupMenuItem(
             title = stringResource(R.string.action_settings),
             iconResId = UiR.drawable.ic_settings,

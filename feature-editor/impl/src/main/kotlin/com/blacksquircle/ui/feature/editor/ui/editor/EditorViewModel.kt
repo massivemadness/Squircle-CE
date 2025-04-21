@@ -656,6 +656,10 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    fun onGitClicked() {
+        // todo
+    }
+
     fun onDocumentClicked(document: DocumentModel) {
         loadDocument(document, fromUser = true)
     }

@@ -66,6 +66,7 @@ internal fun EditorToolbar(
     onUndoClicked: () -> Unit = {},
     onRedoClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
+    onGitClicked: () -> Unit = {}
 ) {
     val activity = LocalActivity.current
     val focusManager = LocalFocusManager.current
@@ -179,6 +180,11 @@ internal fun EditorToolbar(
                             focusManager.clearFocus(force = true)
                             menuType = null
                             onSettingsClicked()
+                        },
+                        onGitClicked = {
+                            focusManager.clearFocus(force = true)
+                            menuType = null
+                            onGitClicked()
                         }
                     )
                     if (!isMediumWidth) {
