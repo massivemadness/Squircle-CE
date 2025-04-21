@@ -677,11 +677,11 @@ internal class EditorViewModel @Inject constructor(
             while (current.parentFile != null) {
             val gitDir = File(current, ".git")
             if (gitDir.exists() && gitDir.isDirectory) {
-                return true
+                return gitDir.absolutePath
             }
             current = current.parentFile
         }
-        return false
+        return null
     }
 
     fun onDocumentClicked(document: DocumentModel) {
