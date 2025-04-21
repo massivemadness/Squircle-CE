@@ -78,6 +78,10 @@ class SettingsManager(private val context: Context) {
         const val KEY_VIEW_MODE = "view_mode"
         const val KEY_SORT_MODE = "sort_mode"
         const val KEY_FILESYSTEM = "filesystem"
+
+        // Git
+        const val KEY_GIT_CREDENTIALS = "git_credentials"
+        const val KEY_GIT_USER = "git_user"
     }
 
     private val fileName: String
@@ -195,6 +199,12 @@ class SettingsManager(private val context: Context) {
     var filesystem: String
         get() = sharedPreferences.getString(KEY_FILESYSTEM, "local") ?: "local"
         set(value) = sharedPreferences.edit().putString(KEY_FILESYSTEM, value).apply()
+    var gitCredentials: String
+        get() = sharedPreferences.getString(KEY_GIT_CREDENTIALS, "") ?: ""
+        set(value) = sharedPreferences.edit().putString(KEY_GIT_CREDENTIALS, value).apply()
+    var gitUser: String
+        get() = sharedPreferences.getString(KEY_GIT_USER, "") ?: ""
+        set(value) = sharedPreferences.edit().putString(KEY_GIT_USER, value).apply()
 
     private val listeners = HashMap<String, OnChangedListener>()
     private val callback = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->

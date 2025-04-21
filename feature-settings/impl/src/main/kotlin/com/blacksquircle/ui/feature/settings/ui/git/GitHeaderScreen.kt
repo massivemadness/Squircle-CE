@@ -39,6 +39,8 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import androidx.compose.foundation.layout.padding
 import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 
 @Composable
 internal fun GitHeaderScreen(
@@ -48,7 +50,9 @@ internal fun GitHeaderScreen(
         GitHeaderViewModel.Factory().also(component::inject)
     }
 ) {
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     GitHeaderScreen(
+        viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
         onCredentialsClicked = viewModel::onCredentialsClicked,
         onUserClicked = viewModel::onUserClicked,
@@ -68,6 +72,7 @@ internal fun GitHeaderScreen(
 
 @Composable
 private fun GitHeaderScreen(
+    viewState: GitHeaderViewState,
     onBackClicked: () -> Unit = {},
     onCredentialsClicked: () -> Unit = {},
     onUserClicked: () -> Unit = {}
@@ -90,13 +95,29 @@ private fun GitHeaderScreen(
             PreferenceGroup(
                 title = "Git"
             )
-            Preference(
+            TextFieldPreference(
                 title = "Credentials",
-                onClick = onCredentialsClicked
+                subtitle = "Credentials using for auth",
+                enabled = true,
+                confirmButton = stringResource(UiR.string.common_save),
+                dismissButton = stringResource(UiR.string.cancel),
+                labelText = "Format: Username::token",
+                helpText = "Example: SuperDev::ghp_...",
+                inputTextStyle = TextStyle(fontFamily = FontFamily.Monospace),
+                inputValue = viewState.credentials,
+                onConfirmClicked = onCredentialsChanged
             )
-            Preference(
+            TextFieldPreference(
                 title = "User",
-                onClick = onUserClicked
+                subtitle = "User data using for commit/push",
+                enabled = true,
+                confirmButton = stringResource(UiR.string.common_save),
+                dismissButton = stringResource(UiR.string.cancel),
+                labelText = "Format: email@example.com::Name",
+                helpText = "Example: superdev@gmail.com::Super-Dev",
+                inputTextStyle = TextStyle(fontFamily = FontFamily.Monospace),
+                inputValue = viewState.user,
+                onConfirmClicked = onUserChanged
             )
         }
     }

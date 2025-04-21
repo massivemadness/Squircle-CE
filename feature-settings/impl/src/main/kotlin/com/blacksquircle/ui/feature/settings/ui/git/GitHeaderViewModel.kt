@@ -26,11 +26,20 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
+import com.blacksquircle.ui.core.settings.SettingsManager
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
-internal class GitHeaderViewModel @Inject constructor() : ViewModel() {
+internal class GitHeaderViewModel @Inject constructor(
+    private val settingsManager: SettingsManager
+) : ViewModel() {
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
+
+    private val _viewState = MutableStateFlow(updateViewState())
+    val viewState: StateFlow<GitHeaderViewState> = _viewState.asStateFlow()
 
     private var counter: Int = 1
 
@@ -40,16 +49,25 @@ internal class GitHeaderViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun onCredentialsClicked() {
+    fun onCredentialsChanged(credentials: String) {
         viewModelScope.launch {
-            // todo
+            settingsManager.gitCredentials = credentials
+            _viewState.value = updateViewState()
         }
     }
 
-    fun onUserClicked() {
+    fun onUserChanged(user: String) {
         viewModelScope.launch {
-            // todo
+            settingsManager.gitUser = user
+            _viewState.value = updateViewState()
         }
+    }
+
+    private fun updateViewState(): GitHeaderViewState {
+        return GitHeaderViewState(
+            credentials = settingsManager.gitCredentials,
+            user = settingsManager.gitUser
+        )
     }
 
     class Factory : ViewModelProvider.Factory {
