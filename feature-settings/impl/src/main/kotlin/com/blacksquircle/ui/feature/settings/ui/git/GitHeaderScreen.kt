@@ -29,6 +29,7 @@ import com.blacksquircle.ui.ds.toolbar.Toolbar
 import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.Modifier
 import com.blacksquircle.ui.core.extensions.daggerViewModel
+import androidx.compose.ui.res.stringResource
 
 @Composable
 internal fun GitHeaderScreen(
@@ -38,7 +39,6 @@ internal fun GitHeaderScreen(
         GitHeaderViewModel.Factory().also(component::inject)
     }
 ) {
-    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     GitHeaderScreen(
         onBackClicked = viewModel::onBackClicked
     )
@@ -56,7 +56,7 @@ internal fun GitHeaderScreen(
 }
 
 @Composable
-private fun AboutHeaderScreen(
+private fun GitHeaderScreen(
     onBackClicked: () -> Unit = {}
 ) {
     ScaffoldSuite(
