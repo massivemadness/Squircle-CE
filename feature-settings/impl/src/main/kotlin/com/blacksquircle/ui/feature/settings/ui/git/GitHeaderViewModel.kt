@@ -35,11 +35,11 @@ internal class GitHeaderViewModel @Inject constructor(
     private val settingsManager: SettingsManager
 ) : ViewModel() {
 
-    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
-    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
-
     private val _viewState = MutableStateFlow(updateViewState())
     val viewState: StateFlow<GitHeaderViewState> = _viewState.asStateFlow()
+
+    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
+    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
     private var counter: Int = 1
 
