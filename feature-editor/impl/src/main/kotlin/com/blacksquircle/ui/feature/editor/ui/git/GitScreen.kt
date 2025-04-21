@@ -45,6 +45,8 @@ private fun GitScreen(
 ) {
     AlertDialog(
         title = "Git",
+        verticalScroll = false,
+        horizontalPadding = false,
         content = {
             LazyColumn {
                 // todo
@@ -52,7 +54,7 @@ private fun GitScreen(
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
+        onDismiss = onCancelClicked
     )
 }
 
@@ -61,7 +63,7 @@ private fun GitScreen(
 private fun GitScreenPreview() {
     PreviewBackground {
         GitScreen(
-            repoPath = "/sdcard/my-project",
+            repoPath = "/sdcard/my-project"
         )
     }
 }
