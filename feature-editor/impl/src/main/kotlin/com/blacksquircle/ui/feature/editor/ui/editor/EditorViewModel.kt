@@ -33,6 +33,7 @@ import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
 import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.ConfirmExitDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.GitDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.InsertColorDialog
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
@@ -662,11 +663,12 @@ internal class EditorViewModel @Inject constructor(
             if (selectedPosition !in documents.indices) {
                 return@launch
             }
-            val documentPath = documents[selectedPosition].document.path
-            if (!inGitRepo(documentPath)) {
+            val repoPath = getGitRepoPath(documents[selectedPosition].document.path)
+            if (repoPath == null) {
                 return@launch
             }
-            _viewEvent.send(ViewEvent.Toast("Git available"))
+            val screen = GitDialog(repoPath)
+            _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 

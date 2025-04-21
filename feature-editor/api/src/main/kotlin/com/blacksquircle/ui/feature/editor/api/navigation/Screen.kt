@@ -27,6 +27,9 @@ data class CloseFileDialog(val fileUuid: String, val fileName: String)
 @Serializable
 data class ForceSyntaxDialog(val languageName: String)
 
+@Serializeble
+data class GitDialog(val repoPath: String)
+
 @Serializable
 data object GoToLineDialog
 
