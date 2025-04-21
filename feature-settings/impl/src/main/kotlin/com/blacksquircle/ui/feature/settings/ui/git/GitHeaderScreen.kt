@@ -30,6 +30,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.Modifier
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import androidx.compose.ui.res.stringResource
+import com.blacksquircle.ui.core.extensions.showToast
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import com.blacksquircle.ui.ds.PreviewBackground
 
 @Composable
 internal fun GitHeaderScreen(
@@ -62,7 +68,7 @@ private fun GitHeaderScreen(
     ScaffoldSuite(
         topBar = {
             Toolbar(
-                title = stringResource("Git"),
+                title = "Git",
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
             )
