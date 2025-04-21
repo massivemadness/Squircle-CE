@@ -34,4 +34,7 @@ data object CodeStyleHeaderScreen
 data object FilesHeaderScreen
 
 @Serializable
+data object GitHeaderScreen
+
+@Serializable
 data object AboutHeaderScreen
