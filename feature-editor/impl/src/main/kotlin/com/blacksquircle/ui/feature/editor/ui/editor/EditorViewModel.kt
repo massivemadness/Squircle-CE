@@ -69,6 +69,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 import com.blacksquircle.ui.ds.R as UiR
+import java.io.File
 
 internal class EditorViewModel @Inject constructor(
     private val stringProvider: StringProvider,
@@ -657,7 +658,28 @@ internal class EditorViewModel @Inject constructor(
     }
 
     fun onGitClicked() {
-        // todo
+        viewModelScope.launch {
+            if (selectedPosition !in documents.indices) {
+                return@launch
+            }
+            val documentPath = documents[selectedPosition].document.path
+            if (!inGitRepo(documentPath)) {
+                return@launch
+            }
+            _viewEvent.send(ViewEvent.Toast("Git available"))
+        }
+    }
+
+    private fun inGitRepo(path: String): Boolean {
+        var current = File(path)
+            while (current.parentFile != null) {
+            val gitDir = File(current, ".git")
+            if (gitDir.exists() && gitDir.isDirectory) {
+                return true
+            }
+            current = current.parentFile
+        }
+        return false
     }
 
     fun onDocumentClicked(document: DocumentModel) {
