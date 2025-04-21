@@ -37,6 +37,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
 import androidx.compose.foundation.layout.padding
+import com.blacksquircle.ui.ds.preference.Preference
+import com.blacksquircle.ui.ds.preference.PreferenceGroup
 
 @Composable
 internal fun GitHeaderScreen(
