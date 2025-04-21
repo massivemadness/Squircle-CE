@@ -69,13 +69,29 @@ private fun GitScreen(
                          .padding(16.dp)
                  ) {
                      Icon(
-                         painter = painterResource(id = UiR.drawable.ic_git),
+                         painter = painterResource(id = UiR.drawable.ic_sync),
+                         contentDescription = null
+                     )
+                     Spacer(modifier = Modifier.width(16.dp))
+                     Column {
+                         Text(text = "Fetch", style = SquircleTheme.typography.text18Regular)
+                         Text(text = "Fetch content from remote repo", style = SquircleTheme.typography.text14Regular)
+                     }
+                 }
+                 Row(
+                     modifier = Modifier
+                         .fillMaxWidth()
+                         .clickable { /* ничего не делаем пока */ }
+                         .padding(16.dp)
+                 ) {
+                     Icon(
+                         painter = painterResource(id = UiR.drawable.ic_download),
                          contentDescription = null
                      )
                      Spacer(modifier = Modifier.width(16.dp))
                      Column {
                          Text(text = "Pull", style = SquircleTheme.typography.text18Regular)
-                         Text(text = "Pull content from remote repo", style = SquircleTheme.typography.text12Regular)
+                         Text(text = "Pull changes from remote repo", style = SquircleTheme.typography.text14Regular)
                      }
                  }
                  Row(
@@ -85,13 +101,13 @@ private fun GitScreen(
                          .padding(16.dp)
                  ) {
                      Icon(
-                         painter = painterResource(id = UiR.drawable.ic_git),
+                         painter = painterResource(id = UiR.drawable.ic_commit),
                          contentDescription = null
                      )
                      Spacer(modifier = Modifier.width(16.dp))
                      Column {
                          Text(text = "Commit", style = SquircleTheme.typography.text18Regular)
-                         Text(text = "Commit local repo changes", style = SquircleTheme.typography.text12Regular)
+                         Text(text = "Commit local repo changes", style = SquircleTheme.typography.text14Regular)
                      }
                  }
                  Row(
@@ -101,13 +117,13 @@ private fun GitScreen(
                          .padding(16.dp)
                  ) {
                      Icon(
-                         painter = painterResource(id = UiR.drawable.ic_git),
+                         painter = painterResource(id = UiR.drawable.ic_upload),
                          contentDescription = null
                      )
                      Spacer(modifier = Modifier.width(16.dp))
                      Column {
                          Text(text = "Push", style = SquircleTheme.typography.text18Regular)
-                         Text(text = "Push content to remote repo", style = SquircleTheme.typography.text12Regular)
+                         Text(text = "Push content to remote repo", style = SquircleTheme.typography.text14Regular)
                      }
                  }
                  Row(
@@ -117,13 +133,13 @@ private fun GitScreen(
                          .padding(16.dp)
                  ) {
                      Icon(
-                         painter = painterResource(id = UiR.drawable.ic_git),
+                         painter = painterResource(id = UiR.drawable.ic_folder_data),
                          contentDescription = null
                      )
                      Spacer(modifier = Modifier.width(16.dp))
                      Column {
                          Text(text = "Checkout branch", style = SquircleTheme.typography.text18Regular)
-                         Text(text = "Change local repo branch", style = SquircleTheme.typography.text12Regular)
+                         Text(text = "Change local repo branch", style = SquircleTheme.typography.text14Regular)
                      }
                  }
             }
