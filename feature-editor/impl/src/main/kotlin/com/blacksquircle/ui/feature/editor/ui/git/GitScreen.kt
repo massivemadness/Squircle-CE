@@ -23,6 +23,20 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import androidx.compose.ui.res.stringResource
 import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.SquircleTheme
+ import androidx.compose.ui.Modifier
+ import androidx.compose.foundation.layout.Column
+ import androidx.compose.foundation.layout.Row
+ import androidx.compose.material.Text
+ import androidx.compose.material.Icon
+ import androidx.compose.foundation.layout.Spacer
+ import androidx.compose.ui.res.painterResource
+ import com.blacksquircle.ui.ds.R as UiR
+ import androidx.compose.ui.unit.dp
+ import androidx.compose.foundation.layout.width
+ import androidx.compose.foundation.layout.fillMaxWidth
+ import androidx.compose.foundation.clickable
+ import androidx.compose.foundation.layout.padding
 
 @Composable
 internal fun GitScreen(
@@ -47,7 +61,24 @@ private fun GitScreen(
         verticalScroll = false,
         horizontalPadding = false,
         content = {
-            // todo
+            Column {
+                 Row(
+                     modifier = Modifier
+                         .fillMaxWidth()
+                         .clickable { /* ничего не делаем пока */ }
+                         .padding(16.dp)
+                 ) {
+                     Icon(
+                         painter = painterResource(id = UiR.drawable.ic_git),
+                         contentDescription = null
+                     )
+                     Spacer(modifier = Modifier.width(16.dp))
+                     Column {
+                         Text(text = "Test", style = SquircleTheme.typography.text18Regular)
+                         Text(text = "Test button", style = SquircleTheme.typography.text18Regular)
+                     }
+                 }
+            }
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onCancelClicked,
