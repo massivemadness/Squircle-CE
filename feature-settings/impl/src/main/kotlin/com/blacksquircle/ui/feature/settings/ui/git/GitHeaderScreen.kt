@@ -47,7 +47,9 @@ internal fun GitHeaderScreen(
     }
 ) {
     GitHeaderScreen(
-        onBackClicked = viewModel::onBackClicked
+        onBackClicked = viewModel::onBackClicked,
+        onCredentialsClicked = viewModel::onCredentialsClicked,
+        onUserClicked = viewModel::onUserClicked,
     )
 
     val context = LocalContext.current
@@ -64,7 +66,9 @@ internal fun GitHeaderScreen(
 
 @Composable
 private fun GitHeaderScreen(
-    onBackClicked: () -> Unit = {}
+    onBackClicked: () -> Unit = {},
+    onCredentialsClicked: () -> Unit = {},
+    onUserClicked: () -> Unit = {}
 ) {
     ScaffoldSuite(
         topBar = {
@@ -81,7 +85,17 @@ private fun GitHeaderScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(contentPadding)
         ) {
-            // todo
+            PreferenceGroup(
+                title = "Git"
+            )
+            Preference(
+                title = "Credentials",
+                onClick = onCredentialsClicked
+            )
+            Preference(
+                title = "User",
+                onClick = onUserClicked
+            )
         }
     }
 }

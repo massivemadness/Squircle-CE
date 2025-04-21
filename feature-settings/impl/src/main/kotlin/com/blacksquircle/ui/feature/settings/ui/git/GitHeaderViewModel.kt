@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
+import com.blacksquircle.ui.feature.settings.api.navigation.git.CredentialsDialog
 
 internal class GitHeaderViewModel @Inject constructor() : ViewModel() {
 
@@ -37,6 +38,18 @@ internal class GitHeaderViewModel @Inject constructor() : ViewModel() {
     fun onBackClicked() {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack)
+        }
+    }
+
+    fun onCredentialsClicked() {
+        viewModelScope.launch {
+            // todo
+        }
+    }
+
+    fun onUserClicked() {
+        viewModelScope.launch {
+            // todo
         }
     }
 
