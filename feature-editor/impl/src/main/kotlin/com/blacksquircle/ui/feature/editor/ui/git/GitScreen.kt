@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.padding
 
 @Composable
 internal fun GitScreen(
