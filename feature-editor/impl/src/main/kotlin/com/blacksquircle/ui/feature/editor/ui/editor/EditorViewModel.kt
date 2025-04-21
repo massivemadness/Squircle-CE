@@ -672,7 +672,7 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun inGitRepo(path: String): String {
+    private fun getGitRepoPath(path: String): String {
         var current = File(path)
             while (current.parentFile != null) {
             val gitDir = File(current, ".git")

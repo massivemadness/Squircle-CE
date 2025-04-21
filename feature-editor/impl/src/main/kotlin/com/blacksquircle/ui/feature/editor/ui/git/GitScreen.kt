@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import androidx.compose.ui.res.stringResource
+import com.blacksquircle.ui.ds.PreviewBackground
 
 @Composable
 internal fun GitScreen(
@@ -32,12 +33,12 @@ internal fun GitScreen(
         repoPath = navArgs.repoPath,
         onCancelClicked = {
             navController.popBackStack()
-        },
+        }
     )
 }
 
 @Composable
-private fun ForceSyntaxScreen(
+private fun GitScreen(
     repoPath: String,
     onCancelClicked: () -> Unit = {}
 ) {
