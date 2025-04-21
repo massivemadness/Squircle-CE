@@ -77,7 +77,7 @@ private fun GitScreen(
                          Text(text = "Pull", style = SquircleTheme.typography.text18Regular)
                          Text(text = "Pull content from remote repo", style = SquircleTheme.typography.text16Regular)
                      }
-                 },
+                 }
                  Row(
                      modifier = Modifier
                          .fillMaxWidth()
@@ -93,7 +93,7 @@ private fun GitScreen(
                          Text(text = "Commit", style = SquircleTheme.typography.text18Regular)
                          Text(text = "Commit local repo changes", style = SquircleTheme.typography.text16Regular)
                      }
-                 },
+                 }
                  Row(
                      modifier = Modifier
                          .fillMaxWidth()
@@ -109,7 +109,7 @@ private fun GitScreen(
                          Text(text = "Push", style = SquircleTheme.typography.text18Regular)
                          Text(text = "Push content to remote repo", style = SquircleTheme.typography.text16Regular)
                      }
-                 },
+                 }
                  Row(
                      modifier = Modifier
                          .fillMaxWidth()
