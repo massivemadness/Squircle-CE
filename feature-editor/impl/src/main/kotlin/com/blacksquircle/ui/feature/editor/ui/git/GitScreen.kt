@@ -23,7 +23,6 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import androidx.compose.ui.res.stringResource
 import com.blacksquircle.ui.ds.PreviewBackground
-import androidx.compose.foundation.lazy.LazyColumn
 
 @Composable
 internal fun GitScreen(
@@ -43,19 +42,17 @@ private fun GitScreen(
     repoPath: String,
     onCancelClicked: () -> Unit = {}
 ) {
-    /*AlertDialog(
+    AlertDialog(
         title = "Git",
         verticalScroll = false,
         horizontalPadding = false,
         content = {
-            LazyColumn {
-                // todo
-            }
+            // todo
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onCancelClicked,
         onDismiss = onCancelClicked
-    )*/
+    )
 }
 
 @PreviewLightDark
