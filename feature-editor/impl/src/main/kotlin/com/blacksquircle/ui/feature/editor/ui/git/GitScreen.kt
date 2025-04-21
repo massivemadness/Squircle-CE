@@ -43,7 +43,7 @@ private fun GitScreen(
     repoPath: String,
     onCancelClicked: () -> Unit = {}
 ) {
-    AlertDialog(
+    /*AlertDialog(
         title = "Git",
         verticalScroll = false,
         horizontalPadding = false,
@@ -55,7 +55,7 @@ private fun GitScreen(
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onCancelClicked,
         onDismiss = onCancelClicked
-    )
+    )*/
 }
 
 @PreviewLightDark
