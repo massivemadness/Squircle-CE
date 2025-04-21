@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="hint_enter_file_name">Dosya ismi girin</string>
+    <string name="hint_enter_archive_name">Arşiv ismi girin</string>
+    <string name="hint_enter_password">Şifre girin</string>
+    <string name="hint_enter_passphrase">Parolayı girin</string>
+    <string name="action_authenticate">Doğrulama</string>
+    <string name="action_create">Oluştur</string>
+    <string name="action_copy_path">Yolu Kopyala</string>
+    <string name="action_folder">Klasör</string>
+    <string name="action_rename">Yeniden adlandır</string>
+    <string name="action_run_in_background">Arka planda çalıştır</string>
+    <string name="action_show_hidden_files">Gizli dosyaları göster</string>
+    <string name="action_compress">Sıkıştır</string>
+    <string name="action_open_with">Şununla aç</string>
+    <string name="action_properties">Özellikler</string>
+    <string name="dialog_title_authentication">Doğrulama</string>
+    <string name="dialog_title_create">Oluştur…</string>
+    <string name="dialog_title_rename">Yeniden isimlendir…</string>
+    <string name="dialog_title_multi_delete">Çoklu silme</string>
+    <string name="dialog_title_properties">Özellikler</string>
+    <string name="dialog_title_creating">Oluşturuluyor…</string>
+    <string name="dialog_title_renaming">Yeniden adlandırılıyor…</string>
+    <string name="dialog_title_deleting">Siliniyor…</string>
+    <string name="dialog_title_copying">Kopyalanıyor…</string>
+    <string name="dialog_title_compressing">Sıkıştırılıyor…</string>
+    <string name="dialog_title_extracting">Çıkartılıyor…</string>
+    <string name="dialog_title_archive_name">Arşiv adı</string>
+    <string name="dialog_title_storage_permission">Depolama Erişimi</string>
+    <string name="dialog_title_notification_permission">Bildirimler</string>
+    <string name="dialog_message_delete">Bu dosyayı silmek istediğinizden emin misiniz?</string>
+    <string name="dialog_message_multi_delete">Seçili dosyaları silmek istediğinizden emin misiniz?</string>
+    <string name="dialog_message_storage_permission">Squircle CE\'nin düzgün çalışması için dosyalarınıza tam erişime ihtiyacı vardır\n\nLütfen sistem ayarlarında izin verin</string>
+    <string name="dialog_message_notification_permission">Squircle CE\'nin arka planda çalışabilmesi için bildirimlere erişmesi gerekiyor\n\nLütfen sistem ayarlarında izin verin</string>
+    <string name="properties_name">Dosya adı:</string>
+    <string name="properties_path">Dosya Yolu:</string>
+    <string name="properties_modified">Son Düzenleme:</string>
+    <string name="properties_size">Dosya Boyutu:</string>
+    <string name="properties_date_format">gg/AA/yyyy EEE SS:mm</string>
+    <string name="explorer_date_format">gg AAA yy E SS:mm:ss</string>
+    <string name="progress_time_format">mm:ss</string>
+    <string name="sort_by_name">Ada göre sırala</string>
+    <string name="sort_by_size">Boyuta göre sırala</string>
+    <string name="sort_by_date">Tarihe göre Sırala</string>
+    <string name="message_auth_required">Doğrulama Gerekli</string>
+    <string name="message_enter_password">Uzak sunucuya bağlanmak için şifreyi girin</string>
+    <string name="message_enter_passphrase">Uzak sunucuya bağlanmak için parolayı girin</string>
+    <string name="message_cannot_be_opened">Dosya açılamadı</string>
+    <string name="message_invalid_file_name">Geçersiz dosya adı</string>
+    <string name="message_file_already_exists">Dosya zaten mevcut</string>
+    <string name="message_unsupported_archive">Desteklenmeyen arşiv</string>
+    <string name="message_invalid_archive">Geçersiz arşiv</string>
+    <string name="message_split_archive">Arşiv bölündü</string>
+    <string name="message_encrypted_archive">Arşiv şifrelendi</string>
+    <string name="message_operation_cancelled">İşlem iptal edildi</string>
+    <string name="message_operation_not_supported">İşlem desteklenmiyor</string>
+    <string name="message_done">Tamamlandı</string>
+    <string name="message_file_not_found">Dosya bulunamadı</string>
+    <string name="message_elapsed_time">Geçen zaman: %1$s</string>
+    <string name="message_creating">%1$s oluşturuluyor</string>
+    <string name="message_renaming">%1$s yeniden adlandırılıyor</string>
+    <string name="message_deleting">%1$s siliniyor</string>
+    <string name="message_copying">%1$s kopyalanıyor</string>
+    <string name="message_compressing">%1$s sıkıştırılıyor</string>
+    <string name="message_extracting">%1$s ayıklanıyor</string>
+    <string name="explorer_channel_name">Dosya Yöneticisi</string>
+    <string name="explorer_channel_description">Dosya işlemlerini görüntüleme ve kontrol etme</string>
+    <string name="explorer_service_message">Arkaplan işlemleri devam ediyor</string>
+    <string name="storage_local">Yerel Depolama</string>
+    <string name="storage_root">Kök Dizin</string>
+    <string name="storage_add">Sunucu Ekle</string>
+</resources>
