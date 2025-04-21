@@ -27,10 +27,12 @@ import com.blacksquircle.ui.feature.editor.api.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.InsertColorDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.GitDialog
 import com.blacksquircle.ui.feature.editor.ui.closefile.CloseFileScreen
 import com.blacksquircle.ui.feature.editor.ui.confirmexit.ConfirmExitScreen
 import com.blacksquircle.ui.feature.editor.ui.editor.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.forcesyntax.ForceSyntaxScreen
+import com.blacksquircle.ui.feature.editor.ui.git.GitScreen
 import com.blacksquircle.ui.feature.editor.ui.gotoline.GoToLineScreen
 import com.blacksquircle.ui.feature.editor.ui.insertcolor.InsertColorScreen
 
@@ -45,6 +47,10 @@ fun NavGraphBuilder.editorGraph(navController: NavHostController) {
     dialog<ForceSyntaxDialog> { backStackEntry ->
         val navArgs = backStackEntry.toRoute<ForceSyntaxDialog>()
         ForceSyntaxScreen(navArgs, navController)
+    }
+    dialog<GitDialog> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<GitDialog>()
+        GitScreen(navArgs, navController)
     }
     dialog<GoToLineDialog> {
         GoToLineScreen(navController)
