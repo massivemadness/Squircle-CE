@@ -1,10 +1,12 @@
 name: Android CI
 
 on:
+  push:
+    branches:
+      - "git"
   pull_request:
     branches:
       - "master"
-      - "git"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
