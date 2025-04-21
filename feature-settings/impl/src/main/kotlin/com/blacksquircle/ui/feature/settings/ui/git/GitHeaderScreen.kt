@@ -51,7 +51,7 @@ internal fun GitHeaderScreen(
         GitHeaderViewModel.Factory().also(component::inject)
     }
 ) {
-    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+    val viewState = viewModel.viewState.collectAsStateWithLifecycle().value
     GitHeaderScreen(
         viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
