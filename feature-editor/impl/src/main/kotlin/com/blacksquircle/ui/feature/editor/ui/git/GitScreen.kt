@@ -35,6 +35,7 @@ import com.blacksquircle.ui.ds.R as UiR
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.clickable
 
 @Composable
 internal fun GitScreen(
