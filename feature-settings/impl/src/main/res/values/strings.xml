@@ -52,6 +52,8 @@
     <string name="pref_header_cloud_summary">Configure cloud storage and servers.</string>
     <string name="pref_header_about_title">About</string>
     <string name="pref_header_about_summary">View information about Squircle CE.</string>
+    <string name="pref_header_git_title">Git</string>
+    <string name="pref_header_git_summary">Configure git.</string>
 
     <string name="pref_category_look_and_feel">Look And Feel</string>
     <string name="pref_category_other">Other</string>

@@ -69,8 +69,8 @@ internal data class HeaderListViewState(
             screen = CloudScreen,
         ),
         PreferenceHeader(
-            title = "Git",
-            subtitle = "Git settings",
+            title = R.string.pref_header_git_title,
+            subtitle = R.string.pref_header_git_summary,
             selected = false,
             screen = GitHeaderScreen,
         ),

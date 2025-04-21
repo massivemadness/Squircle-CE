@@ -24,6 +24,7 @@ import com.blacksquircle.ui.feature.settings.ui.application.AppHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewModel
+import com.blacksquircle.ui.feature.settings.ui.git.GitHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.header.HeaderListViewModel
 import dagger.Component
 
@@ -40,6 +41,7 @@ internal interface SettingsComponent {
     fun inject(factory: CodeHeaderViewModel.Factory)
     fun inject(factory: EditorHeaderViewModel.Factory)
     fun inject(factory: FilesHeaderViewModel.Factory)
+    fun inject(factory: GitHeaderViewModel.Factory)
     fun inject(factory: HeaderListViewModel.Factory)
 
     @Component.Factory
