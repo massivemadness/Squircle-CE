@@ -663,6 +663,10 @@ internal class EditorViewModel @Inject constructor(
             if (selectedPosition !in documents.indices) {
                 return@launch
             }
+            if (settingsManager.gitCredentials == "" || settingsManager.gitUser == "") {
+                _viewEvent.send(ViewEvent.Toast("You need type git credentials and user in settings"))
+                return@launch
+            }
             val repoPath = getGitRepoPath(documents[selectedPosition].document.path)
             if (repoPath == "") {
                 return@launch

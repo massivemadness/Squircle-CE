@@ -75,7 +75,7 @@ private fun GitScreen(
                      Spacer(modifier = Modifier.width(16.dp))
                      Column {
                          Text(text = "Pull", style = SquircleTheme.typography.text18Regular)
-                         Text(text = "Pull content from remote repo", style = SquircleTheme.typography.text16Regular)
+                         Text(text = "Pull content from remote repo", style = SquircleTheme.typography.text12Regular)
                      }
                  }
                  Row(
@@ -91,7 +91,7 @@ private fun GitScreen(
                      Spacer(modifier = Modifier.width(16.dp))
                      Column {
                          Text(text = "Commit", style = SquircleTheme.typography.text18Regular)
-                         Text(text = "Commit local repo changes", style = SquircleTheme.typography.text16Regular)
+                         Text(text = "Commit local repo changes", style = SquircleTheme.typography.text12Regular)
                      }
                  }
                  Row(
@@ -107,7 +107,7 @@ private fun GitScreen(
                      Spacer(modifier = Modifier.width(16.dp))
                      Column {
                          Text(text = "Push", style = SquircleTheme.typography.text18Regular)
-                         Text(text = "Push content to remote repo", style = SquircleTheme.typography.text16Regular)
+                         Text(text = "Push content to remote repo", style = SquircleTheme.typography.text12Regular)
                      }
                  }
                  Row(
@@ -123,7 +123,7 @@ private fun GitScreen(
                      Spacer(modifier = Modifier.width(16.dp))
                      Column {
                          Text(text = "Checkout branch", style = SquircleTheme.typography.text18Regular)
-                         Text(text = "Change local repo branch", style = SquircleTheme.typography.text16Regular)
+                         Text(text = "Change local repo branch", style = SquircleTheme.typography.text12Regular)
                      }
                  }
             }
