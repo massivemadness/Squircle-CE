@@ -28,6 +28,7 @@ import com.blacksquircle.ui.ds.R as UiR
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.Modifier
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 
 @Composable
 internal fun GitHeaderScreen(
