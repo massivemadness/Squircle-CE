@@ -37,10 +37,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
 import androidx.compose.foundation.layout.padding
-import com.blacksquircle.ui.ds.preference.Preference
+import com.blacksquircle.ui.ds.preference.TextFieldPreference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 internal fun GitHeaderScreen(
@@ -54,8 +55,8 @@ internal fun GitHeaderScreen(
     GitHeaderScreen(
         viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
-        onCredentialsClicked = viewModel::onCredentialsClicked,
-        onUserClicked = viewModel::onUserClicked,
+        onCredentialsChanged = viewModel::onCredentialsChanged,
+        onUserChanged = viewModel::onUserChanged,
     )
 
     val context = LocalContext.current
@@ -74,8 +75,8 @@ internal fun GitHeaderScreen(
 private fun GitHeaderScreen(
     viewState: GitHeaderViewState,
     onBackClicked: () -> Unit = {},
-    onCredentialsClicked: () -> Unit = {},
-    onUserClicked: () -> Unit = {}
+    onCredentialsChanged: (String) -> Unit = {},
+    onUserChanged: (String) -> Unit = {}
 ) {
     ScaffoldSuite(
         topBar = {
@@ -100,7 +101,7 @@ private fun GitHeaderScreen(
                 subtitle = "Credentials using for auth",
                 enabled = true,
                 confirmButton = stringResource(UiR.string.common_save),
-                dismissButton = stringResource(UiR.string.cancel),
+                dismissButton = "Cancel",
                 labelText = "Format: Username::token",
                 helpText = "Example: SuperDev::ghp_...",
                 inputTextStyle = TextStyle(fontFamily = FontFamily.Monospace),
@@ -112,7 +113,7 @@ private fun GitHeaderScreen(
                 subtitle = "User data using for commit/push",
                 enabled = true,
                 confirmButton = stringResource(UiR.string.common_save),
-                dismissButton = stringResource(UiR.string.cancel),
+                dismissButton = "Cancel",
                 labelText = "Format: email@example.com::Name",
                 helpText = "Example: superdev@gmail.com::Super-Dev",
                 inputTextStyle = TextStyle(fontFamily = FontFamily.Monospace),
@@ -127,6 +128,11 @@ private fun GitHeaderScreen(
 @Composable
 private fun GitHeaderScreenPreview() {
     PreviewBackground {
-        GitHeaderScreen()
+        GitHeaderScreen(
+            viewState = GitHeaderViewState(
+                credentials = "",
+                user = ""
+            )
+        )
     }
 }
