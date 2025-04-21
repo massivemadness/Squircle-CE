@@ -664,7 +664,7 @@ internal class EditorViewModel @Inject constructor(
                 return@launch
             }
             val repoPath = getGitRepoPath(documents[selectedPosition].document.path)
-            if (repoPath == null) {
+            if (repoPath == "") {
                 return@launch
             }
             val screen = GitDialog(repoPath)
@@ -681,7 +681,7 @@ internal class EditorViewModel @Inject constructor(
             }
             current = current.parentFile
         }
-        return null
+        return ""
     }
 
     fun onDocumentClicked(document: DocumentModel) {
