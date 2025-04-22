@@ -16,8 +16,12 @@
 
 package com.blacksquircle.ui.feature.themes.data.mapper
 
+import android.graphics.Color
+import com.blacksquircle.ui.feature.themes.api.model.ColorScheme
+import com.blacksquircle.ui.feature.themes.api.model.ThemeType
 import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
-import com.blacksquircle.ui.feature.themes.domain.model.EditorTheme
+import com.blacksquircle.ui.feature.themes.data.model.EditorTheme
+import com.blacksquircle.ui.feature.themes.data.model.ExternalTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
 internal object ThemeMapper {
@@ -27,7 +31,7 @@ internal object ThemeMapper {
             uuid = assetsTheme.themeId,
             name = assetsTheme.themeName,
             author = "Squircle CE",
-            colorScheme = when (assetsTheme) {
+            colors = when (assetsTheme) {
                 AssetsTheme.THEME_DARCULA -> EditorTheme.DARCULA
                 AssetsTheme.THEME_ECLIPSE -> EditorTheme.ECLIPSE
                 AssetsTheme.THEME_MONOKAI -> EditorTheme.MONOKAI
@@ -39,6 +43,32 @@ internal object ThemeMapper {
                 AssetsTheme.THEME_VISUAL_STUDIO -> EditorTheme.VISUAL_STUDIO
             },
             isExternal = false,
+        )
+    }
+
+    fun toColorScheme(externalTheme: ExternalTheme): ColorScheme {
+        return ColorScheme(
+            type = ThemeType.of(externalTheme.type.orEmpty()),
+            colorPrimary = externalTheme.colors?.colorPrimary?.let(Color::parseColor),
+            colorOutline = externalTheme.colors?.colorOutline.let(Color::parseColor),
+            colorSuccess = externalTheme.colors?.colorSuccess.let(Color::parseColor),
+            colorError = externalTheme.colors?.colorError.let(Color::parseColor),
+            colorBackgroundPrimary =
+                externalTheme.colors?.colorBackgroundPrimary.let(Color::parseColor),
+            colorBackgroundSecondary =
+                externalTheme.colors?.colorBackgroundSecondary.let(Color::parseColor),
+            colorBackgroundTertiary =
+                externalTheme.colors?.colorBackgroundTertiary.let(Color::parseColor),
+            colorTextAndIconPrimary =
+                externalTheme.colors?.colorTextAndIconPrimary.let(Color::parseColor),
+            colorTextAndIconPrimaryInverse =
+                externalTheme.colors?.colorTextAndIconPrimaryInverse.let(Color::parseColor),
+            colorTextAndIconSecondary =
+                externalTheme.colors?.colorTextAndIconSecondary.let(Color::parseColor),
+            colorTextAndIconDisabled =
+                externalTheme.colors?.colorTextAndIconDisabled.let(Color::parseColor),
+            colorTextAndIconAdditional =
+                externalTheme.colors?.colorTextAndIconAdditional.let(Color::parseColor),
         )
     }
 }

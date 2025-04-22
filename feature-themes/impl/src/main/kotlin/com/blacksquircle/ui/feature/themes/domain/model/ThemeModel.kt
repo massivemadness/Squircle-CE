@@ -20,6 +20,18 @@ internal data class ThemeModel(
     val uuid: String,
     val name: String,
     val author: String,
-    val colorScheme: ColorScheme,
+    val colors: ColorModel,
     val isExternal: Boolean,
+)
+
+internal data class ColorModel(
+    val textColor: Int,
+    val backgroundColor: Int,
+    val numberColor: Int,
+    val operatorColor: Int,
+    val keywordColor: Int,
+    val variableColor: Int,
+    val functionColor: Int,
+    val stringColor: Int,
+    val commentColor: Int,
 )

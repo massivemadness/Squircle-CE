@@ -18,11 +18,9 @@ package com.blacksquircle.ui.feature.settings.ui.application
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.core.theme.Theme
 
 @Immutable
 internal data class AppHeaderViewState(
-    val appTheme: Theme,
     val fullscreenMode: Boolean,
     val confirmExit: Boolean,
 ) : ViewState

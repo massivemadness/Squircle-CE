@@ -33,7 +33,6 @@ import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.theme.Theme
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.preference.Preference
@@ -43,7 +42,6 @@ import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
-import com.blacksquircle.ui.feature.settings.ui.application.compose.ThemePreference
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -58,7 +56,6 @@ internal fun AppHeaderScreen(
     AppHeaderScreen(
         viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
-        onThemeChanged = viewModel::onThemeChanged,
         onColorSchemeClicked = viewModel::onColorSchemeClicked,
         onFullscreenChanged = viewModel::onFullscreenChanged,
         onConfirmExitChanged = viewModel::onConfirmExitChanged,
@@ -80,7 +77,6 @@ internal fun AppHeaderScreen(
 private fun AppHeaderScreen(
     viewState: AppHeaderViewState,
     onBackClicked: () -> Unit = {},
-    onThemeChanged: (Theme) -> Unit = {},
     onColorSchemeClicked: () -> Unit = {},
     onFullscreenChanged: (Boolean) -> Unit = {},
     onConfirmExitChanged: (Boolean) -> Unit = {},
@@ -102,10 +98,6 @@ private fun AppHeaderScreen(
         ) {
             PreferenceGroup(
                 title = stringResource(R.string.pref_category_look_and_feel)
-            )
-            ThemePreference(
-                selectedTheme = viewState.appTheme,
-                onThemeSelected = onThemeChanged,
             )
             Preference(
                 title = stringResource(R.string.pref_color_scheme_title),
@@ -138,7 +130,6 @@ private fun AppHeaderScreenPreview() {
     PreviewBackground {
         AppHeaderScreen(
             viewState = AppHeaderViewState(
-                appTheme = Theme.DARK,
                 fullscreenMode = false,
                 confirmExit = true
             ),

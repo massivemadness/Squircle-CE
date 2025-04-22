@@ -18,18 +18,18 @@ package com.blacksquircle.ui.feature.themes.data.repository
 
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
+import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
 import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper
 import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
-import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
+import com.blacksquircle.ui.feature.themes.domain.repository.ThemeRepository
 import kotlinx.coroutines.withContext
 
-internal class ThemesRepositoryImpl(
+internal class ThemeRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
-    private val themesInteractor: ThemesInteractor,
-) : ThemesRepository {
+    private val themeInteractor: ThemeInteractor,
+) : ThemeRepository {
 
     override suspend fun loadThemes(query: String): List<ThemeModel> {
         return withContext(dispatcherProvider.io()) {
@@ -50,8 +50,8 @@ internal class ThemesRepositoryImpl(
 
     override suspend fun selectTheme(themeModel: ThemeModel) {
         withContext(dispatcherProvider.io()) {
+            themeInteractor.loadTheme(themeModel.uuid)
             settingsManager.editorTheme = themeModel.uuid
-            themesInteractor.loadTheme(themeModel.uuid)
         }
     }
 }

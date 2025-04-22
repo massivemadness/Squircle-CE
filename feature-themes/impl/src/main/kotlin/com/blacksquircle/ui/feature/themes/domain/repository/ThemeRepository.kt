@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils
+package com.blacksquircle.ui.feature.themes.domain.repository
 
-import android.app.Activity
+import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 
-internal interface InAppUpdate {
-    fun checkForUpdates(activity: Activity, onUpdateAvailable: () -> Unit)
-    fun installUpdate(activity: Activity)
+internal interface ThemeRepository {
+
+    suspend fun loadThemes(query: String): List<ThemeModel>
+
+    suspend fun removeTheme(themeModel: ThemeModel)
+    suspend fun selectTheme(themeModel: ThemeModel)
 }

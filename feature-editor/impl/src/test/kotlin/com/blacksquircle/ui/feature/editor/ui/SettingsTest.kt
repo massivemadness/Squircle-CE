@@ -28,7 +28,6 @@ import com.blacksquircle.ui.feature.editor.ui.editor.EditorViewModel
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
-import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.every
@@ -54,7 +53,6 @@ class SettingsTest {
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val documentRepository = mockk<DocumentRepository>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
-    private val themesInteractor = mockk<ThemesInteractor>(relaxed = true)
     private val fontsInteractor = mockk<FontsInteractor>(relaxed = true)
     private val shortcutsInteractor = mockk<ShortcutsInteractor>(relaxed = true)
     private val languageInteractor = mockk<LanguageInteractor>(relaxed = true)
@@ -108,15 +106,15 @@ class SettingsTest {
     @Test
     fun `When app is resumed Then reload settings`() = runTest {
         // Given
-        every { settingsManager.editorTheme } returns "theme_1" andThen "theme_2"
+        every { settingsManager.fontSize } returns 14 andThen 16
 
         // When
         val viewModel = createViewModel()
         viewModel.onResumed()
 
         // Then
-        assertEquals("theme_2", viewModel.viewState.value.settings.theme)
-        verify(exactly = 2) { settingsManager.editorTheme }
+        assertEquals(16f, viewModel.viewState.value.settings.fontSize)
+        verify(exactly = 2) { settingsManager.fontSize }
     }
 
     private fun createViewModel(): EditorViewModel {
@@ -125,7 +123,6 @@ class SettingsTest {
             settingsManager = settingsManager,
             documentRepository = documentRepository,
             editorInteractor = editorInteractor,
-            themesInteractor = themesInteractor,
             fontsInteractor = fontsInteractor,
             shortcutsInteractor = shortcutsInteractor,
             languageInteractor = languageInteractor,

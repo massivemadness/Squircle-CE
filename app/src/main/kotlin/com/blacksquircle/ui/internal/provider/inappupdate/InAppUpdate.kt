@@ -14,17 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.theme
+package com.blacksquircle.ui.internal.provider.inappupdate
 
-enum class Theme(val value: String) {
-    LIGHT("light"),
-    DARK("dark"),
-    SYSTEM_DEFAULT("system_default");
-
-    companion object {
-
-        fun of(value: String): Theme {
-            return entries.find { it.value == value } ?: DARK
-        }
-    }
+internal interface InAppUpdate {
+    fun checkForUpdates(onUpdateAvailable: () -> Unit)
+    fun installUpdate()
 }

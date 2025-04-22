@@ -66,7 +66,7 @@ import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.themes.R
-import com.blacksquircle.ui.feature.themes.domain.model.EditorTheme
+import com.blacksquircle.ui.feature.themes.data.model.EditorTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.internal.ThemesComponent
 import com.blacksquircle.ui.feature.themes.ui.themes.compose.ThemeOverview
@@ -251,14 +251,14 @@ private fun ThemesScreenPreview() {
                         uuid = "1",
                         name = "Darcula",
                         author = "Squircle CE",
-                        colorScheme = EditorTheme.DARCULA,
+                        colors = EditorTheme.DARCULA,
                         isExternal = false,
                     ),
                     ThemeModel(
                         uuid = "2",
                         name = "Eclipse",
                         author = "Squircle CE",
-                        colorScheme = EditorTheme.ECLIPSE,
+                        colors = EditorTheme.ECLIPSE,
                         isExternal = false,
                     ),
                 ),

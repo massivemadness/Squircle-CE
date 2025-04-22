@@ -3,30 +3,43 @@
   "author": "Squircle CE",
   "type": "dark",
   "colors": {
-    "editor.background": "#272822",
-    "editor.foreground": "#F8F8F8",
-    "editor.selectionBackground": "#666666",
-    "editor.selectionHighlightBackground": "#5F5E5A",
-    "highlightedDelimitersBackground": "#5F5E5A",
-    "highlightedDelimitersForeground": "#F8F8F8",
-    "completionWindowCorner": "#5B5A4F",
-    "completionWindowBackground": "#414339",
-    "completionWindowBackgroundCurrent": "#75715E",
-    "editor.lineHighlightBackground": "#34352D",
-    "editorLineNumber.foreground": "#5B5A4F",
-    "editorLineNumber.activeForeground": "#C8BBAC",
-    "editorLineNumber.divider": "#5B5A4F",
-    "editorIndentGuide.background": "#5B5A4F",
-    "editorIndentGuide.activeBackground": "#C8BBAC",
-    "editorCursor.foreground": "#BBBBBB",
-    "editorHandle.foreground": "#EB347E",
-    "editorWhitespace.foreground": "#5B5A4F"
+    "global.colorPrimary": "#EFC170",
+    "global.colorOutline": "#3B3C36",
+    "global.colorSuccess": "#8BE041",
+    "global.colorError": "#E53F73",
+    "global.colorBackgroundPrimary": "#1D1E19",
+    "global.colorBackgroundSecondary": "#272823",
+    "global.colorBackgroundTertiary": "#32332D",
+    "global.colorTextAndIconPrimary": "#FDFFF2",
+    "global.colorTextAndIconPrimaryInverse": "#161613",
+    "global.colorTextAndIconSecondary": "#ABAFA8",
+    "global.colorTextAndIconDisabled": "#575850",
+    "global.colorTextAndIconAdditional": "#EFC170",
+    "editor.background": "#1D1E19",
+    "editor.foreground": "#FDFFF2",
+    "editor.whitespace": "#575850",
+    "editor.cursor": "#FDFFF2",
+    "editor.handle": "#EFC170",
+    "editor.selection.background": "#3E3F39",
+    "editor.currentLine.background": "#262621",
+    "editor.highlightedDelimiters.background": "#50504D",
+    "editor.highlightedDelimiters.foreground": "#FDFFF2",
+    "editor.matchHighlight.background": "#50504D",
+    "editor.lineNumber.divider": "#3B3C36",
+    "editor.lineNumber.background": "#1D1E19",
+    "editor.lineNumber.foreground": "#575850",
+    "editor.lineNumber.activeForeground": "#C0C1B6",
+    "editor.indentGuide.background": "#3B3C36",
+    "editor.indentGuide.activeBackground": "#575850",
+    "editor.popupWindow.corner": "#575850",
+    "editor.popupWindow.background": "#272823",
+    "editor.popupWindow.activeBackground": "#32332D"
   },
   "tokenColors": [
     {
       "settings": {
-        "background": "#272822",
-        "foreground": "#F8F8F8"
+        "background": "#1D1E19",
+        "foreground": "#FDFFF2"
       }
     },
     {
@@ -37,7 +50,7 @@
         "variable.legacy.builtin.python"
       ],
       "settings": {
-        "foreground": "#F8F8F8"
+        "foreground": "#FDFFF2"
       }
     },
     {
@@ -70,7 +83,7 @@
         "meta.template.expression"
       ],
       "settings": {
-        "foreground": "#F8F8F8"
+        "foreground": "#FDFFF2"
       }
     },
     {
@@ -98,7 +111,7 @@
       "name": "Variable",
       "scope": "variable",
       "settings": {
-        "foreground": "#F8F8F8"
+        "foreground": "#FDFFF2"
       }
     },
     {

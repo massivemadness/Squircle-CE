@@ -14,8 +14,20 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.api.interactor
+package com.blacksquircle.ui.feature.themes.api.model
 
-interface ThemesInteractor {
-    suspend fun loadTheme(themeId: String)
-}
+data class ColorScheme(
+    val type: ThemeType,
+    val colorPrimary: Int?,
+    val colorOutline: Int?,
+    val colorSuccess: Int?,
+    val colorError: Int?,
+    val colorBackgroundPrimary: Int?,
+    val colorBackgroundSecondary: Int?,
+    val colorBackgroundTertiary: Int?,
+    val colorTextAndIconPrimary: Int?,
+    val colorTextAndIconPrimaryInverse: Int?,
+    val colorTextAndIconSecondary: Int?,
+    val colorTextAndIconDisabled: Int?,
+    val colorTextAndIconAdditional: Int?,
+)

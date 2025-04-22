@@ -21,6 +21,8 @@ import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiDepsProvider
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiProvider
+import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiDepsProvider
+import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiProvider
 import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewModel
 import dagger.Component
 
@@ -32,6 +34,7 @@ import dagger.Component
     dependencies = [
         CoreApiDepsProvider::class,
         FontsApiDepsProvider::class,
+        ThemesApiDepsProvider::class,
     ]
 )
 internal interface ThemesComponent {
@@ -43,6 +46,7 @@ internal interface ThemesComponent {
         fun create(
             coreApiDepsProvider: CoreApiDepsProvider,
             fontsApiDepsProvider: FontsApiDepsProvider,
+            themesApiDepsProvider: ThemesApiDepsProvider,
         ): ThemesComponent
     }
 
@@ -55,7 +59,9 @@ internal interface ThemesComponent {
                 coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
                     .provideCoreApiDepsProvider(),
                 fontsApiDepsProvider = (context.applicationContext as FontsApiProvider)
-                    .provideFontsApiDepsProvider()
+                    .provideFontsApiDepsProvider(),
+                themesApiDepsProvider = (context.applicationContext as ThemesApiProvider)
+                    .provideThemesApiDepsProvider(),
             ).also {
                 component = it
             }

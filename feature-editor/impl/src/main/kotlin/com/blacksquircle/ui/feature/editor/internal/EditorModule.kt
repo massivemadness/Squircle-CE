@@ -36,13 +36,13 @@ internal object EditorModule {
 
     @Provides
     @EditorScope
-    fun provideLanguageFactory(
+    fun provideLanguageInteractor(
         dispatcherProvider: DispatcherProvider,
         context: Context,
     ): LanguageInteractor {
         return LanguageInteractorImpl(
             dispatcherProvider = dispatcherProvider,
-            context = context
+            context = context,
         )
     }
 

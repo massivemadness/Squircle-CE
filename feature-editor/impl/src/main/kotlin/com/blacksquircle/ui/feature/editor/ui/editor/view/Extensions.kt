@@ -24,7 +24,6 @@ import io.github.rosemoe.sora.langs.textmate.TextMateLanguage
 import io.github.rosemoe.sora.text.Content
 import io.github.rosemoe.sora.widget.CodeEditor
 import io.github.rosemoe.sora.widget.SelectionMovement
-import io.github.rosemoe.sora.widget.schemes.EditorColorScheme
 
 internal val Content.selectionStart: Int
     get() = cursor.left
@@ -77,15 +76,6 @@ internal fun CodeEditor.endOfLine() {
 internal fun CodeEditor.syncScroll() {
     scroller.startScroll(0, 0, text.scrollX, text.scrollY)
     scroller.abortAnimation()
-}
-
-internal fun CodeEditor.createFromRegistry(): EditorColorScheme {
-    return try {
-        CustomColorScheme.create()
-    } catch (e: Exception) {
-        context.showToast(text = "Couldn't load theme from registry: ${e.message}")
-        EditorColorScheme()
-    }
 }
 
 internal fun CodeEditor.createFromRegistry(

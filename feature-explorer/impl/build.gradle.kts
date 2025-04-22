@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
     testImplementation(libs.kotlinx.coroutines.test)
+    implementation(libs.kotlinx.serialization)
 
     ksp(libs.google.dagger.compiler)
 

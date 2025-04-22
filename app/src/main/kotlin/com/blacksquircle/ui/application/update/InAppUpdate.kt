@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.internal.di
+package com.blacksquircle.ui.application.update
 
-import com.blacksquircle.ui.utils.InAppUpdate
-import com.blacksquircle.ui.utils.InAppUpdateStub
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import androidx.activity.compose.LocalActivity
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import com.blacksquircle.ui.internal.inappupdate.InAppUpdateImpl
+import com.blacksquircle.ui.internal.provider.inappupdate.InAppUpdate
 
-@Module
-internal object InAppUpdateModule {
-
-    @Provides
-    @Singleton
-    fun provideInAppUpdate(): InAppUpdate {
-        return InAppUpdateStub()
-    }
+@Composable
+internal fun rememberInAppUpdate(): InAppUpdate {
+    val activity = LocalActivity.current
+        ?: error("CompositionLocal LocalActivity not present")
+    return remember { InAppUpdateImpl(activity) }
 }

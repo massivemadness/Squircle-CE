@@ -53,7 +53,6 @@ import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
-import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -76,7 +75,6 @@ internal class EditorViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
     private val documentRepository: DocumentRepository,
     private val editorInteractor: EditorInteractor,
-    private val themesInteractor: ThemesInteractor,
     private val fontsInteractor: FontsInteractor,
     private val shortcutsInteractor: ShortcutsInteractor,
     private val languageInteractor: LanguageInteractor,
@@ -1070,10 +1068,8 @@ internal class EditorViewModel @Inject constructor(
             try {
                 settings = loadSettings()
 
-                themesInteractor.loadTheme(settings.theme)
-                languageInteractor.loadGrammars()
-
                 val documentList = documentRepository.loadDocuments()
+                languageInteractor.loadGrammars()
 
                 documents = documentList.map { document -> DocumentState(document) }
                 selectedPosition = if (documentList.isNotEmpty()) {
@@ -1142,7 +1138,6 @@ internal class EditorViewModel @Inject constructor(
 
     private suspend fun loadSettings(): EditorSettings {
         return EditorSettings(
-            theme = settingsManager.editorTheme,
             fontSize = settingsManager.fontSize.toFloat(),
             fontType = fontsInteractor.loadFont(settingsManager.fontType),
             wordWrap = settingsManager.wordWrap,

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.application
+package com.blacksquircle.ui.application.update
 
-import androidx.activity.compose.LocalActivity
+import android.os.Bundle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -24,27 +24,19 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.blacksquircle.ui.R
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
-import com.blacksquircle.ui.utils.InAppUpdate
-import kotlinx.serialization.Serializable
 
-@Serializable
-internal data object UpdateDialog
+internal const val KEY_INSTALL_UPDATE = "KEY_UPDATE"
 
 @Composable
-internal fun UpdateScreen(
-    navController: NavController,
-    inAppUpdate: InAppUpdate,
-) {
-    val activity = LocalActivity.current
+internal fun UpdateScreen(navController: NavController) {
     UpdateScreen(
         onConfirmClicked = {
+            sendNavigationResult(KEY_INSTALL_UPDATE, Bundle.EMPTY)
             navController.popBackStack()
-            if (activity != null) {
-                inAppUpdate.installUpdate(activity)
-            }
         },
         onCancelClicked = {
             navController.popBackStack()

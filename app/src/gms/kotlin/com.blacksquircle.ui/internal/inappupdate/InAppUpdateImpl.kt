@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Squircle CE contributors.
+ * Copyright 2025 Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,27 +14,29 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.utils
+package com.blacksquircle.ui.internal.inappupdate
 
 import android.app.Activity
-import android.content.Context
+import com.blacksquircle.ui.internal.provider.inappupdate.InAppUpdate
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
-import com.google.android.play.core.ktx.*
 import timber.log.Timber
 
-internal class InAppUpdateImpl(context: Context) : InAppUpdate {
+internal class InAppUpdateImpl(
+    private val activity: Activity,
+) : InAppUpdate {
 
     private val appUpdateManager by lazy {
-        AppUpdateManagerFactory.create(context)
+        AppUpdateManagerFactory.create(activity)
     }
 
     private var appUpdateInfo: AppUpdateInfo? = null
 
-    override fun checkForUpdates(activity: Activity, onUpdateAvailable: () -> Unit) {
+    override fun checkForUpdates(onUpdateAvailable: () -> Unit) {
+        Timber.d("checkForUpdates")
         if (appUpdateInfo != null) {
             return
         }
@@ -50,7 +52,8 @@ internal class InAppUpdateImpl(context: Context) : InAppUpdate {
             }
     }
 
-    override fun installUpdate(activity: Activity) {
+    override fun installUpdate() {
+        Timber.d("installUpdate")
         appUpdateInfo?.let { appUpdateInfo ->
             appUpdateManager.startUpdateFlow(
                 appUpdateInfo,

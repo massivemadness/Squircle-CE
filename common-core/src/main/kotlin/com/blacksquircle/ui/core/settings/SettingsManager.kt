@@ -18,7 +18,6 @@ package com.blacksquircle.ui.core.settings
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.blacksquircle.ui.core.theme.Theme
 
 typealias OnChangedListener = () -> Unit
 
@@ -27,7 +26,6 @@ class SettingsManager(private val context: Context) {
     companion object {
 
         // Look And Feel
-        const val KEY_APP_THEME = "app_theme"
         const val KEY_EDITOR_THEME = "editor_theme_internal"
         const val KEY_FULLSCREEN_MODE = "fullscreen_mode"
 
@@ -90,9 +88,6 @@ class SettingsManager(private val context: Context) {
         get() = _sharedPreferences ?: context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
             .also { _sharedPreferences = it }
 
-    var appTheme: String
-        get() = sharedPreferences.getString(KEY_APP_THEME, Theme.DARK.value) ?: Theme.DARK.value
-        set(value) = sharedPreferences.edit().putString(KEY_APP_THEME, value).apply()
     var editorTheme: String
         get() = sharedPreferences.getString(KEY_EDITOR_THEME, "darcula") ?: "darcula"
         set(value) = sharedPreferences.edit().putString(KEY_EDITOR_THEME, value).apply()

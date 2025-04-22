@@ -21,19 +21,13 @@ import androidx.room.Room
 import com.blacksquircle.ui.core.database.AppDatabase
 import com.blacksquircle.ui.core.database.AppDatabaseImpl
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.core.theme.ThemeManager
 import dagger.Module
 import dagger.Provides
+import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 @Module
 object CoreModule {
-
-    @Provides
-    @Singleton
-    fun provideThemeManager(): ThemeManager {
-        return ThemeManager()
-    }
 
     @Provides
     @Singleton
@@ -46,5 +40,13 @@ object CoreModule {
     fun provideAppDatabase(context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabaseImpl::class.java, AppDatabaseImpl.DATABASE_NAME)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideJsonParser(): Json {
+        return Json {
+            ignoreUnknownKeys = true
+        }
     }
 }

@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.theme
+package com.blacksquircle.ui.internal.provider.theme
 
+import android.app.UiModeManager
+import android.content.Context
 import android.os.Build
-import androidx.appcompat.app.AppCompatDelegate
+import com.blacksquircle.ui.feature.themes.api.model.ThemeType
 
-class ThemeManager {
+internal class ThemeManager(private val context: Context) {
 
-    fun apply(theme: Theme) {
-        val mode = when (theme) {
-            Theme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
-            Theme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
-            Theme.SYSTEM_DEFAULT -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            } else {
-                AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+    fun apply(type: ThemeType) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val mode = when (type) {
+                ThemeType.LIGHT -> UiModeManager.MODE_NIGHT_NO
+                ThemeType.DARK -> UiModeManager.MODE_NIGHT_YES
             }
+            val uiModeManager = context.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+            uiModeManager.setApplicationNightMode(mode)
         }
-        AppCompatDelegate.setDefaultNightMode(mode)
     }
 }

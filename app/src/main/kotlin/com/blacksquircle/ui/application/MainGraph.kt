@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Squircle CE contributors.
+ * Copyright 2025 Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.internal.di
+package com.blacksquircle.ui.application
 
-import android.content.Context
-import com.blacksquircle.ui.utils.InAppUpdate
-import com.blacksquircle.ui.utils.InAppUpdateImpl
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.dialog
+import com.blacksquircle.ui.application.update.UpdateScreen
+import kotlinx.serialization.Serializable
 
-@Module
-internal object InAppUpdateModule {
+@Serializable
+data object UpdateDialog
 
-    @Provides
-    @Singleton
-    fun provideInAppUpdate(context: Context): InAppUpdate {
-        return InAppUpdateImpl(context)
+fun NavGraphBuilder.mainGraph(navController: NavHostController) {
+    dialog<UpdateDialog> {
+        UpdateScreen(navController)
     }
 }

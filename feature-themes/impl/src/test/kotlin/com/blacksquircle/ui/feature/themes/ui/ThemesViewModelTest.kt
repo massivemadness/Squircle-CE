@@ -23,7 +23,7 @@ import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
-import com.blacksquircle.ui.feature.themes.domain.repository.ThemesRepository
+import com.blacksquircle.ui.feature.themes.domain.repository.ThemeRepository
 import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewModel
 import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewState
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
@@ -54,7 +54,7 @@ class ThemesViewModelTest {
 
     private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val fontsInteractor = mockk<FontsInteractor>(relaxed = true)
-    private val themesRepository = mockk<ThemesRepository>(relaxed = true)
+    private val themeRepository = mockk<ThemeRepository>(relaxed = true)
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val typeface = mockk<Typeface>()
 
@@ -80,7 +80,7 @@ class ThemesViewModelTest {
     @Test
     fun `When screen opens Then display loading state`() = runTest {
         // Given
-        coEvery { themesRepository.loadThemes("") } coAnswers { delay(200); emptyList() }
+        coEvery { themeRepository.loadThemes("") } coAnswers { delay(200); emptyList() }
 
         // When
         val viewModel = createViewModel() // init {}
@@ -97,7 +97,7 @@ class ThemesViewModelTest {
     @Test
     fun `When user has no themes in database Then display empty state`() = runTest {
         // Given
-        coEvery { themesRepository.loadThemes("") } returns emptyList()
+        coEvery { themeRepository.loadThemes("") } returns emptyList()
 
         // When
         val viewModel = createViewModel() // init {}
@@ -121,10 +121,10 @@ class ThemesViewModelTest {
                 name = "Darcula",
                 author = "Squircle CE",
                 isExternal = true,
-                colorScheme = mockk()
+                colors = mockk()
             ),
         )
-        coEvery { themesRepository.loadThemes("") } returns themeList
+        coEvery { themeRepository.loadThemes("") } returns themeList
 
         // When
         val viewModel = createViewModel() // init {}
@@ -148,18 +148,18 @@ class ThemesViewModelTest {
                 name = "Darcula",
                 author = "Squircle CE",
                 isExternal = true,
-                colorScheme = mockk()
+                colors = mockk()
             ),
             ThemeModel(
                 uuid = "2",
                 name = "Eclipse",
                 author = "Squircle CE",
                 isExternal = true,
-                colorScheme = mockk()
+                colors = mockk()
             ),
         )
-        coEvery { themesRepository.loadThemes("") } returns themeList
-        coEvery { themesRepository.loadThemes(any()) } coAnswers {
+        coEvery { themeRepository.loadThemes("") } returns themeList
+        coEvery { themeRepository.loadThemes(any()) } coAnswers {
             themeList.filter { it.name.contains(firstArg<String>()) }
         }
 
@@ -189,8 +189,8 @@ class ThemesViewModelTest {
         advanceUntilIdle()
 
         // Then
-        coVerify(exactly = 1) { themesRepository.loadThemes("Source") }
-        coVerify(exactly = 2) { themesRepository.loadThemes("") }
+        coVerify(exactly = 1) { themeRepository.loadThemes("Source") }
+        coVerify(exactly = 2) { themeRepository.loadThemes("") }
     }
 
     @Test
@@ -200,7 +200,7 @@ class ThemesViewModelTest {
             uuid = "1",
             name = "Darcula",
             author = "Squircle CE",
-            colorScheme = mockk(),
+            colors = mockk(),
             isExternal = true,
         )
         val viewModel = createViewModel()
@@ -211,7 +211,7 @@ class ThemesViewModelTest {
         // Then
         val viewState = ThemesViewState(selectedTheme = themeModel.uuid)
         assertEquals(viewState, viewModel.viewState.value)
-        coVerify(exactly = 1) { themesRepository.selectTheme(themeModel) }
+        coVerify(exactly = 1) { themeRepository.selectTheme(themeModel) }
     }
 
     @Test
@@ -221,10 +221,10 @@ class ThemesViewModelTest {
             uuid = "1",
             name = "Darcula",
             author = "Squircle CE",
-            colorScheme = mockk(),
+            colors = mockk(),
             isExternal = true,
         )
-        coEvery { themesRepository.loadThemes(any()) } returns listOf(themeModel)
+        coEvery { themeRepository.loadThemes(any()) } returns listOf(themeModel)
         val viewModel = createViewModel()
         advanceUntilIdle()
 
@@ -239,14 +239,14 @@ class ThemesViewModelTest {
             isLoading = false,
         )
         assertEquals(viewState, viewModel.viewState.value)
-        coVerify(exactly = 1) { themesRepository.removeTheme(themeModel) }
+        coVerify(exactly = 1) { themeRepository.removeTheme(themeModel) }
     }
 
     private fun createViewModel(): ThemesViewModel {
         return ThemesViewModel(
             stringProvider = stringProvider,
             fontsInteractor = fontsInteractor,
-            themesRepository = themesRepository,
+            themeRepository = themeRepository,
             settingsManager = settingsManager,
         )
     }

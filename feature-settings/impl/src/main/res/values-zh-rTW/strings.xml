@@ -20,9 +20,6 @@
     <string name="action_reset">重置</string>
     <string name="message_app_theme_disclaimer">需要 Android 10 或更新版本</string>
     <string name="message_preset_disclaimer">註：同一個字符可以重複多次</string>
-    <string name="theme_light">淺色</string>
-    <string name="theme_dark">深色</string>
-    <string name="theme_auto">系統預設</string>
     <string name="sort_by_name">依名稱排序</string>
     <string name="sort_by_size">依大小排序</string>
     <string name="sort_by_date">依日期排序</string>

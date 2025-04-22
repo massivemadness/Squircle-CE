@@ -16,25 +16,40 @@
 
 package com.blacksquircle.ui.ds
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ProvideTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowInsetsControllerCompat
 
 @Composable
 fun SquircleTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    colors: Colors = if (darkTheme) Colors.darkColors() else Colors.lightColors(),
+    applySystemBars: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) Colors.darkColors() else Colors.lightColors()
-
+    val activity = LocalActivity.current
+    val view = LocalView.current
+    if (applySystemBars) {
+        SideEffect {
+            val window = activity?.window ?: return@SideEffect
+            WindowInsetsControllerCompat(window, view).apply {
+                isAppearanceLightStatusBars = !colors.isDark
+                isAppearanceLightNavigationBars = !colors.isDark
+            }
+        }
+    }
     CompositionLocalProvider(
         LocalColors provides colors,
         LocalTypography provides SquircleTheme.typography,
     ) {
-        MaterialTheme(colors = colors.toMaterialColors(darkTheme)) {
+        MaterialTheme(colors = colors.toMaterialColors()) {
             ProvideTextStyle(Typography.Default) {
                 content()
             }

@@ -18,11 +18,11 @@ package com.blacksquircle.ui.feature.themes.repository
 
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_EDITOR_THEME
-import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
+import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
 import com.blacksquircle.ui.feature.themes.createThemeModel
 import com.blacksquircle.ui.feature.themes.data.mapper.ThemeMapper
 import com.blacksquircle.ui.feature.themes.data.model.AssetsTheme
-import com.blacksquircle.ui.feature.themes.data.repository.ThemesRepositoryImpl
+import com.blacksquircle.ui.feature.themes.data.repository.ThemeRepositoryImpl
 import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import io.mockk.every
 import io.mockk.mockk
@@ -31,16 +31,16 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class ThemesRepositoryImplTest {
+class ThemeRepositoryImplTest {
 
     private val dispatcherProvider = TestDispatcherProvider()
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
-    private val themesInteractor = mockk<ThemesInteractor>(relaxed = true)
+    private val themeInteractor = mockk<ThemeInteractor>(relaxed = true)
 
-    private val themesRepository = ThemesRepositoryImpl(
+    private val themesRepository = ThemeRepositoryImpl(
         dispatcherProvider = dispatcherProvider,
         settingsManager = settingsManager,
-        themesInteractor = themesInteractor,
+        themeInteractor = themeInteractor,
     )
 
     @Test

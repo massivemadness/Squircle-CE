@@ -18,56 +18,126 @@ package com.blacksquircle.ui.application
 
 import android.content.Intent
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_APP_THEME
+import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_EDITOR_THEME
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FULLSCREEN_MODE
-import com.blacksquircle.ui.core.theme.Theme
-import com.blacksquircle.ui.core.theme.ThemeManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
+import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
+import com.blacksquircle.ui.internal.provider.theme.ThemeManager
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Provider
 
 internal class MainViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
     private val themeManager: ThemeManager,
+    private val themeInteractor: ThemeInteractor,
     private val editorInteractor: EditorInteractor,
 ) : ViewModel() {
 
-    private val _viewState = MutableStateFlow(updateViewState())
+    private val _viewState = MutableStateFlow(initialViewState())
     val viewState: StateFlow<MainViewState> = _viewState.asStateFlow()
 
+    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
+    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
+
     init {
-        settingsManager.registerListener(KEY_APP_THEME) {
-            val theme = Theme.of(settingsManager.appTheme)
-            themeManager.apply(theme)
-        }
-        settingsManager.registerListener(KEY_FULLSCREEN_MODE) {
-            _viewState.value = updateViewState()
-        }
+        loadTheme()
+        registerOnPreferenceChangeListeners()
     }
 
     override fun onCleared() {
         super.onCleared()
-        settingsManager.unregisterListener(KEY_APP_THEME)
-        settingsManager.unregisterListener(KEY_FULLSCREEN_MODE)
+        unregisterOnPreferenceChangeListeners()
     }
 
-    fun handleIntent(intent: Intent?) {
+    fun onUpdateAvailable() {
         viewModelScope.launch {
-            if (intent != null) {
-                val fileUri = intent.data ?: return@launch
-                editorInteractor.openFileUri(fileUri)
+            _viewEvent.send(ViewEvent.Navigation(UpdateDialog))
+        }
+    }
+
+    fun onNewIntent(intent: Intent) {
+        viewModelScope.launch {
+            val fileUri = intent.data ?: return@launch
+            editorInteractor.openFileUri(fileUri)
+        }
+    }
+
+    private fun loadTheme() {
+        viewModelScope.launch {
+            try {
+                val colorScheme = themeInteractor.loadTheme(settingsManager.editorTheme)
+                themeManager.apply(colorScheme.type)
+
+                _viewState.update {
+                    it.copy(
+                        colorScheme = colorScheme,
+                        isLoading = false
+                    )
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+
+                _viewState.update {
+                    it.copy(
+                        colorScheme = null,
+                        isLoading = false,
+                    )
+                }
             }
         }
     }
 
-    private fun updateViewState(): MainViewState {
+    private fun registerOnPreferenceChangeListeners() {
+        settingsManager.registerListener(KEY_EDITOR_THEME) {
+            loadTheme()
+        }
+        settingsManager.registerListener(KEY_FULLSCREEN_MODE) {
+            viewModelScope.launch {
+                _viewState.update {
+                    it.copy(fullscreenMode = settingsManager.fullScreenMode)
+                }
+            }
+        }
+    }
+
+    private fun unregisterOnPreferenceChangeListeners() {
+        settingsManager.unregisterListener(KEY_EDITOR_THEME)
+        settingsManager.unregisterListener(KEY_FULLSCREEN_MODE)
+    }
+
+    private fun initialViewState(): MainViewState {
         return MainViewState(
+            isLoading = true,
+            colorScheme = null,
             fullscreenMode = settingsManager.fullScreenMode,
         )
+    }
+
+    class Factory : ViewModelProvider.Factory {
+
+        @Inject
+        lateinit var viewModelProvider: Provider<MainViewModel>
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return viewModelProvider.get() as T
+        }
     }
 }

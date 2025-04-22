@@ -18,10 +18,11 @@ package com.blacksquircle.ui.feature.themes.internal.api
 
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.feature.themes.api.interactor.ThemesInteractor
-import com.blacksquircle.ui.feature.themes.data.interactor.ThemesInteractorImpl
+import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
+import com.blacksquircle.ui.feature.themes.data.interactor.ThemeInteractorImpl
 import dagger.Module
 import dagger.Provides
+import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 @Module
@@ -29,12 +30,14 @@ object ThemesApiModule {
 
     @Provides
     @Singleton
-    fun provideThemesInteractor(
+    fun provideThemeInteractor(
         dispatcherProvider: DispatcherProvider,
+        jsonParser: Json,
         context: Context,
-    ): ThemesInteractor {
-        return ThemesInteractorImpl(
+    ): ThemeInteractor {
+        return ThemeInteractorImpl(
             dispatcherProvider = dispatcherProvider,
+            jsonParser = jsonParser,
             context = context,
         )
     }

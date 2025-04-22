@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.settings
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.core.theme.Theme
 import com.blacksquircle.ui.feature.settings.ui.application.AppHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.application.AppHeaderViewState
 import com.blacksquircle.ui.feature.themes.api.navigation.ThemesScreen
@@ -46,7 +45,6 @@ class AppHeaderViewModelTest {
     @Test
     fun `When screen opens Then read settings`() = runTest {
         // Given
-        every { settingsManager.appTheme } returns Theme.DARK.value
         every { settingsManager.fullScreenMode } returns true
         every { settingsManager.confirmExit } returns true
 
@@ -55,7 +53,6 @@ class AppHeaderViewModelTest {
 
         // Then
         val viewState = AppHeaderViewState(
-            appTheme = Theme.DARK,
             fullscreenMode = true,
             confirmExit = true,
         )
@@ -72,21 +69,6 @@ class AppHeaderViewModelTest {
 
         // Then
         assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
-    }
-
-    @Test
-    fun `When theme changed Then update view state`() = runTest {
-        // Given
-        val theme = Theme.LIGHT
-        every { settingsManager.appTheme } returns Theme.DARK.value andThen theme.value
-
-        // When
-        val viewModel = createViewModel()
-        viewModel.onThemeChanged(theme)
-
-        // Then
-        assertEquals(theme, viewModel.viewState.value.appTheme)
-        verify(exactly = 1) { settingsManager.appTheme = theme.value }
     }
 
     @Test
