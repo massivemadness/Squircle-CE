@@ -41,8 +41,6 @@ import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
 import com.blacksquircle.ui.ds.progress.LinearProgress
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 
 @Composable
 internal fun GitScreen(
@@ -70,7 +68,7 @@ private fun GitScreen(
     val userData = user.split("::")
     val git = Git.open(File(repoPath))
     val credentialsProvider = UsernamePasswordCredentialsProvider(auth[0], auth[1])
-    var isLoading by remember { mutableStateOf(false) }
+    var isLoading = false
     AlertDialog(
         title = "Git",
         horizontalPadding = false,
