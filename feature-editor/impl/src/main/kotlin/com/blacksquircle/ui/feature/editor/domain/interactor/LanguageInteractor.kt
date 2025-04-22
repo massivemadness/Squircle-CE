@@ -16,6 +16,6 @@
 
 package com.blacksquircle.ui.feature.editor.domain.interactor
 
-interface LanguageInteractor {
+internal interface LanguageInteractor {
     suspend fun loadGrammars()
 }
