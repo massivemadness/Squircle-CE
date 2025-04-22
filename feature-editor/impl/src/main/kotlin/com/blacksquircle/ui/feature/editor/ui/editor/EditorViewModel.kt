@@ -673,6 +673,7 @@ internal class EditorViewModel @Inject constructor(
             }
             val repoPath = getGitRepoPath(documents[selectedPosition].document.path)
             if (repoPath == "") {
+                _viewEvent.send(ViewEvent.Toast("This is not git repository!"))
                 return@launch
             }
             val screen = GitDialog(repoPath, settingsManager.gitCredentials, settingsManager.gitUser)
