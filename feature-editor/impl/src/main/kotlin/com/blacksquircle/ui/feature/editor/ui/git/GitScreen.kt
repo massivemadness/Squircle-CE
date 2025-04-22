@@ -83,6 +83,7 @@ private fun GitScreen(
             content = {
                 TextField(
                     inputText = commitText.value,
+                    placeholderText = "New commit!",
                     onInputChanged = { commitText.value = it }
                 )
             },
@@ -170,7 +171,23 @@ private fun GitScreen(
                     iconRes = UiR.drawable.ic_upload,
                     title = "Push",
                     subtitle = "Push content to remote repo",
-                    onClick = { /* TODO: Реализовать push */ }
+                    onClick = {
+                        coroutineScope.launch {
+                            showProgress.value = true
+                            try {
+                                withContext(Dispatchers.IO) {
+                                    git.push()
+                                        .setRemote("origin")
+                                        .setCredentialsProvider(credentialsProvider)
+                                        .call()
+                                }
+                            } catch (e: Exception) {
+                                // todo: error toast
+                            } finally {
+                                showProgress.value = false
+                            }
+                        }
+                    }
                 )
                 GitActionRow(
                     iconRes = UiR.drawable.ic_folder_data,
