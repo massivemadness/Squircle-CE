@@ -38,7 +38,7 @@
     <string name="ask_for_passphrase">Parolayı sor</string>
     <string name="save_passphrase">Parolayı kaydet</string>
     <string name="pref_header_cloud_title">Bulut &amp; Sunucuları</string>
-    <string name="pref_category_servers">FPT(S) Sunucuları</string>
+    <string name="pref_category_servers">FTP(S) Sunucuları</string>
     <string name="pref_add_server_title">Sunucu Ekle</string>
     <string name="pref_edit_server_title">Sunucuyu Düzenle</string>
 </resources>
