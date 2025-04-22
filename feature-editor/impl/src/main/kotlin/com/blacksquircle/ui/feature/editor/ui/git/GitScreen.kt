@@ -107,7 +107,23 @@ private fun GitScreen(
                     iconRes = UiR.drawable.ic_download,
                     title = "Pull",
                     subtitle = "Pull changes from remote repo",
-                    onClick = { /* TODO: Реализовать pull */ }
+                    onClick = {
+                        coroutineScope.launch {
+                            showProgress.value = true
+                            try {
+                                withContext(Dispatchers.IO) {
+                                    git.pull()
+                                        .setRemote("origin")
+                                        .setCredentialsProvider(credentialsProvider)
+                                        .call()
+                                }
+                            } catch (e: Exception) {
+                                // todo: error toast
+                            } finally {
+                                showProgress.value = false
+                            }
+                        }
+                    }
                 )
                 GitActionRow(
                     iconRes = UiR.drawable.ic_commit,
