@@ -24,19 +24,23 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import androidx.compose.ui.res.stringResource
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
- import androidx.compose.ui.Modifier
- import androidx.compose.foundation.layout.Column
- import androidx.compose.foundation.layout.Row
- import androidx.compose.material.Text
- import androidx.compose.material.Icon
- import androidx.compose.foundation.layout.Spacer
- import androidx.compose.ui.res.painterResource
- import com.blacksquircle.ui.ds.R as UiR
- import androidx.compose.ui.unit.dp
- import androidx.compose.foundation.layout.width
- import androidx.compose.foundation.layout.fillMaxWidth
- import androidx.compose.foundation.clickable
- import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material.Text
+import androidx.compose.material.Icon
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.ui.res.painterResource
+import com.blacksquircle.ui.ds.R as UiR
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.padding
+import org.eclipse.jgit.api.Git
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
+import java.io.File
+import com.blacksquircle.ui.ds.progress
 
 @Composable
 internal fun GitScreen(
@@ -45,6 +49,8 @@ internal fun GitScreen(
 ) {
     GitScreen(
         repoPath = navArgs.repoPath,
+        credentials = navArgs.credentials,
+        user = navArgs.user,
         onCancelClicked = {
             navController.popBackStack()
         }
@@ -54,18 +60,34 @@ internal fun GitScreen(
 @Composable
 private fun GitScreen(
     repoPath: String,
+    credentials: String,
+    user: String,
     onCancelClicked: () -> Unit = {}
 ) {
+    val auth = credentials.split("::")
+    val userData = user.split("::")
+    val git = Git.open(File(repoPath))
+    val credentialsProvider = UsernamePasswordCredentialsProvider(auth[0], auth[1])
+    var isLoading by remember { mutableStateOf(false) }
     AlertDialog(
         title = "Git",
         horizontalPadding = false,
         content = {
             Column {
+                if (isLoading) {
+                    LinearProgress(modifier = Modifier.fillMaxWidth(), indeterminate = true)
+                }
                 GitActionRow(
                     iconRes = UiR.drawable.ic_sync,
                     title = "Fetch",
                     subtitle = "Fetch content from remote repo",
-                    onClick = { /* TODO: Реализовать fetch */ }
+                    onClick = {
+                        try {
+                            git.fetch().setCredentialsProvider(credentialsProvider).setRemote(git.repository.branch).call()
+                        } catch (e: Exception) {
+                            // todo: catch
+                        }
+                    }
                 )
                 GitActionRow(
                     iconRes = UiR.drawable.ic_download,
@@ -129,7 +151,9 @@ private fun GitActionRow(
 private fun GitScreenPreview() {
     PreviewBackground {
         GitScreen(
-            repoPath = "/sdcard/my-project"
+            repoPath = "/sdcard/my-project",
+            credentials = "test::ghp_000000",
+            user = "mail@example.com::test"
         )
     }
 }

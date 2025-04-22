@@ -671,7 +671,7 @@ internal class EditorViewModel @Inject constructor(
             if (repoPath == "") {
                 return@launch
             }
-            val screen = GitDialog(repoPath)
+            val screen = GitDialog(repoPath, settingsManager.gitCredentials, settingsManager.gitUser)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
