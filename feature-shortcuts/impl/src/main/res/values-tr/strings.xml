@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="action_restore">Varsayılanları geri yükle</string>
+    <string name="pref_header_keybindings_title">Tuş Atamaları</string>
+    <string name="pref_category_file_keybindings">Dosya Tuş Atamaları</string>
+    <string name="pref_category_editor_keybindings">Düzenleyici Tuş Atamaları</string>
+    <string name="pref_category_tools_keybindings">Araç Tuş Atamaları</string>
+    <string name="shortcut_new_file">Yeni Dosya</string>
+    <string name="shortcut_open_file">Dosyayı Aç</string>
+    <string name="shortcut_save_file">Dosyayı Kaydet</string>
+    <string name="shortcut_save_as">Farklı Kaydet</string>
+    <string name="shortcut_close_file">Dosyayı kapat</string>
+    <string name="shortcut_select_line">Satır Seç</string>
+    <string name="shortcut_delete_line">Satırı Sil</string>
+    <string name="shortcut_duplicate_line">Çift Satır</string>
+    <string name="shortcut_toggle_case">Büyük/Küçük harf değiştir</string>
+    <string name="shortcut_prev_word">Önceki Kelime</string>
+    <string name="shortcut_next_word">Sonraki Kelime</string>
+    <string name="shortcut_start_of_line">Satır Başı</string>
+    <string name="shortcut_end_of_line">Satır Sonu</string>
+    <string name="shortcut_undo">Geri Alma</string>
+    <string name="shortcut_redo">Yeniden yapma</string>
+    <string name="shortcut_find">Ara</string>
+    <string name="shortcut_replace">Değiştir</string>
+    <string name="shortcut_goto_line">Satıra git</string>
+    <string name="shortcut_force_syntax">Sözdizimine Zorla</string>
+    <string name="shortcut_insert_color">Renk ekle</string>
+    <string name="shortcut_conflict">Bu kısayol zaten diğer eylemlere atanmış. Diğer atamaları kaldırmak istiyor musunuz?</string>
+    <string name="shortcut_press_key">Yeni tuş atamasına basın (Ctrl veya Alt içermeli)</string>
+    <string name="shortcut_none">Hiçbiri ayarlanmadı</string>
+</resources>

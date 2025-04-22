@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="label_themes">Temas</string>
-    <string name="action_remove">Remover</string>
-    <string name="message_selected">«%1$s» selecionado</string>
-    <string name="message_theme_removed">O tema «%1$s» foi removido</string>
+    <string name="action_install">İndir</string>
+    <string name="action_later">Daha sonra</string>
+    <string name="dialog_title_update">Güncelleme mevcut</string>
+    <string name="dialog_message_update">Uygulamanın yeni bir sürümü mevcut. Şimdi yükleyebilir veya daha sonra uygulama mağazasından yükseltebilirsiniz.</string>
 </resources>

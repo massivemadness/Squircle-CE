@@ -16,6 +16,7 @@
   -->
 <resources>
     <string name="hint_line">Satır:</string>
+    <string name="action_file">Dosya</string>
     <string name="action_close">Kapat</string>
     <string name="action_close_others">Diğerlerini kapat</string>
     <string name="action_close_all">Hepsini kapat</string>
@@ -23,6 +24,7 @@
     <string name="action_new">Yeni</string>
     <string name="action_open">Aç</string>
     <string name="action_save_as">Farklı Kaydet</string>
+    <string name="action_edit">Düzenle</string>
     <string name="action_select_line">Satır Seç</string>
     <string name="action_delete_line">Satırı Sil</string>
     <string name="action_duplicate_line">Satırı Kopyala</string>
@@ -31,8 +33,13 @@
     <string name="action_words_only">Sadece Kelimeler</string>
     <string name="action_find">Ara</string>
     <string name="action_replace">Değiştir</string>
+    <string name="action_replace_all">Tümünü Değiştir</string>
+    <string name="action_prev">Önceki</string>
+    <string name="action_next">Sonra</string>
     <string name="action_goto_line">Satıra git</string>
     <string name="action_go_to">Şuraya git</string>
+    <string name="action_undo">Geri al</string>
+    <string name="action_redo">Yeniden yap</string>
     <string name="action_force_syntax">Sözdizimine Zorla</string>
     <string name="action_insert_color">Renk ekle</string>
     <string name="action_settings">Ayarlar</string>

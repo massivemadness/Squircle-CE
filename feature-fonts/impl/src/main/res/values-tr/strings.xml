@@ -15,8 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="label_themes">Temas</string>
-    <string name="action_remove">Remover</string>
-    <string name="message_selected">«%1$s» selecionado</string>
-    <string name="message_theme_removed">O tema «%1$s» foi removido</string>
+    <string name="label_fonts">Yazılar</string>
+    <string name="action_remove">Kaldır</string>
+    <string name="message_selected">«%1$s» seçildi</string>
+    <string name="message_new_font_available">Yeni yazı tipi mevcut</string>
+    <string name="message_font_removed">«%1$s» yazı tipi kaldırıldı</string>
 </resources>
