@@ -40,6 +40,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.blacksquircle.ui.ds.textfield.TextField
 import org.eclipse.jgit.api.errors.RefNotFoundException
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 internal fun GitScreen(
@@ -63,6 +65,7 @@ private fun GitScreen(
     user: String,
     onCancelClicked: () -> Unit = {}
 ) {
+    val context = LocalContext.current
     val auth = credentials.split("::")
     val userData = user.split("::")
     val git = Git.open(File(repoPath))
@@ -105,7 +108,7 @@ private fun GitScreen(
                                 .call()
                         }
                     } catch (e: Exception) {
-                        // todo: error toast
+                        Toast.makeText(context, "Git error: ${e.message}", Toast.LENGTH_SHORT).show()
                     } finally {
                         showProgress.value = false
                     }
@@ -146,7 +149,7 @@ private fun GitScreen(
                             }
                         }
                     } catch (e: Exception) {
-                        // todo: error toast
+                        Toast.makeText(context, "Git error: ${e.message}", Toast.LENGTH_SHORT).show()
                     } finally {
                         showProgress.value = false
                     }
@@ -176,7 +179,7 @@ private fun GitScreen(
                                         .call()
                                 }
                             } catch (e: Exception) {
-                                // todo: error toast
+                                Toast.makeText(context, "Git error: ${e.message}", Toast.LENGTH_SHORT).show()
                             } finally {
                                 showProgress.value = false
                             }
@@ -198,7 +201,7 @@ private fun GitScreen(
                                         .call()
                                 }
                             } catch (e: Exception) {
-                                // todo: error toast
+                                Toast.makeText(context, "Git error: ${e.message}", Toast.LENGTH_SHORT).show()
                             } finally {
                                 showProgress.value = false
                             }
@@ -226,7 +229,7 @@ private fun GitScreen(
                                         .call()
                                 }
                             } catch (e: Exception) {
-                                // todo: error toast
+                                Toast.makeText(context, "Git error: ${e.message}", Toast.LENGTH_SHORT).show()
                             } finally {
                                 showProgress.value = false
                             }
