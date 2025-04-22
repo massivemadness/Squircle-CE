@@ -29,7 +29,7 @@ import com.blacksquircle.ui.ds.R as UiR
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
-import com.blacksquircle.ui.ds.progress.LinearProgress
+import androidx.compose.foundation.layout.fillMaxWidth
 
 @Composable
 internal fun GitScreen(
@@ -62,9 +62,6 @@ private fun GitScreen(
         horizontalPadding = false,
         content = {
             Column {
-                if (isLoading) {
-                    LinearProgress(modifier = Modifier.fillMaxWidth(), indeterminate = true)
-                }
                 GitActionRow(
                     iconRes = UiR.drawable.ic_sync,
                     title = "Fetch",

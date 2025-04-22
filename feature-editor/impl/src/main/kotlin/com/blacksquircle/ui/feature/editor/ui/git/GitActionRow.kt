@@ -32,7 +32,7 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import androidx.compose.foundation.layout.Column
 
 @Composable
-private fun GitActionRow(
+fun GitActionRow(
     iconRes: Int,
     title: String,
     subtitle: String,
