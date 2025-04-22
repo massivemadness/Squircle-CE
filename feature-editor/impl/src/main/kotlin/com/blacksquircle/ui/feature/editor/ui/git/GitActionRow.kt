@@ -42,7 +42,7 @@ fun GitActionRow(
         modifier = Modifier
             .fillMaxWidth()
             .debounceClickable(
-                onClick = onClick()
+                onClick = onClick
             )
             .padding(16.dp)
     ) {
