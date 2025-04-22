@@ -34,6 +34,7 @@ test-benchmark = "1.3.4"
 test-runner = "1.6.2"
 timber = "5.0.1"
 zip4j = "2.11.5"
+jgit = "6.2.0.202206071550-r"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-plugin" }
@@ -92,6 +93,7 @@ pinterest-ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "
 skydoves-colorpicker-compose = { module = "com.github.skydoves:colorpicker-compose", version.ref = "colorpicker" }
 sora-editor = { module = "io.github.Rosemoe.sora-editor:editor", version.ref = "sora" }
 sora-textmate = { module = "io.github.Rosemoe.sora-editor:language-textmate", version.ref = "sora" }
+org-eclipse-jgit = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "jgit" }
 
 test-junit = { module = "junit:junit", version.ref = "junit" }
 test-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }

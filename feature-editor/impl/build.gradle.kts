@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.kotlinx.serialization)
     implementation(libs.sora.editor)
     implementation(libs.sora.textmate)
+    implementation(libs.org.eclipse.jgit)
 
     coreLibraryDesugaring(libs.android.tools.desugaring)
     ksp(libs.google.dagger.compiler)
