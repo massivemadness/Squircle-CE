@@ -16,32 +16,32 @@
 
 package com.blacksquircle.ui.feature.settings.ui.git
 
-import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
-import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
-import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
-import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.ds.R as UiR
-import com.blacksquircle.ui.ds.toolbar.Toolbar
 import androidx.compose.foundation.layout.Column
-import androidx.compose.ui.Modifier
-import com.blacksquircle.ui.core.extensions.daggerViewModel
-import androidx.compose.ui.res.stringResource
-import com.blacksquircle.ui.core.extensions.showToast
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import com.blacksquircle.ui.ds.PreviewBackground
 import androidx.compose.foundation.layout.padding
-import com.blacksquircle.ui.ds.preference.TextFieldPreference
-import com.blacksquircle.ui.ds.preference.PreferenceGroup
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.preference.PreferenceGroup
+import com.blacksquircle.ui.ds.preference.TextFieldPreference
+import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
+import com.blacksquircle.ui.ds.toolbar.Toolbar
+import com.blacksquircle.ui.feature.settings.R
+import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun GitHeaderScreen(

@@ -17,6 +17,21 @@
 package com.blacksquircle.ui.feature.editor.ui.editor
 
 import android.net.Uri
+import java.io.File
+import javax.inject.Inject
+import javax.inject.Provider
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -55,22 +70,7 @@ import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import timber.log.Timber
-import javax.inject.Inject
-import javax.inject.Provider
 import com.blacksquircle.ui.ds.R as UiR
-import java.io.File
 
 internal class EditorViewModel @Inject constructor(
     private val stringProvider: StringProvider,
@@ -665,6 +665,10 @@ internal class EditorViewModel @Inject constructor(
             }
             if (settingsManager.gitCredentials == "" || settingsManager.gitUser == "") {
                 _viewEvent.send(ViewEvent.Toast("You need type git credentials and user in settings"))
+                return@launch
+            }
+            if (settingsManager.gitCredentials.split("::").size != 2 || settingsManager.gitUser.split("::").size != 2) {
+                _viewEvent.send(ViewEvent.Toast("Error: invalid git settings!"))
                 return@launch
             }
             val repoPath = getGitRepoPath(documents[selectedPosition].document.path)

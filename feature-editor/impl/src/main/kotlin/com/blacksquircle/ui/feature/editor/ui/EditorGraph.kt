@@ -25,9 +25,9 @@ import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.ConfirmExitDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.GitDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.InsertColorDialog
-import com.blacksquircle.ui.feature.editor.api.navigation.GitDialog
 import com.blacksquircle.ui.feature.editor.ui.closefile.CloseFileScreen
 import com.blacksquircle.ui.feature.editor.ui.confirmexit.ConfirmExitScreen
 import com.blacksquircle.ui.feature.editor.ui.editor.EditorScreen

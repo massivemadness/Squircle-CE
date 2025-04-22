@@ -19,17 +19,17 @@ package com.blacksquircle.ui.feature.settings.ui.git
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.blacksquircle.ui.core.mvi.ViewEvent
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
-import com.blacksquircle.ui.core.settings.SettingsManager
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.core.settings.SettingsManager
 
 internal class GitHeaderViewModel @Inject constructor(
     private val settingsManager: SettingsManager
