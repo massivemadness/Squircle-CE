@@ -82,8 +82,8 @@ private fun GitScreen(
             title = "Commit",
             content = {
                 TextField(
-                    inputText = commitText,
-                    onInputChanged = { commitText = it }
+                    inputText = commitText.value,
+                    onInputChanged = { commitText.value = it }
                 )
             },
             confirmButton = stringResource(android.R.string.ok),
@@ -107,9 +107,8 @@ private fun GitScreen(
                     }
                 }
             },
-            onDismissClicked = {
-                showCommitDialog.value = false
-            }
+            onDismissClicked = { showCommitDialog.value = false },
+            onDismiss = { showCommitDialog.value = false }
         )
     }
     AlertDialog(
@@ -165,10 +164,7 @@ private fun GitScreen(
                     iconRes = UiR.drawable.ic_commit,
                     title = "Commit",
                     subtitle = "Commit local repo changes",
-                    onClick = {
-                        commitText = ""
-                        showCommitDialog.value = true
-                    }
+                    onClick = { showCommitDialog.value = true }
                 )
                 GitActionRow(
                     iconRes = UiR.drawable.ic_upload,
