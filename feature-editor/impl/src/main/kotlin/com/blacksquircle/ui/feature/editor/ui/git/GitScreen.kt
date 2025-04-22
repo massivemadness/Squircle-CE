@@ -58,6 +58,7 @@ private fun GitScreen(
 ) {
     AlertDialog(
         title = "Git",
+        horizontalPadding = false,
         content = {
             Column {
                 GitActionRow(
