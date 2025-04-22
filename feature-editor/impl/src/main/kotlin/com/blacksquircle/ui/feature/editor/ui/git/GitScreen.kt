@@ -23,20 +23,9 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import androidx.compose.ui.res.stringResource
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.SquircleTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.material.Text
-import androidx.compose.material.Icon
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.ui.res.painterResource
 import com.blacksquircle.ui.ds.R as UiR
-import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.padding
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
@@ -68,7 +57,6 @@ private fun GitScreen(
     val userData = user.split("::")
     val git = Git.open(File(repoPath))
     val credentialsProvider = UsernamePasswordCredentialsProvider(auth[0], auth[1])
-    var isLoading = false
     AlertDialog(
         title = "Git",
         horizontalPadding = false,
@@ -82,14 +70,11 @@ private fun GitScreen(
                     title = "Fetch",
                     subtitle = "Fetch content from remote repo",
                     onClick = {
-                        isLoading = true
-                        try {
+                        /*try {
                             git.fetch().setCredentialsProvider(credentialsProvider).setRemote("origin").call()
                         } catch (e: Exception) {
                             // todo: catch
-                        } finally {
-                            isLoading = false
-                        }
+                        }*/
                     }
                 )
                 GitActionRow(
@@ -122,31 +107,6 @@ private fun GitScreen(
         onDismissClicked = onCancelClicked,
         onDismiss = onCancelClicked
     )
-}
-
-@Composable
-private fun GitActionRow(
-    iconRes: Int,
-    title: String,
-    subtitle: String,
-    onClick: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
-            .padding(16.dp)
-    ) {
-        Icon(
-            painter = painterResource(id = iconRes),
-            contentDescription = null
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Column {
-            Text(text = title, style = SquircleTheme.typography.text18Regular)
-            Text(text = subtitle, style = SquircleTheme.typography.text14Regular)
-        }
-    }
 }
 
 @PreviewLightDark
