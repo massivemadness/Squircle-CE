@@ -51,8 +51,8 @@
     <string name="properties_path">Dosya Yolu:</string>
     <string name="properties_modified">Son Düzenleme:</string>
     <string name="properties_size">Dosya Boyutu:</string>
-    <string name="properties_date_format">gg/AA/yyyy EEE SS:mm</string>
-    <string name="explorer_date_format">gg AAA yy E SS:mm:ss</string>
+    <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
+    <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
     <string name="progress_time_format">mm:ss</string>
     <string name="sort_by_name">Ada göre sırala</string>
     <string name="sort_by_size">Boyuta göre sırala</string>
