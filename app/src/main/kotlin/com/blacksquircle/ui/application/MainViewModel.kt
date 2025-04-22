@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -79,19 +80,25 @@ internal class MainViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val colorScheme = themeInteractor.loadTheme(settingsManager.editorTheme)
+                themeManager.apply(colorScheme.type)
 
                 _viewState.update {
-                    it.copy(colorScheme = colorScheme)
+                    it.copy(
+                        colorScheme = colorScheme,
+                        isLoading = false
+                    )
                 }
-
-                themeManager.apply(colorScheme.type)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
+                Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            } finally {
+
                 _viewState.update {
-                    it.copy(isLoading = false)
+                    it.copy(
+                        colorScheme = null,
+                        isLoading = false,
+                    )
                 }
             }
         }

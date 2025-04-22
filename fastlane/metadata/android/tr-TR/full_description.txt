@@ -1,0 +1,33 @@
+<b>Squircle CE</b> şu anda aşağıdaki programlama dillerinde kodlamayı destekliyor: C, C++, C#, CSS, Fortran, Go, Groovy, HTML, Ini, Java, JavaScript, Json, Julia, Kotlin, LaTeX, Lisp, Lua, Markdown, PHP, Python, Ruby, Rust, Shell, Smali, SQL, Toml, TypeScript, Visual Basic, XML ve YAML.
+
+İşte daha üretken bir şekilde çalışmanıza yardımcı olacak özelliklerin listesi:
+
+<b>Sözdizimi Vurgulama</b>
+Güzel sözdizimi vurgulama, kodunuzu tek bakışta daha iyi anlamanızı sağlar
+
+<b>Kod Tamamlama</b>
+Kod düzenleyici, dosya içeriğine dayalı temel tamamlama sağlar, dosya kapsamınızdaki işlevlerin, alanların ve anahtar sözcüklerin adlarını önerir
+
+<b>Dosya Yöneticisi</b>
+SFTP/FTP(S) entegrasyonuna sahip dahili bir dosya yöneticisi, dosyaları cep telefonu ve bilgisayar arasında aktarmak için kullanışlı bir yol sağlar
+
+<b>Oturumlar Arası Düzenleme</b>
+Tüm değişiklikleriniz otomatik olarak önbelleğe kaydedilecektir, uygulamadan her çıktığınızda dosyayı kaydetmenize gerek yoktur
+
+<b>Sınırsız Geri Alma/Yeniden Yapma</b>
+Eğer bir hata yaptıysanız veya dün düzenlediğiniz kaynak koduna geri dönmek istiyorsanız, basitçe «Geri Al» düğmesini kullanın
+
+<b>Eşleşen Ayırıcıları Vurgula</b>
+Editörde kodla çalıştığınızda, imleci çiftine ayarladığınızda açılış veya kapanış ayracı ((), [] ve {}) vurgulanarak kod yapısını hızlı bir şekilde anlamanıza yardımcı olabilir
+
+<b>Kod Stili</b>
+Squircle CE kodunuzu yazmanız için daha iyi bir yol sağlar, düzenleyici satırları otomatik olarak girintiler, açık parantezleri, süslü parantezleri ve tırnak işaretlerini kapatır
+
+<b>Satırı Seç, Sil ve Kopyala</b>
+«Düzenle» menüsündeki şık seçenekleri kullanarak kodun bir kısmını kolayca silebilir veya kopyalayabilirsiniz
+
+<b>Renk Şemaları</b>
+Farklı renk şemaları, kaynak kodunuzdaki ayrılmış sözcükler ve diğer semboller için sözdizimi vurgulamasını tanımlar: operatörler, anahtar kelimeler, öneriler, dize sabitleri vb
+
+<b>AÇIK KAYNAK KOD</b>
+<b>•</b> <u>https://github.com/massivemadness/Squircle-CE</u>
