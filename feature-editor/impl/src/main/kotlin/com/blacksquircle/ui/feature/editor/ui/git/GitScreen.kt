@@ -68,7 +68,7 @@ private fun GitScreen(
     val credentialsProvider = UsernamePasswordCredentialsProvider(auth[0], auth[1])
     val showProgress = remember { mutableStateOf(false) }
     val showCommitDialog = remember { mutableStateOf(false) }
-    var commitText by remember { mutableStateOf("") }
+    var commitText = remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
     if (showProgress.value) {
         AlertDialog(
