@@ -27,7 +27,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.navigation.NavController
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.R as UiR
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.ds.textfield.TextField
@@ -39,6 +38,7 @@ import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.errors.RefNotFoundException
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun GitScreen(
@@ -99,7 +99,8 @@ private fun GitScreen(
                     try {
                         withContext(Dispatchers.IO) {
                             git.add().addFilepattern(".").call()
-                            git.commit()
+                            git
+                                .commit()
                                 .setMessage(commitText.value)
                                 .setAuthor(userData[0], userData[1])
                                 .call()
@@ -135,11 +136,13 @@ private fun GitScreen(
                     try {
                         withContext(Dispatchers.IO) {
                             try {
-                                git.checkout()
+                                git
+                                    .checkout()
                                     .setName(branchName.value)
                                     .call()
                             } catch (e: RefNotFoundException) {
-                                git.checkout()
+                                git
+                                    .checkout()
                                     .setCreateBranch(true)
                                     .setName(branchName.value)
                                     .call()
@@ -170,7 +173,8 @@ private fun GitScreen(
                             showProgress.value = true
                             try {
                                 withContext(Dispatchers.IO) {
-                                    git.fetch()
+                                    git
+                                        .fetch()
                                         .setRemote("origin")
                                         .setCredentialsProvider(credentialsProvider)
                                         .call()
@@ -192,7 +196,8 @@ private fun GitScreen(
                             showProgress.value = true
                             try {
                                 withContext(Dispatchers.IO) {
-                                    git.pull()
+                                    git
+                                        .pull()
                                         .setRemote("origin")
                                         .setCredentialsProvider(credentialsProvider)
                                         .call()
@@ -220,7 +225,8 @@ private fun GitScreen(
                             showProgress.value = true
                             try {
                                 withContext(Dispatchers.IO) {
-                                    git.push()
+                                    git
+                                        .push()
                                         .setRemote("origin")
                                         .setCredentialsProvider(credentialsProvider)
                                         .call()

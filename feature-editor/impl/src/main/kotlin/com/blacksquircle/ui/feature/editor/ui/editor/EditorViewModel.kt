@@ -17,21 +17,6 @@
 package com.blacksquircle.ui.feature.editor.ui.editor
 
 import android.net.Uri
-import java.io.File
-import javax.inject.Inject
-import javax.inject.Provider
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import timber.log.Timber
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -41,7 +26,6 @@ import com.blacksquircle.ui.core.extensions.indexOrNull
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.ds.R as UiR
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
@@ -71,6 +55,22 @@ import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.io.File
+import javax.inject.Inject
+import javax.inject.Provider
+import com.blacksquircle.ui.ds.R as UiR
 
 internal class EditorViewModel @Inject constructor(
     private val stringProvider: StringProvider,
@@ -804,7 +804,9 @@ internal class EditorViewModel @Inject constructor(
 
                 settingsManager.selectedUuid = documents
                     .getOrNull(currentPosition)
-                    ?.document?.uuid.orEmpty()
+                    ?.document
+                    ?.uuid
+                    .orEmpty()
 
                 documentRepository.closeDocument(document)
 
@@ -1143,58 +1145,52 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun errorState(e: Throwable): ErrorState {
-        return when (e) {
-            is PermissionException -> ErrorState(
-                icon = UiR.drawable.ic_file_error,
-                title = stringProvider.getString(UiR.string.message_access_denied),
-                subtitle = stringProvider.getString(UiR.string.message_access_required),
-                action = ErrorAction.REQUEST_PERMISSIONS,
-            )
-            else -> ErrorState(
-                icon = UiR.drawable.ic_file_error,
-                title = stringProvider.getString(UiR.string.common_error_occurred),
-                subtitle = e.message.orEmpty(),
-                action = ErrorAction.CLOSE_DOCUMENT,
-            )
-        }
+    private fun errorState(e: Throwable): ErrorState = when (e) {
+        is PermissionException -> ErrorState(
+            icon = UiR.drawable.ic_file_error,
+            title = stringProvider.getString(UiR.string.message_access_denied),
+            subtitle = stringProvider.getString(UiR.string.message_access_required),
+            action = ErrorAction.REQUEST_PERMISSIONS,
+        )
+        else -> ErrorState(
+            icon = UiR.drawable.ic_file_error,
+            title = stringProvider.getString(UiR.string.common_error_occurred),
+            subtitle = e.message.orEmpty(),
+            action = ErrorAction.CLOSE_DOCUMENT,
+        )
     }
 
     private inline fun List<DocumentState>.mapSelected(
         predicate: (DocumentState) -> DocumentState
-    ): List<DocumentState> {
-        return mapIndexed { index, state ->
-            if (index == selectedPosition) {
-                predicate(state)
-            } else {
-                state
-            }
+    ): List<DocumentState> = mapIndexed { index, state ->
+        if (index == selectedPosition) {
+            predicate(state)
+        } else {
+            state
         }
     }
 
-    private suspend fun loadSettings(): EditorSettings {
-        return EditorSettings(
-            fontSize = settingsManager.fontSize.toFloat(),
-            fontType = fontsInteractor.loadFont(settingsManager.fontType),
-            wordWrap = settingsManager.wordWrap,
-            codeCompletion = settingsManager.codeCompletion,
-            pinchZoom = settingsManager.pinchZoom,
-            lineNumbers = settingsManager.lineNumbers,
-            highlightCurrentLine = settingsManager.highlightCurrentLine,
-            highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters,
-            highlightCodeBlocks = settingsManager.highlightCodeBlocks,
-            showInvisibleChars = settingsManager.showInvisibleChars,
-            readOnly = settingsManager.readOnly,
-            extendedKeyboard = settingsManager.extendedKeyboard,
-            keyboardPreset = settingsManager.keyboardPreset.toMutableList().distinct(),
-            softKeyboard = settingsManager.softKeyboard,
-            autoIndentation = settingsManager.autoIndentation,
-            autoClosePairs = settingsManager.autoClosePairs,
-            useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs,
-            tabWidth = settingsManager.tabWidth,
-            keybindings = shortcutsInteractor.loadShortcuts(),
-        )
-    }
+    private suspend fun loadSettings(): EditorSettings = EditorSettings(
+        fontSize = settingsManager.fontSize.toFloat(),
+        fontType = fontsInteractor.loadFont(settingsManager.fontType),
+        wordWrap = settingsManager.wordWrap,
+        codeCompletion = settingsManager.codeCompletion,
+        pinchZoom = settingsManager.pinchZoom,
+        lineNumbers = settingsManager.lineNumbers,
+        highlightCurrentLine = settingsManager.highlightCurrentLine,
+        highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters,
+        highlightCodeBlocks = settingsManager.highlightCodeBlocks,
+        showInvisibleChars = settingsManager.showInvisibleChars,
+        readOnly = settingsManager.readOnly,
+        extendedKeyboard = settingsManager.extendedKeyboard,
+        keyboardPreset = settingsManager.keyboardPreset.toMutableList().distinct(),
+        softKeyboard = settingsManager.softKeyboard,
+        autoIndentation = settingsManager.autoIndentation,
+        autoClosePairs = settingsManager.autoClosePairs,
+        useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs,
+        tabWidth = settingsManager.tabWidth,
+        keybindings = shortcutsInteractor.loadShortcuts(),
+    )
 
     class Factory : ViewModelProvider.Factory {
 
@@ -1202,8 +1198,6 @@ internal class EditorViewModel @Inject constructor(
         lateinit var viewModelProvider: Provider<EditorViewModel>
 
         @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return viewModelProvider.get() as T
-        }
+        override fun <T : ViewModel> create(modelClass: Class<T>): T = viewModelProvider.get() as T
     }
 }

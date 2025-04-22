@@ -87,8 +87,7 @@ private fun ForceSyntaxScreen(
                                 interactionSource = interactionSource,
                                 indication = ripple(),
                                 onClick = { onLanguageSelected(value) }
-                            )
-                            .padding(horizontal = 24.dp)
+                            ).padding(horizontal = 24.dp)
                     ) {
                         Radio(
                             title = entries[index],
