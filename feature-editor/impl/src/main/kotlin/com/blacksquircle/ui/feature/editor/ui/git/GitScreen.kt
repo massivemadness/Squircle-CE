@@ -40,7 +40,9 @@ import androidx.compose.foundation.layout.padding
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
-import com.blacksquircle.ui.ds.progress
+import com.blacksquircle.ui.ds.progress.LinearProgress
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 
 @Composable
 internal fun GitScreen(
@@ -84,7 +86,7 @@ private fun GitScreen(
                     onClick = {
                         isLoading = true
                         try {
-                            git.fetch().setCredentialsProvider(credentialsProvider).setRemote(git.repository.branch).call()
+                            git.fetch().setCredentialsProvider(credentialsProvider).setRemote("origin").call()
                         } catch (e: Exception) {
                             // todo: catch
                         } finally {
