@@ -39,6 +39,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.blacksquircle.ui.ds.textfield.TextField
+import org.eclipse.jgit.api.errors.RefNotFoundException
 
 @Composable
 internal fun GitScreen(
@@ -68,7 +69,9 @@ private fun GitScreen(
     val credentialsProvider = UsernamePasswordCredentialsProvider(auth[0], auth[1])
     val showProgress = remember { mutableStateOf(false) }
     val showCommitDialog = remember { mutableStateOf(false) }
-    var commitText = remember { mutableStateOf("") }
+    val showCheckoutDialog = remember { mutableStateOf(false) }
+    val commitText = remember { mutableStateOf("") }
+    val branchName = remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
     if (showProgress.value) {
         AlertDialog(
@@ -110,6 +113,47 @@ private fun GitScreen(
             },
             onDismissClicked = { showCommitDialog.value = false },
             onDismiss = { showCommitDialog.value = false }
+        )
+    }
+    if (showCheckoutDialog.value) {
+        AlertDialog(
+            title = "Checkout branch",
+            content = {
+                TextField(
+                    inputText = branchName.value,
+                    placeholderText = "main",
+                    labelText = "Current branch: " + git.repository.branch,
+                    onInputChanged = { branchName.value = it }
+                )
+            },
+            confirmButton = stringResource(android.R.string.ok),
+            dismissButton = stringResource(android.R.string.cancel),
+            onConfirmClicked = {
+                coroutineScope.launch {
+                    showProgress.value = true
+                    showCheckoutDialog.value = false
+                    try {
+                        withContext(Dispatchers.IO) {
+                            try {
+                                git.checkout()
+                                    .setName(branchName.value)
+                                    .call()
+                            } catch (e: RefNotFoundException) {
+                                git.checkout()
+                                    .setCreateBranch(true)
+                                    .setName(branchName.value)
+                                    .call()
+                            }
+                        }
+                    } catch (e: Exception) {
+                        // todo: error toast
+                    } finally {
+                        showProgress.value = false
+                    }
+                }
+            },
+            onDismissClicked = { showCheckoutDialog.value = false },
+            onDismiss = { showCheckoutDialog.value = false }
         )
     }
     AlertDialog(
@@ -192,8 +236,8 @@ private fun GitScreen(
                 GitActionRow(
                     iconRes = UiR.drawable.ic_folder_data,
                     title = "Checkout branch",
-                    subtitle = "Change local repo branch",
-                    onClick = { /* TODO: Реализовать checkout */ }
+                    subtitle = "Change or create local repo branch",
+                    onClick = { showCheckoutDialog.value = true }
                 )
             }
         },
