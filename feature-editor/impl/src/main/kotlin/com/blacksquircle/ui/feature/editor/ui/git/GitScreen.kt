@@ -30,6 +30,13 @@ import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
 import androidx.compose.foundation.layout.fillMaxWidth
+import com.blacksquircle.ui.ds.progress.LinearProgress
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 
 @Composable
 internal fun GitScreen(
@@ -57,6 +64,16 @@ private fun GitScreen(
     val userData = user.split("::")
     val git = Git.open(File(repoPath))
     val credentialsProvider = UsernamePasswordCredentialsProvider(auth[0], auth[1])
+    val showProgress = remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+    if (showProgress.value) {
+        AlertDialog(
+            title = "Please wait...",
+            content = {
+                LinearProgress(indeterminate = true)
+            }
+        )
+    }
     AlertDialog(
         title = "Git",
         horizontalPadding = false,
@@ -67,11 +84,21 @@ private fun GitScreen(
                     title = "Fetch",
                     subtitle = "Fetch content from remote repo",
                     onClick = {
-                        /*try {
-                            git.fetch().setCredentialsProvider(credentialsProvider).setRemote("origin").call()
-                        } catch (e: Exception) {
-                            // todo: catch
-                        }*/
+                        coroutineScope.launch {
+                            showProgress.value = true
+                            try {
+                                withContext(Dispatchers.IO) {
+                                    git.fetch()
+                                        .setRemote("origin")
+                                        .setCredentialsProvider(credentialsProvider)
+                                        .call()
+                                }
+                            } catch (e: Exception) {
+                                // todo: error toast
+                            } finally {
+                                showProgress.value = false
+                            }
+                        }
                     }
                 )
                 GitActionRow(
