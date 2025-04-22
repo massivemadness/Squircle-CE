@@ -96,7 +96,7 @@ private fun GitScreen(
                         withContext(Dispatchers.IO) {
                             git.add().addFilepattern(".").call()
                             git.commit()
-                                .setMessage(commitText)
+                                .setMessage(commitText.value)
                                 .setAuthor(userData[0], userData[1])
                                 .call()
                         }
