@@ -82,10 +82,13 @@ private fun GitScreen(
                     title = "Fetch",
                     subtitle = "Fetch content from remote repo",
                     onClick = {
+                        isLoading = true
                         try {
                             git.fetch().setCredentialsProvider(credentialsProvider).setRemote(git.repository.branch).call()
                         } catch (e: Exception) {
                             // todo: catch
+                        } finally {
+                            isLoading = false
                         }
                     }
                 )
