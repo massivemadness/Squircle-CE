@@ -34,6 +34,7 @@ import com.blacksquircle.ui.ds.progress.LinearProgress
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -71,7 +72,8 @@ private fun GitScreen(
             title = "Please wait...",
             content = {
                 LinearProgress(indeterminate = true)
-            }
+            },
+            onDismiss = {}
         )
     }
     AlertDialog(
