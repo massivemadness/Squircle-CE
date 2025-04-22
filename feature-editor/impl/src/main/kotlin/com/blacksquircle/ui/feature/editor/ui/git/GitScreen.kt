@@ -16,32 +16,29 @@
 
 package com.blacksquircle.ui.feature.editor.ui.git
 
-import androidx.compose.runtime.Composable
-import com.blacksquircle.ui.feature.editor.api.navigation.GitDialog
-import androidx.navigation.NavController
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import com.blacksquircle.ui.ds.dialog.AlertDialog
-import androidx.compose.ui.res.stringResource
-import com.blacksquircle.ui.ds.PreviewBackground
-import androidx.compose.ui.Modifier
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.navigation.NavController
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R as UiR
-import org.eclipse.jgit.api.Git
-import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
-import java.io.File
-import androidx.compose.foundation.layout.fillMaxWidth
+import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.progress.LinearProgress
-import kotlinx.coroutines.CoroutineScope
+import com.blacksquircle.ui.ds.textfield.TextField
+import com.blacksquircle.ui.feature.editor.api.navigation.GitDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import com.blacksquircle.ui.ds.textfield.TextField
+import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.errors.RefNotFoundException
-import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
+import java.io.File
 
 @Composable
 internal fun GitScreen(

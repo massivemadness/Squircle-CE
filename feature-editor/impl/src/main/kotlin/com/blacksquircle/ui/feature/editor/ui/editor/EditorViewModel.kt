@@ -41,6 +41,7 @@ import com.blacksquircle.ui.core.extensions.indexOrNull
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.ds.R as UiR
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
@@ -70,7 +71,6 @@ import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.ds.R as UiR
 
 internal class EditorViewModel @Inject constructor(
     private val stringProvider: StringProvider,
@@ -682,7 +682,7 @@ internal class EditorViewModel @Inject constructor(
 
     private fun getGitRepoPath(path: String): String {
         var current = File(path)
-            while (current.parentFile != null) {
+        while (current.parentFile != null) {
             val gitDir = File(current, ".git")
             if (gitDir.exists() && gitDir.isDirectory) {
                 return gitDir.absolutePath
