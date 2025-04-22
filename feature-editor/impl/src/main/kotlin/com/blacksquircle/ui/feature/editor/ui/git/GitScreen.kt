@@ -143,7 +143,7 @@ private fun GitScreen(
                             dismissButton = stringResource(android.R.string.cancel),
                             confirmButton = stringResource(android.R.string.ok),
                             onDismissClicked = onCancelClicked,
-                            onDismiss = onCancelClicked
+                            onDismiss = onCancelClicked,
                             onConfirmClicked = {
                                 coroutineScope.launch {
                                     showProgress.value = true
