@@ -67,14 +67,49 @@ private fun GitScreen(
     val git = Git.open(File(repoPath))
     val credentialsProvider = UsernamePasswordCredentialsProvider(auth[0], auth[1])
     val showProgress = remember { mutableStateOf(false) }
+    val showCommitDialog = remember { mutableStateOf(false) }
+    var commitText by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
     if (showProgress.value) {
         AlertDialog(
             title = "Please wait...",
-            content = {
-                LinearProgress(indeterminate = true)
-            },
+            content = { LinearProgress(indeterminate = true) },
             onDismiss = {}
+        )
+    }
+    if (showCommitDialog.value) {
+        AlertDialog(
+            title = "Commit",
+            content = {
+                TextField(
+                    inputText = commitText,
+                    onInputChanged = { commitText = it }
+                )
+            },
+            confirmButton = stringResource(android.R.string.ok),
+            dismissButton = stringResource(android.R.string.cancel),
+            onConfirmClicked = {
+                coroutineScope.launch {
+                    showProgress.value = true
+                    showCommitDialog.value = false
+                    try {
+                        withContext(Dispatchers.IO) {
+                            git.add().addFilepattern(".").call()
+                            git.commit()
+                                .setMessage(commitText)
+                                .setAuthor(userData[0], userData[1])
+                                .call()
+                        }
+                    } catch (e: Exception) {
+                        // todo: error toast
+                    } finally {
+                        showProgress.value = false
+                    }
+                }
+            },
+            onDismissClicked = {
+                showCommitDialog.value = false
+            }
         )
     }
     AlertDialog(
@@ -131,38 +166,8 @@ private fun GitScreen(
                     title = "Commit",
                     subtitle = "Commit local repo changes",
                     onClick = {
-                        var commitText = ""
-                        AlertDialog(
-                            title = "Commit",
-                            content = {
-                                TextField(
-                                    inputText = commitText,
-                                    onInputChanged = { commitText = inputText }
-                                )
-                            },
-                            onDismiss = onCancelClicked,
-                            confirmButton = stringResource(android.R.string.ok),
-                            dismissButton = stringResource(android.R.string.cancel),
-                            onConfirmClicked = {
-                                coroutineScope.launch {
-                                    showProgress.value = true
-                                    try {
-                                        withContext(Dispatchers.IO) {
-                                            git.add().addFilepattern(".").call()
-                                            git.pull()
-                                                .setRemote("origin")
-                                                .setCredentialsProvider(credentialsProvider)
-                                                .call()
-                                        }
-                                    } catch (e: Exception) {
-                                        // todo: error toast
-                                    } finally {
-                                        showProgress.value = false
-                                    }
-                                }
-                            },
-                            onDismissClicked = onCancelClicked
-                        )
+                        commitText = ""
+                        showCommitDialog.value = true
                     }
                 )
                 GitActionRow(
