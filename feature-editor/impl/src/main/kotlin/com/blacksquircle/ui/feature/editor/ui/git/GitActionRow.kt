@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.editor.ui.git
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -30,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.modifier.debounceClickable
 
 @Composable
 fun GitActionRow(
@@ -41,7 +41,9 @@ fun GitActionRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() }
+            .debounceClickable(
+                onClick = onClick()
+            )
             .padding(16.dp)
     ) {
         Icon(
