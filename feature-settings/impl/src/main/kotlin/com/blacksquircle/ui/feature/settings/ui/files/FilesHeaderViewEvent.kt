@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.filesystem.base.exception
+package com.blacksquircle.ui.feature.settings.ui.files
 
-class PermissionException : FilesystemException("You have no access to work with this file")
+import com.blacksquircle.ui.core.mvi.ViewEvent
+
+internal sealed class FilesHeaderViewEvent : ViewEvent {
+    data object OpenStorageSettings : FilesHeaderViewEvent()
+}

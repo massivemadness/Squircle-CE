@@ -41,6 +41,7 @@ internal fun ErrorStatus(
             title = errorState.title,
             subtitle = errorState.subtitle,
             action = when (errorState.action) {
+                ErrorAction.REQUEST_PERMISSIONS -> stringResource(UiR.string.common_grant_access)
                 ErrorAction.CLOSE_DOCUMENT -> stringResource(R.string.action_close)
                 else -> null
             },

@@ -19,7 +19,6 @@
     <string name="hint_enter_archive_name">輸入壓縮檔名稱</string>
     <string name="hint_enter_password">輸入密碼</string>
     <string name="hint_enter_passphrase">輸入複雜密碼</string>
-    <string name="action_grant_access">授予訪問權限</string>
     <string name="action_authenticate">驗證</string>
     <string name="action_create">新增</string>
     <string name="action_copy_path">複製路徑</string>
@@ -61,8 +60,6 @@
     <string name="message_auth_required">需要驗證</string>
     <string name="message_enter_password">輸入密碼以連線至遠端伺服器</string>
     <string name="message_enter_passphrase">輸入複雜密碼以連線至遠端伺服器</string>
-    <string name="message_access_denied">沒有存儲空間訪問權限</string>
-    <string name="message_access_required">為了能正常編寫程式，必須授予存儲權限</string>
     <string name="message_cannot_be_opened">檔案無法開啟</string>
     <string name="message_invalid_file_name">無效的檔案名稱</string>
     <string name="message_file_already_exists">檔案已存在</string>

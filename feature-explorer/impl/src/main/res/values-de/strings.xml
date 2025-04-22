@@ -22,7 +22,6 @@
     <string name="hint_enter_password">Enter password</string>
     <string name="hint_enter_passphrase">Enter passphrase</string>
 
-    <string name="action_grant_access">Zugriff zulassen</string>
     <string name="action_authenticate">Authenticate</string>
     <string name="action_create">Erstellen</string>
     <string name="action_copy_path">Pfad kopieren</string>
@@ -70,8 +69,6 @@
     <string name="message_auth_required">Auth Required</string>
     <string name="message_enter_password">Enter password to connect to remote server</string>
     <string name="message_enter_passphrase">Enter passphrase to connect to remote server</string>
-    <string name="message_access_denied">Zugriff abgelehnt</string>
-    <string name="message_access_required">Anwendung benötigt Speicherzugriff, um mit Dateien zu arbeiten</string>
     <string name="message_cannot_be_opened">Datei kann nicht geöffnet werden</string>
     <string name="message_invalid_file_name">Ungültiger Dateiname</string>
     <string name="message_file_already_exists">Datei existiert bereits</string>

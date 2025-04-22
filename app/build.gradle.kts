@@ -29,7 +29,7 @@ android {
 
     defaultConfig {
         applicationId = "com.blacksquircle.ui"
-        versionCode = 10024
+        versionCode = 10025
         versionName = "2025.1.0"
     }
     compileOptions {

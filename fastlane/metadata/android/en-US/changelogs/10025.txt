@@ -1,0 +1,13 @@
+- New UI! 🎉
+- New editor renderer - faster and more stable! 🎉
+- Added: Language Embedding (HTML + JS)
+- Added: Connection status for FTP(S)
+- Added: Private keys are now stored in the app's private folder
+- Added: «Show Invisible Characters» option in Settings > Editor
+- Added: Selection indicator for fonts and themes
+- Fixed: Bug when copying a folder into itself
+- Fixed: Path issues when using SAF
+- Fixed: Tab key now indents selected text
+- Fixed: Issue with renaming files
+- Fixed: Auto-detection of encoding for FTP servers wasn't working
+- Bugfixes and minor improvements
