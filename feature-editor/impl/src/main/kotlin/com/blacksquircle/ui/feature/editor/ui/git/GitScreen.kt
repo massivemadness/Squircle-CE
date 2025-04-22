@@ -58,96 +58,69 @@ private fun GitScreen(
 ) {
     AlertDialog(
         title = "Git",
-        verticalScroll = false,
-        horizontalPadding = false,
         content = {
             Column {
-                 Row(
-                     modifier = Modifier
-                         .fillMaxWidth()
-                         .clickable { /* ничего не делаем пока */ }
-                         .padding(16.dp)
-                 ) {
-                     Icon(
-                         painter = painterResource(id = UiR.drawable.ic_sync),
-                         contentDescription = null
-                     )
-                     Spacer(modifier = Modifier.width(16.dp))
-                     Column {
-                         Text(text = "Fetch", style = SquircleTheme.typography.text18Regular)
-                         Text(text = "Fetch content from remote repo", style = SquircleTheme.typography.text14Regular)
-                     }
-                 }
-                 Row(
-                     modifier = Modifier
-                         .fillMaxWidth()
-                         .clickable { /* ничего не делаем пока */ }
-                         .padding(16.dp)
-                 ) {
-                     Icon(
-                         painter = painterResource(id = UiR.drawable.ic_download),
-                         contentDescription = null
-                     )
-                     Spacer(modifier = Modifier.width(16.dp))
-                     Column {
-                         Text(text = "Pull", style = SquircleTheme.typography.text18Regular)
-                         Text(text = "Pull changes from remote repo", style = SquircleTheme.typography.text14Regular)
-                     }
-                 }
-                 Row(
-                     modifier = Modifier
-                         .fillMaxWidth()
-                         .clickable { /* ничего не делаем пока */ }
-                         .padding(16.dp)
-                 ) {
-                     Icon(
-                         painter = painterResource(id = UiR.drawable.ic_commit),
-                         contentDescription = null
-                     )
-                     Spacer(modifier = Modifier.width(16.dp))
-                     Column {
-                         Text(text = "Commit", style = SquircleTheme.typography.text18Regular)
-                         Text(text = "Commit local repo changes", style = SquircleTheme.typography.text14Regular)
-                     }
-                 }
-                 Row(
-                     modifier = Modifier
-                         .fillMaxWidth()
-                         .clickable { /* ничего не делаем пока */ }
-                         .padding(16.dp)
-                 ) {
-                     Icon(
-                         painter = painterResource(id = UiR.drawable.ic_upload),
-                         contentDescription = null
-                     )
-                     Spacer(modifier = Modifier.width(16.dp))
-                     Column {
-                         Text(text = "Push", style = SquircleTheme.typography.text18Regular)
-                         Text(text = "Push content to remote repo", style = SquircleTheme.typography.text14Regular)
-                     }
-                 }
-                 Row(
-                     modifier = Modifier
-                         .fillMaxWidth()
-                         .clickable { /* ничего не делаем пока */ }
-                         .padding(16.dp)
-                 ) {
-                     Icon(
-                         painter = painterResource(id = UiR.drawable.ic_folder_data),
-                         contentDescription = null
-                     )
-                     Spacer(modifier = Modifier.width(16.dp))
-                     Column {
-                         Text(text = "Checkout branch", style = SquircleTheme.typography.text18Regular)
-                         Text(text = "Change local repo branch", style = SquircleTheme.typography.text14Regular)
-                     }
-                 }
+                GitActionRow(
+                    iconRes = UiR.drawable.ic_sync,
+                    title = "Fetch",
+                    subtitle = "Fetch content from remote repo",
+                    onClick = { /* TODO: Реализовать fetch */ }
+                )
+                GitActionRow(
+                    iconRes = UiR.drawable.ic_download,
+                    title = "Pull",
+                    subtitle = "Pull changes from remote repo",
+                    onClick = { /* TODO: Реализовать pull */ }
+                )
+                GitActionRow(
+                    iconRes = UiR.drawable.ic_commit,
+                    title = "Commit",
+                    subtitle = "Commit local repo changes",
+                    onClick = { /* TODO: Реализовать commit */ }
+                )
+                GitActionRow(
+                    iconRes = UiR.drawable.ic_upload,
+                    title = "Push",
+                    subtitle = "Push content to remote repo",
+                    onClick = { /* TODO: Реализовать push */ }
+                )
+                GitActionRow(
+                    iconRes = UiR.drawable.ic_folder_data,
+                    title = "Checkout branch",
+                    subtitle = "Change local repo branch",
+                    onClick = { /* TODO: Реализовать checkout */ }
+                )
             }
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onCancelClicked,
         onDismiss = onCancelClicked
     )
+}
+
+@Composable
+private fun GitActionRow(
+    iconRes: Int,
+    title: String,
+    subtitle: String,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(16.dp)
+    ) {
+        Icon(
+            painter = painterResource(id = iconRes),
+            contentDescription = null
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Column {
+            Text(text = title, style = SquircleTheme.typography.text18Regular)
+            Text(text = subtitle, style = SquircleTheme.typography.text14Regular)
+        }
+    }
 }
 
 @PreviewLightDark
