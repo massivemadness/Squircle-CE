@@ -38,6 +38,7 @@ import kotlinx.coroutines.withContext
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import com.blacksquircle.ui.ds.textfield.TextField
 
 @Composable
 internal fun GitScreen(
@@ -129,7 +130,9 @@ private fun GitScreen(
                     iconRes = UiR.drawable.ic_commit,
                     title = "Commit",
                     subtitle = "Commit local repo changes",
-                    onClick = { /* TODO: Реализовать commit */ }
+                    onClick = {
+                        TextField()
+                    }
                 )
                 GitActionRow(
                     iconRes = UiR.drawable.ic_upload,
