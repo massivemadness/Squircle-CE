@@ -103,6 +103,7 @@ private fun GitScreen(
                                 .commit()
                                 .setMessage(commitText.value)
                                 .setAuthor(userData[0], userData[1])
+                                .setCommitter(userData[0], userData[1])
                                 .call()
                         }
                     } catch (e: Exception) {
