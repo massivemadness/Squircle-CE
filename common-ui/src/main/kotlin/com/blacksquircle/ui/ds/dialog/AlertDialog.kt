@@ -55,7 +55,8 @@ fun AlertDialog(
     onConfirmClicked: () -> Unit = {},
     onDismissClicked: () -> Unit = {},
     properties: DialogProperties = DialogProperties(),
-    confirmEnabled: Boolean = true,
+    confirmButtonEnabled: Boolean = true,
+    dismissButtonEnabled: Boolean = true
 ) {
     Dialog(
         onDismissRequest = onDismiss,
@@ -112,6 +113,7 @@ fun AlertDialog(
                         TextButton(
                             text = dismissButton,
                             onClick = onDismissClicked
+                            enabled = dismissButtonEnabled
                         )
                     }
                     if (dismissButton != null && confirmButton != null) {
@@ -121,7 +123,7 @@ fun AlertDialog(
                         TextButton(
                             text = confirmButton,
                             onClick = onConfirmClicked,
-                            enabled = confirmEnabled
+                            enabled = confirmButtonEnabled
                         )
                     }
                 }

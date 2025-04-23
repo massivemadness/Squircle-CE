@@ -96,7 +96,7 @@ fun DoubleTextFieldPreference(
                 showDialog = false
                 onConfirmClicked(text1, text2)
             },
-            confirmEnabled = confirmEnabled,
+            confirmButtonEnabled = confirmEnabled,
             dismissButton = dismissButton,
             onDismissClicked = {
                 showDialog = false
