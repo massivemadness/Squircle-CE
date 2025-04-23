@@ -33,7 +33,7 @@ import javax.inject.Provider
 import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
 
 internal class GitViewModel @Inject constructor(
-    private val settingsManager: SettingsManager
+    private val settingsManager: SettingsManager,
     private val gitRepository: GitRepository
 ) : ViewModel() {
 
