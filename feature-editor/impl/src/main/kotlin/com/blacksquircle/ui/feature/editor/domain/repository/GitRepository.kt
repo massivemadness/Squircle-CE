@@ -20,9 +20,9 @@ internal interface GitRepository {
 
     suspend fun getRepoPath(path: String): String
 
-    suspend fun fetch(repoPath: String)
-    suspend fun pull(repoPath: String)
-    suspend fun commit(repoPath: String, text: String)
-    suspend fun push(repoPath: String)
-    suspend fun checkout(repoPath: String, branch: String)
+    suspend fun fetch(repository: String)
+    suspend fun pull(repository: String)
+    suspend fun commit(repository: String, message: String)
+    suspend fun push(repository: String)
+    suspend fun checkout(repository: String, branch: String)
 }

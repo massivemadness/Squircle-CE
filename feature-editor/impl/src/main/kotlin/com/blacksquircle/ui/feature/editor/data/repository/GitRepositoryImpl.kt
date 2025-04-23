@@ -55,65 +55,65 @@ internal class GitRepositoryImpl(
         }
     }
 
-    override suspend fun fetch(repoPath: String) {
+    override suspend fun fetch(repository: String) {
         withContext(dispatcherProvider.io()) {
+            val git = Git.open(File(repository))
             val credentialsProvider = UsernamePasswordCredentialsProvider(
                 settingsManager.gitCredentialsUsername,
                 settingsManager.gitCredentialsPassword
             )
-            Git.open(File(repoPath))
-                .fetch()
+            git.fetch()
                 .setRemote(GIT_ORIGIN)
                 .setCredentialsProvider(credentialsProvider)
                 .call()
         }
     }
 
-    override suspend fun pull(repoPath: String) {
+    override suspend fun pull(repository: String) {
         withContext(dispatcherProvider.io()) {
+            val git = Git.open(File(repository))
             val credentialsProvider = UsernamePasswordCredentialsProvider(
                 settingsManager.gitCredentialsUsername,
                 settingsManager.gitCredentialsPassword
             )
-            Git.open(File(repoPath))
-                .pull()
+            git.pull()
                 .setRemote(GIT_ORIGIN)
                 .setCredentialsProvider(credentialsProvider)
                 .call()
         }
     }
 
-    override suspend fun commit(repoPath: String, text: String) {
+    override suspend fun commit(repository: String, message: String) {
         withContext(dispatcherProvider.io()) {
-            val git = Git.open(File(repoPath))
+            val git = Git.open(File(repository))
             git.add()
                 .addFilepattern(GIT_ALL)
                 .call()
             git.commit()
-                .setMessage(text)
+                .setMessage(message)
                 .setAuthor(settingsManager.gitUserName, settingsManager.gitUserEmail)
                 .setCommitter(settingsManager.gitUserName, settingsManager.gitUserEmail)
                 .call()
         }
     }
 
-    override suspend fun push(repoPath: String) {
+    override suspend fun push(repository: String) {
         withContext(dispatcherProvider.io()) {
+            val git = Git.open(File(repository))
             val credentialsProvider = UsernamePasswordCredentialsProvider(
                 settingsManager.gitCredentialsUsername,
                 settingsManager.gitCredentialsPassword
             )
-            Git.open(File(repoPath))
-                .push()
+            git.push()
                 .setRemote(GIT_ORIGIN)
                 .setCredentialsProvider(credentialsProvider)
                 .call()
         }
     }
 
-    override suspend fun checkout(repoPath: String, branch: String) {
+    override suspend fun checkout(repository: String, branch: String) {
         withContext(dispatcherProvider.io()) {
-            val git = Git.open(File(repoPath))
+            val git = Git.open(File(repository))
             try {
                 git.checkout()
                     .setName(branch)

@@ -42,13 +42,12 @@ internal fun GitScreen(
     navController: NavController,
     viewModel: GitViewModel = daggerViewModel { context ->
         val component = EditorComponent.buildOrGet(context)
-        GitViewModel.Factory().also(component::inject)
+        GitViewModel.ParameterizedFactory(navArgs.repository).also(component::inject)
     }
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     GitScreen(
         viewState = viewState,
-        repoPath = navArgs.repoPath,
         onFetchClicked = viewModel::onFetchClicked,
         onPullClicked = viewModel::onPullClicked,
         onCommitClicked = viewModel::onCommitClicked,
@@ -72,12 +71,11 @@ internal fun GitScreen(
 @Composable
 private fun GitScreen(
     viewState: GitViewState,
-    repoPath: String,
-    onFetchClicked: (String) -> Unit = {},
-    onPullClicked: (String) -> Unit = {},
-    onCommitClicked: (String) -> Unit = {},
-    onPushClicked: (String) -> Unit = {},
-    onCheckoutClicked: (String) -> Unit = {},
+    onFetchClicked: () -> Unit = {},
+    onPullClicked: () -> Unit = {},
+    onCommitClicked: () -> Unit = {},
+    onPushClicked: () -> Unit = {},
+    onCheckoutClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {}
 ) {
     AlertDialog(
@@ -89,31 +87,31 @@ private fun GitScreen(
                     iconRes = UiR.drawable.ic_autorenew,
                     title = stringResource(R.string.git_fetch_title),
                     subtitle = stringResource(R.string.git_fetch_description),
-                    onClick = { onFetchClicked(repoPath) }
+                    onClick = onFetchClicked,
                 )
                 GitAction(
                     iconRes = UiR.drawable.ic_tray_arrow_down,
                     title = stringResource(R.string.git_pull_title),
                     subtitle = stringResource(R.string.git_pull_description),
-                    onClick = { onPullClicked(repoPath) }
+                    onClick = onPullClicked,
                 )
                 GitAction(
                     iconRes = UiR.drawable.ic_source_commit,
                     title = stringResource(R.string.git_commit_title),
                     subtitle = stringResource(R.string.git_commit_description),
-                    onClick = { onCommitClicked(repoPath) }
+                    onClick = onCommitClicked,
                 )
                 GitAction(
                     iconRes = UiR.drawable.ic_tray_arrow_up,
                     title = stringResource(R.string.git_push_title),
                     subtitle = stringResource(R.string.git_push_description),
-                    onClick = { onPushClicked(repoPath) }
+                    onClick = onPushClicked,
                 )
                 GitAction(
                     iconRes = UiR.drawable.ic_folder_data,
                     title = stringResource(R.string.git_checkout_branch_title),
                     subtitle = stringResource(R.string.git_checkout_branch_description),
-                    onClick = { onCheckoutClicked(repoPath) }
+                    onClick = onCheckoutClicked,
                 )
             }
         },
@@ -135,7 +133,6 @@ private fun GitScreenPreview() {
                 showCommitDialog = false,
                 showBranchDialog = false
             ),
-            repoPath = "/sdcard/my-project",
         )
     }
 }

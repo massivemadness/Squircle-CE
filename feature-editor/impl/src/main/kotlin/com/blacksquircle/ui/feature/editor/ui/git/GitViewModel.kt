@@ -21,6 +21,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,10 +32,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Provider
 
-internal class GitViewModel @Inject constructor(
-    private val gitRepository: GitRepository
+internal class GitViewModel @AssistedInject constructor(
+    private val gitRepository: GitRepository,
+    @Assisted private val repository: String,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(GitViewState())
@@ -47,66 +50,71 @@ internal class GitViewModel @Inject constructor(
         }
     }
 
-    fun onFetchClicked(repoPath: String) {
+    fun onFetchClicked() {
         viewModelScope.launch {
             try {
-                gitRepository.fetch(repoPath)
+                gitRepository.fetch(repository)
             } catch (e: Exception) {
                 _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
             }
         }
     }
 
-    fun onPullClicked(repoPath: String) {
+    fun onPullClicked() {
         viewModelScope.launch {
             try {
-                gitRepository.pull(repoPath)
+                gitRepository.pull(repository)
             } catch (e: Exception) {
                 _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
             }
         }
     }
 
-    fun onCommitClicked(repoPath: String) {
+    fun onCommitClicked() {
         viewModelScope.launch {
             try {
                 // todo: commit dialog with text field (value = commit text)
-                gitRepository.commit(repoPath, "new commit")
+                gitRepository.commit(repository, "new commit")
             } catch (e: Exception) {
                 _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
             }
         }
     }
 
-    fun onPushClicked(repoPath: String) {
+    fun onPushClicked() {
         viewModelScope.launch {
             try {
-                gitRepository.push(repoPath)
+                gitRepository.push(repository)
             } catch (e: Exception) {
                 _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
             }
         }
     }
 
-    fun onCheckoutClicked(repoPath: String) {
+    fun onCheckoutClicked() {
         viewModelScope.launch {
             try {
                 // todo: checkout dialog with text field (value = branch)
-                gitRepository.checkout(repoPath, "test")
+                gitRepository.checkout(repository, "test")
             } catch (e: Exception) {
                 _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
             }
         }
     }
 
-    class Factory : ViewModelProvider.Factory {
+    class ParameterizedFactory(private val repository: String) : ViewModelProvider.Factory {
 
         @Inject
-        lateinit var viewModelProvider: Provider<GitViewModel>
+        lateinit var viewModelFactory: Factory
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return viewModelProvider.get() as T
+            return viewModelFactory.create(repository) as T
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(@Assisted repositoryPath: String): GitViewModel
     }
 }

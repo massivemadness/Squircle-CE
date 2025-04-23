@@ -47,7 +47,7 @@ import dagger.Component
 internal interface EditorComponent {
 
     fun inject(factory: EditorViewModel.Factory)
-    fun inject(factory: GitViewModel.Factory)
+    fun inject(factory: GitViewModel.ParameterizedFactory)
 
     @Component.Factory
     interface Factory {

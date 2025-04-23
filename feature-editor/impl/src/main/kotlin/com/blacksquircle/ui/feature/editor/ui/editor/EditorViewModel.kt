@@ -667,8 +667,8 @@ internal class EditorViewModel @Inject constructor(
                 return@launch
             }
             try {
-                val repoPath = gitRepository.getRepoPath(documents[selectedPosition].document.path)
-                val screen = GitDialog(repoPath)
+                val repository = gitRepository.getRepoPath(documents[selectedPosition].document.path)
+                val screen = GitDialog(repository)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: InvalidCredentialsException) {
                 val message = stringProvider.getString(R.string.git_error_invalid_credentials)
