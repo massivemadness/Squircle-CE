@@ -83,31 +83,31 @@ private fun GitScreen(
         horizontalPadding = false,
         content = {
             Column {
-                GitActionRow(
-                    iconRes = UiR.drawable.ic_sync,
+                GitAction(
+                    iconRes = UiR.drawable.ic_autorenew,
                     title = "Fetch",
                     subtitle = "Fetch content from remote repo",
                     onClick = { onFetchClicked(repoPath) }
                 )
-                GitActionRow(
-                    iconRes = UiR.drawable.ic_download,
+                GitAction(
+                    iconRes = UiR.drawable.ic_tray_arrow_down,
                     title = "Pull",
                     subtitle = "Pull changes from remote repo",
                     onClick = { onPullClicked(repoPath) }
                 )
-                GitActionRow(
-                    iconRes = UiR.drawable.ic_commit,
+                GitAction(
+                    iconRes = UiR.drawable.ic_source_commit,
                     title = "Commit",
                     subtitle = "Commit local repo changes",
                     onClick = { onCommitClicked(repoPath) }
                 )
-                GitActionRow(
-                    iconRes = UiR.drawable.ic_upload,
+                GitAction(
+                    iconRes = UiR.drawable.ic_tray_arrow_up,
                     title = "Push",
                     subtitle = "Push content to remote repo",
                     onClick = { onPushClicked(repoPath) }
                 )
-                GitActionRow(
+                GitAction(
                     iconRes = UiR.drawable.ic_folder_data,
                     title = "Checkout branch",
                     subtitle = "Change or create local repo branch",
