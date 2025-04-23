@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.ds.preference
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -65,20 +66,22 @@ fun DoubleTextFieldPreference(
         AlertDialog(
             title = dialogTitle ?: title,
             content = {
-                TextField(
-                    inputText = text1,
-                    onInputChanged = { text1 = it },
-                    labelText = labelText1,
-                    helpText = helpText1,
-                    textStyle = inputTextStyle,
-                )
-                TextField(
-                    inputText = text2,
-                    onInputChanged = { text2 = it },
-                    labelText = labelText2,
-                    helpText = helpText2,
-                    textStyle = inputTextStyle,
-                )
+                Column {
+                    TextField(
+                        inputText = text1,
+                        onInputChanged = { text1 = it },
+                        labelText = labelText1,
+                        helpText = helpText1,
+                        textStyle = inputTextStyle,
+                    )
+                    TextField(
+                        inputText = text2,
+                        onInputChanged = { text2 = it },
+                        labelText = labelText2,
+                        helpText = helpText2,
+                        textStyle = inputTextStyle,
+                    )
+                }
             },
             confirmButton = confirmButton,
             onConfirmClicked = {
