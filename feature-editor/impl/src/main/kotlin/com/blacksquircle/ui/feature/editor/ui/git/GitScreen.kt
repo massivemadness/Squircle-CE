@@ -32,6 +32,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.res.stringResource
+import com.blacksquircle.ui.feature.editor.ui.git.compose.GitAction
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -49,7 +50,7 @@ internal fun GitScreen(
         repoPath = navArgs.repoPath,
         onFetchClicked = viewModel::onFetchClicked,
         onPullClicked = viewModel::onPullClicked,
-        onCommitClicked = viewModel::onFetchClicked,
+        onCommitClicked = viewModel::onCommitClicked,
         onPushClicked = viewModel::onPushClicked,
         onCheckoutClicked = viewModel::onCheckoutClicked,
         onBackClicked = viewModel::onBackClicked
@@ -86,31 +87,31 @@ private fun GitScreen(
                 GitAction(
                     iconRes = UiR.drawable.ic_autorenew,
                     title = "Fetch",
-                    subtitle = "Fetch content from remote repo",
+                    subtitle = "Fetch content from remote repository",
                     onClick = { onFetchClicked(repoPath) }
                 )
                 GitAction(
                     iconRes = UiR.drawable.ic_tray_arrow_down,
                     title = "Pull",
-                    subtitle = "Pull changes from remote repo",
+                    subtitle = "Pull changes from remote repository",
                     onClick = { onPullClicked(repoPath) }
                 )
                 GitAction(
                     iconRes = UiR.drawable.ic_source_commit,
                     title = "Commit",
-                    subtitle = "Commit local repo changes",
+                    subtitle = "Commit local repository changes",
                     onClick = { onCommitClicked(repoPath) }
                 )
                 GitAction(
                     iconRes = UiR.drawable.ic_tray_arrow_up,
                     title = "Push",
-                    subtitle = "Push content to remote repo",
+                    subtitle = "Push content to remote repository",
                     onClick = { onPushClicked(repoPath) }
                 )
                 GitAction(
                     iconRes = UiR.drawable.ic_folder_data,
                     title = "Checkout branch",
-                    subtitle = "Change or create local repo branch",
+                    subtitle = "Change or create local repository branch",
                     onClick = { onCheckoutClicked(repoPath) }
                 )
             }

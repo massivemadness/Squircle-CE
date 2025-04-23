@@ -21,9 +21,9 @@ import com.blacksquircle.ui.core.mvi.ViewState
 
 @Immutable
 internal data class GitViewState(
-    val branch: String,
-    val commitText: String,
-    val isLoading: Boolean,
-    val showCommitDialog: Boolean,
-    val showBranchDialog: Boolean
+    val branch: String = "",
+    val commitText: String = "",
+    val isLoading: Boolean = false,
+    val showCommitDialog: Boolean = false,
+    val showBranchDialog: Boolean = false,
 ) : ViewState

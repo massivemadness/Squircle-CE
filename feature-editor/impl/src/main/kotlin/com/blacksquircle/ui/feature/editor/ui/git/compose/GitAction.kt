@@ -14,22 +14,27 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.git
+package com.blacksquircle.ui.feature.editor.ui.git.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.modifier.debounceClickable
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun GitAction(
@@ -39,21 +44,47 @@ internal fun GitAction(
     onClick: () -> Unit
 ) {
     Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .debounceClickable(
-                onClick = onClick
-            )
+            .debounceClickable(onClick = onClick)
             .padding(16.dp)
     ) {
         Icon(
-            painter = painterResource(id = iconRes),
-            contentDescription = null
+            painter = painterResource(iconRes),
+            contentDescription = null,
+            tint = SquircleTheme.colors.colorTextAndIconPrimary,
         )
+
         Spacer(modifier = Modifier.width(16.dp))
+
         Column {
-            Text(text = title, style = SquircleTheme.typography.text18Regular)
-            Text(text = subtitle, style = SquircleTheme.typography.text14Regular)
+            Text(
+                text = title,
+                style = SquircleTheme.typography.text16Regular,
+                color = SquircleTheme.colors.colorTextAndIconPrimary,
+            )
+
+            Spacer(Modifier.height(2.dp))
+
+            Text(
+                text = subtitle,
+                style = SquircleTheme.typography.text14Regular,
+                color = SquircleTheme.colors.colorTextAndIconSecondary,
+            )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun GitActionPreview() {
+    PreviewBackground {
+        GitAction(
+            iconRes = UiR.drawable.ic_autorenew,
+            title = "Fetch",
+            subtitle = "Fetch content from remote repository",
+            onClick = {},
+        )
     }
 }

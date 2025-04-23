@@ -35,19 +35,11 @@ internal class GitViewModel @Inject constructor(
     private val gitRepository: GitRepository
 ) : ViewModel() {
 
-    private val _viewState = MutableStateFlow(GitViewState(
-        branch = "",
-        commitText = "",
-        isLoading = false,
-        showCommitDialog = false,
-        showBranchDialog = false
-    ))
+    private val _viewState = MutableStateFlow(GitViewState())
     val viewState: StateFlow<GitViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
-
-    private var counter: Int = 1
 
     fun onBackClicked() {
         viewModelScope.launch {
