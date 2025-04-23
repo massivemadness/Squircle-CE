@@ -50,6 +50,8 @@ fun DoubleTextFieldPreference(
     onDismissClicked: () -> Unit = {},
     dialogShown: Boolean = false,
     dialogTitle: String? = null,
+    placeholderText1: String = "",
+    placeholderText2: String = ""
 ) {
     var showDialog by rememberSaveable { mutableStateOf(dialogShown) }
     Preference(
@@ -73,6 +75,7 @@ fun DoubleTextFieldPreference(
                         labelText = labelText1,
                         helpText = helpText1,
                         textStyle = inputTextStyle,
+                        placeholderText = placeholderText1
                     )
                     TextField(
                         inputText = text2,
@@ -80,6 +83,7 @@ fun DoubleTextFieldPreference(
                         labelText = labelText2,
                         helpText = helpText2,
                         textStyle = inputTextStyle,
+                        placeholderText = placeholderText2
                     )
                 }
             },
