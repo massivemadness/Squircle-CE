@@ -103,8 +103,8 @@ private fun GitHeaderScreen(
                 confirmButton = stringResource(UiR.string.common_save),
                 dismissButton = stringResource(android.R.string.cancel),
                 inputTextStyle = TextStyle(fontFamily = FontFamily.Monospace),
-                placeholderText1 = "SuperDev",
-                placeholderText2 = "ghp_...",
+                placeholderText1 = "Username. Example: SuperDev",
+                placeholderText2 = "Token. Example: ghp_...",
                 inputValue1 = viewState.credentialsUsername,
                 inputValue2 = viewState.credentialsToken,
                 onConfirmClicked = { username, token ->
@@ -118,8 +118,8 @@ private fun GitHeaderScreen(
                 confirmButton = stringResource(UiR.string.common_save),
                 dismissButton = stringResource(android.R.string.cancel),
                 inputTextStyle = TextStyle(fontFamily = FontFamily.Monospace),
-                placeholderText1 = "superdev@gmail.com",
-                placeholderText2 = "Super-Dev",
+                placeholderText1 = "Email. Example: superdev@gmail.com",
+                placeholderText2 = "Name. Example: Super-Dev",
                 inputValue1 = viewState.userEmail,
                 inputValue2 = viewState.userName,
                 onConfirmClicked = { email, name ->

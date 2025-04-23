@@ -20,7 +20,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.settings.SettingsManager
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +32,6 @@ import javax.inject.Provider
 import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
 
 internal class GitViewModel @Inject constructor(
-    private val settingsManager: SettingsManager,
     private val gitRepository: GitRepository
 ) : ViewModel() {
 
@@ -59,31 +57,53 @@ internal class GitViewModel @Inject constructor(
 
     fun onFetchClicked(repoPath: String) {
         viewModelScope.launch {
-            // todo
+            try {
+                gitRepository.fetch(repoPath)
+            } catch (e: Exception) {
+                _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
+            }
         }
     }
 
     fun onPullClicked(repoPath: String) {
         viewModelScope.launch {
-            // todo
+            try {
+                gitRepository.pull(repoPath)
+            } catch (e: Exception) {
+                _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
+            }
         }
     }
 
     fun onCommitClicked(repoPath: String) {
         viewModelScope.launch {
-            // todo
+            try {
+                // todo: commit dialog with text field (value = commit text)
+                gitRepository.commit(repoPath, "new commit")
+            } catch (e: Exception) {
+                _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
+            }
         }
     }
 
     fun onPushClicked(repoPath: String) {
         viewModelScope.launch {
-            // todo
+            try {
+                gitRepository.push(repoPath)
+            } catch (e: Exception) {
+                _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
+            }
         }
     }
 
     fun onCheckoutClicked(repoPath: String) {
         viewModelScope.launch {
-            // todo
+            try {
+                // todo: checkout dialog with text field (value = branch)
+                gitRepository.checkout(repoPath, "test")
+            } catch (e: Exception) {
+                _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
+            }
         }
     }
 
