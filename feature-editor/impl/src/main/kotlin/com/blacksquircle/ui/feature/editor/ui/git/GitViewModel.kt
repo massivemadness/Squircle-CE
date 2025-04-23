@@ -57,6 +57,36 @@ internal class GitViewModel @Inject constructor(
         }
     }
 
+    fun onFetchClicked(repoPath: String) {
+        viewModelScope.launch {
+            // todo
+        }
+    }
+
+    fun onPullClicked(repoPath: String) {
+        viewModelScope.launch {
+            // todo
+        }
+    }
+
+    fun onCommitClicked(repoPath: String) {
+        viewModelScope.launch {
+            // todo
+        }
+    }
+
+    fun onPushClicked(repoPath: String) {
+        viewModelScope.launch {
+            // todo
+        }
+    }
+
+    fun onCheckoutClicked(repoPath: String) {
+        viewModelScope.launch {
+            // todo
+        }
+    }
+
     class Factory : ViewModelProvider.Factory {
 
         @Inject

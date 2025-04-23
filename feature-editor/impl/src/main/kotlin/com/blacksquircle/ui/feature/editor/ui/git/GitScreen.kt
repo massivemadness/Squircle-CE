@@ -32,6 +32,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.res.stringResource
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun GitScreen(
@@ -46,6 +47,11 @@ internal fun GitScreen(
     GitScreen(
         viewState = viewState,
         repoPath = navArgs.repoPath,
+        onFetchClicked = viewModel::onFetchClicked,
+        onPullClicked = viewModel::onPullClicked,
+        onCommitClicked = viewModel::onFetchClicked,
+        onPushClicked = viewModel::onFetchClicked,
+        onCheckoutClicked = viewModel::onCheckoutClicked,
         onBackClicked = viewModel::onBackClicked
     )
 
@@ -65,6 +71,11 @@ internal fun GitScreen(
 private fun GitScreen(
     viewState: GitViewState,
     repoPath: String,
+    onFetchClicked: (String) -> Unit = {},
+    onFullClicked: (String) -> Unit = {},
+    onCommitClicked: (String) -> Unit = {},
+    onPushClicked: (String) -> Unit = {},
+    onCheckoutClicked: (String) -> Unit = {},
     onBackClicked: () -> Unit = {}
 ) {
     AlertDialog(
@@ -72,7 +83,36 @@ private fun GitScreen(
         horizontalPadding = false,
         content = {
             Column {
-                // todo
+                GitActionRow(
+                    iconRes = UiR.drawable.ic_sync,
+                    title = "Fetch",
+                    subtitle = "Fetch content from remote repo",
+                    onClick = { onFetchClicked(repoPath) }
+                )
+                GitActionRow(
+                    iconRes = UiR.drawable.ic_download,
+                    title = "Pull",
+                    subtitle = "Pull changes from remote repo",
+                    onClick = { onPullClicked(repoPath) }
+                )
+                GitActionRow(
+                    iconRes = UiR.drawable.ic_commit,
+                    title = "Commit",
+                    subtitle = "Commit local repo changes",
+                    onClick = { onCommitClicked(repoPath) }
+                )
+                GitActionRow(
+                    iconRes = UiR.drawable.ic_upload,
+                    title = "Push",
+                    subtitle = "Push content to remote repo",
+                    onClick = { onPushClicked(repoPath) }
+                )
+                GitActionRow(
+                    iconRes = UiR.drawable.ic_folder_data,
+                    title = "Checkout branch",
+                    subtitle = "Change or create local repo branch",
+                    onClick = { onCheckoutClicked(repoPath) }
+                )
             }
         },
         dismissButton = stringResource(android.R.string.cancel),
