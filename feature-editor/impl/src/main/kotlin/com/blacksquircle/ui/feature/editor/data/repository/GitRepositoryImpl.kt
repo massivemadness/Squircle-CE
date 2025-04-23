@@ -20,7 +20,11 @@ import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
+import kotlinx.coroutines.withContext
 import java.io.File
+
+class InvalidCredentialsException : Exception("Missing Git credentials or user info")
+class RepositoryNotFoundException : Exception("Git repository not found")
 
 internal class GitRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
@@ -28,15 +32,24 @@ internal class GitRepositoryImpl(
     private val context: Context,
 ) : GitRepository {
 
-    override suspend fun getRepoPath(path: String): String {
+    override suspend fun getRepoPath(path: String): String = withContext(dispatcherProvider.io) {
+        if (settingsManager.gitCredentialsUsername.isEmpty() ||
+            settingsManager.gitCredentialsToken.isEmpty() ||
+            settingsManager.gitUserEmail.isEmpty() ||
+            settingsManager.gitUserName.isEmpty()
+        ) {
+            throw InvalidCredentialsException()
+        }
+
         var current = File(path)
         while (current.parentFile != null) {
             val gitDir = File(current, ".git")
             if (gitDir.exists() && gitDir.isDirectory) {
-                return current.absolutePath
+                return@withContext current.absolutePath
             }
             current = current.parentFile
         }
-        return ""
+
+        throw RepositoryNotFoundException()
     }
 }

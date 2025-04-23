@@ -41,6 +41,8 @@ import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
+import com.blacksquircle.ui.feature.editor.domain.repository.InvalidCredentialsException
+import com.blacksquircle.ui.feature.editor.domain.repository.RepositoryNotFoundException
 import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorCommand
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorSettings
@@ -68,7 +70,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.io.File
 import javax.inject.Inject
 import javax.inject.Provider
 import com.blacksquircle.ui.ds.R as UiR
@@ -662,20 +663,24 @@ internal class EditorViewModel @Inject constructor(
 
     fun onGitClicked() {
         viewModelScope.launch {
-            if (selectedPosition !in documents.indices) {
-                return@launch
+            if (selectedPosition !in documents.indices) return@launch
+            try {
+                val repoPath = gitRepository.getRepoPath(documents[selectedPosition].document.path)
+                val screen = GitDialog(
+                    repoPath,
+                    settingsManager.gitCredentialsUsername,
+                    settingsManager.gitCredentialsToken,
+                    settingsManager.gitUserEmail,
+                    settingsManager.gitUserName,
+                ) // todo: remove git data args
+                _viewEvent.send(ViewEvent.Navigation(screen))
+            } catch (e: InvalidCredentialsException) {
+                _viewEvent.send(ViewEvent.Toast("You need to fill in all Git credentials and user info in settings."))
+            } catch (e: RepositoryNotFoundException) {
+                _viewEvent.send(ViewEvent.Toast("This is not a Git repository!"))
+            } catch (e: Exception) {
+                _viewEvent.send(ViewEvent.Toast("Unexpected error: ${e.localizedMessage}"))
             }
-            if (settingsManager.gitCredentialsUsername == "" || settingsManager.gitCredentialsToken == "" || settingsManager.gitUserEmail == "" || settingsManager.gitUserName == "") {
-                _viewEvent.send(ViewEvent.Toast("You need type git credentials and user in settings"))
-                return@launch
-            }
-            val repoPath = gitRepository.getRepoPath(documents[selectedPosition].document.path)
-            if (repoPath == "") {
-                _viewEvent.send(ViewEvent.Toast("This is not git repository!"))
-                return@launch
-            }
-            val screen = GitDialog(repoPath, settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken, settingsManager.gitUserEmail, settingsManager.gitUserName)
-            _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 
