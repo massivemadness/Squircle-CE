@@ -18,5 +18,5 @@ package com.blacksquircle.ui.feature.editor.domain.repository
 
 internal interface GitRepository {
 
-    suspend fun getGitRepoPath(path: String): String
+    suspend fun getRepoPath(path: String): String
 }
