@@ -55,6 +55,7 @@ fun AlertDialog(
     onConfirmClicked: () -> Unit = {},
     onDismissClicked: () -> Unit = {},
     properties: DialogProperties = DialogProperties(),
+    confirmEnabled: Boolean = true,
 ) {
     Dialog(
         onDismissRequest = onDismiss,
@@ -101,7 +102,6 @@ fun AlertDialog(
                         .then(scrollableModifier)
                         .then(paddingModifier)
                 )
-
                 Row(
                     horizontalArrangement = Arrangement.End,
                     modifier = Modifier
@@ -120,7 +120,8 @@ fun AlertDialog(
                     if (confirmButton != null) {
                         TextButton(
                             text = confirmButton,
-                            onClick = onConfirmClicked
+                            onClick = onConfirmClicked,
+                            enabled = confirmEnabled
                         )
                     }
                 }

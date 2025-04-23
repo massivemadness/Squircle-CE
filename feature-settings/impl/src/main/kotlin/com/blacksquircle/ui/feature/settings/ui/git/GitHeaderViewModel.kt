@@ -49,24 +49,28 @@ internal class GitHeaderViewModel @Inject constructor(
         }
     }
 
-    fun onCredentialsChanged(credentials: String) {
+    fun onCredentialsChanged(credentialsUsername: String, credentialsToken: String) {
         viewModelScope.launch {
-            settingsManager.gitCredentials = credentials
+            settingsManager.gitCredentialsUsername = credentialsUsername
+            settingsManager.gitCredentialsToken = credentialsToken
             _viewState.value = updateViewState()
         }
     }
 
-    fun onUserChanged(user: String) {
+    fun onUserChanged(userEmail: String, userName: String) {
         viewModelScope.launch {
-            settingsManager.gitUser = user
+            settingsManager.gitUserEmail = userEmail
+            settingsManager.gitUserName = userName
             _viewState.value = updateViewState()
         }
     }
 
     private fun updateViewState(): GitHeaderViewState {
         return GitHeaderViewState(
-            credentials = settingsManager.gitCredentials,
-            user = settingsManager.gitUser
+            credentialsUsername = settingsManager.gitCredentialsUsername,
+            credentialsToken = settingsManager.gitCredentialsToken,
+            userEmail = settingsManager.gitUserEmail,
+            userName = settingsManager.gitUserName
         )
     }
 

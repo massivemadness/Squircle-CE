@@ -37,7 +37,7 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
-import com.blacksquircle.ui.ds.preference.TextFieldPreference
+import com.blacksquircle.ui.ds.preference.DoubleTextFieldPreference
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
@@ -76,8 +76,8 @@ internal fun GitHeaderScreen(
 private fun GitHeaderScreen(
     viewState: GitHeaderViewState,
     onBackClicked: () -> Unit = {},
-    onCredentialsChanged: (String) -> Unit = {},
-    onUserChanged: (String) -> Unit = {}
+    onCredentialsChanged: (String, String) -> Unit = {},
+    onUserChanged: (String, String) -> Unit = {}
 ) {
     ScaffoldSuite(
         topBar = {
@@ -97,29 +97,37 @@ private fun GitHeaderScreen(
             PreferenceGroup(
                 title = "Git"
             )
-            TextFieldPreference(
-                title = "Credentials",
-                subtitle = "Credentials using for auth",
-                enabled = true,
+            DoubleTextFieldPreference(
+                title = "Git Credentials",
+                subtitle = "Credentials for authentication",
                 confirmButton = stringResource(UiR.string.common_save),
                 dismissButton = stringResource(android.R.string.cancel),
-                labelText = "Format: Username::token",
-                helpText = "Example: SuperDev::ghp_...",
-                inputTextStyle = TextStyle(fontFamily = FontFamily.Monospace),
-                inputValue = viewState.credentials,
-                onConfirmClicked = onCredentialsChanged
+                labelText1 = "Username",
+                labelText2 = "Token",
+                helpText1 = "Example: SuperDev",
+                helpText2 = "Example: ghp_...",
+                inputValue1 = viewState.credentialsUsername,
+                inputValue2 = viewState.credentialsToken,
+                onConfirmClicked = { username, token ->
+                    onCredentialsChanged(username, token)
+                },
+                requireBothFields = true
             )
-            TextFieldPreference(
-                title = "User",
-                subtitle = "User data using for commit/push",
-                enabled = true,
+            DoubleTextFieldPreference(
+                title = "Git User",
+                subtitle = "User info for commit/push",
                 confirmButton = stringResource(UiR.string.common_save),
                 dismissButton = stringResource(android.R.string.cancel),
-                labelText = "Format: email@example.com::Name",
-                helpText = "Example: superdev@gmail.com::Super-Dev",
-                inputTextStyle = TextStyle(fontFamily = FontFamily.Monospace),
-                inputValue = viewState.user,
-                onConfirmClicked = onUserChanged
+                labelText1 = "Email",
+                labelText2 = "Name",
+                helpText1 = "Example: superdev@gmail.com",
+                helpText2 = "Example: Super-Dev",
+                inputValue1 = viewState.userEmail,
+                inputValue2 = viewState.userName,
+                onConfirmClicked = { email, name ->
+                    onUserChanged(email, name)
+                },
+                requireBothFields = true
             )
         }
     }
@@ -131,8 +139,10 @@ private fun GitHeaderScreenPreview() {
     PreviewBackground {
         GitHeaderScreen(
             viewState = GitHeaderViewState(
-                credentials = "",
-                user = ""
+                credentialsUsername = "",
+                credentialsToken = "",
+                userEmail = "",
+                userName = ""
             )
         )
     }
