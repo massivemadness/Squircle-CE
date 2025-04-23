@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.editor.ui.git
 
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.feature.editor.internal.EditorComponent
