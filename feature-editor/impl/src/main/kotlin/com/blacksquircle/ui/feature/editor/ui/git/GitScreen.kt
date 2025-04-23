@@ -29,6 +29,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
 import androidx.compose.runtime.LaunchedEffect
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.ds.dialog.AlertDialog
+import androidx.compose.foundation.layout.Column
 
 @Composable
 internal fun GitScreen(
@@ -64,7 +66,18 @@ private fun GitScreen(
     repoPath: String,
     onBackClicked: () -> Unit = {}
 ) {
-    // todo
+    AlertDialog(
+        title = "Git",
+        horizontalPadding = false,
+        content = {
+            Column {
+                // todo
+            }
+        },
+        dismissButton = stringResource(android.R.string.cancel),
+        onDismissClicked = onBackClicked,
+        onDismiss = onBackClicked
+    )
 }
 
 @PreviewLightDark
