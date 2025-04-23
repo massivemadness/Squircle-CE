@@ -666,13 +666,7 @@ internal class EditorViewModel @Inject constructor(
             if (selectedPosition !in documents.indices) return@launch
             try {
                 val repoPath = gitRepository.getRepoPath(documents[selectedPosition].document.path)
-                val screen = GitDialog(
-                    repoPath,
-                    settingsManager.gitCredentialsUsername,
-                    settingsManager.gitCredentialsToken,
-                    settingsManager.gitUserEmail,
-                    settingsManager.gitUserName,
-                ) // todo: remove git data args
+                val screen = GitDialog(repoPath)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: InvalidCredentialsException) {
                 _viewEvent.send(ViewEvent.Toast("You need to fill in all Git credentials and user info in settings."))

@@ -14,27 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.api.navigation
+package com.blacksquircle.ui.feature.editor.ui.git
 
-import kotlinx.serialization.Serializable
+import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.core.mvi.ViewState
 
-@Serializable
-data object EditorScreen
-
-@Serializable
-data class CloseFileDialog(val fileUuid: String, val fileName: String)
-
-@Serializable
-data class ForceSyntaxDialog(val languageName: String)
-
-@Serializable
-data class GitDialog(val repoPath: String)
-
-@Serializable
-data object GoToLineDialog
-
-@Serializable
-data object InsertColorDialog
-
-@Serializable
-data object ConfirmExitDialog
+@Immutable
+internal data class GitViewState(
+    val branch: String,
+    val commitText: String,
+    val isLoading: Boolean,
+    val showCommitDialog: Boolean,
+    val showBranchDialog: Boolean
+) : ViewState

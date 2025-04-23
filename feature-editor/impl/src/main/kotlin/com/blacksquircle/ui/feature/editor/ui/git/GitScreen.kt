@@ -16,16 +16,86 @@
 
 package com.blacksquircle.ui.feature.editor.ui.git
 
+import androidx.navigation.NavController
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.feature.editor.internal.EditorComponent
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.getValue
+import com.blacksquircle.ui.feature.editor.api.navigation.GitDialog
+import com.blacksquircle.ui.core.extensions.showToast
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import com.blacksquircle.ui.ds.PreviewBackground
+
+@Composable
+internal fun GitScreen(
+    navArgs: GitDialog,
+    navController: NavController,
+    viewModel: GitViewModel = daggerViewModel { context ->
+        val component = EditorComponent.buildOrGet(context)
+        GitViewModel.Factory().also(component::inject)
+    }
+) {
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+    GitScreen(
+        viewState = viewState,
+        repoPath = navArgs.repoPath,
+        onBackClicked = viewModel::onBackClicked
+    )
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.viewEvent.collect { event ->
+            when (event) {
+                is ViewEvent.Toast -> context.showToast(text = event.message)
+                is ViewEvent.Navigation -> navController.navigate(event.screen)
+                is ViewEvent.PopBackStack -> navController.popBackStack()
+            }
+        }
+    }
+}
+
+@Composable
+private fun GitScreen(
+    viewState: GitHeaderViewState,
+    repoPath: String,
+    onBackClicked: () -> Unit = {}
+) {
+    // todo
+}
+
+@PreviewLightDark
+@Composable
+private fun GitScreenPreview() {
+    PreviewBackground {
+        GitScreen(
+            viewState = GitViewState(
+                branch = "",
+                commitText = "test",
+                isLoading = false,
+                showCommitDialog = false,
+                showBranchDialog = false
+            ),
+            repoPath = "/sdcard/my-project",
+        )
+    }
+}
+
+/*package com.blacksquircle.ui.feature.editor.ui.git
+
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.progress.LinearProgress
@@ -43,9 +113,12 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 internal fun GitScreen(
     navArgs: GitDialog,
-    navController: NavController
+    navController: NavController,
+    viewModel: GitHeaderViewModel = daggerViewModel
 ) {
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     GitScreen(
+        viewState = viewState,
         repoPath = navArgs.repoPath,
         credentialsUsername = navArgs.credentialsUsername,
         credentialsToken = navArgs.credentialsToken,
@@ -59,6 +132,7 @@ internal fun GitScreen(
 
 @Composable
 private fun GitScreen(
+    viewState: GitViewState,
     repoPath: String,
     credentialsUsername: String,
     credentialsToken: String,
@@ -261,6 +335,11 @@ private fun GitScreen(
 private fun GitScreenPreview() {
     PreviewBackground {
         GitScreen(
+            viewState = GitViewState(
+                branch = "",
+                commitText = "test",
+                isLoading = false
+            ),
             repoPath = "/sdcard/my-project",
             credentialsUsername = "test",
             credentialsToken = "ghp_000000",
@@ -268,4 +347,4 @@ private fun GitScreenPreview() {
             userName = "test"
         )
     }
-}
+}*/
