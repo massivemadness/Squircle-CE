@@ -20,10 +20,10 @@ import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
 import kotlinx.coroutines.withContext
-import java.io.File
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.errors.RefNotFoundException
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
+import java.io.File
 
 class InvalidCredentialsException : Exception("Missing Git credentials or user info")
 class RepositoryNotFoundException : Exception("Git repository not found")
@@ -55,12 +55,14 @@ internal class GitRepositoryImpl(
     }
 
     override suspend fun fetch(path: String) {
-        val credentialsProvider = UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken)
+        val credentialsProvider =
+            UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken)
         Git.open(File(path)).fetch().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
     }
 
     override suspend fun pull(path: String) {
-        val credentialsProvider = UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken)
+        val credentialsProvider =
+            UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken)
         Git.open(File(path)).pull().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
     }
 
@@ -71,7 +73,8 @@ internal class GitRepositoryImpl(
     }
 
     override suspend fun push(path: String) {
-        val credentialsProvider = UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken)
+        val credentialsProvider =
+            UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken)
         Git.open(File(path)).push().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
     }
 

@@ -38,7 +38,6 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.material3.windowsizeclass)
     implementation(libs.androidx.compose.tooling.preview)
     implementation(libs.androidx.compose.ui)
     debugImplementation(libs.androidx.compose.manifest)
@@ -48,6 +47,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.calvin.reorderable)
+    implementation(libs.eclipse.jgit)
     implementation(libs.google.dagger)
     implementation(libs.jakewharton.timber)
     implementation(libs.kotlinx.coroutines.android)
@@ -56,7 +56,6 @@ dependencies {
     implementation(libs.kotlinx.serialization)
     implementation(libs.sora.editor)
     implementation(libs.sora.textmate)
-    implementation(libs.org.eclipse.jgit)
 
     coreLibraryDesugaring(libs.android.tools.desugaring)
     ksp(libs.google.dagger.compiler)

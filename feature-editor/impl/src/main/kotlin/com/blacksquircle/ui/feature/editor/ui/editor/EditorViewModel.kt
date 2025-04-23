@@ -663,17 +663,24 @@ internal class EditorViewModel @Inject constructor(
 
     fun onGitClicked() {
         viewModelScope.launch {
-            if (selectedPosition !in documents.indices) return@launch
+            if (selectedPosition !in documents.indices) {
+                return@launch
+            }
             try {
                 val repoPath = gitRepository.getRepoPath(documents[selectedPosition].document.path)
                 val screen = GitDialog(repoPath)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: InvalidCredentialsException) {
-                _viewEvent.send(ViewEvent.Toast("You need to fill in all Git credentials and user info in settings."))
+                val message = stringProvider.getString(R.string.git_error_invalid_credentials)
+                _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: RepositoryNotFoundException) {
-                _viewEvent.send(ViewEvent.Toast("This is not a Git repository!"))
+                val message = stringProvider.getString(R.string.git_error_repository_not_found)
+                _viewEvent.send(ViewEvent.Toast(message))
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
-                _viewEvent.send(ViewEvent.Toast("Unexpected error: ${e.localizedMessage}"))
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
     }

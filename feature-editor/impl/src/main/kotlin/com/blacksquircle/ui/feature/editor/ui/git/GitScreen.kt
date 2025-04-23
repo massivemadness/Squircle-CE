@@ -16,22 +16,23 @@
 
 package com.blacksquircle.ui.feature.editor.ui.git
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
-import com.blacksquircle.ui.feature.editor.internal.EditorComponent
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.runtime.getValue
-import com.blacksquircle.ui.feature.editor.api.navigation.GitDialog
 import com.blacksquircle.ui.core.extensions.showToast
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import com.blacksquircle.ui.ds.PreviewBackground
-import androidx.compose.runtime.LaunchedEffect
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
-import androidx.compose.foundation.layout.Column
-import androidx.compose.ui.res.stringResource
+import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.feature.editor.api.navigation.GitDialog
+import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.git.compose.GitAction
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -86,32 +87,32 @@ private fun GitScreen(
             Column {
                 GitAction(
                     iconRes = UiR.drawable.ic_autorenew,
-                    title = "Fetch",
-                    subtitle = "Fetch content from remote repository",
+                    title = stringResource(R.string.git_fetch_title),
+                    subtitle = stringResource(R.string.git_fetch_description),
                     onClick = { onFetchClicked(repoPath) }
                 )
                 GitAction(
                     iconRes = UiR.drawable.ic_tray_arrow_down,
-                    title = "Pull",
-                    subtitle = "Pull changes from remote repository",
+                    title = stringResource(R.string.git_pull_title),
+                    subtitle = stringResource(R.string.git_pull_description),
                     onClick = { onPullClicked(repoPath) }
                 )
                 GitAction(
                     iconRes = UiR.drawable.ic_source_commit,
-                    title = "Commit",
-                    subtitle = "Commit local repository changes",
+                    title = stringResource(R.string.git_commit_title),
+                    subtitle = stringResource(R.string.git_commit_description),
                     onClick = { onCommitClicked(repoPath) }
                 )
                 GitAction(
                     iconRes = UiR.drawable.ic_tray_arrow_up,
-                    title = "Push",
-                    subtitle = "Push content to remote repository",
+                    title = stringResource(R.string.git_push_title),
+                    subtitle = stringResource(R.string.git_push_description),
                     onClick = { onPushClicked(repoPath) }
                 )
                 GitAction(
                     iconRes = UiR.drawable.ic_folder_data,
-                    title = "Checkout branch",
-                    subtitle = "Change or create local repository branch",
+                    title = stringResource(R.string.git_checkout_branch_title),
+                    subtitle = stringResource(R.string.git_checkout_branch_description),
                     onClick = { onCheckoutClicked(repoPath) }
                 )
             }
