@@ -50,7 +50,7 @@ internal fun GitScreen(
         onFetchClicked = viewModel::onFetchClicked,
         onPullClicked = viewModel::onPullClicked,
         onCommitClicked = viewModel::onFetchClicked,
-        onPushClicked = viewModel::onFetchClicked,
+        onPushClicked = viewModel::onPushClicked,
         onCheckoutClicked = viewModel::onCheckoutClicked,
         onBackClicked = viewModel::onBackClicked
     )
