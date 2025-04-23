@@ -22,11 +22,11 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
 import java.io.File
 
-internal class DocumentRepositoryImpl(
+internal class GitRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
     private val context: Context,
-) : DocumentRepository {
+) : GitRepository {
 
     override suspend fun getRepoPath(path: String): String {
         var current = File(path)
