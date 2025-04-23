@@ -76,8 +76,8 @@ internal fun GitHeaderScreen(
 private fun GitHeaderScreen(
     viewState: GitHeaderViewState,
     onBackClicked: () -> Unit = {},
-    onCredentialsChanged: (String, String) -> Unit = {},
-    onUserChanged: (String, String) -> Unit = {}
+    onCredentialsChanged: (String, String) -> Unit = { _, _ -> },
+    onUserChanged: (String, String) -> Unit = { _, _ -> }
 ) {
     ScaffoldSuite(
         topBar = {
