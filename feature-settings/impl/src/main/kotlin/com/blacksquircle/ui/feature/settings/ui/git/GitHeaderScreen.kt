@@ -24,6 +24,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -34,12 +37,14 @@ import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.preference.DoubleTextFieldPreference
+import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
+import com.blacksquircle.ui.feature.settings.ui.git.compose.GitCredentialsScreen
+import com.blacksquircle.ui.feature.settings.ui.git.compose.GitUserScreen
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -95,31 +100,41 @@ private fun GitHeaderScreen(
             PreferenceGroup(
                 title = stringResource(R.string.pref_category_git)
             )
-            DoubleTextFieldPreference(
+
+            var credentialsDialogShown by rememberSaveable { mutableStateOf(false) }
+            if (credentialsDialogShown) {
+                GitCredentialsScreen(
+                    initialUsername = viewState.credentialsUsername,
+                    initialPassword = viewState.credentialsPassword,
+                    onConfirmClicked = { username, password ->
+                        onCredentialsChanged(username, password)
+                        credentialsDialogShown = false
+                    },
+                    onDismissClicked = { credentialsDialogShown = false },
+                )
+            }
+            Preference(
                 title = stringResource(R.string.pref_git_credentials_title),
                 subtitle = stringResource(R.string.pref_git_credentials_summary),
-                confirmButton = stringResource(UiR.string.common_save),
-                dismissButton = stringResource(android.R.string.cancel),
-                labelText1 = stringResource(R.string.pref_git_credentials_username),
-                labelText2 = stringResource(R.string.pref_git_credentials_password),
-                inputValue1 = viewState.credentialsUsername,
-                inputValue2 = viewState.credentialsPassword,
-                onConfirmClicked = { username, password ->
-                    onCredentialsChanged(username, password)
-                },
+                onClick = { credentialsDialogShown = true },
             )
-            DoubleTextFieldPreference(
+
+            var userDialogShown by rememberSaveable { mutableStateOf(false) }
+            if (userDialogShown) {
+                GitUserScreen(
+                    initialName = viewState.userName,
+                    initialEmail = viewState.userEmail,
+                    onConfirmClicked = { name, email ->
+                        onUserChanged(name, email)
+                        userDialogShown = false
+                    },
+                    onDismissClicked = { userDialogShown = false },
+                )
+            }
+            Preference(
                 title = stringResource(R.string.pref_git_user_title),
                 subtitle = stringResource(R.string.pref_git_user_summary),
-                confirmButton = stringResource(UiR.string.common_save),
-                dismissButton = stringResource(android.R.string.cancel),
-                labelText1 = stringResource(R.string.pref_git_user_name),
-                labelText2 = stringResource(R.string.pref_git_user_email),
-                inputValue1 = viewState.userName,
-                inputValue2 = viewState.userEmail,
-                onConfirmClicked = { name, email ->
-                    onUserChanged(name, email)
-                },
+                onClick = { userDialogShown = true },
             )
         }
     }
