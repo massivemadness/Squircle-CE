@@ -31,6 +31,7 @@ import androidx.compose.runtime.LaunchedEffect
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.res.stringResource
 
 @Composable
 internal fun GitScreen(
