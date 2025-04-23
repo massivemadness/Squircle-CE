@@ -37,12 +37,12 @@ import com.blacksquircle.ui.feature.editor.api.navigation.GitDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.InsertColorDialog
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
+import com.blacksquircle.ui.feature.editor.data.repository.InvalidCredentialsException
+import com.blacksquircle.ui.feature.editor.data.repository.RepositoryNotFoundException
 import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
-import com.blacksquircle.ui.feature.editor.domain.repository.InvalidCredentialsException
-import com.blacksquircle.ui.feature.editor.domain.repository.RepositoryNotFoundException
 import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorCommand
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorSettings

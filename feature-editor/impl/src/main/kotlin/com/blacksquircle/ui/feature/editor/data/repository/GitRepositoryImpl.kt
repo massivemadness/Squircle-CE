@@ -32,7 +32,7 @@ internal class GitRepositoryImpl(
     private val context: Context,
 ) : GitRepository {
 
-    override suspend fun getRepoPath(path: String): String = withContext(dispatcherProvider.io) {
+    override suspend fun getRepoPath(path: String): String = withContext(dispatcherProvider.io()) {
         if (settingsManager.gitCredentialsUsername.isEmpty() ||
             settingsManager.gitCredentialsToken.isEmpty() ||
             settingsManager.gitUserEmail.isEmpty() ||
