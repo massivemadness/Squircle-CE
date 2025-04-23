@@ -56,64 +56,74 @@ internal class GitRepositoryImpl(
     }
 
     override suspend fun fetch(repoPath: String) {
-        val credentialsProvider = UsernamePasswordCredentialsProvider(
-            settingsManager.gitCredentialsUsername,
-            settingsManager.gitCredentialsPassword
-        )
-        Git.open(File(repoPath))
-            .fetch()
-            .setRemote(GIT_ORIGIN)
-            .setCredentialsProvider(credentialsProvider)
-            .call()
+        withContext(dispatcherProvider.io()) {
+            val credentialsProvider = UsernamePasswordCredentialsProvider(
+                settingsManager.gitCredentialsUsername,
+                settingsManager.gitCredentialsPassword
+            )
+            Git.open(File(repoPath))
+                .fetch()
+                .setRemote(GIT_ORIGIN)
+                .setCredentialsProvider(credentialsProvider)
+                .call()
+        }
     }
 
     override suspend fun pull(repoPath: String) {
-        val credentialsProvider = UsernamePasswordCredentialsProvider(
-            settingsManager.gitCredentialsUsername,
-            settingsManager.gitCredentialsPassword
-        )
-        Git.open(File(repoPath))
-            .pull()
-            .setRemote(GIT_ORIGIN)
-            .setCredentialsProvider(credentialsProvider)
-            .call()
+        withContext(dispatcherProvider.io()) {
+            val credentialsProvider = UsernamePasswordCredentialsProvider(
+                settingsManager.gitCredentialsUsername,
+                settingsManager.gitCredentialsPassword
+            )
+            Git.open(File(repoPath))
+                .pull()
+                .setRemote(GIT_ORIGIN)
+                .setCredentialsProvider(credentialsProvider)
+                .call()
+        }
     }
 
     override suspend fun commit(repoPath: String, text: String) {
-        val git = Git.open(File(repoPath))
-        git.add()
-            .addFilepattern(GIT_ALL)
-            .call()
-        git.commit()
-            .setMessage(text)
-            .setAuthor(settingsManager.gitUserName, settingsManager.gitUserEmail)
-            .setCommitter(settingsManager.gitUserName, settingsManager.gitUserEmail)
-            .call()
+        withContext(dispatcherProvider.io()) {
+            val git = Git.open(File(repoPath))
+            git.add()
+                .addFilepattern(GIT_ALL)
+                .call()
+            git.commit()
+                .setMessage(text)
+                .setAuthor(settingsManager.gitUserName, settingsManager.gitUserEmail)
+                .setCommitter(settingsManager.gitUserName, settingsManager.gitUserEmail)
+                .call()
+        }
     }
 
     override suspend fun push(repoPath: String) {
-        val credentialsProvider = UsernamePasswordCredentialsProvider(
-            settingsManager.gitCredentialsUsername,
-            settingsManager.gitCredentialsPassword
-        )
-        Git.open(File(repoPath))
-            .push()
-            .setRemote(GIT_ORIGIN)
-            .setCredentialsProvider(credentialsProvider)
-            .call()
+        withContext(dispatcherProvider.io()) {
+            val credentialsProvider = UsernamePasswordCredentialsProvider(
+                settingsManager.gitCredentialsUsername,
+                settingsManager.gitCredentialsPassword
+            )
+            Git.open(File(repoPath))
+                .push()
+                .setRemote(GIT_ORIGIN)
+                .setCredentialsProvider(credentialsProvider)
+                .call()
+        }
     }
 
     override suspend fun checkout(repoPath: String, branch: String) {
-        val git = Git.open(File(repoPath))
-        try {
-            git.checkout()
-                .setName(branch)
-                .call()
-        } catch (e: RefNotFoundException) {
-            git.checkout()
-                .setCreateBranch(true)
-                .setName(branch)
-                .call()
+        withContext(dispatcherProvider.io()) {
+            val git = Git.open(File(repoPath))
+            try {
+                git.checkout()
+                    .setName(branch)
+                    .call()
+            } catch (e: RefNotFoundException) {
+                git.checkout()
+                    .setCreateBranch(true)
+                    .setName(branch)
+                    .call()
+            }
         }
     }
 

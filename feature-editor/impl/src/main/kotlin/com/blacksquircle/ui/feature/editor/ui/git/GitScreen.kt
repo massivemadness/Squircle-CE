@@ -81,7 +81,7 @@ private fun GitScreen(
     onBackClicked: () -> Unit = {}
 ) {
     AlertDialog(
-        title = "Git",
+        title = stringResource(R.string.action_git),
         horizontalPadding = false,
         content = {
             Column {
