@@ -263,8 +263,8 @@ private fun GitScreenPreview() {
         GitScreen(
             repoPath = "/sdcard/my-project",
             credentialsUsername = "test",
-            credentialsUsername = "ghp_000000",
-            userEmal = "mail@example.com",
+            credentialsToken = "ghp_000000",
+            userEmail = "mail@example.com",
             userName = "test"
         )
     }
