@@ -18,6 +18,8 @@ package com.blacksquircle.ui.feature.editor.data.repository
 
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.feature.editor.data.exception.InvalidCredentialsException
+import com.blacksquircle.ui.feature.editor.data.exception.RepositoryNotFoundException
 import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
 import kotlinx.coroutines.withContext
 import org.eclipse.jgit.api.Git
@@ -25,65 +27,99 @@ import org.eclipse.jgit.api.errors.RefNotFoundException
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
 
-class InvalidCredentialsException : Exception("Missing Git credentials or user info")
-class RepositoryNotFoundException : Exception("Git repository not found")
-
 internal class GitRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager
 ) : GitRepository {
 
-    override suspend fun getRepoPath(path: String): String = withContext(dispatcherProvider.io()) {
-        if (settingsManager.gitCredentialsUsername.isEmpty() ||
-            settingsManager.gitCredentialsPassword.isEmpty() ||
-            settingsManager.gitUserEmail.isEmpty() ||
-            settingsManager.gitUserName.isEmpty()
-        ) {
-            throw InvalidCredentialsException()
-        }
-
-        var current = File(path)
-        while (current.parentFile != null) {
-            val gitDir = File(current, ".git")
-            if (gitDir.exists() && gitDir.isDirectory) {
-                return@withContext current.absolutePath
+    override suspend fun getRepoPath(path: String): String {
+        return withContext(dispatcherProvider.io()) {
+            if (settingsManager.gitCredentialsUsername.isBlank() ||
+                settingsManager.gitCredentialsPassword.isBlank() ||
+                settingsManager.gitUserEmail.isBlank() ||
+                settingsManager.gitUserName.isBlank()
+            ) {
+                throw InvalidCredentialsException()
             }
-            current = current.parentFile
+
+            var current: File? = File(path)
+            while (current?.parentFile != null) {
+                val gitDir = File(current, GIT_FOLDER)
+                if (gitDir.exists() && gitDir.isDirectory) {
+                    return@withContext current.absolutePath
+                }
+                current = current.parentFile
+            }
+
+            throw RepositoryNotFoundException()
         }
-
-        throw RepositoryNotFoundException()
     }
 
-    override suspend fun fetch(path: String) {
-        val credentialsProvider =
-            UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsPassword)
-        Git.open(File(path)).fetch().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
+    override suspend fun fetch(repoPath: String) {
+        val credentialsProvider = UsernamePasswordCredentialsProvider(
+            settingsManager.gitCredentialsUsername,
+            settingsManager.gitCredentialsPassword
+        )
+        Git.open(File(repoPath))
+            .fetch()
+            .setRemote(GIT_ORIGIN)
+            .setCredentialsProvider(credentialsProvider)
+            .call()
     }
 
-    override suspend fun pull(path: String) {
-        val credentialsProvider =
-            UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsPassword)
-        Git.open(File(path)).pull().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
+    override suspend fun pull(repoPath: String) {
+        val credentialsProvider = UsernamePasswordCredentialsProvider(
+            settingsManager.gitCredentialsUsername,
+            settingsManager.gitCredentialsPassword
+        )
+        Git.open(File(repoPath))
+            .pull()
+            .setRemote(GIT_ORIGIN)
+            .setCredentialsProvider(credentialsProvider)
+            .call()
     }
 
-    override suspend fun commit(path: String, text: String) {
-        val git = Git.open(File(path))
-        git.add().addFilepattern(".").call()
-        git.commit().setMessage(text).setAuthor(settingsManager.gitUserName, settingsManager.gitUserEmail).setCommitter(settingsManager.gitUserName, settingsManager.gitUserEmail).call()
+    override suspend fun commit(repoPath: String, text: String) {
+        val git = Git.open(File(repoPath))
+        git.add()
+            .addFilepattern(GIT_ALL)
+            .call()
+        git.commit()
+            .setMessage(text)
+            .setAuthor(settingsManager.gitUserName, settingsManager.gitUserEmail)
+            .setCommitter(settingsManager.gitUserName, settingsManager.gitUserEmail)
+            .call()
     }
 
-    override suspend fun push(path: String) {
-        val credentialsProvider =
-            UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsPassword)
-        Git.open(File(path)).push().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
+    override suspend fun push(repoPath: String) {
+        val credentialsProvider = UsernamePasswordCredentialsProvider(
+            settingsManager.gitCredentialsUsername,
+            settingsManager.gitCredentialsPassword
+        )
+        Git.open(File(repoPath))
+            .push()
+            .setRemote(GIT_ORIGIN)
+            .setCredentialsProvider(credentialsProvider)
+            .call()
     }
 
-    override suspend fun checkout(path: String, branch: String) {
-        val git = Git.open(File(path))
+    override suspend fun checkout(repoPath: String, branch: String) {
+        val git = Git.open(File(repoPath))
         try {
-            git.checkout().setName(branch).call()
+            git.checkout()
+                .setName(branch)
+                .call()
         } catch (e: RefNotFoundException) {
-            git.checkout().setCreateBranch(true).setName(branch).call()
+            git.checkout()
+                .setCreateBranch(true)
+                .setName(branch)
+                .call()
         }
+    }
+
+    companion object {
+        private const val GIT_FOLDER = ".git"
+        private const val GIT_ORIGIN = "origin"
+        private const val GIT_ALL = "."
     }
 }
