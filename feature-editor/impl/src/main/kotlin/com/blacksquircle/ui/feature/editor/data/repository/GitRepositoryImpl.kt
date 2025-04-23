@@ -55,23 +55,23 @@ internal class GitRepositoryImpl(
     }
 
     override suspend fun fetch(path: String) {
-        val credentialsProvider = UsernamePasswordCredentialsProvider(settingsManager.credentialsUsername, settingsManager.credentialsToken)
+        val credentialsProvider = UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken)
         Git.open(File(path)).fetch().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
     }
 
     override suspend fun pull(path: String) {
-        val credentialsProvider = UsernamePasswordCredentialsProvider(settingsManager.credentialsUsername, settingsManager.credentialsToken)
+        val credentialsProvider = UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken)
         Git.open(File(path)).pull().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
     }
 
     override suspend fun commit(path: String, text: String) {
         val git = Git.open(File(path))
         git.add().addFilepattern(".").call()
-        git.commit().setMessage(text).setAuthor(settingsManager.userName, settingsManager.userEmail).setCommitter(settingsManager.userName, settingsManager.userEmail).call()
+        git.commit().setMessage(text).setAuthor(settingsManager.gitUserName, settingsManager.gitUserEmail).setCommitter(settingsManager.gitUserName, settingsManager.gitUserEmail).call()
     }
 
     override suspend fun push(path: String) {
-        val credentialsProvider = UsernamePasswordCredentialsProvider(settingsManager.credentialsUsername, settingsManager.credentialsToken)
+        val credentialsProvider = UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken)
         Git.open(File(path)).push().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
     }
 

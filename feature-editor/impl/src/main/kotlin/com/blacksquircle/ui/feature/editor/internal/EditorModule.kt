@@ -72,13 +72,11 @@ internal object EditorModule {
     @EditorScope
     fun provideGitRepository(
         dispatcherProvider: DispatcherProvider,
-        settingsManager: SettingsManager,
-        context: Context
+        settingsManager: SettingsManager
     ): GitRepository {
         return GitRepositoryImpl(
             dispatcherProvider = dispatcherProvider,
-            settingsManager = settingsManager,
-            context = context
+            settingsManager = settingsManager
         )
     }
 
