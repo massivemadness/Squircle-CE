@@ -60,7 +60,7 @@ internal fun GitScreen(
 
 @Composable
 private fun GitScreen(
-    viewState: GitHeaderViewState,
+    viewState: GitViewState,
     repoPath: String,
     onBackClicked: () -> Unit = {}
 ) {
