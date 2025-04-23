@@ -22,7 +22,7 @@ import com.blacksquircle.ui.core.mvi.ViewState
 @Immutable
 internal data class GitHeaderViewState(
     val credentialsUsername: String,
-    val credentialsToken: String,
+    val credentialsPassword: String,
     val userEmail: String,
     val userName: String
 ) : ViewState

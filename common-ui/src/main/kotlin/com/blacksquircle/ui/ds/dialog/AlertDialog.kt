@@ -56,7 +56,7 @@ fun AlertDialog(
     onDismissClicked: () -> Unit = {},
     properties: DialogProperties = DialogProperties(),
     confirmButtonEnabled: Boolean = true,
-    dismissButtonEnabled: Boolean = true
+    dismissButtonEnabled: Boolean = true,
 ) {
     Dialog(
         onDismissRequest = onDismiss,

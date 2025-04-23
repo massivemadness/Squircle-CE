@@ -27,8 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -82,7 +80,7 @@ private fun GitHeaderScreen(
     ScaffoldSuite(
         topBar = {
             Toolbar(
-                title = "Git",
+                title = stringResource(R.string.pref_header_git_title),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
             )
@@ -95,37 +93,33 @@ private fun GitHeaderScreen(
                 .padding(contentPadding)
         ) {
             PreferenceGroup(
-                title = "Git"
+                title = stringResource(R.string.pref_category_git)
             )
             DoubleTextFieldPreference(
-                title = "Git Credentials",
-                subtitle = "Credentials for authentication",
+                title = stringResource(R.string.pref_git_credentials_title),
+                subtitle = stringResource(R.string.pref_git_credentials_summary),
                 confirmButton = stringResource(UiR.string.common_save),
                 dismissButton = stringResource(android.R.string.cancel),
-                inputTextStyle = TextStyle(fontFamily = FontFamily.Monospace),
-                placeholderText1 = "Username. Example: SuperDev",
-                placeholderText2 = "Token. Example: ghp_...",
+                labelText1 = stringResource(R.string.pref_git_credentials_username),
+                labelText2 = stringResource(R.string.pref_git_credentials_password),
                 inputValue1 = viewState.credentialsUsername,
-                inputValue2 = viewState.credentialsToken,
-                onConfirmClicked = { username, token ->
-                    onCredentialsChanged(username, token)
+                inputValue2 = viewState.credentialsPassword,
+                onConfirmClicked = { username, password ->
+                    onCredentialsChanged(username, password)
                 },
-                requireBothFields = true
             )
             DoubleTextFieldPreference(
-                title = "Git User",
-                subtitle = "User info for commit/push",
+                title = stringResource(R.string.pref_git_user_title),
+                subtitle = stringResource(R.string.pref_git_user_summary),
                 confirmButton = stringResource(UiR.string.common_save),
                 dismissButton = stringResource(android.R.string.cancel),
-                inputTextStyle = TextStyle(fontFamily = FontFamily.Monospace),
-                placeholderText1 = "Email. Example: superdev@gmail.com",
-                placeholderText2 = "Name. Example: Super-Dev",
-                inputValue1 = viewState.userEmail,
-                inputValue2 = viewState.userName,
-                onConfirmClicked = { email, name ->
-                    onUserChanged(email, name)
+                labelText1 = stringResource(R.string.pref_git_user_name),
+                labelText2 = stringResource(R.string.pref_git_user_email),
+                inputValue1 = viewState.userName,
+                inputValue2 = viewState.userEmail,
+                onConfirmClicked = { name, email ->
+                    onUserChanged(name, email)
                 },
-                requireBothFields = true
             )
         }
     }
@@ -138,7 +132,7 @@ private fun GitHeaderScreenPreview() {
         GitHeaderScreen(
             viewState = GitHeaderViewState(
                 credentialsUsername = "",
-                credentialsToken = "",
+                credentialsPassword = "",
                 userEmail = "",
                 userName = ""
             )

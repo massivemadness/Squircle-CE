@@ -41,26 +41,24 @@ internal class GitHeaderViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private var counter: Int = 1
-
     fun onBackClicked() {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack)
         }
     }
 
-    fun onCredentialsChanged(credentialsUsername: String, credentialsToken: String) {
+    fun onCredentialsChanged(username: String, password: String) {
         viewModelScope.launch {
-            settingsManager.gitCredentialsUsername = credentialsUsername
-            settingsManager.gitCredentialsToken = credentialsToken
+            settingsManager.gitCredentialsUsername = username
+            settingsManager.gitCredentialsPassword = password
             _viewState.value = updateViewState()
         }
     }
 
-    fun onUserChanged(userEmail: String, userName: String) {
+    fun onUserChanged(name: String, email: String) {
         viewModelScope.launch {
-            settingsManager.gitUserEmail = userEmail
-            settingsManager.gitUserName = userName
+            settingsManager.gitUserName = name
+            settingsManager.gitUserEmail = email
             _viewState.value = updateViewState()
         }
     }
@@ -68,7 +66,7 @@ internal class GitHeaderViewModel @Inject constructor(
     private fun updateViewState(): GitHeaderViewState {
         return GitHeaderViewState(
             credentialsUsername = settingsManager.gitCredentialsUsername,
-            credentialsToken = settingsManager.gitCredentialsToken,
+            credentialsPassword = settingsManager.gitCredentialsPassword,
             userEmail = settingsManager.gitUserEmail,
             userName = settingsManager.gitUserName
         )

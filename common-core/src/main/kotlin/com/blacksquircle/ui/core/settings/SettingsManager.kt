@@ -81,7 +81,7 @@ class SettingsManager(private val context: Context) {
 
         // Git
         const val KEY_GIT_CREDENTIALS_USERNAME = "git_credentials_username"
-        const val KEY_GIT_CREDENTIALS_TOKEN = "git_credentials_token"
+        const val KEY_GIT_CREDENTIALS_PASSWORD = "git_credentials_password"
         const val KEY_GIT_USER_EMAIL = "git_user_email"
         const val KEY_GIT_USER_NAME = "git_user_name"
     }
@@ -204,9 +204,9 @@ class SettingsManager(private val context: Context) {
     var gitCredentialsUsername: String
         get() = sharedPreferences.getString(KEY_GIT_CREDENTIALS_USERNAME, "") ?: ""
         set(value) = sharedPreferences.edit().putString(KEY_GIT_CREDENTIALS_USERNAME, value).apply()
-    var gitCredentialsToken: String
-        get() = sharedPreferences.getString(KEY_GIT_CREDENTIALS_TOKEN, "") ?: ""
-        set(value) = sharedPreferences.edit().putString(KEY_GIT_CREDENTIALS_TOKEN, value).apply()
+    var gitCredentialsPassword: String
+        get() = sharedPreferences.getString(KEY_GIT_CREDENTIALS_PASSWORD, "") ?: ""
+        set(value) = sharedPreferences.edit().putString(KEY_GIT_CREDENTIALS_PASSWORD, value).apply()
     var gitUserEmail: String
         get() = sharedPreferences.getString(KEY_GIT_USER_EMAIL, "") ?: ""
         set(value) = sharedPreferences.edit().putString(KEY_GIT_USER_EMAIL, value).apply()

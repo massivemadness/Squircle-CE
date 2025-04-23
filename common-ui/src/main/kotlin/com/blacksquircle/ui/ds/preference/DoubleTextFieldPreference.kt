@@ -48,7 +48,6 @@ fun DoubleTextFieldPreference(
     inputTextStyle: TextStyle = LocalTextStyle.current,
     inputValue1: String = "",
     inputValue2: String = "",
-    requireBothFields: Boolean = false,
     onConfirmClicked: (String, String) -> Unit = { _, _ -> },
     onDismissClicked: () -> Unit = {},
     dialogShown: Boolean = false,
@@ -67,7 +66,6 @@ fun DoubleTextFieldPreference(
     if (showDialog) {
         var text1 by rememberSaveable { mutableStateOf(inputValue1) }
         var text2 by rememberSaveable { mutableStateOf(inputValue2) }
-        val confirmEnabled = !requireBothFields || (text1.isNotBlank() && text2.isNotBlank())
         AlertDialog(
             title = dialogTitle ?: title,
             content = {
@@ -96,7 +94,6 @@ fun DoubleTextFieldPreference(
                 showDialog = false
                 onConfirmClicked(text1, text2)
             },
-            confirmButtonEnabled = confirmEnabled,
             dismissButton = dismissButton,
             onDismissClicked = {
                 showDialog = false
@@ -123,7 +120,6 @@ private fun DoubleTextFieldPreferencePreview() {
             confirmButton = "Save",
             dismissButton = "Cancel",
             dialogShown = true,
-            requireBothFields = true,
         )
     }
 }

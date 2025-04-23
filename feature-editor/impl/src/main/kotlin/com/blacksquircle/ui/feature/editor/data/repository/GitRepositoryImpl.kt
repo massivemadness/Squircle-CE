@@ -35,7 +35,7 @@ internal class GitRepositoryImpl(
 
     override suspend fun getRepoPath(path: String): String = withContext(dispatcherProvider.io()) {
         if (settingsManager.gitCredentialsUsername.isEmpty() ||
-            settingsManager.gitCredentialsToken.isEmpty() ||
+            settingsManager.gitCredentialsPassword.isEmpty() ||
             settingsManager.gitUserEmail.isEmpty() ||
             settingsManager.gitUserName.isEmpty()
         ) {
@@ -56,13 +56,13 @@ internal class GitRepositoryImpl(
 
     override suspend fun fetch(path: String) {
         val credentialsProvider =
-            UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken)
+            UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsPassword)
         Git.open(File(path)).fetch().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
     }
 
     override suspend fun pull(path: String) {
         val credentialsProvider =
-            UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken)
+            UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsPassword)
         Git.open(File(path)).pull().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
     }
 
@@ -74,7 +74,7 @@ internal class GitRepositoryImpl(
 
     override suspend fun push(path: String) {
         val credentialsProvider =
-            UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken)
+            UsernamePasswordCredentialsProvider(settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsPassword)
         Git.open(File(path)).push().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
     }
 
