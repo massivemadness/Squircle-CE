@@ -72,7 +72,7 @@ private fun GitScreen(
     viewState: GitViewState,
     repoPath: String,
     onFetchClicked: (String) -> Unit = {},
-    onFullClicked: (String) -> Unit = {},
+    onPullClicked: (String) -> Unit = {},
     onCommitClicked: (String) -> Unit = {},
     onPushClicked: (String) -> Unit = {},
     onCheckoutClicked: (String) -> Unit = {},
