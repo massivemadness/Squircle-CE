@@ -112,7 +112,7 @@ fun AlertDialog(
                     if (dismissButton != null) {
                         TextButton(
                             text = dismissButton,
-                            onClick = onDismissClicked
+                            onClick = onDismissClicked,
                             enabled = dismissButtonEnabled
                         )
                     }
