@@ -27,6 +27,8 @@ import com.blacksquircle.ui.core.extensions.showToast
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
+import androidx.compose.runtime.LaunchedEffect
+import com.blacksquircle.ui.core.mvi.ViewEvent
 
 @Composable
 internal fun GitScreen(
