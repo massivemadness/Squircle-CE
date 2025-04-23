@@ -161,9 +161,6 @@ import com.blacksquircle.ui.feature.editor.api.navigation.GitDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.eclipse.jgit.api.Git
-import org.eclipse.jgit.api.errors.RefNotFoundException
-import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
 import com.blacksquircle.ui.ds.R as UiR
 

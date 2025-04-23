@@ -16,20 +16,21 @@
 
 package com.blacksquircle.ui.feature.editor.data.repository
 
-import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
 import kotlinx.coroutines.withContext
 import java.io.File
+import org.eclipse.jgit.api.Git
+import org.eclipse.jgit.api.errors.RefNotFoundException
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 
 class InvalidCredentialsException : Exception("Missing Git credentials or user info")
 class RepositoryNotFoundException : Exception("Git repository not found")
 
 internal class GitRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
-    private val settingsManager: SettingsManager,
-    private val context: Context,
+    private val settingsManager: SettingsManager
 ) : GitRepository {
 
     override suspend fun getRepoPath(path: String): String = withContext(dispatcherProvider.io()) {
@@ -51,5 +52,35 @@ internal class GitRepositoryImpl(
         }
 
         throw RepositoryNotFoundException()
+    }
+
+    override suspend fun fetch(path: String) {
+        val credentialsProvider = UsernamePasswordCredentialsProvider(settingsManager.credentialsUsername, settingsManager.credentialsToken)
+        Git.open(File(path)).fetch().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
+    }
+
+    override suspend fun pull(path: String) {
+        val credentialsProvider = UsernamePasswordCredentialsProvider(settingsManager.credentialsUsername, settingsManager.credentialsToken)
+        Git.open(File(path)).pull().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
+    }
+
+    override suspend fun commit(path: String, text: String) {
+        val git = Git.open(File(path))
+        git.add().addFilepattern(".").call()
+        git.commit().setMessage(text).setAuthor(settingsManager.userName, settingsManager.userEmail).setCommitter(settingsManager.userName, settingsManager.userEmail).call()
+    }
+
+    override suspend fun push(path: String) {
+        val credentialsProvider = UsernamePasswordCredentialsProvider(settingsManager.credentialsUsername, settingsManager.credentialsToken)
+        Git.open(File(path)).push().setRemote("origin").setCredentialsProvider(credentialsProvider).call()
+    }
+
+    override suspend fun checkout(path: String, branch: String) {
+        val git = Git.open(File(path))
+        try {
+            git.checkout().setName(branch).call()
+        } catch (e: RefNotFoundException) {
+            git.checkout().setCreateBranch(true).setName(branch).call()
+        }
     }
 }
