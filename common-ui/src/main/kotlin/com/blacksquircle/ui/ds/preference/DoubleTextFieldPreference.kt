@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.ds.preference
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
@@ -77,6 +79,7 @@ fun DoubleTextFieldPreference(
                         textStyle = inputTextStyle,
                         placeholderText = placeholderText1
                     )
+                    Spacer(modifier = Modifier.height(12.dp))
                     TextField(
                         inputText = text2,
                         onInputChanged = { text2 = it },
