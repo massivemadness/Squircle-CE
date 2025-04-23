@@ -40,6 +40,7 @@ import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
+import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
 import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorCommand
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorSettings
@@ -76,6 +77,7 @@ internal class EditorViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
     private val documentRepository: DocumentRepository,
+    private val gitRepository: GitRepository,
     private val editorInteractor: EditorInteractor,
     private val fontsInteractor: FontsInteractor,
     private val shortcutsInteractor: ShortcutsInteractor,
@@ -667,7 +669,7 @@ internal class EditorViewModel @Inject constructor(
                 _viewEvent.send(ViewEvent.Toast("You need type git credentials and user in settings"))
                 return@launch
             }
-            val repoPath = getGitRepoPath(documents[selectedPosition].document.path)
+            val repoPath = gitRepository.getRepoPath(documents[selectedPosition].document.path)
             if (repoPath == "") {
                 _viewEvent.send(ViewEvent.Toast("This is not git repository!"))
                 return@launch
@@ -675,18 +677,6 @@ internal class EditorViewModel @Inject constructor(
             val screen = GitDialog(repoPath, settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken, settingsManager.gitUserEmail, settingsManager.gitUserName)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
-    }
-
-    private fun getGitRepoPath(path: String): String {
-        var current = File(path)
-        while (current.parentFile != null) {
-            val gitDir = File(current, ".git")
-            if (gitDir.exists() && gitDir.isDirectory) {
-                return gitDir.absolutePath
-            }
-            current = current.parentFile
-        }
-        return ""
     }
 
     fun onDocumentClicked(document: DocumentModel) {

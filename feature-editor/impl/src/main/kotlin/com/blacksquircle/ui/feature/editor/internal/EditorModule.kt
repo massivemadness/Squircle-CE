@@ -25,8 +25,10 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.data.interactor.LanguageInteractorImpl
 import com.blacksquircle.ui.feature.editor.data.manager.CacheManager
 import com.blacksquircle.ui.feature.editor.data.repository.DocumentRepositoryImpl
+import com.blacksquircle.ui.feature.editor.data.repository.GitRepositoryImpl
 import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
+import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import dagger.Module
 import dagger.Provides
@@ -63,6 +65,20 @@ internal object EditorModule {
             documentDao = documentDao,
             filesystemFactory = filesystemFactory,
             context = context,
+        )
+    }
+
+    @Provides
+    @EditorScope
+    fun provideGitRepository(
+        dispatcherProvider: DispatcherProvider,
+        settingsManager: SettingsManager,
+        context: Context
+    ): GitRepository {
+        return GitRepositoryImpl(
+            dispatcherProvider = dispatcherProvider,
+            settingsManager = settingsManager,
+            context = context
         )
     }
 
