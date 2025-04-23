@@ -663,12 +663,8 @@ internal class EditorViewModel @Inject constructor(
             if (selectedPosition !in documents.indices) {
                 return@launch
             }
-            if (settingsManager.gitCredentials == "" || settingsManager.gitUser == "") {
+            if (settingsManager.gitCredentialsUsername == "" || settingsManager.gitCredentialsToken == "" || settingsManager.gitUserEmail == "" || settingsManager.gitUserName == "") {
                 _viewEvent.send(ViewEvent.Toast("You need type git credentials and user in settings"))
-                return@launch
-            }
-            if (settingsManager.gitCredentials.split("::").size != 2 || settingsManager.gitUser.split("::").size != 2) {
-                _viewEvent.send(ViewEvent.Toast("Error: invalid git settings!"))
                 return@launch
             }
             val repoPath = getGitRepoPath(documents[selectedPosition].document.path)
@@ -676,7 +672,7 @@ internal class EditorViewModel @Inject constructor(
                 _viewEvent.send(ViewEvent.Toast("This is not git repository!"))
                 return@launch
             }
-            val screen = GitDialog(repoPath, settingsManager.gitCredentials, settingsManager.gitUser)
+            val screen = GitDialog(repoPath, settingsManager.gitCredentialsUsername, settingsManager.gitCredentialsToken, settingsManager.gitUserEmail, settingsManager.gitUserName)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }

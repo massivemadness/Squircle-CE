@@ -47,8 +47,10 @@ internal fun GitScreen(
 ) {
     GitScreen(
         repoPath = navArgs.repoPath,
-        credentials = navArgs.credentials,
-        user = navArgs.user,
+        credentialsUsername = navArgs.credentialsUsername,
+        credentialsToken = navArgs.credentialsToken,
+        userEmail = navArgs.userEmail,
+        userName = navArgs.userName,
         onCancelClicked = {
             navController.popBackStack()
         }
@@ -58,15 +60,15 @@ internal fun GitScreen(
 @Composable
 private fun GitScreen(
     repoPath: String,
-    credentials: String,
-    user: String,
+    credentialsUsername: String,
+    credentialsToken: String,
+    userEmail: String,
+    userName: String,
     onCancelClicked: () -> Unit = {}
 ) {
     val context = LocalContext.current
-    val auth = credentials.split("::")
-    val userData = user.split("::")
     val git = Git.open(File(repoPath))
-    val credentialsProvider = UsernamePasswordCredentialsProvider(auth[0], auth[1])
+    val credentialsProvider = UsernamePasswordCredentialsProvider(credentialsUsername, credentialsToken)
     val showProgress = remember { mutableStateOf(false) }
     val showCommitDialog = remember { mutableStateOf(false) }
     val showCheckoutDialog = remember { mutableStateOf(false) }
@@ -102,8 +104,8 @@ private fun GitScreen(
                             git
                                 .commit()
                                 .setMessage(commitText.value)
-                                .setAuthor(userData[1], userData[0])
-                                .setCommitter(userData[1], userData[0])
+                                .setAuthor(userName, userEmail)
+                                .setCommitter(userName, userEmail)
                                 .call()
                         }
                     } catch (e: Exception) {
