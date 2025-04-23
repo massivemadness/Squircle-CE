@@ -1199,6 +1199,8 @@ internal class EditorViewModel @Inject constructor(
         lateinit var viewModelProvider: Provider<EditorViewModel>
 
         @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T = viewModelProvider.get() as T
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return viewModelProvider.get() as T
+        }
     }
 }

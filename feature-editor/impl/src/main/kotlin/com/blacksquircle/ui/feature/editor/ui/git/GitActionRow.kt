@@ -32,7 +32,7 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.modifier.debounceClickable
 
 @Composable
-fun GitActionRow(
+internal fun GitActionRow(
     iconRes: Int,
     title: String,
     subtitle: String,
