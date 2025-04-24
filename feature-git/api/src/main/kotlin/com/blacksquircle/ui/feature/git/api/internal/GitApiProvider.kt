@@ -14,15 +14,8 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.domain.repository
+package com.blacksquircle.ui.feature.git.api.internal
 
-internal interface GitRepository {
-
-    suspend fun getRepoPath(path: String): String
-
-    suspend fun fetch(repository: String)
-    suspend fun pull(repository: String)
-    suspend fun commit(repository: String, message: String)
-    suspend fun push(repository: String)
-    suspend fun checkout(repository: String, branch: String)
+interface GitApiProvider {
+    fun provideGitApiDepsProvider(): GitApiDepsProvider
 }

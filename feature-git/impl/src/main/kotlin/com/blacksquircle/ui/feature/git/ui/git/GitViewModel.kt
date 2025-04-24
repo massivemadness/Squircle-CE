@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.git
+package com.blacksquircle.ui.feature.git.ui.git
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
+import com.blacksquircle.ui.feature.git.domain.GitRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

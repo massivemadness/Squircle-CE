@@ -14,16 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.git
+package com.blacksquircle.ui.feature.git.api.navigation
 
-import androidx.compose.runtime.Immutable
-import com.blacksquircle.ui.core.mvi.ViewState
+import kotlinx.serialization.Serializable
 
-@Immutable
-internal data class GitViewState(
-    val branch: String = "",
-    val commitText: String = "",
-    val isLoading: Boolean = false,
-    val showCommitDialog: Boolean = false,
-    val showBranchDialog: Boolean = false,
-) : ViewState
+@Serializable
+data class GitDialog(val repository: String)

@@ -14,24 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.api.navigation
+package com.blacksquircle.ui.feature.git.api.internal
 
-import kotlinx.serialization.Serializable
+import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 
-@Serializable
-data object EditorScreen
-
-@Serializable
-data class CloseFileDialog(val fileUuid: String, val fileName: String)
-
-@Serializable
-data class ForceSyntaxDialog(val languageName: String)
-
-@Serializable
-data object GoToLineDialog
-
-@Serializable
-data object InsertColorDialog
-
-@Serializable
-data object ConfirmExitDialog
+interface GitApiDepsProvider {
+    fun provideGitInteractor(): GitInteractor
+}

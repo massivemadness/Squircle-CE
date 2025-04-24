@@ -33,16 +33,12 @@ import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
 import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.ConfirmExitDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
-import com.blacksquircle.ui.feature.editor.api.navigation.GitDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.InsertColorDialog
-import com.blacksquircle.ui.feature.editor.data.exception.InvalidCredentialsException
-import com.blacksquircle.ui.feature.editor.data.exception.RepositoryNotFoundException
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
-import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
 import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorCommand
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorSettings
@@ -53,6 +49,10 @@ import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionStart
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
+import com.blacksquircle.ui.feature.git.api.exception.InvalidCredentialsException
+import com.blacksquircle.ui.feature.git.api.exception.RepositoryNotFoundException
+import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
+import com.blacksquircle.ui.feature.git.api.navigation.GitDialog
 import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
@@ -78,9 +78,9 @@ internal class EditorViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val settingsManager: SettingsManager,
     private val documentRepository: DocumentRepository,
-    private val gitRepository: GitRepository,
     private val editorInteractor: EditorInteractor,
     private val fontsInteractor: FontsInteractor,
+    private val gitInteractor: GitInteractor,
     private val shortcutsInteractor: ShortcutsInteractor,
     private val languageInteractor: LanguageInteractor,
 ) : ViewModel() {
@@ -667,14 +667,16 @@ internal class EditorViewModel @Inject constructor(
                 return@launch
             }
             try {
-                val repository = gitRepository.getRepoPath(documents[selectedPosition].document.path)
+                val document = documents[selectedPosition].document
+                val fileModel = DocumentMapper.toModel(document)
+                val repository = gitInteractor.getRepoPath(fileModel)
                 val screen = GitDialog(repository)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: InvalidCredentialsException) {
-                val message = stringProvider.getString(R.string.git_error_invalid_credentials)
+                val message = stringProvider.getString(R.string.message_git_invalid_credentials)
                 _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: RepositoryNotFoundException) {
-                val message = stringProvider.getString(R.string.git_error_repository_not_found)
+                val message = stringProvider.getString(R.string.message_git_repository_not_found)
                 _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: CancellationException) {
                 throw e

@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.data.exception
+package com.blacksquircle.ui.feature.git.api.exception
 
-internal class RepositoryNotFoundException : Exception("Git repository not found")
+class RepositoryNotFoundException : Exception("Git repository not found")

@@ -22,11 +22,12 @@ import com.blacksquircle.ui.core.internal.CoreApiProvider
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiProvider
 import com.blacksquircle.ui.feature.editor.ui.editor.EditorViewModel
-import com.blacksquircle.ui.feature.editor.ui.git.GitViewModel
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvider
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiProvider
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiDepsProvider
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiProvider
+import com.blacksquircle.ui.feature.git.api.internal.GitApiDepsProvider
+import com.blacksquircle.ui.feature.git.api.internal.GitApiProvider
 import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiDepsProvider
 import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiProvider
 import dagger.Component
@@ -41,13 +42,13 @@ import dagger.Component
         EditorApiDepsProvider::class,
         ExplorerApiDepsProvider::class,
         FontsApiDepsProvider::class,
+        GitApiDepsProvider::class,
         ShortcutsApiDepsProvider::class,
     ]
 )
 internal interface EditorComponent {
 
     fun inject(factory: EditorViewModel.Factory)
-    fun inject(factory: GitViewModel.ParameterizedFactory)
 
     @Component.Factory
     interface Factory {
@@ -56,6 +57,7 @@ internal interface EditorComponent {
             editorApiDepsProvider: EditorApiDepsProvider,
             explorerApiDepsProvider: ExplorerApiDepsProvider,
             fontsApiDepsProvider: FontsApiDepsProvider,
+            gitApiDepsProvider: GitApiDepsProvider,
             shortcutsApiDepsProvider: ShortcutsApiDepsProvider,
         ): EditorComponent
     }
@@ -74,6 +76,8 @@ internal interface EditorComponent {
                     .provideExplorerApiDepsProvider(),
                 fontsApiDepsProvider = (context.applicationContext as FontsApiProvider)
                     .provideFontsApiDepsProvider(),
+                gitApiDepsProvider = (context.applicationContext as GitApiProvider)
+                    .provideGitApiDepsProvider(),
                 shortcutsApiDepsProvider = (context.applicationContext as ShortcutsApiProvider)
                     .provideShortcutsApiDepsProvider(),
             ).also {

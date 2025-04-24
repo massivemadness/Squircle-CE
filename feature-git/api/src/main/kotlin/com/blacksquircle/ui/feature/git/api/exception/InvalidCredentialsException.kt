@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.data.exception
+package com.blacksquircle.ui.feature.git.api.exception
 
-internal class InvalidCredentialsException : Exception("Missing Git credentials or user info")
+class InvalidCredentialsException : Exception("Missing Git credentials or user info")

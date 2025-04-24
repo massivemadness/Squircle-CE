@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.git
+package com.blacksquircle.ui.feature.git.ui.git
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -29,12 +29,12 @@ import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.ds.dialog.AlertDialog
-import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.api.navigation.GitDialog
-import com.blacksquircle.ui.feature.editor.internal.EditorComponent
-import com.blacksquircle.ui.feature.editor.ui.git.compose.GitAction
+import com.blacksquircle.ui.ds.progress.LinearProgress
+import com.blacksquircle.ui.feature.git.R
+import com.blacksquircle.ui.feature.git.api.navigation.GitDialog
+import com.blacksquircle.ui.feature.git.internal.GitComponent
+import com.blacksquircle.ui.feature.git.ui.git.compose.GitAction
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -42,7 +42,7 @@ internal fun GitScreen(
     navArgs: GitDialog,
     navController: NavController,
     viewModel: GitViewModel = daggerViewModel { context ->
-        val component = EditorComponent.buildOrGet(context)
+        val component = GitComponent.buildOrGet(context)
         GitViewModel.ParameterizedFactory(navArgs.repository).also(component::inject)
     }
 ) {
@@ -80,7 +80,7 @@ private fun GitScreen(
     onBackClicked: () -> Unit = {}
 ) {
     AlertDialog(
-        title = stringResource(R.string.action_git),
+        title = stringResource(R.string.label_git),
         horizontalPadding = false,
         content = {
             Column {
@@ -122,7 +122,7 @@ private fun GitScreen(
     )
     if (viewState.isLoading) {
         AlertDialog(
-            title = stringResource(R.string.message_loading),
+            title = "Loading...",
             content = { LinearProgress(indeterminate = true) },
             onDismiss = {}
         )

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="label_git" translatable="false">Git</string>
+
+    <string name="git_fetch_title">Fetch</string>
+    <string name="git_fetch_description">Fetch content from remote repository</string>
+    <string name="git_pull_title">Pull</string>
+    <string name="git_pull_description">Pull changes from remote repository</string>
+    <string name="git_commit_title">Commit</string>
+    <string name="git_commit_description">Commit local repository changes</string>
+    <string name="git_push_title">Push</string>
+    <string name="git_push_description">Push content to remote repository</string>
+    <string name="git_checkout_branch_title">Checkout branch</string>
+    <string name="git_checkout_branch_description">Change or create local repository branch</string>
+
+</resources>

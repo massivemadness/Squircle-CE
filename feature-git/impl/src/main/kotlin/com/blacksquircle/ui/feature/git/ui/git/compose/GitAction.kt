@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.git.compose
+package com.blacksquircle.ui.feature.git.ui.git.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

@@ -14,24 +14,18 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.api.navigation
+package com.blacksquircle.ui.feature.git.ui
 
-import kotlinx.serialization.Serializable
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.dialog
+import androidx.navigation.toRoute
+import com.blacksquircle.ui.feature.git.api.navigation.GitDialog
+import com.blacksquircle.ui.feature.git.ui.git.GitScreen
 
-@Serializable
-data object EditorScreen
-
-@Serializable
-data class CloseFileDialog(val fileUuid: String, val fileName: String)
-
-@Serializable
-data class ForceSyntaxDialog(val languageName: String)
-
-@Serializable
-data object GoToLineDialog
-
-@Serializable
-data object InsertColorDialog
-
-@Serializable
-data object ConfirmExitDialog
+fun NavGraphBuilder.gitGraph(navController: NavHostController) {
+    dialog<GitDialog> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<GitDialog>()
+        GitScreen(navArgs, navController)
+    }
+}

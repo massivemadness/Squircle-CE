@@ -64,20 +64,7 @@
     <string name="message_nothing_to_copy">Nothing to copy</string>
     <string name="message_nothing_to_paste">Nothing to paste</string>
     <string name="message_line_not_exists">Line does not exists</string>
-    <string name="message_loading">Please wait...</string>
-
-    <string name="git_fetch_title">Fetch</string>
-    <string name="git_fetch_description">Fetch content from remote repository</string>
-    <string name="git_pull_title">Pull</string>
-    <string name="git_pull_description">Pull changes from remote repository</string>
-    <string name="git_commit_title">Commit</string>
-    <string name="git_commit_description">Commit local repository changes</string>
-    <string name="git_push_title">Push</string>
-    <string name="git_push_description">Push content to remote repository</string>
-    <string name="git_checkout_branch_title">Checkout branch</string>
-    <string name="git_checkout_branch_description">Change or create local repository branch</string>
-
-    <string name="git_error_invalid_credentials">Git requires configuration in settings</string>
-    <string name="git_error_repository_not_found">Repository not found</string>
+    <string name="message_git_invalid_credentials">Git requires configuration in settings</string>
+    <string name="message_git_repository_not_found">Repository not found</string>
 
 </resources>

@@ -14,24 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.api.navigation
+package com.blacksquircle.ui.feature.git.domain
 
-import kotlinx.serialization.Serializable
+internal interface GitRepository {
 
-@Serializable
-data object EditorScreen
-
-@Serializable
-data class CloseFileDialog(val fileUuid: String, val fileName: String)
-
-@Serializable
-data class ForceSyntaxDialog(val languageName: String)
-
-@Serializable
-data object GoToLineDialog
-
-@Serializable
-data object InsertColorDialog
-
-@Serializable
-data object ConfirmExitDialog
+    suspend fun fetch(repository: String)
+    suspend fun pull(repository: String)
+    suspend fun commit(repository: String, message: String)
+    suspend fun push(repository: String)
+    suspend fun checkout(repository: String, branch: String)
+}

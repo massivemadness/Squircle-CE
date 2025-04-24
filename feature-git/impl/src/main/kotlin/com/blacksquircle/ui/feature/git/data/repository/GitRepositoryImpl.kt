@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.data.repository
+package com.blacksquircle.ui.feature.git.data.repository
 
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.editor.data.exception.InvalidCredentialsException
-import com.blacksquircle.ui.feature.editor.data.exception.RepositoryNotFoundException
-import com.blacksquircle.ui.feature.editor.domain.repository.GitRepository
+import com.blacksquircle.ui.feature.git.domain.GitRepository
 import kotlinx.coroutines.withContext
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.errors.RefNotFoundException
@@ -31,29 +29,6 @@ internal class GitRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager
 ) : GitRepository {
-
-    override suspend fun getRepoPath(path: String): String {
-        return withContext(dispatcherProvider.io()) {
-            if (settingsManager.gitCredentialsUsername.isBlank() ||
-                settingsManager.gitCredentialsPassword.isBlank() ||
-                settingsManager.gitUserEmail.isBlank() ||
-                settingsManager.gitUserName.isBlank()
-            ) {
-                throw InvalidCredentialsException()
-            }
-
-            var current: File? = File(path)
-            while (current?.parentFile != null) {
-                val gitDir = File(current, GIT_FOLDER)
-                if (gitDir.exists() && gitDir.isDirectory) {
-                    return@withContext current.absolutePath
-                }
-                current = current.parentFile
-            }
-
-            throw RepositoryNotFoundException()
-        }
-    }
 
     override suspend fun fetch(repository: String) {
         withContext(dispatcherProvider.io()) {
@@ -128,7 +103,6 @@ internal class GitRepositoryImpl(
     }
 
     companion object {
-        private const val GIT_FOLDER = ".git"
         private const val GIT_ORIGIN = "origin"
         private const val GIT_ALL = "."
     }
