@@ -40,6 +40,7 @@
     <string name="pref_header_keybindings_summary">Настройте сочетания клавиш.</string>
     <string name="pref_header_cloud_title">Облачное хранение</string>
     <string name="pref_header_cloud_summary">Настройте хранение файлов на сервере.</string>
+    <string name="pref_header_git_summary">Настройте систему контроля версий.</string>
     <string name="pref_header_about_title">О программе</string>
     <string name="pref_header_about_summary">Просмотр информации о программе.</string>
     <string name="pref_category_look_and_feel">Внешний вид</string>
@@ -54,6 +55,7 @@
     <string name="pref_category_encoding">Кодировка</string>
     <string name="pref_category_linebreaks">Разделители строк</string>
     <string name="pref_category_file_manager">Проводник</string>
+    <string name="pref_category_account">Аккаунт</string>
     <string name="pref_category_about">О программе</string>
     <string name="pref_category_contribute">Внести вклад</string>
     <string name="pref_app_theme_title">Тема приложения</string>
@@ -118,6 +120,14 @@
     <string name="pref_folders_on_top_summary">Папки будут отображаться сверху.</string>
     <string name="pref_view_mode_title">Режим просмотра</string>
     <string name="pref_sort_mode_title">Режим сортировки</string>
+    <string name="pref_git_credentials_title">Учетные данные</string>
+    <string name="pref_git_credentials_summary">Учетные данные для доступа к удалённым репозиториям</string>
+    <string name="pref_git_credentials_username">Имя пользователя</string>
+    <string name="pref_git_credentials_password">Пароль</string>
+    <string name="pref_git_user_title">Данные пользователя</string>
+    <string name="pref_git_user_summary">Данные пользователя, которые будут отображаться в ваших Git коммитах</string>
+    <string name="pref_git_user_name">Имя</string>
+    <string name="pref_git_user_email">Эл. почта</string>
     <string name="pref_about_summary">Squircle CE это проект с открытым исходным кодом, опубликованный под лицензией Apache 2.0\n\nВерсия: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Политика конфиденциальности</string>
     <string name="pref_translation_title">Платформа переводов</string>

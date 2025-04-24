@@ -67,7 +67,7 @@
     <string name="pref_category_encoding">Encoding</string>
     <string name="pref_category_linebreaks">Linebreaks</string>
     <string name="pref_category_file_manager">File Manager</string>
-    <string name="pref_category_git" translatable="false">Git</string>
+    <string name="pref_category_account">Account</string>
     <string name="pref_category_about">About</string>
     <string name="pref_category_contribute">Contribute</string>
 
@@ -138,11 +138,11 @@
     <string name="pref_sort_mode_title">Sort Mode</string>
 
     <string name="pref_git_credentials_title">Git Credentials</string>
-    <string name="pref_git_credentials_summary">Credentials for authentication</string>
+    <string name="pref_git_credentials_summary">Credentials for accessing remote repositories</string>
     <string name="pref_git_credentials_username">Username</string>
     <string name="pref_git_credentials_password">Password</string>
     <string name="pref_git_user_title">Git User</string>
-    <string name="pref_git_user_summary">User info for commit/push</string>
+    <string name="pref_git_user_summary">User data that will appear in your Git commits</string>
     <string name="pref_git_user_name">Name</string>
     <string name="pref_git_user_email">Email</string>
 

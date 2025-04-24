@@ -98,7 +98,7 @@ private fun GitHeaderScreen(
                 .padding(contentPadding)
         ) {
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_git)
+                title = stringResource(R.string.pref_category_account)
             )
 
             var credentialsDialogShown by rememberSaveable { mutableStateOf(false) }
