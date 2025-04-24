@@ -16,4 +16,4 @@
 
 package com.blacksquircle.ui.feature.git.api.exception
 
-class InvalidCredentialsException : Exception("Missing credentials or user info")
+class UnsupportedFilesystemException : Exception("Unsupported filesystem")

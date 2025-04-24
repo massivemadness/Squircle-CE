@@ -20,8 +20,10 @@ import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.git.api.exception.InvalidCredentialsException
 import com.blacksquircle.ui.feature.git.api.exception.RepositoryNotFoundException
+import com.blacksquircle.ui.feature.git.api.exception.UnsupportedFilesystemException
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -32,6 +34,10 @@ internal class GitInteractorImpl(
 
     override suspend fun getRepoPath(fileModel: FileModel): String {
         return withContext(dispatcherProvider.io()) {
+            if (fileModel.filesystemUuid != LocalFilesystem.LOCAL_UUID) {
+                throw UnsupportedFilesystemException()
+            }
+
             if (settingsManager.gitCredentialsUsername.isBlank() ||
                 settingsManager.gitCredentialsPassword.isBlank() ||
                 settingsManager.gitUserEmail.isBlank() ||

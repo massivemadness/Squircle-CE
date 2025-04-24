@@ -51,6 +51,7 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.git.api.exception.InvalidCredentialsException
 import com.blacksquircle.ui.feature.git.api.exception.RepositoryNotFoundException
+import com.blacksquircle.ui.feature.git.api.exception.UnsupportedFilesystemException
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.git.api.navigation.GitDialog
 import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
@@ -677,6 +678,9 @@ internal class EditorViewModel @Inject constructor(
                 _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: RepositoryNotFoundException) {
                 val message = stringProvider.getString(R.string.message_git_repository_not_found)
+                _viewEvent.send(ViewEvent.Toast(message))
+            } catch (e: UnsupportedFilesystemException) {
+                val message = stringProvider.getString(R.string.message_git_unsupported_filesystem)
                 _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: CancellationException) {
                 throw e
