@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.git.internal
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.git.data.repository.GitRepositoryImpl
-import com.blacksquircle.ui.feature.git.domain.GitRepository
+import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import dagger.Module
 import dagger.Provides
 

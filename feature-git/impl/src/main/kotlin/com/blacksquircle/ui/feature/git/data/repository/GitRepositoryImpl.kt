@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.git.data.repository
 
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.git.domain.GitRepository
+import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import kotlinx.coroutines.withContext
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.errors.RefNotFoundException

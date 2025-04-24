@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.git.domain
+package com.blacksquircle.ui.feature.git.domain.repository
 
 internal interface GitRepository {
 

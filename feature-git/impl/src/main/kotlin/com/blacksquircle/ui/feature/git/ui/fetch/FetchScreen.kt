@@ -16,22 +16,31 @@
 
 package com.blacksquircle.ui.feature.git.ui.fetch
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
+import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.api.navigation.FetchDialog
+import com.blacksquircle.ui.feature.git.domain.model.OperationStatus
 import com.blacksquircle.ui.feature.git.internal.GitComponent
 
 @Composable
@@ -69,7 +78,24 @@ private fun FetchScreen(
     AlertDialog(
         title = stringResource(R.string.git_fetch_title),
         content = {
-            Text(viewState.text)
+            Column {
+                Text(
+                    text = when (viewState.status) {
+                        OperationStatus.STARTED -> stringResource(R.string.git_fetch_started)
+                        OperationStatus.FINISHED -> stringResource(R.string.git_fetch_finished)
+                        OperationStatus.ERROR -> viewState.errorMessage
+                    },
+                    color = SquircleTheme.colors.colorTextAndIconSecondary,
+                    style = SquircleTheme.typography.text14Regular,
+                )
+
+                Spacer(Modifier.height(16.dp))
+
+                LinearProgress(
+                    indeterminate = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
@@ -83,7 +109,7 @@ private fun FetchScreenPreview() {
     PreviewBackground {
         FetchScreen(
             viewState = FetchViewState(
-                isLoading = false,
+                status = OperationStatus.STARTED,
             ),
         )
     }

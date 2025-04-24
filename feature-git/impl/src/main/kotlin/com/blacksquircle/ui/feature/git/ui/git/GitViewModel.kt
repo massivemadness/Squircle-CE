@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.git.api.navigation.FetchDialog
-import com.blacksquircle.ui.feature.git.domain.GitRepository
+import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

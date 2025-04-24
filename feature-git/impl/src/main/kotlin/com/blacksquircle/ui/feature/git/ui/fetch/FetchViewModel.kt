@@ -20,12 +20,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.git.domain.GitRepository
+import com.blacksquircle.ui.feature.git.domain.model.OperationStatus
+import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -61,20 +63,27 @@ internal class FetchViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 _viewState.update {
-                    it.copy(text = "Fetching updates from the remote repository...")
+                    it.copy(status = OperationStatus.STARTED)
                 }
 
                 gitRepository.fetch(repository)
 
                 _viewState.update {
-                    it.copy(text = "Fetch complete.")
+                    it.copy(status = OperationStatus.FINISHED)
                 }
+
+                delay(100L)
+
+                _viewEvent.send(ViewEvent.PopBackStack)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewState.update {
-                    it.copy(text = e.message.orEmpty())
+                    it.copy(
+                        status = OperationStatus.ERROR,
+                        errorMessage = e.message.orEmpty()
+                    )
                 }
             }
         }
