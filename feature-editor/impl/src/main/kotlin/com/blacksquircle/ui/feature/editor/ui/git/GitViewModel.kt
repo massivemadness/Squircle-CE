@@ -52,10 +52,13 @@ internal class GitViewModel @AssistedInject constructor(
 
     fun onFetchClicked() {
         viewModelScope.launch {
+            _viewState.update { it.copy(isLoading = true) }
             try {
                 gitRepository.fetch(repository)
             } catch (e: Exception) {
                 _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
+            } finally {
+                _viewState.update { it.copy(isLoading = false) }
             }
         }
     }

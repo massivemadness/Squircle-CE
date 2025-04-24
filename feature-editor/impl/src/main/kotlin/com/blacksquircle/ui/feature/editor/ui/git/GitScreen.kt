@@ -29,6 +29,7 @@ import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.navigation.GitDialog
@@ -119,6 +120,13 @@ private fun GitScreen(
         onDismissClicked = onBackClicked,
         onDismiss = onBackClicked
     )
+    if (viewState.isLoading) {
+        AlertDialog(
+            title = stringResource(R.string.message_loading),
+            content = { LinearProgress(indeterminate = true) },
+            onDismiss = {}
+        )
+    }
 }
 
 @PreviewLightDark
