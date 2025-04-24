@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.settings.ui.git.compose
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +27,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -52,6 +55,9 @@ internal fun GitUserScreen(
                     inputText = name,
                     onInputChanged = { name = it },
                     labelText = stringResource(R.string.pref_git_user_name),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                    ),
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -60,6 +66,9 @@ internal fun GitUserScreen(
                     inputText = email,
                     onInputChanged = { email = it },
                     labelText = stringResource(R.string.pref_git_user_email),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                    ),
                 )
             }
         },
