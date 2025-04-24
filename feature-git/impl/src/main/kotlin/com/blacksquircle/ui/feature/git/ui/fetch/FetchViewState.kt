@@ -18,14 +18,13 @@ package com.blacksquircle.ui.feature.git.ui.fetch
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.git.domain.model.OperationStatus
 
 @Immutable
 internal data class FetchViewState(
-    val status: OperationStatus = OperationStatus.STARTED,
+    val isLoading: Boolean = true,
     val errorMessage: String = "",
 ) : ViewState {
 
     val isError: Boolean
-        get() = errorMessage.isNotEmpty()
+        get() = errorMessage.isNotEmpty() && !isLoading
 }

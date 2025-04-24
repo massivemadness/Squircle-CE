@@ -109,8 +109,8 @@ private fun GitScreen(
                 )
                 GitAction(
                     iconRes = UiR.drawable.ic_folder_data,
-                    title = stringResource(R.string.git_checkout_branch_title),
-                    subtitle = stringResource(R.string.git_checkout_branch_description),
+                    title = stringResource(R.string.git_checkout_title),
+                    subtitle = stringResource(R.string.git_checkout_description),
                     onClick = onCheckoutClicked,
                 )
             }

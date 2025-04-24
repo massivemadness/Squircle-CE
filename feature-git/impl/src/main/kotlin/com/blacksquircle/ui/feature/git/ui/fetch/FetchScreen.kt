@@ -40,7 +40,6 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.api.navigation.FetchDialog
-import com.blacksquircle.ui.feature.git.domain.model.OperationStatus
 import com.blacksquircle.ui.feature.git.internal.GitComponent
 
 @Composable
@@ -80,21 +79,28 @@ private fun FetchScreen(
         content = {
             Column {
                 Text(
-                    text = when (viewState.status) {
-                        OperationStatus.STARTED -> stringResource(R.string.git_fetch_started)
-                        OperationStatus.FINISHED -> stringResource(R.string.git_fetch_finished)
-                        OperationStatus.ERROR -> viewState.errorMessage
+                    text = when {
+                        viewState.isLoading -> {
+                            stringResource(R.string.git_fetch_dialog_message)
+                        }
+                        viewState.isError -> {
+                            stringResource(R.string.git_fatal, viewState.errorMessage)
+                        }
+                        else -> {
+                            stringResource(R.string.git_fetch_dialog_complete)
+                        }
                     },
                     color = SquircleTheme.colors.colorTextAndIconSecondary,
                     style = SquircleTheme.typography.text14Regular,
                 )
 
-                Spacer(Modifier.height(16.dp))
-
-                LinearProgress(
-                    indeterminate = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
+                if (viewState.isLoading) {
+                    Spacer(Modifier.height(16.dp))
+                    LinearProgress(
+                        indeterminate = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
         },
         dismissButton = stringResource(android.R.string.cancel),
@@ -108,9 +114,7 @@ private fun FetchScreen(
 private fun FetchScreenPreview() {
     PreviewBackground {
         FetchScreen(
-            viewState = FetchViewState(
-                status = OperationStatus.STARTED,
-            ),
+            viewState = FetchViewState(),
         )
     }
 }

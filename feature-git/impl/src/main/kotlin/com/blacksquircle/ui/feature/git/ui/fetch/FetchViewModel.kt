@@ -20,14 +20,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.git.domain.model.OperationStatus
+import com.blacksquircle.ui.core.provider.resources.StringProvider
+import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -39,6 +39,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class FetchViewModel @AssistedInject constructor(
+    private val stringProvider: StringProvider,
     private val gitRepository: GitRepository,
     @Assisted private val repository: String,
 ) : ViewModel() {
@@ -63,16 +64,13 @@ internal class FetchViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 _viewState.update {
-                    it.copy(status = OperationStatus.STARTED)
+                    it.copy(isLoading = true)
                 }
 
                 gitRepository.fetch(repository)
 
-                _viewState.update {
-                    it.copy(status = OperationStatus.FINISHED)
-                }
-
-                delay(100L)
+                val message = stringProvider.getString(R.string.git_fetch_dialog_complete)
+                _viewEvent.send(ViewEvent.Toast(message))
 
                 _viewEvent.send(ViewEvent.PopBackStack)
             } catch (e: CancellationException) {
@@ -81,7 +79,7 @@ internal class FetchViewModel @AssistedInject constructor(
                 Timber.e(e, e.message)
                 _viewState.update {
                     it.copy(
-                        status = OperationStatus.ERROR,
+                        isLoading = false,
                         errorMessage = e.message.orEmpty()
                     )
                 }
