@@ -14,36 +14,42 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.git.ui.git
+package com.blacksquircle.ui.feature.git.ui.fetch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.git.api.navigation.FetchDialog
 import com.blacksquircle.ui.feature.git.domain.GitRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
-internal class GitViewModel @AssistedInject constructor(
+internal class FetchViewModel @AssistedInject constructor(
     private val gitRepository: GitRepository,
     @Assisted private val repository: String,
 ) : ViewModel() {
 
-    private val _viewState = MutableStateFlow(GitViewState())
-    val viewState: StateFlow<GitViewState> = _viewState.asStateFlow()
+    private val _viewState = MutableStateFlow(FetchViewState())
+    val viewState: StateFlow<FetchViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
+
+    init {
+        fetch()
+    }
 
     fun onBackClicked() {
         viewModelScope.launch {
@@ -51,52 +57,25 @@ internal class GitViewModel @AssistedInject constructor(
         }
     }
 
-    fun onFetchClicked() {
-        viewModelScope.launch {
-            val screen = FetchDialog(repository)
-            _viewEvent.send(ViewEvent.PopBackStack)
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
-    }
-
-    fun onPullClicked() {
+    private fun fetch() {
         viewModelScope.launch {
             try {
-                gitRepository.pull(repository)
-            } catch (e: Exception) {
-                _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
-            }
-        }
-    }
+                _viewState.update {
+                    it.copy(text = "Fetching updates from the remote repository...")
+                }
 
-    fun onCommitClicked() {
-        viewModelScope.launch {
-            try {
-                // todo: commit dialog with text field (value = commit text)
-                gitRepository.commit(repository, "new commit")
-            } catch (e: Exception) {
-                _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
-            }
-        }
-    }
+                gitRepository.fetch(repository)
 
-    fun onPushClicked() {
-        viewModelScope.launch {
-            try {
-                gitRepository.push(repository)
+                _viewState.update {
+                    it.copy(text = "Fetch complete.")
+                }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
-                _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
-            }
-        }
-    }
-
-    fun onCheckoutClicked() {
-        viewModelScope.launch {
-            try {
-                // todo: checkout dialog with text field (value = branch)
-                gitRepository.checkout(repository, "test")
-            } catch (e: Exception) {
-                _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
+                Timber.e(e, e.message)
+                _viewState.update {
+                    it.copy(text = e.message.orEmpty())
+                }
             }
         }
     }
@@ -114,6 +93,6 @@ internal class GitViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(@Assisted repositoryPath: String): GitViewModel
+        fun create(@Assisted repositoryPath: String): FetchViewModel
     }
 }

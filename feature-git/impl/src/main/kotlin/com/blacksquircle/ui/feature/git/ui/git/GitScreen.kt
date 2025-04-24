@@ -30,7 +30,6 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
-import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.api.navigation.GitDialog
 import com.blacksquircle.ui.feature.git.internal.GitComponent
@@ -120,13 +119,6 @@ private fun GitScreen(
         onDismissClicked = onBackClicked,
         onDismiss = onBackClicked
     )
-    if (viewState.isLoading) {
-        AlertDialog(
-            title = "Loading...",
-            content = { LinearProgress(indeterminate = true) },
-            onDismiss = {}
-        )
-    }
 }
 
 @PreviewLightDark

@@ -20,12 +20,18 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
+import com.blacksquircle.ui.feature.git.api.navigation.FetchDialog
 import com.blacksquircle.ui.feature.git.api.navigation.GitDialog
+import com.blacksquircle.ui.feature.git.ui.fetch.FetchScreen
 import com.blacksquircle.ui.feature.git.ui.git.GitScreen
 
 fun NavGraphBuilder.gitGraph(navController: NavHostController) {
     dialog<GitDialog> { backStackEntry ->
         val navArgs = backStackEntry.toRoute<GitDialog>()
         GitScreen(navArgs, navController)
+    }
+    dialog<FetchDialog> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<FetchDialog>()
+        FetchScreen(navArgs, navController)
     }
 }

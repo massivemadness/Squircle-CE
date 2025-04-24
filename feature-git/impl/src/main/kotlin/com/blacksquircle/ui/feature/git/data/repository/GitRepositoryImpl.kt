@@ -32,15 +32,17 @@ internal class GitRepositoryImpl(
 
     override suspend fun fetch(repository: String) {
         withContext(dispatcherProvider.io()) {
-            val git = Git.open(File(repository))
+            val repoDir = File(repository)
             val credentialsProvider = UsernamePasswordCredentialsProvider(
                 settingsManager.gitCredentialsUsername,
                 settingsManager.gitCredentialsPassword
             )
-            git.fetch()
-                .setRemote(GIT_ORIGIN)
-                .setCredentialsProvider(credentialsProvider)
-                .call()
+            Git.open(repoDir).use { git ->
+                git.fetch()
+                    .setRemote(GIT_ORIGIN)
+                    .setCredentialsProvider(credentialsProvider)
+                    .call()
+            }
         }
     }
 

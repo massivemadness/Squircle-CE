@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.git.api.navigation
+package com.blacksquircle.ui.feature.git.ui.fetch
 
-import kotlinx.serialization.Serializable
+import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.core.mvi.ViewState
 
-@Serializable
-data class GitDialog(val repository: String)
-
-@Serializable
-data class FetchDialog(val repository: String)
+@Immutable
+internal data class FetchViewState(
+    val text: String = "",
+    val isLoading: Boolean = false,
+) : ViewState
