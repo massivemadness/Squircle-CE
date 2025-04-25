@@ -144,7 +144,7 @@ private fun ToolbarLayout(
         val actionsConstraints = constraints.copy(
             minWidth = 0,
             minHeight = 0,
-            maxWidth = layoutWidth - iconWidth,
+            maxWidth = maxOf(0, layoutWidth - iconWidth)
         )
         val actionsPlaceable = actionsMeasurable?.measure(actionsConstraints)
 
