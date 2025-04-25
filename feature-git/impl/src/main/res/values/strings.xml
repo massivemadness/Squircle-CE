@@ -31,6 +31,7 @@
 
     <string name="git_commit_title">Commit</string>
     <string name="git_commit_description">Commit local repository changes</string>
+    <string name="git_commit_dialog_input_message">Type message for commit</string>
     <string name="git_commit_dialog_message">Committing your changes to the local repository…</string>
     <string name="git_commit_dialog_complete">Commit created</string>
 

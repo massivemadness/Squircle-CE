@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.git.api.navigation
+package com.blacksquircle.ui.feature.git.ui.commit
 
-import kotlinx.serialization.Serializable
+import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.core.mvi.ViewState
 
-@Serializable
-data class GitDialog(val repository: String)
+@Immutable
+internal data class CommitViewState(
+    val isLoading: Boolean = false,
+    val errorMessage: String = "",
+    val showMessageInput: Boolean = true,
+    val commitMessage: String = ""
+) : ViewState {
 
-@Serializable
-data class FetchDialog(val repository: String)
-
-@Serializable
-data class PullDialog(val repository: String)
-
-@Serializable
-data class CommitDialog(val repository: String)
+    val isError: Boolean
+        get() = errorMessage.isNotEmpty() && !isLoading
+}
