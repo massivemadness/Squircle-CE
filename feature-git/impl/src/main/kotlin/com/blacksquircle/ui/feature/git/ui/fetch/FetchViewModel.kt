@@ -64,12 +64,12 @@ internal class FetchViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 _viewState.update {
-                    it.copy(isLoading = true)
+                    it.copy(isFetching = true)
                 }
 
                 gitRepository.fetch(repository)
 
-                val message = stringProvider.getString(R.string.git_fetch_dialog_complete)
+                val message = stringProvider.getString(R.string.git_fetch_complete)
                 _viewEvent.send(ViewEvent.Toast(message))
 
                 _viewEvent.send(ViewEvent.PopBackStack)
@@ -79,7 +79,7 @@ internal class FetchViewModel @AssistedInject constructor(
                 Timber.e(e, e.message)
                 _viewState.update {
                     it.copy(
-                        isLoading = false,
+                        isFetching = false,
                         errorMessage = e.message.orEmpty()
                     )
                 }

@@ -25,8 +25,8 @@
 
     <string name="git_fetch_title">Fetch</string>
     <string name="git_fetch_description">Fetch content from remote repository</string>
-    <string name="git_fetch_dialog_message">Fetching updates from the remote repository…</string>
-    <string name="git_fetch_dialog_complete">Fetch completed</string>
+    <string name="git_fetch_fetching">Fetching updates from the remote repository…</string>
+    <string name="git_fetch_complete">Fetch completed</string>
 
     <string name="git_pull_title">Pull</string>
     <string name="git_pull_description">Pull changes from remote repository</string>

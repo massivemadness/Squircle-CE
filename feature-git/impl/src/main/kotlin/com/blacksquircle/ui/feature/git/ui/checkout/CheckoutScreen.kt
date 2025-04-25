@@ -96,14 +96,6 @@ private fun CheckoutScreen(
         content = {
             Column {
                 when {
-                    viewState.isError -> {
-                        Text(
-                            text = stringResource(R.string.git_fatal, viewState.errorMessage),
-                            style = SquircleTheme.typography.text16Regular,
-                            color = SquircleTheme.colors.colorTextAndIconSecondary,
-                            modifier = Modifier.padding(horizontal = 24.dp)
-                        )
-                    }
                     viewState.isChecking -> {
                         Text(
                             text = stringResource(R.string.git_checkout_checking_out),
@@ -131,6 +123,15 @@ private fun CheckoutScreen(
                         ) {
                             CircularProgress()
                         }
+                    }
+
+                    viewState.isError -> {
+                        Text(
+                            text = stringResource(R.string.git_fatal, viewState.errorMessage),
+                            style = SquircleTheme.typography.text16Regular,
+                            color = SquircleTheme.colors.colorTextAndIconSecondary,
+                            modifier = Modifier.padding(horizontal = 24.dp)
+                        )
                     }
 
                     viewState.isNewBranch -> {
