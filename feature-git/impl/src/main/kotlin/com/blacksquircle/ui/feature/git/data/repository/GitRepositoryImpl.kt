@@ -88,6 +88,20 @@ internal class GitRepositoryImpl(
         }
     }
 
+    override suspend fun getListOfBranches(repository: String): List<String> {
+        withContext(dispatcherProvider.io()) {
+            val git = Git.open(File(repository))
+            return git.branchList().call()
+        }
+    }
+
+    override suspend fun getBranch(repository: String): String {
+        withContext(dispatcherProvider.io()) {
+            val git = Git.open(File(repository))
+            return git.repository.branch
+        }
+    }
+
     override suspend fun checkout(repository: String, branch: String) {
         withContext(dispatcherProvider.io()) {
             val git = Git.open(File(repository))

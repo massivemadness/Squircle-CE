@@ -50,15 +50,23 @@ internal class CheckoutViewModel @AssistedInject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    fun onBackClicked() {
+    init {
+        loadBranches()
+    }
+
+    fun loadBranches(){
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
+            val listOfBranches = gitRepository.getListOfBranches(repository)
+            val branch = gitRepository.getBranch(repository)
+            _viewState.update {
+                it.copy(checkoutBranches = listOfBranches, checkoutBranch = branch, isLoading = false, showListOfBranches = true)
+            }
         }
     }
 
-    fun getBranches(): List<String> {
+    fun onBackClicked() {
         viewModelScope.launch {
-            return gitRepository.getBranches(repository)
+            _viewEvent.send(ViewEvent.PopBackStack)
         }
     }
 

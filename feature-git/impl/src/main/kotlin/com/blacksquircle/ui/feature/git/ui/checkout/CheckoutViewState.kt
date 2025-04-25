@@ -21,11 +21,12 @@ import com.blacksquircle.ui.core.mvi.ViewState
 
 @Immutable
 internal data class CheckoutViewState(
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val errorMessage: String = "",
     val showBranchInput: Boolean = false,
     val checkoutBranch: String = "",
-    val showListOfBranches: Boolean = true
+    val checkoutBranches: List<string> = null,
+    val showListOfBranches: Boolean = false
 ) : ViewState {
 
     val isError: Boolean

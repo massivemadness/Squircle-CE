@@ -56,7 +56,6 @@ internal fun CheckoutScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CheckoutScreen(
         viewState = viewState,
-        getBranches = viewModel::getBranches,
         onInputChanged = viewModel::onInputChanged,
         onCheckoutClicked = viewModel::onCheckoutClicked,
         onBackClicked = viewModel::onBackClicked
@@ -77,7 +76,6 @@ internal fun CheckoutScreen(
 @Composable
 private fun CheckoutScreen(
     viewState: CheckoutViewState,
-    getBranches: (String) -> Unit = {},
     onInputChanged: (String) -> Unit = {},
     onCheckoutClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
@@ -87,8 +85,7 @@ private fun CheckoutScreen(
         content = {
             Column {
                 if (viewState.showListOfBranches) {
-                    val branches = getBranches
-                    itemsIndexed(branches) { index, value ->
+                    itemsIndexed(viewState.checkoutBranches) { index, value ->
                         val interactionSource = remember { MutableInteractionSource() }
                         Box(
                             modifier = Modifier
@@ -100,7 +97,7 @@ private fun CheckoutScreen(
                                 .padding(horizontal = 24.dp)
                         ) {
                             Radio(
-                                title = branches[index],
+                                title = viewState.checkoutBranches[index],
                                 checked = value == selectedValue,
                                 onClick = { viewState.checkoutBranch = value },
                                 textStyle = SquircleTheme.typography.text18Regular,
@@ -117,7 +114,7 @@ private fun CheckoutScreen(
                             .debounceClickable(
                                 indication = ripple(),
                                 onClick = {
-                                    viewState.showListOfBranches = false,
+                                    viewState.showListOfBranches = false
                                     viewState.showBranchInput = true
                                 }
                             )
@@ -127,7 +124,7 @@ private fun CheckoutScreen(
                             title = branches[index],
                             checked = value == selectedValue,
                             onClick = {
-                                viewState.showListOfBranches = false,
+                                viewState.showListOfBranches = false
                                 viewState.showBranchInput = true
                             }
                             textStyle = SquircleTheme.typography.text18Regular,
