@@ -21,7 +21,6 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import kotlinx.coroutines.withContext
 import org.eclipse.jgit.api.Git
-import org.eclipse.jgit.api.errors.RefNotFoundException
 import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
@@ -114,20 +113,26 @@ internal class GitRepositoryImpl(
         }
     }
 
-    override suspend fun checkout(repository: String, branch: String) {
+    override suspend fun checkout(repository: String, branchName: String) {
         withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
-                try {
-                    git.checkout()
-                        .setName(branch)
-                        .call()
-                } catch (e: RefNotFoundException) {
-                    git.checkout()
-                        .setCreateBranch(true)
-                        .setName(branch)
-                        .call()
-                }
+                git.checkout()
+                    .setName(branchName)
+                    .call()
+            }
+        }
+    }
+
+    override suspend fun checkoutNew(repository: String, branchName: String, branchBase: String) {
+        withContext(dispatcherProvider.io()) {
+            val repoDir = File(repository)
+            Git.open(repoDir).use { git ->
+                git.checkout()
+                    .setCreateBranch(true)
+                    .setName(branchName)
+                    .setStartPoint(branchBase)
+                    .call()
             }
         }
     }

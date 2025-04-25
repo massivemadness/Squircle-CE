@@ -138,6 +138,10 @@ private fun CheckoutScreen(
                             inputText = viewState.newBranchName,
                             onInputChanged = onBranchNameChanged,
                             labelText = stringResource(R.string.git_checkout_branch_name),
+                            helpText = stringResource(
+                                R.string.git_checkout_branch_base,
+                                viewState.currentBranch
+                            ),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 24.dp),

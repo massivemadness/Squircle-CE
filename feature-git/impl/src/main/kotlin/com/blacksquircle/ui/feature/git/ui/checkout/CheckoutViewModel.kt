@@ -28,7 +28,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -89,7 +88,8 @@ internal class CheckoutViewModel @AssistedInject constructor(
                 val isNewBranch = viewState.value.isNewBranch
                 if (isNewBranch) {
                     val branchName = viewState.value.newBranchName
-                    gitRepository.checkout(repository, branchName)
+                    val branchBase = viewState.value.currentBranch
+                    gitRepository.checkoutNew(repository, branchName, branchBase)
 
                     val message = stringProvider.getString(
                         R.string.git_checkout_dialog_complete,
