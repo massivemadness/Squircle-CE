@@ -105,7 +105,7 @@ private fun CheckoutScreen(
                 if (viewState.showBranchInput) {
                     Spacer(Modifier.height(16.dp))
                     TextField(
-                        inputText = viewState.checkoutMessage,
+                        inputText = viewState.checkoutBranch,
                         modifier = Modifier.fillMaxWidth(),
                         onInputChanged = onInputChanged
                     )

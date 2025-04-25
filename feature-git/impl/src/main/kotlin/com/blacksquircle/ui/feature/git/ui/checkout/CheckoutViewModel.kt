@@ -58,7 +58,7 @@ internal class CheckoutViewModel @AssistedInject constructor(
 
     fun onInputChanged(input: String) {
         _viewState.update {
-            it.copy(checkoutMessage = input)
+            it.copy(checkoutBranch = input)
         }
     }
 

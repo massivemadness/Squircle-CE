@@ -42,6 +42,7 @@
 
     <string name="git_checkout_title">Checkout branch</string>
     <string name="git_checkout_description">Change or create local repository branch</string>
+    <string name="git_checkout_dialog_input_message">Type branch name for checkout</string>
     <string name="git_checkout_dialog_message">Checking out the branch…</string>
     <string name="git_checkout_dialog_complete">Checked out %1$s</string>
 
