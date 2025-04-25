@@ -56,7 +56,6 @@ internal class GitRepositoryImpl(
                 .call()
             trySend(100)
         }
-        awaitClose {}
     }
 
     override suspend fun pull(repository: String) = callbackFlow {
@@ -83,7 +82,6 @@ internal class GitRepositoryImpl(
                 .call()
             trySend(100)
         }
-        awaitClose {}
     }
 
     override suspend fun commit(repository: String, message: String) = callbackFlow {
@@ -99,7 +97,6 @@ internal class GitRepositoryImpl(
                 .call()
             trySend(100)
         }
-        awaitClose {}
     }
 
     override suspend fun push(repository: String) = callbackFlow {
@@ -126,7 +123,6 @@ internal class GitRepositoryImpl(
                 .call()
             trySend(100)
         }
-        awaitClose {}
     }
 
     override suspend fun checkout(repository: String, branch: String) = callbackFlow {
@@ -144,7 +140,6 @@ internal class GitRepositoryImpl(
             }
             trySend(100)
         }
-        awaitClose {}
     }
 
     companion object {
