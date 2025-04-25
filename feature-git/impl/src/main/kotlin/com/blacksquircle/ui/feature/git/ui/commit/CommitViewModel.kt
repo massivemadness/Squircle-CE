@@ -69,7 +69,7 @@ internal class CommitViewModel @AssistedInject constructor(
                     it.copy(showMessageInput = false, isLoading = true)
                 }
 
-                gitRepository.commit(repository, _viewState.commitMessage)
+                gitRepository.commit(repository, _viewState.value.commitMessage)
 
                 val message = stringProvider.getString(R.string.git_commit_dialog_complete)
                 _viewEvent.send(ViewEvent.Toast(message))
