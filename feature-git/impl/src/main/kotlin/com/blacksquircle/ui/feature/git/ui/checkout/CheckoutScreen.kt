@@ -98,7 +98,7 @@ private fun CheckoutScreen(
                         ) {
                             Radio(
                                 title = viewState.checkoutBranches[index],
-                                checked = value == selectedValue,
+                                checked = value == viewState.checkoutBranch,
                                 onClick = { viewState.checkoutBranch = value },
                                 textStyle = SquircleTheme.typography.text18Regular,
                                 interactionSource = interactionSource,
@@ -122,11 +122,11 @@ private fun CheckoutScreen(
                     ) {
                         Radio(
                             title = branches[index],
-                            checked = value == selectedValue,
+                            checked = value == viewState.checkoutBranch,
                             onClick = {
                                 viewState.showListOfBranches = false
                                 viewState.showBranchInput = true
-                            }
+                            },
                             textStyle = SquircleTheme.typography.text18Regular,
                             indication = null,
                             modifier = Modifier
