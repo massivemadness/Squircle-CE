@@ -22,6 +22,7 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.git.api.navigation.FetchDialog
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
+import com.blacksquircle.ui.feature.git.api.navigation.PullDialog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -61,11 +62,9 @@ internal class GitViewModel @AssistedInject constructor(
 
     fun onPullClicked() {
         viewModelScope.launch {
-            try {
-                gitRepository.pull(repository)
-            } catch (e: Exception) {
-                _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
-            }
+            val screen = PullDialog(repository)
+            _viewEvent.send(ViewEvent.PopBackStack)
+            _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 

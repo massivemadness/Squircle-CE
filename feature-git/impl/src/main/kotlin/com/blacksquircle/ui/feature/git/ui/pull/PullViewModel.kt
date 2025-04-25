@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.git.ui.fetch
+package com.blacksquircle.ui.feature.git.ui.pull
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -39,20 +39,20 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-internal class FetchViewModel @AssistedInject constructor(
+internal class PullViewModel @AssistedInject constructor(
     private val stringProvider: StringProvider,
     private val gitRepository: GitRepository,
     @Assisted private val repository: String,
 ) : ViewModel() {
 
-    private val _viewState = MutableStateFlow(FetchViewState())
-    val viewState: StateFlow<FetchViewState> = _viewState.asStateFlow()
+    private val _viewState = MutableStateFlow(PullViewState())
+    val viewState: StateFlow<PullViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
     init {
-        fetch()
+        pull()
     }
 
     fun onBackClicked() {
@@ -61,21 +61,21 @@ internal class FetchViewModel @AssistedInject constructor(
         }
     }
 
-    private fun fetch() {
+    private fun pull() {
         viewModelScope.launch {
             try {
                 _viewState.update {
                     it.copy(isLoading = true, progress = 0)
                 }
 
-                gitRepository.fetch(repository).collect { progress ->
+                gitRepository.pull(repository).collect { progress ->
                     _viewState.update { it.copy(progress = progress) }
                     if (progress >= 100) {
                         cancel()
                     }
                 }
 
-                val message = stringProvider.getString(R.string.git_fetch_dialog_complete)
+                val message = stringProvider.getString(R.string.git_pull_dialog_complete)
                 _viewEvent.send(ViewEvent.Toast(message))
 
                 _viewEvent.send(ViewEvent.PopBackStack)
@@ -106,6 +106,6 @@ internal class FetchViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(@Assisted repositoryPath: String): FetchViewModel
+        fun create(@Assisted repositoryPath: String): PullViewModel
     }
 }
