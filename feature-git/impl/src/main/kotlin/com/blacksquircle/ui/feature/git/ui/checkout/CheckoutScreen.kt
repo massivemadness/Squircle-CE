@@ -194,6 +194,9 @@ private fun CheckoutScreenPreview() {
                 currentBranch = "master",
                 branchList = listOf("master", "develop"),
                 isNewBranch = true,
+                newBranchName = "feature",
+                isLoading = false,
+                isChecking = false,
             ),
         )
     }

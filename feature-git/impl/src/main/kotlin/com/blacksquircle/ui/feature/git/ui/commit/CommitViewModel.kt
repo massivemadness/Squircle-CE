@@ -50,13 +50,17 @@ internal class CommitViewModel @AssistedInject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
+    init {
+        loadChanges()
+    }
+
     fun onBackClicked() {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack)
         }
     }
 
-    fun onInputChanged(input: String) {
+    fun onCommitMessageChanged(input: String) {
         _viewState.update {
             it.copy(commitMessage = input)
         }
@@ -66,12 +70,13 @@ internal class CommitViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 _viewState.update {
-                    it.copy(showMessageInput = false, isLoading = true)
+                    it.copy(isLoading = true)
                 }
 
-                gitRepository.commit(repository, _viewState.value.commitMessage)
+                val commitMessage = _viewState.value.commitMessage
+                gitRepository.commit(repository, commitMessage)
 
-                val message = stringProvider.getString(R.string.git_commit_dialog_complete)
+                val message = stringProvider.getString(R.string.git_commit_complete)
                 _viewEvent.send(ViewEvent.Toast(message))
 
                 _viewEvent.send(ViewEvent.PopBackStack)
@@ -87,6 +92,10 @@ internal class CommitViewModel @AssistedInject constructor(
                 }
             }
         }
+    }
+
+    private fun loadChanges() {
+
     }
 
     class ParameterizedFactory(private val repository: String) : ViewModelProvider.Factory {

@@ -89,9 +89,9 @@ internal class GitRepositoryImpl(
                     .addFilepattern(GIT_ALL)
                     .call()
                 git.commit()
-                    .setMessage(message)
                     .setAuthor(settingsManager.gitUserName, settingsManager.gitUserEmail)
                     .setCommitter(settingsManager.gitUserName, settingsManager.gitUserEmail)
+                    .setMessage(message)
                     .call()
             }
         }

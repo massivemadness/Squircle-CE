@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.git.ui.commit
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +25,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -37,6 +39,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
+import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.git.R
@@ -55,7 +58,7 @@ internal fun CommitScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CommitScreen(
         viewState = viewState,
-        onInputChanged = viewModel::onInputChanged,
+        onCommitMessageChanged = viewModel::onCommitMessageChanged,
         onCommitClicked = viewModel::onCommitClicked,
         onBackClicked = viewModel::onBackClicked
     )
@@ -75,7 +78,7 @@ internal fun CommitScreen(
 @Composable
 private fun CommitScreen(
     viewState: CommitViewState,
-    onInputChanged: (String) -> Unit = {},
+    onCommitMessageChanged: (String) -> Unit = {},
     onCommitClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
 ) {
@@ -83,46 +86,57 @@ private fun CommitScreen(
         title = stringResource(R.string.git_commit_title),
         content = {
             Column {
-                Text(
-                    text = when {
-                        viewState.showMessageInput -> {
-                            stringResource(R.string.git_commit_dialog_input_message)
-                        }
-                        viewState.isLoading -> {
-                            stringResource(R.string.git_commit_dialog_message)
-                        }
-                        viewState.isError -> {
-                            stringResource(R.string.git_fatal, viewState.errorMessage)
-                        }
-                        else -> {
-                            stringResource(R.string.git_commit_dialog_complete)
-                        }
-                    },
-                    color = SquircleTheme.colors.colorTextAndIconSecondary,
-                    style = SquircleTheme.typography.text14Regular,
-                )
+                when {
+                    viewState.isCommitting -> {
+                        Text(
+                            text = stringResource(R.string.git_commit_committing),
+                            color = SquircleTheme.colors.colorTextAndIconSecondary,
+                            style = SquircleTheme.typography.text16Regular,
+                        )
 
-                if (viewState.showMessageInput) {
-                    Spacer(Modifier.height(16.dp))
-                    TextField(
-                        inputText = viewState.commitMessage,
-                        modifier = Modifier.fillMaxWidth(),
-                        onInputChanged = onInputChanged
-                    )
-                } else if (viewState.isLoading) {
-                    Spacer(Modifier.height(16.dp))
-                    LinearProgress(
-                        indeterminate = true,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                        Spacer(Modifier.height(16.dp))
+
+                        LinearProgress(
+                            indeterminate = true,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+
+                    viewState.isLoading -> {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp)
+                        ) {
+                            CircularProgress()
+                        }
+                    }
+
+                    viewState.isError -> {
+                        Text(
+                            text = stringResource(R.string.git_fatal, viewState.errorMessage),
+                            color = SquircleTheme.colors.colorTextAndIconSecondary,
+                            style = SquircleTheme.typography.text16Regular,
+                        )
+                    }
+
+                    else -> {
+                        TextField(
+                            inputText = viewState.commitMessage,
+                            onInputChanged = onCommitMessageChanged,
+                            labelText = stringResource(R.string.git_commit_message),
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
                 }
             }
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
         onDismiss = onBackClicked,
-        confirmButton = if (viewState.showMessageInput) stringResource(android.R.string.ok) else null,
-        confirmButtonEnabled = viewState.commitMessage.isNotEmpty(),
+        confirmButton = stringResource(R.string.action_commit),
+        confirmButtonEnabled = viewState.isCommitButtonEnabled,
         onConfirmClicked = onCommitClicked
     )
 }
@@ -132,7 +146,10 @@ private fun CommitScreen(
 private fun CommitScreenPreview() {
     PreviewBackground {
         CommitScreen(
-            viewState = CommitViewState(),
+            viewState = CommitViewState(
+                isCommitting = false,
+                isLoading = false,
+            ),
         )
     }
 }

@@ -22,6 +22,7 @@
     <string name="action_create">Create</string>
     <string name="action_checkout">Checkout</string>
     <string name="action_new_branch">New branch</string>
+    <string name="action_commit">Commit</string>
 
     <string name="git_fetch_title">Fetch</string>
     <string name="git_fetch_description">Fetch content from remote repository</string>
@@ -35,9 +36,9 @@
 
     <string name="git_commit_title">Commit</string>
     <string name="git_commit_description">Commit local repository changes</string>
-    <string name="git_commit_dialog_input_message">Type message for commit</string>
-    <string name="git_commit_dialog_message">Committing your changes to the local repository…</string>
-    <string name="git_commit_dialog_complete">Commit created</string>
+    <string name="git_commit_message">Commit message</string>
+    <string name="git_commit_committing">Committing your changes to the local repository…</string>
+    <string name="git_commit_complete">Commit created</string>
 
     <string name="git_push_title">Push</string>
     <string name="git_push_description">Push content to remote repository</string>
