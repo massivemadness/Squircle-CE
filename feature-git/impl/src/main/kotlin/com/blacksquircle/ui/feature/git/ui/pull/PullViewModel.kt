@@ -64,12 +64,12 @@ internal class PullViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 _viewState.update {
-                    it.copy(isLoading = true)
+                    it.copy(isPulling = true)
                 }
 
                 gitRepository.pull(repository)
 
-                val message = stringProvider.getString(R.string.git_pull_dialog_complete)
+                val message = stringProvider.getString(R.string.git_pull_complete)
                 _viewEvent.send(ViewEvent.Toast(message))
 
                 _viewEvent.send(ViewEvent.PopBackStack)
@@ -79,7 +79,7 @@ internal class PullViewModel @AssistedInject constructor(
                 Timber.e(e, e.message)
                 _viewState.update {
                     it.copy(
-                        isLoading = false,
+                        isPulling = false,
                         errorMessage = e.message.orEmpty()
                     )
                 }

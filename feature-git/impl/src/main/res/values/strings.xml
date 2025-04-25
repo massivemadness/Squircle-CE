@@ -30,8 +30,8 @@
 
     <string name="git_pull_title">Pull</string>
     <string name="git_pull_description">Pull changes from remote repository</string>
-    <string name="git_pull_dialog_message">Pulling changes from the remote repository…</string>
-    <string name="git_pull_dialog_complete">Pull completed</string>
+    <string name="git_pull_pulling">Pulling changes from the remote repository…</string>
+    <string name="git_pull_complete">Pull completed</string>
 
     <string name="git_commit_title">Commit</string>
     <string name="git_commit_description">Commit local repository changes</string>

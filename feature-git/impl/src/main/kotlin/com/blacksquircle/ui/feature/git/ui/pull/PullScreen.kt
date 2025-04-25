@@ -78,28 +78,29 @@ private fun PullScreen(
         title = stringResource(R.string.git_pull_title),
         content = {
             Column {
-                Text(
-                    text = when {
-                        viewState.isLoading -> {
-                            stringResource(R.string.git_pull_dialog_message)
-                        }
-                        viewState.isError -> {
-                            stringResource(R.string.git_fatal, viewState.errorMessage)
-                        }
-                        else -> {
-                            stringResource(R.string.git_pull_dialog_complete)
-                        }
-                    },
-                    color = SquircleTheme.colors.colorTextAndIconSecondary,
-                    style = SquircleTheme.typography.text14Regular,
-                )
+                when {
+                    viewState.isPulling -> {
+                        Text(
+                            text = stringResource(R.string.git_pull_pulling),
+                            color = SquircleTheme.colors.colorTextAndIconSecondary,
+                            style = SquircleTheme.typography.text16Regular,
+                        )
 
-                if (viewState.isLoading) {
-                    Spacer(Modifier.height(16.dp))
-                    LinearProgress(
-                        indeterminate = true,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                        Spacer(Modifier.height(16.dp))
+
+                        LinearProgress(
+                            indeterminate = true,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+
+                    viewState.isError -> {
+                        Text(
+                            text = stringResource(R.string.git_fatal, viewState.errorMessage),
+                            color = SquircleTheme.colors.colorTextAndIconSecondary,
+                            style = SquircleTheme.typography.text16Regular,
+                        )
+                    }
                 }
             }
         },
