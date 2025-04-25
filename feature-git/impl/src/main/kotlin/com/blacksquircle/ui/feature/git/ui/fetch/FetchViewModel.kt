@@ -64,7 +64,7 @@ internal class FetchViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 _viewState.update {
-                    it.copy(isLoading = true, progress = 0)
+                    it.copy(isLoading = true)
                 }
 
                 gitRepository.fetch(repository)
