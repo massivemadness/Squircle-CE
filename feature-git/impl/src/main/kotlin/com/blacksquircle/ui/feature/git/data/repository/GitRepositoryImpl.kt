@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.git.data.repository
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.withContext
 import org.eclipse.jgit.api.Git
@@ -56,6 +57,7 @@ internal class GitRepositoryImpl(
                 .call()
             trySend(100)
         }
+        awaitClose {}
     }
 
     override suspend fun pull(repository: String) = callbackFlow {
@@ -82,6 +84,7 @@ internal class GitRepositoryImpl(
                 .call()
             trySend(100)
         }
+        awaitClose {}
     }
 
     override suspend fun commit(repository: String, message: String) = callbackFlow {
@@ -97,6 +100,7 @@ internal class GitRepositoryImpl(
                 .call()
             trySend(100)
         }
+        awaitClose {}
     }
 
     override suspend fun push(repository: String) = callbackFlow {
@@ -123,6 +127,7 @@ internal class GitRepositoryImpl(
                 .call()
             trySend(100)
         }
+        awaitClose {}
     }
 
     override suspend fun checkout(repository: String, branch: String) = callbackFlow {
@@ -140,6 +145,7 @@ internal class GitRepositoryImpl(
             }
             trySend(100)
         }
+        awaitClose {}
     }
 
     companion object {
