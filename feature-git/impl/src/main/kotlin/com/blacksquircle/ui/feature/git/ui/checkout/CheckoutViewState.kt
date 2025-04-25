@@ -25,7 +25,7 @@ internal data class CheckoutViewState(
     val errorMessage: String = "",
     val showBranchInput: Boolean = false,
     val checkoutBranch: String = "",
-    val checkoutBranches: List<String> = null,
+    val checkoutBranches: List<String> = emptyList(),
     val showListOfBranches: Boolean = false
 ) : ViewState {
 
