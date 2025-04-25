@@ -23,8 +23,9 @@ import com.blacksquircle.ui.core.mvi.ViewState
 internal data class CheckoutViewState(
     val isLoading: Boolean = false,
     val errorMessage: String = "",
-    val showBranchInput: Boolean = true,
-    val checkoutBranch: String = ""
+    val showBranchInput: Boolean = false,
+    val checkoutBranch: String = "",
+    val showListOfBranches: Boolean = true
 ) : ViewState {
 
     val isError: Boolean

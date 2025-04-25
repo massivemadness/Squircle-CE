@@ -23,9 +23,9 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog
 import com.blacksquircle.ui.feature.git.api.navigation.CommitDialog
 import com.blacksquircle.ui.feature.git.api.navigation.FetchDialog
-import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import com.blacksquircle.ui.feature.git.api.navigation.PullDialog
 import com.blacksquircle.ui.feature.git.api.navigation.PushDialog
+import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

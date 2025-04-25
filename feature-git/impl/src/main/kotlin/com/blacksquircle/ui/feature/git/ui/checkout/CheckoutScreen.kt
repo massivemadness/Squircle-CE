@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -55,6 +56,7 @@ internal fun CheckoutScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CheckoutScreen(
         viewState = viewState,
+        getBranches = viewModel::getBranches,
         onInputChanged = viewModel::onInputChanged,
         onCheckoutClicked = viewModel::onCheckoutClicked,
         onBackClicked = viewModel::onBackClicked
@@ -75,6 +77,7 @@ internal fun CheckoutScreen(
 @Composable
 private fun CheckoutScreen(
     viewState: CheckoutViewState,
+    getBranches: (String) -> Unit = {},
     onInputChanged: (String) -> Unit = {},
     onCheckoutClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
@@ -83,24 +86,77 @@ private fun CheckoutScreen(
         title = stringResource(R.string.git_checkout_title),
         content = {
             Column {
-                Text(
-                    text = when {
-                        viewState.showBranchInput -> {
-                            stringResource(R.string.git_checkout_dialog_input_message)
+                if (viewState.showListOfBranches) {
+                    val branches = getBranches
+                    itemsIndexed(branches) { index, value ->
+                        val interactionSource = remember { MutableInteractionSource() }
+                        Box(
+                            modifier = Modifier
+                                .debounceClickable(
+                                    interactionSource = interactionSource,
+                                    indication = ripple(),
+                                    onClick = { viewState.checkoutBranch = value }
+                                )
+                                .padding(horizontal = 24.dp)
+                        ) {
+                            Radio(
+                                title = branches[index],
+                                checked = value == selectedValue,
+                                onClick = { viewState.checkoutBranch = value },
+                                textStyle = SquircleTheme.typography.text18Regular,
+                                interactionSource = interactionSource,
+                                indication = null,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(48.dp)
+                            )
                         }
-                        viewState.isLoading -> {
-                            stringResource(R.string.git_checkout_dialog_message)
-                        }
-                        viewState.isError -> {
-                            stringResource(R.string.git_fatal, viewState.errorMessage)
-                        }
-                        else -> {
-                            stringResource(R.string.git_checkout_dialog_complete)
-                        }
-                    },
-                    color = SquircleTheme.colors.colorTextAndIconSecondary,
-                    style = SquircleTheme.typography.text14Regular,
-                )
+                    }
+                    Box(
+                        modifier = Modifier
+                            .debounceClickable(
+                                indication = ripple(),
+                                onClick = {
+                                    viewState.showListOfBranches = false,
+                                    viewState.showBranchInput = true
+                                }
+                            )
+                            .padding(horizontal = 24.dp)
+                    ) {
+                        Radio(
+                            title = branches[index],
+                            checked = value == selectedValue,
+                            onClick = {
+                                viewState.showListOfBranches = false,
+                                viewState.showBranchInput = true
+                            }
+                            textStyle = SquircleTheme.typography.text18Regular,
+                            indication = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(48.dp)
+                        )
+                    }
+                } else {
+                    Text(
+                        text = when {
+                            viewState.showBranchInput -> {
+                                stringResource(R.string.git_checkout_dialog_input_message)
+                            }
+                            viewState.isLoading -> {
+                                stringResource(R.string.git_checkout_dialog_message)
+                            }
+                            viewState.isError -> {
+                                stringResource(R.string.git_fatal, viewState.errorMessage)
+                            }
+                            else -> {
+                                stringResource(R.string.git_checkout_dialog_complete)
+                            }
+                        },
+                        color = SquircleTheme.colors.colorTextAndIconSecondary,
+                        style = SquircleTheme.typography.text14Regular,
+                    )
+                }
 
                 if (viewState.showBranchInput) {
                     Spacer(Modifier.height(16.dp))
@@ -121,7 +177,7 @@ private fun CheckoutScreen(
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
         onDismiss = onBackClicked,
-        confirmButton = if (viewState.showBranchInput) stringResource(android.R.string.ok) else null,
+        confirmButton = if (viewState.showBranchInput || viewState.showListOfBranches) stringResource(android.R.string.ok) else null,
         confirmButtonEnabled = viewState.checkoutBranch.isNotEmpty(),
         onConfirmClicked = onCheckoutClicked
     )

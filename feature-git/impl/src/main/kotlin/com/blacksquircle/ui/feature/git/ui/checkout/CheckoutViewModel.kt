@@ -56,6 +56,12 @@ internal class CheckoutViewModel @AssistedInject constructor(
         }
     }
 
+    fun getBranches(): List<String> {
+        viewModelScope.launch {
+            return gitRepository.getBranches(repository)
+        }
+    }
+
     fun onInputChanged(input: String) {
         _viewState.update {
             it.copy(checkoutBranch = input)
