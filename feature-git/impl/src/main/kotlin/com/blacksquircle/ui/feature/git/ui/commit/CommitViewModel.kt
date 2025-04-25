@@ -56,6 +56,12 @@ internal class CommitViewModel @AssistedInject constructor(
         }
     }
 
+    fun onInputChanged(input: String) {
+        _viewState.update {
+            it.copy(commitMessage = input)
+        }
+    }
+
     fun onCommitClicked() {
         viewModelScope.launch {
             try {

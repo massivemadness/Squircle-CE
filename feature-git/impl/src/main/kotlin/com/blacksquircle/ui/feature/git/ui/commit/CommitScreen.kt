@@ -55,6 +55,7 @@ internal fun CommitScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CommitScreen(
         viewState = viewState,
+        onInputChanged = viewModel::onInputChanged,
         onCommitClicked = viewModel::onCommitClicked,
         onBackClicked = viewModel::onBackClicked
     )
@@ -74,6 +75,7 @@ internal fun CommitScreen(
 @Composable
 private fun CommitScreen(
     viewState: CommitViewState,
+    onInputChanged: (String) -> Unit = {},
     onCommitClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
 ) {
@@ -84,7 +86,7 @@ private fun CommitScreen(
                 Text(
                     text = when {
                         viewState.showMessageInput -> {
-                            stringResource(R.string.git_commit_input_dialog_message)
+                            stringResource(R.string.git_commit_dialog_input_message)
                         }
                         viewState.isLoading -> {
                             stringResource(R.string.git_commit_dialog_message)
@@ -104,11 +106,7 @@ private fun CommitScreen(
                     TextField(
                         inputText = viewState.commitMessage,
                         modifier = Modifier.fillMaxWidth(),
-                        onInputChanged = { message -> 
-                            viewState.update {
-                                it.copy(commitMessage = message)
-                            }
-                        }
+                        onInputChanged = onInputChanged
                     )
                 } else if (viewState.isLoading) {
                     Spacer(Modifier.height(16.dp))
