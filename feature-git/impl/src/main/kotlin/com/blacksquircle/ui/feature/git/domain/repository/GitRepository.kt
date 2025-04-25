@@ -23,7 +23,7 @@ internal interface GitRepository {
 
     suspend fun fetch(repository: String)
     suspend fun pull(repository: String)
-    suspend fun commit(repository: String, message: String)
+    suspend fun commit(repository: String, message: String, amend: Boolean)
     suspend fun push(repository: String)
     suspend fun checkout(repository: String, branchName: String)
     suspend fun checkoutNew(repository: String, branchName: String, branchBase: String)

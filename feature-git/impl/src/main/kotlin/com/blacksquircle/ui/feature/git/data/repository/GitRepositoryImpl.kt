@@ -81,7 +81,7 @@ internal class GitRepositoryImpl(
         }
     }
 
-    override suspend fun commit(repository: String, message: String) {
+    override suspend fun commit(repository: String, message: String, amend: Boolean) {
         withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
@@ -92,6 +92,7 @@ internal class GitRepositoryImpl(
                     .setAuthor(settingsManager.gitUserName, settingsManager.gitUserEmail)
                     .setCommitter(settingsManager.gitUserName, settingsManager.gitUserEmail)
                     .setMessage(message)
+                    .setAmend(amend)
                     .call()
             }
         }

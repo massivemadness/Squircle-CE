@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,6 +39,7 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.progress.LinearProgress
@@ -59,6 +61,7 @@ internal fun CommitScreen(
     CommitScreen(
         viewState = viewState,
         onCommitMessageChanged = viewModel::onCommitMessageChanged,
+        onAmendClicked = viewModel::onAmendClicked,
         onCommitClicked = viewModel::onCommitClicked,
         onBackClicked = viewModel::onBackClicked
     )
@@ -79,6 +82,7 @@ internal fun CommitScreen(
 private fun CommitScreen(
     viewState: CommitViewState,
     onCommitMessageChanged: (String) -> Unit = {},
+    onAmendClicked: () -> Unit = {},
     onCommitClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
 ) {
@@ -127,6 +131,14 @@ private fun CommitScreen(
                             onInputChanged = onCommitMessageChanged,
                             labelText = stringResource(R.string.git_commit_message),
                             modifier = Modifier.fillMaxWidth(),
+                        )
+
+                        Spacer(Modifier.height(8.dp))
+
+                        CheckBox(
+                            title = stringResource(R.string.action_amend),
+                            checked = viewState.isAmend,
+                            onClick = onAmendClicked,
                         )
                     }
                 }

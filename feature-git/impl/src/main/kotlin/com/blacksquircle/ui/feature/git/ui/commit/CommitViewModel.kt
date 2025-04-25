@@ -28,6 +28,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -66,20 +67,51 @@ internal class CommitViewModel @AssistedInject constructor(
         }
     }
 
+    fun onAmendClicked() {
+        _viewState.update {
+            it.copy(isAmend = !it.isAmend)
+        }
+    }
+
     fun onCommitClicked() {
         viewModelScope.launch {
             try {
                 _viewState.update {
-                    it.copy(isLoading = true)
+                    it.copy(isCommitting = true)
                 }
 
-                val commitMessage = _viewState.value.commitMessage
-                gitRepository.commit(repository, commitMessage)
+                val amend = viewState.value.isAmend
+                val commitMessage = viewState.value.commitMessage
+                gitRepository.commit(repository, commitMessage, amend)
 
                 val message = stringProvider.getString(R.string.git_commit_complete)
                 _viewEvent.send(ViewEvent.Toast(message))
 
                 _viewEvent.send(ViewEvent.PopBackStack)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewState.update {
+                    it.copy(
+                        isCommitting = false,
+                        errorMessage = e.message.orEmpty()
+                    )
+                }
+            }
+        }
+    }
+
+    private fun loadChanges() {
+        viewModelScope.launch {
+            try {
+                delay(1000L)
+
+                _viewState.update {
+                    it.copy(
+                        isLoading = false
+                    )
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -92,10 +124,6 @@ internal class CommitViewModel @AssistedInject constructor(
                 }
             }
         }
-    }
-
-    private fun loadChanges() {
-
     }
 
     class ParameterizedFactory(private val repository: String) : ViewModelProvider.Factory {

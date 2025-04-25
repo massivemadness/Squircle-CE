@@ -23,6 +23,7 @@
     <string name="action_checkout">Checkout</string>
     <string name="action_new_branch">New branch</string>
     <string name="action_commit">Commit</string>
+    <string name="action_amend">Amend</string>
 
     <string name="git_fetch_title">Fetch</string>
     <string name="git_fetch_description">Fetch content from remote repository</string>
