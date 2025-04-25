@@ -26,7 +26,6 @@ import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -68,12 +67,7 @@ internal class FetchViewModel @AssistedInject constructor(
                     it.copy(isLoading = true, progress = 0)
                 }
 
-                gitRepository.fetch(repository).collect { progress ->
-                    _viewState.update { it.copy(progress = progress) }
-                    if (progress >= 100) {
-                        cancel()
-                    }
-                }
+                gitRepository.fetch(repository)
 
                 val message = stringProvider.getString(R.string.git_fetch_dialog_complete)
                 _viewEvent.send(ViewEvent.Toast(message))

@@ -97,7 +97,7 @@ private fun FetchScreen(
                 if (viewState.isLoading) {
                     Spacer(Modifier.height(16.dp))
                     LinearProgress(
-                        progress = viewState.progress / 100f,
+                        indeterminate = true,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
