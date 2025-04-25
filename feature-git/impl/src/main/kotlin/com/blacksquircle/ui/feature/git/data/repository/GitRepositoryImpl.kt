@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.git.data.repository
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.withContext
@@ -56,6 +57,7 @@ internal class GitRepositoryImpl(
                 .setProgressMonitor(monitor)
                 .call()
             trySend(100)
+            cancel()
         }
         awaitClose {}
     }
@@ -83,6 +85,7 @@ internal class GitRepositoryImpl(
                 .setProgressMonitor(monitor)
                 .call()
             trySend(100)
+            cancel()
         }
         awaitClose {}
     }
@@ -99,6 +102,7 @@ internal class GitRepositoryImpl(
                 .setCommitter(settingsManager.gitUserName, settingsManager.gitUserEmail)
                 .call()
             trySend(100)
+            cancel()
         }
         awaitClose {}
     }
@@ -126,6 +130,7 @@ internal class GitRepositoryImpl(
                 .setProgressMonitor(monitor)
                 .call()
             trySend(100)
+            cancel()
         }
         awaitClose {}
     }
@@ -144,6 +149,7 @@ internal class GitRepositoryImpl(
                     .call()
             }
             trySend(100)
+            cancel()
         }
         awaitClose {}
     }
