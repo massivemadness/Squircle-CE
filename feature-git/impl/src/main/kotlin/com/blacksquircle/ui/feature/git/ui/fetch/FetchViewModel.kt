@@ -68,7 +68,7 @@ internal class FetchViewModel @AssistedInject constructor(
                 }
 
                 gitRepository.fetch(repository).collect { progress ->
-                    _viewState.update { it.copy(progress = progress / 100F) }
+                    _viewState.update { it.copy(progress = progress) }
                 }
 
                 val message = stringProvider.getString(R.string.git_fetch_dialog_complete)
