@@ -100,6 +100,6 @@ internal class PullViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(@Assisted repositoryPath: String): PullViewModel
+        fun create(@Assisted repository: String): PullViewModel
     }
 }

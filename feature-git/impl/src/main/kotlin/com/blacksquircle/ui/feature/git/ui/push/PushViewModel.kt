@@ -100,6 +100,6 @@ internal class PushViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(@Assisted repositoryPath: String): PushViewModel
+        fun create(@Assisted repository: String): PushViewModel
     }
 }

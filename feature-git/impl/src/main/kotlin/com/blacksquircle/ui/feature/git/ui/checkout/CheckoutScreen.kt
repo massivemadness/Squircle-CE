@@ -16,15 +16,22 @@
 
 package com.blacksquircle.ui.feature.git.ui.checkout
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Text
+import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -37,12 +44,16 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
-import com.blacksquircle.ui.ds.progress.LinearProgress
+import com.blacksquircle.ui.ds.modifier.debounceClickable
+import com.blacksquircle.ui.ds.progress.CircularProgress
+import com.blacksquircle.ui.ds.radio.Radio
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog
 import com.blacksquircle.ui.feature.git.internal.GitComponent
+import com.blacksquircle.ui.feature.git.ui.checkout.compose.BranchList
 
 @Composable
 internal fun CheckoutScreen(
@@ -56,9 +67,10 @@ internal fun CheckoutScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CheckoutScreen(
         viewState = viewState,
-        onNewBranchClicked = viewModel::onNewBranchClicked,
-        onInputChanged = viewModel::onInputChanged,
         onCheckoutClicked = viewModel::onCheckoutClicked,
+        onBranchSelected = viewModel::onBranchSelected,
+        onBranchNameChanged = viewModel::onBranchNameChanged,
+        onNewBranchClicked = viewModel::onNewBranchClicked,
         onBackClicked = viewModel::onBackClicked
     )
 
@@ -77,102 +89,80 @@ internal fun CheckoutScreen(
 @Composable
 private fun CheckoutScreen(
     viewState: CheckoutViewState,
-    onNewBranchClicked: () -> Unit = {},
-    onInputChanged: (String) -> Unit = {},
     onCheckoutClicked: () -> Unit = {},
+    onBranchSelected: (String) -> Unit = {},
+    onBranchNameChanged: (String) -> Unit = {},
+    onNewBranchClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
 ) {
     AlertDialog(
         title = stringResource(R.string.git_checkout_title),
+        horizontalPadding = false,
         content = {
             Column {
-                if (viewState.showListOfBranches) {
-                    itemsIndexed(viewState.checkoutBranches) { index, value ->
-                        val interactionSource = remember { MutableInteractionSource() }
+                when {
+                    viewState.isLoading -> {
                         Box(
-                            modifier = Modifier
-                                .debounceClickable(
-                                    interactionSource = interactionSource,
-                                    indication = ripple(),
-                                    onClick = { viewState.checkoutBranch = value }
-                                )
-                                .padding(horizontal = 24.dp)
-                        ) {
-                            Radio(
-                                title = viewState.checkoutBranches[index],
-                                checked = value == viewState.checkoutBranch,
-                                onClick = { viewState.checkoutBranch = value },
-                                textStyle = SquircleTheme.typography.text18Regular,
-                                interactionSource = interactionSource,
-                                indication = null,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(48.dp)
-                            )
-                        }
-                    }
-                    Box(
-                        modifier = Modifier
-                            .debounceClickable(
-                                indication = ripple(),
-                                onClick = onNewBranchClicked
-                            )
-                            .padding(horizontal = 24.dp)
-                    ) {
-                        Radio(
-                            title = branches[index],
-                            checked = value == viewState.checkoutBranch,
-                            onClick = onNewBranchClicked,
-                            textStyle = SquircleTheme.typography.text18Regular,
-                            indication = null,
+                            contentAlignment = Alignment.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(48.dp)
+                                .height(200.dp)
+                        ) {
+                            CircularProgress()
+                        }
+                    }
+                    viewState.isNewBranch -> {
+                        TextField(
+                            inputText = viewState.newBranchName,
+                            onInputChanged = onBranchNameChanged,
+                            labelText = stringResource(R.string.git_checkout_branch_name),
+                            enabled = !viewState.isChecking,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 24.dp),
                         )
                     }
-                } else {
-                    Text(
-                        text = when {
-                            viewState.showBranchInput -> {
-                                stringResource(R.string.git_checkout_dialog_input_message)
-                            }
-                            viewState.isLoading -> {
-                                stringResource(R.string.git_checkout_dialog_message)
-                            }
-                            viewState.isError -> {
-                                stringResource(R.string.git_fatal, viewState.errorMessage)
-                            }
-                            else -> {
-                                stringResource(R.string.git_checkout_dialog_complete)
-                            }
-                        },
-                        color = SquircleTheme.colors.colorTextAndIconSecondary,
-                        style = SquircleTheme.typography.text14Regular,
-                    )
+                    else -> {
+                        BranchList(
+                            currentBranch = viewState.currentBranch,
+                            branchList = viewState.branchList,
+                            onBranchSelected = onBranchSelected,
+                            enabled = !viewState.isChecking
+                        )
+                    }
                 }
 
-                if (viewState.showBranchInput) {
-                    Spacer(Modifier.height(16.dp))
-                    TextField(
-                        inputText = viewState.checkoutBranch,
-                        modifier = Modifier.fillMaxWidth(),
-                        onInputChanged = onInputChanged
-                    )
-                } else if (viewState.isLoading) {
-                    Spacer(Modifier.height(16.dp))
-                    LinearProgress(
-                        indeterminate = true,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
+                Spacer(Modifier.height(8.dp))
+
+                CheckBox(
+                    title = stringResource(R.string.action_new_branch),
+                    checked = viewState.isNewBranch,
+                    enabled = !viewState.isChecking,
+                    onClick = onNewBranchClicked,
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
+
+                /* if (viewState.newBranchName) {
+
+                 } else if (viewState.isLoading) {
+                     Spacer(Modifier.height(16.dp))
+                     LinearProgress(
+                         indeterminate = true,
+                         modifier = Modifier.fillMaxWidth()
+                     )
+                 }*/
             }
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
         onDismiss = onBackClicked,
-        confirmButton = if (viewState.showBranchInput || viewState.showListOfBranches) stringResource(android.R.string.ok) else null,
-        confirmButtonEnabled = viewState.checkoutBranch.isNotEmpty(),
-        onConfirmClicked = onCheckoutClicked
+        confirmButton = if (viewState.isNewBranch) {
+            stringResource(R.string.action_create)
+        } else {
+            stringResource(R.string.action_checkout)
+        },
+        confirmButtonEnabled = viewState.currentBranch.isNotEmpty() && !viewState.isChecking,
+        onConfirmClicked = onCheckoutClicked,
     )
 }
 
@@ -181,7 +171,11 @@ private fun CheckoutScreen(
 private fun CheckoutScreenPreview() {
     PreviewBackground {
         CheckoutScreen(
-            viewState = CheckoutViewState(),
+            viewState = CheckoutViewState(
+                currentBranch = "master",
+                branchList = listOf("master", "develop"),
+                isNewBranch = true,
+            ),
         )
     }
 }

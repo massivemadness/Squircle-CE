@@ -18,11 +18,13 @@ package com.blacksquircle.ui.feature.git.domain.repository
 
 internal interface GitRepository {
 
+    suspend fun branchList(repository: String): List<String>
+    suspend fun currentBranch(repository: String): String
+
     suspend fun fetch(repository: String)
     suspend fun pull(repository: String)
     suspend fun commit(repository: String, message: String)
     suspend fun push(repository: String)
-    suspend fun getListOfBranches(repository: String): List<String>
-    suspend fun getBranch(repository: String): String
     suspend fun checkout(repository: String, branch: String)
+
 }

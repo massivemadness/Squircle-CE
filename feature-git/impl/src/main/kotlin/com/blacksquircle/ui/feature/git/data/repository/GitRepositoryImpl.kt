@@ -22,6 +22,7 @@ import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import kotlinx.coroutines.withContext
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.errors.RefNotFoundException
+import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
 
@@ -29,6 +30,25 @@ internal class GitRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager
 ) : GitRepository {
+
+    override suspend fun branchList(repository: String): List<String> {
+        return withContext(dispatcherProvider.io()) {
+            val repoDir = File(repository)
+            Git.open(repoDir).use { git ->
+                git.branchList().call()
+                    .map(Ref::getName)
+            }
+        }
+    }
+
+    override suspend fun currentBranch(repository: String): String {
+        return withContext(dispatcherProvider.io()) {
+            val repoDir = File(repository)
+            Git.open(repoDir).use { git ->
+                git.repository.fullBranch
+            }
+        }
+    }
 
     override suspend fun fetch(repository: String) {
         withContext(dispatcherProvider.io()) {
@@ -48,72 +68,66 @@ internal class GitRepositoryImpl(
 
     override suspend fun pull(repository: String) {
         withContext(dispatcherProvider.io()) {
-            val git = Git.open(File(repository))
+            val repoDir = File(repository)
             val credentialsProvider = UsernamePasswordCredentialsProvider(
                 settingsManager.gitCredentialsUsername,
                 settingsManager.gitCredentialsPassword
             )
-            git.pull()
-                .setRemote(GIT_ORIGIN)
-                .setCredentialsProvider(credentialsProvider)
-                .call()
+            Git.open(repoDir).use { git ->
+                git.pull()
+                    .setRemote(GIT_ORIGIN)
+                    .setCredentialsProvider(credentialsProvider)
+                    .call()
+            }
         }
     }
 
     override suspend fun commit(repository: String, message: String) {
         withContext(dispatcherProvider.io()) {
-            val git = Git.open(File(repository))
-            git.add()
-                .addFilepattern(GIT_ALL)
-                .call()
-            git.commit()
-                .setMessage(message)
-                .setAuthor(settingsManager.gitUserName, settingsManager.gitUserEmail)
-                .setCommitter(settingsManager.gitUserName, settingsManager.gitUserEmail)
-                .call()
+            val repoDir = File(repository)
+            Git.open(repoDir).use { git ->
+                git.add()
+                    .addFilepattern(GIT_ALL)
+                    .call()
+                git.commit()
+                    .setMessage(message)
+                    .setAuthor(settingsManager.gitUserName, settingsManager.gitUserEmail)
+                    .setCommitter(settingsManager.gitUserName, settingsManager.gitUserEmail)
+                    .call()
+            }
         }
     }
 
     override suspend fun push(repository: String) {
         withContext(dispatcherProvider.io()) {
-            val git = Git.open(File(repository))
+            val repoDir = File(repository)
             val credentialsProvider = UsernamePasswordCredentialsProvider(
                 settingsManager.gitCredentialsUsername,
                 settingsManager.gitCredentialsPassword
             )
-            git.push()
-                .setRemote(GIT_ORIGIN)
-                .setCredentialsProvider(credentialsProvider)
-                .call()
-        }
-    }
-
-    override suspend fun getListOfBranches(repository: String): List<String> {
-        return withContext(dispatcherProvider.io()) {
-            val git = Git.open(File(repository))
-            git.branchList().call().map { it.name }
-        }
-    }
-
-    override suspend fun getBranch(repository: String): String {
-        return withContext(dispatcherProvider.io()) {
-            val git = Git.open(File(repository))
-            git.repository.branch
+            Git.open(repoDir).use { git ->
+                git.push()
+                    .setRemote(GIT_ORIGIN)
+                    .setCredentialsProvider(credentialsProvider)
+                    .call()
+            }
         }
     }
 
     override suspend fun checkout(repository: String, branch: String) {
         withContext(dispatcherProvider.io()) {
-            val git = Git.open(File(repository))
-            try {
-                git.checkout()
-                    .setName(branch)
-                    .call()
-            } catch (e: RefNotFoundException) {
-                git.checkout()
-                    .setCreateBranch(true)
-                    .setName(branch)
-                    .call()
+            val repoDir = File(repository)
+            Git.open(repoDir).use { git ->
+                try {
+                    git.checkout()
+                        .setName(branch)
+                        .call()
+                } catch (e: RefNotFoundException) {
+                    git.checkout()
+                        .setCreateBranch(true)
+                        .setName(branch)
+                        .call()
+                }
             }
         }
     }

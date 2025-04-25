@@ -25,7 +25,6 @@ import com.blacksquircle.ui.feature.git.api.navigation.CommitDialog
 import com.blacksquircle.ui.feature.git.api.navigation.FetchDialog
 import com.blacksquircle.ui.feature.git.api.navigation.PullDialog
 import com.blacksquircle.ui.feature.git.api.navigation.PushDialog
-import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -36,7 +35,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class GitViewModel @AssistedInject constructor(
-    private val gitRepository: GitRepository,
     @Assisted private val repository: String,
 ) : ViewModel() {
 
@@ -102,6 +100,6 @@ internal class GitViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(@Assisted repositoryPath: String): GitViewModel
+        fun create(@Assisted repository: String): GitViewModel
     }
 }

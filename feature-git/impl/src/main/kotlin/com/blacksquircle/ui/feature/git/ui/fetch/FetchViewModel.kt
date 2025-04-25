@@ -100,6 +100,6 @@ internal class FetchViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(@Assisted repositoryPath: String): FetchViewModel
+        fun create(@Assisted repository: String): FetchViewModel
     }
 }

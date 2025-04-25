@@ -28,6 +28,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -54,33 +55,27 @@ internal class CheckoutViewModel @AssistedInject constructor(
         loadBranches()
     }
 
-    fun loadBranches(){
-        viewModelScope.launch {
-            val listOfBranches = gitRepository.getListOfBranches(repository)
-            val branch = gitRepository.getBranch(repository)
-            _viewState.update {
-                it.copy(checkoutBranches = listOfBranches, checkoutBranch = branch, isLoading = false, showListOfBranches = true)
-            }
-        }
-    }
-
     fun onBackClicked() {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack)
         }
     }
 
-    fun onNewBranchClicked() {
-        viewModelScope.launch {
-            _viewState.update {
-                it.copy(showListOfBranches = false, showBranchInput = true)
-            }
+    fun onBranchSelected(branchName: String) {
+        _viewState.update {
+            it.copy(currentBranch = branchName)
         }
     }
 
-    fun onInputChanged(input: String) {
+    fun onBranchNameChanged(branchName: String) {
         _viewState.update {
-            it.copy(checkoutBranch = input)
+            it.copy(newBranchName = branchName)
+        }
+    }
+
+    fun onNewBranchClicked() {
+        _viewState.update {
+            it.copy(isNewBranch = !it.isNewBranch)
         }
     }
 
@@ -88,15 +83,56 @@ internal class CheckoutViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 _viewState.update {
-                    it.copy(showBranchInput = false, isLoading = true)
+                    it.copy(isChecking = true)
                 }
 
-                gitRepository.checkout(repository, _viewState.value.checkoutBranch)
+                delay(1000L)
 
-                val message = stringProvider.getString(R.string.git_checkout_dialog_complete)
-                _viewEvent.send(ViewEvent.Toast(message))
+                val isNewBranch = viewState.value.isNewBranch
+                if (isNewBranch) {
+
+                    // gitRepository.checkout(repository, _viewState.value.currentBranch)
+
+                    val message = stringProvider.getString(R.string.git_checkout_dialog_complete)
+                    _viewEvent.send(ViewEvent.Toast(message))
+                } else {
+
+                    // gitRepository.checkout(repository, _viewState.value.currentBranch)
+
+                    val message = stringProvider.getString(R.string.git_checkout_dialog_complete)
+                    _viewEvent.send(ViewEvent.Toast(message))
+                }
 
                 _viewEvent.send(ViewEvent.PopBackStack)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewState.update {
+                    it.copy(
+                        isChecking = false,
+                        errorMessage = e.message.orEmpty()
+                    )
+                }
+            }
+        }
+    }
+
+    private fun loadBranches() {
+        viewModelScope.launch {
+            try {
+                delay(1000L)
+
+                val currentBranch = gitRepository.currentBranch(repository)
+                val branchList = gitRepository.branchList(repository)
+
+                _viewState.update {
+                    it.copy(
+                        currentBranch = currentBranch,
+                        branchList = branchList,
+                        isLoading = false,
+                    )
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -124,6 +160,6 @@ internal class CheckoutViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(@Assisted repositoryPath: String): CheckoutViewModel
+        fun create(@Assisted repository: String): CheckoutViewModel
     }
 }

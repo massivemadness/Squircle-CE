@@ -102,6 +102,6 @@ internal class CommitViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(@Assisted repositoryPath: String): CommitViewModel
+        fun create(@Assisted repository: String): CommitViewModel
     }
 }
