@@ -56,6 +56,7 @@ internal fun CheckoutScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CheckoutScreen(
         viewState = viewState,
+        onNewBranchClicked = viewModel::onNewBranchClicked,
         onInputChanged = viewModel::onInputChanged,
         onCheckoutClicked = viewModel::onCheckoutClicked,
         onBackClicked = viewModel::onBackClicked
@@ -76,6 +77,7 @@ internal fun CheckoutScreen(
 @Composable
 private fun CheckoutScreen(
     viewState: CheckoutViewState,
+    onNewBranchClicked: () -> Unit = {},
     onInputChanged: (String) -> Unit = {},
     onCheckoutClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
@@ -113,20 +115,14 @@ private fun CheckoutScreen(
                         modifier = Modifier
                             .debounceClickable(
                                 indication = ripple(),
-                                onClick = {
-                                    viewState.showListOfBranches = false
-                                    viewState.showBranchInput = true
-                                }
+                                onClick = onNewBranchClicked
                             )
                             .padding(horizontal = 24.dp)
                     ) {
                         Radio(
                             title = branches[index],
                             checked = value == viewState.checkoutBranch,
-                            onClick = {
-                                viewState.showListOfBranches = false
-                                viewState.showBranchInput = true
-                            },
+                            onClick = onNewBranchClicked,
                             textStyle = SquircleTheme.typography.text18Regular,
                             indication = null,
                             modifier = Modifier

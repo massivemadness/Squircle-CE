@@ -70,6 +70,14 @@ internal class CheckoutViewModel @AssistedInject constructor(
         }
     }
 
+    fun onNewBranchClicked() {
+        viewModelScope.launch {
+            _viewState.update {
+                it.copy(showListOfBranches = false, showBranchInput = true)
+            }
+        }
+    }
+
     fun onInputChanged(input: String) {
         _viewState.update {
             it.copy(checkoutBranch = input)
