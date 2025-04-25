@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.git.ui.git
+package com.blacksquircle.ui.feature.git.ui.checkout
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 
 @Immutable
-internal data class GitViewState(
-    val branch: String = "",
-    val commitText: String = "",
+internal data class CheckoutViewState(
     val isLoading: Boolean = false,
-    val showCommitDialog: Boolean = false,
-    val showBranchDialog: Boolean = false,
-) : ViewState
+    val errorMessage: String = "",
+    val showBranchInput: Boolean = true,
+    val checkoutBranch: String = ""
+) : ViewState {
+
+    val isError: Boolean
+        get() = errorMessage.isNotEmpty() && !isLoading
+}

@@ -20,14 +20,18 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
+import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog
 import com.blacksquircle.ui.feature.git.api.navigation.CommitDialog
 import com.blacksquircle.ui.feature.git.api.navigation.FetchDialog
 import com.blacksquircle.ui.feature.git.api.navigation.GitDialog
 import com.blacksquircle.ui.feature.git.api.navigation.PullDialog
+import com.blacksquircle.ui.feature.git.api.navigation.PushDialog
+import com.blacksquircle.ui.feature.git.ui.checkout.CheckoutScreen
 import com.blacksquircle.ui.feature.git.ui.commit.CommitScreen
 import com.blacksquircle.ui.feature.git.ui.fetch.FetchScreen
 import com.blacksquircle.ui.feature.git.ui.git.GitScreen
 import com.blacksquircle.ui.feature.git.ui.pull.PullScreen
+import com.blacksquircle.ui.feature.git.ui.push.PushScreen
 
 fun NavGraphBuilder.gitGraph(navController: NavHostController) {
     dialog<GitDialog> { backStackEntry ->
@@ -45,5 +49,13 @@ fun NavGraphBuilder.gitGraph(navController: NavHostController) {
     dialog<CommitDialog> { backStackEntry ->
         val navArgs = backStackEntry.toRoute<CommitDialog>()
         CommitScreen(navArgs, navController)
+    }
+    dialog<PushDialog> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<PushDialog>()
+        PushScreen(navArgs, navController)
+    }
+    dialog<CheckoutDialog> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<CheckoutDialog>()
+        CheckoutScreen(navArgs, navController)
     }
 }

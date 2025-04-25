@@ -19,11 +19,9 @@ package com.blacksquircle.ui.feature.git.ui.git
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
@@ -45,9 +43,7 @@ internal fun GitScreen(
         GitViewModel.ParameterizedFactory(navArgs.repository).also(component::inject)
     }
 ) {
-    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     GitScreen(
-        viewState = viewState,
         onFetchClicked = viewModel::onFetchClicked,
         onPullClicked = viewModel::onPullClicked,
         onCommitClicked = viewModel::onCommitClicked,
@@ -70,7 +66,6 @@ internal fun GitScreen(
 
 @Composable
 private fun GitScreen(
-    viewState: GitViewState,
     onFetchClicked: () -> Unit = {},
     onPullClicked: () -> Unit = {},
     onCommitClicked: () -> Unit = {},
@@ -125,14 +120,6 @@ private fun GitScreen(
 @Composable
 private fun GitScreenPreview() {
     PreviewBackground {
-        GitScreen(
-            viewState = GitViewState(
-                branch = "",
-                commitText = "test",
-                isLoading = false,
-                showCommitDialog = false,
-                showBranchDialog = false
-            ),
-        )
+        GitScreen()
     }
 }

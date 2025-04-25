@@ -19,10 +19,12 @@ package com.blacksquircle.ui.feature.git.internal
 import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
+import com.blacksquircle.ui.feature.git.ui.checkout.CheckoutViewModel
 import com.blacksquircle.ui.feature.git.ui.commit.CommitViewModel
 import com.blacksquircle.ui.feature.git.ui.fetch.FetchViewModel
 import com.blacksquircle.ui.feature.git.ui.git.GitViewModel
 import com.blacksquircle.ui.feature.git.ui.pull.PullViewModel
+import com.blacksquircle.ui.feature.git.ui.push.PushViewModel
 import dagger.Component
 
 @GitScope
@@ -40,7 +42,8 @@ internal interface GitComponent {
     fun inject(factory: FetchViewModel.ParameterizedFactory)
     fun inject(factory: PullViewModel.ParameterizedFactory)
     fun inject(factory: CommitViewModel.ParameterizedFactory)
-    
+    fun inject(factory: PushViewModel.ParameterizedFactory)
+    fun inject(factory: CheckoutViewModel.ParameterizedFactory)
 
     @Component.Factory
     interface Factory {
