@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.git.ui.commit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.git.R
@@ -28,7 +29,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -51,6 +51,11 @@ internal class CommitViewModel @AssistedInject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
+    private var changesList: List<String> = emptyList()
+    private var selectedChanges: List<String> = emptyList()
+    private var commitMessage = ""
+    private var isAmend = false
+
     init {
         loadChanges()
     }
@@ -61,15 +66,29 @@ internal class CommitViewModel @AssistedInject constructor(
         }
     }
 
-    fun onCommitMessageChanged(input: String) {
+    fun onCommitMessageChanged(message: String) {
+        commitMessage = message
         _viewState.update {
-            it.copy(commitMessage = input)
+            it.copy(commitMessage = commitMessage)
         }
     }
 
     fun onAmendClicked() {
+        isAmend = !isAmend
         _viewState.update {
-            it.copy(isAmend = !it.isAmend)
+            it.copy(isAmend = isAmend)
+        }
+    }
+
+    fun onChangeSelected(change: String) {
+        val index = selectedChanges.indexOf { it == change }
+        if (index == -1) {
+            selectedChanges += change
+        } else {
+            selectedChanges -= change
+        }
+        _viewState.update {
+            it.copy(selectedChanges = selectedChanges)
         }
     }
 
@@ -80,9 +99,7 @@ internal class CommitViewModel @AssistedInject constructor(
                     it.copy(isCommitting = true)
                 }
 
-                val amend = viewState.value.isAmend
-                val commitMessage = viewState.value.commitMessage
-                gitRepository.commit(repository, commitMessage, amend)
+                gitRepository.commit(repository, selectedChanges, commitMessage, isAmend)
 
                 val message = stringProvider.getString(R.string.git_commit_complete)
                 _viewEvent.send(ViewEvent.Toast(message))
@@ -105,11 +122,14 @@ internal class CommitViewModel @AssistedInject constructor(
     private fun loadChanges() {
         viewModelScope.launch {
             try {
-                delay(1000L)
+                changesList = gitRepository.changesList(repository)
+                selectedChanges = changesList.toList()
 
                 _viewState.update {
                     it.copy(
-                        isLoading = false
+                        changesList = changesList,
+                        selectedChanges = selectedChanges,
+                        isLoading = false,
                     )
                 }
             } catch (e: CancellationException) {

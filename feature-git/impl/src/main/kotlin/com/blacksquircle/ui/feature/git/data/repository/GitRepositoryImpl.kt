@@ -30,6 +30,15 @@ internal class GitRepositoryImpl(
     private val settingsManager: SettingsManager
 ) : GitRepository {
 
+    override suspend fun currentBranch(repository: String): String {
+        return withContext(dispatcherProvider.io()) {
+            val repoDir = File(repository)
+            Git.open(repoDir).use { git ->
+                git.repository.fullBranch
+            }
+        }
+    }
+
     override suspend fun branchList(repository: String): List<String> {
         return withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
@@ -40,11 +49,20 @@ internal class GitRepositoryImpl(
         }
     }
 
-    override suspend fun currentBranch(repository: String): String {
+    override suspend fun changesList(repository: String): List<String> {
         return withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
-                git.repository.fullBranch
+                val status = git.status().call()
+                val changesList = mutableListOf<String>()
+                changesList.addAll(status.added)
+                changesList.addAll(status.changed)
+                changesList.addAll(status.removed)
+                changesList.addAll(status.missing)
+                changesList.addAll(status.modified)
+                changesList.addAll(status.untracked)
+                changesList.addAll(status.conflicting)
+                changesList
             }
         }
     }
@@ -81,18 +99,23 @@ internal class GitRepositoryImpl(
         }
     }
 
-    override suspend fun commit(repository: String, message: String, amend: Boolean) {
+    override suspend fun commit(
+        repository: String,
+        changes: List<String>,
+        message: String,
+        isAmend: Boolean
+    ) {
         withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
-                git.add()
-                    .addFilepattern(GIT_ALL)
-                    .call()
+                changes.forEach { file ->
+                    git.add().addFilepattern(file).call()
+                }
                 git.commit()
                     .setAuthor(settingsManager.gitUserName, settingsManager.gitUserEmail)
                     .setCommitter(settingsManager.gitUserName, settingsManager.gitUserEmail)
                     .setMessage(message)
-                    .setAmend(amend)
+                    .setAmend(isAmend)
                     .call()
             }
         }
@@ -140,6 +163,5 @@ internal class GitRepositoryImpl(
 
     companion object {
         private const val GIT_ORIGIN = "origin"
-        private const val GIT_ALL = "."
     }
 }

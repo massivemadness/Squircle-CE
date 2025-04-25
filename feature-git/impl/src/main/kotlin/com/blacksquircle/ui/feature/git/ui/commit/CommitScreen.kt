@@ -21,7 +21,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -47,6 +47,7 @@ import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.api.navigation.CommitDialog
 import com.blacksquircle.ui.feature.git.internal.GitComponent
+import com.blacksquircle.ui.feature.git.ui.commit.compose.ChangeList
 
 @Composable
 internal fun CommitScreen(
@@ -60,6 +61,7 @@ internal fun CommitScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CommitScreen(
         viewState = viewState,
+        onChangeSelected = viewModel::onChangeSelected,
         onCommitMessageChanged = viewModel::onCommitMessageChanged,
         onAmendClicked = viewModel::onAmendClicked,
         onCommitClicked = viewModel::onCommitClicked,
@@ -81,6 +83,7 @@ internal fun CommitScreen(
 @Composable
 private fun CommitScreen(
     viewState: CommitViewState,
+    onChangeSelected: (String) -> Unit = {},
     onCommitMessageChanged: (String) -> Unit = {},
     onAmendClicked: () -> Unit = {},
     onCommitClicked: () -> Unit = {},
@@ -126,6 +129,23 @@ private fun CommitScreen(
                     }
 
                     else -> {
+                        Text(
+                            text = stringResource(R.string.git_commit_uncommitted_changes),
+                            style = SquircleTheme.typography.text12Regular,
+                            color = SquircleTheme.colors.colorTextAndIconSecondary,
+                        )
+
+                        Spacer(Modifier.height(8.dp))
+
+                        ChangeList(
+                            changesList = viewState.changesList,
+                            selectedChanges = viewState.selectedChanges,
+                            onChangeSelected = onChangeSelected,
+                            modifier = Modifier.heightIn(max = 200.dp)
+                        )
+
+                        Spacer(Modifier.height(16.dp))
+
                         TextField(
                             inputText = viewState.commitMessage,
                             onInputChanged = onCommitMessageChanged,
@@ -159,6 +179,8 @@ private fun CommitScreenPreview() {
     PreviewBackground {
         CommitScreen(
             viewState = CommitViewState(
+                changesList = listOf("untitled.txt", "text.txt"),
+                selectedChanges = listOf("untitled.txt"),
                 isCommitting = false,
                 isLoading = false,
             ),

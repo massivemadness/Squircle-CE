@@ -38,6 +38,8 @@
     <string name="git_commit_title">Commit</string>
     <string name="git_commit_description">Commit local repository changes</string>
     <string name="git_commit_message">Commit message</string>
+    <string name="git_commit_uncommitted_changes">Uncommitted changes</string>
+    <string name="git_commit_no_changes">No changes</string>
     <string name="git_commit_committing">Committing your changes to the local repository…</string>
     <string name="git_commit_complete">Commit created</string>
 

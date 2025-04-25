@@ -22,6 +22,7 @@ import com.blacksquircle.ui.core.mvi.ViewState
 @Immutable
 internal data class CommitViewState(
     val changesList: List<String> = emptyList(),
+    val selectedChanges: List<String> = emptyList(),
     val isCommitting: Boolean = false,
     val isAmend: Boolean = false,
     val isLoading: Boolean = true,
@@ -33,5 +34,8 @@ internal data class CommitViewState(
         get() = errorMessage.isNotEmpty() && !isLoading
 
     val isCommitButtonEnabled: Boolean
-        get() = /*changesList.isNotEmpty() &&*/ commitMessage.isNotBlank() && !isCommitting && !isError
+        get() = selectedChanges.isNotEmpty() &&
+            commitMessage.isNotBlank() &&
+            !isCommitting &&
+            !isError
 }
