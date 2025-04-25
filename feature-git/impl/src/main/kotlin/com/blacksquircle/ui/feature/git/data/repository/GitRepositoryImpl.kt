@@ -18,10 +18,13 @@ package com.blacksquircle.ui.feature.git.data.repository
 
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.feature.git.domain.exception.GitPullException
+import com.blacksquircle.ui.feature.git.domain.exception.GitPushException
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import kotlinx.coroutines.withContext
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.lib.Ref
+import org.eclipse.jgit.transport.RemoteRefUpdate
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
 
@@ -43,8 +46,7 @@ internal class GitRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
-                git.branchList().call()
-                    .map(Ref::getName)
+                git.branchList().call().map(Ref::getName)
             }
         }
     }
@@ -91,10 +93,26 @@ internal class GitRepositoryImpl(
                 settingsManager.gitCredentialsPassword
             )
             Git.open(repoDir).use { git ->
-                git.pull()
+                val pullResult = git.pull()
                     .setRemote(GIT_ORIGIN)
                     .setCredentialsProvider(credentialsProvider)
                     .call()
+
+                if (!pullResult.isSuccessful) {
+                    val errorMessage = buildString {
+                        pullResult.mergeResult?.let { mergeResult ->
+                            append("Merge status: ${mergeResult.mergeStatus}")
+                            if (!mergeResult.mergeStatus.isSuccessful) {
+                                append(", Conflicts: ${mergeResult.conflicts?.keys?.joinToString() ?: "none"}")
+                            }
+                        }
+                        pullResult.rebaseResult?.let { rebaseResult ->
+                            if (isNotEmpty()) append("; ")
+                            append("Rebase status: ${rebaseResult.status}")
+                        }
+                    }
+                    throw GitPullException(errorMessage)
+                }
             }
         }
     }
@@ -129,10 +147,29 @@ internal class GitRepositoryImpl(
                 settingsManager.gitCredentialsPassword
             )
             Git.open(repoDir).use { git ->
-                git.push()
+                val pushResults = git.push()
                     .setRemote(GIT_ORIGIN)
                     .setCredentialsProvider(credentialsProvider)
                     .call()
+
+                val errorMessage = buildString {
+                    for (result in pushResults) {
+                        for (update in result.remoteUpdates) {
+                            val ref = update.remoteName
+                            val status = update.status
+                            if (status != RemoteRefUpdate.Status.OK &&
+                                status != RemoteRefUpdate.Status.UP_TO_DATE
+                            ) {
+                                if (isNotEmpty()) append("; ")
+                                append("$ref: $status")
+                                update.message?.let { append(" ($it)") }
+                            }
+                        }
+                    }
+                }
+                if (errorMessage.isNotEmpty()) {
+                    throw GitPushException(errorMessage)
+                }
             }
         }
     }
