@@ -16,11 +16,13 @@
 
 package com.blacksquircle.ui.feature.git.domain.repository
 
+import kotlinx.coroutines.flow.Flow
+
 internal interface GitRepository {
 
-    suspend fun fetch(repository: String)
-    suspend fun pull(repository: String)
-    suspend fun commit(repository: String, message: String)
-    suspend fun push(repository: String)
-    suspend fun checkout(repository: String, branch: String)
+    suspend fun fetch(repository: String): Flow<Int>
+    suspend fun pull(repository: String): Flow<Int>
+    suspend fun commit(repository: String, message: String): Flow<Int>
+    suspend fun push(repository: String): Flow<Int>
+    suspend fun checkout(repository: String, branch: String): Flow<Int>
 }

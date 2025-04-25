@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.mvi.ViewState
 internal data class FetchViewState(
     val isLoading: Boolean = true,
     val errorMessage: String = "",
+    val progress: Int = 0
 ) : ViewState {
 
     val isError: Boolean

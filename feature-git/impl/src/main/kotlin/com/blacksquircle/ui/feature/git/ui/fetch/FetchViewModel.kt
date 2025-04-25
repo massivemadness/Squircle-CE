@@ -64,10 +64,12 @@ internal class FetchViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 _viewState.update {
-                    it.copy(isLoading = true)
+                    it.copy(isLoading = true, progress = 0)
                 }
 
-                gitRepository.fetch(repository)
+                gitRepository.fetch(repository).collect { progress ->
+                    _viewState.update { it.copy(progress = progress) }
+                }
 
                 val message = stringProvider.getString(R.string.git_fetch_dialog_complete)
                 _viewEvent.send(ViewEvent.Toast(message))
