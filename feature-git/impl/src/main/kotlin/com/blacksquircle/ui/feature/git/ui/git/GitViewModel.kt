@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.feature.git.api.navigation.CommitDialog
 import com.blacksquircle.ui.feature.git.api.navigation.FetchDialog
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import com.blacksquircle.ui.feature.git.api.navigation.PullDialog
@@ -70,12 +71,9 @@ internal class GitViewModel @AssistedInject constructor(
 
     fun onCommitClicked() {
         viewModelScope.launch {
-            try {
-                // todo: commit dialog with text field (value = commit text)
-                gitRepository.commit(repository, "new commit")
-            } catch (e: Exception) {
-                _viewEvent.send(ViewEvent.Toast("Git error: ${e.message}"))
-            }
+            val screen = CommitDialog(repository)
+            _viewEvent.send(ViewEvent.PopBackStack)
+            _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 

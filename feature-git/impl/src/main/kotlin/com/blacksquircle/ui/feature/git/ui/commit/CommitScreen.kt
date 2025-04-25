@@ -120,7 +120,7 @@ private fun CommitScreen(
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
         onDismiss = onBackClicked,
-        confirmButton = stringResource(android.R.string.ok),
+        confirmButton = if (viewState.showMessageInput) stringResource(android.R.string.ok) else null,
         confirmButtonEnabled = !viewState.commitMessage.isNotEmpty(),
         onConfirmClicked = onCommitClicked
     )
