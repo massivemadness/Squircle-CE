@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -39,7 +40,15 @@ internal fun BranchList(
     onBranchSelected: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(modifier) {
+    val selectedIndex = branchList.indexOf(currentBranch)
+    val lazyListState = rememberLazyListState(
+        initialFirstVisibleItemIndex = selectedIndex
+    )
+
+    LazyColumn(
+        state = lazyListState,
+        modifier = modifier,
+    ) {
         itemsIndexed(branchList) { index, value ->
             val interactionSource = remember { MutableInteractionSource() }
             Box(

@@ -92,7 +92,7 @@ internal class CheckoutViewModel @AssistedInject constructor(
                     gitRepository.checkoutNew(repository, branchName, branchBase)
 
                     val message = stringProvider.getString(
-                        R.string.git_checkout_dialog_complete,
+                        R.string.git_checkout_checked_out,
                         branchName
                     )
                     _viewEvent.send(ViewEvent.Toast(message))
@@ -101,7 +101,7 @@ internal class CheckoutViewModel @AssistedInject constructor(
                     gitRepository.checkout(repository, branchName)
 
                     val message = stringProvider.getString(
-                        R.string.git_checkout_dialog_complete,
+                        R.string.git_checkout_checked_out,
                         branchName
                     )
                     _viewEvent.send(ViewEvent.Toast(message))

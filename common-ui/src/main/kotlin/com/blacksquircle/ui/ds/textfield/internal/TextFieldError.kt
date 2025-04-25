@@ -33,7 +33,7 @@ internal fun TextFieldError(
         text = text.orEmpty(),
         style = SquircleTheme.typography.text12Regular,
         color = SquircleTheme.colors.colorError,
-        maxLines = 1,
+        maxLines = 2,
         overflow = TextOverflow.Ellipsis,
         modifier = modifier,
     )

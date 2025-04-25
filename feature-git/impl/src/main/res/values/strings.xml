@@ -48,8 +48,8 @@
     <string name="git_checkout_description">Change or create local repository branch</string>
     <string name="git_checkout_branch_name">Branch name</string>
     <string name="git_checkout_branch_base">Your branch will be based on %1$s</string>
-    <string name="git_checkout_dialog_message">Checking out the branch…</string>
-    <string name="git_checkout_dialog_complete">Checked out %1$s</string>
+    <string name="git_checkout_checking_out">Checking out the branch…</string>
+    <string name="git_checkout_checked_out">Checked out %1$s</string>
 
     <string name="git_fatal" translatable="false">fatal: %1$s</string>
 

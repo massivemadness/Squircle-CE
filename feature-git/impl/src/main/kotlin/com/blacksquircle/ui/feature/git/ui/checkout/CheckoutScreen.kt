@@ -106,7 +106,7 @@ private fun CheckoutScreen(
                     }
                     viewState.isChecking -> {
                         Text(
-                            text = stringResource(R.string.git_checkout_dialog_message),
+                            text = stringResource(R.string.git_checkout_checking_out),
                             style = SquircleTheme.typography.text16Regular,
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
                             modifier = Modifier.padding(horizontal = 24.dp)
@@ -153,7 +153,7 @@ private fun CheckoutScreen(
                             currentBranch = viewState.currentBranch,
                             branchList = viewState.branchList,
                             onBranchSelected = onBranchSelected,
-                            modifier = Modifier.heightIn(max = 300.dp)
+                            modifier = Modifier.heightIn(max = 200.dp)
                         )
                     }
                 }
