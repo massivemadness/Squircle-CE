@@ -41,8 +41,8 @@
 
     <string name="git_push_title">Push</string>
     <string name="git_push_description">Push content to remote repository</string>
-    <string name="git_push_dialog_message">Pushing changes to the remote repository…</string>
-    <string name="git_push_dialog_complete">Push completed</string>
+    <string name="git_push_pushing">Pushing changes to the remote repository…</string>
+    <string name="git_push_complete">Push completed</string>
 
     <string name="git_checkout_title">Checkout</string>
     <string name="git_checkout_description">Change or create local repository branch</string>

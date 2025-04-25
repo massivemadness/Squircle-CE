@@ -64,12 +64,12 @@ internal class PushViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 _viewState.update {
-                    it.copy(isLoading = true)
+                    it.copy(isPushing = true)
                 }
 
                 gitRepository.push(repository)
 
-                val message = stringProvider.getString(R.string.git_push_dialog_complete)
+                val message = stringProvider.getString(R.string.git_push_complete)
                 _viewEvent.send(ViewEvent.Toast(message))
 
                 _viewEvent.send(ViewEvent.PopBackStack)
@@ -79,7 +79,7 @@ internal class PushViewModel @AssistedInject constructor(
                 Timber.e(e, e.message)
                 _viewState.update {
                     it.copy(
-                        isLoading = false,
+                        isPushing = false,
                         errorMessage = e.message.orEmpty()
                     )
                 }
