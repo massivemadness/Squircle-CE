@@ -103,6 +103,7 @@ private fun CommitScreen(
                 )
 
                 if (viewState.showMessageInput) {
+                    Spacer(Modifier.height(16.dp))
                     TextField(
                         inputText = viewState.commitMessage,
                         modifier = Modifier.fillMaxWidth(),
@@ -121,7 +122,7 @@ private fun CommitScreen(
         onDismissClicked = onBackClicked,
         onDismiss = onBackClicked,
         confirmButton = if (viewState.showMessageInput) stringResource(android.R.string.ok) else null,
-        confirmButtonEnabled = !viewState.commitMessage.isNotEmpty(),
+        confirmButtonEnabled = viewState.commitMessage.isNotEmpty(),
         onConfirmClicked = onCommitClicked
     )
 }
