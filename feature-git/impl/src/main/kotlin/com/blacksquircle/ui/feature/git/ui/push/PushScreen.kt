@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.git.ui.push
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +25,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -36,7 +38,9 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
+import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.api.navigation.PushDialog
@@ -54,7 +58,9 @@ internal fun PushScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     PushScreen(
         viewState = viewState,
-        onBackClicked = viewModel::onBackClicked
+        onForceClicked = viewModel::onForceClicked,
+        onPushClicked = viewModel::onPushClicked,
+        onBackClicked = viewModel::onBackClicked,
     )
 
     val context = LocalContext.current
@@ -72,6 +78,8 @@ internal fun PushScreen(
 @Composable
 private fun PushScreen(
     viewState: PushViewState,
+    onForceClicked: () -> Unit = {},
+    onPushClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
 ) {
     AlertDialog(
@@ -94,6 +102,17 @@ private fun PushScreen(
                         )
                     }
 
+                    viewState.isLoading -> {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(100.dp)
+                        ) {
+                            CircularProgress()
+                        }
+                    }
+
                     viewState.isError -> {
                         Text(
                             text = stringResource(R.string.git_fatal, viewState.errorMessage),
@@ -101,12 +120,35 @@ private fun PushScreen(
                             style = SquircleTheme.typography.text16Regular,
                         )
                     }
+
+                    else -> {
+                        Text(
+                            text = stringResource(
+                                R.string.git_push_commits,
+                                viewState.commits.size,
+                                viewState.currentBranch,
+                            ),
+                            style = SquircleTheme.typography.text16Regular,
+                            color = SquircleTheme.colors.colorTextAndIconSecondary,
+                        )
+
+                        Spacer(Modifier.height(8.dp))
+
+                        CheckBox(
+                            title = stringResource(R.string.action_force),
+                            checked = viewState.isForce,
+                            onClick = onForceClicked,
+                        )
+                    }
                 }
             }
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
-        onDismiss = onBackClicked
+        onDismiss = onBackClicked,
+        confirmButton = stringResource(R.string.action_push),
+        confirmButtonEnabled = viewState.isPushButtonEnabled,
+        onConfirmClicked = onPushClicked
     )
 }
 
@@ -115,7 +157,11 @@ private fun PushScreen(
 private fun PushScreenPreview() {
     PreviewBackground {
         PushScreen(
-            viewState = PushViewState(),
+            viewState = PushViewState(
+                currentBranch = "refs/heads/master",
+                commits = listOf("Commit 1", "Commit 2"),
+                isLoading = false,
+            ),
         )
     }
 }

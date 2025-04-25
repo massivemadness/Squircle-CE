@@ -16,4 +16,4 @@
 
 package com.blacksquircle.ui.feature.git.domain.exception
 
-internal class GitPullException(errorMessage: String) : RuntimeException(errorMessage)
+internal class GitPullException(errorMessage: String) : GitException(errorMessage)

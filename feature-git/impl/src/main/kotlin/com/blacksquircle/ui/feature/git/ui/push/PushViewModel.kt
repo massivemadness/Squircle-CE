@@ -50,8 +50,10 @@ internal class PushViewModel @AssistedInject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
+    private var isForce = false
+
     init {
-        push()
+        loadCommits()
     }
 
     fun onBackClicked() {
@@ -60,14 +62,21 @@ internal class PushViewModel @AssistedInject constructor(
         }
     }
 
-    private fun push() {
+    fun onForceClicked() {
+        isForce = !isForce
+        _viewState.update {
+            it.copy(isForce = isForce)
+        }
+    }
+
+    fun onPushClicked() {
         viewModelScope.launch {
             try {
                 _viewState.update {
                     it.copy(isPushing = true)
                 }
 
-                gitRepository.push(repository)
+                gitRepository.push(repository, isForce)
 
                 val message = stringProvider.getString(R.string.git_push_complete)
                 _viewEvent.send(ViewEvent.Toast(message))
@@ -80,6 +89,42 @@ internal class PushViewModel @AssistedInject constructor(
                 _viewState.update {
                     it.copy(
                         isPushing = false,
+                        errorMessage = e.message.orEmpty()
+                    )
+                }
+            }
+        }
+    }
+
+    private fun loadCommits() {
+        viewModelScope.launch {
+            try {
+                val currentBranch = gitRepository.currentBranch(repository)
+                val localCommits = gitRepository.localCommits(repository)
+                if (localCommits.isEmpty()) {
+                    _viewState.update {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = stringProvider.getString(R.string.git_push_no_commits)
+                        )
+                    }
+                    return@launch
+                }
+
+                _viewState.update {
+                    it.copy(
+                        currentBranch = currentBranch,
+                        commits = localCommits,
+                        isLoading = false,
+                    )
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewState.update {
+                    it.copy(
+                        isLoading = false,
                         errorMessage = e.message.orEmpty()
                     )
                 }

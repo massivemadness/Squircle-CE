@@ -34,8 +34,14 @@ internal data class CheckoutViewState(
         get() = errorMessage.isNotEmpty() && !isLoading
 
     val isCheckoutButtonEnabled: Boolean
-        get() = !isNewBranch && currentBranch.isNotBlank() && !isChecking && !isError
+        get() = !isNewBranch &&
+            currentBranch.isNotBlank() &&
+            !isChecking &&
+            !isError
 
     val isNewBranchButtonEnabled: Boolean
-        get() = isNewBranch && newBranchName.isNotBlank() && !isChecking && !isError
+        get() = isNewBranch &&
+            newBranchName.isNotBlank() &&
+            !isChecking &&
+            !isError
 }

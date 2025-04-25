@@ -18,12 +18,13 @@ package com.blacksquircle.ui.feature.git.data.repository
 
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.feature.git.domain.exception.GitException
 import com.blacksquircle.ui.feature.git.domain.exception.GitPullException
 import com.blacksquircle.ui.feature.git.domain.exception.GitPushException
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import kotlinx.coroutines.withContext
 import org.eclipse.jgit.api.Git
-import org.eclipse.jgit.lib.Ref
+import org.eclipse.jgit.revwalk.RevWalk
 import org.eclipse.jgit.transport.RemoteRefUpdate
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
@@ -46,7 +47,7 @@ internal class GitRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
-                git.branchList().call().map(Ref::getName)
+                git.branchList().call().map { it.name }
             }
         }
     }
@@ -65,6 +66,32 @@ internal class GitRepositoryImpl(
                 changesList.addAll(status.untracked)
                 changesList.addAll(status.conflicting)
                 changesList
+            }
+        }
+    }
+
+    override suspend fun localCommits(repository: String): List<String> {
+        return withContext(dispatcherProvider.io()) {
+            val repoDir = File(repository)
+            Git.open(repoDir).use { git ->
+                val repositoryObject = git.repository
+                val branch = repositoryObject.branch
+                val localRef = repositoryObject.findRef("refs/heads/$branch")
+                val remoteRef = repositoryObject.findRef("refs/remotes/origin/$branch")
+                    ?: throw GitException("No remote tracking branch found.")
+
+                val localCommit = localRef.objectId
+                val remoteCommit = remoteRef.objectId
+
+                RevWalk(repositoryObject).use { walk ->
+                    val local = walk.parseCommit(localCommit)
+                    val remote = walk.parseCommit(remoteCommit)
+
+                    walk.markStart(local)
+                    walk.markUninteresting(remote)
+
+                    walk.map { it.shortMessage }
+                }
             }
         }
     }
@@ -139,7 +166,7 @@ internal class GitRepositoryImpl(
         }
     }
 
-    override suspend fun push(repository: String) {
+    override suspend fun push(repository: String, force: Boolean) {
         withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             val credentialsProvider = UsernamePasswordCredentialsProvider(
@@ -150,6 +177,7 @@ internal class GitRepositoryImpl(
                 val pushResults = git.push()
                     .setRemote(GIT_ORIGIN)
                     .setCredentialsProvider(credentialsProvider)
+                    .setForce(force)
                     .call()
 
                 val errorMessage = buildString {
@@ -180,6 +208,7 @@ internal class GitRepositoryImpl(
             Git.open(repoDir).use { git ->
                 git.checkout()
                     .setName(branchName)
+                    .setCreateBranch(false)
                     .call()
             }
         }
@@ -190,8 +219,8 @@ internal class GitRepositoryImpl(
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
                 git.checkout()
-                    .setCreateBranch(true)
                     .setName(branchName)
+                    .setCreateBranch(true)
                     .setStartPoint(branchBase)
                     .call()
             }

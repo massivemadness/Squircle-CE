@@ -16,5 +16,4 @@
 
 package com.blacksquircle.ui.feature.git.domain.exception
 
-internal class GitPushException(errorMessage: String) :
-    GitException("Push failed for the following refs: $errorMessage")
+internal open class GitException(message: String) : RuntimeException(message)
