@@ -86,20 +86,24 @@ internal class CheckoutViewModel @AssistedInject constructor(
                     it.copy(isChecking = true)
                 }
 
-                delay(1000L)
-
                 val isNewBranch = viewState.value.isNewBranch
                 if (isNewBranch) {
+                    val branchName = viewState.value.newBranchName
+                    gitRepository.checkout(repository, branchName)
 
-                    // gitRepository.checkout(repository, _viewState.value.currentBranch)
-
-                    val message = stringProvider.getString(R.string.git_checkout_dialog_complete)
+                    val message = stringProvider.getString(
+                        R.string.git_checkout_dialog_complete,
+                        branchName
+                    )
                     _viewEvent.send(ViewEvent.Toast(message))
                 } else {
+                    val branchName = viewState.value.currentBranch
+                    gitRepository.checkout(repository, branchName)
 
-                    // gitRepository.checkout(repository, _viewState.value.currentBranch)
-
-                    val message = stringProvider.getString(R.string.git_checkout_dialog_complete)
+                    val message = stringProvider.getString(
+                        R.string.git_checkout_dialog_complete,
+                        branchName
+                    )
                     _viewEvent.send(ViewEvent.Toast(message))
                 }
 
@@ -121,8 +125,6 @@ internal class CheckoutViewModel @AssistedInject constructor(
     private fun loadBranches() {
         viewModelScope.launch {
             try {
-                delay(1000L)
-
                 val currentBranch = gitRepository.currentBranch(repository)
                 val branchList = gitRepository.branchList(repository)
 

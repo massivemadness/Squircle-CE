@@ -39,9 +39,8 @@ internal fun BranchList(
     branchList: List<String>,
     onBranchSelected: (String) -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
 ) {
-    LazyColumn(modifier.heightIn(max = 300.dp)) {
+    LazyColumn(modifier) {
         itemsIndexed(branchList) { index, value ->
             val interactionSource = remember { MutableInteractionSource() }
             Box(
@@ -56,7 +55,6 @@ internal fun BranchList(
                 Radio(
                     title = branchList[index],
                     checked = value == currentBranch,
-                    enabled = enabled,
                     onClick = { onBranchSelected(value) },
                     textStyle = SquircleTheme.typography.text18Regular,
                     interactionSource = interactionSource,
