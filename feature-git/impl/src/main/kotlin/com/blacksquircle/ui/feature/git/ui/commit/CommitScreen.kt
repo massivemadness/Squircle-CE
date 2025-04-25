@@ -102,6 +102,7 @@ private fun CommitScreen(
 
                 if (viewState.showMessageInput) {
                     TextField(
+                        inputText = viewState.commitMessage,
                         modifier = Modifier.fillMaxWidth(),
                         onInputChanged = { message -> 
                             viewState.update {
