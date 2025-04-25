@@ -23,3 +23,6 @@ data class GitDialog(val repository: String)
 
 @Serializable
 data class FetchDialog(val repository: String)
+
+@Serializable
+data class PullDialog(val repository: String)
