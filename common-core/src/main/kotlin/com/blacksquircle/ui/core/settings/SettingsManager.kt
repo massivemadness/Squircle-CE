@@ -78,6 +78,12 @@ class SettingsManager(private val context: Context) {
         const val KEY_VIEW_MODE = "view_mode"
         const val KEY_SORT_MODE = "sort_mode"
         const val KEY_FILESYSTEM = "filesystem"
+
+        // Git
+        const val KEY_GIT_CREDENTIALS_USERNAME = "git_credentials_username"
+        const val KEY_GIT_CREDENTIALS_PASSWORD = "git_credentials_password"
+        const val KEY_GIT_USER_EMAIL = "git_user_email"
+        const val KEY_GIT_USER_NAME = "git_user_name"
     }
 
     private val fileName: String
@@ -195,6 +201,18 @@ class SettingsManager(private val context: Context) {
     var filesystem: String
         get() = sharedPreferences.getString(KEY_FILESYSTEM, "local") ?: "local"
         set(value) = sharedPreferences.edit().putString(KEY_FILESYSTEM, value).apply()
+    var gitCredentialsUsername: String
+        get() = sharedPreferences.getString(KEY_GIT_CREDENTIALS_USERNAME, "") ?: ""
+        set(value) = sharedPreferences.edit().putString(KEY_GIT_CREDENTIALS_USERNAME, value).apply()
+    var gitCredentialsPassword: String
+        get() = sharedPreferences.getString(KEY_GIT_CREDENTIALS_PASSWORD, "") ?: ""
+        set(value) = sharedPreferences.edit().putString(KEY_GIT_CREDENTIALS_PASSWORD, value).apply()
+    var gitUserEmail: String
+        get() = sharedPreferences.getString(KEY_GIT_USER_EMAIL, "") ?: ""
+        set(value) = sharedPreferences.edit().putString(KEY_GIT_USER_EMAIL, value).apply()
+    var gitUserName: String
+        get() = sharedPreferences.getString(KEY_GIT_USER_NAME, "") ?: ""
+        set(value) = sharedPreferences.edit().putString(KEY_GIT_USER_NAME, value).apply()
 
     private val listeners = HashMap<String, OnChangedListener>()
     private val callback = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->

@@ -16,10 +16,6 @@
 
 package com.blacksquircle.ui.feature.editor.ui.editor.compose
 
-import androidx.activity.compose.LocalActivity
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,7 +37,6 @@ import com.blacksquircle.ui.feature.editor.ui.editor.menu.ToolsMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.model.MenuType
 import com.blacksquircle.ui.ds.R as UiR
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 internal fun EditorToolbar(
     canUndo: Boolean,
@@ -62,23 +57,13 @@ internal fun EditorToolbar(
     onDuplicateLineClicked: () -> Unit = {},
     onForceSyntaxClicked: () -> Unit = {},
     onInsertColorClicked: () -> Unit = {},
+    onGitClicked: () -> Unit = {},
     onFindClicked: () -> Unit = {},
     onUndoClicked: () -> Unit = {},
     onRedoClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
 ) {
-    val activity = LocalActivity.current
     val focusManager = LocalFocusManager.current
-    val windowSizeClass = if (activity != null) {
-        calculateWindowSizeClass(activity)
-    } else {
-        null
-    }
-    val isMediumWidth = if (windowSizeClass != null) {
-        windowSizeClass.widthSizeClass > WindowWidthSizeClass.Compact
-    } else {
-        false
-    }
     var menuType by rememberSaveable {
         mutableStateOf<MenuType?>(null)
     }
@@ -87,13 +72,6 @@ internal fun EditorToolbar(
         navigationIcon = UiR.drawable.ic_menu,
         onNavigationClicked = onDrawerClicked,
         navigationActions = {
-            if (isMediumWidth) {
-                IconButton(
-                    iconResId = UiR.drawable.ic_save,
-                    onClick = onSaveFileClicked,
-                    contentDescription = stringResource(UiR.string.common_save)
-                )
-            }
             IconButton(
                 iconResId = UiR.drawable.ic_folder,
                 onClick = { menuType = MenuType.FILE },
@@ -128,28 +106,6 @@ internal fun EditorToolbar(
                     )
                 }
             )
-            if (isMediumWidth) {
-                IconButton(
-                    iconResId = UiR.drawable.ic_wrench,
-                    onClick = { menuType = MenuType.TOOLS },
-                    contentDescription = stringResource(R.string.action_tools),
-                    anchor = {
-                        ToolsMenu(
-                            expanded = menuType == MenuType.TOOLS,
-                            onDismiss = { menuType = null },
-                            onForceSyntaxClicked = { menuType = null; onForceSyntaxClicked() },
-                            onInsertColorClicked = { menuType = null; onInsertColorClicked() },
-                        )
-                    }
-                )
-            }
-            if (isMediumWidth) {
-                IconButton(
-                    iconResId = UiR.drawable.ic_file_find,
-                    onClick = onFindClicked,
-                    contentDescription = stringResource(R.string.action_find)
-                )
-            }
             IconButton(
                 iconResId = UiR.drawable.ic_undo,
                 onClick = onUndoClicked,
@@ -170,25 +126,27 @@ internal fun EditorToolbar(
                 contentDescription = stringResource(UiR.string.common_menu),
                 anchor = {
                     OtherMenu(
-                        isMediumWidth = isMediumWidth,
                         expanded = menuType == MenuType.OTHER,
                         onDismiss = { menuType = null },
                         onFindClicked = { menuType = null; onFindClicked() },
                         onToolsClicked = { menuType = MenuType.TOOLS },
+                        onGitClicked = {
+                            focusManager.clearFocus(force = true)
+                            menuType = null
+                            onGitClicked()
+                        },
                         onSettingsClicked = {
                             focusManager.clearFocus(force = true)
                             menuType = null
                             onSettingsClicked()
-                        }
+                        },
                     )
-                    if (!isMediumWidth) {
-                        ToolsMenu(
-                            expanded = menuType == MenuType.TOOLS,
-                            onDismiss = { menuType = null },
-                            onForceSyntaxClicked = { menuType = null; onForceSyntaxClicked() },
-                            onInsertColorClicked = { menuType = null; onInsertColorClicked() },
-                        )
-                    }
+                    ToolsMenu(
+                        expanded = menuType == MenuType.TOOLS,
+                        onDismiss = { menuType = null },
+                        onForceSyntaxClicked = { menuType = null; onForceSyntaxClicked() },
+                        onInsertColorClicked = { menuType = null; onInsertColorClicked() },
+                    )
                 }
             )
         },

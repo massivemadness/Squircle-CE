@@ -56,6 +56,7 @@ import com.blacksquircle.ui.feature.servers.ui.server.compose.ServerScheme
 import com.blacksquircle.ui.feature.servers.ui.server.compose.ServerUsername
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerType
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ServerScreen(
@@ -245,10 +246,10 @@ private fun ServerScreen(
                 )
             }
         },
-        confirmButton = stringResource(com.blacksquircle.ui.ds.R.string.common_save),
+        confirmButton = stringResource(UiR.string.common_save),
         onConfirmClicked = onSaveClicked,
         dismissButton = if (viewState.isEditMode) {
-            stringResource(com.blacksquircle.ui.ds.R.string.common_delete)
+            stringResource(UiR.string.common_delete)
         } else {
             stringResource(android.R.string.cancel)
         },

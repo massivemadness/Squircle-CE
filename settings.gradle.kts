@@ -48,6 +48,8 @@ include(
     ":feature-explorer:impl",
     ":feature-fonts:api",
     ":feature-fonts:impl",
+    ":feature-git:api",
+    ":feature-git:impl",
     ":feature-servers:api",
     ":feature-servers:impl",
     ":feature-settings:api",

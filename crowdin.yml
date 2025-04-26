@@ -11,6 +11,8 @@ files:
     translation: /feature-explorer/impl/src/main/res/values-%android_code%/%original_file_name%
   - source: /feature-fonts/impl/src/main/res/values/strings.xml
     translation: /feature-fonts/impl/src/main/res/values-%android_code%/%original_file_name%
+  - source: /feature-git/impl/src/main/res/values/strings.xml
+    translation: /feature-git/impl/src/main/res/values-%android_code%/%original_file_name%
   - source: /feature-servers/impl/src/main/res/values/strings.xml
     translation: /feature-servers/impl/src/main/res/values-%android_code%/%original_file_name%
   - source: /feature-settings/impl/src/main/res/values/strings.xml

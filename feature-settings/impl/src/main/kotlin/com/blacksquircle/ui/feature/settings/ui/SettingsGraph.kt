@@ -24,12 +24,14 @@ import com.blacksquircle.ui.feature.settings.api.navigation.AppHeaderScreen
 import com.blacksquircle.ui.feature.settings.api.navigation.CodeStyleHeaderScreen
 import com.blacksquircle.ui.feature.settings.api.navigation.EditorHeaderScreen
 import com.blacksquircle.ui.feature.settings.api.navigation.FilesHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.GitHeaderScreen
 import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.settings.ui.about.AboutHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.application.AppHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderScreen
+import com.blacksquircle.ui.feature.settings.ui.git.GitHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.header.HeaderListScreen
 
 fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
@@ -47,6 +49,9 @@ fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
     }
     composable<FilesHeaderScreen> {
         FilesHeaderScreen(navController)
+    }
+    composable<GitHeaderScreen> {
+        GitHeaderScreen(navController)
     }
     composable<AboutHeaderScreen> {
         AboutHeaderScreen(navController)

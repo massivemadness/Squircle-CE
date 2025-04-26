@@ -47,6 +47,7 @@ import com.blacksquircle.ui.feature.editor.api.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.editorGraph
 import com.blacksquircle.ui.feature.explorer.ui.explorerGraph
 import com.blacksquircle.ui.feature.fonts.ui.fontsGraph
+import com.blacksquircle.ui.feature.git.ui.gitGraph
 import com.blacksquircle.ui.feature.servers.ui.serversGraph
 import com.blacksquircle.ui.feature.settings.ui.settingsGraph
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcutsGraph
@@ -91,6 +92,7 @@ internal fun MainScreen(
                     editorGraph(navController)
                     explorerGraph(navController)
                     fontsGraph(navController)
+                    gitGraph(navController)
                     serversGraph(navController)
                     settingsGraph(navController)
                     shortcutsGraph(navController)

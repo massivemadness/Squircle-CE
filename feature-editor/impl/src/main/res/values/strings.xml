@@ -46,6 +46,7 @@
     <string name="action_redo">Redo</string>
     <string name="action_force_syntax">Force Syntax</string>
     <string name="action_insert_color">Insert Color</string>
+    <string name="action_git" translatable="false">Git</string>
     <string name="action_settings">Settings</string>
     <string name="action_tools">Tools</string>
 
@@ -63,5 +64,8 @@
     <string name="message_nothing_to_copy">Nothing to copy</string>
     <string name="message_nothing_to_paste">Nothing to paste</string>
     <string name="message_line_not_exists">Line does not exists</string>
+    <string name="message_git_invalid_credentials">Git requires configuration in settings</string>
+    <string name="message_git_repository_not_found">Git repository not found</string>
+    <string name="message_git_unsupported_filesystem">Git requires local filesystem</string>
 
 </resources>

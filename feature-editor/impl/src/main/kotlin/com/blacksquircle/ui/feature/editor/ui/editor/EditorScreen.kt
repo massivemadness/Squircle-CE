@@ -139,6 +139,7 @@ internal fun EditorScreen(
         onUndoClicked = viewModel::onUndoClicked,
         onRedoClicked = viewModel::onRedoClicked,
         onSettingsClicked = viewModel::onSettingsClicked,
+        onGitClicked = viewModel::onGitClicked,
         onDocumentClicked = viewModel::onDocumentClicked,
         onDocumentMoved = viewModel::onDocumentMoved,
         onCloseClicked = viewModel::onCloseClicked,
@@ -278,6 +279,7 @@ private fun EditorScreen(
     onUndoClicked: () -> Unit = {},
     onRedoClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
+    onGitClicked: () -> Unit = {},
     onDocumentClicked: (DocumentModel) -> Unit = {},
     onDocumentMoved: (from: Int, to: Int) -> Unit = { _, _ -> },
     onCloseClicked: (DocumentModel) -> Unit = {},
@@ -311,6 +313,7 @@ private fun EditorScreen(
                 onUndoClicked = onUndoClicked,
                 onRedoClicked = onRedoClicked,
                 onSettingsClicked = onSettingsClicked,
+                onGitClicked = onGitClicked
             )
         },
         bottomBar = {

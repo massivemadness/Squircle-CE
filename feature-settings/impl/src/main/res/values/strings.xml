@@ -50,6 +50,8 @@
     <string name="pref_header_keybindings_summary">Configure keybindings.</string>
     <string name="pref_header_cloud_title">Cloud &amp; Servers</string>
     <string name="pref_header_cloud_summary">Configure cloud storage and servers.</string>
+    <string name="pref_header_git_title" translatable="false">Git</string>
+    <string name="pref_header_git_summary">Configure version control system.</string>
     <string name="pref_header_about_title">About</string>
     <string name="pref_header_about_summary">View information about Squircle CE.</string>
 
@@ -65,6 +67,7 @@
     <string name="pref_category_encoding">Encoding</string>
     <string name="pref_category_linebreaks">Linebreaks</string>
     <string name="pref_category_file_manager">File Manager</string>
+    <string name="pref_category_account">Account</string>
     <string name="pref_category_about">About</string>
     <string name="pref_category_contribute">Contribute</string>
 
@@ -133,6 +136,15 @@
     <string name="pref_folders_on_top_summary">Folders will be displayed on top.</string>
     <string name="pref_view_mode_title">View Mode</string>
     <string name="pref_sort_mode_title">Sort Mode</string>
+
+    <string name="pref_git_credentials_title">Git Credentials</string>
+    <string name="pref_git_credentials_summary">Credentials for accessing remote repositories</string>
+    <string name="pref_git_credentials_username">Username</string>
+    <string name="pref_git_credentials_password">Password</string>
+    <string name="pref_git_user_title">Git User</string>
+    <string name="pref_git_user_summary">User data that will appear in your Git commits</string>
+    <string name="pref_git_user_name">Name</string>
+    <string name="pref_git_user_email">Email</string>
 
     <string name="pref_about_summary">Squircle CE is an open source project published under the Apache 2.0 license\n\nVersion: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Privacy Policy</string>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="label_git" translatable="false">Git</string>
+
+    <string name="action_create">Create</string>
+    <string name="action_checkout">Checkout</string>
+    <string name="action_new_branch">New branch</string>
+    <string name="action_commit">Commit</string>
+    <string name="action_amend">Amend</string>
+    <string name="action_push">Push</string>
+    <string name="action_force">Force</string>
+
+    <string name="git_fetch_title">Fetch</string>
+    <string name="git_fetch_description">Fetch content from remote repository</string>
+    <string name="git_fetch_fetching">Fetching updates from the remote repository…</string>
+    <string name="git_fetch_complete">Fetch completed</string>
+
+    <string name="git_pull_title">Pull</string>
+    <string name="git_pull_description">Pull changes from remote repository</string>
+    <string name="git_pull_pulling">Pulling changes from the remote repository…</string>
+    <string name="git_pull_complete">Pull completed</string>
+
+    <string name="git_commit_title">Commit</string>
+    <string name="git_commit_description">Commit local repository changes</string>
+    <string name="git_commit_message">Commit message</string>
+    <string name="git_commit_uncommitted_changes">Uncommitted changes</string>
+    <string name="git_commit_no_changes">No changes</string>
+    <string name="git_commit_committing">Committing your changes to the local repository…</string>
+    <string name="git_commit_complete">Commit created</string>
+
+    <string name="git_push_title">Push</string>
+    <string name="git_push_description">Push content to remote repository</string>
+    <string name="git_push_commits">You are about to push %1$d commit(s) to %2$s. Continue?</string>
+    <string name="git_push_no_commits">There are no commits to push</string>
+    <string name="git_push_pushing">Pushing changes to the remote repository…</string>
+    <string name="git_push_complete">Push completed</string>
+
+    <string name="git_checkout_title">Checkout</string>
+    <string name="git_checkout_description">Change or create local repository branch</string>
+    <string name="git_checkout_branch_name">Branch name</string>
+    <string name="git_checkout_branch_base">Your branch will be based on %1$s</string>
+    <string name="git_checkout_checking_out">Checking out the branch…</string>
+    <string name="git_checkout_checked_out">Checked out %1$s</string>
+
+    <string name="git_fatal" translatable="false">fatal: %1$s</string>
+
+</resources>
