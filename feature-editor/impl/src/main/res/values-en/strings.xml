@@ -58,4 +58,7 @@
     <string name="message_nothing_to_copy">Nothing to copy</string>
     <string name="message_nothing_to_paste">Nothing to paste</string>
     <string name="message_line_not_exists">Line does not exists</string>
+    <string name="message_git_invalid_credentials">Git requires configuration in settings</string>
+    <string name="message_git_repository_not_found">Git repository not found</string>
+    <string name="message_git_unsupported_filesystem">Git requires local filesystem</string>
 </resources>
