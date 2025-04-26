@@ -73,7 +73,6 @@ dependencies {
     implementation(project(":common-ui"))
     testImplementation(project(":common-test"))
 
-    implementation(project(":feature-changelog"))
     implementation(project(":feature-editor:api"))
     implementation(project(":feature-editor:impl"))
     implementation(project(":feature-explorer:api"))
