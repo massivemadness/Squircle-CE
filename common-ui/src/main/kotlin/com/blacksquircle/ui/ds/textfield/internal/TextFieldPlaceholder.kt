@@ -20,21 +20,22 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
-import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
 @NonRestartableComposable
 internal fun TextFieldPlaceholder(
     text: String,
     textStyle: TextStyle,
+    textColor: Color,
     modifier: Modifier = Modifier
 ) {
     Text(
         text = text,
         style = textStyle,
-        color = SquircleTheme.colors.colorTextAndIconSecondary,
+        color = textColor,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
         modifier = modifier,

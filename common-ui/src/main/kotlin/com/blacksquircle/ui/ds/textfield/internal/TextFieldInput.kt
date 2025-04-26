@@ -37,7 +37,6 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun TextFieldInput(
@@ -46,8 +45,12 @@ internal fun TextFieldInput(
     placeholderText: String?,
     enabled: Boolean,
     readOnly: Boolean,
+    inputMinWidth: Dp,
+    inputMinHeight: Dp,
+    inputPadding: PaddingValues,
     textStyle: TextStyle,
     textColor: Color,
+    placeholderColor: Color,
     cursorColor: Color,
     handleColor: Color,
     selectionColor: Color,
@@ -56,13 +59,6 @@ internal fun TextFieldInput(
     visualTransformation: VisualTransformation,
     modifier: Modifier = Modifier,
 ) {
-    val inputMinWidth = Dp.Unspecified
-    val inputMinHeight = 42.dp
-    val inputPadding = PaddingValues(
-        horizontal = 12.dp,
-        vertical = 6.dp,
-    )
-
     val selectionColors = TextSelectionColors(handleColor, selectionColor)
     val cursorBrush = remember(cursorColor) {
         SolidColor(cursorColor)
@@ -85,8 +81,9 @@ internal fun TextFieldInput(
                 DecorationBox(
                     inputText = inputText,
                     inputTextField = innerTextField,
-                    placeholderText = placeholderText.orEmpty(),
+                    placeholder = placeholderText.orEmpty(),
                     placeholderTextStyle = textStyle,
+                    placeholderTextColor = placeholderColor,
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()

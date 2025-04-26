@@ -39,6 +39,7 @@
     <string name="action_tools">工具</string>
     <string name="dialog_title_goto_line">跳到行</string>
     <string name="dialog_title_force_syntax">語法重點標示</string>
+    <string name="dialog_title_color_picker">顏色選擇器</string>
     <string name="dialog_title_exit">離開</string>
     <string name="dialog_message_exit">確定要離開嗎？所有更改將會保存在快取中</string>
     <string name="dialog_message_close_tab">確定要關閉該檔案嗎？所有未儲存的更改將會遺失</string>

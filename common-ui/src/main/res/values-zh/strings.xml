@@ -26,5 +26,4 @@
     <string name="common_grant_access">授予访问权限</string>
     <string name="message_access_denied">没有存储空间访问权限</string>
     <string name="message_access_required">为了能正常编写代码，必须授予存储权限</string>
-    <string name="dialog_title_color_picker">颜色选择器</string>
 </resources>

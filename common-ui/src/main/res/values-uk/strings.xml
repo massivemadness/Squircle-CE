@@ -26,5 +26,4 @@
     <string name="common_grant_access">Надати доступ</string>
     <string name="message_access_denied">Доступ заборонено</string>
     <string name="message_access_required">Додаток потребує дозволу для роботи з файлами</string>
-    <string name="dialog_title_color_picker">Вибір кольору</string>
 </resources>

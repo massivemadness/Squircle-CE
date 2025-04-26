@@ -46,6 +46,7 @@
     <string name="action_tools">Araçlar</string>
     <string name="dialog_title_goto_line">Satıra Git…</string>
     <string name="dialog_title_force_syntax">Sözdizimi\'ni Vurgula</string>
+    <string name="dialog_title_color_picker">Renk Seç</string>
     <string name="dialog_title_exit">Çıkış yap</string>
     <string name="dialog_message_exit">Çıkmak istediğinizden emin misiniz? Kayıt edilmeyen tüm değişiklikler kaybolacaktır</string>
     <string name="dialog_message_close_tab">Oturumunuzu kapatmak istediğinize emin misiniz? Kaydedilmemiş değişiklikler kaybedilecek</string>

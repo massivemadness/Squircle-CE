@@ -39,6 +39,7 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
+import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
 import com.blacksquircle.ui.ds.dropdown.Dropdown
 import com.blacksquircle.ui.ds.dropdown.DropdownStyleDefaults
 import com.blacksquircle.ui.ds.textfield.TextField
@@ -110,7 +111,7 @@ internal fun ExplorerToolbar(
                     endContent = {
                         IconButton(
                             iconResId = UiR.drawable.ic_close,
-                            iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                            iconButtonStyle = IconButtonStyleDefaults.Secondary,
                             iconButtonSize = IconButtonSizeDefaults.S,
                             onClick = { onClearQueryClicked(); searchMode = false },
                         )

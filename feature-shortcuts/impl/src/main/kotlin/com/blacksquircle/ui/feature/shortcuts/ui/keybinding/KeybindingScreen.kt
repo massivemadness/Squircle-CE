@@ -50,7 +50,7 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
-import com.blacksquircle.ui.ds.textfield.TextFieldAdvanced
+import com.blacksquircle.ui.ds.textfield.TextField2
 import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.keyCodeToChar
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
@@ -169,7 +169,7 @@ private fun KeybindingScreen(
                 var shiftPressed by remember { mutableStateOf(false) }
                 var altPressed by remember { mutableStateOf(false) }
 
-                TextFieldAdvanced(
+                TextField2(
                     state = textFieldState,
                     lineLimits = TextFieldLineLimits.SingleLine,
                     inputTransformation = {

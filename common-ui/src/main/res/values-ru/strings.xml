@@ -28,5 +28,4 @@
     <string name="common_grant_access">Предоставить</string>
     <string name="message_access_denied">Доступ запрещён</string>
     <string name="message_access_required">Приложение требует разрешения для работы с файлами</string>
-    <string name="dialog_title_color_picker">Выберите цвет</string>
 </resources>

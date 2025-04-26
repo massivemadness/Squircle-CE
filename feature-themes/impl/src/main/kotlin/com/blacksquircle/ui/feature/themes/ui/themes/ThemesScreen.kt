@@ -60,6 +60,7 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
+import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
@@ -148,7 +149,7 @@ private fun ThemesScreen(
                             endContent = {
                                 IconButton(
                                     iconResId = UiR.drawable.ic_close,
-                                    iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                                    iconButtonStyle = IconButtonStyleDefaults.Secondary,
                                     iconButtonSize = IconButtonSizeDefaults.S,
                                     onClick = { onClearQueryClicked(); searchMode = false },
                                 )

@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.ds.textfield.internal
+package com.blacksquircle.ui.ds.button
 
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.NonRestartableComposable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextOverflow
+import com.blacksquircle.ui.ds.SquircleTheme
 
-@Composable
-@NonRestartableComposable
-internal fun TextFieldError(
-    text: String?,
-    textStyle: TextStyle,
-    textColor: Color,
-    modifier: Modifier = Modifier
-) {
-    Text(
-        text = text.orEmpty(),
-        style = textStyle,
-        color = textColor,
-        maxLines = 2,
-        overflow = TextOverflow.Ellipsis,
-        modifier = modifier,
-    )
+@Immutable
+data class TextButtonStyle(
+    val textStyle: TextStyle,
+    val enabledTextColor: Color,
+    val disabledTextColor: Color,
+)
+
+object TextButtonStyleDefaults {
+
+    val Primary: TextButtonStyle
+        @Composable
+        @ReadOnlyComposable
+        get() = TextButtonStyle(
+            textStyle = SquircleTheme.typography.text14Medium,
+            enabledTextColor = SquircleTheme.colors.colorPrimary,
+            disabledTextColor = SquircleTheme.colors.colorTextAndIconDisabled,
+        )
 }

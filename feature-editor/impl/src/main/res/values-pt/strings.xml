@@ -43,6 +43,7 @@
 
     <string name="dialog_title_goto_line">Ir para a linha…</string>
     <string name="dialog_title_force_syntax">Syntax Highlighting</string>
+    <string name="dialog_title_color_picker">Paleta de cores</string>
     <string name="dialog_title_exit">Sair</string>
     <string name="dialog_message_exit">Você tem certeza que deseja sair? Todas as mudanças serão salvas no cache</string>
     <string name="dialog_message_close_tab">Você tem certeza de que quer fechar este arquivo? Todas as mudanças serão discartadas</string>

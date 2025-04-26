@@ -50,8 +50,11 @@ fun Slider(
     stepCount: Int = 1,
     minValue: Float = 0f,
     maxValue: Float = 1f,
+    sliderStyle: SliderStyle = SliderStyleDefaults.Primary,
 ) {
-    var displayValueHolder by rememberSaveable { mutableFloatStateOf(currentValue) }
+    var displayValueHolder by rememberSaveable {
+        mutableFloatStateOf(currentValue)
+    }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier,
@@ -69,19 +72,19 @@ fun Slider(
                 onValueChangeFinished = { onValueChanged(displayValueHolder) },
                 enabled = enabled,
                 colors = SliderDefaults.colors(
-                    thumbColor = SquircleTheme.colors.colorPrimary,
-                    disabledThumbColor = SquircleTheme.colors.colorTextAndIconDisabled,
-                    activeTrackColor = SquircleTheme.colors.colorPrimary,
-                    inactiveTrackColor = SquircleTheme.colors.colorPrimary
+                    thumbColor = sliderStyle.thumbColor,
+                    disabledThumbColor = sliderStyle.disabledThumbColor,
+                    activeTrackColor = sliderStyle.trackColor,
+                    inactiveTrackColor = sliderStyle.trackColor
                         .copy(alpha = InactiveTrackAlpha),
-                    disabledActiveTrackColor = SquircleTheme.colors.colorTextAndIconDisabled,
-                    disabledInactiveTrackColor = SquircleTheme.colors.colorTextAndIconDisabled
+                    disabledActiveTrackColor = sliderStyle.disabledTrackColor,
+                    disabledInactiveTrackColor = sliderStyle.disabledTrackColor
                         .copy(alpha = DisabledInactiveTrackAlpha),
-                    activeTickColor = SquircleTheme.colors.colorPrimary,
-                    inactiveTickColor = SquircleTheme.colors.colorPrimary
+                    activeTickColor = sliderStyle.tickColor,
+                    inactiveTickColor = sliderStyle.tickColor
                         .copy(alpha = TickAlpha),
-                    disabledActiveTickColor = SquircleTheme.colors.colorTextAndIconDisabled,
-                    disabledInactiveTickColor = SquircleTheme.colors.colorTextAndIconDisabled
+                    disabledActiveTickColor = sliderStyle.disabledTickColor,
+                    disabledInactiveTickColor = sliderStyle.disabledTickColor
                         .copy(alpha = DisabledTickAlpha),
                 )
             )

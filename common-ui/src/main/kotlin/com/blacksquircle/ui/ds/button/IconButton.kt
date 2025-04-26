@@ -25,13 +25,11 @@ import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
-import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.modifier.debounceClickable
 
 @Composable
@@ -39,12 +37,12 @@ fun IconButton(
     modifier: Modifier = Modifier,
     iconResId: Int? = null,
     onClick: () -> Unit = {},
-    iconColor: Color = SquircleTheme.colors.colorTextAndIconPrimary,
     contentDescription: String? = null,
     enabled: Boolean = true,
     debounce: Boolean = true,
     anchor: @Composable (() -> Unit)? = null,
     interactionSource: MutableInteractionSource? = null,
+    iconButtonStyle: IconButtonStyle = IconButtonStyleDefaults.Primary,
     iconButtonSize: IconButtonSize = IconButtonSizeDefaults.M,
 ) {
     Box(
@@ -67,7 +65,11 @@ fun IconButton(
             Icon(
                 painter = painterResource(iconResId),
                 contentDescription = contentDescription,
-                tint = if (enabled) iconColor else SquircleTheme.colors.colorTextAndIconDisabled,
+                tint = if (enabled) {
+                    iconButtonStyle.iconColor
+                } else {
+                    iconButtonStyle.disabledIconColor
+                },
             )
         }
         anchor?.invoke()

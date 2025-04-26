@@ -39,6 +39,7 @@
     <string name="action_tools">工具</string>
     <string name="dialog_title_goto_line">跳转到行</string>
     <string name="dialog_title_force_syntax">语法高亮</string>
+    <string name="dialog_title_color_picker">颜色选择器</string>
     <string name="dialog_title_exit">退出应用</string>
     <string name="dialog_message_exit">确定要退出本应用吗？所有更改将会保存到缓存中</string>
     <string name="dialog_message_close_tab">确定要关闭该文件吗？所有未保存的更改将会丢失</string>
