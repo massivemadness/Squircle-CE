@@ -28,5 +28,4 @@
     <string name="common_grant_access">Grant Access</string>
     <string name="message_access_denied">Access Denied</string>
     <string name="message_access_required">Application requires storage access to work with files</string>
-    <string name="dialog_title_color_picker">Color Picker</string>
 </resources>
