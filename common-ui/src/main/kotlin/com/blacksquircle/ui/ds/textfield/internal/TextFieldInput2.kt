@@ -45,9 +45,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
-internal fun TextFieldInputAdvanced(
+internal fun TextFieldInput2(
     state: TextFieldState,
     placeholderText: String?,
     enabled: Boolean,
@@ -98,8 +99,9 @@ internal fun TextFieldInputAdvanced(
                 DecorationBox(
                     inputText = state.text,
                     inputTextField = innerTextField,
-                    placeholderText = placeholderText.orEmpty(),
+                    placeholder = placeholderText.orEmpty(),
                     placeholderTextStyle = textStyle,
+                    placeholderTextColor = SquircleTheme.colors.colorTextAndIconSecondary,
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()

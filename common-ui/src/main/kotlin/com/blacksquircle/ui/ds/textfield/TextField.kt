@@ -23,9 +23,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,20 +36,17 @@ import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextLayoutResult
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
-import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
@@ -59,7 +55,7 @@ import com.blacksquircle.ui.ds.layout.ThreeSlotLayout
 import com.blacksquircle.ui.ds.textfield.internal.TextFieldError
 import com.blacksquircle.ui.ds.textfield.internal.TextFieldHelp
 import com.blacksquircle.ui.ds.textfield.internal.TextFieldInput
-import com.blacksquircle.ui.ds.textfield.internal.TextFieldInputAdvanced
+import com.blacksquircle.ui.ds.textfield.internal.TextFieldInput2
 import com.blacksquircle.ui.ds.textfield.internal.TextFieldLabel
 
 @Composable
@@ -76,22 +72,16 @@ fun TextField(
     error: Boolean = false,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    textStyle: TextStyle = SquircleTheme.typography.text16Regular,
-    textColor: Color = SquircleTheme.colors.colorTextAndIconPrimary,
-    cursorColor: Color = SquircleTheme.colors.colorPrimary,
-    handleColor: Color = cursorColor,
-    selectionColor: Color = handleColor.copy(alpha = 0.4f),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    textFieldStyle: TextFieldStyle = TextFieldStyleDefaults.Default,
+    textFieldSize: TextFieldSize = TextFieldSizeDefaults.M,
 ) {
-    val inputCornerRadius = 6.dp
-    val inputBorderSize = if (error) 2.dp else 0.dp
-    val inputBorderColor = if (error) SquircleTheme.colors.colorError else Color.Transparent
-    val inputBackgroundColor = SquircleTheme.colors.colorBackgroundTertiary
-    val inputCornerShape = remember(inputCornerRadius) {
-        RoundedCornerShape(inputCornerRadius)
-    }
+    val inputBorderSize = if (error) textFieldSize.errorBorderSize else 0.dp
+    val inputBorderColor = if (error) textFieldStyle.errorBorderColor else Color.Transparent
+    val inputBackgroundColor = textFieldStyle.backgroundColor
+    val inputCornerShape = RoundedCornerShape(textFieldSize.inputCornerRadius)
 
     val hasLabel = !labelText.isNullOrEmpty()
     val hasHelp = !helpText.isNullOrEmpty()
@@ -105,11 +95,13 @@ fun TextField(
         if (hasLabel) {
             TextFieldLabel(
                 text = labelText,
+                textStyle = textFieldStyle.labelTextStyle,
+                textColor = textFieldStyle.labelTextColor,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
+                    .padding(textFieldSize.labelPadding)
             )
-            Spacer(modifier = Modifier.height(6.dp))
         }
 
         ThreeSlotLayout(
@@ -121,11 +113,15 @@ fun TextField(
                     placeholderText = placeholderText,
                     enabled = enabled,
                     readOnly = readOnly,
-                    textStyle = textStyle,
-                    textColor = textColor,
-                    cursorColor = cursorColor,
-                    handleColor = handleColor,
-                    selectionColor = selectionColor,
+                    inputMinWidth = textFieldSize.inputMinWidth,
+                    inputMinHeight = textFieldSize.inputMinHeight,
+                    inputPadding = textFieldSize.inputPadding,
+                    textStyle = textFieldStyle.textStyle,
+                    textColor = textFieldStyle.textColor,
+                    placeholderColor = textFieldStyle.placeholderColor,
+                    cursorColor = textFieldStyle.cursorColor,
+                    handleColor = textFieldStyle.handleColor,
+                    selectionColor = textFieldStyle.selectionColor,
                     keyboardOptions = keyboardOptions,
                     keyboardActions = keyboardActions,
                     visualTransformation = visualTransformation,
@@ -141,28 +137,32 @@ fun TextField(
         )
 
         if (hasError && error) {
-            Spacer(modifier = Modifier.height(6.dp))
             TextFieldError(
                 text = errorText,
+                textStyle = textFieldStyle.errorTextStyle,
+                textColor = textFieldStyle.errorTextColor,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
+                    .padding(textFieldSize.errorPadding)
             )
         }
         if (hasHelp && !(hasError && error)) {
-            Spacer(modifier = Modifier.height(6.dp))
             TextFieldHelp(
                 text = helpText,
+                textStyle = textFieldStyle.helpTextStyle,
+                textColor = textFieldStyle.helpTextColor,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
+                    .padding(textFieldSize.helpPadding)
             )
         }
     }
 }
 
 @Composable
-fun TextFieldAdvanced(
+fun TextField2(
     state: TextFieldState,
     modifier: Modifier = Modifier,
     labelText: String? = null,
@@ -174,11 +174,6 @@ fun TextFieldAdvanced(
     error: Boolean = false,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    textStyle: TextStyle = SquircleTheme.typography.text16Regular,
-    textColor: Color = SquircleTheme.colors.colorTextAndIconPrimary,
-    cursorColor: Color = SquircleTheme.colors.colorPrimary,
-    handleColor: Color = cursorColor,
-    selectionColor: Color = handleColor.copy(alpha = 0.4f),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onKeyboardAction: KeyboardActionHandler? = null,
     lineLimits: TextFieldLineLimits = TextFieldLineLimits.Default,
@@ -187,14 +182,13 @@ fun TextFieldAdvanced(
     inputTransformation: InputTransformation? = null,
     outputTransformation: OutputTransformation? = null,
     scrollState: ScrollState = rememberScrollState(),
+    textFieldStyle: TextFieldStyle = TextFieldStyleDefaults.Default,
+    textFieldSize: TextFieldSize = TextFieldSizeDefaults.M,
 ) {
-    val inputCornerRadius = 6.dp
-    val inputBorderSize = if (error) 2.dp else 0.dp
-    val inputBorderColor = if (error) SquircleTheme.colors.colorError else Color.Transparent
-    val inputBackgroundColor = SquircleTheme.colors.colorBackgroundTertiary
-    val inputCornerShape = remember(inputCornerRadius) {
-        RoundedCornerShape(inputCornerRadius)
-    }
+    val inputBorderSize = if (error) textFieldSize.errorBorderSize else 0.dp
+    val inputBorderColor = if (error) textFieldStyle.errorBorderColor else Color.Transparent
+    val inputBackgroundColor = textFieldStyle.backgroundColor
+    val inputCornerShape = RoundedCornerShape(textFieldSize.inputCornerRadius)
 
     val hasLabel = !labelText.isNullOrEmpty()
     val hasHelp = !helpText.isNullOrEmpty()
@@ -208,26 +202,28 @@ fun TextFieldAdvanced(
         if (hasLabel) {
             TextFieldLabel(
                 text = labelText,
+                textStyle = textFieldStyle.labelTextStyle,
+                textColor = textFieldStyle.labelTextColor,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
+                    .padding(textFieldSize.labelPadding)
             )
-            Spacer(modifier = Modifier.height(6.dp))
         }
 
         ThreeSlotLayout(
             startContent = startContent,
             middleContent = {
-                TextFieldInputAdvanced(
+                TextFieldInput2(
                     state = state,
                     placeholderText = placeholderText,
                     enabled = enabled,
                     readOnly = readOnly,
-                    textStyle = textStyle,
-                    textColor = textColor,
-                    cursorColor = cursorColor,
-                    handleColor = handleColor,
-                    selectionColor = selectionColor,
+                    textStyle = textFieldStyle.textStyle,
+                    textColor = textFieldStyle.textColor,
+                    cursorColor = textFieldStyle.cursorColor,
+                    handleColor = textFieldStyle.handleColor,
+                    selectionColor = textFieldStyle.selectionColor,
                     keyboardOptions = keyboardOptions,
                     onKeyboardAction = onKeyboardAction,
                     lineLimits = lineLimits,
@@ -248,21 +244,25 @@ fun TextFieldAdvanced(
         )
 
         if (hasError && error) {
-            Spacer(modifier = Modifier.height(6.dp))
             TextFieldError(
                 text = errorText,
+                textStyle = textFieldStyle.errorTextStyle,
+                textColor = textFieldStyle.errorTextColor,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
+                    .padding(textFieldSize.errorPadding)
             )
         }
         if (hasHelp && !(hasError && error)) {
-            Spacer(modifier = Modifier.height(6.dp))
             TextFieldHelp(
                 text = helpText,
+                textStyle = textFieldStyle.helpTextStyle,
+                textColor = textFieldStyle.helpTextColor,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
+                    .padding(textFieldSize.helpPadding)
             )
         }
     }

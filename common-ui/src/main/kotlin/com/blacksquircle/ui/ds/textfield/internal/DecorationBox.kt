@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import com.blacksquircle.ui.ds.extensions.clearSemantics
 
@@ -31,11 +32,12 @@ import com.blacksquircle.ui.ds.extensions.clearSemantics
 internal fun DecorationBox(
     inputText: CharSequence,
     inputTextField: @Composable () -> Unit,
-    placeholderText: String,
+    placeholder: String,
     placeholderTextStyle: TextStyle,
+    placeholderTextColor: Color,
     modifier: Modifier = Modifier,
 ) {
-    val isPlaceholderVisible = inputText.isEmpty() && placeholderText.isNotEmpty()
+    val isPlaceholderVisible = inputText.isEmpty() && placeholder.isNotEmpty()
 
     Box(
         contentAlignment = Alignment.CenterStart,
@@ -43,8 +45,9 @@ internal fun DecorationBox(
     ) {
         if (isPlaceholderVisible) {
             TextFieldPlaceholder(
-                text = placeholderText,
+                text = placeholder,
                 textStyle = placeholderTextStyle,
+                textColor = placeholderTextColor,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
