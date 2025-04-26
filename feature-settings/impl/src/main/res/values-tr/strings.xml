@@ -20,9 +20,6 @@
     <string name="action_reset">Sıfırla</string>
     <string name="message_app_theme_disclaimer">Android 10 veya daha yeni bir sürüm gerektiriyor</string>
     <string name="message_preset_disclaimer">Karakterleri birden fazla kez tekrarlayabilirsiniz</string>
-    <string name="theme_light">Aydınlık</string>
-    <string name="theme_dark">Karanlık</string>
-    <string name="theme_auto">Otomatik</string>
     <string name="sort_by_name">Ada göre sırala</string>
     <string name="sort_by_size">Boyuta göre sırala</string>
     <string name="sort_by_date">Tarihe göre Sırala</string>
