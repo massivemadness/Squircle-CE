@@ -795,8 +795,8 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
-                        canUndo = false,
-                        canRedo = false,
+                        canUndo = if (reloadFile) false else it.canUndo,
+                        canRedo = if (reloadFile) false else it.canRedo,
                         isLoading = hasMoreFiles,
                     )
                 }
