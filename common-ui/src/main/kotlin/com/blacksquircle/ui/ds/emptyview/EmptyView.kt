@@ -92,6 +92,7 @@ fun EmptyView(
             OutlinedButton(
                 text = action,
                 onClick = onClick,
+                modifier = Modifier.widthIn(min = 100.dp)
             )
         }
     }
