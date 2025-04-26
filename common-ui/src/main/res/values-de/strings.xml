@@ -30,6 +30,4 @@
     <string name="message_access_denied">Zugriff abgelehnt</string>
     <string name="message_access_required">Anwendung benötigt Speicherzugriff, um mit Dateien zu arbeiten</string>
 
-    <string name="dialog_title_color_picker">Farbauswahl</string>
-
 </resources>
