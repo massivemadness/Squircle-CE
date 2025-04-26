@@ -20,7 +20,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.changelog.ui.ChangelogScreen
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -33,22 +32,9 @@ internal class AboutHeaderViewModel @Inject constructor() : ViewModel() {
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private var counter: Int = 1
-
     fun onBackClicked() {
         viewModelScope.launch {
             _viewEvent.send(ViewEvent.PopBackStack)
-        }
-    }
-
-    fun onChangelogClicked() {
-        viewModelScope.launch {
-            if (counter < 5) {
-                counter++
-            } else {
-                val screen = ChangelogScreen
-                _viewEvent.send(ViewEvent.Navigation(screen))
-            }
         }
     }
 
