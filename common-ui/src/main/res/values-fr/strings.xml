@@ -21,8 +21,10 @@
     <string name="common_delete">Supprimer</string>
     <string name="common_continue">Continuer</string>
     <string name="common_select">Sélectionner</string>
+    <string name="common_selected">Sélectionné</string>
     <string name="common_yes">Oui</string>
     <string name="common_no">Non</string>
+    <string name="common_menu">Menu</string>
     <string name="common_grant_access">Accorder l\'Accès</string>
     <string name="message_access_denied">Accès Refusé</string>
     <string name="message_access_required">L\'application requiert l\'accès au stockage pour travailler avec les fichiers</string>
