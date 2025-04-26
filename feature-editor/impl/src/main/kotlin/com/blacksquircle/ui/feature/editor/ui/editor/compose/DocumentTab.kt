@@ -47,6 +47,7 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
+import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
 import com.blacksquircle.ui.ds.modifier.debounceSelectable
 import com.blacksquircle.ui.ds.tabs.TabIndicator
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.CloseMenu
@@ -104,7 +105,7 @@ internal fun DocumentTab(
 
             IconButton(
                 iconResId = UiR.drawable.ic_close,
-                iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                iconButtonStyle = IconButtonStyleDefaults.Secondary,
                 onClick = onCloseClicked,
                 iconButtonSize = IconButtonSizeDefaults.XXS,
                 modifier = Modifier.padding(horizontal = 8.dp)

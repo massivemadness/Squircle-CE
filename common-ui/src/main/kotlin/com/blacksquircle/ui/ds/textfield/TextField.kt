@@ -53,6 +53,7 @@ import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
+import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.ds.layout.ThreeSlotLayout
 import com.blacksquircle.ui.ds.textfield.internal.TextFieldError
@@ -280,7 +281,7 @@ private fun TextFieldPreview() {
             endContent = {
                 IconButton(
                     iconResId = R.drawable.ic_close,
-                    iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                    iconButtonStyle = IconButtonStyleDefaults.Secondary,
                     iconButtonSize = IconButtonSizeDefaults.S,
                 )
             },

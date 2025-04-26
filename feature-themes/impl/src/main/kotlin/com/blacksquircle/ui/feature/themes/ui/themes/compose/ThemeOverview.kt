@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
+import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
 import com.blacksquircle.ui.ds.button.OutlinedButton
 import com.blacksquircle.ui.ds.extensions.isColorDark
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
@@ -94,7 +95,7 @@ internal fun ThemeOverview(
                 if (themeModel.isExternal) {
                     IconButton(
                         iconResId = UiR.drawable.ic_close,
-                        iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                        iconButtonStyle = IconButtonStyleDefaults.Secondary,
                         contentDescription = stringResource(R.string.action_remove),
                         onClick = onRemoveClicked,
                     )
