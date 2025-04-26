@@ -31,7 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.blacksquircle.ui.application.extensions.toComposeColors
-import com.blacksquircle.ui.application.loading.LoadingScreen
+import com.blacksquircle.ui.application.splash.SplashScreen
 import com.blacksquircle.ui.application.update.KEY_INSTALL_UPDATE
 import com.blacksquircle.ui.application.update.rememberInAppUpdate
 import com.blacksquircle.ui.core.effect.NavResultEffect
@@ -65,10 +65,8 @@ internal fun MainScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     val colors = toComposeColors(viewState.colorScheme)
     if (viewState.isLoading) {
-        SquircleTheme(colors = colors) {
-            Surface(color = SquircleTheme.colors.colorBackgroundPrimary) {
-                LoadingScreen()
-            }
+        SquircleTheme(darkTheme = true) {
+            SplashScreen()
         }
         return
     }

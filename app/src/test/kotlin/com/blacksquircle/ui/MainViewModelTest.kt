@@ -26,7 +26,6 @@ import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FULLSCRE
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
 import com.blacksquircle.ui.feature.themes.api.model.ColorScheme
-import com.blacksquircle.ui.internal.provider.theme.ThemeManager
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
@@ -49,7 +48,6 @@ class MainViewModelTest {
     val timberConsoleRule = TimberConsoleRule()
 
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
-    private val themeManager = mockk<ThemeManager>(relaxed = true)
     private val themeInteractor = mockk<ThemeInteractor>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
 
@@ -122,7 +120,6 @@ class MainViewModelTest {
     private fun createViewModel(): MainViewModel {
         return MainViewModel(
             settingsManager = settingsManager,
-            themeManager = themeManager,
             themeInteractor = themeInteractor,
             editorInteractor = editorInteractor,
         )

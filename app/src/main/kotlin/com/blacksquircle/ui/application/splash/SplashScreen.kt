@@ -14,31 +14,40 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.application.loading
+package com.blacksquircle.ui.application.splash
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.progress.CircularProgress
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun LoadingScreen() {
-    Box(
-        contentAlignment = Alignment.Center,
+internal fun SplashScreen() {
+    Surface(
+        color = Color.Black,
         modifier = Modifier.fillMaxSize(),
     ) {
-        CircularProgress()
+        Icon(
+            painter = painterResource(UiR.drawable.ic_splash_screen),
+            contentDescription = null,
+            tint = Color.Unspecified,
+            modifier = Modifier.padding(24.dp)
+        )
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun LoadingScreenPreview() {
+private fun SplashScreenPreview() {
     PreviewBackground {
-        LoadingScreen()
+        SplashScreen()
     }
 }
