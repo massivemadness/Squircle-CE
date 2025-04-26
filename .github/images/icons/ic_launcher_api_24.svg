@@ -15,18 +15,35 @@
   -->
 
 <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g filter="url(#filter0_d_223_4029)">
+    <g filter="url(#filter0_d_189_2355)">
         <path
-            d="M191 100C191 62.5308 191 43.7961 181.795 30.4606C178.216 25.2755 173.725 20.7839 168.539 17.2048C155.204 8 136.469 8 99 8V8C61.5308 8 42.7961 8 29.4606 17.2048C24.2755 20.7839 19.7839 25.2755 16.2048 30.4606C7 43.7961 7 62.5308 7 100V100C7 137.469 7 156.204 16.2048 169.539C19.7839 174.725 24.2755 179.216 29.4606 182.795C42.7961 192 61.5308 192 99 192V192C136.469 192 155.204 192 168.539 182.795C173.725 179.216 178.216 174.725 181.795 169.539C191 156.204 191 137.469 191 100V100Z"
-            fill="url(#paint0_radial_223_4029)" />
+            d="M191 100C191 62.5308 191 43.7961 181.795 30.4606C178.216 25.2755 173.725 20.7839 168.539 17.2048C155.204 8 136.469 8 99 8C61.5308 8 42.7961 8 29.4606 17.2048C24.2755 20.7839 19.7839 25.2755 16.2048 30.4606C7 43.7961 7 62.5308 7 100C7 137.469 7 156.204 16.2048 169.539C19.7839 174.725 24.2755 179.216 29.4606 182.795C42.7961 192 61.5308 192 99 192C136.469 192 155.204 192 168.539 182.795C173.725 179.216 178.216 174.725 181.795 169.539C191 156.204 191 137.469 191 100Z"
+            fill="black" />
     </g>
-    <g filter="url(#filter1_d_223_4029)">
-        <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M37 99.8718L61.7508 75.121L75.0418 88.412L63.5816 99.8722L98.9371 135.227L110.397 123.768L123.623 136.993L98.8719 161.744L37 99.8718ZM123.655 110.509L136.881 123.735L160.744 99.8718L98.8719 38L75.009 61.8628L88.3 75.1538L98.9371 64.5167L134.292 99.8722L123.655 110.509Z"
+    <g filter="url(#filter1_d_189_2355)">
+        <path d="M42.3104 104.108L84.8276 136.97V150.663L42.3104 117.8V104.108Z" fill="#D9D9D9" />
+        <path d="M113.172 136.97L155.69 104.108V117.8L113.172 150.663V136.97Z" fill="#D9D9D9" />
+        <path
+            d="M36.44 93.1537C36.44 97.4315 38.6834 101.304 42.3104 104.108V117.8C38.6834 114.997 36.44 111.124 36.44 106.846V93.1537Z"
+            fill="#D9D9D9" />
+        <path
+            d="M84.8276 136.97C92.6548 143.02 105.345 143.02 113.172 136.97V150.663C105.345 156.712 92.6548 156.712 84.8276 150.663V136.97Z"
+            fill="#D9D9D9" />
+        <path
+            d="M161.56 93.1537C161.56 97.4315 159.317 101.304 155.69 104.108V117.8C159.317 114.997 161.56 111.124 161.56 106.846V93.1537Z"
+            fill="#D9D9D9" />
+        <path
+            d="M84.8276 49.3373C92.6548 43.2875 105.345 43.2875 113.172 49.3373L155.69 82.1996C163.517 88.2494 163.517 98.058 155.69 104.108L113.172 136.97C105.345 143.02 92.6548 143.02 84.8276 136.97L42.3104 104.108C34.4832 98.058 34.4832 88.2494 42.3104 82.1996L84.8276 49.3373Z"
             fill="white" />
+        <path
+            d="M58.4949 93.1536L74.6966 80.6321L83.3966 87.3559L75.8949 93.1536L99.0384 111.04L106.54 105.242L115.198 111.933L98.9959 124.455L58.4949 93.1536Z"
+            fill="black" />
+        <path
+            d="M115.219 98.5349L123.876 105.226L139.497 93.1536L98.9959 61.8524L83.3754 73.9247L92.0754 80.6485L99.0384 75.2672L122.182 93.1536L115.219 98.5349Z"
+            fill="black" />
     </g>
     <defs>
-        <filter id="filter0_d_223_4029" x="3" y="8" width="192" height="192"
+        <filter id="filter0_d_189_2355" x="3" y="8" width="192" height="192"
             filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
             <feFlood flood-opacity="0" result="BackgroundImageFix" />
             <feColorMatrix in="SourceAlpha" type="matrix"
@@ -35,11 +52,11 @@
             <feGaussianBlur stdDeviation="2" />
             <feComposite in2="hardAlpha" operator="out" />
             <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_223_4029" />
-            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_223_4029"
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_189_2355" />
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_189_2355"
                 result="shape" />
         </filter>
-        <filter id="filter1_d_223_4029" x="33" y="38" width="131.744" height="133.744"
+        <filter id="filter1_d_189_2355" x="32.44" y="44.8" width="133.12" height="120.4"
             filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
             <feFlood flood-opacity="0" result="BackgroundImageFix" />
             <feColorMatrix in="SourceAlpha" type="matrix"
@@ -48,18 +65,9 @@
             <feGaussianBlur stdDeviation="2" />
             <feComposite in2="hardAlpha" operator="out" />
             <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_223_4029" />
-            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_223_4029"
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_189_2355" />
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_189_2355"
                 result="shape" />
         </filter>
-        <radialGradient id="paint0_radial_223_4029" cx="0" cy="0" r="1"
-            gradientUnits="userSpaceOnUse"
-            gradientTransform="translate(48.3281 142.766) scale(172.5)">
-            <stop stop-color="#C13338" />
-            <stop offset="0.2" stop-color="#BC3338" />
-            <stop offset="0.45" stop-color="#86383C" />
-            <stop offset="0.6" stop-color="#573D3F" />
-            <stop offset="0.75" stop-color="#3E3F41" />
-        </radialGradient>
     </defs>
 </svg>
