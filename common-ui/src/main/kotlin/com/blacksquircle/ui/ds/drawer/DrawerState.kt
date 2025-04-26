@@ -16,8 +16,6 @@
 
 package com.blacksquircle.ui.ds.drawer
 
-import androidx.compose.animation.core.EaseOut
-import androidx.compose.animation.core.EaseOutQuart
 import androidx.compose.animation.core.exponentialDecay
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
