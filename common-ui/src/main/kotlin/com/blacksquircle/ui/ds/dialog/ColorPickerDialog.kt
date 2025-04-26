@@ -43,6 +43,7 @@ import androidx.core.graphics.toColorInt
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.ds.textfield.TextField
+import com.blacksquircle.ui.ds.textfield.TextFieldStyleDefaults
 import com.github.skydoves.colorpicker.compose.AlphaSlider
 import com.github.skydoves.colorpicker.compose.BrightnessSlider
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
@@ -117,10 +118,12 @@ fun ColorPickerDialog(
                             // ignored
                         }
                     },
-                    textStyle = TextStyle(
-                        fontFamily = FontFamily(Typeface.MONOSPACE),
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 16.sp,
+                    textFieldStyle = TextFieldStyleDefaults.Default.copy(
+                        textStyle = TextStyle(
+                            fontFamily = FontFamily(Typeface.MONOSPACE),
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 16.sp,
+                        ),
                     ),
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)

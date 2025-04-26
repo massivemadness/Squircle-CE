@@ -68,7 +68,6 @@ internal fun AboutHeaderScreen(
     val context = LocalContext.current
     AboutHeaderScreen(
         onBackClicked = viewModel::onBackClicked,
-        onChangelogClicked = viewModel::onChangelogClicked,
         onPrivacyClicked = {
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = PRIVACY_POLICY_URL.toUri()
@@ -103,7 +102,6 @@ internal fun AboutHeaderScreen(
 @Composable
 private fun AboutHeaderScreen(
     onBackClicked: () -> Unit = {},
-    onChangelogClicked: () -> Unit = {},
     onPrivacyClicked: () -> Unit = {},
     onTranslationClicked: () -> Unit = {},
     onContributeClicked: () -> Unit = {},
@@ -140,7 +138,6 @@ private fun AboutHeaderScreen(
                         modifier = Modifier.size(56.dp)
                     )
                 },
-                onClick = onChangelogClicked,
             )
             Preference(
                 title = stringResource(R.string.pref_privacy_policy_title),

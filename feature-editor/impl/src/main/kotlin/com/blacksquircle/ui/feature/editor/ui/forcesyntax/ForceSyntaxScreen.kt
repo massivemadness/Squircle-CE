@@ -39,6 +39,7 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.modifier.debounceClickable
 import com.blacksquircle.ui.ds.radio.Radio
+import com.blacksquircle.ui.ds.radio.RadioStyleDefaults
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
 import com.blacksquircle.ui.feature.editor.ui.editor.ARG_LANGUAGE
@@ -94,7 +95,9 @@ private fun ForceSyntaxScreen(
                             title = entries[index],
                             checked = value == selectedValue,
                             onClick = { onLanguageSelected(value) },
-                            textStyle = SquircleTheme.typography.text18Regular,
+                            radioStyle = RadioStyleDefaults.Primary.copy(
+                                textStyle = SquircleTheme.typography.text18Regular,
+                            ),
                             interactionSource = interactionSource,
                             indication = null,
                             modifier = Modifier

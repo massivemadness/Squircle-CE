@@ -36,12 +36,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.extensions.clearSemantics
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.ds.modifier.debounceSelectable
@@ -53,7 +51,7 @@ fun Radio(
     onClick: () -> Unit = {},
     checked: Boolean = true,
     enabled: Boolean = true,
-    textStyle: TextStyle = SquircleTheme.typography.text16Regular,
+    radioStyle: RadioStyle = RadioStyleDefaults.Primary,
     interactionSource: MutableInteractionSource? = remember { MutableInteractionSource() },
     indication: Indication? = ripple(bounded = false, radius = 24.dp)
 ) {
@@ -64,9 +62,9 @@ fun Radio(
         animationSpec = tween(durationMillis = 100)
     )
     val radioColor = when {
-        !enabled -> SquircleTheme.colors.colorTextAndIconDisabled
-        !checked -> SquircleTheme.colors.colorTextAndIconSecondary
-        else -> SquircleTheme.colors.colorPrimary
+        !enabled -> radioStyle.disabledColor
+        !checked -> radioStyle.uncheckedColor
+        else -> radioStyle.checkedColor
     }
 
     Row(
@@ -113,11 +111,11 @@ fun Radio(
             Spacer(Modifier.width(8.dp))
             Text(
                 text = title,
-                style = textStyle,
+                style = radioStyle.textStyle,
                 color = if (enabled) {
-                    SquircleTheme.colors.colorTextAndIconPrimary
+                    radioStyle.enabledTextColor
                 } else {
-                    SquircleTheme.colors.colorTextAndIconDisabled
+                    radioStyle.disabledTextColor
                 },
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,

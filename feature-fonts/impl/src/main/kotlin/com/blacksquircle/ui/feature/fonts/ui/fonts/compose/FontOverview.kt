@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
+import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
 import com.blacksquircle.ui.ds.button.OutlinedButton
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.feature.fonts.R
@@ -82,7 +83,7 @@ internal fun FontOverview(
             if (fontModel.isExternal) {
                 IconButton(
                     iconResId = UiR.drawable.ic_close,
-                    iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                    iconButtonStyle = IconButtonStyleDefaults.Secondary,
                     contentDescription = stringResource(R.string.action_remove),
                     onClick = onRemoveClicked,
                 )

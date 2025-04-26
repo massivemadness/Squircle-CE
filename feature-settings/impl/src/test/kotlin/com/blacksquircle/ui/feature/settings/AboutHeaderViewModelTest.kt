@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.settings
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.changelog.ui.ChangelogScreen
 import com.blacksquircle.ui.feature.settings.ui.about.AboutHeaderViewModel
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
@@ -45,21 +44,6 @@ class AboutHeaderViewModelTest {
 
         // Then
         assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
-    }
-
-    @Test
-    fun `When changelog clicked 10 times Then open changelog screen`() = runTest {
-        // Given
-        val viewModel = createViewModel()
-
-        // When
-        for (i in 0 until 5) {
-            viewModel.onChangelogClicked()
-        }
-
-        // Then
-        val expected = ViewEvent.Navigation(ChangelogScreen)
-        assertEquals(expected, viewModel.viewEvent.first())
     }
 
     private fun createViewModel(): AboutHeaderViewModel {

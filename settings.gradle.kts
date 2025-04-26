@@ -41,7 +41,6 @@ include(
     ":common-core",
     ":common-test",
     ":common-ui",
-    ":feature-changelog",
     ":feature-editor:api",
     ":feature-editor:impl",
     ":feature-explorer:api",

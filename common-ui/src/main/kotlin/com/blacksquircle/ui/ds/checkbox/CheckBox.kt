@@ -28,12 +28,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.extensions.clearSemantics
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.ds.modifier.debounceToggleable
@@ -45,7 +43,7 @@ fun CheckBox(
     onClick: () -> Unit = {},
     checked: Boolean = true,
     enabled: Boolean = true,
-    textStyle: TextStyle = SquircleTheme.typography.text16Regular,
+    checkboxStyle: CheckBoxStyle = CheckBoxStyleDefaults.Primary,
     interactionSource: MutableInteractionSource? = remember { MutableInteractionSource() },
 ) {
     Row(
@@ -67,11 +65,11 @@ fun CheckBox(
                 enabled = enabled,
                 interactionSource = interactionSource,
                 colors = CheckboxDefaults.colors(
-                    checkedColor = SquircleTheme.colors.colorPrimary,
-                    uncheckedColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                    checkmarkColor = SquircleTheme.colors.colorTextAndIconPrimaryInverse,
-                    disabledColor = SquircleTheme.colors.colorTextAndIconDisabled,
-                    disabledIndeterminateColor = SquircleTheme.colors.colorTextAndIconDisabled,
+                    checkedColor = checkboxStyle.checkedColor,
+                    uncheckedColor = checkboxStyle.uncheckedColor,
+                    checkmarkColor = checkboxStyle.checkmarkColor,
+                    disabledColor = checkboxStyle.disabledColor,
+                    disabledIndeterminateColor = checkboxStyle.disabledColor,
                 ),
                 modifier = Modifier.clearSemantics()
             )
@@ -79,11 +77,11 @@ fun CheckBox(
         if (title != null) {
             Text(
                 text = title,
-                style = textStyle,
+                style = checkboxStyle.textStyle,
                 color = if (enabled) {
-                    SquircleTheme.colors.colorTextAndIconPrimary
+                    checkboxStyle.enabledTextColor
                 } else {
-                    SquircleTheme.colors.colorTextAndIconDisabled
+                    checkboxStyle.disabledTextColor
                 },
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,

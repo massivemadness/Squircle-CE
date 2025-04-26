@@ -42,9 +42,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
+import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
 import com.blacksquircle.ui.ds.button.TextButton
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.editor.R
@@ -78,7 +78,7 @@ internal fun SearchPanel(
                 } else {
                     UiR.drawable.ic_menu_down
                 },
-                iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                iconButtonStyle = IconButtonStyleDefaults.Secondary,
                 iconButtonSize = IconButtonSizeDefaults.XS,
                 onClick = onToggleReplaceClicked,
                 modifier = Modifier.padding(vertical = 2.dp)
@@ -101,7 +101,7 @@ internal fun SearchPanel(
                     endContent = {
                         IconButton(
                             iconResId = UiR.drawable.ic_dots_vertical,
-                            iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                            iconButtonStyle = IconButtonStyleDefaults.Secondary,
                             iconButtonSize = IconButtonSizeDefaults.XS,
                             onClick = { menuExpanded = !menuExpanded },
                             anchor = {
@@ -141,7 +141,7 @@ internal fun SearchPanel(
 
             IconButton(
                 iconResId = UiR.drawable.ic_close,
-                iconColor = SquircleTheme.colors.colorTextAndIconSecondary,
+                iconButtonStyle = IconButtonStyleDefaults.Secondary,
                 iconButtonSize = IconButtonSizeDefaults.XS,
                 onClick = onCloseSearchClicked,
                 modifier = Modifier.padding(vertical = 2.dp)
