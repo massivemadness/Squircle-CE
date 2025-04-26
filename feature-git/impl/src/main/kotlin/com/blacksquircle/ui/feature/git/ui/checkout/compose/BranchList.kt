@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.modifier.debounceClickable
 import com.blacksquircle.ui.ds.radio.Radio
+import com.blacksquircle.ui.ds.radio.RadioStyleDefaults
 
 @Composable
 internal fun BranchList(
@@ -64,7 +65,9 @@ internal fun BranchList(
                     title = branchList[index],
                     checked = value == currentBranch,
                     onClick = { onBranchSelected(value) },
-                    textStyle = SquircleTheme.typography.text18Regular,
+                    radioStyle = RadioStyleDefaults.Primary.copy(
+                        textStyle = SquircleTheme.typography.text18Regular,
+                    ),
                     interactionSource = interactionSource,
                     indication = null,
                     modifier = Modifier

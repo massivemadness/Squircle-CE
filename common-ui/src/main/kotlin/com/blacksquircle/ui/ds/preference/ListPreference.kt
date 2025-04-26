@@ -40,6 +40,7 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.modifier.debounceClickable
 import com.blacksquircle.ui.ds.radio.Radio
+import com.blacksquircle.ui.ds.radio.RadioStyleDefaults
 
 @Composable
 fun ListPreference(
@@ -104,7 +105,9 @@ fun ListPreference(
                                     showDialog = false
                                     onValueSelected(value)
                                 },
-                                textStyle = SquircleTheme.typography.text18Regular,
+                                radioStyle = RadioStyleDefaults.Primary.copy(
+                                    textStyle = SquircleTheme.typography.text18Regular,
+                                ),
                                 interactionSource = interactionSource,
                                 indication = null,
                                 modifier = Modifier
