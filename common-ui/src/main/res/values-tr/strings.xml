@@ -28,5 +28,4 @@
     <string name="common_grant_access">Erişim İzni Ver</string>
     <string name="message_access_denied">Erişim Reddedildi</string>
     <string name="message_access_required">Uygulamanın dosyalarla çalışabilmesi için depolama erişimine ihtiyacı var</string>
-    <string name="dialog_title_color_picker">Renk Seç</string>
 </resources>
