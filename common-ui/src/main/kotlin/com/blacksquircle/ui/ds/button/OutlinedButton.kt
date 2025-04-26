@@ -18,6 +18,7 @@ package com.blacksquircle.ui.ds.button
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
@@ -58,6 +59,7 @@ fun OutlinedButton(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
         modifier = modifier
             .defaultMinSize(
                 minWidth = outlinedButtonSize.minWidth,

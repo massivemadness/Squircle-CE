@@ -29,6 +29,7 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ARG_REASSIGN
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.KEY_RESOLVE
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ConflictKeyScreen(navController: NavController) {
@@ -56,7 +57,7 @@ private fun ConflictKeyScreen(
                 style = SquircleTheme.typography.text16Regular,
             )
         },
-        confirmButton = stringResource(com.blacksquircle.ui.ds.R.string.common_continue),
+        confirmButton = stringResource(UiR.string.common_continue),
         onConfirmClicked = { onReassignClicked(true) },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = { onReassignClicked(false) },

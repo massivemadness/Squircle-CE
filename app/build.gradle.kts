@@ -80,6 +80,8 @@ dependencies {
     implementation(project(":feature-explorer:impl"))
     implementation(project(":feature-fonts:api"))
     implementation(project(":feature-fonts:impl"))
+    implementation(project(":feature-git:api"))
+    implementation(project(":feature-git:impl"))
     implementation(project(":feature-servers:api"))
     implementation(project(":feature-servers:impl"))
     implementation(project(":feature-settings:api"))

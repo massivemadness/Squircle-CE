@@ -60,6 +60,7 @@ import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
 import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
 import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.compose.keybindingResource
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.KEY_SAVE
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun KeybindingScreen(
@@ -239,24 +240,24 @@ private fun KeybindingScreen(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     CheckBox(
-                        title = stringResource(com.blacksquircle.ui.ds.R.string.common_ctrl),
+                        title = stringResource(UiR.string.common_ctrl),
                         checked = viewState.isCtrl,
                         onClick = onCtrlClicked,
                     )
                     CheckBox(
-                        title = stringResource(com.blacksquircle.ui.ds.R.string.common_shift),
+                        title = stringResource(UiR.string.common_shift),
                         checked = viewState.isShift,
                         onClick = onShiftClicked,
                     )
                     CheckBox(
-                        title = stringResource(com.blacksquircle.ui.ds.R.string.common_alt),
+                        title = stringResource(UiR.string.common_alt),
                         checked = viewState.isAlt,
                         onClick = onAltClicked,
                     )
                 }
             }
         },
-        confirmButton = stringResource(com.blacksquircle.ui.ds.R.string.common_save),
+        confirmButton = stringResource(UiR.string.common_save),
         onConfirmClicked = onSaveClicked,
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onCancelClicked,

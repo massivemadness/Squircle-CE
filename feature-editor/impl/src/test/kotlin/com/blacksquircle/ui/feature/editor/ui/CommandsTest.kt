@@ -27,6 +27,7 @@ import com.blacksquircle.ui.feature.editor.ui.editor.EditorViewEvent
 import com.blacksquircle.ui.feature.editor.ui.editor.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorCommand
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
+import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
@@ -55,6 +56,7 @@ class CommandsTest {
     private val documentRepository = mockk<DocumentRepository>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
     private val fontsInteractor = mockk<FontsInteractor>(relaxed = true)
+    private val gitInteractor = mockk<GitInteractor>(relaxed = true)
     private val shortcutsInteractor = mockk<ShortcutsInteractor>(relaxed = true)
     private val languageInteractor = mockk<LanguageInteractor>(relaxed = true)
 
@@ -197,6 +199,7 @@ class CommandsTest {
             documentRepository = documentRepository,
             editorInteractor = editorInteractor,
             fontsInteractor = fontsInteractor,
+            gitInteractor = gitInteractor,
             shortcutsInteractor = shortcutsInteractor,
             languageInteractor = languageInteractor,
         )

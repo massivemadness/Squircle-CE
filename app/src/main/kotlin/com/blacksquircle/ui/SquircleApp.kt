@@ -26,6 +26,8 @@ import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvide
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiProvider
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiDepsProvider
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiProvider
+import com.blacksquircle.ui.feature.git.api.internal.GitApiDepsProvider
+import com.blacksquircle.ui.feature.git.api.internal.GitApiProvider
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiDepsProvider
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiProvider
 import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiDepsProvider
@@ -40,6 +42,7 @@ internal class SquircleApp : Application(),
     EditorApiProvider,
     ExplorerApiProvider,
     FontsApiProvider,
+    GitApiProvider,
     ServersApiProvider,
     ShortcutsApiProvider,
     ThemesApiProvider {
@@ -62,6 +65,8 @@ internal class SquircleApp : Application(),
     override fun provideExplorerApiDepsProvider(): ExplorerApiDepsProvider = appComponent
 
     override fun provideFontsApiDepsProvider(): FontsApiDepsProvider = appComponent
+
+    override fun provideGitApiDepsProvider(): GitApiDepsProvider = appComponent
 
     override fun provideServersApiDepsProvider(): ServersApiDepsProvider = appComponent
 

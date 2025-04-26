@@ -26,6 +26,8 @@ import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvide
 import com.blacksquircle.ui.feature.explorer.internal.api.ExplorerApiModule
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiDepsProvider
 import com.blacksquircle.ui.feature.fonts.internal.api.FontsApiModule
+import com.blacksquircle.ui.feature.git.api.internal.GitApiDepsProvider
+import com.blacksquircle.ui.feature.git.internal.api.GitApiModule
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiDepsProvider
 import com.blacksquircle.ui.feature.servers.internal.api.ServersApiModule
 import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiDepsProvider
@@ -44,6 +46,7 @@ import javax.inject.Singleton
         EditorApiModule::class,
         ExplorerApiModule::class,
         FontsApiModule::class,
+        GitApiModule::class,
         ServersApiModule::class,
         ShortcutsApiModule::class,
         ThemesApiModule::class,
@@ -54,6 +57,7 @@ internal interface AppComponent :
     EditorApiDepsProvider,
     ExplorerApiDepsProvider,
     FontsApiDepsProvider,
+    GitApiDepsProvider,
     ServersApiDepsProvider,
     ShortcutsApiDepsProvider,
     ThemesApiDepsProvider {

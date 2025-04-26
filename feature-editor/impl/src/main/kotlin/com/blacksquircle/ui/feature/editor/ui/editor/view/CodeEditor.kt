@@ -20,6 +20,8 @@ import android.content.Context
 import android.util.AttributeSet
 import com.blacksquircle.ui.feature.editor.R
 import io.github.rosemoe.sora.text.Content
+import io.github.rosemoe.sora.widget.component.EditorAutoCompletion
+import io.github.rosemoe.sora.widget.getComponent
 import io.github.rosemoe.sora.R as SoraR
 import io.github.rosemoe.sora.widget.CodeEditor as SoraEditor
 
@@ -63,6 +65,11 @@ internal class CodeEditor @JvmOverloads constructor(
         props.drawSideBlockLine = false
         props.enableRoundTextBackground = false
         props.boldMatchingDelimiters = false
+
+        getComponent<EditorAutoCompletion>().apply {
+            setLayout(SquircleCompletion())
+            setAdapter(SquircleCompletion.Adapter())
+        }
     }
 
     override fun applyAttributeSets(attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {

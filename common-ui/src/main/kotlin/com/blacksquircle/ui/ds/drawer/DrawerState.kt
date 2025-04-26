@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.ds.drawer
 
-import androidx.compose.animation.core.EaseOutQuart
 import androidx.compose.animation.core.exponentialDecay
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -54,10 +53,7 @@ class DrawerState(
 
     internal val anchoredDraggableState = AnchoredDraggableState(
         initialValue = initialValue,
-        snapAnimationSpec = tween(
-            durationMillis = 256,
-            easing = EaseOutQuart
-        ),
+        snapAnimationSpec = tween(durationMillis = 256),
         decayAnimationSpec = exponentialDecay(),
         confirmValueChange = confirmStateChange,
         positionalThreshold = { with(requireDensity()) { DrawerPositionalThreshold.toPx() } },

@@ -30,12 +30,12 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun OtherMenu(
-    isMediumWidth: Boolean,
     expanded: Boolean,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     onFindClicked: () -> Unit = {},
     onToolsClicked: () -> Unit = {},
+    onGitClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
 ) {
     PopupMenu(
@@ -45,25 +45,28 @@ internal fun OtherMenu(
         horizontalOffset = 200.dp,
         modifier = modifier,
     ) {
-        if (!isMediumWidth) {
-            PopupMenuItem(
-                title = stringResource(R.string.action_find),
-                iconResId = UiR.drawable.ic_file_find,
-                onClick = onFindClicked,
-            )
-            PopupMenuItem(
-                title = stringResource(R.string.action_tools),
-                iconResId = UiR.drawable.ic_wrench,
-                onClick = onToolsClicked,
-                trailing = {
-                    Icon(
-                        painter = painterResource(UiR.drawable.ic_menu_right),
-                        contentDescription = null,
-                        tint = SquircleTheme.colors.colorTextAndIconSecondary,
-                    )
-                }
-            )
-        }
+        PopupMenuItem(
+            title = stringResource(R.string.action_find),
+            iconResId = UiR.drawable.ic_file_find,
+            onClick = onFindClicked,
+        )
+        PopupMenuItem(
+            title = stringResource(R.string.action_tools),
+            iconResId = UiR.drawable.ic_wrench,
+            onClick = onToolsClicked,
+            trailing = {
+                Icon(
+                    painter = painterResource(UiR.drawable.ic_menu_right),
+                    contentDescription = null,
+                    tint = SquircleTheme.colors.colorTextAndIconSecondary,
+                )
+            }
+        )
+        PopupMenuItem(
+            title = stringResource(R.string.action_git),
+            iconResId = UiR.drawable.ic_git,
+            onClick = onGitClicked,
+        )
         PopupMenuItem(
             title = stringResource(R.string.action_settings),
             iconResId = UiR.drawable.ic_settings,

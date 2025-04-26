@@ -49,6 +49,11 @@ import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionStart
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
+import com.blacksquircle.ui.feature.git.api.exception.InvalidCredentialsException
+import com.blacksquircle.ui.feature.git.api.exception.RepositoryNotFoundException
+import com.blacksquircle.ui.feature.git.api.exception.UnsupportedFilesystemException
+import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
+import com.blacksquircle.ui.feature.git.api.navigation.GitDialog
 import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
@@ -76,6 +81,7 @@ internal class EditorViewModel @Inject constructor(
     private val documentRepository: DocumentRepository,
     private val editorInteractor: EditorInteractor,
     private val fontsInteractor: FontsInteractor,
+    private val gitInteractor: GitInteractor,
     private val shortcutsInteractor: ShortcutsInteractor,
     private val languageInteractor: LanguageInteractor,
 ) : ViewModel() {
@@ -656,6 +662,35 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    fun onGitClicked() {
+        viewModelScope.launch {
+            if (selectedPosition !in documents.indices) {
+                return@launch
+            }
+            try {
+                val document = documents[selectedPosition].document
+                val fileModel = DocumentMapper.toModel(document)
+                val repository = gitInteractor.getRepoPath(fileModel)
+                val screen = GitDialog(repository)
+                _viewEvent.send(ViewEvent.Navigation(screen))
+            } catch (e: InvalidCredentialsException) {
+                val message = stringProvider.getString(R.string.message_git_invalid_credentials)
+                _viewEvent.send(ViewEvent.Toast(message))
+            } catch (e: RepositoryNotFoundException) {
+                val message = stringProvider.getString(R.string.message_git_repository_not_found)
+                _viewEvent.send(ViewEvent.Toast(message))
+            } catch (e: UnsupportedFilesystemException) {
+                val message = stringProvider.getString(R.string.message_git_unsupported_filesystem)
+                _viewEvent.send(ViewEvent.Toast(message))
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
     fun onDocumentClicked(document: DocumentModel) {
         loadDocument(document, fromUser = true)
     }
@@ -760,15 +795,17 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
-                        canUndo = false,
-                        canRedo = false,
+                        canUndo = if (reloadFile) false else it.canUndo,
+                        canRedo = if (reloadFile) false else it.canRedo,
                         isLoading = hasMoreFiles,
                     )
                 }
 
                 settingsManager.selectedUuid = documents
                     .getOrNull(currentPosition)
-                    ?.document?.uuid.orEmpty()
+                    ?.document
+                    ?.uuid
+                    .orEmpty()
 
                 documentRepository.closeDocument(document)
 
@@ -1107,58 +1144,52 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun errorState(e: Throwable): ErrorState {
-        return when (e) {
-            is PermissionException -> ErrorState(
-                icon = UiR.drawable.ic_file_error,
-                title = stringProvider.getString(UiR.string.message_access_denied),
-                subtitle = stringProvider.getString(UiR.string.message_access_required),
-                action = ErrorAction.REQUEST_PERMISSIONS,
-            )
-            else -> ErrorState(
-                icon = UiR.drawable.ic_file_error,
-                title = stringProvider.getString(UiR.string.common_error_occurred),
-                subtitle = e.message.orEmpty(),
-                action = ErrorAction.CLOSE_DOCUMENT,
-            )
-        }
+    private fun errorState(e: Throwable): ErrorState = when (e) {
+        is PermissionException -> ErrorState(
+            icon = UiR.drawable.ic_file_error,
+            title = stringProvider.getString(UiR.string.message_access_denied),
+            subtitle = stringProvider.getString(UiR.string.message_access_required),
+            action = ErrorAction.REQUEST_PERMISSIONS,
+        )
+        else -> ErrorState(
+            icon = UiR.drawable.ic_file_error,
+            title = stringProvider.getString(UiR.string.common_error_occurred),
+            subtitle = e.message.orEmpty(),
+            action = ErrorAction.CLOSE_DOCUMENT,
+        )
     }
 
     private inline fun List<DocumentState>.mapSelected(
         predicate: (DocumentState) -> DocumentState
-    ): List<DocumentState> {
-        return mapIndexed { index, state ->
-            if (index == selectedPosition) {
-                predicate(state)
-            } else {
-                state
-            }
+    ): List<DocumentState> = mapIndexed { index, state ->
+        if (index == selectedPosition) {
+            predicate(state)
+        } else {
+            state
         }
     }
 
-    private suspend fun loadSettings(): EditorSettings {
-        return EditorSettings(
-            fontSize = settingsManager.fontSize.toFloat(),
-            fontType = fontsInteractor.loadFont(settingsManager.fontType),
-            wordWrap = settingsManager.wordWrap,
-            codeCompletion = settingsManager.codeCompletion,
-            pinchZoom = settingsManager.pinchZoom,
-            lineNumbers = settingsManager.lineNumbers,
-            highlightCurrentLine = settingsManager.highlightCurrentLine,
-            highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters,
-            highlightCodeBlocks = settingsManager.highlightCodeBlocks,
-            showInvisibleChars = settingsManager.showInvisibleChars,
-            readOnly = settingsManager.readOnly,
-            extendedKeyboard = settingsManager.extendedKeyboard,
-            keyboardPreset = settingsManager.keyboardPreset.toMutableList().distinct(),
-            softKeyboard = settingsManager.softKeyboard,
-            autoIndentation = settingsManager.autoIndentation,
-            autoClosePairs = settingsManager.autoClosePairs,
-            useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs,
-            tabWidth = settingsManager.tabWidth,
-            keybindings = shortcutsInteractor.loadShortcuts(),
-        )
-    }
+    private suspend fun loadSettings(): EditorSettings = EditorSettings(
+        fontSize = settingsManager.fontSize.toFloat(),
+        fontType = fontsInteractor.loadFont(settingsManager.fontType),
+        wordWrap = settingsManager.wordWrap,
+        codeCompletion = settingsManager.codeCompletion,
+        pinchZoom = settingsManager.pinchZoom,
+        lineNumbers = settingsManager.lineNumbers,
+        highlightCurrentLine = settingsManager.highlightCurrentLine,
+        highlightMatchingDelimiters = settingsManager.highlightMatchingDelimiters,
+        highlightCodeBlocks = settingsManager.highlightCodeBlocks,
+        showInvisibleChars = settingsManager.showInvisibleChars,
+        readOnly = settingsManager.readOnly,
+        extendedKeyboard = settingsManager.extendedKeyboard,
+        keyboardPreset = settingsManager.keyboardPreset.toMutableList().distinct(),
+        softKeyboard = settingsManager.softKeyboard,
+        autoIndentation = settingsManager.autoIndentation,
+        autoClosePairs = settingsManager.autoClosePairs,
+        useSpacesInsteadOfTabs = settingsManager.useSpacesInsteadOfTabs,
+        tabWidth = settingsManager.tabWidth,
+        keybindings = shortcutsInteractor.loadShortcuts(),
+    )
 
     class Factory : ViewModelProvider.Factory {
 
