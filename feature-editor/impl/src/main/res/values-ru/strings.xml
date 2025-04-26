@@ -46,6 +46,7 @@
     <string name="action_tools">Инструменты</string>
     <string name="dialog_title_goto_line">Перейти к строке…</string>
     <string name="dialog_title_force_syntax">Подсветка синтаксиса</string>
+    <string name="dialog_title_color_picker">Выберите цвет</string>
     <string name="dialog_title_exit">Выход</string>
     <string name="dialog_message_exit">Вы уверены что хотите выйти? Изменения будут сохранены в кеш</string>
     <string name="dialog_message_close_tab">Вы уверены что хотите закрыть этот файл? Все несохраненные изменения будут сброшены</string>
@@ -57,4 +58,7 @@
     <string name="message_nothing_to_copy">Невозможно копировать</string>
     <string name="message_nothing_to_paste">Невозможно вставить</string>
     <string name="message_line_not_exists">Такой линии не существует</string>
+    <string name="message_git_invalid_credentials">Git требует конфигурации в настройках</string>
+    <string name="message_git_repository_not_found">Git репозиторий не найден</string>
+    <string name="message_git_unsupported_filesystem">Git работает только с локальными файлами</string>
 </resources>
