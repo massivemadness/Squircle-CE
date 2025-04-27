@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.git.R
+import com.blacksquircle.ui.feature.git.domain.model.GitChange
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -51,8 +52,8 @@ internal class CommitViewModel @AssistedInject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private var changesList: List<String> = emptyList()
-    private var selectedChanges: List<String> = emptyList()
+    private var changesList: List<GitChange> = emptyList()
+    private var selectedChanges: List<GitChange> = emptyList()
     private var commitMessage = ""
     private var isAmend = false
 
@@ -80,7 +81,7 @@ internal class CommitViewModel @AssistedInject constructor(
         }
     }
 
-    fun onChangeSelected(change: String) {
+    fun onChangeSelected(change: GitChange) {
         val index = selectedChanges.indexOf { it == change }
         if (index == -1) {
             selectedChanges += change

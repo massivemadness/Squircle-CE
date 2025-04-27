@@ -16,16 +16,23 @@
 
 package com.blacksquircle.ui.feature.git.domain.repository
 
+import com.blacksquircle.ui.feature.git.domain.model.GitChange
+
 internal interface GitRepository {
 
     suspend fun currentBranch(repository: String): String
     suspend fun branchList(repository: String): List<String>
-    suspend fun changesList(repository: String): List<String>
+    suspend fun changesList(repository: String): List<GitChange>
     suspend fun localCommits(repository: String): List<String>
 
     suspend fun fetch(repository: String)
     suspend fun pull(repository: String)
-    suspend fun commit(repository: String, changes: List<String>, message: String, isAmend: Boolean)
+    suspend fun commit(
+        repository: String,
+        changes: List<GitChange>,
+        message: String,
+        isAmend: Boolean
+    )
     suspend fun push(repository: String, force: Boolean)
     suspend fun checkout(repository: String, branchName: String)
     suspend fun checkoutNew(repository: String, branchName: String, branchBase: String)

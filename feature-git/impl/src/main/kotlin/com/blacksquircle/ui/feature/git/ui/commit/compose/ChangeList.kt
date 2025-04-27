@@ -34,12 +34,13 @@ import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.feature.git.R
+import com.blacksquircle.ui.feature.git.domain.model.GitChange
 
 @Composable
 internal fun ChangeList(
-    changesList: List<String>,
-    selectedChanges: List<String>,
-    onChangeSelected: (String) -> Unit,
+    changesList: List<GitChange>,
+    selectedChanges: List<GitChange>,
+    onChangeSelected: (GitChange) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -50,7 +51,7 @@ internal fun ChangeList(
         LazyColumn(contentPadding = PaddingValues(vertical = 8.dp)) {
             itemsIndexed(changesList) { index, value ->
                 CheckBox(
-                    title = changesList[index],
+                    title = changesList[index].file,
                     checked = value in selectedChanges,
                     onClick = { onChangeSelected(value) },
                     modifier = Modifier

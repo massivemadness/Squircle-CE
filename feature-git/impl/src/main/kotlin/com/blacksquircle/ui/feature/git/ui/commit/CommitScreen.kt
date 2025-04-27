@@ -46,6 +46,8 @@ import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.api.navigation.CommitDialog
+import com.blacksquircle.ui.feature.git.domain.model.ChangeType
+import com.blacksquircle.ui.feature.git.domain.model.GitChange
 import com.blacksquircle.ui.feature.git.internal.GitComponent
 import com.blacksquircle.ui.feature.git.ui.commit.compose.ChangeList
 
@@ -83,7 +85,7 @@ internal fun CommitScreen(
 @Composable
 private fun CommitScreen(
     viewState: CommitViewState,
-    onChangeSelected: (String) -> Unit = {},
+    onChangeSelected: (GitChange) -> Unit = {},
     onCommitMessageChanged: (String) -> Unit = {},
     onAmendClicked: () -> Unit = {},
     onCommitClicked: () -> Unit = {},
@@ -179,8 +181,13 @@ private fun CommitScreenPreview() {
     PreviewBackground {
         CommitScreen(
             viewState = CommitViewState(
-                changesList = listOf("untitled.txt", "text.txt"),
-                selectedChanges = listOf("untitled.txt"),
+                changesList = listOf(
+                    GitChange("untitled.txt", ChangeType.REMOVED),
+                    GitChange("text.txt", ChangeType.MODIFIED),
+                ),
+                selectedChanges = listOf(
+                    GitChange("untitled.txt", ChangeType.REMOVED),
+                ),
                 isCommitting = false,
                 isLoading = false,
             ),
