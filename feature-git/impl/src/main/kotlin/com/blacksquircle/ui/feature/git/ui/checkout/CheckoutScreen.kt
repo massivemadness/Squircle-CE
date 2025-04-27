@@ -79,7 +79,12 @@ internal fun CheckoutScreen(
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
                 is CheckoutViewEvent.CheckoutComplete -> {
-                    context.showToast(R.string.git_checkout_checked_out, event.branchName)
+                    context.showToast(
+                        text = context.getString(
+                            R.string.git_checkout_checked_out,
+                            event.branchName
+                        )
+                    )
 
                     sendNavigationResult(KEY_CHECKOUT, Bundle.EMPTY)
                     navController.popBackStack()
