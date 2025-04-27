@@ -22,7 +22,6 @@
     <string name="action_authenticate">Автентифікація</string>
     <string name="action_create">Створити</string>
     <string name="action_copy_path">Копіювати шлях</string>
-    <string name="action_folder">Папка</string>
     <string name="action_rename">Перейменувати</string>
     <string name="action_run_in_background">Запускати у фоновому режимі</string>
     <string name="action_show_hidden_files">Показувати приховані файли</string>

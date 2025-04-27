@@ -22,7 +22,6 @@
     <string name="action_authenticate">驗證</string>
     <string name="action_create">新增</string>
     <string name="action_copy_path">複製路徑</string>
-    <string name="action_folder">資料夾</string>
     <string name="action_rename">重新命名</string>
     <string name="action_run_in_background">在後台運行</string>
     <string name="action_show_hidden_files">顯示隱藏檔案</string>

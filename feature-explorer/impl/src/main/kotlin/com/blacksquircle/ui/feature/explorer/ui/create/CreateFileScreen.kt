@@ -17,41 +17,32 @@
 package com.blacksquircle.ui.feature.explorer.ui.create
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.ui.explorer.ARG_IS_FOLDER
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ARG_USER_INPUT
 import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_CREATE_FILE
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun CreateScreen(navController: NavController) {
-    CreateScreen(
-        onConfirmClicked = { isFolder, fileName ->
+internal fun CreateFileScreen(navController: NavController) {
+    CreateFileScreen(
+        onConfirmClicked = { fileName ->
             sendNavigationResult(
                 key = KEY_CREATE_FILE,
-                result = bundleOf(
-                    ARG_USER_INPUT to fileName,
-                    ARG_IS_FOLDER to isFolder,
-                )
+                result = bundleOf(ARG_USER_INPUT to fileName)
             )
             navController.popBackStack()
         },
@@ -62,12 +53,11 @@ internal fun CreateScreen(navController: NavController) {
 }
 
 @Composable
-private fun CreateScreen(
-    onConfirmClicked: (Boolean, String) -> Unit = { _, _ -> },
+private fun CreateFileScreen(
+    onConfirmClicked: (String) -> Unit = {},
     onCancelClicked: () -> Unit = {}
 ) {
     var fileName by rememberSaveable { mutableStateOf("") }
-    var isFolder by rememberSaveable { mutableStateOf(false) }
     var isError by rememberSaveable { mutableStateOf(false) }
 
     AlertDialog(
@@ -85,19 +75,13 @@ private fun CreateScreen(
                     placeholderText = stringResource(UiR.string.common_untitled),
                     error = isError,
                 )
-                Spacer(Modifier.height(8.dp))
-                CheckBox(
-                    title = stringResource(R.string.action_folder),
-                    checked = isFolder,
-                    onClick = { isFolder = !isFolder },
-                )
             }
         },
         confirmButton = stringResource(R.string.action_create),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = {
             if (fileName.isValidFileName()) {
-                onConfirmClicked(isFolder, fileName)
+                onConfirmClicked(fileName)
             } else {
                 isError = true
             }
@@ -109,8 +93,8 @@ private fun CreateScreen(
 
 @PreviewLightDark
 @Composable
-private fun CreateScreenPreview() {
+private fun CreateFileScreenPreview() {
     PreviewBackground {
-        CreateScreen()
+        CreateFileScreen()
     }
 }

@@ -25,7 +25,6 @@
     <string name="action_authenticate">Authenticate</string>
     <string name="action_create">Criar</string>
     <string name="action_copy_path">Copiar caminho</string>
-    <string name="action_folder">Pasta</string>
     <string name="action_rename">Renomear</string>
     <string name="action_run_in_background">Rodar no fundo</string>
     <string name="action_show_hidden_files">Exibir arquivos escondidos</string>

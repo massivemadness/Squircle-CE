@@ -32,7 +32,8 @@ import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.CreateDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFileDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFolderDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
@@ -267,7 +268,7 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    fun onCreateClicked() {
+    fun onCreateFileClicked() {
         viewModelScope.launch {
             taskType = TaskType.CREATE
             taskBuffer = emptyList()
@@ -279,8 +280,39 @@ internal class ExplorerViewModel @Inject constructor(
                 )
             }
 
-            val screen = CreateDialog
+            val screen = CreateFileDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onCreateFolderClicked() {
+        viewModelScope.launch {
+            taskType = TaskType.CREATE
+            taskBuffer = emptyList()
+            selectedFiles = emptyList()
+            _viewState.update {
+                it.copy(
+                    taskType = taskType,
+                    selectedFiles = selectedFiles,
+                )
+            }
+
+            val screen = CreateFolderDialog
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onCloneRepoClicked() {
+        viewModelScope.launch {
+            taskType = TaskType.CREATE
+            taskBuffer = emptyList()
+            selectedFiles = emptyList()
+            _viewState.update {
+                it.copy(
+                    taskType = taskType,
+                    selectedFiles = selectedFiles,
+                )
+            }
         }
     }
 
@@ -460,10 +492,29 @@ internal class ExplorerViewModel @Inject constructor(
 
     // endregion
 
-    fun createFile(fileName: String, isFolder: Boolean) {
+    fun createFile(fileName: String) {
         viewModelScope.launch {
             val parent = breadcrumbs[selectedBreadcrumb].fileModel
-            val taskId = explorerRepository.createFile(parent, fileName, isFolder)
+            val taskId = explorerRepository.createFile(parent, fileName, isFolder = false)
+            val screen = TaskDialog(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+
+            resetBuffer()
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> onTaskFailed(status.exception)
+                    is TaskStatus.Done -> onTaskFinished()
+                    else -> Unit
+                }
+            }
+        }
+    }
+
+    fun createFolder(fileName: String) {
+        viewModelScope.launch {
+            val parent = breadcrumbs[selectedBreadcrumb].fileModel
+            val taskId = explorerRepository.createFile(parent, fileName, isFolder = true)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 

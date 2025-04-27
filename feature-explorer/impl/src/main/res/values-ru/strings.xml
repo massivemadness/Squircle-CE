@@ -16,13 +16,16 @@
   -->
 <resources>
     <string name="hint_enter_file_name">Введите имя файла</string>
+    <string name="hint_enter_folder_name">Введите имя папки</string>
     <string name="hint_enter_archive_name">Введите название архива</string>
     <string name="hint_enter_password">Введите пароль</string>
     <string name="hint_enter_passphrase">Введите фразу-пароль</string>
     <string name="action_authenticate">Авторизовать</string>
     <string name="action_create">Создать</string>
     <string name="action_copy_path">Скопировать путь</string>
-    <string name="action_folder">Папка</string>
+    <string name="action_new_file">Файл</string>
+    <string name="action_new_folder">Папка</string>
+    <string name="action_clone">Клонировать</string>
     <string name="action_rename">Переименовать</string>
     <string name="action_run_in_background">Выполнять в фоне</string>
     <string name="action_show_hidden_files">Скрытые файлы</string>

@@ -22,7 +22,6 @@
     <string name="action_authenticate">认证</string>
     <string name="action_create">创建</string>
     <string name="action_copy_path">复制路径</string>
-    <string name="action_folder">文件夹</string>
     <string name="action_rename">重命名</string>
     <string name="action_run_in_background">在后台运行</string>
     <string name="action_show_hidden_files">显示隐藏文件</string>

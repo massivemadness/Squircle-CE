@@ -25,7 +25,8 @@ import androidx.navigation.toRoute
 import com.blacksquircle.ui.ds.extensions.LocalNavController
 import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.CreateDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFileDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFolderDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.api.navigation.NotificationDeniedDialog
@@ -35,7 +36,8 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
 import com.blacksquircle.ui.feature.explorer.ui.auth.AuthScreen
 import com.blacksquircle.ui.feature.explorer.ui.compress.CompressScreen
-import com.blacksquircle.ui.feature.explorer.ui.create.CreateScreen
+import com.blacksquircle.ui.feature.explorer.ui.create.CreateFileScreen
+import com.blacksquircle.ui.feature.explorer.ui.create.CreateFolderScreen
 import com.blacksquircle.ui.feature.explorer.ui.delete.DeleteScreen
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.permissions.NotificationDeniedScreen
@@ -52,8 +54,11 @@ fun NavGraphBuilder.explorerGraph(navController: NavHostController) {
         val navArgs = backStackEntry.toRoute<AuthDialog>()
         AuthScreen(navArgs, navController)
     }
-    dialog<CreateDialog> {
-        CreateScreen(navController)
+    dialog<CreateFileDialog> {
+        CreateFileScreen(navController)
+    }
+    dialog<CreateFolderDialog> {
+        CreateFolderScreen(navController)
     }
     dialog<RenameDialog> { backStackEntry ->
         val navArgs = backStackEntry.toRoute<RenameDialog>()

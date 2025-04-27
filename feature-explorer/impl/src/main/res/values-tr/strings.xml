@@ -22,7 +22,6 @@
     <string name="action_authenticate">Doğrulama</string>
     <string name="action_create">Oluştur</string>
     <string name="action_copy_path">Yolu Kopyala</string>
-    <string name="action_folder">Klasör</string>
     <string name="action_rename">Yeniden adlandır</string>
     <string name="action_run_in_background">Arka planda çalıştır</string>
     <string name="action_show_hidden_files">Gizli dosyaları göster</string>
