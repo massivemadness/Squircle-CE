@@ -73,8 +73,6 @@ import com.blacksquircle.ui.feature.themes.internal.ThemesComponent
 import com.blacksquircle.ui.feature.themes.ui.themes.compose.ThemeOverview
 import com.blacksquircle.ui.ds.R as UiR
 
-internal const val KEY_SAVE = "KEY_SAVE"
-
 @Composable
 internal fun ThemesScreen(
     navController: NavController,
@@ -102,10 +100,6 @@ internal fun ThemesScreen(
                 is ViewEvent.PopBackStack -> navController.popBackStack()
             }
         }
-    }
-
-    NavResultEffect(KEY_SAVE) {
-        viewModel.loadThemes()
     }
 
     CleanupEffect {
