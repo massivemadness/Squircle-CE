@@ -100,8 +100,8 @@ internal class PushViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 val currentBranch = gitRepository.currentBranch(repository)
-                val localCommits = gitRepository.localCommits(repository)
-                if (localCommits.isEmpty()) {
+                val commitCount = gitRepository.commitCount(repository)
+                if (commitCount == 0) {
                     _viewState.update {
                         it.copy(
                             isLoading = false,
@@ -114,7 +114,7 @@ internal class PushViewModel @AssistedInject constructor(
                 _viewState.update {
                     it.copy(
                         currentBranch = currentBranch,
-                        commits = localCommits,
+                        commitCount = commitCount,
                         isLoading = false,
                     )
                 }

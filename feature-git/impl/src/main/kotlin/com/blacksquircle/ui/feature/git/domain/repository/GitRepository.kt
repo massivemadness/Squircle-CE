@@ -23,7 +23,7 @@ internal interface GitRepository {
     suspend fun currentBranch(repository: String): String
     suspend fun branchList(repository: String): List<String>
     suspend fun changesList(repository: String): List<GitChange>
-    suspend fun localCommits(repository: String): List<String>
+    suspend fun commitCount(repository: String): Int
 
     suspend fun fetch(repository: String)
     suspend fun pull(repository: String)

@@ -22,7 +22,7 @@ import com.blacksquircle.ui.core.mvi.ViewState
 @Immutable
 internal data class PushViewState(
     val currentBranch: String = "",
-    val commits: List<String> = emptyList(),
+    val commitCount: Int = 0,
     val isLoading: Boolean = true,
     val isPushing: Boolean = false,
     val isForce: Boolean = false,
@@ -33,7 +33,7 @@ internal data class PushViewState(
         get() = errorMessage.isNotEmpty() && !isLoading
 
     val isPushButtonEnabled: Boolean
-        get() = commits.isNotEmpty() &&
+        get() = commitCount > 0 &&
             !isPushing &&
             !isError
 }

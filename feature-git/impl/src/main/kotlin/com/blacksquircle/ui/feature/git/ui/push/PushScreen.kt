@@ -125,7 +125,7 @@ private fun PushScreen(
                         Text(
                             text = stringResource(
                                 R.string.git_push_commits,
-                                viewState.commits.size,
+                                viewState.commitCount,
                                 viewState.currentBranch,
                             ),
                             style = SquircleTheme.typography.text16Regular,
@@ -159,7 +159,7 @@ private fun PushScreenPreview() {
         PushScreen(
             viewState = PushViewState(
                 currentBranch = "refs/heads/master",
-                commits = listOf("Commit 1", "Commit 2"),
+                commitCount = 2,
                 isLoading = false,
             ),
         )
