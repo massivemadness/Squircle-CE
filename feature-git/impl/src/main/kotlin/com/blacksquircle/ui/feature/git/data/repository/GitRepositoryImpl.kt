@@ -97,7 +97,7 @@ internal class GitRepositoryImpl(
                 val repositoryObject = git.repository
                 val branch = repositoryObject.branch
                 val localRef = repositoryObject.findRef("refs/heads/$branch")
-                val remoteRef = repositoryObject.findRef("refs/remotes/origin/$branch")
+                val remoteRef = repositoryObject.findRef("refs/remotes/$GIT_ORIGIN/$branch")
                 if (remoteRef == null) {
                     Timber.w("No remote tracking branch found.")
                 }
@@ -238,8 +238,8 @@ internal class GitRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
-                if (branchName.startsWith("origin/")) {
-                    val localBranchName = branchName.removePrefix("origin/")
+                if (branchName.startsWith("$GIT_ORIGIN/")) {
+                    val localBranchName = branchName.removePrefix("$GIT_ORIGIN/")
                     val existingBranches = git.branchList().call().map { it.name }
                     if ("refs/heads/$localBranchName" !in existingBranches) {
                         git.checkout()
@@ -261,7 +261,7 @@ internal class GitRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
-                if (branchBase.startsWith("origin/")) {
+                if (branchBase.startsWith("$GIT_ORIGIN/")) {
                     git.checkout()
                         .setName(branchName)
                         .setStartPoint(branchBase)
