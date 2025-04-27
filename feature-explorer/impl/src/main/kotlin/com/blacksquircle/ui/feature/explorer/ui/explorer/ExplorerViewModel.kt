@@ -31,6 +31,7 @@ import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_VIEW_MOD
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.CloneRepoDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFileDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFolderDialog
@@ -304,7 +305,7 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onCloneRepoClicked() {
         viewModelScope.launch {
-            taskType = TaskType.CREATE
+            taskType = TaskType.CLONE
             taskBuffer = emptyList()
             selectedFiles = emptyList()
             _viewState.update {
@@ -313,6 +314,9 @@ internal class ExplorerViewModel @Inject constructor(
                     selectedFiles = selectedFiles,
                 )
             }
+
+            val screen = CloneRepoDialog
+            _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 
@@ -515,6 +519,25 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.createFile(parent, fileName, isFolder = true)
+            val screen = TaskDialog(taskId)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+
+            resetBuffer()
+
+            taskManager.monitor(taskId).collect { task ->
+                when (val status = task.status) {
+                    is TaskStatus.Error -> onTaskFailed(status.exception)
+                    is TaskStatus.Done -> onTaskFinished()
+                    else -> Unit
+                }
+            }
+        }
+    }
+
+    fun cloneRepository(url: String) {
+        viewModelScope.launch {
+            val parent = breadcrumbs[selectedBreadcrumb].fileModel
+            val taskId = explorerRepository.cloneRepository(parent, url)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 

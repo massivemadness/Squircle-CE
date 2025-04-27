@@ -59,7 +59,6 @@
 
     <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
     <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
-    <string name="progress_time_format">mm:ss</string>
 
     <string name="sort_by_name">Trier par Nom</string>
     <string name="sort_by_size">Trier par Taille</string>

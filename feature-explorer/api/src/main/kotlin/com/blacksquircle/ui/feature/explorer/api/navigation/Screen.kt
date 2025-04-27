@@ -32,6 +32,9 @@ data object CreateFileDialog
 data object CreateFolderDialog
 
 @Serializable
+data object CloneRepoDialog
+
+@Serializable
 data class RenameDialog(val fileName: String)
 
 @Serializable

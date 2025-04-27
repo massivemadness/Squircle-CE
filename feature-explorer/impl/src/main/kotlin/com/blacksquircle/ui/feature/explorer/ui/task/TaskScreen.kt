@@ -141,6 +141,7 @@ private fun TaskScreen(
             TaskType.COPY -> stringResource(R.string.dialog_title_copying)
             TaskType.COMPRESS -> stringResource(R.string.dialog_title_compressing)
             TaskType.EXTRACT -> stringResource(R.string.dialog_title_extracting)
+            TaskType.CLONE -> stringResource(R.string.dialog_title_cloning)
         },
         content = {
             Column {
@@ -168,6 +169,7 @@ private fun TaskScreen(
                                 TaskType.COPY -> R.string.message_copying
                                 TaskType.COMPRESS -> R.string.message_compressing
                                 TaskType.EXTRACT -> R.string.message_extracting
+                                TaskType.CLONE -> R.string.message_cloning
                             },
                             viewState.details
                         ),

@@ -24,6 +24,8 @@ import com.blacksquircle.ui.feature.git.api.exception.UnsupportedFilesystemExcep
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -57,6 +59,10 @@ internal class GitInteractorImpl(
 
             throw RepositoryNotFoundException()
         }
+    }
+
+    override suspend fun cloneRepository(fileModel: FileModel, url: String): Flow<String> {
+        return emptyFlow()
     }
 
     companion object {

@@ -52,7 +52,6 @@
     <string name="properties_size">文件大小:</string>
     <string name="properties_date_format">yyyy年MM月dd日 HH:mm</string>
     <string name="explorer_date_format">yyyy/M/d HH:mm:ss</string>
-    <string name="progress_time_format">mm:ss</string>
     <string name="sort_by_name">按名称排序</string>
     <string name="sort_by_size">按大小排序</string>
     <string name="sort_by_date">按日期排序</string>

@@ -120,6 +120,26 @@ class FileTaskTest {
     }
 
     @Test
+    fun `When clone repository clicked Then execute task`() = runTest {
+        // Given
+        val viewModel = createViewModel()
+        val fileTask = Task(taskId, TaskType.CLONE)
+
+        every { explorerRepository.cloneRepository(any(), any()) } returns taskId
+        every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
+
+        // When
+        viewModel.onCloneRepoClicked()
+        viewModel.cloneRepository("https://...")
+
+        // Then
+        verify(exactly = 1) { taskManager.monitor(taskId) }
+        coVerify(exactly = 1) {
+            explorerRepository.cloneRepository(defaultLocation, "https://...")
+        }
+    }
+
+    @Test
     fun `When rename file clicked Then execute task`() = runTest {
         // Given
         val viewModel = createViewModel()

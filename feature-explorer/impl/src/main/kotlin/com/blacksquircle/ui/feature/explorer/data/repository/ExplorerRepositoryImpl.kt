@@ -32,6 +32,7 @@ import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
+import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
@@ -47,6 +48,7 @@ internal class ExplorerRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager,
     private val taskManager: TaskManager,
+    private val gitInteractor: GitInteractor,
     private val serverInteractor: ServerInteractor,
     private val filesystemFactory: FilesystemFactory,
     private val pathDao: PathDao,
@@ -264,6 +266,19 @@ internal class ExplorerRepositoryImpl(
                     update(progress)
                 }
                 .collect()
+        }
+    }
+
+    override fun cloneRepository(parent: FileModel, url: String): String {
+        return taskManager.execute(TaskType.CLONE) { update ->
+            gitInteractor.cloneRepository(parent, url).collect { details ->
+                val progress = TaskStatus.Progress(
+                    count = -1,
+                    totalCount = -1,
+                    details = details,
+                )
+                update(progress)
+            }
         }
     }
 }

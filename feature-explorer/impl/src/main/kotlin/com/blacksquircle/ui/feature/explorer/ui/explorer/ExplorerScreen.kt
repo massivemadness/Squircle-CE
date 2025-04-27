@@ -61,6 +61,7 @@ internal const val KEY_AUTHENTICATION = "KEY_AUTHENTICATION"
 internal const val KEY_COMPRESS_FILE = "KEY_COMPRESS_FILE"
 internal const val KEY_CREATE_FILE = "KEY_CREATE_FILE"
 internal const val KEY_CREATE_FOLDER = "KEY_CREATE_FOLDER"
+internal const val KEY_CLONE_REPO = "KEY_CLONE_REPO"
 internal const val KEY_RENAME_FILE = "KEY_RENAME_FILE"
 internal const val KEY_DELETE_FILE = "KEY_DELETE_FILE"
 
@@ -154,6 +155,10 @@ internal fun ExplorerScreen(
     NavResultEffect(KEY_CREATE_FOLDER) { bundle ->
         val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
         viewModel.createFolder(fileName)
+    }
+    NavResultEffect(KEY_CLONE_REPO) { bundle ->
+        val url = bundle.getString(ARG_USER_INPUT).orEmpty()
+        viewModel.cloneRepository(url)
     }
     NavResultEffect(KEY_RENAME_FILE) { bundle ->
         val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()

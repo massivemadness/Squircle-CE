@@ -20,6 +20,7 @@
     <string name="hint_enter_archive_name">Введите название архива</string>
     <string name="hint_enter_password">Введите пароль</string>
     <string name="hint_enter_passphrase">Введите фразу-пароль</string>
+    <string name="hint_enter_git_url">Введите URL-адрес</string>
     <string name="action_authenticate">Авторизовать</string>
     <string name="action_create">Создать</string>
     <string name="action_copy_path">Скопировать путь</string>
@@ -34,6 +35,7 @@
     <string name="action_properties">Свойства</string>
     <string name="dialog_title_authentication">Авторизация</string>
     <string name="dialog_title_create">Создать…</string>
+    <string name="dialog_title_clone">Клонировать…</string>
     <string name="dialog_title_rename">Переименовать…</string>
     <string name="dialog_title_multi_delete">Множественное удаление</string>
     <string name="dialog_title_properties">Свойства</string>
@@ -43,6 +45,7 @@
     <string name="dialog_title_copying">Копирование…</string>
     <string name="dialog_title_compressing">Сжатие…</string>
     <string name="dialog_title_extracting">Извлечение…</string>
+    <string name="dialog_title_cloning">Клонирование…</string>
     <string name="dialog_title_archive_name">Название архива</string>
     <string name="dialog_title_storage_permission">Доступ к хранилищу</string>
     <string name="dialog_title_notification_permission">Уведомления</string>
@@ -56,7 +59,6 @@
     <string name="properties_size">Размер файла:</string>
     <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
     <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
-    <string name="progress_time_format">mm:ss</string>
     <string name="sort_by_name">Сорт. по имени</string>
     <string name="sort_by_size">Сорт. по размеру</string>
     <string name="sort_by_date">Сорт. по дате</string>
@@ -65,6 +67,7 @@
     <string name="message_enter_passphrase">Введите фразу-пароль для подключения к серверу</string>
     <string name="message_cannot_be_opened">Файл невозможно открыть</string>
     <string name="message_invalid_file_name">Некорректное имя файла</string>
+    <string name="message_invalid_url">Некорректный URL</string>
     <string name="message_file_already_exists">Такой файл уже существует</string>
     <string name="message_unsupported_archive">Неподдерживаемый архив</string>
     <string name="message_invalid_archive">Архив поврежден</string>
@@ -81,6 +84,7 @@
     <string name="message_copying">Копирование…%1$s</string>
     <string name="message_compressing">Сжатие…%1$s</string>
     <string name="message_extracting">Извлечение…%1$s</string>
+    <string name="message_cloning">Клонирование…%1$s</string>
     <string name="explorer_channel_name">Файловый менеджер</string>
     <string name="explorer_channel_description">Отображение и управление файловыми операциями</string>
     <string name="explorer_service_message">Выполняются фоновые операции</string>

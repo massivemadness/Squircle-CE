@@ -24,6 +24,7 @@ import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
 import com.blacksquircle.ui.ds.extensions.LocalNavController
 import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.CloneRepoDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFileDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFolderDialog
@@ -35,6 +36,7 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
 import com.blacksquircle.ui.feature.explorer.ui.auth.AuthScreen
+import com.blacksquircle.ui.feature.explorer.ui.clone.CloneRepoScreen
 import com.blacksquircle.ui.feature.explorer.ui.compress.CompressScreen
 import com.blacksquircle.ui.feature.explorer.ui.create.CreateFileScreen
 import com.blacksquircle.ui.feature.explorer.ui.create.CreateFolderScreen
@@ -59,6 +61,9 @@ fun NavGraphBuilder.explorerGraph(navController: NavHostController) {
     }
     dialog<CreateFolderDialog> {
         CreateFolderScreen(navController)
+    }
+    dialog<CloneRepoDialog> {
+        CloneRepoScreen(navController)
     }
     dialog<RenameDialog> { backStackEntry ->
         val navArgs = backStackEntry.toRoute<RenameDialog>()
