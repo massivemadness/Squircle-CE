@@ -1,1 +1,1 @@
-A fast multi-language code editor and file manager for Android
+⚡️ Fast and powerful code editor & file manager for over 30 programming languages
