@@ -20,6 +20,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.core.content.FileProvider
 import androidx.core.content.getSystemService
 import com.blacksquircle.ui.core.extensions.showToast
@@ -57,6 +58,10 @@ internal fun Context.openFileWith(fileModel: FileModel) {
         Timber.e(e, e.message)
         showToast(R.string.message_cannot_be_opened)
     }
+}
+
+internal fun String.isValidUrl(): Boolean {
+    return !Uri.parse(this).host.isNullOrBlank()
 }
 
 internal fun Long.formatDate(pattern: String): String {

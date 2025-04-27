@@ -22,7 +22,6 @@
     <string name="action_authenticate">Doğrulama</string>
     <string name="action_create">Oluştur</string>
     <string name="action_copy_path">Yolu Kopyala</string>
-    <string name="action_folder">Klasör</string>
     <string name="action_rename">Yeniden adlandır</string>
     <string name="action_run_in_background">Arka planda çalıştır</string>
     <string name="action_show_hidden_files">Gizli dosyaları göster</string>
@@ -53,7 +52,6 @@
     <string name="properties_size">Dosya Boyutu:</string>
     <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
     <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
-    <string name="progress_time_format">mm:ss</string>
     <string name="sort_by_name">Ada göre sırala</string>
     <string name="sort_by_size">Boyuta göre sırala</string>
     <string name="sort_by_date">Tarihe göre Sırala</string>

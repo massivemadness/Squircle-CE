@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.git.ui.pull
 
+import android.os.Bundle
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +32,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -40,6 +42,7 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.api.navigation.PullDialog
+import com.blacksquircle.ui.feature.git.api.navigation.PullDialog.Companion.KEY_PULL
 import com.blacksquircle.ui.feature.git.internal.GitComponent
 
 @Composable
@@ -64,6 +67,12 @@ internal fun PullScreen(
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
+                is PullViewEvent.PullComplete -> {
+                    context.showToast(R.string.git_pull_complete)
+
+                    sendNavigationResult(KEY_PULL, Bundle.EMPTY)
+                    navController.popBackStack()
+                }
             }
         }
     }

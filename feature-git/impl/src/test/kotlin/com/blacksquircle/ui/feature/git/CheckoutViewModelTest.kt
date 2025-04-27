@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.git
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import com.blacksquircle.ui.feature.git.ui.checkout.CheckoutViewModel
 import com.blacksquircle.ui.feature.git.ui.checkout.CheckoutViewState
@@ -40,7 +39,6 @@ class CheckoutViewModelTest {
     @get:Rule
     val timberConsoleRule = TimberConsoleRule()
 
-    private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val gitRepository = mockk<GitRepository>(relaxed = true)
 
     @Test
@@ -176,7 +174,6 @@ class CheckoutViewModelTest {
 
     private fun createViewModel(): CheckoutViewModel {
         return CheckoutViewModel(
-            stringProvider = stringProvider,
             gitRepository = gitRepository,
             repository = REPOSITORY,
         )

@@ -25,6 +25,7 @@ import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
+import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import dagger.Module
 import dagger.Provides
@@ -44,6 +45,7 @@ internal object ExplorerModule {
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         taskManager: TaskManager,
+        gitInteractor: GitInteractor,
         serverInteractor: ServerInteractor,
         filesystemFactory: FilesystemFactory,
         pathDao: PathDao,
@@ -53,6 +55,7 @@ internal object ExplorerModule {
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
             taskManager = taskManager,
+            gitInteractor = gitInteractor,
             serverInteractor = serverInteractor,
             filesystemFactory = filesystemFactory,
             pathDao = pathDao,

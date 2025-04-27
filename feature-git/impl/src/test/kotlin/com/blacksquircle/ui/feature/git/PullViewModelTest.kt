@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.git
 
-import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.git.domain.exception.GitException
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import com.blacksquircle.ui.feature.git.ui.pull.PullViewModel
@@ -38,7 +37,6 @@ class PullViewModelTest {
     @get:Rule
     val timberConsoleRule = TimberConsoleRule()
 
-    private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val gitRepository = mockk<GitRepository>(relaxed = true)
 
     @Test
@@ -65,7 +63,6 @@ class PullViewModelTest {
 
     private fun createViewModel(): PullViewModel {
         return PullViewModel(
-            stringProvider = stringProvider,
             gitRepository = gitRepository,
             repository = REPOSITORY,
         )

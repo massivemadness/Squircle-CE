@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.git.data.repository
 
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.git.domain.exception.GitException
 import com.blacksquircle.ui.feature.git.domain.exception.GitPullException
 import com.blacksquircle.ui.feature.git.domain.exception.GitPushException
 import com.blacksquircle.ui.feature.git.domain.model.ChangeType
@@ -26,9 +25,13 @@ import com.blacksquircle.ui.feature.git.domain.model.GitChange
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import kotlinx.coroutines.withContext
 import org.eclipse.jgit.api.Git
+import org.eclipse.jgit.api.ListBranchCommand
+import org.eclipse.jgit.api.errors.DetachedHeadException
+import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.revwalk.RevWalk
 import org.eclipse.jgit.transport.RemoteRefUpdate
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
+import timber.log.Timber
 import java.io.File
 
 internal class GitRepositoryImpl(
@@ -40,7 +43,7 @@ internal class GitRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
-                git.repository.fullBranch
+                git.currentHead()
             }
         }
     }
@@ -49,7 +52,22 @@ internal class GitRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
-                git.branchList().call().map { it.name }
+                val branches = mutableListOf<String>()
+                val refs = git.branchList()
+                    .setListMode(ListBranchCommand.ListMode.ALL)
+                    .call()
+
+                for (ref in refs) {
+                    val name = Repository.shortenRefName(ref.name)
+                    branches.add(name)
+                }
+
+                val current = git.currentHead()
+                if (current !in branches) {
+                    branches.add(0, current)
+                }
+
+                branches
             }
         }
     }
@@ -72,15 +90,18 @@ internal class GitRepositoryImpl(
         }
     }
 
-    override suspend fun localCommits(repository: String): List<String> {
+    override suspend fun commitCount(repository: String): Int {
         return withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
                 val repositoryObject = git.repository
                 val branch = repositoryObject.branch
                 val localRef = repositoryObject.findRef("refs/heads/$branch")
-                val remoteRef = repositoryObject.findRef("refs/remotes/origin/$branch")
-                    ?: throw GitException("No remote tracking branch found.")
+                val remoteRef = repositoryObject.findRef("refs/remotes/$GIT_ORIGIN/$branch")
+                if (remoteRef == null) {
+                    Timber.w("No remote tracking branch found.")
+                    return@withContext -1
+                }
 
                 val localCommit = localRef.objectId
                 val remoteCommit = remoteRef.objectId
@@ -92,7 +113,7 @@ internal class GitRepositoryImpl(
                     walk.markStart(local)
                     walk.markUninteresting(remote)
 
-                    walk.map { it.shortMessage }
+                    walk.count()
                 }
             }
         }
@@ -109,6 +130,8 @@ internal class GitRepositoryImpl(
                 git.fetch()
                     .setRemote(GIT_ORIGIN)
                     .setCredentialsProvider(credentialsProvider)
+                    .setCheckFetchedObjects(true)
+                    .setRemoveDeletedRefs(true)
                     .call()
             }
         }
@@ -212,10 +235,21 @@ internal class GitRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
-                git.checkout()
-                    .setName(branchName)
-                    .setCreateBranch(false)
-                    .call()
+                if (branchName.startsWith("$GIT_ORIGIN/")) {
+                    val localBranchName = branchName.removePrefix("$GIT_ORIGIN/")
+                    val existingBranches = git.branchList().call().map { it.name }
+                    if ("refs/heads/$localBranchName" !in existingBranches) {
+                        git.checkout()
+                            .setCreateBranch(true)
+                            .setName(localBranchName)
+                            .setStartPoint(branchName)
+                            .call()
+                    } else {
+                        git.checkout().setName(localBranchName).call()
+                    }
+                } else {
+                    git.checkout().setName(branchName).call()
+                }
             }
         }
     }
@@ -224,11 +258,32 @@ internal class GitRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
-                git.checkout()
-                    .setName(branchName)
-                    .setCreateBranch(true)
-                    .setStartPoint(branchBase)
-                    .call()
+                if (branchBase.startsWith("$GIT_ORIGIN/")) {
+                    git.checkout()
+                        .setName(branchName)
+                        .setStartPoint(branchBase)
+                        .setCreateBranch(true)
+                        .call()
+                } else {
+                    git.checkout()
+                        .setName(branchName)
+                        .setStartPoint("refs/heads/$branchBase")
+                        .setCreateBranch(true)
+                        .call()
+                }
+            }
+        }
+    }
+
+    private fun Git.currentHead(): String {
+        return try {
+            repository.branch
+        } catch (e: DetachedHeadException) {
+            val fullCommitId = repository.fullBranch
+            if (fullCommitId != null && fullCommitId.length >= 7) {
+                fullCommitId.substring(0, 7)
+            } else {
+                fullCommitId.toString()
             }
         }
     }

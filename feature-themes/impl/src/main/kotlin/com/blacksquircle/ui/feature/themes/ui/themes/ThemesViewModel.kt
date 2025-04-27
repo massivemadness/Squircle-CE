@@ -143,7 +143,7 @@ internal class ThemesViewModel @Inject constructor(
         }
     }
 
-    fun loadThemes(query: String = "") {
+    private fun loadThemes(query: String = "") {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
             try {

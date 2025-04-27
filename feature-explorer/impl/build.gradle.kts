@@ -59,6 +59,7 @@ dependencies {
 
     implementation(project(":feature-editor:api"))
     implementation(project(":feature-explorer:api"))
+    implementation(project(":feature-git:api"))
     implementation(project(":feature-servers:api"))
     implementation(project(":filesystems:filesystem-local"))
     implementation(project(":filesystems:filesystem-root"))

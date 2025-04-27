@@ -26,6 +26,8 @@ import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiProvider
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskService
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskViewModel
+import com.blacksquircle.ui.feature.git.api.internal.GitApiDepsProvider
+import com.blacksquircle.ui.feature.git.api.internal.GitApiProvider
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiDepsProvider
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiProvider
 import dagger.Component
@@ -39,6 +41,7 @@ import dagger.Component
         CoreApiDepsProvider::class,
         ExplorerApiDepsProvider::class,
         EditorApiDepsProvider::class,
+        GitApiDepsProvider::class,
         ServersApiDepsProvider::class,
     ]
 )
@@ -54,6 +57,7 @@ internal interface ExplorerComponent {
             coreApiDepsProvider: CoreApiDepsProvider,
             editorApiDepsProvider: EditorApiDepsProvider,
             explorerApiDepsProvider: ExplorerApiDepsProvider,
+            gitApiDepsProvider: GitApiDepsProvider,
             serversApiDepsProvider: ServersApiDepsProvider,
         ): ExplorerComponent
     }
@@ -70,6 +74,8 @@ internal interface ExplorerComponent {
                     .provideEditorApiDepsProvider(),
                 explorerApiDepsProvider = (context.applicationContext as ExplorerApiProvider)
                     .provideExplorerApiDepsProvider(),
+                gitApiDepsProvider = (context.applicationContext as GitApiProvider)
+                    .provideGitApiDepsProvider(),
                 serversApiDepsProvider = (context.applicationContext as ServersApiProvider)
                     .provideServersApiDepsProvider(),
             ).also {
