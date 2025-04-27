@@ -45,6 +45,7 @@
     <string name="git_push_complete">Отправка завершена</string>
     <string name="git_checkout_title">Checkout</string>
     <string name="git_checkout_description">Смена или создание локальной ветки</string>
+    <string name="git_checkout_branches">Список веток</string>
     <string name="git_checkout_branch_name">Имя ветки</string>
     <string name="git_checkout_branch_base">Новая ветка будет основана на %1$s</string>
     <string name="git_checkout_checking_out">Смена ветки…</string>

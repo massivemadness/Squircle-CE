@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -92,7 +91,6 @@ private fun CheckoutScreen(
 ) {
     AlertDialog(
         title = stringResource(R.string.git_checkout_title),
-        horizontalPadding = false,
         content = {
             Column {
                 when {
@@ -101,16 +99,13 @@ private fun CheckoutScreen(
                             text = stringResource(R.string.git_checkout_checking_out),
                             style = SquircleTheme.typography.text16Regular,
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
-                            modifier = Modifier.padding(horizontal = 24.dp)
                         )
 
                         Spacer(Modifier.height(16.dp))
 
                         LinearProgress(
                             indeterminate = true,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 24.dp)
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
 
@@ -130,7 +125,6 @@ private fun CheckoutScreen(
                             text = stringResource(R.string.git_fatal, viewState.errorMessage),
                             style = SquircleTheme.typography.text16Regular,
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
-                            modifier = Modifier.padding(horizontal = 24.dp)
                         )
                     }
 
@@ -143,13 +137,19 @@ private fun CheckoutScreen(
                                 R.string.git_checkout_branch_base,
                                 viewState.currentBranch
                             ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 24.dp),
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
 
                     !viewState.isNewBranch -> {
+                        Text(
+                            text = stringResource(R.string.git_checkout_branches),
+                            style = SquircleTheme.typography.text12Regular,
+                            color = SquircleTheme.colors.colorTextAndIconSecondary,
+                        )
+
+                        Spacer(Modifier.height(6.dp))
+
                         BranchList(
                             currentBranch = viewState.currentBranch,
                             branchList = viewState.branchList,
@@ -166,7 +166,6 @@ private fun CheckoutScreen(
                         title = stringResource(R.string.action_new_branch),
                         checked = viewState.isNewBranch,
                         onClick = onNewBranchClicked,
-                        modifier = Modifier.padding(horizontal = 24.dp)
                     )
                 }
             }
