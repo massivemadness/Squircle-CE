@@ -137,7 +137,7 @@ private fun CommitScreen(
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
                         )
 
-                        Spacer(Modifier.height(8.dp))
+                        Spacer(Modifier.height(6.dp))
 
                         ChangeList(
                             changesList = viewState.changesList,
@@ -146,7 +146,7 @@ private fun CommitScreen(
                             modifier = Modifier.heightIn(max = 200.dp)
                         )
 
-                        Spacer(Modifier.height(16.dp))
+                        Spacer(Modifier.height(12.dp))
 
                         TextField(
                             inputText = viewState.commitMessage,
@@ -182,11 +182,14 @@ private fun CommitScreenPreview() {
         CommitScreen(
             viewState = CommitViewState(
                 changesList = listOf(
-                    GitChange("untitled.txt", ChangeType.REMOVED),
-                    GitChange("text.txt", ChangeType.MODIFIED),
+                    GitChange("added.txt", ChangeType.ADDED),
+                    GitChange("modified.txt", ChangeType.MODIFIED),
+                    GitChange("deleted.txt", ChangeType.DELETED),
                 ),
                 selectedChanges = listOf(
-                    GitChange("untitled.txt", ChangeType.REMOVED),
+                    GitChange("added.txt", ChangeType.ADDED),
+                    GitChange("modified.txt", ChangeType.MODIFIED),
+                    GitChange("deleted.txt", ChangeType.DELETED),
                 ),
                 isCommitting = false,
                 isLoading = false,

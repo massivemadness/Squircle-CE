@@ -16,12 +16,16 @@
 
 package com.blacksquircle.ui.feature.git.ui.commit.compose
 
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,11 +33,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.checkbox.CheckBox
+import com.blacksquircle.ui.ds.modifier.debounceClickable
 import com.blacksquircle.ui.feature.git.R
+import com.blacksquircle.ui.feature.git.domain.model.ChangeType
 import com.blacksquircle.ui.feature.git.domain.model.GitChange
 
 @Composable
@@ -43,20 +52,22 @@ internal fun ChangeList(
     onChangeSelected: (GitChange) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val shape = RoundedCornerShape(6.dp)
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .border(1.dp, SquircleTheme.colors.colorOutline, RoundedCornerShape(6.dp))
+            .border(1.dp, SquircleTheme.colors.colorOutline, shape)
+            .clip(shape)
     ) {
-        LazyColumn(contentPadding = PaddingValues(vertical = 8.dp)) {
+        LazyColumn {
             itemsIndexed(changesList) { index, value ->
-                CheckBox(
-                    title = changesList[index].file,
+                val change = changesList[index]
+                ChangeItem(
+                    title = change.name,
+                    type = change.changeType,
                     checked = value in selectedChanges,
                     onClick = { onChangeSelected(value) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
@@ -74,5 +85,85 @@ internal fun ChangeList(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun ChangeItem(
+    title: String,
+    type: ChangeType,
+    checked: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .debounceClickable(onClick = onClick)
+            .padding(
+                horizontal = 8.dp,
+                vertical = 4.dp,
+            )
+    ) {
+        CheckBox(
+            checked = checked,
+            onClick = onClick,
+        )
+
+        Spacer(Modifier.width(8.dp))
+
+        Column(Modifier.padding(vertical = 4.dp)) {
+            Text(
+                text = title,
+                style = SquircleTheme.typography.text14Regular,
+                color = SquircleTheme.colors.colorTextAndIconPrimary,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                modifier = Modifier.basicMarquee(),
+            )
+
+            Spacer(Modifier.height(2.dp))
+
+            Text(
+                text = when (type) {
+                    ChangeType.ADDED -> stringResource(R.string.git_added)
+                    ChangeType.MODIFIED -> stringResource(R.string.git_modified)
+                    ChangeType.DELETED -> stringResource(R.string.git_deleted)
+                },
+                style = SquircleTheme.typography.text12Regular,
+                color = when (type) {
+                    ChangeType.ADDED -> SquircleTheme.colors.colorSuccess
+                    ChangeType.MODIFIED -> SquircleTheme.colors.colorTextAndIconSecondary
+                    ChangeType.DELETED -> SquircleTheme.colors.colorError
+                },
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun ChangeItemPreview() {
+    Column {
+        ChangeItem(
+            title = "JavaScriptAPI.js",
+            type = ChangeType.ADDED,
+            checked = true,
+            onClick = {},
+        )
+        ChangeItem(
+            title = "JavaScriptAPI.js",
+            type = ChangeType.MODIFIED,
+            checked = true,
+            onClick = {},
+        )
+        ChangeItem(
+            title = "JavaScriptAPI.js",
+            type = ChangeType.DELETED,
+            checked = true,
+            onClick = {},
+        )
     }
 }

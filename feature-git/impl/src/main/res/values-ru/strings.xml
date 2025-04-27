@@ -49,4 +49,7 @@
     <string name="git_checkout_branch_base">Новая ветка будет основана на %1$s</string>
     <string name="git_checkout_checking_out">Смена ветки…</string>
     <string name="git_checkout_checked_out">Текущая ветка %1$s</string>
+    <string name="git_added">Добавлено</string>
+    <string name="git_modified">Изменено</string>
+    <string name="git_deleted">Удалено</string>
 </resources>

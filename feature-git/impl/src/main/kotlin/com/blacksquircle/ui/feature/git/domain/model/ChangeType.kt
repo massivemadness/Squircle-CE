@@ -19,5 +19,5 @@ package com.blacksquircle.ui.feature.git.domain.model
 internal enum class ChangeType {
     ADDED,
     MODIFIED,
-    REMOVED,
+    DELETED,
 }

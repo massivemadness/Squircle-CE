@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.git.domain.model
+package com.blacksquircle.ui.feature.git
 
-internal data class GitChange(
-    val name: String,
-    val changeType: ChangeType,
-)
+import com.blacksquircle.ui.feature.git.domain.model.ChangeType
+import com.blacksquircle.ui.feature.git.domain.model.GitChange
+
+internal fun createGitChange(
+    name: String = "untitled.txt",
+    type: ChangeType = ChangeType.MODIFIED,
+): GitChange {
+    return GitChange(
+        name = name,
+        changeType = type
+    )
+}

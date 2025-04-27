@@ -62,8 +62,8 @@ internal class GitRepositoryImpl(
                     val status = git.status().call()
                     addAll(status.added.map { GitChange(it, ChangeType.ADDED) })
                     addAll(status.changed.map { GitChange(it, ChangeType.MODIFIED) })
-                    addAll(status.removed.map { GitChange(it, ChangeType.REMOVED) })
-                    addAll(status.missing.map { GitChange(it, ChangeType.REMOVED) })
+                    addAll(status.removed.map { GitChange(it, ChangeType.DELETED) })
+                    addAll(status.missing.map { GitChange(it, ChangeType.DELETED) })
                     addAll(status.modified.map { GitChange(it, ChangeType.MODIFIED) })
                     addAll(status.untracked.map { GitChange(it, ChangeType.ADDED) })
                     addAll(status.conflicting.map { GitChange(it, ChangeType.MODIFIED) })
@@ -157,9 +157,9 @@ internal class GitRepositoryImpl(
             Git.open(repoDir).use { git ->
                 changes.forEach { change ->
                     when (change.changeType) {
-                        ChangeType.ADDED -> git.add().addFilepattern(change.file).call()
-                        ChangeType.MODIFIED -> git.add().addFilepattern(change.file).call()
-                        ChangeType.REMOVED -> git.rm().addFilepattern(change.file).call()
+                        ChangeType.ADDED -> git.add().addFilepattern(change.name).call()
+                        ChangeType.MODIFIED -> git.add().addFilepattern(change.name).call()
+                        ChangeType.DELETED -> git.rm().addFilepattern(change.name).call()
                     }
                 }
                 git.commit()
