@@ -32,6 +32,7 @@ import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
@@ -59,6 +60,7 @@ class ExplorerRepositoryImplTest {
     private val dispatcherProvider = TestDispatcherProvider()
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val taskManager = mockk<TaskManager>(relaxed = true)
+    private val gitInteractor = mockk<GitInteractor>(relaxed = true)
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
     private val filesystemFactory = mockk<FilesystemFactory>(relaxed = true)
     private val pathDao = mockk<PathDao>(relaxed = true)
@@ -70,6 +72,7 @@ class ExplorerRepositoryImplTest {
         dispatcherProvider = dispatcherProvider,
         settingsManager = settingsManager,
         taskManager = taskManager,
+        gitInteractor = gitInteractor,
         serverInteractor = serverInteractor,
         filesystemFactory = filesystemFactory,
         pathDao = pathDao,
@@ -419,5 +422,23 @@ class ExplorerRepositoryImplTest {
         verify(exactly = 1) { taskManager.execute(TaskType.EXTRACT, any()) }
         coVerify(exactly = 1) { filesystemFactory.create(filesystemUuid) }
         verify(exactly = 1) { filesystem.extractFiles(source, dest) }
+    }
+
+    @Test
+    fun `When clone repository called Then execute task`() = runTest {
+        // Given
+        val parent = createFolder("Documents")
+        val url = "https://"
+
+        val taskActionSlot = slot<TaskAction>()
+        every { taskManager.execute(TaskType.CLONE, capture(taskActionSlot)) } returns "12345"
+
+        // When
+        explorerRepository.cloneRepository(parent, url)
+        taskActionSlot.captured.invoke { /* no-op */ }
+
+        // Then
+        verify(exactly = 1) { taskManager.execute(TaskType.CLONE, any()) }
+        coVerify(exactly = 1) { gitInteractor.cloneRepository(parent, url) }
     }
 }

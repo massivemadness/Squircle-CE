@@ -123,11 +123,18 @@ private fun PushScreen(
 
                     else -> {
                         Text(
-                            text = stringResource(
-                                R.string.git_push_commits,
-                                viewState.commits.size,
-                                viewState.currentBranch,
-                            ),
+                            text = when {
+                                viewState.commitCount == -1 -> {
+                                    stringResource(R.string.git_push_branch)
+                                }
+                                else -> {
+                                    stringResource(
+                                        R.string.git_push_commits,
+                                        viewState.commitCount,
+                                        viewState.currentBranch,
+                                    )
+                                }
+                            },
                             style = SquircleTheme.typography.text16Regular,
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
                         )
@@ -159,7 +166,7 @@ private fun PushScreenPreview() {
         PushScreen(
             viewState = PushViewState(
                 currentBranch = "refs/heads/master",
-                commits = listOf("Commit 1", "Commit 2"),
+                commitCount = 2,
                 isLoading = false,
             ),
         )

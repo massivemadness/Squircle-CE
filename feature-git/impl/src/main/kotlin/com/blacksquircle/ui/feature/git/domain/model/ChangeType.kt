@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-plugins {
-    id("com.blacksquircle.kotlin")
-    alias(libs.plugins.kotlin.serialization)
-}
+package com.blacksquircle.ui.feature.git.domain.model
 
-dependencies {
-
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.serialization)
-
-    api(project(":filesystems:filesystem-base"))
+internal enum class ChangeType {
+    ADDED,
+    MODIFIED,
+    DELETED,
 }

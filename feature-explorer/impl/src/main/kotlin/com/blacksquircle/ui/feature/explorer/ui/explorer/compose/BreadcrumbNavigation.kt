@@ -31,6 +31,9 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,27 +47,29 @@ import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.tabs.TabIndicator
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.CreateMenu
 
 @Composable
 internal fun BreadcrumbNavigation(
     tabs: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     selectedIndex: Int = -1,
+    taskType: TaskType,
     onHomeClicked: () -> Unit = {},
-    homeIcon: Int? = R.drawable.ic_home,
-    actionIcon: Int? = R.drawable.ic_plus,
-    onActionClicked: () -> Unit = {},
+    onPasteClicked: () -> Unit = {},
+    onCreateFileClicked: () -> Unit = {},
+    onCreateFolderClicked: () -> Unit = {},
+    onCloneRepoClicked: () -> Unit = {},
 ) {
     Box(modifier) {
         Row(Modifier.zIndex(1f)) {
-            if (homeIcon != null) {
-                IconButton(
-                    iconResId = homeIcon,
-                    iconButtonSize = IconButtonSizeDefaults.XS,
-                    onClick = onHomeClicked,
-                    modifier = Modifier.padding(horizontal = 6.dp)
-                )
-            }
+            IconButton(
+                iconResId = R.drawable.ic_home,
+                iconButtonSize = IconButtonSizeDefaults.XS,
+                onClick = onHomeClicked,
+                modifier = Modifier.padding(horizontal = 6.dp)
+            )
 
             if (selectedIndex > -1) {
                 ScrollableTabRow(
@@ -119,14 +124,34 @@ internal fun BreadcrumbNavigation(
                 )
             }
 
-            if (actionIcon != null) {
-                IconButton(
-                    iconResId = actionIcon,
-                    iconButtonSize = IconButtonSizeDefaults.XS,
-                    onClick = onActionClicked,
-                    modifier = Modifier.padding(horizontal = 6.dp)
-                )
+            var menuExpanded by rememberSaveable {
+                mutableStateOf(false)
             }
+            IconButton(
+                iconResId = when (taskType) {
+                    TaskType.CUT,
+                    TaskType.COPY -> R.drawable.ic_paste
+                    else -> R.drawable.ic_plus
+                },
+                iconButtonSize = IconButtonSizeDefaults.XS,
+                onClick = {
+                    when (taskType) {
+                        TaskType.CUT,
+                        TaskType.COPY -> onPasteClicked()
+                        else -> menuExpanded = !menuExpanded
+                    }
+                },
+                anchor = {
+                    CreateMenu(
+                        expanded = menuExpanded,
+                        onDismiss = { menuExpanded = false },
+                        onNewFileClicked = { menuExpanded = false; onCreateFileClicked() },
+                        onNewFolderClicked = { menuExpanded = false; onCreateFolderClicked() },
+                        onCloneRepoClicked = { menuExpanded = false; onCloneRepoClicked() },
+                    )
+                },
+                modifier = Modifier.padding(horizontal = 6.dp)
+            )
         }
 
         HorizontalDivider(Modifier.align(Alignment.BottomCenter))
@@ -151,8 +176,7 @@ private fun BreadcrumbNavigationPreview() {
                     onClick = {}
                 )
             },
-            onHomeClicked = {},
-            onActionClicked = {},
+            taskType = TaskType.CREATE,
             modifier = Modifier.fillMaxWidth(),
         )
     }

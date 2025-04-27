@@ -16,23 +16,27 @@
 
 package com.blacksquircle.ui.feature.git.ui.checkout.compose
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.ripple
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.modifier.debounceClickable
 import com.blacksquircle.ui.ds.radio.Radio
-import com.blacksquircle.ui.ds.radio.RadioStyleDefaults
 
 @Composable
 internal fun BranchList(
@@ -41,6 +45,7 @@ internal fun BranchList(
     onBranchSelected: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val shape = RoundedCornerShape(6.dp)
     val selectedIndex = branchList.indexOf(currentBranch)
     val lazyListState = rememberLazyListState(
         initialFirstVisibleItemIndex = selectedIndex
@@ -48,33 +53,53 @@ internal fun BranchList(
 
     LazyColumn(
         state = lazyListState,
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .border(1.dp, SquircleTheme.colors.colorOutline, shape)
+            .clip(shape)
     ) {
         itemsIndexed(branchList) { index, value ->
-            val interactionSource = remember { MutableInteractionSource() }
-            Box(
-                modifier = Modifier
-                    .debounceClickable(
-                        interactionSource = interactionSource,
-                        indication = ripple(),
-                        onClick = { onBranchSelected(value) }
-                    )
-                    .padding(horizontal = 24.dp)
-            ) {
-                Radio(
-                    title = branchList[index],
-                    checked = value == currentBranch,
-                    onClick = { onBranchSelected(value) },
-                    radioStyle = RadioStyleDefaults.Primary.copy(
-                        textStyle = SquircleTheme.typography.text18Regular,
-                    ),
-                    interactionSource = interactionSource,
-                    indication = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                )
-            }
+            val branch = branchList[index]
+            BranchItem(
+                title = branch,
+                checked = value == currentBranch,
+                onClick = { onBranchSelected(value) },
+                modifier = Modifier.fillMaxWidth(),
+            )
         }
+    }
+}
+
+@Composable
+private fun BranchItem(
+    title: String,
+    checked: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .debounceClickable(onClick = onClick)
+            .padding(
+                horizontal = 8.dp,
+                vertical = 8.dp,
+            )
+    ) {
+        Radio(
+            checked = checked,
+            onClick = onClick,
+        )
+
+        Spacer(Modifier.width(8.dp))
+
+        Text(
+            text = title,
+            style = SquircleTheme.typography.text16Regular,
+            color = SquircleTheme.colors.colorTextAndIconPrimary,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
+            modifier = Modifier.basicMarquee(),
+        )
     }
 }

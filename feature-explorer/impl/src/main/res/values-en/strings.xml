@@ -16,13 +16,17 @@
   -->
 <resources>
     <string name="hint_enter_file_name">Enter file name</string>
+    <string name="hint_enter_folder_name">Enter folder name</string>
     <string name="hint_enter_archive_name">Enter archive name</string>
     <string name="hint_enter_password">Enter password</string>
     <string name="hint_enter_passphrase">Enter passphrase</string>
+    <string name="hint_enter_git_url">Enter git url</string>
     <string name="action_authenticate">Authenticate</string>
     <string name="action_create">Create</string>
     <string name="action_copy_path">Copy Path</string>
-    <string name="action_folder">Folder</string>
+    <string name="action_new_file">File</string>
+    <string name="action_new_folder">Folder</string>
+    <string name="action_clone">Clone</string>
     <string name="action_rename">Rename</string>
     <string name="action_run_in_background">Run in background</string>
     <string name="action_show_hidden_files">Show hidden files</string>
@@ -31,6 +35,7 @@
     <string name="action_properties">Properties</string>
     <string name="dialog_title_authentication">Authentication</string>
     <string name="dialog_title_create">Create…</string>
+    <string name="dialog_title_clone">Clone…</string>
     <string name="dialog_title_rename">Rename…</string>
     <string name="dialog_title_multi_delete">Multi-delete</string>
     <string name="dialog_title_properties">Properties</string>
@@ -40,6 +45,7 @@
     <string name="dialog_title_copying">Copying…</string>
     <string name="dialog_title_compressing">Compressing…</string>
     <string name="dialog_title_extracting">Extracting…</string>
+    <string name="dialog_title_cloning">Cloning…</string>
     <string name="dialog_title_archive_name">Archive name</string>
     <string name="dialog_title_storage_permission">Storage Access</string>
     <string name="dialog_title_notification_permission">Notifications</string>
@@ -53,7 +59,6 @@
     <string name="properties_size">File Size:</string>
     <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
     <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
-    <string name="progress_time_format">mm:ss</string>
     <string name="sort_by_name">Sort by Name</string>
     <string name="sort_by_size">Sort by Size</string>
     <string name="sort_by_date">Sort by Date</string>
@@ -62,6 +67,7 @@
     <string name="message_enter_passphrase">Enter passphrase to connect to remote server</string>
     <string name="message_cannot_be_opened">File cannot be opened</string>
     <string name="message_invalid_file_name">Invalid file name</string>
+    <string name="message_invalid_url">Invalid URL</string>
     <string name="message_file_already_exists">File already exists</string>
     <string name="message_unsupported_archive">Unsupported archive</string>
     <string name="message_invalid_archive">Invalid archive</string>
@@ -78,6 +84,7 @@
     <string name="message_copying">Copying…%1$s</string>
     <string name="message_compressing">Compressing…%1$s</string>
     <string name="message_extracting">Extracting…%1$s</string>
+    <string name="message_cloning">Cloning…%1$s</string>
     <string name="explorer_channel_name">File Manager</string>
     <string name="explorer_channel_description">Display and control file operations</string>
     <string name="explorer_service_message">Background operations in progress</string>

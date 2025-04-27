@@ -16,13 +16,13 @@
 
 package com.blacksquircle.ui.feature.git.ui.checkout
 
+import android.os.Bundle
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -47,6 +48,7 @@ import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog
+import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog.Companion.KEY_CHECKOUT
 import com.blacksquircle.ui.feature.git.internal.GitComponent
 import com.blacksquircle.ui.feature.git.ui.checkout.compose.BranchList
 
@@ -76,6 +78,17 @@ internal fun CheckoutScreen(
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
+                is CheckoutViewEvent.CheckoutComplete -> {
+                    context.showToast(
+                        text = context.getString(
+                            R.string.git_checkout_checked_out,
+                            event.branchName
+                        )
+                    )
+
+                    sendNavigationResult(KEY_CHECKOUT, Bundle.EMPTY)
+                    navController.popBackStack()
+                }
             }
         }
     }
@@ -92,7 +105,6 @@ private fun CheckoutScreen(
 ) {
     AlertDialog(
         title = stringResource(R.string.git_checkout_title),
-        horizontalPadding = false,
         content = {
             Column {
                 when {
@@ -101,16 +113,13 @@ private fun CheckoutScreen(
                             text = stringResource(R.string.git_checkout_checking_out),
                             style = SquircleTheme.typography.text16Regular,
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
-                            modifier = Modifier.padding(horizontal = 24.dp)
                         )
 
                         Spacer(Modifier.height(16.dp))
 
                         LinearProgress(
                             indeterminate = true,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 24.dp)
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
 
@@ -130,7 +139,6 @@ private fun CheckoutScreen(
                             text = stringResource(R.string.git_fatal, viewState.errorMessage),
                             style = SquircleTheme.typography.text16Regular,
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
-                            modifier = Modifier.padding(horizontal = 24.dp)
                         )
                     }
 
@@ -143,13 +151,19 @@ private fun CheckoutScreen(
                                 R.string.git_checkout_branch_base,
                                 viewState.currentBranch
                             ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 24.dp),
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
 
                     !viewState.isNewBranch -> {
+                        Text(
+                            text = stringResource(R.string.git_checkout_branches),
+                            style = SquircleTheme.typography.text12Regular,
+                            color = SquircleTheme.colors.colorTextAndIconSecondary,
+                        )
+
+                        Spacer(Modifier.height(6.dp))
+
                         BranchList(
                             currentBranch = viewState.currentBranch,
                             branchList = viewState.branchList,
@@ -166,7 +180,6 @@ private fun CheckoutScreen(
                         title = stringResource(R.string.action_new_branch),
                         checked = viewState.isNewBranch,
                         onClick = onNewBranchClicked,
-                        modifier = Modifier.padding(horizontal = 24.dp)
                     )
                 }
             }

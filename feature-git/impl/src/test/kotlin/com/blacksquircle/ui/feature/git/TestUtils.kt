@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-plugins {
-    id("com.blacksquircle.kotlin")
-    alias(libs.plugins.kotlin.serialization)
-}
+package com.blacksquircle.ui.feature.git
 
-dependencies {
+import com.blacksquircle.ui.feature.git.domain.model.ChangeType
+import com.blacksquircle.ui.feature.git.domain.model.GitChange
 
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.serialization)
-
-    api(project(":filesystems:filesystem-base"))
+internal fun createGitChange(
+    name: String = "untitled.txt",
+    type: ChangeType = ChangeType.MODIFIED,
+): GitChange {
+    return GitChange(
+        name = name,
+        changeType = type
+    )
 }

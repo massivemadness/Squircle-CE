@@ -58,7 +58,7 @@ class CommitViewModelTest {
     @Test
     fun `When screen opens Then load git changes`() = runTest {
         // Given
-        val changesList = listOf("untitled.txt")
+        val changesList = listOf(createGitChange())
         coEvery { gitRepository.changesList(any()) } returns changesList
 
         // When
@@ -109,12 +109,15 @@ class CommitViewModelTest {
     @Test
     fun `When selected change clicked Then remove it from list`() = runTest {
         // Given
-        val changesList = listOf("file.txt", "untitled.txt")
+        val changesList = listOf(
+            createGitChange("file.txt"),
+            createGitChange("untitled.txt"),
+        )
         coEvery { gitRepository.changesList(any()) } returns changesList
         val viewModel = createViewModel()
 
         // When
-        viewModel.onChangeSelected("file.txt")
+        viewModel.onChangeSelected(changesList[0])
 
         // Then
         val viewState = CommitViewState(
@@ -128,18 +131,21 @@ class CommitViewModelTest {
     @Test
     fun `When unselected change clicked Then add it to list`() = runTest {
         // Given
-        val changesList = listOf("file.txt", "untitled.txt")
+        val changesList = listOf(
+            createGitChange("file.txt"),
+            createGitChange("untitled.txt"),
+        )
         coEvery { gitRepository.changesList(any()) } returns changesList
         val viewModel = createViewModel()
 
         // When
-        viewModel.onChangeSelected("file.txt") // remove
-        viewModel.onChangeSelected("file.txt") // add
+        viewModel.onChangeSelected(changesList[0]) // remove
+        viewModel.onChangeSelected(changesList[0]) // add
 
         // Then
         val viewState = CommitViewState(
             changesList = changesList,
-            selectedChanges = listOf("untitled.txt", "file.txt"),
+            selectedChanges = listOf(changesList[1], changesList[0]),
             isLoading = false,
         )
         assertEquals(viewState, viewModel.viewState.value)
@@ -148,19 +154,22 @@ class CommitViewModelTest {
     @Test
     fun `When commit clicked Then commit changes`() = runTest {
         // Given
-        val changesList = listOf("file.txt", "untitled.txt")
+        val changesList = listOf(
+            createGitChange("file.txt"),
+            createGitChange("untitled.txt"),
+        )
         coEvery { gitRepository.changesList(any()) } returns changesList
         val viewModel = createViewModel()
 
         // When
-        viewModel.onChangeSelected("file.txt")
+        viewModel.onChangeSelected(changesList[0])
         viewModel.onCommitMessageChanged("Initial commit")
         viewModel.onCommitClicked()
 
         // Then
         val viewState = CommitViewState(
             changesList = changesList,
-            selectedChanges = listOf("untitled.txt"),
+            selectedChanges = listOf(changesList[1]),
             commitMessage = "Initial commit",
             isLoading = false,
             isCommitting = true,
@@ -170,7 +179,7 @@ class CommitViewModelTest {
         coVerify(exactly = 1) {
             gitRepository.commit(
                 repository = any(),
-                changes = listOf("untitled.txt"),
+                changes = listOf(changesList[1]),
                 message = "Initial commit",
                 isAmend = false
             )

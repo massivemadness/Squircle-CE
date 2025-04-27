@@ -17,7 +17,9 @@
 package com.blacksquircle.ui.feature.git.api.interactor
 
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import kotlinx.coroutines.flow.Flow
 
 interface GitInteractor {
     suspend fun getRepoPath(fileModel: FileModel): String
+    suspend fun cloneRepository(fileModel: FileModel, url: String): Flow<String>
 }

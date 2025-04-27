@@ -85,17 +85,57 @@ class FileTaskTest {
         val viewModel = createViewModel()
         val fileTask = Task(taskId, TaskType.CREATE)
 
-        every { explorerRepository.createFile(any(), any(), any()) } returns taskId
+        every { explorerRepository.createFile(any(), any(), isFolder = false) } returns taskId
         every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
 
         // When
-        viewModel.onCreateClicked()
-        viewModel.createFile("file.txt", isFolder = false)
+        viewModel.onCreateFileClicked()
+        viewModel.createFile("file.txt")
 
         // Then
         verify(exactly = 1) { taskManager.monitor(taskId) }
         coVerify(exactly = 1) {
             explorerRepository.createFile(defaultLocation, "file.txt", isFolder = false)
+        }
+    }
+
+    @Test
+    fun `When create folder clicked Then execute task`() = runTest {
+        // Given
+        val viewModel = createViewModel()
+        val fileTask = Task(taskId, TaskType.CREATE)
+
+        every { explorerRepository.createFile(any(), any(), isFolder = true) } returns taskId
+        every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
+
+        // When
+        viewModel.onCreateFolderClicked()
+        viewModel.createFolder("folder")
+
+        // Then
+        verify(exactly = 1) { taskManager.monitor(taskId) }
+        coVerify(exactly = 1) {
+            explorerRepository.createFile(defaultLocation, "folder", isFolder = true)
+        }
+    }
+
+    @Test
+    fun `When clone repository clicked Then execute task`() = runTest {
+        // Given
+        val viewModel = createViewModel()
+        val fileTask = Task(taskId, TaskType.CLONE)
+
+        every { explorerRepository.cloneRepository(any(), any()) } returns taskId
+        every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
+
+        // When
+        viewModel.onCloneRepoClicked()
+        viewModel.cloneRepository("https://...")
+
+        // Then
+        verify(exactly = 1) { taskManager.monitor(taskId) }
+        coVerify(exactly = 1) {
+            explorerRepository.cloneRepository(defaultLocation, "https://...")
         }
     }
 

@@ -52,7 +52,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.CleanupEffect
-import com.blacksquircle.ui.core.effect.NavResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -72,8 +71,6 @@ import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.internal.ThemesComponent
 import com.blacksquircle.ui.feature.themes.ui.themes.compose.ThemeOverview
 import com.blacksquircle.ui.ds.R as UiR
-
-internal const val KEY_SAVE = "KEY_SAVE"
 
 @Composable
 internal fun ThemesScreen(
@@ -102,10 +99,6 @@ internal fun ThemesScreen(
                 is ViewEvent.PopBackStack -> navController.popBackStack()
             }
         }
-    }
-
-    NavResultEffect(KEY_SAVE) {
-        viewModel.loadThemes()
     }
 
     CleanupEffect {
