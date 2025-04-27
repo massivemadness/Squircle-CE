@@ -1,0 +1,5 @@
+- New app icon 🎉
+- Added: Git Integration (with Clone, Fetch, Pull, Commit, Push and Checkout options)
+- Improved: Color Schemes are now applied throughout the entire app, not just the code editor
+- Fixed: Undo/Redo state was reset for the current file when closing other files
+- Bugfixes and minor improvements
