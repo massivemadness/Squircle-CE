@@ -26,7 +26,6 @@ import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_EDITOR_T
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FULLSCREEN_MODE
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
-import com.blacksquircle.ui.internal.provider.theme.ThemeManager
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -42,7 +41,6 @@ import javax.inject.Provider
 
 internal class MainViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
-    private val themeManager: ThemeManager,
     private val themeInteractor: ThemeInteractor,
     private val editorInteractor: EditorInteractor,
 ) : ViewModel() {
@@ -80,8 +78,6 @@ internal class MainViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val colorScheme = themeInteractor.loadTheme(settingsManager.editorTheme)
-                themeManager.apply(colorScheme.type)
-
                 _viewState.update {
                     it.copy(
                         colorScheme = colorScheme,
