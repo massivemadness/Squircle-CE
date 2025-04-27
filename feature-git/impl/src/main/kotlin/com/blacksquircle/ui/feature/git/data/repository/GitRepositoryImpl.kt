@@ -21,6 +21,8 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.git.domain.exception.GitException
 import com.blacksquircle.ui.feature.git.domain.exception.GitPullException
 import com.blacksquircle.ui.feature.git.domain.exception.GitPushException
+import com.blacksquircle.ui.feature.git.domain.model.ChangeType
+import com.blacksquircle.ui.feature.git.domain.model.GitChange
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import kotlinx.coroutines.withContext
 import org.eclipse.jgit.api.Git
@@ -52,20 +54,20 @@ internal class GitRepositoryImpl(
         }
     }
 
-    override suspend fun changesList(repository: String): List<String> {
+    override suspend fun changesList(repository: String): List<GitChange> {
         return withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
-                val status = git.status().call()
-                val changesList = mutableListOf<String>()
-                changesList.addAll(status.added)
-                changesList.addAll(status.changed)
-                changesList.addAll(status.removed)
-                changesList.addAll(status.missing)
-                changesList.addAll(status.modified)
-                changesList.addAll(status.untracked)
-                changesList.addAll(status.conflicting)
-                changesList
+                buildList {
+                    val status = git.status().call()
+                    addAll(status.added.map { GitChange(it, ChangeType.ADDED) })
+                    addAll(status.changed.map { GitChange(it, ChangeType.MODIFIED) })
+                    addAll(status.removed.map { GitChange(it, ChangeType.DELETED) })
+                    addAll(status.missing.map { GitChange(it, ChangeType.DELETED) })
+                    addAll(status.modified.map { GitChange(it, ChangeType.MODIFIED) })
+                    addAll(status.untracked.map { GitChange(it, ChangeType.ADDED) })
+                    addAll(status.conflicting.map { GitChange(it, ChangeType.MODIFIED) })
+                }
             }
         }
     }
@@ -146,15 +148,19 @@ internal class GitRepositoryImpl(
 
     override suspend fun commit(
         repository: String,
-        changes: List<String>,
+        changes: List<GitChange>,
         message: String,
         isAmend: Boolean
     ) {
         withContext(dispatcherProvider.io()) {
             val repoDir = File(repository)
             Git.open(repoDir).use { git ->
-                changes.forEach { file ->
-                    git.add().addFilepattern(file).call()
+                changes.forEach { change ->
+                    when (change.changeType) {
+                        ChangeType.ADDED -> git.add().addFilepattern(change.name).call()
+                        ChangeType.MODIFIED -> git.add().addFilepattern(change.name).call()
+                        ChangeType.DELETED -> git.rm().addFilepattern(change.name).call()
+                    }
                 }
                 git.commit()
                     .setAuthor(settingsManager.gitUserName, settingsManager.gitUserEmail)

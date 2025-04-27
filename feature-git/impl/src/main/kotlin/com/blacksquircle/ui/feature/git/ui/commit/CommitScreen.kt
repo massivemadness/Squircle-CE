@@ -46,6 +46,8 @@ import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.api.navigation.CommitDialog
+import com.blacksquircle.ui.feature.git.domain.model.ChangeType
+import com.blacksquircle.ui.feature.git.domain.model.GitChange
 import com.blacksquircle.ui.feature.git.internal.GitComponent
 import com.blacksquircle.ui.feature.git.ui.commit.compose.ChangeList
 
@@ -83,7 +85,7 @@ internal fun CommitScreen(
 @Composable
 private fun CommitScreen(
     viewState: CommitViewState,
-    onChangeSelected: (String) -> Unit = {},
+    onChangeSelected: (GitChange) -> Unit = {},
     onCommitMessageChanged: (String) -> Unit = {},
     onAmendClicked: () -> Unit = {},
     onCommitClicked: () -> Unit = {},
@@ -135,7 +137,7 @@ private fun CommitScreen(
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
                         )
 
-                        Spacer(Modifier.height(8.dp))
+                        Spacer(Modifier.height(6.dp))
 
                         ChangeList(
                             changesList = viewState.changesList,
@@ -144,7 +146,7 @@ private fun CommitScreen(
                             modifier = Modifier.heightIn(max = 200.dp)
                         )
 
-                        Spacer(Modifier.height(16.dp))
+                        Spacer(Modifier.height(12.dp))
 
                         TextField(
                             inputText = viewState.commitMessage,
@@ -179,8 +181,16 @@ private fun CommitScreenPreview() {
     PreviewBackground {
         CommitScreen(
             viewState = CommitViewState(
-                changesList = listOf("untitled.txt", "text.txt"),
-                selectedChanges = listOf("untitled.txt"),
+                changesList = listOf(
+                    GitChange("added.txt", ChangeType.ADDED),
+                    GitChange("modified.txt", ChangeType.MODIFIED),
+                    GitChange("deleted.txt", ChangeType.DELETED),
+                ),
+                selectedChanges = listOf(
+                    GitChange("added.txt", ChangeType.ADDED),
+                    GitChange("modified.txt", ChangeType.MODIFIED),
+                    GitChange("deleted.txt", ChangeType.DELETED),
+                ),
                 isCommitting = false,
                 isLoading = false,
             ),

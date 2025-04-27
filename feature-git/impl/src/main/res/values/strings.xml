@@ -59,6 +59,9 @@
     <string name="git_checkout_checking_out">Checking out the branch…</string>
     <string name="git_checkout_checked_out">Checked out %1$s</string>
 
+    <string name="git_added">Added</string>
+    <string name="git_modified">Modified</string>
+    <string name="git_deleted">Deleted</string>
     <string name="git_fatal" translatable="false">fatal: %1$s</string>
 
 </resources>

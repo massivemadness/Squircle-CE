@@ -49,4 +49,7 @@
     <string name="git_checkout_branch_base">Your branch will be based on %1$s</string>
     <string name="git_checkout_checking_out">Checking out the branch…</string>
     <string name="git_checkout_checked_out">Checked out %1$s</string>
+    <string name="git_added">Added</string>
+    <string name="git_modified">Modified</string>
+    <string name="git_deleted">Deleted</string>
 </resources>
