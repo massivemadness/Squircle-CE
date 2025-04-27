@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
+import com.blacksquircle.ui.ds.textfield.TextFieldStyleDefaults
 
 @Composable
 fun TextFieldPreference(
@@ -64,7 +65,9 @@ fun TextFieldPreference(
                     onInputChanged = { text.value = it },
                     labelText = labelText,
                     helpText = helpText,
-                    textStyle = inputTextStyle,
+                    textFieldStyle = TextFieldStyleDefaults.Default.copy(
+                        textStyle = inputTextStyle,
+                    ),
                 )
             },
             confirmButton = confirmButton,

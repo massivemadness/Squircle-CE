@@ -36,7 +36,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.R
-import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.modifier.debounceClickable
 
 @Composable
@@ -48,13 +47,14 @@ fun OutlinedButton(
     endIconResId: Int? = null,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource? = null,
+    outlinedButtonStyle: OutlinedButtonStyle = OutlinedButtonStyleDefaults.Primary,
     outlinedButtonSize: OutlinedButtonSize = OutlinedButtonSizeDefaults.S,
 ) {
     val buttonShape = RoundedCornerShape(outlinedButtonSize.cornerRadius)
     val buttonColor = if (enabled) {
-        SquircleTheme.colors.colorPrimary
+        outlinedButtonStyle.enabledTextColor
     } else {
-        SquircleTheme.colors.colorTextAndIconDisabled
+        outlinedButtonStyle.disabledTextColor
     }
 
     Row(
@@ -75,7 +75,7 @@ fun OutlinedButton(
             )
             .border(
                 width = outlinedButtonSize.borderSize,
-                color = SquircleTheme.colors.colorOutline,
+                color = outlinedButtonStyle.borderColor,
                 shape = buttonShape,
             )
             .padding(outlinedButtonSize.innerPadding)
@@ -91,7 +91,7 @@ fun OutlinedButton(
         Text(
             text = text.uppercase(),
             color = buttonColor,
-            style = SquircleTheme.typography.text14Medium,
+            style = outlinedButtonStyle.textStyle,
             modifier = Modifier.padding(outlinedButtonSize.textPadding)
         )
         if (endIconResId != null) {

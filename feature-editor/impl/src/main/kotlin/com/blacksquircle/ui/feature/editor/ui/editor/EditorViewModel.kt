@@ -691,6 +691,16 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    fun onDocumentRefreshed() {
+        viewModelScope.launch {
+            if (selectedPosition in documents.indices) {
+                val document = documents[selectedPosition].document
+                documentRepository.refreshDocument(document)
+                loadDocument(document, fromUser = false)
+            }
+        }
+    }
+
     fun onDocumentClicked(document: DocumentModel) {
         loadDocument(document, fromUser = true)
     }
@@ -761,6 +771,7 @@ internal class EditorViewModel @Inject constructor(
                         removedPosition + 1 < documents.size -> removedPosition
                         else -> -1
                     }
+
                     removedPosition < selectedPosition -> selectedPosition - 1
                     removedPosition > selectedPosition -> selectedPosition
                     else -> -1
@@ -899,6 +910,7 @@ internal class EditorViewModel @Inject constructor(
                     val screen = StorageDeniedDialog
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 }
+
                 ErrorAction.CLOSE_DOCUMENT -> onCloseFileClicked()
                 ErrorAction.UNDEFINED -> Unit
             }
@@ -1151,6 +1163,7 @@ internal class EditorViewModel @Inject constructor(
             subtitle = stringProvider.getString(UiR.string.message_access_required),
             action = ErrorAction.REQUEST_PERMISSIONS,
         )
+
         else -> ErrorState(
             icon = UiR.drawable.ic_file_error,
             title = stringProvider.getString(UiR.string.common_error_occurred),

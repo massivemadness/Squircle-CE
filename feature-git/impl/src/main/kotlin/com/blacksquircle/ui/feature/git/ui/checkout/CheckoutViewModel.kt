@@ -20,8 +20,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.core.provider.resources.StringProvider
-import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -39,7 +37,6 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class CheckoutViewModel @AssistedInject constructor(
-    private val stringProvider: StringProvider,
     private val gitRepository: GitRepository,
     @Assisted private val repository: String,
 ) : ViewModel() {
@@ -98,26 +95,14 @@ internal class CheckoutViewModel @AssistedInject constructor(
                         branchName = newBranchName,
                         branchBase = currentBranch
                     )
-
-                    val message = stringProvider.getString(
-                        R.string.git_checkout_checked_out,
-                        newBranchName
-                    )
-                    _viewEvent.send(ViewEvent.Toast(message))
+                    _viewEvent.send(CheckoutViewEvent.CheckoutComplete(newBranchName))
                 } else {
                     gitRepository.checkout(
                         repository = repository,
                         branchName = currentBranch
                     )
-
-                    val message = stringProvider.getString(
-                        R.string.git_checkout_checked_out,
-                        currentBranch
-                    )
-                    _viewEvent.send(ViewEvent.Toast(message))
+                    _viewEvent.send(CheckoutViewEvent.CheckoutComplete(currentBranch))
                 }
-
-                _viewEvent.send(ViewEvent.PopBackStack)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {

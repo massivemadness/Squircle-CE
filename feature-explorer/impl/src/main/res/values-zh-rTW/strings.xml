@@ -22,7 +22,6 @@
     <string name="action_authenticate">驗證</string>
     <string name="action_create">新增</string>
     <string name="action_copy_path">複製路徑</string>
-    <string name="action_folder">資料夾</string>
     <string name="action_rename">重新命名</string>
     <string name="action_run_in_background">在後台運行</string>
     <string name="action_show_hidden_files">顯示隱藏檔案</string>
@@ -53,7 +52,6 @@
     <string name="properties_size">檔案大小：</string>
     <string name="properties_date_format">yyyy年MM月dd日 HH:mm</string>
     <string name="explorer_date_format">yyyy/M/d HH:mm:ss</string>
-    <string name="progress_time_format">mm:ss</string>
     <string name="sort_by_name">依名稱排序</string>
     <string name="sort_by_size">依大小排序</string>
     <string name="sort_by_date">依日期排序</string>

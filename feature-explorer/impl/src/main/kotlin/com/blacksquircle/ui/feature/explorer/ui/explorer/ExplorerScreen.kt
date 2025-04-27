@@ -45,7 +45,6 @@ import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
-import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.Breadcrumb
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.BreadcrumbNavigation
@@ -57,16 +56,16 @@ import com.blacksquircle.ui.feature.servers.api.navigation.CloudScreen
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
-import com.blacksquircle.ui.ds.R as UiR
 
 internal const val KEY_AUTHENTICATION = "KEY_AUTHENTICATION"
 internal const val KEY_COMPRESS_FILE = "KEY_COMPRESS_FILE"
 internal const val KEY_CREATE_FILE = "KEY_CREATE_FILE"
+internal const val KEY_CREATE_FOLDER = "KEY_CREATE_FOLDER"
+internal const val KEY_CLONE_REPO = "KEY_CLONE_REPO"
 internal const val KEY_RENAME_FILE = "KEY_RENAME_FILE"
 internal const val KEY_DELETE_FILE = "KEY_DELETE_FILE"
 
 internal const val ARG_USER_INPUT = "ARG_USER_INPUT"
-internal const val ARG_IS_FOLDER = "ARG_IS_FOLDER"
 
 @Composable
 internal fun ExplorerScreen(
@@ -87,7 +86,9 @@ internal fun ExplorerScreen(
         onClearQueryClicked = viewModel::onClearQueryClicked,
         onShowHiddenClicked = viewModel::onShowHiddenClicked,
         onSortModeSelected = viewModel::onSortModeSelected,
-        onCreateClicked = viewModel::onCreateClicked,
+        onCreateFileClicked = viewModel::onCreateFileClicked,
+        onCreateFolderClicked = viewModel::onCreateFolderClicked,
+        onCloneRepoClicked = viewModel::onCloneRepoClicked,
         onCopyClicked = viewModel::onCopyClicked,
         onPasteClicked = viewModel::onPasteClicked,
         onDeleteClicked = viewModel::onDeleteClicked,
@@ -149,8 +150,15 @@ internal fun ExplorerScreen(
     }
     NavResultEffect(KEY_CREATE_FILE) { bundle ->
         val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
-        val isFolder = bundle.getBoolean(ARG_IS_FOLDER)
-        viewModel.createFile(fileName, isFolder)
+        viewModel.createFile(fileName)
+    }
+    NavResultEffect(KEY_CREATE_FOLDER) { bundle ->
+        val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+        viewModel.createFolder(fileName)
+    }
+    NavResultEffect(KEY_CLONE_REPO) { bundle ->
+        val url = bundle.getString(ARG_USER_INPUT).orEmpty()
+        viewModel.cloneRepository(url)
     }
     NavResultEffect(KEY_RENAME_FILE) { bundle ->
         val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
@@ -179,7 +187,9 @@ private fun ExplorerScreen(
     onClearQueryClicked: () -> Unit = {},
     onShowHiddenClicked: () -> Unit = {},
     onSortModeSelected: (SortMode) -> Unit = {},
-    onCreateClicked: () -> Unit = {},
+    onCreateFileClicked: () -> Unit = {},
+    onCreateFolderClicked: () -> Unit = {},
+    onCloneRepoClicked: () -> Unit = {},
     onCopyClicked: () -> Unit = {},
     onPasteClicked: () -> Unit = {},
     onDeleteClicked: () -> Unit = {},
@@ -238,18 +248,12 @@ private fun ExplorerScreen(
                     }
                 },
                 selectedIndex = viewState.selectedBreadcrumb,
-                homeIcon = UiR.drawable.ic_home,
+                taskType = viewState.taskType,
                 onHomeClicked = onHomeClicked,
-                actionIcon = when (viewState.taskType) {
-                    TaskType.CUT,
-                    TaskType.COPY -> UiR.drawable.ic_paste
-                    else -> UiR.drawable.ic_plus
-                },
-                onActionClicked = when (viewState.taskType) {
-                    TaskType.CUT,
-                    TaskType.COPY -> onPasteClicked
-                    else -> onCreateClicked
-                },
+                onPasteClicked = onPasteClicked,
+                onCreateFileClicked = onCreateFileClicked,
+                onCreateFolderClicked = onCreateFolderClicked,
+                onCloneRepoClicked = onCloneRepoClicked,
                 modifier = Modifier.fillMaxWidth(),
             )
 

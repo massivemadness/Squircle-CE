@@ -1,6 +1,3 @@
-# https://github.com/massivemadness/Squircle-CE/issues/167
--keep class com.jcraft.jsch.** { *; }
-
 # Compose type-safe navigation
 -keep @kotlinx.serialization.Serializable class * {
     *;
@@ -15,7 +12,13 @@
 # TextMate
 -keep class org.eclipse.tm4e.** { *; }
 
-# Unresolved classes
+# JGit
+-keep class org.eclipse.jgit.** { *; }
+-dontwarn javax.management.**
+-dontwarn java.lang.management.ManagementFactory
+-dontwarn org.eclipse.jgit.util.Monitoring
+
+# BouncyCastle
 -dontwarn com.sun.jna.Library
 -dontwarn com.sun.jna.Memory
 -dontwarn com.sun.jna.Native
@@ -33,6 +36,9 @@
 -dontwarn com.sun.jna.platform.win32.WinDef$HWND
 -dontwarn com.sun.jna.platform.win32.WinDef$WPARAM
 -dontwarn com.sun.jna.platform.win32.WinNT$HANDLE
+
+# JSch
+-keep class com.jcraft.jsch.** { *; }
 -dontwarn com.sun.jna.win32.W32APIOptions
 -dontwarn org.apache.logging.log4j.Level
 -dontwarn org.apache.logging.log4j.LogManager

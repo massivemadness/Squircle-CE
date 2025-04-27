@@ -35,10 +35,9 @@
     <string name="common_alt" translatable="false">Alt</string>
     <string name="common_space" translatable="false">Space</string>
     <string name="common_tab" translatable="false">Tab</string>
+    <string name="common_https" translatable="false">https://</string>
 
     <string name="message_access_denied">Access Denied</string>
     <string name="message_access_required">Application requires storage access to work with files</string>
-
-    <string name="dialog_title_color_picker">Color Picker</string>
 
 </resources>

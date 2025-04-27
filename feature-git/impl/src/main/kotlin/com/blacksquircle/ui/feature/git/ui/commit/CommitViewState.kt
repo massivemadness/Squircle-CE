@@ -18,11 +18,12 @@ package com.blacksquircle.ui.feature.git.ui.commit
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
+import com.blacksquircle.ui.feature.git.domain.model.GitChange
 
 @Immutable
 internal data class CommitViewState(
-    val changesList: List<String> = emptyList(),
-    val selectedChanges: List<String> = emptyList(),
+    val changesList: List<GitChange> = emptyList(),
+    val selectedChanges: List<GitChange> = emptyList(),
     val isCommitting: Boolean = false,
     val isAmend: Boolean = false,
     val isLoading: Boolean = true,

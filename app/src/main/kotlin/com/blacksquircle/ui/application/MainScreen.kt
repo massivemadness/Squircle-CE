@@ -42,7 +42,6 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.animation.NavigationTransition
 import com.blacksquircle.ui.ds.extensions.LocalNavController
-import com.blacksquircle.ui.feature.changelog.ui.changelogGraph
 import com.blacksquircle.ui.feature.editor.api.navigation.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.editorGraph
 import com.blacksquircle.ui.feature.explorer.ui.explorerGraph
@@ -86,7 +85,6 @@ internal fun MainScreen(
                     popExitTransition = { NavigationTransition.PopExitTransition },
                 ) {
                     mainGraph(navController)
-                    changelogGraph(navController)
                     editorGraph(navController)
                     explorerGraph(navController)
                     fontsGraph(navController)

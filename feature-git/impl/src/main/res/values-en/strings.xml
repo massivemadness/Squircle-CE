@@ -14,9 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="action_create">Create</string>
     <string name="action_checkout">Checkout</string>
     <string name="action_new_branch">New branch</string>
@@ -24,17 +22,14 @@
     <string name="action_amend">Amend</string>
     <string name="action_push">Push</string>
     <string name="action_force">Force</string>
-
     <string name="git_fetch_title">Fetch</string>
     <string name="git_fetch_description">Fetch content from remote repository</string>
     <string name="git_fetch_fetching">Fetching updates from the remote repository…</string>
     <string name="git_fetch_complete">Fetch completed</string>
-
     <string name="git_pull_title">Pull</string>
     <string name="git_pull_description">Pull changes from remote repository</string>
     <string name="git_pull_pulling">Pulling changes from the remote repository…</string>
     <string name="git_pull_complete">Pull completed</string>
-
     <string name="git_commit_title">Commit</string>
     <string name="git_commit_description">Commit local repository changes</string>
     <string name="git_commit_message">Commit message</string>
@@ -42,19 +37,21 @@
     <string name="git_commit_no_changes">No changes</string>
     <string name="git_commit_committing">Committing your changes to the local repository…</string>
     <string name="git_commit_complete">Commit created</string>
-
     <string name="git_push_title">Push</string>
     <string name="git_push_description">Push content to remote repository</string>
+    <string name="git_push_branch">This branch does not exist on the remote repository. Push it to create a new remote branch?</string>
     <string name="git_push_commits">You are about to push %1$d commit(s) to %2$s. Continue?</string>
     <string name="git_push_no_commits">There are no commits to push</string>
     <string name="git_push_pushing">Pushing changes to the remote repository…</string>
     <string name="git_push_complete">Push completed</string>
-
     <string name="git_checkout_title">Checkout</string>
     <string name="git_checkout_description">Change or create local repository branch</string>
+    <string name="git_checkout_branches">Branches</string>
     <string name="git_checkout_branch_name">Branch name</string>
     <string name="git_checkout_branch_base">Your branch will be based on %1$s</string>
     <string name="git_checkout_checking_out">Checking out the branch…</string>
     <string name="git_checkout_checked_out">Checked out %1$s</string>
-
+    <string name="git_added">Added</string>
+    <string name="git_modified">Modified</string>
+    <string name="git_deleted">Deleted</string>
 </resources>

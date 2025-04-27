@@ -25,7 +25,12 @@ data class GitDialog(val repository: String)
 data class FetchDialog(val repository: String)
 
 @Serializable
-data class PullDialog(val repository: String)
+data class PullDialog(val repository: String) {
+
+    companion object {
+        const val KEY_PULL = "KEY_PULL"
+    }
+}
 
 @Serializable
 data class CommitDialog(val repository: String)
@@ -34,4 +39,9 @@ data class CommitDialog(val repository: String)
 data class PushDialog(val repository: String)
 
 @Serializable
-data class CheckoutDialog(val repository: String)
+data class CheckoutDialog(val repository: String) {
+
+    companion object {
+        const val KEY_CHECKOUT = "KEY_CHECKOUT"
+    }
+}

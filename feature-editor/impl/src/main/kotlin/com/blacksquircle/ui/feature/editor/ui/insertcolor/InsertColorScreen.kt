@@ -27,12 +27,11 @@ import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.editor.ARG_COLOR
 import com.blacksquircle.ui.feature.editor.ui.editor.KEY_INSERT_COLOR
-import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun InsertColorScreen(navController: NavController) {
     ColorPickerDialog(
-        title = stringResource(UiR.string.dialog_title_color_picker),
+        title = stringResource(R.string.dialog_title_color_picker),
         confirmButton = stringResource(R.string.action_insert),
         dismissButton = stringResource(android.R.string.cancel),
         onColorSelected = { color ->

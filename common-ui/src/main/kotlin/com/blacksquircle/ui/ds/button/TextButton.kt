@@ -30,7 +30,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.modifier.debounceClickable
 
 @Composable
@@ -41,6 +40,7 @@ fun TextButton(
     enabled: Boolean = true,
     debounce: Boolean = true,
     interactionSource: MutableInteractionSource? = null,
+    textButtonStyle: TextButtonStyle = TextButtonStyleDefaults.Primary,
     textButtonSize: TextButtonSize = TextButtonSizeDefaults.S,
 ) {
     Box(
@@ -64,11 +64,11 @@ fun TextButton(
         Text(
             text = text.uppercase(),
             color = if (enabled) {
-                SquircleTheme.colors.colorPrimary
+                textButtonStyle.enabledTextColor
             } else {
-                SquircleTheme.colors.colorTextAndIconDisabled
+                textButtonStyle.disabledTextColor
             },
-            style = SquircleTheme.typography.text14Medium,
+            style = textButtonStyle.textStyle,
         )
     }
 }

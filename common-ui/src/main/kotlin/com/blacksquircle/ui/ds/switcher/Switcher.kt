@@ -28,15 +28,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.extensions.clearSemantics
 import com.blacksquircle.ui.ds.extensions.mergeSemantics
 import com.blacksquircle.ui.ds.modifier.debounceToggleable
+
+private const val CheckedTrackAlpha = 0.54f
+private const val UncheckedTrackAlpha = 0.38f
 
 @Composable
 fun Switcher(
@@ -45,7 +46,7 @@ fun Switcher(
     onClick: () -> Unit = {},
     checked: Boolean = true,
     enabled: Boolean = true,
-    textStyle: TextStyle = SquircleTheme.typography.text16Regular,
+    switcherStyle: SwitcherStyle = SwitcherStyleDefaults.Primary,
     interactionSource: MutableInteractionSource? = remember { MutableInteractionSource() }
 ) {
     Row(
@@ -67,16 +68,16 @@ fun Switcher(
                 enabled = enabled,
                 interactionSource = interactionSource,
                 colors = SwitchDefaults.colors(
-                    checkedThumbColor = SquircleTheme.colors.colorPrimary,
-                    checkedTrackColor = SquircleTheme.colors.colorPrimary,
-                    checkedTrackAlpha = 0.54f,
-                    uncheckedThumbColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                    uncheckedTrackColor = SquircleTheme.colors.colorTextAndIconSecondary,
-                    uncheckedTrackAlpha = 0.38f,
-                    disabledCheckedThumbColor = SquircleTheme.colors.colorTextAndIconDisabled,
-                    disabledCheckedTrackColor = SquircleTheme.colors.colorTextAndIconDisabled,
-                    disabledUncheckedThumbColor = SquircleTheme.colors.colorTextAndIconDisabled,
-                    disabledUncheckedTrackColor = SquircleTheme.colors.colorTextAndIconDisabled,
+                    checkedThumbColor = switcherStyle.checkedColor,
+                    checkedTrackColor = switcherStyle.checkedColor,
+                    checkedTrackAlpha = CheckedTrackAlpha,
+                    uncheckedThumbColor = switcherStyle.uncheckedColor,
+                    uncheckedTrackColor = switcherStyle.uncheckedColor,
+                    uncheckedTrackAlpha = UncheckedTrackAlpha,
+                    disabledCheckedThumbColor = switcherStyle.disabledColor,
+                    disabledCheckedTrackColor = switcherStyle.disabledColor,
+                    disabledUncheckedThumbColor = switcherStyle.disabledColor,
+                    disabledUncheckedTrackColor = switcherStyle.disabledColor,
                 ),
                 modifier = Modifier.clearSemantics()
             )
@@ -84,11 +85,11 @@ fun Switcher(
         if (title != null) {
             Text(
                 text = title,
-                style = textStyle,
+                style = switcherStyle.textStyle,
                 color = if (enabled) {
-                    SquircleTheme.colors.colorTextAndIconPrimary
+                    switcherStyle.enabledTextColor
                 } else {
-                    SquircleTheme.colors.colorTextAndIconDisabled
+                    switcherStyle.disabledTextColor
                 },
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,

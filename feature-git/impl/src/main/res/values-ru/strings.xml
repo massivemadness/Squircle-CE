@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="action_create">Создать</string>
+    <string name="action_checkout">Checkout</string>
+    <string name="action_new_branch">Новая ветка</string>
+    <string name="action_commit">Commit</string>
+    <string name="action_amend">Amend</string>
+    <string name="action_push">Push</string>
+    <string name="action_force">Force</string>
+    <string name="git_fetch_title">Fetch</string>
+    <string name="git_fetch_description">Проверить обновления в удаленном репозитории</string>
+    <string name="git_fetch_fetching">Проверка обновлений в удаленном репозитории…</string>
+    <string name="git_fetch_complete">Проверка завершена</string>
+    <string name="git_pull_title">Pull</string>
+    <string name="git_pull_description">Получить изменения из удаленного репозитория</string>
+    <string name="git_pull_pulling">Получение изменений из удаленного репозитория…</string>
+    <string name="git_pull_complete">Получение завершено</string>
+    <string name="git_commit_title">Commit</string>
+    <string name="git_commit_description">Коммит изменений в локальный репозиторий</string>
+    <string name="git_commit_message">Сообщение</string>
+    <string name="git_commit_uncommitted_changes">Незакоммиченные изменения</string>
+    <string name="git_commit_no_changes">Нет изменений</string>
+    <string name="git_commit_committing">Создание коммита с изменениями в локальный репозиторий…</string>
+    <string name="git_commit_complete">Коммит создан</string>
+    <string name="git_push_title">Push</string>
+    <string name="git_push_description">Отправить изменения в удаленный репозиторий</string>
+    <string name="git_push_branch">Эта ветка отсутствует в удалённом репозитории. Хотите создать новую удалённую ветку?</string>
+    <string name="git_push_commits">Вы собираетесь отправить %1$d коммит(ов) в ветку %2$s. Продолжить?</string>
+    <string name="git_push_no_commits">Нет коммитов для отправки</string>
+    <string name="git_push_pushing">Отправка изменений в удаленный репозиторий…</string>
+    <string name="git_push_complete">Отправка завершена</string>
+    <string name="git_checkout_title">Checkout</string>
+    <string name="git_checkout_description">Переключение или создание локальной ветки</string>
+    <string name="git_checkout_branches">Список веток</string>
+    <string name="git_checkout_branch_name">Имя ветки</string>
+    <string name="git_checkout_branch_base">Новая ветка будет основана на %1$s</string>
+    <string name="git_checkout_checking_out">Переключение ветки…</string>
+    <string name="git_checkout_checked_out">Текущая ветка %1$s</string>
+    <string name="git_added">Добавлено</string>
+    <string name="git_modified">Изменено</string>
+    <string name="git_deleted">Удалено</string>
+</resources>

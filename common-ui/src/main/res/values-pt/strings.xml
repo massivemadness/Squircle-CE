@@ -26,5 +26,4 @@
     <string name="common_grant_access">Permitir acesso</string>
     <string name="message_access_denied">Acesso negado</string>
     <string name="message_access_required">O Squircle precisa de acesso ao armazenamento para trabalhar com arquivos</string>
-    <string name="dialog_title_color_picker">Paleta de cores</string>
 </resources>

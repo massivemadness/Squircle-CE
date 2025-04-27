@@ -126,6 +126,7 @@ internal class TaskService : ComponentService() {
                 TaskType.COPY -> getString(R.string.dialog_title_copying)
                 TaskType.COMPRESS -> getString(R.string.dialog_title_compressing)
                 TaskType.EXTRACT -> getString(R.string.dialog_title_extracting)
+                TaskType.CLONE -> getString(R.string.dialog_title_cloning)
             },
             notificationMessage = details,
             smallIcon = UiR.drawable.ic_file_clock,

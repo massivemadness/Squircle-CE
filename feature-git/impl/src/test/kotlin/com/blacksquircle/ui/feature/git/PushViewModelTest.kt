@@ -61,9 +61,8 @@ class PushViewModelTest {
     fun `When screen opens Then load branch and commits`() = runTest {
         // Given
         val branch = "master"
-        val commits = listOf("Commit 1", "Commit 2")
         coEvery { gitRepository.currentBranch(any()) } returns branch
-        coEvery { gitRepository.localCommits(any()) } returns commits
+        coEvery { gitRepository.commitCount(any()) } returns 2
 
         // When
         val viewModel = createViewModel() // init {}
@@ -71,20 +70,19 @@ class PushViewModelTest {
         // Then
         val viewState = PushViewState(
             currentBranch = branch,
-            commits = commits,
+            commitCount = 2,
             isLoading = false,
         )
         assertEquals(viewState, viewModel.viewState.value)
 
         coVerify(exactly = 1) { gitRepository.currentBranch(any()) }
-        coVerify(exactly = 1) { gitRepository.localCommits(any()) }
+        coVerify(exactly = 1) { gitRepository.commitCount(any()) }
     }
 
     @Test
     fun `When user has no local commits Then display error`() = runTest {
         // Given
-        val commits = emptyList<String>()
-        coEvery { gitRepository.localCommits(any()) } returns commits
+        coEvery { gitRepository.commitCount(any()) } returns 0
         every { stringProvider.getString(any()) } returns "error message"
 
         // When
