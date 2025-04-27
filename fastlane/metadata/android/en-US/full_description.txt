@@ -1,33 +1,39 @@
-<b>Squircle CE</b> currently supports coding in the following programming languages: C, C++, C#, CSS, Fortran, Go, Groovy, HTML, Ini, Java, JavaScript, Json, Julia, Kotlin, LaTeX, Lisp, Lua, Markdown, PHP, Python, Ruby, Rust, Shell, Smali, SQL, Toml, TypeScript, Visual Basic, XML and YAML.
+<b>Squircle CE</b> is a fast, lightweight code editor and file manager with support for over 30 programming languages, remote file access via SFTP/FTP(S) and Git VCS integration. Whether you're a student, hobbyist, or professional developer, Squircle CE lets you write, manage, and version your source code anywhere, anytime — right on your phone or tablet.
 
-Here is a list of features that will help you work with more productivity:
+Here are some of the features that help you code more efficiently:
 
-<b>Syntax Highlighting</b>
-Beautiful syntax highlighting provides you a better way to understand your code at a glance
+<b>• Multi-language Support</b>
+Code in 30+ languages: Java, Kotlin, Python, C/C++, HTML, JavaScript, TypeScript, PHP, Rust, Go, and more.
 
-<b>Code Completion</b>
-The code editor provides basic completion based on a file content, it suggests names of functions, fields, and keywords within your file scope
+<b>• Syntax Highlighting</b>
+Clean and colorful syntax highlighting helps you understand your code at a glance.
 
-<b>File Manager</b>
-A built-in file manager with SFTP/FTP(S) integration provides a convenient way to transfer files between mobile phone and computer
+<b>• Code Completion</b>
+Speed up coding with smart suggestions for variables, functions, and keywords based on your file content.
 
-<b>Cross-session Editing</b>
-All your changes automatically will be saved in cache, you don't need to save file every time you exit app
+<b>• Git Integration</b>
+Version control your code directly in the editor. Commit, push, pull, and manage branches with ease.
 
-<b>Unlimited Undo/Redo</b>
-If you made a mistake or you want to fall back to the source code you edited yesterday, simply use «Undo» button
+<b>• File Manager</b>
+Manage files locally or remotely with SFTP/FTP(S) support - you don't need any other file managing app.
 
-<b>Highlight Matching Delimiters</b>
-When you work with code in the editor, it can help you quickly understand code structure by highlighting the opening or closing delimiter ((), [], and {}) when you set the caret at its pair
+<b>• Cross-session Editing</b>
+Never lose your work — all changes are saved automatically, so you can pick up right where you left off.
 
-<b>Code Style</b>
-Squircle CE provides a better way to write your code, the editor will automatically indent lines, close open brackets, braces and quotes
+<b>• Unlimited Undo/Redo</b>
+Correct mistakes easily with unlimited undo and redo, even after restarting the app.
 
-<b>Select, Delete, and Duplicate Line</b>
-You can easily delete or clone a part of code using handsome options in «Edit» menu
+<b>• Bracket Matching</b>
+Quickly understand code structure with automatic highlighting of matching brackets (), [], and {}.
 
-<b>Color Schemes</b>
-Different color schemes defines syntax highlighting for reserved words and other symbols in your source code: operators, keywords, suggestions, string literals, and so on
+<b>• Code Style</b>
+Write cleaner code with automatic indentation and smart closing of brackets, braces, and quotes.
 
-<b>OPEN SOURCE CODE</b>
-<b>•</b> <u>https://github.com/massivemadness/Squircle-CE</u>
+<b>• Advanced Editing Tools</b>
+Easily select, delete, or duplicate lines with convenient editing options.
+
+<b>• Color Schemes</b>
+Choose from a variety of themes that match your preferred coding environment.
+
+<b>• Open Source</b>
+Explore and contribute: <u>https://github.com/massivemadness/Squircle-CE</u>
