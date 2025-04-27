@@ -39,14 +39,19 @@
     <string name="git_commit_complete">Коммит создан</string>
     <string name="git_push_title">Push</string>
     <string name="git_push_description">Отправить изменения в удаленный репозиторий</string>
+    <string name="git_push_branch">Эта ветка отсутствует в удалённом репозитории. Хотите создать новую удалённую ветку?</string>
     <string name="git_push_commits">Вы собираетесь отправить %1$d коммит(ов) в ветку %2$s. Продолжить?</string>
     <string name="git_push_no_commits">Нет коммитов для отправки</string>
     <string name="git_push_pushing">Отправка изменений в удаленный репозиторий…</string>
     <string name="git_push_complete">Отправка завершена</string>
     <string name="git_checkout_title">Checkout</string>
     <string name="git_checkout_description">Смена или создание локальной ветки</string>
+    <string name="git_checkout_branches">Список веток</string>
     <string name="git_checkout_branch_name">Имя ветки</string>
     <string name="git_checkout_branch_base">Новая ветка будет основана на %1$s</string>
     <string name="git_checkout_checking_out">Смена ветки…</string>
     <string name="git_checkout_checked_out">Текущая ветка %1$s</string>
+    <string name="git_added">Добавлено</string>
+    <string name="git_modified">Изменено</string>
+    <string name="git_deleted">Удалено</string>
 </resources>
