@@ -114,6 +114,20 @@ internal class DocumentRepositoryImpl(
         }
     }
 
+    override suspend fun refreshDocument(document: DocumentModel) {
+        withContext(dispatcherProvider.io()) {
+            cacheManager.delete(document)
+            documentDao.updateProperties(
+                uuid = document.uuid,
+                modified = false,
+                scrollX = 0,
+                scrollY = 0,
+                selectionStart = 0,
+                selectionEnd = 0,
+            )
+        }
+    }
+
     override suspend fun reorderDocuments(from: DocumentModel, to: DocumentModel) {
         withContext(dispatcherProvider.io()) {
             documentDao.reorderDocuments(

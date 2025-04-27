@@ -70,6 +70,8 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorController
 import com.blacksquircle.ui.feature.editor.ui.editor.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.editor.model.rememberEditorController
 import com.blacksquircle.ui.feature.explorer.ui.DrawerExplorer
+import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog.Companion.KEY_CHECKOUT
+import com.blacksquircle.ui.feature.git.api.navigation.PullDialog.Companion.KEY_PULL
 import kotlinx.coroutines.launch
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -215,6 +217,12 @@ internal fun EditorScreen(
     NavResultEffect(KEY_INSERT_COLOR) { bundle ->
         val color = bundle.getInt(ARG_COLOR)
         viewModel.onColorSelected(color)
+    }
+    NavResultEffect(KEY_PULL) {
+        viewModel.onDocumentRefreshed()
+    }
+    NavResultEffect(KEY_CHECKOUT) {
+        viewModel.onDocumentRefreshed()
     }
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {

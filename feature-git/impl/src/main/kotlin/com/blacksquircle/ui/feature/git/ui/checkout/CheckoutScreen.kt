@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.git.ui.checkout
 
+import android.os.Bundle
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,6 +35,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -46,6 +48,7 @@ import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog
+import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog.Companion.KEY_CHECKOUT
 import com.blacksquircle.ui.feature.git.internal.GitComponent
 import com.blacksquircle.ui.feature.git.ui.checkout.compose.BranchList
 
@@ -75,6 +78,12 @@ internal fun CheckoutScreen(
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
+                is CheckoutViewEvent.CheckoutComplete -> {
+                    context.showToast(R.string.git_checkout_checked_out, event.branchName)
+
+                    sendNavigationResult(KEY_CHECKOUT, Bundle.EMPTY)
+                    navController.popBackStack()
+                }
             }
         }
     }
