@@ -100,21 +100,18 @@ internal class GitRepositoryImpl(
                 val remoteRef = repositoryObject.findRef("refs/remotes/$GIT_ORIGIN/$branch")
                 if (remoteRef == null) {
                     Timber.w("No remote tracking branch found.")
+                    return@withContext -1
                 }
 
                 val localCommit = localRef.objectId
-                val remoteCommit = remoteRef?.objectId
+                val remoteCommit = remoteRef.objectId
 
                 RevWalk(repositoryObject).use { walk ->
                     val local = walk.parseCommit(localCommit)
+                    val remote = walk.parseCommit(remoteCommit)
 
-                    if (remoteCommit != null) {
-                        val remote = walk.parseCommit(remoteCommit)
-                        walk.markStart(local)
-                        walk.markUninteresting(remote)
-                    } else {
-                        walk.markStart(local)
-                    }
+                    walk.markStart(local)
+                    walk.markUninteresting(remote)
 
                     walk.count()
                 }

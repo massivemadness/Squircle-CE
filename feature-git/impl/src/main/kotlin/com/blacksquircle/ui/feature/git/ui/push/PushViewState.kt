@@ -33,7 +33,7 @@ internal data class PushViewState(
         get() = errorMessage.isNotEmpty() && !isLoading
 
     val isPushButtonEnabled: Boolean
-        get() = commitCount > 0 &&
+        get() = (commitCount > 0 || commitCount == -1) &&
             !isPushing &&
             !isError
 }
