@@ -19,4 +19,5 @@
     <string name="action_later">Позже</string>
     <string name="dialog_title_update">Доступно обновление</string>
     <string name="dialog_message_update">Доступна новая версия приложения. Вы можете установить ее сейчас, или обновить позже в магазине приложений.</string>
+    <string name="loading">Загрузка…</string>
 </resources>

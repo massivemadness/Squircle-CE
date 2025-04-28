@@ -20,15 +20,19 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
 @NonRestartableComposable
-fun CircularProgress(modifier: Modifier = Modifier) {
+fun CircularProgress(
+    color: Color = SquircleTheme.colors.colorPrimary,
+    modifier: Modifier = Modifier
+) {
     CircularProgressIndicator(
-        color = SquircleTheme.colors.colorPrimary,
+        color = color,
         modifier = modifier,
     )
 }
