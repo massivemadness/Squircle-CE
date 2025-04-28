@@ -25,4 +25,6 @@
     <string name="dialog_title_update">Update available</string>
     <string name="dialog_message_update">A new version of the app is available. You can install it now, or update later through the app store.</string>
 
+    <string name="loading">Loading…</string>
+
 </resources>

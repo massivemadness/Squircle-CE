@@ -161,13 +161,16 @@ internal class SquircleScheme private constructor(
             val superColor = super.getColor(type)
             if (superColor == 0) {
                 if (theme != null) {
-                    val color = theme?.getColor(type - 255)
-                    val newColor = if (color != null) {
+                    val color = try {
+                        theme?.getColor(type - 255)
+                    } catch (e: IndexOutOfBoundsException) {
+                        return super.getColor(TEXT_NORMAL)
+                    }
+                    val isDefault = color.equals("@default", ignoreCase = true)
+                    val newColor = if (color != null && !isDefault) {
                         Color.parseColor(color)
                     } else {
-                        super.getColor(
-                            TEXT_NORMAL
-                        )
+                        super.getColor(TEXT_NORMAL)
                     }
                     super.colors.put(type, newColor)
                     return newColor

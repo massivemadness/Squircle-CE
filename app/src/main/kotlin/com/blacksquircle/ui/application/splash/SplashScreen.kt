@@ -16,35 +16,64 @@
 
 package com.blacksquircle.ui.application.splash
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.Icon
-import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.R
 import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.R as UiR
+
+/** https://developer.android.com/develop/ui/views/launch/splash-screen#dimensions */
+private val SplashIconSize = 288.dp
 
 @Composable
 internal fun SplashScreen() {
-    Surface(
-        color = Color.Black,
-        modifier = Modifier.fillMaxSize(),
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black),
     ) {
         Icon(
             painter = painterResource(UiR.drawable.ic_splash_screen),
             contentDescription = null,
             tint = Color.Unspecified,
-            modifier = Modifier.padding(24.dp)
         )
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Spacer(Modifier.height(SplashIconSize))
+
+            CircularProgress(Color.White)
+
+            Text(
+                text = stringResource(R.string.loading),
+                style = SquircleTheme.typography.text16Regular,
+                color = Color.White,
+            )
+        }
     }
 }
 
-@PreviewLightDark
+@Preview
 @Composable
 private fun SplashScreenPreview() {
     PreviewBackground {
