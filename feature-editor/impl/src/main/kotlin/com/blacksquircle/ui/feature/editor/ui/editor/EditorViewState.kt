@@ -40,4 +40,12 @@ internal data class EditorViewState(
 
     val isError: Boolean
         get() = currentDocument?.errorState != null
+
+    val showExtendedKeyboard: Boolean
+        get() = settings.extendedKeyboard &&
+            settings.keyboardPreset.isNotEmpty() &&
+            !settings.readOnly &&
+            !isError &&
+            !isLoading &&
+            !isEmpty
 }

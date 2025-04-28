@@ -1,0 +1,38 @@
+<!--
+  - Copyright 2025 Squircle CE contributors.
+  -
+  - Licensed under the Apache License, Version 2.0 (the "License");
+  - you may not use this file except in compliance with the License.
+  - You may obtain a copy of the License at
+  -
+  -     http://www.apache.org/licenses/LICENSE-2.0
+  -
+  - Unless required by applicable law or agreed to in writing, software
+  - distributed under the License is distributed on an "AS IS" BASIS,
+  - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  - See the License for the specific language governing permissions and
+  - limitations under the License.
+  -->
+
+<svg width="288" height="288" viewBox="0 0 288 288" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <mask id="mask0_190_2403" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="48" y="48"
+        width="192" height="192">
+        <path
+            d="M48 144C48 197.019 90.9807 240 144 240C197.019 240 240 197.019 240 144C240 90.9807 197.019 48 144 48C90.9807 48 48 90.9807 48 144Z"
+            fill="white" />
+    </mask>
+    <g mask="url(#mask0_190_2403)">
+        <path
+            d="M86.9116 148.131L129.728 181.171V194.938L86.9116 161.897V148.131ZM158.271 181.171L201.087 148.131V161.897L158.271 194.938V181.171ZM81 137.117C81 141.418 83.2592 145.311 86.9116 148.131V161.897C83.2592 159.078 81 155.185 81 150.883V137.117ZM207 137.117V150.883C207 155.185 204.74 159.078 201.087 161.897V148.131C204.74 145.311 207 141.418 207 137.117ZM129.728 181.171C137.61 187.254 150.389 187.254 158.271 181.171V194.938C150.389 201.021 137.61 201.021 129.728 194.938V181.171ZM129.728 93.062C137.61 86.9793 150.389 86.9793 158.271 93.062L201.087 126.103C208.971 132.186 208.971 142.048 201.087 148.131L158.271 181.171C150.389 187.254 137.61 187.254 129.728 181.171L86.9116 148.131C79.0295 142.048 79.0295 132.186 86.9116 126.103L129.728 93.062Z"
+            fill="#D9D9D9" />
+        <path
+            d="M129.728 93.062C137.61 86.9793 150.389 86.9793 158.271 93.062L201.087 126.103C208.971 132.186 208.971 142.048 201.087 148.131L158.271 181.171C150.389 187.254 137.61 187.254 129.728 181.171L86.9116 148.131C79.0295 142.048 79.0295 132.186 86.9116 126.103L129.728 93.062Z"
+            fill="white" />
+        <path
+            d="M103.21 137.116L119.526 124.527L128.287 131.287L120.732 137.116L144.039 155.1L151.593 149.271L160.311 155.998L143.996 168.588L103.21 137.116Z"
+            fill="black" />
+        <path
+            d="M160.332 142.527L169.051 149.254L184.782 137.116L143.996 105.645L128.265 117.783L137.027 124.543L144.039 119.133L167.345 137.116L160.332 142.527Z"
+            fill="black" />
+    </g>
+</svg>
