@@ -325,14 +325,7 @@ private fun EditorScreen(
             )
         },
         bottomBar = {
-            val showKeyboard =
-                viewState.settings.extendedKeyboard &&
-                    viewState.settings.keyboardPreset.isNotEmpty() &&
-                    !viewState.settings.readOnly &&
-                    !viewState.isError &&
-                    !viewState.isLoading &&
-                    !viewState.isEmpty
-            if (showKeyboard) {
+            if (viewState.showExtendedKeyboard) {
                 ExtendedKeyboard(
                     preset = viewState.settings.keyboardPreset,
                     showExtraKeys = viewState.showExtraKeys,
