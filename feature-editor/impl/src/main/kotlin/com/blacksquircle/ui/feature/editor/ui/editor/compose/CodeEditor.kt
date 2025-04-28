@@ -41,6 +41,7 @@ import com.blacksquircle.ui.feature.editor.ui.editor.view.toggleCase
 import io.github.rosemoe.sora.event.ContentChangeEvent
 import io.github.rosemoe.sora.event.KeyBindingEvent
 import io.github.rosemoe.sora.text.Content
+import io.github.rosemoe.sora.util.regex.RegexBackrefGrammar
 import io.github.rosemoe.sora.widget.EditorSearcher.SearchOptions
 import io.github.rosemoe.sora.widget.subscribeAlways
 
@@ -148,7 +149,11 @@ internal fun CodeEditor(
                             command.searchState.wordsOnly -> SearchOptions.TYPE_WHOLE_WORD
                             else -> SearchOptions.TYPE_NORMAL
                         }
-                        val searchOptions = SearchOptions(type, !command.searchState.matchCase)
+                        val searchOptions = SearchOptions(
+                            /* type = */ type,
+                            /* caseInsensitive = */ !command.searchState.matchCase,
+                            /* regexBackrefGrammar = */ RegexBackrefGrammar.DEFAULT,
+                        )
                         val findText = command.searchState.findText
                         if (findText.isNotEmpty()) {
                             view.searcher.search(findText, searchOptions)
