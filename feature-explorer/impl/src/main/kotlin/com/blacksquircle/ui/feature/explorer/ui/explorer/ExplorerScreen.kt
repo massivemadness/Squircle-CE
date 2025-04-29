@@ -285,6 +285,7 @@ private fun ExplorerScreenPreview() {
                 filesystems = listOf(
                     FilesystemModel(
                         uuid = LocalFilesystem.LOCAL_UUID,
+                        type = FilesystemType.LOCAL,
                         title = "Local Storage",
                         defaultLocation = FileModel(
                             fileUri = "file:///storage/emulated/0/",
@@ -293,6 +294,7 @@ private fun ExplorerScreenPreview() {
                     ),
                     FilesystemModel(
                         uuid = RootFilesystem.ROOT_UUID,
+                        type = FilesystemType.ROOT,
                         title = "Root Directory",
                         defaultLocation = FileModel(
                             fileUri = "sufile:///",

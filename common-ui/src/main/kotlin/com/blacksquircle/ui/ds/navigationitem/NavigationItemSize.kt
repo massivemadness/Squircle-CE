@@ -40,7 +40,7 @@ object NavigationItemSizeDefaults {
         @ReadOnlyComposable
         get() = NavigationItemSize(
             itemSize = DpSize(64.dp, 64.dp),
-            indicatorSize = DpSize(48.dp, 32.dp),
+            indicatorSize = DpSize(52.dp, 32.dp),
             labelSpacer = 6.dp,
             labelTextStyle = SquircleTheme.typography.text12Regular,
         )

@@ -37,6 +37,7 @@ import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
@@ -136,6 +137,7 @@ class ExplorerRepositoryImplTest {
         val defaultLocation = "file:///storage/emulated/0/"
         val filesystemModel = FilesystemModel(
             uuid = LocalFilesystem.LOCAL_UUID,
+            type = FilesystemType.LOCAL,
             title = "Local Storage",
             defaultLocation = FileModel(
                 fileUri = defaultLocation,
@@ -159,6 +161,7 @@ class ExplorerRepositoryImplTest {
         val lastLocation = "file:///storage/emulated/0/Documents/untitled/"
         val filesystemModel = FilesystemModel(
             uuid = LocalFilesystem.LOCAL_UUID,
+            type = FilesystemType.LOCAL,
             title = "Local Storage",
             defaultLocation = FileModel(
                 fileUri = defaultLocation,

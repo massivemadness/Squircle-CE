@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
@@ -42,7 +43,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.modifier.debounceSelectable
@@ -131,6 +134,9 @@ fun NavigationItem(
             text = label,
             style = navigationItemSize.labelTextStyle,
             color = textColor,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
+            modifier = Modifier.padding(horizontal = 2.dp)
         )
     }
 }
@@ -148,7 +154,7 @@ private fun NavigationItemPreview() {
                 onClick = { selectedIndex = 0 },
             )
             NavigationItem(
-                iconResId = UiR.drawable.ic_folder,
+                iconResId = UiR.drawable.ic_folder_pound,
                 label = "Root",
                 selected = selectedIndex == 1,
                 onClick = { selectedIndex = 1 },

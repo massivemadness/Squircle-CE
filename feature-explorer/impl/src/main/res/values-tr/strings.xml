@@ -79,7 +79,4 @@
     <string name="explorer_channel_name">Dosya Yöneticisi</string>
     <string name="explorer_channel_description">Dosya işlemlerini görüntüleme ve kontrol etme</string>
     <string name="explorer_service_message">Arkaplan işlemleri devam ediyor</string>
-    <string name="storage_local">Yerel Depolama</string>
-    <string name="storage_root">Kök Dizin</string>
-    <string name="storage_add">Sunucu Ekle</string>
 </resources>

@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.domain.model
+package com.blacksquircle.ui.filesystem.base.model
 
-import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
-
-internal data class FilesystemModel(
-    val uuid: String,
-    val type: FilesystemType,
-    val title: String,
-    val defaultLocation: FileModel,
-)
+enum class FilesystemType(val value: String) {
+    LOCAL("local"),
+    ROOT("root"),
+    SERVER("server"),
+}

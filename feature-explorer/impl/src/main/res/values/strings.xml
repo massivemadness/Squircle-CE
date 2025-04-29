@@ -104,8 +104,8 @@
     <string name="explorer_channel_description">Display and control file operations</string>
     <string name="explorer_service_message">Background operations in progress</string>
 
-    <string name="storage_local">Local Storage</string>
-    <string name="storage_root">Root Directory</string>
-    <string name="storage_add">Add Server</string>
+    <string name="storage_local" translatable="false">Local</string>
+    <string name="storage_root" translatable="false">Root</string>
+    <string name="storage_add">Add</string>
 
 </resources>

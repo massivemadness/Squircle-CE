@@ -88,7 +88,5 @@
     <string name="explorer_channel_name">Файловый менеджер</string>
     <string name="explorer_channel_description">Отображение и управление файловыми операциями</string>
     <string name="explorer_service_message">Выполняются фоновые операции</string>
-    <string name="storage_local">Устройство</string>
-    <string name="storage_root">Корневой каталог</string>
-    <string name="storage_add">Добавить сервер</string>
+    <string name="storage_add">Добавить</string>
 </resources>

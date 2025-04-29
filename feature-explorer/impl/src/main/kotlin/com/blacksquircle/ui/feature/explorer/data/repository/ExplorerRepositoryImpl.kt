@@ -35,6 +35,7 @@ import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepositor
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import kotlinx.coroutines.delay
@@ -63,6 +64,7 @@ internal class ExplorerRepositoryImpl(
             val defaultFilesystems = listOf(
                 FilesystemModel(
                     uuid = LocalFilesystem.LOCAL_UUID,
+                    type = FilesystemType.LOCAL,
                     title = context.getString(R.string.storage_local),
                     defaultLocation = FileModel(
                         fileUri = LocalFilesystem.LOCAL_SCHEME +
@@ -72,6 +74,7 @@ internal class ExplorerRepositoryImpl(
                 ),
                 FilesystemModel(
                     uuid = RootFilesystem.ROOT_UUID,
+                    type = FilesystemType.ROOT,
                     title = context.getString(R.string.storage_root),
                     defaultLocation = FileModel(
                         fileUri = RootFilesystem.ROOT_SCHEME,
@@ -85,6 +88,7 @@ internal class ExplorerRepositoryImpl(
                 val fileUri = if (path.isNotEmpty()) scheme + File.separator + path else scheme
                 FilesystemModel(
                     uuid = config.uuid,
+                    type = FilesystemType.SERVER,
                     title = config.name,
                     defaultLocation = FileModel(
                         fileUri = fileUri,

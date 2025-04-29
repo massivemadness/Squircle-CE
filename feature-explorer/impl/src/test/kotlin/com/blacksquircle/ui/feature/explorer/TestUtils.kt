@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.explorer
 
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 
@@ -25,6 +26,7 @@ internal fun defaultFilesystems(): List<FilesystemModel> {
     return listOf(
         FilesystemModel(
             uuid = LocalFilesystem.LOCAL_UUID,
+            type = FilesystemType.LOCAL,
             title = "Local Storage",
             defaultLocation = FileModel(
                 fileUri = "file:///storage/emulated/0/",
@@ -33,6 +35,7 @@ internal fun defaultFilesystems(): List<FilesystemModel> {
         ),
         FilesystemModel(
             uuid = RootFilesystem.ROOT_UUID,
+            type = FilesystemType.ROOT,
             title = "Root Directory",
             defaultLocation = FileModel(
                 fileUri = "sufile:///",
@@ -47,6 +50,7 @@ internal fun createFilesystem(
 ): FilesystemModel {
     return FilesystemModel(
         uuid = uuid,
+        type = FilesystemType.LOCAL,
         title = "Filesystem",
         defaultLocation = FileModel(
             fileUri = "file:///storage/emulated/0/",
