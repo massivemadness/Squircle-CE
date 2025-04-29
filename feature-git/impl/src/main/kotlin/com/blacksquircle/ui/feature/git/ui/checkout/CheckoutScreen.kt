@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -156,19 +155,10 @@ private fun CheckoutScreen(
                     }
 
                     !viewState.isNewBranch -> {
-                        Text(
-                            text = stringResource(R.string.git_checkout_branches),
-                            style = SquircleTheme.typography.text12Regular,
-                            color = SquircleTheme.colors.colorTextAndIconSecondary,
-                        )
-
-                        Spacer(Modifier.height(6.dp))
-
                         BranchList(
                             currentBranch = viewState.currentBranch,
                             branchList = viewState.branchList,
                             onBranchSelected = onBranchSelected,
-                            modifier = Modifier.heightIn(max = 200.dp)
                         )
                     }
                 }
@@ -206,7 +196,7 @@ private fun CheckoutScreenPreview() {
             viewState = CheckoutViewState(
                 currentBranch = "master",
                 branchList = listOf("master", "develop"),
-                isNewBranch = true,
+                isNewBranch = false,
                 newBranchName = "feature",
                 isLoading = false,
                 isChecking = false,
