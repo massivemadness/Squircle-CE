@@ -209,7 +209,6 @@ internal fun ExplorerToolbar(
                 }
             )
         },
-        toolbarSize = ToolbarSizeDefaults.S,
         modifier = modifier,
     )
 }

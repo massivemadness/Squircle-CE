@@ -150,7 +150,6 @@ internal fun EditorToolbar(
                 }
             )
         },
-        toolbarSize = ToolbarSizeDefaults.S,
         modifier = modifier,
     )
 }
