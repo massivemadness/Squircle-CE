@@ -138,7 +138,7 @@ class ExplorerRepositoryImplTest {
         val filesystemModel = FilesystemModel(
             uuid = LocalFilesystem.LOCAL_UUID,
             type = FilesystemType.LOCAL,
-            title = "Local Storage",
+            title = "Local",
             defaultLocation = FileModel(
                 fileUri = defaultLocation,
                 filesystemUuid = LocalFilesystem.LOCAL_UUID
@@ -162,7 +162,7 @@ class ExplorerRepositoryImplTest {
         val filesystemModel = FilesystemModel(
             uuid = LocalFilesystem.LOCAL_UUID,
             type = FilesystemType.LOCAL,
-            title = "Local Storage",
+            title = "Local",
             defaultLocation = FileModel(
                 fileUri = defaultLocation,
                 filesystemUuid = LocalFilesystem.LOCAL_UUID

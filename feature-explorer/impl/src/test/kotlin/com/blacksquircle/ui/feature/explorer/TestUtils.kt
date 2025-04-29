@@ -27,7 +27,7 @@ internal fun defaultFilesystems(): List<FilesystemModel> {
         FilesystemModel(
             uuid = LocalFilesystem.LOCAL_UUID,
             type = FilesystemType.LOCAL,
-            title = "Local Storage",
+            title = "Local",
             defaultLocation = FileModel(
                 fileUri = "file:///storage/emulated/0/",
                 filesystemUuid = LocalFilesystem.LOCAL_UUID,
@@ -36,7 +36,7 @@ internal fun defaultFilesystems(): List<FilesystemModel> {
         FilesystemModel(
             uuid = RootFilesystem.ROOT_UUID,
             type = FilesystemType.ROOT,
-            title = "Root Directory",
+            title = "Root",
             defaultLocation = FileModel(
                 fileUri = "sufile:///",
                 filesystemUuid = RootFilesystem.ROOT_UUID,

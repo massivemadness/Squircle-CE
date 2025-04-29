@@ -122,7 +122,7 @@ class FilesystemsTest {
         clearMocks(explorerRepository, answers = false, recordedCalls = true) // reset verify count
 
         // When
-        viewModel.onFilesystemClicked(selectedFilesystem.uuid) // already selected
+        viewModel.onFilesystemClicked(selectedFilesystem) // already selected
 
         // Then
         assertEquals(filesystems, viewModel.viewState.value.filesystems)
@@ -139,7 +139,7 @@ class FilesystemsTest {
         val nextSelected = filesystems[1]
 
         // When
-        viewModel.onFilesystemClicked(nextSelected.uuid)
+        viewModel.onFilesystemClicked(nextSelected)
 
         // Then
         assertEquals(filesystems, viewModel.viewState.value.filesystems)
@@ -162,7 +162,7 @@ class FilesystemsTest {
         viewModel.onDeleteClicked()
         assertEquals(TaskType.DELETE, viewModel.viewState.value.taskType)
 
-        viewModel.onFilesystemClicked(filesystems[1].uuid)
+        viewModel.onFilesystemClicked(filesystems[1])
 
         // Then
         assertEquals(TaskType.CREATE, viewModel.viewState.value.taskType)
