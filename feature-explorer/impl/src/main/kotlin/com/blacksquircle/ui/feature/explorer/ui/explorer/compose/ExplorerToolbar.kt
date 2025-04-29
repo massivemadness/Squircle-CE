@@ -44,6 +44,7 @@ import com.blacksquircle.ui.ds.dropdown.Dropdown
 import com.blacksquircle.ui.ds.dropdown.DropdownStyleDefaults
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
+import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
@@ -208,6 +209,7 @@ internal fun ExplorerToolbar(
                 }
             )
         },
+        toolbarSize = ToolbarSizeDefaults.M.copy(shadowSize = 0.dp),
         modifier = modifier,
     )
 }
