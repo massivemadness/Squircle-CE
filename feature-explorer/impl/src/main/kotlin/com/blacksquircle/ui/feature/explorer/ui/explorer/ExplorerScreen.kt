@@ -19,15 +19,24 @@ package com.blacksquircle.ui.feature.explorer.ui.explorer
 import android.Manifest
 import android.os.Build
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastForEachIndexed
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -39,7 +48,11 @@ import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.divider.VerticalDivider
+import com.blacksquircle.ui.ds.navigationitem.NavigationItem
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
+import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.clipText
 import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
@@ -54,8 +67,10 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.servers.api.navigation.CloudScreen
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
+import com.blacksquircle.ui.ds.R as UiR
 
 internal const val KEY_AUTHENTICATION = "KEY_AUTHENTICATION"
 internal const val KEY_COMPRESS_FILE = "KEY_COMPRESS_FILE"
@@ -80,8 +95,8 @@ internal fun ExplorerScreen(
     ExplorerScreen(
         viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
-        onFilesystemSelected = viewModel::onFilesystemSelected,
-        onAddServerClicked = viewModel::onAddServerClicked,
+        onFilesystemClicked = viewModel::onFilesystemClicked,
+        onAddFilesystemClicked = viewModel::onAddFilesystemClicked,
         onQueryChanged = viewModel::onQueryChanged,
         onClearQueryClicked = viewModel::onClearQueryClicked,
         onShowHiddenClicked = viewModel::onShowHiddenClicked,
@@ -181,8 +196,8 @@ internal fun ExplorerScreen(
 private fun ExplorerScreen(
     viewState: ExplorerViewState,
     onBackClicked: () -> Unit = {},
-    onFilesystemSelected: (String) -> Unit = {},
-    onAddServerClicked: () -> Unit = {},
+    onFilesystemClicked: (FilesystemModel) -> Unit = {},
+    onAddFilesystemClicked: () -> Unit = {},
     onQueryChanged: (String) -> Unit = {},
     onClearQueryClicked: () -> Unit = {},
     onShowHiddenClicked: () -> Unit = {},
@@ -207,70 +222,101 @@ private fun ExplorerScreen(
     onFileSelected: (FileModel) -> Unit = {},
     onRefreshClicked: () -> Unit = {},
 ) {
-    ScaffoldSuite(
-        topBar = {
-            ExplorerToolbar(
-                searchQuery = viewState.searchQuery,
-                selectedFilesystem = viewState.selectedFilesystem,
-                filesystems = viewState.filesystems,
-                selectedFiles = viewState.selectedFiles,
-                showHidden = viewState.showHidden,
-                sortMode = viewState.sortMode,
-                onFilesystemSelected = onFilesystemSelected,
-                onAddServerClicked = onAddServerClicked,
-                onQueryChanged = onQueryChanged,
-                onClearQueryClicked = onClearQueryClicked,
-                onShowHiddenClicked = onShowHiddenClicked,
-                onSortModeSelected = onSortModeSelected,
-                onCopyClicked = onCopyClicked,
-                onDeleteClicked = onDeleteClicked,
-                onCutClicked = onCutClicked,
-                onSelectAllClicked = onSelectAllClicked,
-                onOpenWithClicked = onOpenWithClicked,
-                onRenameClicked = onRenameClicked,
-                onPropertiesClicked = onPropertiesClicked,
-                onCopyPathClicked = onCopyPathClicked,
-                onCompressClicked = onCompressClicked,
-                onBackClicked = onBackClicked,
-            )
-        },
-        modifier = Modifier.imePadding()
-    ) { contentPadding ->
-        Column(Modifier.fillMaxSize()) {
-            BreadcrumbNavigation(
-                tabs = {
-                    viewState.breadcrumbs.fastForEachIndexed { index, state ->
-                        Breadcrumb(
-                            title = if (index == 0) "/" else state.fileModel.name,
-                            selected = index == viewState.selectedBreadcrumb,
-                            onClick = { onBreadcrumbClicked(state) },
-                        )
-                    }
-                },
-                selectedIndex = viewState.selectedBreadcrumb,
-                taskType = viewState.taskType,
-                onHomeClicked = onHomeClicked,
-                onPasteClicked = onPasteClicked,
-                onCreateFileClicked = onCreateFileClicked,
-                onCreateFolderClicked = onCreateFolderClicked,
-                onCloneRepoClicked = onCloneRepoClicked,
-                modifier = Modifier.fillMaxWidth(),
-            )
-
-            val breadcrumbState = viewState.breadcrumbs
-                .getOrNull(viewState.selectedBreadcrumb)
-            if (breadcrumbState != null) {
-                FileExplorer(
-                    contentPadding = contentPadding,
-                    breadcrumbState = breadcrumbState,
-                    selectedFiles = viewState.selectedFiles,
-                    viewMode = viewState.viewMode,
-                    isLoading = viewState.isLoading,
-                    onFileClicked = onFileClicked,
-                    onFileSelected = onFileSelected,
-                    onErrorActionClicked = onErrorActionClicked,
-                    onRefreshClicked = onRefreshClicked,
+    Row {
+        Column(
+            modifier = Modifier
+                .width(64.dp)
+                .verticalScroll(rememberScrollState())
+                .systemBarsPadding()
+        ) {
+            viewState.filesystems.fastForEach { filesystem ->
+                NavigationItem(
+                    iconResId = when (filesystem.type) {
+                        FilesystemType.LOCAL -> UiR.drawable.ic_folder
+                        FilesystemType.ROOT -> UiR.drawable.ic_folder_pound
+                        FilesystemType.SERVER -> UiR.drawable.ic_server_network
+                    },
+                    label = when (filesystem.type) {
+                        FilesystemType.LOCAL -> stringResource(R.string.storage_local)
+                        FilesystemType.ROOT -> stringResource(R.string.storage_root)
+                        FilesystemType.SERVER -> filesystem.title
+                    },
+                    selected = filesystem.uuid == viewState.selectedFilesystem,
+                    onClick = { onFilesystemClicked(filesystem) },
                 )
+            }
+            NavigationItem(
+                iconResId = UiR.drawable.ic_plus,
+                label = stringResource(R.string.storage_add),
+                selected = false,
+                onClick = onAddFilesystemClicked,
+            )
+        }
+
+        VerticalDivider()
+
+        ScaffoldSuite(
+            topBar = {
+                ExplorerToolbar(
+                    searchQuery = viewState.searchQuery,
+                    selectedFiles = viewState.selectedFiles,
+                    showHidden = viewState.showHidden,
+                    sortMode = viewState.sortMode,
+                    onQueryChanged = onQueryChanged,
+                    onClearQueryClicked = onClearQueryClicked,
+                    onShowHiddenClicked = onShowHiddenClicked,
+                    onSortModeSelected = onSortModeSelected,
+                    onCopyClicked = onCopyClicked,
+                    onDeleteClicked = onDeleteClicked,
+                    onCutClicked = onCutClicked,
+                    onSelectAllClicked = onSelectAllClicked,
+                    onOpenWithClicked = onOpenWithClicked,
+                    onRenameClicked = onRenameClicked,
+                    onPropertiesClicked = onPropertiesClicked,
+                    onCopyPathClicked = onCopyPathClicked,
+                    onCompressClicked = onCompressClicked,
+                    onBackClicked = onBackClicked,
+                )
+            },
+            backgroundColor = SquircleTheme.colors.colorBackgroundSecondary,
+            modifier = Modifier.imePadding(),
+        ) { contentPadding ->
+            Column(Modifier.fillMaxSize()) {
+                BreadcrumbNavigation(
+                    tabs = {
+                        viewState.breadcrumbs.fastForEachIndexed { index, state ->
+                            Breadcrumb(
+                                title = if (index == 0) "/" else state.fileModel.name,
+                                selected = index == viewState.selectedBreadcrumb,
+                                onClick = { onBreadcrumbClicked(state) },
+                            )
+                        }
+                    },
+                    selectedIndex = viewState.selectedBreadcrumb,
+                    taskType = viewState.taskType,
+                    onHomeClicked = onHomeClicked,
+                    onPasteClicked = onPasteClicked,
+                    onCreateFileClicked = onCreateFileClicked,
+                    onCreateFolderClicked = onCreateFolderClicked,
+                    onCloneRepoClicked = onCloneRepoClicked,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+
+                val breadcrumbState = viewState.breadcrumbs
+                    .getOrNull(viewState.selectedBreadcrumb)
+                if (breadcrumbState != null) {
+                    FileExplorer(
+                        contentPadding = contentPadding,
+                        breadcrumbState = breadcrumbState,
+                        selectedFiles = viewState.selectedFiles,
+                        viewMode = viewState.viewMode,
+                        isLoading = viewState.isLoading,
+                        onFileClicked = onFileClicked,
+                        onFileSelected = onFileSelected,
+                        onErrorActionClicked = onErrorActionClicked,
+                        onRefreshClicked = onRefreshClicked,
+                    )
+                }
             }
         }
     }

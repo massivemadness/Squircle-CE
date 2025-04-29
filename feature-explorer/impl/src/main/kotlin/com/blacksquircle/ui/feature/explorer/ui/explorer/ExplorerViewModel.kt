@@ -138,16 +138,15 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    fun onFilesystemSelected(filesystem: String) {
+    fun onFilesystemClicked(filesystem: FilesystemModel) {
         viewModelScope.launch {
             try {
-                if (filesystem == selectedFilesystem) {
+                if (filesystem.uuid == selectedFilesystem) {
                     return@launch
                 }
-                val filesystemModel = filesystems.first { it.uuid == filesystem }
 
-                selectedFilesystem = filesystem
-                breadcrumbs = explorerRepository.loadBreadcrumbs(filesystemModel).mapBreadcrumbs()
+                selectedFilesystem = filesystem.uuid
+                breadcrumbs = explorerRepository.loadBreadcrumbs(filesystem).mapBreadcrumbs()
                 selectedBreadcrumb = breadcrumbs.size - 1
                 resetBuffer()
 
@@ -185,7 +184,7 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    fun onAddServerClicked() {
+    fun onAddFilesystemClicked() {
         viewModelScope.launch {
             val screen = ServerDialog(null)
             _viewEvent.send(ViewEvent.Navigation(screen))

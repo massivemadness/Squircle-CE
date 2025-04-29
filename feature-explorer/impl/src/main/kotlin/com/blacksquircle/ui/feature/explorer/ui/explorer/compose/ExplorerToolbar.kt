@@ -34,38 +34,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastMap
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
-import com.blacksquircle.ui.ds.dropdown.Dropdown
-import com.blacksquircle.ui.ds.dropdown.DropdownStyleDefaults
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SelectionMenu
 import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SortingMenu
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.local.LocalFilesystem
-import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ExplorerToolbar(
     searchQuery: String,
-    selectedFilesystem: String,
-    filesystems: List<FilesystemModel>,
     selectedFiles: List<FileModel>,
     showHidden: Boolean,
     sortMode: SortMode,
     modifier: Modifier = Modifier,
-    onFilesystemSelected: (String) -> Unit = {},
-    onAddServerClicked: () -> Unit = {},
     onQueryChanged: (String) -> Unit = {},
     onClearQueryClicked: () -> Unit = {},
     onShowHiddenClicked: () -> Unit = {},
@@ -128,35 +118,6 @@ internal fun ExplorerToolbar(
                     onClearQueryClicked()
                     searchMode = false
                 }
-            } else if (filesystems.isNotEmpty()) {
-                val addServerEntry = stringResource(R.string.storage_add)
-                val addServerValue = "add_server"
-
-                val entries = remember(filesystems) {
-                    (filesystems.fastMap(FilesystemModel::title) + addServerEntry).toTypedArray()
-                }
-                val entryValues = remember(filesystems) {
-                    (filesystems.fastMap(FilesystemModel::uuid) + addServerValue).toTypedArray()
-                }
-
-                Dropdown(
-                    entries = entries,
-                    entryValues = entryValues,
-                    currentValue = selectedFilesystem,
-                    onValueSelected = { value ->
-                        if (value == addServerValue) {
-                            onAddServerClicked()
-                        } else {
-                            onFilesystemSelected(value)
-                        }
-                    },
-                    dropdownStyle = DropdownStyleDefaults.Default.copy(
-                        textStyle = SquircleTheme.typography.text18Medium,
-                    ),
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 4.dp)
-                )
             } else {
                 Spacer(Modifier.weight(1f))
             }
@@ -220,29 +181,9 @@ private fun ExplorerToolbarPreview() {
     PreviewBackground {
         ExplorerToolbar(
             searchQuery = "",
-            selectedFilesystem = LocalFilesystem.LOCAL_UUID,
-            filesystems = listOf(
-                FilesystemModel(
-                    uuid = LocalFilesystem.LOCAL_UUID,
-                    title = "Local Storage",
-                    defaultLocation = FileModel(
-                        fileUri = "file:///storage/emulated/0/",
-                        filesystemUuid = LocalFilesystem.LOCAL_UUID,
-                    ),
-                ),
-                FilesystemModel(
-                    uuid = RootFilesystem.ROOT_UUID,
-                    title = "Root Directory",
-                    defaultLocation = FileModel(
-                        fileUri = "sufile:///",
-                        filesystemUuid = RootFilesystem.ROOT_UUID,
-                    ),
-                ),
-            ),
             selectedFiles = emptyList(),
             showHidden = true,
             sortMode = SortMode.SORT_BY_NAME,
-            onFilesystemSelected = {},
             onQueryChanged = {},
             onClearQueryClicked = {},
             onShowHiddenClicked = {},
