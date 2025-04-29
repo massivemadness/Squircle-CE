@@ -95,16 +95,11 @@ internal class ExplorerViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private var selectedFilesystem: String
-        get() = settingsManager.filesystem
-        set(value) {
-            settingsManager.filesystem = value
-        }
-
     private var taskType: TaskType = TaskType.CREATE
     private var taskBuffer: List<FileModel> = emptyList()
     private var selectedFiles: List<FileModel> = emptyList()
     private var filesystems: List<FilesystemModel> = emptyList()
+    private var selectedFilesystem: FilesystemModel? = null
     private var breadcrumbs: List<BreadcrumbState> = emptyList()
     private var selectedBreadcrumb: Int = -1
     private var searchQuery: String = ""
@@ -141,11 +136,13 @@ internal class ExplorerViewModel @Inject constructor(
     fun onFilesystemClicked(filesystem: FilesystemModel) {
         viewModelScope.launch {
             try {
-                if (filesystem.uuid == selectedFilesystem) {
+                if (filesystem.uuid == selectedFilesystem?.uuid) {
                     return@launch
                 }
 
-                selectedFilesystem = filesystem.uuid
+                settingsManager.filesystem = filesystem.uuid
+
+                selectedFilesystem = filesystem
                 breadcrumbs = explorerRepository.loadBreadcrumbs(filesystem).mapBreadcrumbs()
                 selectedBreadcrumb = breadcrumbs.size - 1
                 resetBuffer()
@@ -481,9 +478,11 @@ internal class ExplorerViewModel @Inject constructor(
     fun onCredentialsEntered(credentials: String) {
         viewModelScope.launch {
             try {
-                serverInteractor.authenticate(selectedFilesystem, credentials)
-                val breadcrumb = breadcrumbs[selectedBreadcrumb]
-                loadFiles(breadcrumb.fileModel, fromUser = false)
+                selectedFilesystem?.let { filesystem ->
+                    serverInteractor.authenticate(filesystem.uuid, credentials)
+                    val breadcrumb = breadcrumbs[selectedBreadcrumb]
+                    loadFiles(breadcrumb.fileModel, fromUser = false)
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -747,8 +746,11 @@ internal class ExplorerViewModel @Inject constructor(
             try {
                 filesystems = explorerRepository.loadFilesystems()
 
-                val filesystemModel = filesystems.find { it.uuid == selectedFilesystem }
+                val filesystemModel = filesystems
+                    .find { it.uuid == settingsManager.filesystem }
                     ?: filesystems.first()
+
+                selectedFilesystem = filesystemModel
 
                 breadcrumbs = explorerRepository.loadBreadcrumbs(filesystemModel).mapBreadcrumbs()
                 selectedBreadcrumb = breadcrumbs.size - 1

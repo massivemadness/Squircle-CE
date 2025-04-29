@@ -8,8 +8,8 @@
     "global.colorSuccess": "#71D98C",
     "global.colorError": "#E45356",
     "global.colorBackgroundPrimary": "#1E1F22",
-    "global.colorBackgroundSecondary": "#2B2D30",
-    "global.colorBackgroundTertiary": "#3E3F43",
+    "global.colorBackgroundSecondary": "#282A30",
+    "global.colorBackgroundTertiary": "#38393E",
     "global.colorTextAndIconPrimary": "#FFFFFF",
     "global.colorTextAndIconPrimaryInverse": "#000000",
     "global.colorTextAndIconSecondary": "#BCBCBC",
@@ -32,7 +32,7 @@
     "editor.indentGuide.background": "#393B40",
     "editor.indentGuide.activeBackground": "#65676E",
     "editor.popupWindow.corner": "#393B40",
-    "editor.popupWindow.background": "#2B2D30",
+    "editor.popupWindow.background": "#282A30",
     "editor.popupWindow.activeBackground": "#434448"
   },
   "tokenColors": [

@@ -23,20 +23,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastForEachIndexed
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -50,9 +42,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.divider.VerticalDivider
-import com.blacksquircle.ui.ds.navigationitem.NavigationItem
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
-import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.clipText
 import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
@@ -63,6 +53,7 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.Breadcrumb
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.BreadcrumbNavigation
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ExplorerToolbar
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.FileExplorer
+import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.Filesystems
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.servers.api.navigation.CloudScreen
@@ -70,7 +61,6 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
-import com.blacksquircle.ui.ds.R as UiR
 
 internal const val KEY_AUTHENTICATION = "KEY_AUTHENTICATION"
 internal const val KEY_COMPRESS_FILE = "KEY_COMPRESS_FILE"
@@ -222,36 +212,13 @@ private fun ExplorerScreen(
     onFileSelected: (FileModel) -> Unit = {},
     onRefreshClicked: () -> Unit = {},
 ) {
-    Row {
-        Column(
-            modifier = Modifier
-                .width(64.dp)
-                .verticalScroll(rememberScrollState())
-                .systemBarsPadding()
-        ) {
-            viewState.filesystems.fastForEach { filesystem ->
-                NavigationItem(
-                    iconResId = when (filesystem.type) {
-                        FilesystemType.LOCAL -> UiR.drawable.ic_folder
-                        FilesystemType.ROOT -> UiR.drawable.ic_folder_pound
-                        FilesystemType.SERVER -> UiR.drawable.ic_server_network
-                    },
-                    label = when (filesystem.type) {
-                        FilesystemType.LOCAL -> stringResource(R.string.storage_local)
-                        FilesystemType.ROOT -> stringResource(R.string.storage_root)
-                        FilesystemType.SERVER -> filesystem.title
-                    },
-                    selected = filesystem.uuid == viewState.selectedFilesystem,
-                    onClick = { onFilesystemClicked(filesystem) },
-                )
-            }
-            NavigationItem(
-                iconResId = UiR.drawable.ic_plus,
-                label = stringResource(R.string.storage_add),
-                selected = false,
-                onClick = onAddFilesystemClicked,
-            )
-        }
+    Row(Modifier.fillMaxSize()) {
+        Filesystems(
+            filesystems = viewState.filesystems,
+            selectedFilesystem = viewState.selectedFilesystem,
+            onFilesystemClicked = onFilesystemClicked,
+            onAddFilesystemClicked = onAddFilesystemClicked,
+        )
 
         VerticalDivider()
 
@@ -348,7 +315,15 @@ private fun ExplorerScreenPreview() {
                         ),
                     ),
                 ),
-                selectedFilesystem = LocalFilesystem.LOCAL_UUID,
+                selectedFilesystem = FilesystemModel(
+                    uuid = LocalFilesystem.LOCAL_UUID,
+                    type = FilesystemType.LOCAL,
+                    title = "Local",
+                    defaultLocation = FileModel(
+                        fileUri = "file:///storage/emulated/0/",
+                        filesystemUuid = LocalFilesystem.LOCAL_UUID,
+                    ),
+                ),
                 breadcrumbs = listOf(
                     BreadcrumbState(
                         fileModel = FileModel("file://", LocalFilesystem.LOCAL_UUID),

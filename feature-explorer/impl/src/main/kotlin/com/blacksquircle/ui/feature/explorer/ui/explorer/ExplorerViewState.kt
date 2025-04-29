@@ -28,7 +28,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 @Immutable
 internal data class ExplorerViewState(
     val filesystems: List<FilesystemModel> = emptyList(),
-    val selectedFilesystem: String = "",
+    val selectedFilesystem: FilesystemModel? = null,
     val breadcrumbs: List<BreadcrumbState> = emptyList(),
     val selectedBreadcrumb: Int = -1,
     val selectedFiles: List<FileModel> = emptyList(),
