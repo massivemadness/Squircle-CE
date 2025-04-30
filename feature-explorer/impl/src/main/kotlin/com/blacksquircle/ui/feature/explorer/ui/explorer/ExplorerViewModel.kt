@@ -47,7 +47,6 @@ import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
-import com.blacksquircle.ui.feature.explorer.domain.model.ViewMode
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
@@ -107,7 +106,6 @@ internal class ExplorerViewModel @Inject constructor(
 
     private var showHidden = settingsManager.showHidden
     private var foldersOnTop = settingsManager.foldersOnTop
-    private var viewMode = ViewMode.of(settingsManager.viewMode)
     private var sortMode = SortMode.of(settingsManager.sortMode)
 
     init {
@@ -764,7 +762,6 @@ internal class ExplorerViewModel @Inject constructor(
                         searchQuery = searchQuery,
                         showHidden = showHidden,
                         sortMode = sortMode,
-                        viewMode = viewMode,
                     )
                 }
                 onRefreshClicked()
@@ -800,14 +797,6 @@ internal class ExplorerViewModel @Inject constructor(
                 return@registerListener
             }
             sortMode = newValue
-            reapplyFilter()
-        }
-        settingsManager.registerListener(KEY_VIEW_MODE) {
-            val newValue = ViewMode.of(settingsManager.viewMode)
-            if (viewMode == newValue) {
-                return@registerListener
-            }
-            viewMode = newValue
             reapplyFilter()
         }
     }
@@ -964,7 +953,6 @@ internal class ExplorerViewModel @Inject constructor(
                 searchQuery = searchQuery,
                 showHidden = showHidden,
                 sortMode = sortMode,
-                viewMode = viewMode,
             )
         }
     }

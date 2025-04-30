@@ -23,8 +23,6 @@
     <string name="sort_by_name">Сортувати за назвою</string>
     <string name="sort_by_size">Сортувати за розміром</string>
     <string name="sort_by_date">Сортувати за датою</string>
-    <string name="view_mode_compact_list">Компактний список</string>
-    <string name="view_mode_detailed_list">Детальний список</string>
     <string name="linebreak_lf">Unix и macOS (\\n)</string>
     <string name="linebreak_crlf">Windows (\\r\\n)</string>
     <string name="linebreak_cr">Classic Mac OS (\\r)</string>

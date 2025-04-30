@@ -96,13 +96,6 @@ internal class FilesHeaderViewModel @Inject constructor(
         }
     }
 
-    fun onViewModeChanged(viewMode: String) {
-        viewModelScope.launch {
-            settingsManager.viewMode = viewMode
-            _viewState.value = updateViewState()
-        }
-    }
-
     fun onSortModeChanged(sortMode: String) {
         viewModelScope.launch {
             settingsManager.sortMode = sortMode
@@ -120,7 +113,6 @@ internal class FilesHeaderViewModel @Inject constructor(
             lineBreakForSaving = settingsManager.lineBreakForSaving,
             showHidden = settingsManager.showHidden,
             foldersOnTop = settingsManager.foldersOnTop,
-            viewMode = settingsManager.viewMode,
             sortMode = settingsManager.sortMode,
         )
     }

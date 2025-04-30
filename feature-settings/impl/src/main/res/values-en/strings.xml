@@ -23,8 +23,6 @@
     <string name="sort_by_name">Sort by Name</string>
     <string name="sort_by_size">Sort by Size</string>
     <string name="sort_by_date">Sort by Date</string>
-    <string name="view_mode_compact_list">Compact List</string>
-    <string name="view_mode_detailed_list">Detailed List</string>
     <string name="linebreak_lf">Unix and macOS (\\n)</string>
     <string name="linebreak_crlf">Windows (\\r\\n)</string>
     <string name="linebreak_cr">Classic Mac OS (\\r)</string>

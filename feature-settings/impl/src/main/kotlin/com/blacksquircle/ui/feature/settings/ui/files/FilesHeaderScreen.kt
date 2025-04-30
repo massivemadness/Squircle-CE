@@ -66,7 +66,6 @@ internal fun FilesHeaderScreen(
         onStorageAccessClicked = viewModel::onStorageAccessClicked,
         onShowHiddenChanged = viewModel::onShowHiddenChanged,
         onFoldersOnTopChanged = viewModel::onFoldersOnTopChanged,
-        onViewModeChanged = viewModel::onViewModeChanged,
         onSortModeChanged = viewModel::onSortModeChanged,
     )
 
@@ -94,7 +93,6 @@ private fun FilesHeaderScreen(
     onStorageAccessClicked: () -> Unit = {},
     onShowHiddenChanged: (Boolean) -> Unit = {},
     onFoldersOnTopChanged: (Boolean) -> Unit = {},
-    onViewModeChanged: (String) -> Unit = {},
     onSortModeChanged: (String) -> Unit = {},
 ) {
     ScaffoldSuite(
@@ -177,14 +175,6 @@ private fun FilesHeaderScreen(
                 onCheckedChange = onFoldersOnTopChanged,
             )
             ListPreference(
-                title = stringResource(R.string.pref_view_mode_title),
-                entryNameAsSubtitle = true,
-                entries = stringArrayResource(R.array.view_mode_entries),
-                entryValues = stringArrayResource(R.array.view_mode_values),
-                selectedValue = viewState.viewMode,
-                onValueSelected = onViewModeChanged,
-            )
-            ListPreference(
                 title = stringResource(R.string.pref_sort_mode_title),
                 entryNameAsSubtitle = true,
                 entries = stringArrayResource(R.array.sort_mode_entries),
@@ -209,7 +199,6 @@ private fun FilesHeaderScreenPreview() {
                 lineBreakForSaving = "lf",
                 showHidden = true,
                 foldersOnTop = true,
-                viewMode = "compact_list",
                 sortMode = "sort_by_name",
             ),
         )

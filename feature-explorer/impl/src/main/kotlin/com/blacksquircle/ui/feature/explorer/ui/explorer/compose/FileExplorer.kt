@@ -43,7 +43,6 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
-import com.blacksquircle.ui.feature.explorer.domain.model.ViewMode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlinx.coroutines.delay
@@ -57,7 +56,6 @@ internal fun FileExplorer(
     contentPadding: PaddingValues,
     breadcrumbState: BreadcrumbState,
     selectedFiles: List<FileModel>,
-    viewMode: ViewMode,
     isLoading: Boolean,
     modifier: Modifier = Modifier,
     onFileClicked: (FileModel) -> Unit = {},
@@ -98,33 +96,16 @@ internal fun FileExplorer(
             ) { fileModel ->
                 val isSelected = selectedFiles
                     .fastAny { it.fileUri == fileModel.fileUri }
-                when (viewMode) {
-                    ViewMode.COMPACT_LIST -> {
-                        CompactFileItem(
-                            fileModel = fileModel,
-                            isSelected = isSelected,
-                            onClick = { onFileClicked(fileModel) },
-                            onLongClick = {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                onFileSelected(fileModel)
-                            },
-                            modifier = Modifier.animateItem(),
-                        )
-                    }
-
-                    ViewMode.DETAILED_LIST -> {
-                        DetailedFileItem(
-                            fileModel = fileModel,
-                            isSelected = isSelected,
-                            onClick = { onFileClicked(fileModel) },
-                            onLongClick = {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                onFileSelected(fileModel)
-                            },
-                            modifier = Modifier.animateItem(),
-                        )
-                    }
-                }
+                CompactFileItem(
+                    fileModel = fileModel,
+                    isSelected = isSelected,
+                    onClick = { onFileClicked(fileModel) },
+                    onLongClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        onFileSelected(fileModel)
+                    },
+                    modifier = Modifier.animateItem(),
+                )
             }
         }
 

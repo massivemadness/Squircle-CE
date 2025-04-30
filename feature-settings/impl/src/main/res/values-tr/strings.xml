@@ -23,8 +23,6 @@
     <string name="sort_by_name">Ada göre sırala</string>
     <string name="sort_by_size">Boyuta göre sırala</string>
     <string name="sort_by_date">Tarihe göre Sırala</string>
-    <string name="view_mode_compact_list">Kompakt Liste</string>
-    <string name="view_mode_detailed_list">Detaylı Liste</string>
     <string name="linebreak_lf">Unix ve macOS (\\n)</string>
     <string name="linebreak_crlf">Windows (\\r\\n)</string>
     <string name="linebreak_cr">Klasik macOS (\\r)</string>

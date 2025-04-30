@@ -192,9 +192,6 @@ class SettingsManager(private val context: Context) {
     var foldersOnTop: Boolean
         get() = sharedPreferences.getBoolean(KEY_FOLDERS_ON_TOP, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_FOLDERS_ON_TOP, value).apply()
-    var viewMode: String
-        get() = sharedPreferences.getString(KEY_VIEW_MODE, "compact_list") ?: "compact_list"
-        set(value) = sharedPreferences.edit().putString(KEY_VIEW_MODE, value).apply()
     var sortMode: String
         get() = sharedPreferences.getString(KEY_SORT_MODE, "sort_by_name") ?: "sort_by_name"
         set(value) = sharedPreferences.edit().putString(KEY_SORT_MODE, value).apply()

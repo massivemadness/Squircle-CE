@@ -30,9 +30,6 @@
     <string name="sort_by_size">Ordenar por tamanho</string>
     <string name="sort_by_date">Ordenar por data</string>
 
-    <string name="view_mode_compact_list">Lista compacta</string>
-    <string name="view_mode_detailed_list">Lista detalhada</string>
-
     <string name="linebreak_lf">Unix and macOS (\\n)</string>
     <string name="linebreak_crlf">Windows (\\r\\n)</string>
     <string name="linebreak_cr">Classic Mac OS (\\r)</string>

@@ -23,8 +23,6 @@
     <string name="sort_by_name">依名稱排序</string>
     <string name="sort_by_size">依大小排序</string>
     <string name="sort_by_date">依日期排序</string>
-    <string name="view_mode_compact_list">緊湊列表</string>
-    <string name="view_mode_detailed_list">詳細列表</string>
     <string name="linebreak_lf">Unix and macOS (\\n)</string>
     <string name="linebreak_crlf">Windows (\\r\\n)</string>
     <string name="linebreak_cr">Classic Mac OS (\\r)</string>

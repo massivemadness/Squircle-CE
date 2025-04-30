@@ -21,7 +21,6 @@ import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
-import com.blacksquircle.ui.feature.explorer.domain.model.ViewMode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
@@ -35,7 +34,6 @@ internal data class ExplorerViewState(
     val searchQuery: String = "",
     val showHidden: Boolean = true,
     val sortMode: SortMode = SortMode.SORT_BY_NAME,
-    val viewMode: ViewMode = ViewMode.COMPACT_LIST,
     val taskType: TaskType = TaskType.CREATE,
     val isLoading: Boolean = true,
 ) : ViewState

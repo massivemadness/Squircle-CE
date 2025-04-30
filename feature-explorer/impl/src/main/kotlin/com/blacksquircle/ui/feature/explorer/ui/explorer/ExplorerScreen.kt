@@ -276,7 +276,6 @@ private fun ExplorerScreen(
                         contentPadding = contentPadding,
                         breadcrumbState = breadcrumbState,
                         selectedFiles = viewState.selectedFiles,
-                        viewMode = viewState.viewMode,
                         isLoading = viewState.isLoading,
                         onFileClicked = onFileClicked,
                         onFileSelected = onFileSelected,

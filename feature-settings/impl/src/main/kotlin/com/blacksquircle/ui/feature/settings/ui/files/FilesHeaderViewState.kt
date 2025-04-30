@@ -28,6 +28,5 @@ internal data class FilesHeaderViewState(
     val lineBreakForSaving: String,
     val showHidden: Boolean,
     val foldersOnTop: Boolean,
-    val viewMode: String,
     val sortMode: String,
 ) : ViewState
