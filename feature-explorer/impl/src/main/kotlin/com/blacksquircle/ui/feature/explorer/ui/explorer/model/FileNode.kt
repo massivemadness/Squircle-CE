@@ -20,8 +20,19 @@ import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 @Immutable
-internal data class BreadcrumbState(
-    val fileModel: FileModel,
-    val fileList: List<FileModel> = emptyList(),
+internal data class FileNode(
+    val file: FileModel,
+    val depth: Int = 0,
+    val isExpanded: Boolean = false,
+    val isLoading: Boolean = false,
     val errorState: ErrorState? = null,
-)
+) {
+    val parent: FileModel
+        get() = FileModel(
+            fileUri = file.fileUri.substringBeforeLast('/', missingDelimiterValue = "/"),
+            filesystemUuid = file.filesystemUuid,
+            directory = true,
+        )
+    val isDirectory: Boolean
+        get() = file.directory
+}

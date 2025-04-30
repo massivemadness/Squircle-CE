@@ -58,7 +58,6 @@
     <string name="properties_modified">Последнее изменение:</string>
     <string name="properties_size">Размер файла:</string>
     <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
-    <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
     <string name="sort_by_name">Сорт. по имени</string>
     <string name="sort_by_size">Сорт. по размеру</string>
     <string name="sort_by_date">Сорт. по дате</string>

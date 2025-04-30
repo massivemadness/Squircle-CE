@@ -51,7 +51,6 @@
     <string name="properties_modified">最後修改：</string>
     <string name="properties_size">檔案大小：</string>
     <string name="properties_date_format">yyyy年MM月dd日 HH:mm</string>
-    <string name="explorer_date_format">yyyy/M/d HH:mm:ss</string>
     <string name="sort_by_name">依名稱排序</string>
     <string name="sort_by_size">依大小排序</string>
     <string name="sort_by_date">依日期排序</string>

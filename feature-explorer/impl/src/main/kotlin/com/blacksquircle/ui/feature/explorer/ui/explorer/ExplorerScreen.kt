@@ -18,10 +18,8 @@ package com.blacksquircle.ui.feature.explorer.ui.explorer
 
 import android.Manifest
 import android.os.Build
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.util.fastForEachIndexed
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.contract.PermissionResult
@@ -49,13 +46,10 @@ import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
-import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.Breadcrumb
-import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.BreadcrumbNavigation
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ExplorerToolbar
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.FileExplorer
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.Filesystems
-import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
-import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.servers.api.navigation.CloudScreen
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FilesystemType
@@ -207,9 +201,9 @@ private fun ExplorerScreen(
     onCompressClicked: () -> Unit = {},
     onErrorActionClicked: (ErrorAction) -> Unit = {},
     onHomeClicked: () -> Unit = {},
-    onBreadcrumbClicked: (BreadcrumbState) -> Unit = {},
-    onFileClicked: (FileModel) -> Unit = {},
-    onFileSelected: (FileModel) -> Unit = {},
+    onBreadcrumbClicked: (Any) -> Unit = {},
+    onFileClicked: (FileNode) -> Unit = {},
+    onFileSelected: (FileNode) -> Unit = {},
     onRefreshClicked: () -> Unit = {},
 ) {
     Row(Modifier.fillMaxSize()) {
@@ -248,42 +242,15 @@ private fun ExplorerScreen(
             backgroundColor = SquircleTheme.colors.colorBackgroundSecondary,
             modifier = Modifier.imePadding(),
         ) { contentPadding ->
-            Column(Modifier.fillMaxSize()) {
-                BreadcrumbNavigation(
-                    tabs = {
-                        viewState.breadcrumbs.fastForEachIndexed { index, state ->
-                            Breadcrumb(
-                                title = if (index == 0) "/" else state.fileModel.name,
-                                selected = index == viewState.selectedBreadcrumb,
-                                onClick = { onBreadcrumbClicked(state) },
-                            )
-                        }
-                    },
-                    selectedIndex = viewState.selectedBreadcrumb,
-                    taskType = viewState.taskType,
-                    onHomeClicked = onHomeClicked,
-                    onPasteClicked = onPasteClicked,
-                    onCreateFileClicked = onCreateFileClicked,
-                    onCreateFolderClicked = onCreateFolderClicked,
-                    onCloneRepoClicked = onCloneRepoClicked,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-
-                val breadcrumbState = viewState.breadcrumbs
-                    .getOrNull(viewState.selectedBreadcrumb)
-                if (breadcrumbState != null) {
-                    FileExplorer(
-                        contentPadding = contentPadding,
-                        breadcrumbState = breadcrumbState,
-                        selectedFiles = viewState.selectedFiles,
-                        isLoading = viewState.isLoading,
-                        onFileClicked = onFileClicked,
-                        onFileSelected = onFileSelected,
-                        onErrorActionClicked = onErrorActionClicked,
-                        onRefreshClicked = onRefreshClicked,
-                    )
-                }
-            }
+            FileExplorer(
+                contentPadding = contentPadding,
+                fileNodes = viewState.fileNodes,
+                selectedFiles = viewState.selectedFiles,
+                onFileClicked = onFileClicked,
+                onFileSelected = onFileSelected,
+                onErrorActionClicked = onErrorActionClicked,
+                onRefreshClicked = onRefreshClicked,
+            )
         }
     }
 }
@@ -323,19 +290,6 @@ private fun ExplorerScreenPreview() {
                         filesystemUuid = LocalFilesystem.LOCAL_UUID,
                     ),
                 ),
-                breadcrumbs = listOf(
-                    BreadcrumbState(
-                        fileModel = FileModel("file://", LocalFilesystem.LOCAL_UUID),
-                        fileList = emptyList(),
-                        errorState = ErrorState(
-                            title = "Error",
-                            subtitle = "Please try again",
-                            action = ErrorAction.REQUEST_PERMISSIONS,
-                        )
-                    )
-                ),
-                selectedBreadcrumb = 0,
-                isLoading = false,
             )
         )
     }

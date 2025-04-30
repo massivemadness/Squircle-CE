@@ -75,7 +75,6 @@ class SettingsManager(private val context: Context) {
         // File Explorer
         const val KEY_SHOW_HIDDEN_FILES = "show_hidden_files"
         const val KEY_FOLDERS_ON_TOP = "folders_on_top"
-        const val KEY_VIEW_MODE = "view_mode"
         const val KEY_SORT_MODE = "sort_mode"
         const val KEY_FILESYSTEM = "filesystem"
 

@@ -21,19 +21,17 @@ import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
-import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 @Immutable
 internal data class ExplorerViewState(
     val filesystems: List<FilesystemModel> = emptyList(),
     val selectedFilesystem: FilesystemModel? = null,
-    val breadcrumbs: List<BreadcrumbState> = emptyList(),
-    val selectedBreadcrumb: Int = -1,
+    val fileNodes: List<FileNode> = emptyList(),
     val selectedFiles: List<FileModel> = emptyList(),
     val searchQuery: String = "",
     val showHidden: Boolean = true,
     val sortMode: SortMode = SortMode.SORT_BY_NAME,
     val taskType: TaskType = TaskType.CREATE,
-    val isLoading: Boolean = true,
 ) : ViewState
