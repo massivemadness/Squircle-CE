@@ -36,7 +36,9 @@ internal object FileNodeMerger {
                 nextChildren?.size != 1 ||
                 !nextChildren[0].isDirectory ||
                 (!showHidden && nextChildren[0].isHidden)
-            ) break
+            ) {
+                break
+            }
 
             current = nextChildren[0]
             currentKey = current.key

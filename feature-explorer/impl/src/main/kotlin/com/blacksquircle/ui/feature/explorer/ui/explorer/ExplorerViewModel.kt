@@ -104,6 +104,7 @@ internal class ExplorerViewModel @Inject constructor(
 
     private var showHidden = settingsManager.showHidden
     private var foldersOnTop = settingsManager.foldersOnTop
+    private var compactPackages = settingsManager.compactPackages
     private var sortMode = SortMode.of(settingsManager.sortMode)
 
     init {
@@ -714,7 +715,18 @@ internal class ExplorerViewModel @Inject constructor(
                         errorState = null,
                     )
                 }
-                updateViewNodes()
+
+                if (
+                    searchQuery.isBlank() &&
+                    fileNodes.size == 1 &&
+                    fileNodes[0].isDirectory &&
+                    (showHidden && !fileNodes[0].isHidden) &&
+                    compactPackages
+                ) {
+                    loadFiles(fileNodes[0].copy(depth = fileNode.depth))
+                } else {
+                    updateViewNodes()
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Throwable) {
@@ -936,7 +948,7 @@ internal class ExplorerViewModel @Inject constructor(
             showHidden = showHidden,
             sortMode = sortMode,
             foldersOnTop = foldersOnTop,
-            compactPackages = true,
+            compactPackages = compactPackages,
         )
         _viewState.update {
             it.copy(fileNodes = fileNodes)
