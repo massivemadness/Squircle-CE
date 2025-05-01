@@ -49,7 +49,7 @@ import com.blacksquircle.ui.filesystem.base.utils.plusFlag
 import com.blacksquircle.ui.ds.R as UiR
 
 internal val MinItemWidth = 248.dp
-internal val MinTextWidth = 188.dp
+internal val MinTextWidth = 180.dp
 
 private val VerticalPadding = 4.dp
 private val StartPadding = 20.dp
@@ -131,7 +131,7 @@ internal fun FileItem(
             painter = painterResource(icon),
             contentDescription = null,
             tint = tint.copy(alpha = if (fileNode.file.isHidden) 0.45f else 1f),
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(20.dp)
         )
 
         Spacer(Modifier.width(8.dp))
@@ -139,7 +139,7 @@ internal fun FileItem(
         Text(
             text = if (fileNode.depth == 0) "/" else fileNode.displayName,
             color = SquircleTheme.colors.colorTextAndIconSecondary,
-            style = SquircleTheme.typography.text16Regular,
+            style = SquircleTheme.typography.text14Regular,
             maxLines = 1,
             overflow = TextOverflow.Visible,
             modifier = Modifier.widthIn(min = MinTextWidth)
@@ -155,7 +155,7 @@ private fun FileItemPreview() {
             FileItem(
                 fileNode = FileNode(
                     file = FileModel(
-                        fileUri = "file:///storage/emulated/0/Documents",
+                        fileUri = "file:///storage/emulated/0/",
                         filesystemUuid = "123",
                         size = 1024 * 1024,
                         lastModified = System.currentTimeMillis(),
@@ -163,6 +163,21 @@ private fun FileItemPreview() {
                         permission = Permission.OWNER_READ plusFlag Permission.OWNER_WRITE,
                     ),
                     depth = 0,
+                    isExpanded = true,
+                    isLoading = false,
+                ),
+            )
+            FileItem(
+                fileNode = FileNode(
+                    file = FileModel(
+                        fileUri = "file:///storage/emulated/0/Documents",
+                        filesystemUuid = "123",
+                        size = 1024 * 1024,
+                        lastModified = System.currentTimeMillis(),
+                        isDirectory = true,
+                        permission = Permission.OWNER_READ plusFlag Permission.OWNER_WRITE,
+                    ),
+                    depth = 1,
                     isExpanded = false,
                     isLoading = true,
                 ),
@@ -177,22 +192,9 @@ private fun FileItemPreview() {
                         isDirectory = true,
                         permission = Permission.OWNER_READ plusFlag Permission.OWNER_WRITE,
                     ),
-                    depth = 0,
+                    depth = 1,
                     isExpanded = true,
                 ),
-            )
-            FileItem(
-                fileNode = FileNode(
-                    file = FileModel(
-                        fileUri = "file:///storage/emulated/0/untitled.txt",
-                        filesystemUuid = "123",
-                        size = 1024 * 1024,
-                        lastModified = System.currentTimeMillis(),
-                        isDirectory = false,
-                        permission = Permission.OWNER_READ plusFlag Permission.OWNER_WRITE,
-                    ),
-                    depth = 1,
-                )
             )
             FileItem(
                 fileNode = FileNode(
@@ -204,7 +206,20 @@ private fun FileItemPreview() {
                         isDirectory = false,
                         permission = Permission.OWNER_READ plusFlag Permission.OWNER_WRITE,
                     ),
-                    depth = 1,
+                    depth = 2,
+                )
+            )
+            FileItem(
+                fileNode = FileNode(
+                    file = FileModel(
+                        fileUri = "file:///storage/emulated/0/untitled.txt",
+                        filesystemUuid = "123",
+                        size = 1024 * 1024,
+                        lastModified = System.currentTimeMillis(),
+                        isDirectory = false,
+                        permission = Permission.OWNER_READ plusFlag Permission.OWNER_WRITE,
+                    ),
+                    depth = 2,
                 )
             )
         }
