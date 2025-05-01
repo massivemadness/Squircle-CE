@@ -30,6 +30,7 @@
     <string name="action_rename">Переименовать</string>
     <string name="action_run_in_background">Выполнять в фоне</string>
     <string name="action_show_hidden_files">Скрытые файлы</string>
+    <string name="action_compact_packages">Сворачивать папки</string>
     <string name="action_compress">Сжать</string>
     <string name="action_open_with">Открыть как</string>
     <string name="action_properties">Свойства</string>

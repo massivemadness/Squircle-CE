@@ -54,11 +54,13 @@ internal fun ExplorerToolbar(
     searchQuery: String,
     selectedFiles: List<FileModel>,
     showHidden: Boolean,
+    compactPackages: Boolean,
     sortMode: SortMode,
     modifier: Modifier = Modifier,
     onQueryChanged: (String) -> Unit = {},
     onClearQueryClicked: () -> Unit = {},
     onShowHiddenClicked: () -> Unit = {},
+    onCompactPackagesClicked: () -> Unit = {},
     onSortModeSelected: (SortMode) -> Unit = {},
     onCopyClicked: () -> Unit = {},
     onDeleteClicked: () -> Unit = {},
@@ -162,9 +164,20 @@ internal fun ExplorerToolbar(
                             expanded = menuExpanded,
                             onDismiss = { menuExpanded = false },
                             showHidden = showHidden,
+                            compactPackages = compactPackages,
                             sortMode = sortMode,
-                            onSortModeSelected = { menuExpanded = false; onSortModeSelected(it) },
-                            onShowHiddenClicked = { menuExpanded = false; onShowHiddenClicked() },
+                            onShowHiddenClicked = {
+                                menuExpanded = false
+                                onShowHiddenClicked()
+                            },
+                            onCompactPackagesClicked = {
+                                menuExpanded = false
+                                onCompactPackagesClicked()
+                            },
+                            onSortModeSelected = {
+                                menuExpanded = false
+                                onSortModeSelected(it)
+                            },
                         )
                     }
                 }
@@ -183,12 +196,8 @@ private fun ExplorerToolbarPreview() {
             searchQuery = "",
             selectedFiles = emptyList(),
             showHidden = true,
+            compactPackages = true,
             sortMode = SortMode.SORT_BY_NAME,
-            onQueryChanged = {},
-            onClearQueryClicked = {},
-            onShowHiddenClicked = {},
-            onSortModeSelected = {},
-            onBackClicked = {},
         )
     }
 }

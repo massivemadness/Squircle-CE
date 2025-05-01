@@ -114,7 +114,6 @@
     <string name="pref_show_hidden_files_summary">Gizli dosya ve klasörler (nokta ile başlayanlar) gösterilecektir</string>
     <string name="pref_folders_on_top_title">Üstteki klasörler</string>
     <string name="pref_folders_on_top_summary">Klasörler en üstte gösterilecektir</string>
-    <string name="pref_view_mode_title">Görüntüleme modu</string>
     <string name="pref_sort_mode_title">Sıralama Modu</string>
     <string name="pref_about_summary">Squircle CE, Apache 2.0 lisansı altında yayınlanan açık kaynaklı bir projedir\n\nSürüm: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Gizlilik Politikası</string>

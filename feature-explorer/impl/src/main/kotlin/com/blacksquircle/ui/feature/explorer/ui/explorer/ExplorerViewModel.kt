@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.extensions.PermissionException
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_COMPACT_PACKAGES
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FOLDERS_ON_TOP
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_SHOW_HIDDEN_FILES
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_SORT_MODE
@@ -213,6 +214,17 @@ internal class ExplorerViewModel @Inject constructor(
         settingsManager.showHidden = showHidden
         _viewState.update {
             it.copy(showHidden = showHidden)
+        }
+        viewModelScope.launch {
+            updateNodeList()
+        }
+    }
+
+    fun onCompactPackagesClicked() {
+        this.compactPackages = !compactPackages
+        settingsManager.compactPackages = compactPackages
+        _viewState.update {
+            it.copy(compactPackages = compactPackages)
         }
         viewModelScope.launch {
             updateNodeList()
@@ -764,6 +776,7 @@ internal class ExplorerViewModel @Inject constructor(
                         fileNodes = listOf(rootNode),
                         searchQuery = searchQuery,
                         showHidden = showHidden,
+                        compactPackages = compactPackages,
                         sortMode = sortMode,
                     )
                 }
@@ -784,6 +797,22 @@ internal class ExplorerViewModel @Inject constructor(
                 return@registerListener
             }
             showHidden = newValue
+            _viewState.update {
+                it.copy(showHidden = showHidden)
+            }
+            viewModelScope.launch {
+                updateNodeList()
+            }
+        }
+        settingsManager.registerListener(KEY_COMPACT_PACKAGES) {
+            val newValue = settingsManager.compactPackages
+            if (compactPackages == newValue) {
+                return@registerListener
+            }
+            compactPackages = newValue
+            _viewState.update {
+                it.copy(compactPackages = compactPackages)
+            }
             viewModelScope.launch {
                 updateNodeList()
             }
@@ -794,6 +823,9 @@ internal class ExplorerViewModel @Inject constructor(
                 return@registerListener
             }
             foldersOnTop = newValue
+            /*_viewState.update {
+                it.copy(foldersOnTop = foldersOnTop)
+            }*/
             viewModelScope.launch {
                 updateNodeList()
             }
@@ -804,6 +836,9 @@ internal class ExplorerViewModel @Inject constructor(
                 return@registerListener
             }
             sortMode = newValue
+            _viewState.update {
+                it.copy(sortMode = sortMode)
+            }
             viewModelScope.launch {
                 updateNodeList()
             }
@@ -812,6 +847,7 @@ internal class ExplorerViewModel @Inject constructor(
 
     private fun unregisterOnPreferenceChangeListeners() {
         settingsManager.unregisterListener(KEY_SHOW_HIDDEN_FILES)
+        settingsManager.unregisterListener(KEY_COMPACT_PACKAGES)
         settingsManager.unregisterListener(KEY_FOLDERS_ON_TOP)
         settingsManager.unregisterListener(KEY_SORT_MODE)
     }

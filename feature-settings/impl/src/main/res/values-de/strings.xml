@@ -120,7 +120,6 @@
     <string name="pref_show_hidden_files_summary">Versteckte Dateien und Ordner (beginnen mit einem Punkt) werden angezeigt</string>
     <string name="pref_folders_on_top_title">Ordner ganz oben</string>
     <string name="pref_folders_on_top_summary">Ordner werden ganz oben angezeigt</string>
-    <string name="pref_view_mode_title">Anzeigemodus</string>
     <string name="pref_sort_mode_title">Sortiermodus</string>
 
     <string name="pref_about_summary">Squircle CE ist ein Open-Source-Projekt, das unter der Apache 2.0-Lizenz veröffentlicht wurde  Version: %1$s (%2$d)</string>

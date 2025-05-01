@@ -27,6 +27,7 @@ internal data class FilesHeaderViewState(
     val encodingList: List<String>,
     val lineBreakForSaving: String,
     val showHidden: Boolean,
+    val compactPackages: Boolean,
     val foldersOnTop: Boolean,
     val sortMode: String,
 ) : ViewState
