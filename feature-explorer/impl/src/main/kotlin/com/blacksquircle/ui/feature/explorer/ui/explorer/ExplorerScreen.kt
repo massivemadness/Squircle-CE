@@ -117,7 +117,6 @@ internal fun ExplorerScreen(
         when (result) {
             PermissionResult.DENIED,
             PermissionResult.DENIED_FOREVER -> viewModel.onPermissionDenied()
-
             PermissionResult.GRANTED -> viewModel.onPermissionGranted()
         }
     }
@@ -138,11 +137,9 @@ internal fun ExplorerScreen(
                         }
                     )
                 }
-
                 is ExplorerViewEvent.OpenFileWith -> {
                     context.openFileWith(event.fileModel)
                 }
-
                 is ExplorerViewEvent.CopyPath -> {
                     event.fileModel.path.clipText(context)
                 }

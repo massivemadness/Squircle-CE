@@ -28,8 +28,8 @@ internal object NodeBuilder {
     fun buildNodeList(nodeMap: NodeMap, options: NodeBuilderOptions): List<FileNode> {
         val fileNodes = mutableListOf<FileNode>()
         val strategy = when {
-            options.isSearching -> SearchNodeStrategy(options.searchQuery)
-            options.compactPackages -> CompactNodeStrategy(options.showHidden)
+            options.isSearching -> SearchNodeStrategy(options)
+            options.compactPackages -> CompactNodeStrategy(options)
             else -> AppendNodeStrategy
         }
 

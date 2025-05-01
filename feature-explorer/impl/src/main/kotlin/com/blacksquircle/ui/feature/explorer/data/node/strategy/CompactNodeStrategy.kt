@@ -16,13 +16,15 @@
 
 package com.blacksquircle.ui.feature.explorer.data.node.strategy
 
+import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderOptions
 import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderStrategy
 import com.blacksquircle.ui.feature.explorer.data.node.NodeMap
+import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
 import java.io.File
 
-internal class CompactNodeStrategy(private val showHidden: Boolean) : NodeBuilderStrategy {
+internal class CompactNodeStrategy(private val options: NodeBuilderOptions) : NodeBuilderStrategy {
 
     override fun build(
         nodeMap: NodeMap,
@@ -57,16 +59,15 @@ internal class CompactNodeStrategy(private val showHidden: Boolean) : NodeBuilde
         val nestedNodes = mutableListOf(current)
 
         while (true) {
-            val nextChildren = nodeMap[currentKey]
-            if (
-                nextChildren?.size != 1 ||
-                !nextChildren[0].isDirectory ||
-                (!showHidden && nextChildren[0].isHidden)
-            ) {
+            val children = nodeMap[currentKey].orEmpty()
+                .filter { options.showHidden || !it.isHidden }
+                .sortedWith(fileComparator(options.sortMode))
+                .sortedBy { it.isDirectory != options.foldersOnTop }
+            if (children.size != 1 || !children[0].isDirectory) {
                 break
             }
 
-            current = nextChildren[0]
+            current = children[0]
             currentKey = current.key
             nestedNodes += current
         }
@@ -79,7 +80,10 @@ internal class CompactNodeStrategy(private val showHidden: Boolean) : NodeBuilde
         depth: Int,
         append: (FileNode) -> Unit
     ) {
-        val children = nodeMap[parentKey] ?: return
+        val children = nodeMap[parentKey].orEmpty()
+            .filter { options.showHidden || !it.isHidden }
+            .sortedWith(fileComparator(options.sortMode))
+            .sortedBy { it.isDirectory != options.foldersOnTop }
         for (child in children) {
             val adjusted = child.copy(displayDepth = depth)
             append(adjusted)

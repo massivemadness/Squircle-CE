@@ -16,12 +16,13 @@
 
 package com.blacksquircle.ui.feature.explorer.data.node.strategy
 
+import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderOptions
 import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderStrategy
 import com.blacksquircle.ui.feature.explorer.data.node.NodeMap
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
 
-internal class SearchNodeStrategy(private val searchQuery: String) : NodeBuilderStrategy {
+internal class SearchNodeStrategy(private val options: NodeBuilderOptions) : NodeBuilderStrategy {
 
     override fun build(
         nodeMap: NodeMap,
@@ -30,7 +31,7 @@ internal class SearchNodeStrategy(private val searchQuery: String) : NodeBuilder
         append: (FileNode) -> Unit,
         recurse: (NodeKey) -> Unit
     ) {
-        val matchResults = search(nodeMap, searchQuery)
+        val matchResults = search(nodeMap)
         if (child.key in matchResults) {
             append(child)
             if (child.isExpanded) {
@@ -39,11 +40,11 @@ internal class SearchNodeStrategy(private val searchQuery: String) : NodeBuilder
         }
     }
 
-    private fun search(nodeMap: NodeMap, query: String): Set<NodeKey> {
+    private fun search(nodeMap: NodeMap): Set<NodeKey> {
         val foundMatches = mutableSetOf<NodeKey>()
 
         fun matches(fileNode: FileNode): Boolean {
-            return fileNode.file.name.contains(query, ignoreCase = true)
+            return fileNode.file.name.contains(options.searchQuery, ignoreCase = true)
         }
 
         fun findParentKey(key: NodeKey): NodeKey? {
