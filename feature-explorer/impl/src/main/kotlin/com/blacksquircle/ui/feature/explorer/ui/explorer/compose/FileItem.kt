@@ -49,7 +49,7 @@ import com.blacksquircle.ui.filesystem.base.utils.plusFlag
 import com.blacksquircle.ui.ds.R as UiR
 
 internal val MinItemWidth = 248.dp
-internal val MinTextWidth = 180.dp
+internal val MinTextWidth = 176.dp
 
 private val VerticalPadding = 4.dp
 private val StartPadding = 20.dp
@@ -131,7 +131,7 @@ internal fun FileItem(
             painter = painterResource(icon),
             contentDescription = null,
             tint = tint.copy(alpha = if (fileNode.file.isHidden) 0.45f else 1f),
-            modifier = Modifier.size(20.dp)
+            modifier = Modifier.size(24.dp)
         )
 
         Spacer(Modifier.width(8.dp))
@@ -139,7 +139,7 @@ internal fun FileItem(
         Text(
             text = if (fileNode.depth == 0) "/" else fileNode.displayName,
             color = SquircleTheme.colors.colorTextAndIconSecondary,
-            style = SquircleTheme.typography.text14Regular,
+            style = SquircleTheme.typography.text16Regular,
             maxLines = 1,
             overflow = TextOverflow.Visible,
             modifier = Modifier.widthIn(min = MinTextWidth)
