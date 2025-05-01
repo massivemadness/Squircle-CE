@@ -39,7 +39,7 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
-import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
+import com.blacksquircle.ui.feature.explorer.data.sorting.FileNodeSearcher
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
@@ -185,24 +185,41 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onQueryChanged(query: String) {
         searchQuery = query
-        // reapplyFilter()
+        _viewState.update {
+            it.copy(
+                searchQuery = searchQuery,
+                fileNodes = buildFileNodes()
+            )
+        }
     }
 
     fun onClearQueryClicked() {
         searchQuery = ""
-        // reapplyFilter()
+        _viewState.update {
+            it.copy(
+                searchQuery = searchQuery,
+                fileNodes = buildFileNodes()
+            )
+        }
     }
 
     fun onShowHiddenClicked() {
         this.showHidden = !showHidden
         settingsManager.showHidden = showHidden
-        // reapplyFilter()
+        _viewState.update {
+            it.copy(
+                showHidden = showHidden,
+                fileNodes = buildFileNodes()
+            )
+        }
     }
 
     fun onSortModeSelected(sortMode: SortMode) {
         this.sortMode = sortMode
         settingsManager.sortMode = sortMode.value
-        // reapplyFilter()
+        _viewState.update {
+            it.copy(fileNodes = buildFileNodes())
+        }
     }
 
     fun onHomeClicked() {
@@ -691,14 +708,13 @@ internal class ExplorerViewModel @Inject constructor(
                     it.copy(fileNodes = buildFileNodes())
                 }
 
-                val fileList = explorerRepository.listFiles(fileNode.file)
-                val sortedFiles = fileList.applyFilter()
-                nodes[fileNode.key] = sortedFiles.map { file ->
+                val fileNodes = explorerRepository.listFiles(fileNode.file).map { fileModel ->
                     FileNode(
-                        file = file,
+                        file = fileModel,
                         depth = fileNode.depth + 1
                     )
                 }
+                nodes[fileNode.key] = fileNodes
 
                 delay(200L) // run progress animation
 
@@ -773,7 +789,9 @@ internal class ExplorerViewModel @Inject constructor(
                 return@registerListener
             }
             showHidden = newValue
-            // reapplyFilter()
+            _viewState.update {
+                it.copy(fileNodes = buildFileNodes())
+            }
         }
         settingsManager.registerListener(KEY_FOLDERS_ON_TOP) {
             val newValue = settingsManager.foldersOnTop
@@ -781,7 +799,9 @@ internal class ExplorerViewModel @Inject constructor(
                 return@registerListener
             }
             foldersOnTop = newValue
-            // reapplyFilter()
+            _viewState.update {
+                it.copy(fileNodes = buildFileNodes())
+            }
         }
         settingsManager.registerListener(KEY_SORT_MODE) {
             val newValue = SortMode.of(settingsManager.sortMode)
@@ -789,7 +809,9 @@ internal class ExplorerViewModel @Inject constructor(
                 return@registerListener
             }
             sortMode = newValue
-            // reapplyFilter()
+            _viewState.update {
+                it.copy(fileNodes = buildFileNodes())
+            }
         }
     }
 
@@ -925,11 +947,18 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun buildFileNodes(): List<FileNode> {
+    /*private fun buildFileNodes(): List<FileNode> {
         val fileNodes = mutableListOf<FileNode>()
 
         fun append(key: NodeKey) {
-            val children = nodes[key] ?: return
+            val children = (nodes[key] ?: return)
+                .asSequence()
+                .filter { it.file.name.contains(searchQuery, ignoreCase = true) }
+                .filter { if (it.file.isHidden) showHidden else true }
+                .sortedWith(fileComparator(sortMode.value))
+                .sortedBy { it.file.directory != foldersOnTop }
+                .toList()
+
             for (child in children) {
                 fileNodes.add(child)
                 if (child.isExpanded) {
@@ -946,13 +975,40 @@ internal class ExplorerViewModel @Inject constructor(
             }
         }
         return fileNodes
-    }
+    }*/
 
-    private fun List<FileModel>.applyFilter(): List<FileModel> {
-        return filter { it.name.contains(searchQuery, ignoreCase = true) }
-            .filter { if (it.isHidden) showHidden else true }
-            .sortedWith(fileComparator(sortMode.value))
-            .sortedBy { it.directory != foldersOnTop }
+    private fun buildFileNodes(): List<FileNode> {
+        val fileNodes = mutableListOf<FileNode>()
+        val matchResults = FileNodeSearcher.search(nodes, searchQuery)
+
+        fun appendNode(parentKey: NodeKey) {
+            val children = nodes[parentKey] ?: return
+            for (child in children) {
+                val key = child.key
+                if (searchQuery.isBlank()) {
+                    if (!showHidden && child.file.isHidden) {
+                        continue
+                    }
+                    fileNodes.add(child)
+                    if (child.isExpanded) {
+                        appendNode(key)
+                    }
+                } else {
+                    if (key in matchResults) {
+                        if (!showHidden && child.file.isHidden) {
+                            continue
+                        }
+                        fileNodes.add(child)
+                        if (child.isExpanded || child.file.directory) {
+                            appendNode(key)
+                        }
+                    }
+                }
+            }
+        }
+
+        appendNode(NodeKey.Root)
+        return fileNodes
     }
 
     class Factory : ViewModelProvider.Factory {
