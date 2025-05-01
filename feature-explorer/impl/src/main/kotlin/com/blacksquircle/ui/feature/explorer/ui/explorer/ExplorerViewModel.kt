@@ -64,6 +64,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -92,7 +93,7 @@ internal class ExplorerViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private val nodes = hashMapOf<NodeKey, List<FileNode>>()
+    private val cache = HashMap<NodeKey, List<FileNode>>(128)
 
     private var taskType: TaskType = TaskType.CREATE
     private var taskBuffer: List<FileModel> = emptyList()
@@ -189,7 +190,7 @@ internal class ExplorerViewModel @Inject constructor(
             it.copy(searchQuery = searchQuery)
         }
         viewModelScope.launch {
-            updateFileNodes()
+            updateViewNodes()
         }
     }
 
@@ -199,7 +200,7 @@ internal class ExplorerViewModel @Inject constructor(
             it.copy(searchQuery = searchQuery)
         }
         viewModelScope.launch {
-            updateFileNodes()
+            updateViewNodes()
         }
     }
 
@@ -210,7 +211,7 @@ internal class ExplorerViewModel @Inject constructor(
             it.copy(showHidden = showHidden)
         }
         viewModelScope.launch {
-            updateFileNodes()
+            updateViewNodes()
         }
     }
 
@@ -221,7 +222,7 @@ internal class ExplorerViewModel @Inject constructor(
             it.copy(sortMode = sortMode)
         }
         viewModelScope.launch {
-            updateFileNodes()
+            updateViewNodes()
         }
     }
 
@@ -672,27 +673,27 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     private fun loadFiles(fileNode: FileNode) {
-        val cacheNode = nodes[fileNode.key]
+        val cacheNode = cache[fileNode.key]
         if (cacheNode != null) {
-            updateNode(fileNode) {
+            updateCacheNode(fileNode) {
                 it.copy(isExpanded = !fileNode.isExpanded)
             }
             viewModelScope.launch {
-                updateFileNodes()
+                updateViewNodes()
             }
             return
         }
 
         viewModelScope.launch {
             try {
-                updateNode(fileNode) {
+                updateCacheNode(fileNode) {
                     it.copy(
                         isExpanded = true,
                         isLoading = true,
                         errorState = null,
                     )
                 }
-                updateFileNodes()
+                updateViewNodes()
 
                 val fileNodes = explorerRepository.listFiles(fileNode.file).map { fileModel ->
                     FileNode(
@@ -700,26 +701,28 @@ internal class ExplorerViewModel @Inject constructor(
                         depth = fileNode.depth + 1
                     )
                 }
-                nodes[fileNode.key] = fileNodes
+                cache[fileNode.key] = fileNodes
 
-                updateNode(fileNode) {
+                delay(150L) // run animation smoothly
+
+                updateCacheNode(fileNode) {
                     it.copy(
                         isLoading = false,
                         errorState = null,
                     )
                 }
-                updateFileNodes()
+                updateViewNodes()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Throwable) {
                 Timber.e(e, e.message)
-                updateNode(fileNode) {
+                updateCacheNode(fileNode) {
                     it.copy(
                         isLoading = false,
                         errorState = errorState(e)
                     )
                 }
-                updateFileNodes()
+                updateViewNodes()
             }
         }
     }
@@ -739,7 +742,7 @@ internal class ExplorerViewModel @Inject constructor(
                     file = filesystemModel.defaultLocation,
                     depth = 0,
                 )
-                nodes[NodeKey.Root] = listOf(rootNode)
+                cache[NodeKey.Root] = listOf(rootNode)
 
                 _viewState.update {
                     it.copy(
@@ -769,7 +772,7 @@ internal class ExplorerViewModel @Inject constructor(
             }
             showHidden = newValue
             viewModelScope.launch {
-                updateFileNodes()
+                updateViewNodes()
             }
         }
         settingsManager.registerListener(KEY_FOLDERS_ON_TOP) {
@@ -779,7 +782,7 @@ internal class ExplorerViewModel @Inject constructor(
             }
             foldersOnTop = newValue
             viewModelScope.launch {
-                updateFileNodes()
+                updateViewNodes()
             }
         }
         settingsManager.registerListener(KEY_SORT_MODE) {
@@ -789,7 +792,7 @@ internal class ExplorerViewModel @Inject constructor(
             }
             sortMode = newValue
             viewModelScope.launch {
-                updateFileNodes()
+                updateViewNodes()
             }
         }
     }
@@ -911,24 +914,24 @@ internal class ExplorerViewModel @Inject constructor(
         onRefreshClicked()
     }
 
-    private fun updateNode(fileNode: FileNode, transform: (FileNode) -> FileNode) {
-        val parentKey = nodes.entries.firstOrNull { entry ->
+    private fun updateCacheNode(fileNode: FileNode, transform: (FileNode) -> FileNode) {
+        val parentKey = cache.entries.find { entry ->
             entry.value.any { node ->
                 node.key == fileNode.key
             }
         }?.key ?: return
 
-        val siblings = nodes[parentKey]?.toMutableList() ?: return
+        val siblings = cache[parentKey]?.toMutableList() ?: return
         val index = siblings.indexOfFirst { it.key == fileNode.key }
         if (index != -1) {
             siblings[index] = transform(siblings[index])
-            nodes[parentKey] = siblings
+            cache[parentKey] = siblings
         }
     }
 
-    private suspend fun updateFileNodes() {
+    private suspend fun updateViewNodes() {
         val fileNodes = asyncFileNodeBuilder.buildFileNodes(
-            nodes = nodes,
+            nodes = cache,
             searchQuery = searchQuery,
             showHidden = showHidden,
             sortMode = sortMode,
