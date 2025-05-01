@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.explorer
 
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
@@ -56,6 +57,20 @@ internal fun createFilesystem(
             fileUri = "file:///storage/emulated/0/",
             filesystemUuid = uuid,
         ),
+    )
+}
+
+internal fun createFileNode(
+    name: String,
+    size: Long = 100L,
+    lastModified: Long = 100L
+): FileNode {
+    return FileNode(
+        file = createFile(
+            name = name,
+            size = size,
+            lastModified = lastModified,
+        )
     )
 }
 

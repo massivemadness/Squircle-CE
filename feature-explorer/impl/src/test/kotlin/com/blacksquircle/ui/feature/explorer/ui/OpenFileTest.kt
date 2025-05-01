@@ -62,8 +62,7 @@ class OpenFileTest {
     @Before
     fun setup() {
         coEvery { explorerRepository.loadFilesystems() } returns filesystems
-        coEvery { explorerRepository.loadBreadcrumbs(selectedFilesystem) } returns
-            listOf(defaultLocation)
+        coEvery { explorerRepository.listFiles(any()) } returns emptyList()
 
         every { settingsManager.filesystem } returns selectedFilesystem.uuid
         every { settingsManager.filesystem = any() } answers {

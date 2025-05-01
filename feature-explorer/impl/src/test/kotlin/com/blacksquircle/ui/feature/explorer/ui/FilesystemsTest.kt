@@ -65,8 +65,7 @@ class FilesystemsTest {
     @Before
     fun setup() {
         coEvery { explorerRepository.loadFilesystems() } returns filesystems
-        coEvery { explorerRepository.loadBreadcrumbs(selectedFilesystem) } returns
-            listOf(selectedFilesystem.defaultLocation)
+        coEvery { explorerRepository.listFiles(any()) } returns emptyList()
 
         every { settingsManager.filesystem } returns selectedFilesystem.uuid
         every { settingsManager.filesystem = any() } answers {

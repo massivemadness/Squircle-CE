@@ -69,8 +69,6 @@ class FileTaskTest {
     @Before
     fun setup() {
         coEvery { explorerRepository.loadFilesystems() } returns filesystems
-        coEvery { explorerRepository.loadBreadcrumbs(selectedFilesystem) } returns
-            listOf(defaultLocation)
         coEvery { explorerRepository.listFiles(any()) } returns fileList
 
         every { settingsManager.filesystem } returns selectedFilesystem.uuid

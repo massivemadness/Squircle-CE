@@ -18,8 +18,6 @@ package com.blacksquircle.ui.feature.explorer.repository
 
 import android.content.Context
 import android.os.Environment
-import com.blacksquircle.ui.core.database.dao.path.PathDao
-import com.blacksquircle.ui.core.database.entity.path.PathEntity
 import com.blacksquircle.ui.core.extensions.PermissionException
 import com.blacksquircle.ui.core.extensions.isStorageAccessGranted
 import com.blacksquircle.ui.core.settings.SettingsManager
@@ -60,7 +58,6 @@ class ExplorerRepositoryImplTest {
     private val gitInteractor = mockk<GitInteractor>(relaxed = true)
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
     private val filesystemFactory = mockk<FilesystemFactory>(relaxed = true)
-    private val pathDao = mockk<PathDao>(relaxed = true)
     private val context = mockk<Context>(relaxed = true)
 
     private val filesystem = mockk<Filesystem>(relaxed = true)
@@ -146,10 +143,6 @@ class ExplorerRepositoryImplTest {
         every { context.isStorageAccessGranted() } returns true
 
         val parent = createFolder("Documents")
-        val path = PathEntity(
-            fileUri = parent.fileUri,
-            filesystemUuid = parent.filesystemUuid,
-        )
         val children = listOf(
             createFile("file_1.txt"),
             createFile("file_2.txt"),
@@ -164,7 +157,6 @@ class ExplorerRepositoryImplTest {
         // Then
         assertEquals(children, fileList)
         verify(exactly = 1) { filesystem.listFiles(parent) }
-        coVerify(exactly = 1) { pathDao.insert(path) }
     }
 
     @Test

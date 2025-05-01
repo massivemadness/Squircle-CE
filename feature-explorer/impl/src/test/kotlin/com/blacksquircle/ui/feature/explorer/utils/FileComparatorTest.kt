@@ -16,18 +16,17 @@
 
 package com.blacksquircle.ui.feature.explorer.utils
 
-import com.blacksquircle.ui.feature.explorer.createFile
-import com.blacksquircle.ui.feature.explorer.data.utils.FileSorter
+import com.blacksquircle.ui.feature.explorer.createFileNode
 import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
-class FileSorterTest {
+class FileComparatorTest {
 
-    private val fileA = createFile(name = "apple.txt", size = 100, lastModified = 1000)
-    private val fileB = createFile(name = "Banana.txt", size = 200, lastModified = 2000)
-    private val fileC = createFile(name = "cherry.txt", size = 50, lastModified = 500)
+    private val fileA = createFileNode(name = "apple.txt", size = 100, lastModified = 1000)
+    private val fileB = createFileNode(name = "Banana.txt", size = 200, lastModified = 2000)
+    private val fileC = createFileNode(name = "cherry.txt", size = 50, lastModified = 500)
 
     @Test
     fun `When sorted by name Then should be in alphabetical order ignoring case`() {
@@ -45,10 +44,11 @@ class FileSorterTest {
     @Test
     fun `When sorted by size Then should be in descending order`() {
         // Given
+        val sortMode = SortMode.SORT_BY_SIZE
         val files = listOf(fileA, fileB, fileC)
 
         // When
-        val sorted = files.sortedWith(FileSorter.COMPARATOR_SIZE)
+        val sorted = files.sortedWith(fileComparator(sortMode))
 
         // Then
         assertEquals(listOf(fileB, fileA, fileC), sorted)
@@ -57,51 +57,13 @@ class FileSorterTest {
     @Test
     fun `When sorted by date Then should be in descending lastModified order`() {
         // Given
+        val sortMode = SortMode.SORT_BY_DATE
         val files = listOf(fileA, fileB, fileC)
 
         // When
-        val sorted = files.sortedWith(FileSorter.COMPARATOR_DATE)
+        val sorted = files.sortedWith(fileComparator(sortMode))
 
         // Then
-        assertEquals(listOf(fileB, fileA, fileC), sorted)
-    }
-
-    @Test
-    fun `When fileComparator called with name Then returns COMPARATOR_NAME`() {
-        // Given
-        val input = SortMode.SORT_BY_NAME.value
-
-        // When
-        val comparator = fileComparator(input)
-
-        // Then
-        val sorted = listOf(fileB, fileC, fileA).sortedWith(comparator)
-        assertEquals(listOf(fileA, fileB, fileC), sorted)
-    }
-
-    @Test
-    fun `When fileComparator called with size Then returns COMPARATOR_SIZE`() {
-        // Given
-        val input = SortMode.SORT_BY_SIZE
-
-        // When
-        val comparator = fileComparator(input)
-
-        // Then
-        val sorted = listOf(fileA, fileB, fileC).sortedWith(comparator)
-        assertEquals(listOf(fileB, fileA, fileC), sorted)
-    }
-
-    @Test
-    fun `When fileComparator called with date Then returns COMPARATOR_DATE`() {
-        // Given
-        val input = SortMode.SORT_BY_DATE
-
-        // When
-        val comparator = fileComparator(input)
-
-        // Then
-        val sorted = listOf(fileA, fileB, fileC).sortedWith(comparator)
         assertEquals(listOf(fileB, fileA, fileC), sorted)
     }
 }
