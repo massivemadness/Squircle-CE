@@ -51,8 +51,6 @@ internal object ThemeMapper {
             type = ThemeType.of(externalTheme.type.orEmpty()),
             colorPrimary = externalTheme.colors?.colorPrimary?.let(Color::parseColor),
             colorOutline = externalTheme.colors?.colorOutline.let(Color::parseColor),
-            colorSuccess = externalTheme.colors?.colorSuccess.let(Color::parseColor),
-            colorError = externalTheme.colors?.colorError.let(Color::parseColor),
             colorBackgroundPrimary =
                 externalTheme.colors?.colorBackgroundPrimary.let(Color::parseColor),
             colorBackgroundSecondary =
@@ -69,6 +67,10 @@ internal object ThemeMapper {
                 externalTheme.colors?.colorTextAndIconDisabled.let(Color::parseColor),
             colorTextAndIconAdditional =
                 externalTheme.colors?.colorTextAndIconAdditional.let(Color::parseColor),
+            colorTextAndIconSuccess =
+                externalTheme.colors?.colorTextAndIconSuccess.let(Color::parseColor),
+            colorTextAndIconError =
+                externalTheme.colors?.colorTextAndIconError.let(Color::parseColor),
         )
     }
 }

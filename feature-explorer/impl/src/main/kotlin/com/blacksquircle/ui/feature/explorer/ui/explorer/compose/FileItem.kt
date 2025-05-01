@@ -103,7 +103,7 @@ internal fun FileItem(
                         Icon(
                             painter = painterResource(UiR.drawable.ic_alert_circle),
                             contentDescription = null,
-                            tint = SquircleTheme.colors.colorError,
+                            tint = SquircleTheme.colors.colorTextAndIconError,
                             modifier = Modifier.padding(2.dp)
                         )
                     }

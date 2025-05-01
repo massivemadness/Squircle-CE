@@ -126,9 +126,9 @@ private fun ChangeItem(
                 },
                 style = SquircleTheme.typography.text12Regular,
                 color = when (type) {
-                    ChangeType.ADDED -> SquircleTheme.colors.colorSuccess
+                    ChangeType.ADDED -> SquircleTheme.colors.colorTextAndIconSuccess
                     ChangeType.MODIFIED -> SquircleTheme.colors.colorTextAndIconSecondary
-                    ChangeType.DELETED -> SquircleTheme.colors.colorError
+                    ChangeType.DELETED -> SquircleTheme.colors.colorTextAndIconError
                 },
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,

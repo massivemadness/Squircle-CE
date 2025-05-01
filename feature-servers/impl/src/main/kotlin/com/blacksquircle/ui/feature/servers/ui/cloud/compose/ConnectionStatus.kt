@@ -82,7 +82,7 @@ internal fun ConnectionStatus(
                 Icon(
                     painter = painterResource(UiR.drawable.ic_check),
                     contentDescription = null,
-                    tint = SquircleTheme.colors.colorSuccess,
+                    tint = SquircleTheme.colors.colorTextAndIconSuccess,
                     modifier = Modifier.size(16.dp)
                 )
             }
@@ -91,7 +91,7 @@ internal fun ConnectionStatus(
                 Icon(
                     painter = painterResource(UiR.drawable.ic_close),
                     contentDescription = null,
-                    tint = SquircleTheme.colors.colorError,
+                    tint = SquircleTheme.colors.colorTextAndIconError,
                     modifier = Modifier.size(16.dp)
                 )
             }
@@ -113,8 +113,8 @@ internal fun ConnectionStatus(
             },
             color = when (status) {
                 is ServerStatus.Checking -> SquircleTheme.colors.colorTextAndIconSecondary
-                is ServerStatus.Available -> SquircleTheme.colors.colorSuccess
-                is ServerStatus.Unavailable -> SquircleTheme.colors.colorError
+                is ServerStatus.Available -> SquircleTheme.colors.colorTextAndIconSuccess
+                is ServerStatus.Unavailable -> SquircleTheme.colors.colorTextAndIconError
             },
             style = SquircleTheme.typography.text14Regular,
             overflow = TextOverflow.Ellipsis,

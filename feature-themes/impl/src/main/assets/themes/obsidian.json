@@ -5,8 +5,8 @@
   "colors": {
     "global.colorPrimary": "#87D35C",
     "global.colorOutline": "#3F4749",
-    "global.colorSuccess": "#71D98C",
-    "global.colorError": "#E45356",
+    "global.colorTextAndIconSuccess": "#71D98C",
+    "global.colorTextAndIconError": "#E45356",
     "global.colorBackgroundPrimary": "#23282A",
     "global.colorBackgroundSecondary": "#2E3539",
     "global.colorBackgroundTertiary": "#3D4549",
