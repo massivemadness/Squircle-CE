@@ -38,8 +38,8 @@ internal object FileSorter {
         }
 }
 
-internal fun fileComparator(value: String): Comparator<in FileNode> {
-    return when (SortMode.of(value)) {
+internal fun fileComparator(sortMode: SortMode): Comparator<in FileNode> {
+    return when (sortMode) {
         SortMode.SORT_BY_NAME -> FileSorter.COMPARATOR_NAME
         SortMode.SORT_BY_SIZE -> FileSorter.COMPARATOR_SIZE
         SortMode.SORT_BY_DATE -> FileSorter.COMPARATOR_DATE

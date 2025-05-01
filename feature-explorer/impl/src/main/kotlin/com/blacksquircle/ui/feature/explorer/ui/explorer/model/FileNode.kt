@@ -29,8 +29,8 @@ internal data class FileNode(
 ) {
     val key: NodeKey
         get() = NodeKey.Node(file.fileUri)
-    val isRoot: Boolean
-        get() = depth == 0
     val isDirectory: Boolean
         get() = file.directory
+    val isHidden: Boolean
+        get() = file.isHidden
 }

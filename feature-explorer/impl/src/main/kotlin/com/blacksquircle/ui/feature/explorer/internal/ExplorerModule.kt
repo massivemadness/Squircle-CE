@@ -24,6 +24,7 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
+import com.blacksquircle.ui.feature.explorer.data.sorting.AsyncFileNodeBuilder
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
@@ -32,6 +33,12 @@ import dagger.Provides
 
 @Module
 internal object ExplorerModule {
+
+    @Provides
+    @ExplorerScope
+    fun provideAsyncFileNodeBuilder(dispatcherProvider: DispatcherProvider): AsyncFileNodeBuilder {
+        return AsyncFileNodeBuilder(dispatcherProvider)
+    }
 
     @Provides
     @ExplorerScope
