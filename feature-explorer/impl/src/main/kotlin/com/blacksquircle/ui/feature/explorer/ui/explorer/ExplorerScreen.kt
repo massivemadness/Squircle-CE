@@ -18,14 +18,17 @@ package com.blacksquircle.ui.feature.explorer.ui.explorer
 
 import android.Manifest
 import android.os.Build
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -39,13 +42,17 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.divider.VerticalDivider
+import com.blacksquircle.ui.ds.emptyview.EmptyView
+import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
+import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.clipText
 import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
+import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ErrorStatus
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ExplorerToolbar
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.FileExplorer
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.Filesystems
@@ -55,6 +62,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
+import com.blacksquircle.ui.ds.R as UiR
 
 internal const val KEY_AUTHENTICATION = "KEY_AUTHENTICATION"
 internal const val KEY_COMPRESS_FILE = "KEY_COMPRESS_FILE"
@@ -109,6 +117,7 @@ internal fun ExplorerScreen(
         when (result) {
             PermissionResult.DENIED,
             PermissionResult.DENIED_FOREVER -> viewModel.onPermissionDenied()
+
             PermissionResult.GRANTED -> viewModel.onPermissionGranted()
         }
     }
@@ -129,9 +138,11 @@ internal fun ExplorerScreen(
                         }
                     )
                 }
+
                 is ExplorerViewEvent.OpenFileWith -> {
                     context.openFileWith(event.fileModel)
                 }
+
                 is ExplorerViewEvent.CopyPath -> {
                     event.fileModel.path.clipText(context)
                 }
@@ -244,15 +255,34 @@ private fun ExplorerScreen(
             backgroundColor = SquircleTheme.colors.colorBackgroundSecondary,
             modifier = Modifier.imePadding(),
         ) { contentPadding ->
-            FileExplorer(
-                contentPadding = contentPadding,
-                fileNodes = viewState.fileNodes,
-                selectedFiles = viewState.selectedFiles,
-                onFileClicked = onFileClicked,
-                onFileSelected = onFileSelected,
-                onErrorActionClicked = onErrorActionClicked,
-                onRefreshClicked = onRefreshClicked,
-            )
+            Box(Modifier.fillMaxSize()) {
+                FileExplorer(
+                    contentPadding = contentPadding,
+                    fileNodes = if (viewState.showFiles) viewState.fileNodes else emptyList(),
+                    selectedFiles = viewState.selectedFiles,
+                    onFileClicked = onFileClicked,
+                    onFileSelected = onFileSelected,
+                )
+                if (viewState.isLoading) {
+                    CircularProgress(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+                if (viewState.isError && !viewState.isLoading) {
+                    ErrorStatus(
+                        errorState = viewState.errorState,
+                        onActionClicked = onErrorActionClicked,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+                if (viewState.isEmpty && !viewState.isError && !viewState.isLoading) {
+                    EmptyView(
+                        iconResId = UiR.drawable.ic_file_find,
+                        title = stringResource(UiR.string.common_no_result),
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
         }
     }
 }

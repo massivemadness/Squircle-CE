@@ -35,4 +35,6 @@ internal data class FileNode(
         get() = file.isDirectory
     val isHidden: Boolean
         get() = file.isHidden
+    val isError: Boolean
+        get() = errorState != null
 }

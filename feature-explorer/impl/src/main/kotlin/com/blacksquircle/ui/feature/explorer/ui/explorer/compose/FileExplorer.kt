@@ -34,7 +34,6 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.util.fastAny
-import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
@@ -46,8 +45,6 @@ internal fun FileExplorer(
     modifier: Modifier = Modifier,
     onFileClicked: (FileNode) -> Unit = {},
     onFileSelected: (FileNode) -> Unit = {},
-    onErrorActionClicked: (ErrorAction) -> Unit = {},
-    onRefreshClicked: () -> Unit = {},
 ) {
     val density = LocalDensity.current
     val hapticFeedback = LocalHapticFeedback.current

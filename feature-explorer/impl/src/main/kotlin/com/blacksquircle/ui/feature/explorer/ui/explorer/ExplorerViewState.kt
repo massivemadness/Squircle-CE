@@ -21,6 +21,7 @@ import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
@@ -35,4 +36,21 @@ internal data class ExplorerViewState(
     val compactPackages: Boolean = true,
     val sortMode: SortMode = SortMode.SORT_BY_NAME,
     val taskType: TaskType = TaskType.CREATE,
-) : ViewState
+) : ViewState {
+
+    val showFiles: Boolean
+        get() = !isLoading && !isError
+
+    val errorState: ErrorState?
+        get() = fileNodes.getOrNull(0)?.errorState
+
+    val isLoading: Boolean
+        get() = fileNodes.size == 1 && fileNodes[0].depth == 0 && fileNodes[0].isLoading
+
+    val isError: Boolean
+        get() = fileNodes.size == 1 && fileNodes[0].depth == 0 && fileNodes[0].isError
+
+    val isEmpty: Boolean
+        get() = fileNodes.isEmpty() ||
+            (fileNodes.size == 1 && fileNodes[0].depth == 0 && fileNodes[0].isExpanded)
+}

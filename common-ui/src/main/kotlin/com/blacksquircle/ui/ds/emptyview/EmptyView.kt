@@ -73,7 +73,7 @@ fun EmptyView(
                 style = SquircleTheme.typography.header20Bold,
                 textAlign = TextAlign.Center,
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
+                maxLines = 2,
             )
         }
 
