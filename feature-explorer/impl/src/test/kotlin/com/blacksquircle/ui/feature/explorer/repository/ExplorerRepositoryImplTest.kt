@@ -251,7 +251,7 @@ class ExplorerRepositoryImplTest {
         every { taskManager.execute(TaskType.CREATE, capture(taskActionSlot)) } returns "12345"
 
         // When
-        explorerRepository.createFile(parent, child.name, child.directory)
+        explorerRepository.createFile(parent, child.name, child.isDirectory)
         taskActionSlot.captured.invoke { /* no-op */ }
 
         // Then

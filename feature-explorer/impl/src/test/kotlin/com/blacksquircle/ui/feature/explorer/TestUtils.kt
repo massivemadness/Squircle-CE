@@ -69,7 +69,7 @@ internal fun createFile(
         filesystemUuid = LocalFilesystem.LOCAL_UUID,
         size = size,
         lastModified = lastModified,
-        directory = false,
+        isDirectory = false,
     )
 }
 
@@ -83,6 +83,6 @@ internal fun createFolder(
         filesystemUuid = LocalFilesystem.LOCAL_UUID,
         size = size,
         lastModified = lastModified,
-        directory = true,
+        isDirectory = true,
     )
 }

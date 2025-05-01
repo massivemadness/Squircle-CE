@@ -23,7 +23,7 @@ data class FileModel(
     val filesystemUuid: String,
     val size: Long = 0L,
     val lastModified: Long = 0L,
-    val directory: Boolean = false,
+    val isDirectory: Boolean = false,
     @Permission val permission: Int = Permission.EMPTY,
 ) {
     val scheme: String

@@ -72,7 +72,7 @@ class SFTPFilesystem(
     override fun createFile(fileModel: FileModel) {
         try {
             connect()
-            if (fileModel.directory) {
+            if (fileModel.isDirectory) {
                 channel?.mkdir(fileModel.path)
             } else {
                 channel?.put("".byteInputStream(), fileModel.path)
@@ -95,7 +95,7 @@ class SFTPFilesystem(
     override fun deleteFile(fileModel: FileModel) {
         try {
             connect()
-            if (fileModel.directory) {
+            if (fileModel.isDirectory) {
                 channel?.rmdir(fileModel.path)
             } else {
                 channel?.rm(fileModel.path)
@@ -230,7 +230,7 @@ class SFTPFilesystem(
                 filesystemUuid = serverConfig.uuid,
                 size = fileObject.attrs.size,
                 lastModified = fileObject.attrs.mTime * 1000L,
-                directory = fileObject.attrs.isDir,
+                isDirectory = fileObject.attrs.isDir,
                 permission = with(fileObject) {
                     var permission = Permission.EMPTY
                     if (attrs.permissions hasFlag (4 shl 2)) { // SftpATTRS.S_IRUSR

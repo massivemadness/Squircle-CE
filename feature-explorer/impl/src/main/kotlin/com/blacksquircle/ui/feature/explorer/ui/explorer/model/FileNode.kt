@@ -30,7 +30,7 @@ internal data class FileNode(
     val key: NodeKey
         get() = NodeKey.Node(file.fileUri)
     val isDirectory: Boolean
-        get() = file.directory
+        get() = file.isDirectory
     val isHidden: Boolean
         get() = file.isHidden
 }

@@ -225,21 +225,6 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    fun onHomeClicked() {
-        /*if (breadcrumbs.isNotEmpty()) {
-            val breadcrumb = breadcrumbs.first()
-            loadFiles(breadcrumb.fileModel, fromUser = true)
-        }*/
-    }
-
-    fun onBreadcrumbClicked(breadcrumb: Any) {
-        selectedFiles = emptyList()
-        _viewState.update {
-            it.copy(selectedFiles = selectedFiles)
-        }
-        // loadFiles(breadcrumb.fileModel, fromUser = true)
-    }
-
     fun onFileClicked(fileNode: FileNode) {
         if (selectedFiles.isNotEmpty()) {
             onFileSelected(fileNode)

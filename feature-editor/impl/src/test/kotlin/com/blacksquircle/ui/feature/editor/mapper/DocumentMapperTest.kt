@@ -35,7 +35,7 @@ class DocumentMapperTest {
             filesystemUuid = LocalFilesystem.LOCAL_UUID,
             size = 0L,
             lastModified = 1L,
-            directory = false,
+            isDirectory = false,
         )
         val expected = DocumentModel(
             uuid = "0",

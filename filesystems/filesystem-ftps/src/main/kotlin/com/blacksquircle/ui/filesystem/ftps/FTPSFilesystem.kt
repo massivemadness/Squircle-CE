@@ -72,7 +72,7 @@ class FTPSFilesystem(
     override fun createFile(fileModel: FileModel) {
         try {
             connect()
-            if (fileModel.directory) {
+            if (fileModel.isDirectory) {
                 ftpsClient.makeDirectory(fileModel.path)
             } else {
                 ftpsClient.storeFile(fileModel.path, "".byteInputStream())
@@ -101,7 +101,7 @@ class FTPSFilesystem(
     override fun deleteFile(fileModel: FileModel) {
         try {
             connect()
-            if (fileModel.directory) {
+            if (fileModel.isDirectory) {
                 ftpsClient.removeDirectory(fileModel.path)
             } else {
                 ftpsClient.deleteFile(fileModel.path)
@@ -215,7 +215,7 @@ class FTPSFilesystem(
                 filesystemUuid = serverConfig.uuid,
                 size = fileObject.size,
                 lastModified = fileObject.timestamp.timeInMillis,
-                directory = fileObject.isDirectory,
+                isDirectory = fileObject.isDirectory,
                 permission = with(fileObject) {
                     var permission = Permission.EMPTY
                     if (hasPermission(FTPFile.USER_ACCESS, FTPFile.READ_PERMISSION)) {

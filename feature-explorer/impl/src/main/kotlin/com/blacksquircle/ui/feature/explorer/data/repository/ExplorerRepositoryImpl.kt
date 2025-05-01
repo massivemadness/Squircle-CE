@@ -70,7 +70,7 @@ internal class ExplorerRepositoryImpl(
                         fileUri = LocalFilesystem.LOCAL_SCHEME +
                             Environment.getExternalStorageDirectory().absolutePath,
                         filesystemUuid = LocalFilesystem.LOCAL_UUID,
-                        directory = true,
+                        isDirectory = true,
                     ),
                 ),
                 FilesystemModel(
@@ -80,7 +80,7 @@ internal class ExplorerRepositoryImpl(
                     defaultLocation = FileModel(
                         fileUri = RootFilesystem.ROOT_SCHEME,
                         filesystemUuid = RootFilesystem.ROOT_UUID,
-                        directory = true,
+                        isDirectory = true,
                     ),
                 ),
             )
@@ -156,7 +156,7 @@ internal class ExplorerRepositoryImpl(
             val filesystem = filesystemFactory.create(currentFilesystem)
             val fileModel = parent.copy(
                 fileUri = parent.fileUri + File.separator + fileName,
-                directory = isFolder,
+                isDirectory = isFolder,
             )
 
             val progress = TaskStatus.Progress(
@@ -243,7 +243,7 @@ internal class ExplorerRepositoryImpl(
             val filesystem = filesystemFactory.create(currentFilesystem)
             val child = dest.copy(
                 fileUri = dest.fileUri + File.separator + fileName,
-                directory = false,
+                isDirectory = false,
             )
 
             filesystem.compressFiles(source, child)
