@@ -45,12 +45,12 @@ internal data class ExplorerViewState(
         get() = fileNodes.getOrNull(0)?.errorState
 
     val isLoading: Boolean
-        get() = fileNodes.size == 1 && fileNodes[0].depth == 0 && fileNodes[0].isLoading
+        get() = fileNodes.size == 1 && fileNodes[0].isRoot && fileNodes[0].isLoading
 
     val isError: Boolean
-        get() = fileNodes.size == 1 && fileNodes[0].depth == 0 && fileNodes[0].isError
+        get() = fileNodes.size == 1 && fileNodes[0].isRoot && fileNodes[0].isError
 
     val isEmpty: Boolean
         get() = fileNodes.isEmpty() ||
-            (fileNodes.size == 1 && fileNodes[0].depth == 0 && fileNodes[0].isExpanded)
+            (fileNodes.size == 1 && fileNodes[0].isRoot && fileNodes[0].isExpanded)
 }

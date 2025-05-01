@@ -92,21 +92,32 @@ internal fun FileItem(
                     .padding(horizontal = 4.dp)
                     .size(20.dp)
             ) {
-                if (fileNode.isLoading) {
-                    CircularProgress(
-                        circularProgressStyle = CircularProgressStyleDefaults.Primary,
-                        circularProgressSize = CircularProgressSizeDefaults.S,
-                    )
-                } else {
-                    Icon(
-                        painter = if (fileNode.isExpanded) {
-                            painterResource(UiR.drawable.ic_arrow_down)
-                        } else {
-                            painterResource(UiR.drawable.ic_arrow_right)
-                        },
-                        contentDescription = null,
-                        tint = SquircleTheme.colors.colorTextAndIconSecondary,
-                    )
+                when {
+                    fileNode.isLoading -> {
+                        CircularProgress(
+                            circularProgressStyle = CircularProgressStyleDefaults.Primary,
+                            circularProgressSize = CircularProgressSizeDefaults.S,
+                        )
+                    }
+                    fileNode.isError -> {
+                        Icon(
+                            painter = painterResource(UiR.drawable.ic_alert_circle),
+                            contentDescription = null,
+                            tint = SquircleTheme.colors.colorError,
+                            modifier = Modifier.padding(2.dp)
+                        )
+                    }
+                    else -> {
+                        Icon(
+                            painter = if (fileNode.isExpanded) {
+                                painterResource(UiR.drawable.ic_arrow_down)
+                            } else {
+                                painterResource(UiR.drawable.ic_arrow_right)
+                            },
+                            contentDescription = null,
+                            tint = SquircleTheme.colors.colorTextAndIconSecondary,
+                        )
+                    }
                 }
             }
         } else {
@@ -137,7 +148,7 @@ internal fun FileItem(
         Spacer(Modifier.width(8.dp))
 
         Text(
-            text = if (fileNode.depth == 0) "/" else fileNode.displayName,
+            text = if (fileNode.isRoot) "/" else fileNode.displayName,
             color = SquircleTheme.colors.colorTextAndIconSecondary,
             style = SquircleTheme.typography.text16Regular,
             maxLines = 1,

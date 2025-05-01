@@ -37,4 +37,6 @@ internal data class FileNode(
         get() = file.isHidden
     val isError: Boolean
         get() = errorState != null
+    val isRoot: Boolean
+        get() = depth == 0
 }

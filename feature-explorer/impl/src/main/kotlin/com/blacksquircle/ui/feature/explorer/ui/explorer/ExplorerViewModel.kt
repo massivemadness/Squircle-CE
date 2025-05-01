@@ -729,13 +729,13 @@ internal class ExplorerViewModel @Inject constructor(
                     )
                 }
 
-                if (
-                    searchQuery.isBlank() &&
+                val autoLoad = searchQuery.isBlank() &&
                     fileNodes.size == 1 &&
                     fileNodes[0].isDirectory &&
                     (showHidden && !fileNodes[0].isHidden) &&
                     compactPackages
-                ) {
+
+                if (autoLoad) {
                     loadFiles(fileNodes[0].copy(displayDepth = fileNode.depth))
                 } else {
                     updateNodeList()
@@ -744,6 +744,10 @@ internal class ExplorerViewModel @Inject constructor(
                 throw e
             } catch (e: Throwable) {
                 Timber.e(e, e.message)
+                if (!fileNode.isRoot) {
+                    _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+                }
+
                 updateCacheNode(fileNode) {
                     it.copy(
                         isLoading = false,
