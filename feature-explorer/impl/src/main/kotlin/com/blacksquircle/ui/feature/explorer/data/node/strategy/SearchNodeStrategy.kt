@@ -14,17 +14,32 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.data.sorting
+package com.blacksquircle.ui.feature.explorer.data.node.strategy
 
+import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderStrategy
+import com.blacksquircle.ui.feature.explorer.data.node.NodeMap
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
 
-internal object FileNodeSearcher {
+internal class SearchNodeStrategy(private val searchQuery: String) : NodeBuilderStrategy {
 
-    fun search(nodes: HashMap<NodeKey, List<FileNode>>, query: String): Set<NodeKey> {
-        if (query.isBlank()) {
-            return emptySet()
+    override fun build(
+        nodeMap: NodeMap,
+        parentKey: NodeKey,
+        child: FileNode,
+        append: (FileNode) -> Unit,
+        recurse: (NodeKey) -> Unit
+    ) {
+        val matchResults = search(nodeMap, searchQuery)
+        if (child.key in matchResults) {
+            append(child)
+            if (child.isExpanded) {
+                recurse(child.key)
+            }
         }
+    }
+
+    private fun search(nodeMap: NodeMap, query: String): Set<NodeKey> {
         val foundMatches = mutableSetOf<NodeKey>()
 
         fun matches(fileNode: FileNode): Boolean {
@@ -32,7 +47,7 @@ internal object FileNodeSearcher {
         }
 
         fun findParentKey(key: NodeKey): NodeKey? {
-            for ((parent, children) in nodes) {
+            for ((parent, children) in nodeMap) {
                 if (children.any { it.key == key }) {
                     return parent
                 }
@@ -41,7 +56,7 @@ internal object FileNodeSearcher {
         }
 
         fun collectMatches(key: NodeKey) {
-            val children = nodes[key] ?: return
+            val children = nodeMap[key] ?: return
             for (child in children) {
                 if (matches(child)) {
                     var current: NodeKey? = key

@@ -39,7 +39,8 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
-import com.blacksquircle.ui.feature.explorer.data.sorting.AsyncFileNodeBuilder
+import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderOptions
+import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
@@ -84,7 +85,7 @@ internal class ExplorerViewModel @Inject constructor(
     private val editorInteractor: EditorInteractor,
     private val explorerRepository: ExplorerRepository,
     private val serverInteractor: ServerInteractor,
-    private val asyncFileNodeBuilder: AsyncFileNodeBuilder,
+    private val asyncNodeBuilder: AsyncNodeBuilder,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(ExplorerViewState())
@@ -193,7 +194,7 @@ internal class ExplorerViewModel @Inject constructor(
             it.copy(searchQuery = searchQuery)
         }
         viewModelScope.launch {
-            updateViewNodes()
+            updateNodeList()
         }
     }
 
@@ -203,7 +204,7 @@ internal class ExplorerViewModel @Inject constructor(
             it.copy(searchQuery = searchQuery)
         }
         viewModelScope.launch {
-            updateViewNodes()
+            updateNodeList()
         }
     }
 
@@ -214,7 +215,7 @@ internal class ExplorerViewModel @Inject constructor(
             it.copy(showHidden = showHidden)
         }
         viewModelScope.launch {
-            updateViewNodes()
+            updateNodeList()
         }
     }
 
@@ -225,7 +226,7 @@ internal class ExplorerViewModel @Inject constructor(
             it.copy(sortMode = sortMode)
         }
         viewModelScope.launch {
-            updateViewNodes()
+            updateNodeList()
         }
     }
 
@@ -682,7 +683,7 @@ internal class ExplorerViewModel @Inject constructor(
                 it.copy(isExpanded = !fileNode.isExpanded)
             }
             viewModelScope.launch {
-                updateViewNodes()
+                updateNodeList()
             }
             return
         }
@@ -696,7 +697,7 @@ internal class ExplorerViewModel @Inject constructor(
                         errorState = null,
                     )
                 }
-                updateViewNodes()
+                updateNodeList()
 
                 val fileNodes = explorerRepository.listFiles(fileNode.file).map { fileModel ->
                     FileNode(
@@ -725,7 +726,7 @@ internal class ExplorerViewModel @Inject constructor(
                 ) {
                     loadFiles(fileNodes[0].copy(depth = fileNode.depth))
                 } else {
-                    updateViewNodes()
+                    updateNodeList()
                 }
             } catch (e: CancellationException) {
                 throw e
@@ -737,7 +738,7 @@ internal class ExplorerViewModel @Inject constructor(
                         errorState = errorState(e)
                     )
                 }
-                updateViewNodes()
+                updateNodeList()
             }
         }
     }
@@ -784,7 +785,7 @@ internal class ExplorerViewModel @Inject constructor(
             }
             showHidden = newValue
             viewModelScope.launch {
-                updateViewNodes()
+                updateNodeList()
             }
         }
         settingsManager.registerListener(KEY_FOLDERS_ON_TOP) {
@@ -794,7 +795,7 @@ internal class ExplorerViewModel @Inject constructor(
             }
             foldersOnTop = newValue
             viewModelScope.launch {
-                updateViewNodes()
+                updateNodeList()
             }
         }
         settingsManager.registerListener(KEY_SORT_MODE) {
@@ -804,7 +805,7 @@ internal class ExplorerViewModel @Inject constructor(
             }
             sortMode = newValue
             viewModelScope.launch {
-                updateViewNodes()
+                updateNodeList()
             }
         }
     }
@@ -941,15 +942,15 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private suspend fun updateViewNodes() {
-        val fileNodes = asyncFileNodeBuilder.buildFileNodes(
-            nodes = cache,
+    private suspend fun updateNodeList() {
+        val options = NodeBuilderOptions(
             searchQuery = searchQuery,
             showHidden = showHidden,
             sortMode = sortMode,
             foldersOnTop = foldersOnTop,
             compactPackages = compactPackages,
         )
+        val fileNodes = asyncNodeBuilder.buildNodeList(cache, options)
         _viewState.update {
             it.copy(fileNodes = fileNodes)
         }

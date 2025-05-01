@@ -14,34 +14,22 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.data.sorting
+package com.blacksquircle.ui.feature.explorer.data.utils
 
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import kotlin.Comparator
 
-internal object FileSorter {
-
-    val COMPARATOR_NAME: Comparator<in FileNode>
-        get() = Comparator { first, second ->
-            first.file.name.compareTo(second.file.name, ignoreCase = true)
-        }
-
-    val COMPARATOR_SIZE: Comparator<in FileNode>
-        get() = Comparator { first, second ->
-            second.file.size.compareTo(first.file.size)
-        }
-
-    val COMPARATOR_DATE: Comparator<in FileNode>
-        get() = Comparator { first, second ->
-            second.file.lastModified.compareTo(first.file.lastModified)
-        }
-}
-
 internal fun fileComparator(sortMode: SortMode): Comparator<in FileNode> {
     return when (sortMode) {
-        SortMode.SORT_BY_NAME -> FileSorter.COMPARATOR_NAME
-        SortMode.SORT_BY_SIZE -> FileSorter.COMPARATOR_SIZE
-        SortMode.SORT_BY_DATE -> FileSorter.COMPARATOR_DATE
+        SortMode.SORT_BY_NAME -> Comparator { first, second ->
+            first.file.name.compareTo(second.file.name, ignoreCase = true)
+        }
+        SortMode.SORT_BY_SIZE -> Comparator { first, second ->
+            second.file.size.compareTo(first.file.size)
+        }
+        SortMode.SORT_BY_DATE -> Comparator { first, second ->
+            second.file.lastModified.compareTo(first.file.lastModified)
+        }
     }
 }
