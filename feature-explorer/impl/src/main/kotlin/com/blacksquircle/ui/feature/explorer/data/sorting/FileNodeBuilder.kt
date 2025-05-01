@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.explorer.data.sorting
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
+import java.io.File
 
 internal object FileNodeBuilder {
 
@@ -28,6 +29,7 @@ internal object FileNodeBuilder {
         showHidden: Boolean,
         sortMode: SortMode,
         foldersOnTop: Boolean,
+        compactPackages: Boolean,
     ): List<FileNode> {
         val fileNodes = mutableListOf<FileNode>()
         val matchResults = FileNodeSearcher.search(nodes, searchQuery)
@@ -41,15 +43,46 @@ internal object FileNodeBuilder {
 
             for (child in sortedChildren) {
                 val key = child.key
-                if (searchQuery.isBlank()) {
-                    fileNodes.add(child)
-                    if (child.isExpanded) {
-                        appendNode(key)
+                when {
+                    searchQuery.isNotBlank() -> {
+                        if (key in matchResults) {
+                            fileNodes.add(child)
+                            if (child.isExpanded) {
+                                appendNode(key)
+                            }
+                        }
                     }
-                } else {
-                    if (key in matchResults) {
+
+                    compactPackages && child.isDirectory -> {
+                        val mergeNodes = FileNodeMerger.merge(nodes, child, showHidden)
+                        if (mergeNodes.size > 1) {
+                            val deepestNode = mergeNodes.last()
+                            fileNodes.add(
+                                FileNode(
+                                    file = deepestNode.file,
+                                    depth = child.depth,
+                                    isExpanded = deepestNode.isExpanded,
+                                    isLoading = deepestNode.isLoading,
+                                    errorState = deepestNode.errorState,
+                                    displayName = mergeNodes.joinToString(File.separator) {
+                                        it.file.name
+                                    },
+                                )
+                            )
+                            if (deepestNode.isExpanded) {
+                                appendNode(deepestNode.key)
+                            }
+                        } else {
+                            fileNodes.add(child)
+                            if (child.isExpanded) {
+                                appendNode(key)
+                            }
+                        }
+                    }
+
+                    else -> {
                         fileNodes.add(child)
-                        if (child.isExpanded || child.isDirectory) {
+                        if (child.isExpanded) {
                             appendNode(key)
                         }
                     }

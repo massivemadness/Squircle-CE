@@ -690,7 +690,7 @@ internal class ExplorerViewModel @Inject constructor(
             try {
                 updateCacheNode(fileNode) {
                     it.copy(
-                        isExpanded = true,
+                        isExpanded = false,
                         isLoading = true,
                         errorState = null,
                     )
@@ -709,6 +709,7 @@ internal class ExplorerViewModel @Inject constructor(
 
                 updateCacheNode(fileNode) {
                     it.copy(
+                        isExpanded = true,
                         isLoading = false,
                         errorState = null,
                     )
@@ -935,6 +936,7 @@ internal class ExplorerViewModel @Inject constructor(
             showHidden = showHidden,
             sortMode = sortMode,
             foldersOnTop = foldersOnTop,
+            compactPackages = true,
         )
         _viewState.update {
             it.copy(fileNodes = fileNodes)

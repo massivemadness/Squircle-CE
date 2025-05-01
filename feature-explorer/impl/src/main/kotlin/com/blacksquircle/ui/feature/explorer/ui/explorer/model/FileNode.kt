@@ -23,6 +23,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 internal data class FileNode(
     val file: FileModel,
     val depth: Int = 0,
+    val displayName: String = file.name,
     val isExpanded: Boolean = false,
     val isLoading: Boolean = false,
     val errorState: ErrorState? = null,

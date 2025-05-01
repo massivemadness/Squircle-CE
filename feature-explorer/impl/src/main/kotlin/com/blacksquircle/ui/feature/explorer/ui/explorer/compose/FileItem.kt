@@ -137,7 +137,7 @@ internal fun FileItem(
         Spacer(Modifier.width(8.dp))
 
         Text(
-            text = if (fileNode.depth == 0) "/" else fileNode.file.name,
+            text = if (fileNode.depth == 0) "/" else fileNode.displayName,
             color = SquircleTheme.colors.colorTextAndIconSecondary,
             style = SquircleTheme.typography.text16Regular,
             maxLines = 1,

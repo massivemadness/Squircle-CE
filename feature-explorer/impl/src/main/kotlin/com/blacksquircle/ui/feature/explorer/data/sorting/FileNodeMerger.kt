@@ -16,29 +16,32 @@
 
 package com.blacksquircle.ui.feature.explorer.data.sorting
 
-import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
-import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
-import kotlinx.coroutines.withContext
 
-internal class AsyncFileNodeBuilder(private val dispatcherProvider: DispatcherProvider) {
+internal object FileNodeMerger {
 
-    suspend fun buildFileNodes(
+    fun merge(
         nodes: HashMap<NodeKey, List<FileNode>>,
-        searchQuery: String,
+        fileNode: FileNode,
         showHidden: Boolean,
-        sortMode: SortMode,
-        foldersOnTop: Boolean,
-        compactPackages: Boolean,
-    ): List<FileNode> = withContext(dispatcherProvider.io()) {
-        FileNodeBuilder.buildFileNodes(
-            nodes = nodes,
-            searchQuery = searchQuery,
-            showHidden = showHidden,
-            sortMode = sortMode,
-            foldersOnTop = foldersOnTop,
-            compactPackages = compactPackages,
-        )
+    ): List<FileNode> {
+        var current = fileNode
+        var currentKey = current.key
+        val mergedList = mutableListOf(current)
+
+        while (true) {
+            val nextChildren = nodes[currentKey]
+            if (
+                nextChildren?.size != 1 ||
+                !nextChildren[0].isDirectory ||
+                (!showHidden && nextChildren[0].isHidden)
+            ) break
+
+            current = nextChildren[0]
+            currentKey = current.key
+            mergedList += current
+        }
+        return mergedList
     }
 }
