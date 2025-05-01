@@ -64,6 +64,7 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -698,6 +699,8 @@ internal class ExplorerViewModel @Inject constructor(
                         depth = fileNode.depth + 1
                     )
                 }
+
+                delay(200L) // run progress animation
 
                 updateNode(fileNode) {
                     it.copy(

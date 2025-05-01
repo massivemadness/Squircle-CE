@@ -16,14 +16,22 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer.compose
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.util.fastAny
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
@@ -41,13 +49,17 @@ internal fun FileExplorer(
     onErrorActionClicked: (ErrorAction) -> Unit = {},
     onRefreshClicked: () -> Unit = {},
 ) {
-    val lazyListState = rememberLazyListState()
+    val density = LocalDensity.current
     val hapticFeedback = LocalHapticFeedback.current
+    var cacheItemWidth by remember {
+        mutableStateOf(MinItemWidth)
+    }
 
     LazyColumn(
-        state = lazyListState,
         contentPadding = contentPadding,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .horizontalScroll(rememberScrollState())
     ) {
         items(
             items = fileNodes,
@@ -62,7 +74,15 @@ internal fun FileExplorer(
                     hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                     onFileSelected(fileNode)
                 },
-                modifier = Modifier.animateItem(),
+                modifier = Modifier
+                    .onSizeChanged { size ->
+                        val itemWidthDp = with(density) { size.width.toDp() }
+                        if (cacheItemWidth < itemWidthDp) {
+                            cacheItemWidth = itemWidthDp
+                        }
+                    }
+                    .widthIn(min = cacheItemWidth)
+                    .animateItem()
             )
         }
     }

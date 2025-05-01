@@ -37,6 +37,7 @@ import com.blacksquircle.ui.R
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.progress.CircularProgress
+import com.blacksquircle.ui.ds.progress.CircularProgressStyleDefaults
 import com.blacksquircle.ui.ds.R as UiR
 
 /** https://developer.android.com/develop/ui/views/launch/splash-screen#dimensions */
@@ -62,7 +63,9 @@ internal fun SplashScreen() {
         ) {
             Spacer(Modifier.height(SplashIconSize))
 
-            CircularProgress(Color.White)
+            CircularProgress(
+                circularProgressStyle = CircularProgressStyleDefaults.Monochrome,
+            )
 
             Text(
                 text = stringResource(R.string.loading),

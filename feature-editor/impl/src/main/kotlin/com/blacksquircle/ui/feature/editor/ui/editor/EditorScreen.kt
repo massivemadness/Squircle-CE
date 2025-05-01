@@ -340,7 +340,7 @@ private fun EditorScreen(
             }
         },
         drawerState = drawerState,
-        drawerGesturesEnabled = false,
+        drawerGesturesEnabled = drawerState.isOpen,
         drawerContent = {
             if (LocalInspectionMode.current) {
                 return@ScaffoldSuite
