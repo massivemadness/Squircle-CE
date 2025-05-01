@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.explorer.repository
 
 import android.content.Context
-import android.net.Uri
 import android.os.Environment
 import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.database.entity.path.PathEntity
@@ -30,14 +29,11 @@ import com.blacksquircle.ui.feature.explorer.createFolder
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskAction
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
@@ -76,7 +72,6 @@ class ExplorerRepositoryImplTest {
         gitInteractor = gitInteractor,
         serverInteractor = serverInteractor,
         filesystemFactory = filesystemFactory,
-        pathDao = pathDao,
         context = context
     )
 
@@ -129,71 +124,6 @@ class ExplorerRepositoryImplTest {
         assertEquals(filesystems[0].uuid, LocalFilesystem.LOCAL_UUID)
         assertEquals(filesystems[1].uuid, RootFilesystem.ROOT_UUID)
         assertEquals(filesystems[2].uuid, serverId)
-    }
-
-    @Test
-    fun `When path is not found in database Then return default location`() = runTest {
-        // Given
-        val defaultLocation = "file:///storage/emulated/0/"
-        val filesystemModel = FilesystemModel(
-            uuid = LocalFilesystem.LOCAL_UUID,
-            type = FilesystemType.LOCAL,
-            title = "Local",
-            defaultLocation = FileModel(
-                fileUri = defaultLocation,
-                filesystemUuid = LocalFilesystem.LOCAL_UUID
-            ),
-        )
-        coEvery { pathDao.load(LocalFilesystem.LOCAL_UUID) } returns null
-
-        // When
-        val breadcrumbs = explorerRepository.loadBreadcrumbs(filesystemModel)
-
-        // Then
-        assertTrue(breadcrumbs.size == 1)
-        assertEquals(defaultLocation, breadcrumbs[0].fileUri)
-    }
-
-    @Test
-    fun `When path exists in database Then return breadcrumbs`() = runTest {
-        // Given
-        val defaultLocation = "file:///storage/emulated/0/"
-        val lastLocation = "file:///storage/emulated/0/Documents/untitled/"
-        val filesystemModel = FilesystemModel(
-            uuid = LocalFilesystem.LOCAL_UUID,
-            type = FilesystemType.LOCAL,
-            title = "Local",
-            defaultLocation = FileModel(
-                fileUri = defaultLocation,
-                filesystemUuid = LocalFilesystem.LOCAL_UUID
-            ),
-        )
-        val pathEntity = PathEntity(
-            filesystemUuid = LocalFilesystem.LOCAL_UUID,
-            fileUri = lastLocation,
-        )
-        coEvery { pathDao.load(LocalFilesystem.LOCAL_UUID) } returns pathEntity
-
-        val defaultLocationUri = mockk<Uri>().apply {
-            every { scheme } returns "file"
-            every { path } returns defaultLocation.substringAfter("file://")
-        }
-        val lastLocationUri = mockk<Uri>().apply {
-            every { scheme } returns "file"
-            every { path } returns lastLocation.substringAfter("file://")
-        }
-        mockkStatic(Uri::class)
-        every { Uri.parse(defaultLocation) } returns defaultLocationUri
-        every { Uri.parse(lastLocation) } returns lastLocationUri
-
-        // When
-        val breadcrumbs = explorerRepository.loadBreadcrumbs(filesystemModel)
-
-        // Then
-        assertTrue(breadcrumbs.size == 3)
-        assertEquals("file:///storage/emulated/0/", breadcrumbs[0].fileUri)
-        assertEquals("file:///storage/emulated/0/Documents", breadcrumbs[1].fileUri)
-        assertEquals("file:///storage/emulated/0/Documents/untitled", breadcrumbs[2].fileUri)
     }
 
     @Test(expected = PermissionException::class)

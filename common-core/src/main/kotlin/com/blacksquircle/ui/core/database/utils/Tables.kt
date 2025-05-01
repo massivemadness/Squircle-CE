@@ -19,6 +19,5 @@ package com.blacksquircle.ui.core.database.utils
 object Tables {
     const val DOCUMENTS = "tbl_documents"
     const val FONTS = "tbl_fonts"
-    const val PATHS = "tbl_paths"
     const val SERVERS = "tbl_servers"
 }

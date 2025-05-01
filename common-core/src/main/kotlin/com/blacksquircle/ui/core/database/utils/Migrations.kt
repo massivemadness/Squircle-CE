@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.database.entity.path
+package com.blacksquircle.ui.core.database.utils
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.blacksquircle.ui.core.database.utils.Tables
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Entity(tableName = Tables.PATHS)
-data class PathEntity(
-    @PrimaryKey
-    @ColumnInfo(name = "filesystem_uuid")
-    val filesystemUuid: String,
-    @ColumnInfo(name = "file_uri")
-    val fileUri: String,
-)
+object Migrations {
+
+    val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("DROP TABLE IF EXISTS `tbl_paths`")
+        }
+    }
+}

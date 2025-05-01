@@ -32,10 +32,11 @@ class FileSorterTest {
     @Test
     fun `When sorted by name Then should be in alphabetical order ignoring case`() {
         // Given
+        val sortMode = SortMode.SORT_BY_NAME
         val files = listOf(fileB, fileC, fileA)
 
         // When
-        val sorted = files.sortedWith(FileSorter.COMPARATOR_NAME)
+        val sorted = files.sortedWith(fileComparator(sortMode))
 
         // Then
         assertEquals(listOf(fileA, fileB, fileC), sorted)
@@ -81,7 +82,7 @@ class FileSorterTest {
     @Test
     fun `When fileComparator called with size Then returns COMPARATOR_SIZE`() {
         // Given
-        val input = SortMode.SORT_BY_SIZE.value
+        val input = SortMode.SORT_BY_SIZE
 
         // When
         val comparator = fileComparator(input)
@@ -94,7 +95,7 @@ class FileSorterTest {
     @Test
     fun `When fileComparator called with date Then returns COMPARATOR_DATE`() {
         // Given
-        val input = SortMode.SORT_BY_DATE.value
+        val input = SortMode.SORT_BY_DATE
 
         // When
         val comparator = fileComparator(input)

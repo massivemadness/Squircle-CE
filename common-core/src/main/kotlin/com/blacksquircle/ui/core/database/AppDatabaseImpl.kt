@@ -20,21 +20,18 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.blacksquircle.ui.core.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.database.dao.font.FontDao
-import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.database.dao.server.ServerDao
 import com.blacksquircle.ui.core.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.core.database.entity.font.FontEntity
-import com.blacksquircle.ui.core.database.entity.path.PathEntity
 import com.blacksquircle.ui.core.database.entity.server.ServerEntity
 
 @Database(
     entities = [
         DocumentEntity::class,
         FontEntity::class,
-        PathEntity::class,
         ServerEntity::class,
     ],
-    version = 1,
+    version = 2,
 )
 abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
 
@@ -44,6 +41,5 @@ abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
 
     abstract override fun documentDao(): DocumentDao
     abstract override fun fontDao(): FontDao
-    abstract override fun pathDao(): PathDao
     abstract override fun serverDao(): ServerDao
 }

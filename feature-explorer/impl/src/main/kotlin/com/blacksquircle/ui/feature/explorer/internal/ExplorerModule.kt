@@ -17,8 +17,6 @@
 package com.blacksquircle.ui.feature.explorer.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.database.AppDatabase
-import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
@@ -55,7 +53,6 @@ internal object ExplorerModule {
         gitInteractor: GitInteractor,
         serverInteractor: ServerInteractor,
         filesystemFactory: FilesystemFactory,
-        pathDao: PathDao,
         context: Context,
     ): ExplorerRepository {
         return ExplorerRepositoryImpl(
@@ -65,13 +62,7 @@ internal object ExplorerModule {
             gitInteractor = gitInteractor,
             serverInteractor = serverInteractor,
             filesystemFactory = filesystemFactory,
-            pathDao = pathDao,
             context = context,
         )
-    }
-
-    @Provides
-    fun providePathDao(appDatabase: AppDatabase): PathDao {
-        return appDatabase.pathDao()
     }
 }
