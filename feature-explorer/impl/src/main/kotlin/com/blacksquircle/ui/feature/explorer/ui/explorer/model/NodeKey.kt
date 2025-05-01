@@ -16,21 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer.model
 
-import androidx.compose.runtime.Immutable
-import com.blacksquircle.ui.filesystem.base.model.FileModel
-
-@Immutable
-internal data class FileNode(
-    val file: FileModel,
-    val depth: Int = 0,
-    val isExpanded: Boolean = false,
-    val isLoading: Boolean = false,
-    val errorState: ErrorState? = null,
-) {
-    val key: NodeKey
-        get() = NodeKey.Node(file.fileUri)
-    val isRoot: Boolean
-        get() = depth == 0
-    val isDirectory: Boolean
-        get() = file.directory
+internal sealed class NodeKey {
+    data object Root : NodeKey()
+    data class Node(val uri: String) : NodeKey()
 }

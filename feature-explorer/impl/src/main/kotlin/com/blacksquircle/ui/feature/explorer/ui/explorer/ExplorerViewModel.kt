@@ -48,6 +48,7 @@ import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
 import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
@@ -90,8 +91,7 @@ internal class ExplorerViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private val nodes = hashMapOf<String, List<FileNode>>()
-    private var rootNode: FileNode? = null
+    private val nodes = hashMapOf<NodeKey, List<FileNode>>()
 
     private var taskType: TaskType = TaskType.CREATE
     private var taskBuffer: List<FileModel> = emptyList()
@@ -223,7 +223,7 @@ internal class ExplorerViewModel @Inject constructor(
         if (selectedFiles.isNotEmpty()) {
             onFileSelected(fileNode)
         } else if (fileNode.isDirectory) {
-            loadFiles(fileNode, fromUser = true)
+            loadFiles(fileNode)
         } else {
             viewModelScope.launch {
                 when (fileNode.file.type) {
@@ -665,31 +665,23 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun loadFiles(fileNode: FileNode, fromUser: Boolean) {
-        val key = fileNode.file.fileUri
-        if (fileNode.isExpanded) {
+    private fun loadFiles(fileNode: FileNode) {
+        val cacheNode = nodes[fileNode.key]
+        if (cacheNode != null) {
             updateNode(fileNode) {
-                it.copy(isExpanded = false)
+                it.copy(isExpanded = !fileNode.isExpanded)
             }
             _viewState.update {
                 it.copy(fileNodes = buildFileNodes())
             }
             return
         }
-        val cacheNodes = nodes[key]
-        if (cacheNodes != null) {
-            updateNode(fileNode) {
-                it.copy(isExpanded = true)
-            }
-            _viewState.update {
-                it.copy(fileNodes = buildFileNodes())
-            }
-            return
-        }
+
         viewModelScope.launch {
             try {
                 updateNode(fileNode) {
                     it.copy(
+                        isExpanded = true,
                         isLoading = true,
                         errorState = null,
                     )
@@ -698,14 +690,17 @@ internal class ExplorerViewModel @Inject constructor(
                     it.copy(fileNodes = buildFileNodes())
                 }
 
-                nodes[key] = explorerRepository.listFiles(fileNode.file)
-                    .applyFilter()
-                    .map { file -> FileNode(file = file) }
+                val fileList = explorerRepository.listFiles(fileNode.file)
+                val sortedFiles = fileList.applyFilter()
+                nodes[fileNode.key] = sortedFiles.map { file ->
+                    FileNode(
+                        file = file,
+                        depth = fileNode.depth + 1
+                    )
+                }
 
-                // FIXME race condition
                 updateNode(fileNode) {
                     it.copy(
-                        isExpanded = true,
                         isLoading = false,
                         errorState = null,
                     )
@@ -740,20 +735,25 @@ internal class ExplorerViewModel @Inject constructor(
                     .find { it.uuid == settingsManager.filesystem }
                     ?: filesystems.first()
 
-                rootNode = FileNode(filesystemModel.defaultLocation)
                 selectedFilesystem = filesystemModel
+
+                val rootNode = FileNode(
+                    file = filesystemModel.defaultLocation,
+                    depth = 0,
+                )
+                nodes[NodeKey.Root] = listOf(rootNode)
 
                 _viewState.update {
                     it.copy(
                         filesystems = filesystems,
                         selectedFilesystem = selectedFilesystem,
-                        fileNodes = listOf(rootNode!!),
+                        fileNodes = emptyList(),
                         searchQuery = searchQuery,
                         showHidden = showHidden,
                         sortMode = sortMode,
                     )
                 }
-                loadFiles(rootNode!!, fromUser = false)
+                loadFiles(rootNode)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -908,34 +908,39 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     private fun updateNode(fileNode: FileNode, transform: (FileNode) -> FileNode) {
-        val key = fileNode.parent.fileUri
-        val fileNodes = nodes[key]?.map { node ->
-            if (node.file.fileUri == fileNode.file.fileUri) {
-                transform(node)
-            } else {
-                node
+        val parentKey = nodes.entries.firstOrNull { entry ->
+            entry.value.any { node ->
+                node.key == fileNode.key
             }
-        } ?: return
+        }?.key ?: return
 
-        nodes[key] = fileNodes
+        val siblings = nodes[parentKey]?.toMutableList() ?: return
+        val index = siblings.indexOfFirst { it.key == fileNode.key }
+        if (index != -1) {
+            siblings[index] = transform(siblings[index])
+            nodes[parentKey] = siblings
+        }
     }
 
     private fun buildFileNodes(): List<FileNode> {
         val fileNodes = mutableListOf<FileNode>()
 
-        fun recurse(fileNode: FileNode, depth: Int) {
-            val key = fileNode.file.fileUri
+        fun append(key: NodeKey) {
             val children = nodes[key] ?: return
             for (child in children) {
-                fileNodes += child.copy(depth = depth)
+                fileNodes.add(child)
                 if (child.isExpanded) {
-                    recurse(child, depth + 1)
+                    append(child.key)
                 }
             }
         }
 
-        rootNode?.let { rootNode ->
-            recurse(rootNode, rootNode.depth)
+        val rootNode = nodes[NodeKey.Root]?.firstOrNull()
+        if (rootNode != null) {
+            fileNodes.add(rootNode)
+            if (rootNode.isExpanded) {
+                append(rootNode.key)
+            }
         }
         return fileNodes
     }

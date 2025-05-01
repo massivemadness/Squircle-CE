@@ -38,7 +38,6 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.ds.divider.VerticalDivider
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.feature.explorer.data.utils.clipText
 import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
@@ -213,8 +212,6 @@ private fun ExplorerScreen(
             onFilesystemClicked = onFilesystemClicked,
             onAddFilesystemClicked = onAddFilesystemClicked,
         )
-
-        VerticalDivider()
 
         ScaffoldSuite(
             topBar = {
