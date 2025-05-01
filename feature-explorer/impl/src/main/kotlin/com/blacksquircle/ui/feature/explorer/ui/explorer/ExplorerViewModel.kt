@@ -139,18 +139,20 @@ internal class ExplorerViewModel @Inject constructor(
                 settingsManager.filesystem = filesystem.uuid
 
                 selectedFilesystem = filesystem
-                // breadcrumbs = explorerRepository.loadBreadcrumbs(filesystem).mapBreadcrumbs()
-                // selectedBreadcrumb = breadcrumbs.size - 1
+
+                cache.clear()
                 resetBuffer()
+
+                val rootNode = FileNode(filesystem.defaultLocation)
+                cache[NodeKey.Root] = listOf(rootNode)
 
                 _viewState.update {
                     it.copy(
                         selectedFilesystem = selectedFilesystem,
-                        // breadcrumbs = breadcrumbs,
-                        // selectedBreadcrumb = selectedBreadcrumb,
+                        fileNodes = listOf(rootNode),
                     )
                 }
-                onRefreshClicked()
+                loadFiles(rootNode)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -738,17 +740,14 @@ internal class ExplorerViewModel @Inject constructor(
 
                 selectedFilesystem = filesystemModel
 
-                val rootNode = FileNode(
-                    file = filesystemModel.defaultLocation,
-                    depth = 0,
-                )
+                val rootNode = FileNode(filesystemModel.defaultLocation)
                 cache[NodeKey.Root] = listOf(rootNode)
 
                 _viewState.update {
                     it.copy(
                         filesystems = filesystems,
                         selectedFilesystem = selectedFilesystem,
-                        fileNodes = emptyList(),
+                        fileNodes = listOf(rootNode),
                         searchQuery = searchQuery,
                         showHidden = showHidden,
                         sortMode = sortMode,

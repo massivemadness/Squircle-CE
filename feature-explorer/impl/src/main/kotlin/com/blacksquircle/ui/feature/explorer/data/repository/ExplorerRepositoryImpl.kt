@@ -95,6 +95,7 @@ internal class ExplorerRepositoryImpl(
                     defaultLocation = FileModel(
                         fileUri = fileUri,
                         filesystemUuid = config.uuid,
+                        isDirectory = true,
                     ),
                 )
             }
