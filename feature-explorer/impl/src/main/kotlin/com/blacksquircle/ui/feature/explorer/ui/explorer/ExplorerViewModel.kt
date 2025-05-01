@@ -724,7 +724,7 @@ internal class ExplorerViewModel @Inject constructor(
                     (showHidden && !fileNodes[0].isHidden) &&
                     compactPackages
                 ) {
-                    loadFiles(fileNodes[0].copy(depth = fileNode.depth))
+                    loadFiles(fileNodes[0].copy(displayDepth = fileNode.depth))
                 } else {
                     updateNodeList()
                 }

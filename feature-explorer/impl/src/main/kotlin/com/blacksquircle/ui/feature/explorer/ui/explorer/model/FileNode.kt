@@ -24,6 +24,7 @@ internal data class FileNode(
     val file: FileModel,
     val depth: Int = 0,
     val displayName: String = file.name,
+    val displayDepth: Int = depth,
     val isExpanded: Boolean = false,
     val isLoading: Boolean = false,
     val errorState: ErrorState? = null,

@@ -81,7 +81,7 @@ internal fun FileItem(
             .padding(
                 top = VerticalPadding,
                 bottom = VerticalPadding,
-                start = StartPadding * fileNode.depth,
+                start = StartPadding * fileNode.displayDepth,
                 end = EndPadding,
             )
     ) {

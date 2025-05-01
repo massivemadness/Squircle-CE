@@ -32,15 +32,15 @@ internal class CompactNodeStrategy(private val showHidden: Boolean) : NodeBuilde
         recurse: (NodeKey) -> Unit
     ) {
         if (child.isDirectory) {
-            val nestedNodes = findNestedNodes(nodeMap, child, showHidden)
+            val nestedNodes = findNestedNodes(nodeMap, child)
             if (nestedNodes.size > 1) {
                 val lastNode = nestedNodes.last().copy(
-                    depth = child.depth,
-                    displayName = nestedNodes.joinToString(File.separator) { it.file.name }
+                    displayName = nestedNodes.joinToString(File.separator) { it.file.name },
+                    displayDepth = child.depth,
                 )
                 append(lastNode)
                 if (lastNode.isExpanded) {
-                    recurse(lastNode.key)
+                    recurseCollapsed(nodeMap, lastNode.key, child.depth + 1, append)
                 }
                 return
             }
@@ -51,17 +51,13 @@ internal class CompactNodeStrategy(private val showHidden: Boolean) : NodeBuilde
         }
     }
 
-    private fun findNestedNodes(
-        nodes: NodeMap,
-        fileNode: FileNode,
-        showHidden: Boolean,
-    ): List<FileNode> {
+    private fun findNestedNodes(nodeMap: NodeMap, fileNode: FileNode): List<FileNode> {
         var current = fileNode
         var currentKey = current.key
         val nestedNodes = mutableListOf(current)
 
         while (true) {
-            val nextChildren = nodes[currentKey]
+            val nextChildren = nodeMap[currentKey]
             if (
                 nextChildren?.size != 1 ||
                 !nextChildren[0].isDirectory ||
@@ -75,5 +71,21 @@ internal class CompactNodeStrategy(private val showHidden: Boolean) : NodeBuilde
             nestedNodes += current
         }
         return nestedNodes
+    }
+
+    private fun recurseCollapsed(
+        nodeMap: NodeMap,
+        parentKey: NodeKey,
+        depth: Int,
+        append: (FileNode) -> Unit
+    ) {
+        val children = nodeMap[parentKey] ?: return
+        for (child in children) {
+            val adjusted = child.copy(displayDepth = depth)
+            append(adjusted)
+            if (child.isExpanded) {
+                recurseCollapsed(nodeMap, child.key, depth + 1, append)
+            }
+        }
     }
 }
