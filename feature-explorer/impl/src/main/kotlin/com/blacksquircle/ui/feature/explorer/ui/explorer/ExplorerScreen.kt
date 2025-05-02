@@ -257,6 +257,7 @@ private fun ExplorerScreen(
                 ) {
                     ExplorerActionBar(
                         taskType = viewState.taskType,
+                        onRefreshClicked = onRefreshClicked,
                     )
                 }
             },

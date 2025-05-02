@@ -35,6 +35,7 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.CloneRepoDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFileDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFolderDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
@@ -243,7 +244,17 @@ internal class ExplorerViewModel @Inject constructor(
         if (selectedNodes.isNotEmpty()) {
             onFileSelected(fileNode)
         } else if (fileNode.isDirectory) {
-            loadFiles(fileNode)
+            val cacheNode = cache[fileNode.key]
+            if (cacheNode != null) {
+                updateNode(fileNode) {
+                    it.copy(isExpanded = !fileNode.isExpanded)
+                }
+                viewModelScope.launch {
+                    updateNodeList()
+                }
+            } else {
+                loadFiles(fileNode)
+            }
         } else {
             viewModelScope.launch {
                 when (fileNode.file.type) {
@@ -253,8 +264,7 @@ internal class ExplorerViewModel @Inject constructor(
                         editorInteractor.openFile(fileNode.file)
                         _viewEvent.send(ViewEvent.PopBackStack)
                     }
-
-                    else -> onOpenWithClicked(fileNode.file)
+                    else -> onOpenWithClicked(fileNode)
                 }
             }
         }
@@ -279,10 +289,13 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onRefreshClicked() {
-        /* TODO if (breadcrumbs.isNotEmpty()) {
-            val breadcrumb = breadcrumbs[selectedBreadcrumb]
-            loadFiles(breadcrumb.fileModel, fromUser = false)
-        }*/
+        viewModelScope.launch {
+            val fileNode = selectedNodes.firstOrNull()
+            if (fileNode != null) {
+                loadFiles(fileNode)
+            }
+            resetBuffer()
+        }
     }
 
     fun onCreateFileClicked() {
@@ -418,35 +431,39 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    fun onOpenWithClicked(fileModel: FileModel? = null) {
-        return
+    fun onOpenWithClicked(fileNode: FileNode? = null) {
         viewModelScope.launch {
-            val source = fileModel ?: selectedNodes.first()
-            // _viewEvent.send(ExplorerViewEvent.OpenFileWith(source))
+            val source = fileNode ?: selectedNodes.firstOrNull()
+            if (source != null) {
+                _viewEvent.send(ExplorerViewEvent.OpenFileWith(source.file))
+            }
             resetBuffer()
         }
     }
 
     fun onPropertiesClicked() {
-        return
         viewModelScope.launch {
-            val fileModel = selectedNodes.first()
-            /*val screen = PropertiesDialog(
-                fileName = fileModel.name,
-                filePath = fileModel.path,
-                fileSize = fileModel.size,
-                lastModified = fileModel.lastModified,
-                permission = fileModel.permission,
-            )
-            _viewEvent.send(ViewEvent.Navigation(screen))*/
+            val fileNode = selectedNodes.firstOrNull()
+            if (fileNode != null) {
+                val screen = PropertiesDialog(
+                    fileName = fileNode.file.name,
+                    filePath = fileNode.file.path,
+                    fileSize = fileNode.file.size,
+                    lastModified = fileNode.file.lastModified,
+                    permission = fileNode.file.permission,
+                )
+                _viewEvent.send(ViewEvent.Navigation(screen))
+            }
             resetBuffer()
         }
     }
 
     fun onCopyPathClicked() {
         viewModelScope.launch {
-            val fileNode = selectedNodes.first()
-            _viewEvent.send(ExplorerViewEvent.CopyPath(fileNode.file))
+            val fileNode = selectedNodes.firstOrNull()
+            if (fileNode != null) {
+                _viewEvent.send(ExplorerViewEvent.CopyPath(fileNode.file))
+            }
             resetBuffer()
         }
     }
@@ -703,22 +720,10 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     private fun loadFiles(fileNode: FileNode) {
-        val cacheNode = cache[fileNode.key]
-        if (cacheNode != null) {
-            updateCacheNode(fileNode) {
-                it.copy(isExpanded = !fileNode.isExpanded)
-            }
-            viewModelScope.launch {
-                updateNodeList()
-            }
-            return
-        }
-
         viewModelScope.launch {
             try {
-                updateCacheNode(fileNode) {
+                updateNode(fileNode) {
                     it.copy(
-                        isExpanded = false,
                         isLoading = true,
                         errorState = null,
                     )
@@ -735,7 +740,7 @@ internal class ExplorerViewModel @Inject constructor(
 
                 delay(150L) // run animation smoothly
 
-                updateCacheNode(fileNode) {
+                updateNode(fileNode) {
                     it.copy(
                         isExpanded = true,
                         isLoading = false,
@@ -762,7 +767,7 @@ internal class ExplorerViewModel @Inject constructor(
                     _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
                 }
 
-                updateCacheNode(fileNode) {
+                updateNode(fileNode) {
                     it.copy(
                         isLoading = false,
                         errorState = errorState(e)
@@ -981,7 +986,7 @@ internal class ExplorerViewModel @Inject constructor(
         onRefreshClicked()
     }
 
-    private fun updateCacheNode(fileNode: FileNode, transform: (FileNode) -> FileNode) {
+    private fun updateNode(fileNode: FileNode, transform: (FileNode) -> FileNode) {
         val parentKey = cache.entries.find { entry ->
             entry.value.any { node ->
                 node.key == fileNode.key
