@@ -97,9 +97,8 @@ internal fun ExplorerScreen(
         onShowHiddenClicked = viewModel::onShowHiddenClicked,
         onCompactPackagesClicked = viewModel::onCompactPackagesClicked,
         onSortModeSelected = viewModel::onSortModeSelected,
-        onCreateFileClicked = viewModel::onCreateFileClicked,
-        onCreateFolderClicked = viewModel::onCreateFolderClicked,
-        onCloneRepoClicked = viewModel::onCloneRepoClicked,
+        onCreateClicked = viewModel::onCreateClicked,
+        onCloneClicked = viewModel::onCloneClicked,
         onCopyClicked = viewModel::onCopyClicked,
         onPasteClicked = viewModel::onPasteClicked,
         onDeleteClicked = viewModel::onDeleteClicked,
@@ -196,9 +195,8 @@ private fun ExplorerScreen(
     onShowHiddenClicked: () -> Unit = {},
     onCompactPackagesClicked: () -> Unit = {},
     onSortModeSelected: (SortMode) -> Unit = {},
-    onCreateFileClicked: () -> Unit = {},
-    onCreateFolderClicked: () -> Unit = {},
-    onCloneRepoClicked: () -> Unit = {},
+    onCreateClicked: () -> Unit = {},
+    onCloneClicked: () -> Unit = {},
     onCopyClicked: () -> Unit = {},
     onPasteClicked: () -> Unit = {},
     onDeleteClicked: () -> Unit = {},
@@ -258,6 +256,7 @@ private fun ExplorerScreen(
                     ExplorerActionBar(
                         taskType = viewState.taskType,
                         onRefreshClicked = onRefreshClicked,
+                        onCreateClicked = onCreateClicked,
                     )
                 }
             },

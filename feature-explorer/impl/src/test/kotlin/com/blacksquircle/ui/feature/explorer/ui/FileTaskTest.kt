@@ -87,7 +87,7 @@ class FileTaskTest {
         every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
 
         // When
-        viewModel.onCreateFileClicked()
+        viewModel.onCreateClicked()
         viewModel.createFile("file.txt")
 
         // Then
@@ -127,7 +127,7 @@ class FileTaskTest {
         every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
 
         // When
-        viewModel.onCloneRepoClicked()
+        viewModel.onCloneClicked()
         viewModel.cloneRepository("https://...")
 
         // Then

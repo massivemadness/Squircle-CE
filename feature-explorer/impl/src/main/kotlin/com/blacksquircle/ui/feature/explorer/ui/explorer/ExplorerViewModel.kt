@@ -33,8 +33,7 @@ import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CloneRepoDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFileDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFolderDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.CreateDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
@@ -290,19 +289,18 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onRefreshClicked() {
         viewModelScope.launch {
-            val fileNode = selectedNodes.firstOrNull()
-            if (fileNode != null) {
-                loadFiles(fileNode)
-            }
+            val fileNode = selectedNodes.firstOrNull() ?: return@launch
+            loadFiles(fileNode)
             resetBuffer()
         }
     }
 
-    fun onCreateFileClicked() {
-        return
+    fun onCreateClicked() {
         viewModelScope.launch {
+            val fileNode = selectedNodes.firstOrNull() ?: return@launch
+
             taskType = TaskType.CREATE
-            taskBuffer = emptyList()
+            taskBuffer = listOf(fileNode)
             selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
@@ -311,30 +309,12 @@ internal class ExplorerViewModel @Inject constructor(
                 )
             }
 
-            val screen = CreateFileDialog
+            val screen = CreateDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 
-    fun onCreateFolderClicked() {
-        return
-        viewModelScope.launch {
-            taskType = TaskType.CREATE
-            taskBuffer = emptyList()
-            selectedNodes = emptyList()
-            _viewState.update {
-                it.copy(
-                    taskType = taskType,
-                    selectedNodes = selectedNodes,
-                )
-            }
-
-            val screen = CreateFolderDialog
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
-    }
-
-    fun onCloneRepoClicked() {
+    fun onCloneClicked() {
         return
         viewModelScope.launch {
             taskType = TaskType.CLONE
@@ -443,27 +423,23 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onPropertiesClicked() {
         viewModelScope.launch {
-            val fileNode = selectedNodes.firstOrNull()
-            if (fileNode != null) {
-                val screen = PropertiesDialog(
-                    fileName = fileNode.file.name,
-                    filePath = fileNode.file.path,
-                    fileSize = fileNode.file.size,
-                    lastModified = fileNode.file.lastModified,
-                    permission = fileNode.file.permission,
-                )
-                _viewEvent.send(ViewEvent.Navigation(screen))
-            }
+            val fileNode = selectedNodes.firstOrNull() ?: return@launch
+            val screen = PropertiesDialog(
+                fileName = fileNode.file.name,
+                filePath = fileNode.file.path,
+                fileSize = fileNode.file.size,
+                lastModified = fileNode.file.lastModified,
+                permission = fileNode.file.permission,
+            )
+            _viewEvent.send(ViewEvent.Navigation(screen))
             resetBuffer()
         }
     }
 
     fun onCopyPathClicked() {
         viewModelScope.launch {
-            val fileNode = selectedNodes.firstOrNull()
-            if (fileNode != null) {
-                _viewEvent.send(ExplorerViewEvent.CopyPath(fileNode.file))
-            }
+            val fileNode = selectedNodes.firstOrNull() ?: return@launch
+            _viewEvent.send(ExplorerViewEvent.CopyPath(fileNode.file))
             resetBuffer()
         }
     }
@@ -542,9 +518,8 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun createFile(fileName: String) {
         viewModelScope.launch {
-            val taskId = "1"
-            /*val parent = breadcrumbs[selectedBreadcrumb].fileModel
-            val taskId = explorerRepository.createFile(parent, fileName, isFolder = false)*/
+            val parent = taskBuffer.firstOrNull() ?: return@launch
+            val taskId = explorerRepository.createFile(parent.file, fileName, isFolder = false)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -553,7 +528,7 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> onTaskFinished(parent)
                     else -> Unit
                 }
             }
@@ -562,9 +537,8 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun createFolder(fileName: String) {
         viewModelScope.launch {
-            val taskId = "1"
-            /*val parent = breadcrumbs[selectedBreadcrumb].fileModel
-            val taskId = explorerRepository.createFile(parent, fileName, isFolder = true)*/
+            val parent = taskBuffer.firstOrNull() ?: return@launch
+            val taskId = explorerRepository.createFile(parent.file, fileName, isFolder = true)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -573,7 +547,7 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> onTaskFinished(parent)
                     else -> Unit
                 }
             }
@@ -593,7 +567,7 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> Unit // onTaskFinished()
                     else -> Unit
                 }
             }
@@ -613,7 +587,7 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> Unit // onTaskFinished()
                     else -> Unit
                 }
             }
@@ -632,7 +606,7 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> Unit // onTaskFinished()
                     else -> Unit
                 }
             }
@@ -652,7 +626,7 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> Unit // onTaskFinished()
                     else -> Unit
                 }
             }
@@ -672,7 +646,7 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> Unit // onTaskFinished()
                     else -> Unit
                 }
             }
@@ -692,7 +666,7 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> Unit // onTaskFinished()
                     else -> Unit
                 }
             }
@@ -712,7 +686,7 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> Unit // onTaskFinished()
                     else -> Unit
                 }
             }
@@ -931,10 +905,10 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private suspend fun onTaskFinished() {
+    private suspend fun onTaskFinished(parent: FileNode) {
         val message = stringProvider.getString(R.string.message_done)
         _viewEvent.send(ViewEvent.Toast(message))
-        onRefreshClicked()
+        loadFiles(parent)
     }
 
     private suspend fun onTaskFailed(e: Exception) {
