@@ -497,8 +497,10 @@ internal class ExplorerViewModel @Inject constructor(
             try {
                 selectedFilesystem?.let { filesystem ->
                     serverInteractor.authenticate(filesystem.uuid, credentials)
-                    // val breadcrumb = breadcrumbs[selectedBreadcrumb]
-                    // loadFiles(breadcrumb.fileModel, fromUser = false)
+                    val rootNode = cache[NodeKey.Root]?.firstOrNull()
+                    if (rootNode != null) {
+                        loadFiles(rootNode)
+                    }
                 }
             } catch (e: CancellationException) {
                 throw e
