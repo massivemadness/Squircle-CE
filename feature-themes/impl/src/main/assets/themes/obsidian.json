@@ -5,8 +5,6 @@
   "colors": {
     "global.colorPrimary": "#87D35C",
     "global.colorOutline": "#3F4749",
-    "global.colorTextAndIconSuccess": "#71D98C",
-    "global.colorTextAndIconError": "#E45356",
     "global.colorBackgroundPrimary": "#23282A",
     "global.colorBackgroundSecondary": "#2E3539",
     "global.colorBackgroundTertiary": "#3D4549",
@@ -15,6 +13,8 @@
     "global.colorTextAndIconSecondary": "#BCBCBC",
     "global.colorTextAndIconDisabled": "#6E7C81",
     "global.colorTextAndIconAdditional": "#FFBB33",
+    "global.colorTextAndIconSuccess": "#71D98C",
+    "global.colorTextAndIconError": "#E45356",
     "editor.background": "#23282A",
     "editor.foreground": "#E0E2E4",
     "editor.whitespace": "#859599",
