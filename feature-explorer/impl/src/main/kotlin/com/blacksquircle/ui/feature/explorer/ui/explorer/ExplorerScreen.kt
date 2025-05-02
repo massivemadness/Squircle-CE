@@ -45,7 +45,6 @@ import com.blacksquircle.ui.ds.divider.VerticalDivider
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
-import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.clipText
 import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
@@ -228,7 +227,7 @@ private fun ExplorerScreen(
             topBar = {
                 ExplorerToolbar(
                     searchQuery = viewState.searchQuery,
-                    selectedFiles = viewState.selectedFiles,
+                    selectedNodes = viewState.selectedNodes,
                     showHidden = viewState.showHidden,
                     compactPackages = viewState.compactPackages,
                     sortMode = viewState.sortMode,
@@ -256,7 +255,7 @@ private fun ExplorerScreen(
                 FileExplorer(
                     contentPadding = contentPadding,
                     fileNodes = if (viewState.showFiles) viewState.fileNodes else emptyList(),
-                    selectedFiles = viewState.selectedFiles,
+                    selectedNodes = viewState.selectedNodes,
                     onFileClicked = onFileClicked,
                     onFileSelected = onFileSelected,
                 )

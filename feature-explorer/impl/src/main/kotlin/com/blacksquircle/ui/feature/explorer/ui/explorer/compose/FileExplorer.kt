@@ -35,13 +35,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.util.fastAny
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
-import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 @Composable
 internal fun FileExplorer(
     contentPadding: PaddingValues,
     fileNodes: List<FileNode>,
-    selectedFiles: List<FileModel>,
+    selectedNodes: List<FileNode>,
     modifier: Modifier = Modifier,
     onFileClicked: (FileNode) -> Unit = {},
     onFileSelected: (FileNode) -> Unit = {},
@@ -62,7 +61,7 @@ internal fun FileExplorer(
             items = fileNodes,
             key = { it.file.fileUri },
         ) { fileNode ->
-            val isSelected = selectedFiles.fastAny { it.fileUri == fileNode.file.fileUri }
+            val isSelected = selectedNodes.fastAny { it.key == fileNode.key }
             FileItem(
                 fileNode = fileNode,
                 isSelected = isSelected,

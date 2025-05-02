@@ -86,7 +86,7 @@ class SelectFilesTest {
 
         // Then
         val expected = listOf(fileList[0], fileList[1])
-        assertEquals(expected, viewModel.viewState.value.selectedFiles)
+        assertEquals(expected, viewModel.viewState.value.selectedNodes)
     }
 
     @Test
@@ -100,7 +100,7 @@ class SelectFilesTest {
         viewModel.onFileClicked(fileList[2])
 
         // Then
-        assertEquals(fileList, viewModel.viewState.value.selectedFiles)
+        assertEquals(fileList, viewModel.viewState.value.selectedNodes)
     }
 
     @Test
@@ -115,7 +115,7 @@ class SelectFilesTest {
 
         // Then
         val expected = listOf(fileList[0])
-        assertEquals(expected, viewModel.viewState.value.selectedFiles)
+        assertEquals(expected, viewModel.viewState.value.selectedNodes)
     }
 
     @Test
@@ -130,7 +130,7 @@ class SelectFilesTest {
         viewModel.onBackClicked()
 
         // Then
-        assertEquals(emptyList<FileModel>(), viewModel.viewState.value.selectedFiles)
+        assertEquals(emptyList<FileModel>(), viewModel.viewState.value.selectedNodes)
     }
 
     @Test
@@ -154,7 +154,7 @@ class SelectFilesTest {
         viewModel.onSelectAllClicked()
 
         // Then
-        assertEquals(fileList, viewModel.viewState.value.selectedFiles)
+        assertEquals(fileList, viewModel.viewState.value.selectedNodes)
     }
 
     private fun createViewModel(): ExplorerViewModel {

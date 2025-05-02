@@ -42,17 +42,16 @@ import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
-import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SelectionMenu
 import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SortingMenu
-import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ExplorerToolbar(
     searchQuery: String,
-    selectedFiles: List<FileModel>,
+    selectedNodes: List<FileNode>,
     showHidden: Boolean,
     compactPackages: Boolean,
     sortMode: SortMode,
@@ -73,12 +72,12 @@ internal fun ExplorerToolbar(
     onCompressClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
 ) {
-    val selectionMode = selectedFiles.isNotEmpty()
+    val selectionMode = selectedNodes.isNotEmpty()
     var searchMode by rememberSaveable { mutableStateOf(false) }
     var menuExpanded by rememberSaveable { mutableStateOf(false) }
 
     Toolbar(
-        title = if (selectionMode) selectedFiles.size.toString() else null,
+        title = if (selectionMode) selectedNodes.size.toString() else null,
         navigationIcon = if (selectionMode) UiR.drawable.ic_back else null,
         onNavigationClicked = onBackClicked,
         navigationActions = {
@@ -148,7 +147,7 @@ internal fun ExplorerToolbar(
                 anchor = {
                     if (selectionMode) {
                         SelectionMenu(
-                            count = selectedFiles.size,
+                            count = selectedNodes.size,
                             expanded = menuExpanded,
                             onDismiss = { menuExpanded = false },
                             onCutClicked = { menuExpanded = false; onCutClicked() },
@@ -194,7 +193,7 @@ private fun ExplorerToolbarPreview() {
     PreviewBackground {
         ExplorerToolbar(
             searchQuery = "",
-            selectedFiles = emptyList(),
+            selectedNodes = emptyList(),
             showHidden = true,
             compactPackages = true,
             sortMode = SortMode.SORT_BY_NAME,

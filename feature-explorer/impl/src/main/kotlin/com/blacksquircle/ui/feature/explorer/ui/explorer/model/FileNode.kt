@@ -23,14 +23,13 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 internal data class FileNode(
     val file: FileModel,
     val depth: Int = 0,
+    val key: NodeKey = NodeKey.Node(file.fileUri),
     val displayName: String = file.name,
     val displayDepth: Int = depth,
     val isExpanded: Boolean = false,
     val isLoading: Boolean = false,
     val errorState: ErrorState? = null,
 ) {
-    val key: NodeKey
-        get() = NodeKey.Node(file.fileUri)
     val isDirectory: Boolean
         get() = file.isDirectory
     val isHidden: Boolean

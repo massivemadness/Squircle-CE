@@ -35,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.modifier.debounceClickable
@@ -49,7 +50,7 @@ import com.blacksquircle.ui.filesystem.base.utils.plusFlag
 import com.blacksquircle.ui.ds.R as UiR
 
 internal val MinItemWidth = 248.dp
-internal val MinTextWidth = 176.dp
+internal val MinTextWidth = 178.dp
 
 private val VerticalPadding = 4.dp
 private val StartPadding = 20.dp
@@ -142,7 +143,7 @@ internal fun FileItem(
             painter = painterResource(icon),
             contentDescription = null,
             tint = tint.copy(alpha = if (fileNode.file.isHidden) 0.45f else 1f),
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(22.dp)
         )
 
         Spacer(Modifier.width(8.dp))
@@ -151,6 +152,7 @@ internal fun FileItem(
             text = if (fileNode.isRoot) "/" else fileNode.displayName,
             color = SquircleTheme.colors.colorTextAndIconSecondary,
             style = SquircleTheme.typography.text16Regular,
+            fontSize = 15.sp,
             maxLines = 1,
             overflow = TextOverflow.Visible,
             modifier = Modifier.widthIn(min = MinTextWidth)

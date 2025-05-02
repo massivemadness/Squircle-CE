@@ -23,14 +23,13 @@ import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
-import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 @Immutable
 internal data class ExplorerViewState(
     val filesystems: List<FilesystemModel> = emptyList(),
     val selectedFilesystem: FilesystemModel? = null,
     val fileNodes: List<FileNode> = emptyList(),
-    val selectedFiles: List<FileModel> = emptyList(),
+    val selectedNodes: List<FileNode> = emptyList(),
     val searchQuery: String = "",
     val showHidden: Boolean = true,
     val compactPackages: Boolean = true,

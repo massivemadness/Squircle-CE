@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.extensions.PermissionException
+import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
@@ -35,7 +36,6 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFileDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFolderDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
@@ -96,10 +96,9 @@ internal class ExplorerViewModel @Inject constructor(
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
     private val cache = HashMap<NodeKey, List<FileNode>>(128)
-
+    private var selectedNodes: List<FileNode> = emptyList()
     private var taskType: TaskType = TaskType.CREATE
     private var taskBuffer: List<FileModel> = emptyList()
-    private var selectedFiles: List<FileModel> = emptyList()
     private var filesystems: List<FilesystemModel> = emptyList()
     private var selectedFilesystem: FilesystemModel? = null
     private var searchQuery: String = ""
@@ -120,10 +119,10 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onBackClicked() {
-        if (selectedFiles.isNotEmpty()) {
-            selectedFiles = emptyList()
+        if (selectedNodes.isNotEmpty()) {
+            selectedNodes = emptyList()
             _viewState.update {
-                it.copy(selectedFiles = selectedFiles)
+                it.copy(selectedNodes = selectedNodes)
             }
         } else {
             viewModelScope.launch {
@@ -243,14 +242,14 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onFileClicked(fileNode: FileNode) {
-        if (selectedFiles.isNotEmpty()) {
+        if (selectedNodes.isNotEmpty()) {
             onFileSelected(fileNode)
         } else if (fileNode.isDirectory) {
             loadFiles(fileNode)
         } else {
             viewModelScope.launch {
                 when (fileNode.file.type) {
-                    FileType.ARCHIVE -> Unit // extractFiles(fileModel)
+                    FileType.ARCHIVE -> Unit // TODO extractFiles(fileModel)
                     FileType.DEFAULT,
                     FileType.TEXT -> {
                         editorInteractor.openFile(fileNode.file)
@@ -264,19 +263,22 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onFileSelected(fileNode: FileNode) {
-        /*val index = selectedFiles.indexOf { it.fileUri == fileModel.fileUri }
+        if (fileNode.isRoot) {
+            return
+        }
+        val index = selectedNodes.indexOf { it.key == fileNode.key }
         if (index == -1) {
-            selectedFiles += fileModel
+            selectedNodes += fileNode
         } else {
-            selectedFiles -= fileModel
+            selectedNodes -= fileNode
         }
         _viewState.update {
-            it.copy(selectedFiles = selectedFiles)
-        }*/
+            it.copy(selectedNodes = selectedNodes)
+        }
     }
 
     fun onRefreshClicked() {
-        /*if (breadcrumbs.isNotEmpty()) {
+        /* TODO if (breadcrumbs.isNotEmpty()) {
             val breadcrumb = breadcrumbs[selectedBreadcrumb]
             loadFiles(breadcrumb.fileModel, fromUser = false)
         }*/
@@ -286,11 +288,11 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             taskType = TaskType.CREATE
             taskBuffer = emptyList()
-            selectedFiles = emptyList()
+            selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedFiles = selectedFiles,
+                    selectedNodes = selectedNodes,
                 )
             }
 
@@ -303,11 +305,11 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             taskType = TaskType.CREATE
             taskBuffer = emptyList()
-            selectedFiles = emptyList()
+            selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedFiles = selectedFiles,
+                    selectedNodes = selectedNodes,
                 )
             }
 
@@ -320,11 +322,11 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             taskType = TaskType.CLONE
             taskBuffer = emptyList()
-            selectedFiles = emptyList()
+            selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedFiles = selectedFiles,
+                    selectedNodes = selectedNodes,
                 )
             }
 
@@ -336,12 +338,12 @@ internal class ExplorerViewModel @Inject constructor(
     fun onRenameClicked() {
         viewModelScope.launch {
             taskType = TaskType.RENAME
-            taskBuffer = listOf(selectedFiles.first())
-            selectedFiles = emptyList()
+            // taskBuffer = listOf(selectedFiles.first())
+            selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedFiles = selectedFiles,
+                    selectedNodes = selectedNodes,
                 )
             }
 
@@ -353,12 +355,12 @@ internal class ExplorerViewModel @Inject constructor(
     fun onDeleteClicked() {
         viewModelScope.launch {
             taskType = TaskType.DELETE
-            taskBuffer = selectedFiles.toList()
-            selectedFiles = emptyList()
+            // taskBuffer = selectedFiles.toList()
+            selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedFiles = selectedFiles,
+                    selectedNodes = selectedNodes,
                 )
             }
 
@@ -370,12 +372,12 @@ internal class ExplorerViewModel @Inject constructor(
     fun onCopyClicked() {
         viewModelScope.launch {
             taskType = TaskType.COPY
-            taskBuffer = selectedFiles.toList()
-            selectedFiles = emptyList()
+            // taskBuffer = selectedFiles.toList()
+            selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedFiles = selectedFiles,
+                    selectedNodes = selectedNodes,
                 )
             }
         }
@@ -391,18 +393,18 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onCutClicked() {
         taskType = TaskType.CUT
-        taskBuffer = selectedFiles.toList()
-        selectedFiles = emptyList()
+        // taskBuffer = selectedFiles.toList()
+        selectedNodes = emptyList()
         _viewState.update {
             it.copy(
                 taskType = taskType,
-                selectedFiles = selectedFiles,
+                selectedNodes = selectedNodes,
             )
         }
     }
 
     fun onSelectAllClicked() {
-        /*val parent = breadcrumbs[selectedBreadcrumb]
+        /* TODO val parent = breadcrumbs[selectedBreadcrumb]
         selectedFiles = parent.fileList
         _viewState.update {
             it.copy(selectedFiles = selectedFiles)
@@ -411,31 +413,31 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onOpenWithClicked(fileModel: FileModel? = null) {
         viewModelScope.launch {
-            val source = fileModel ?: selectedFiles.first()
-            _viewEvent.send(ExplorerViewEvent.OpenFileWith(source))
+            val source = fileModel ?: selectedNodes.first()
+            // _viewEvent.send(ExplorerViewEvent.OpenFileWith(source))
             resetBuffer()
         }
     }
 
     fun onPropertiesClicked() {
         viewModelScope.launch {
-            val fileModel = selectedFiles.first()
-            val screen = PropertiesDialog(
+            val fileModel = selectedNodes.first()
+            /*val screen = PropertiesDialog(
                 fileName = fileModel.name,
                 filePath = fileModel.path,
                 fileSize = fileModel.size,
                 lastModified = fileModel.lastModified,
                 permission = fileModel.permission,
             )
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            _viewEvent.send(ViewEvent.Navigation(screen))*/
             resetBuffer()
         }
     }
 
     fun onCopyPathClicked() {
         viewModelScope.launch {
-            val fileModel = selectedFiles.first()
-            _viewEvent.send(ExplorerViewEvent.CopyPath(fileModel))
+            val fileModel = selectedNodes.first()
+            // _viewEvent.send(ExplorerViewEvent.CopyPath(fileModel))
             resetBuffer()
         }
     }
@@ -443,12 +445,12 @@ internal class ExplorerViewModel @Inject constructor(
     fun onCompressClicked() {
         viewModelScope.launch {
             taskType = TaskType.COMPRESS
-            taskBuffer = selectedFiles.toList()
-            selectedFiles = emptyList()
+            // taskBuffer = selectedFiles.toList()
+            selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedFiles = selectedFiles,
+                    selectedNodes = selectedNodes,
                 )
             }
 
@@ -861,11 +863,11 @@ internal class ExplorerViewModel @Inject constructor(
     private fun resetBuffer() {
         taskType = TaskType.CREATE
         taskBuffer = emptyList()
-        selectedFiles = emptyList()
+        selectedNodes = emptyList()
         _viewState.update {
             it.copy(
                 taskType = taskType,
-                selectedFiles = selectedFiles,
+                selectedNodes = selectedNodes,
             )
         }
     }

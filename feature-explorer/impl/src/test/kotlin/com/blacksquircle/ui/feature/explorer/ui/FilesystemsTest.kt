@@ -156,7 +156,7 @@ class FilesystemsTest {
 
         // When
         viewModel.onFileSelected(fileModel)
-        assertEquals(listOf(fileModel), viewModel.viewState.value.selectedFiles)
+        assertEquals(listOf(fileModel), viewModel.viewState.value.selectedNodes)
 
         viewModel.onDeleteClicked()
         assertEquals(TaskType.DELETE, viewModel.viewState.value.taskType)
@@ -165,7 +165,7 @@ class FilesystemsTest {
 
         // Then
         assertEquals(TaskType.CREATE, viewModel.viewState.value.taskType)
-        assertEquals(emptyList<FileModel>(), viewModel.viewState.value.selectedFiles)
+        assertEquals(emptyList<FileModel>(), viewModel.viewState.value.selectedNodes)
     }
 
     @Test
