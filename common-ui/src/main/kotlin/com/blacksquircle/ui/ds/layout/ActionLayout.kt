@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.git.ui.git.compose
+package com.blacksquircle.ui.ds.layout
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,62 +29,70 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.R
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.modifier.debounceClickable
-import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun GitAction(
-    iconRes: Int,
-    title: String,
-    subtitle: String,
-    onClick: () -> Unit
+fun ActionLayout(
+    modifier: Modifier = Modifier,
+    iconRes: Int? = null,
+    title: String? = null,
+    subtitle: String? = null,
+    onClick: () -> Unit = {},
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .debounceClickable(onClick = onClick)
-            .padding(16.dp)
+            .padding(
+                horizontal = 16.dp,
+                vertical = 12.dp,
+            )
     ) {
-        Icon(
-            painter = painterResource(iconRes),
-            contentDescription = null,
-            tint = SquircleTheme.colors.colorTextAndIconPrimary,
-        )
-
-        Spacer(modifier = Modifier.width(16.dp))
+        if (iconRes != null) {
+            Icon(
+                painter = painterResource(iconRes),
+                contentDescription = null,
+                tint = SquircleTheme.colors.colorTextAndIconPrimary,
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+        }
 
         Column {
-            Text(
-                text = title,
-                style = SquircleTheme.typography.text16Regular,
-                color = SquircleTheme.colors.colorTextAndIconPrimary,
-            )
-
-            Spacer(Modifier.height(2.dp))
-
-            Text(
-                text = subtitle,
-                style = SquircleTheme.typography.text14Regular,
-                color = SquircleTheme.colors.colorTextAndIconSecondary,
-            )
+            if (title != null) {
+                Text(
+                    text = title,
+                    style = SquircleTheme.typography.text16Regular,
+                    color = SquircleTheme.colors.colorTextAndIconPrimary,
+                )
+            }
+            if (title != null && subtitle != null) {
+                Spacer(Modifier.height(2.dp))
+            }
+            if (subtitle != null) {
+                Text(
+                    text = subtitle,
+                    style = SquircleTheme.typography.text14Regular,
+                    color = SquircleTheme.colors.colorTextAndIconSecondary,
+                )
+            }
         }
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-private fun GitActionPreview() {
+private fun ActionLayoutPreview() {
     PreviewBackground {
-        GitAction(
-            iconRes = UiR.drawable.ic_autorenew,
+        ActionLayout(
+            iconRes = R.drawable.ic_autorenew,
             title = "Fetch",
             subtitle = "Fetch content from remote repository",
-            onClick = {},
         )
     }
 }

@@ -36,8 +36,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.modifier.debounceClickable
 import com.blacksquircle.ui.ds.radio.Radio
@@ -73,30 +74,35 @@ fun SelectionGroup(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun SelectionGroupPreview() {
-    SelectionGroup(labelText = "Selection group") {
-        for (i in 0..10) {
-            item {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp)
-                        .debounceClickable { /* no-op */ }
-                        .padding(horizontal = 16.dp)
-                ) {
-                    Radio(checked = i == 0)
+    PreviewBackground {
+        SelectionGroup(
+            labelText = "Selection group",
+            modifier = Modifier.padding(16.dp)
+        ) {
+            for (i in 0..10) {
+                item {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp)
+                            .debounceClickable { /* no-op */ }
+                            .padding(horizontal = 16.dp)
+                    ) {
+                        Radio(checked = i == 0)
 
-                    Spacer(Modifier.width(12.dp))
+                        Spacer(Modifier.width(12.dp))
 
-                    Text(
-                        text = "Selectable item",
-                        style = SquircleTheme.typography.text16Regular,
-                        color = SquircleTheme.colors.colorTextAndIconPrimary,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
+                        Text(
+                            text = "Selectable item",
+                            style = SquircleTheme.typography.text16Regular,
+                            color = SquircleTheme.colors.colorTextAndIconPrimary,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
                 }
             }
         }

@@ -28,10 +28,10 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
+import com.blacksquircle.ui.ds.layout.ActionLayout
 import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.api.navigation.GitDialog
 import com.blacksquircle.ui.feature.git.internal.GitComponent
-import com.blacksquircle.ui.feature.git.ui.git.compose.GitAction
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -78,31 +78,31 @@ private fun GitScreen(
         horizontalPadding = false,
         content = {
             Column {
-                GitAction(
+                ActionLayout(
                     iconRes = UiR.drawable.ic_autorenew,
                     title = stringResource(R.string.git_fetch_title),
                     subtitle = stringResource(R.string.git_fetch_description),
                     onClick = onFetchClicked,
                 )
-                GitAction(
+                ActionLayout(
                     iconRes = UiR.drawable.ic_tray_arrow_down,
                     title = stringResource(R.string.git_pull_title),
                     subtitle = stringResource(R.string.git_pull_description),
                     onClick = onPullClicked,
                 )
-                GitAction(
+                ActionLayout(
                     iconRes = UiR.drawable.ic_source_commit,
                     title = stringResource(R.string.git_commit_title),
                     subtitle = stringResource(R.string.git_commit_description),
                     onClick = onCommitClicked,
                 )
-                GitAction(
+                ActionLayout(
                     iconRes = UiR.drawable.ic_tray_arrow_up,
                     title = stringResource(R.string.git_push_title),
                     subtitle = stringResource(R.string.git_push_description),
                     onClick = onPushClicked,
                 )
-                GitAction(
+                ActionLayout(
                     iconRes = UiR.drawable.ic_folder_data,
                     title = stringResource(R.string.git_checkout_title),
                     subtitle = stringResource(R.string.git_checkout_description),
