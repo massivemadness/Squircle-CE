@@ -28,7 +28,7 @@ internal class CompactNodeStrategy(private val options: NodeBuilderOptions) : No
 
     override fun build(
         nodeMap: NodeMap,
-        parentKey: NodeKey,
+        parent: NodeKey,
         child: FileNode,
         append: (FileNode) -> Unit,
         recurse: (NodeKey) -> Unit
@@ -76,11 +76,11 @@ internal class CompactNodeStrategy(private val options: NodeBuilderOptions) : No
 
     private fun recurseCollapsed(
         nodeMap: NodeMap,
-        parentKey: NodeKey,
+        parent: NodeKey,
         depth: Int,
         append: (FileNode) -> Unit
     ) {
-        val children = nodeMap[parentKey].orEmpty()
+        val children = nodeMap[parent].orEmpty()
             .filter { options.showHidden || !it.isHidden }
             .sortedWith(fileComparator(options.sortMode))
             .sortedBy { it.isDirectory != options.foldersOnTop }

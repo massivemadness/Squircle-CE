@@ -18,5 +18,5 @@ package com.blacksquircle.ui.feature.explorer.ui.explorer.model
 
 internal sealed class NodeKey {
     data object Root : NodeKey()
-    data class Node(val fileUri: String) : NodeKey()
+    data class File(val fileUri: String) : NodeKey()
 }

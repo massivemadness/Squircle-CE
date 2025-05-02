@@ -444,10 +444,9 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onCopyPathClicked() {
-        return
         viewModelScope.launch {
-            val fileModel = selectedNodes.first()
-            // _viewEvent.send(ExplorerViewEvent.CopyPath(fileModel))
+            val fileNode = selectedNodes.first()
+            _viewEvent.send(ExplorerViewEvent.CopyPath(fileNode.file))
             resetBuffer()
         }
     }

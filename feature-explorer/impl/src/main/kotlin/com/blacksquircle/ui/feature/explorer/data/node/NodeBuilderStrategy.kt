@@ -23,7 +23,7 @@ internal interface NodeBuilderStrategy {
 
     fun build(
         nodeMap: NodeMap,
-        parentKey: NodeKey,
+        parent: NodeKey,
         child: FileNode,
         append: (FileNode) -> Unit,
         recurse: (NodeKey) -> Unit

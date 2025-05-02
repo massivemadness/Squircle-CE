@@ -25,7 +25,7 @@ internal object AppendNodeStrategy : NodeBuilderStrategy {
 
     override fun build(
         nodeMap: NodeMap,
-        parentKey: NodeKey,
+        parent: NodeKey,
         child: FileNode,
         append: (FileNode) -> Unit,
         recurse: (NodeKey) -> Unit

@@ -33,15 +33,15 @@ internal object NodeBuilder {
             else -> AppendNodeStrategy
         }
 
-        fun appendNode(parentKey: NodeKey) {
-            val children = nodeMap[parentKey].orEmpty()
+        fun appendNode(parent: NodeKey) {
+            val children = nodeMap[parent].orEmpty()
                 .filter { options.showHidden || !it.isHidden }
                 .sortedWith(fileComparator(options.sortMode))
                 .sortedBy { it.isDirectory != options.foldersOnTop }
 
             for (child in children) {
                 strategy.build(
-                    parentKey = parentKey,
+                    parent = parent,
                     child = child,
                     nodeMap = nodeMap,
                     append = fileNodes::add,
