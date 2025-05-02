@@ -35,8 +35,6 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.CloneRepoDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFileDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFolderDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
@@ -98,7 +96,7 @@ internal class ExplorerViewModel @Inject constructor(
     private val cache = HashMap<NodeKey, List<FileNode>>(128)
     private var selectedNodes: List<FileNode> = emptyList()
     private var taskType: TaskType = TaskType.CREATE
-    private var taskBuffer: List<FileModel> = emptyList()
+    private var taskBuffer: List<FileNode> = emptyList()
     private var filesystems: List<FilesystemModel> = emptyList()
     private var selectedFilesystem: FilesystemModel? = null
     private var searchQuery: String = ""
@@ -285,6 +283,7 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onCreateFileClicked() {
+        return
         viewModelScope.launch {
             taskType = TaskType.CREATE
             taskBuffer = emptyList()
@@ -302,6 +301,7 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onCreateFolderClicked() {
+        return
         viewModelScope.launch {
             taskType = TaskType.CREATE
             taskBuffer = emptyList()
@@ -319,6 +319,7 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onCloneRepoClicked() {
+        return
         viewModelScope.launch {
             taskType = TaskType.CLONE
             taskBuffer = emptyList()
@@ -336,6 +337,7 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onRenameClicked() {
+        return
         viewModelScope.launch {
             taskType = TaskType.RENAME
             // taskBuffer = listOf(selectedFiles.first())
@@ -347,12 +349,13 @@ internal class ExplorerViewModel @Inject constructor(
                 )
             }
 
-            val screen = RenameDialog(taskBuffer.first().name)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            /*val screen = RenameDialog(taskBuffer.first().name)
+            _viewEvent.send(ViewEvent.Navigation(screen))*/
         }
     }
 
     fun onDeleteClicked() {
+        return
         viewModelScope.launch {
             taskType = TaskType.DELETE
             // taskBuffer = selectedFiles.toList()
@@ -364,15 +367,16 @@ internal class ExplorerViewModel @Inject constructor(
                 )
             }
 
-            val screen = DeleteDialog(taskBuffer.first().name, taskBuffer.size)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            /*val screen = DeleteDialog(taskBuffer.first().name, taskBuffer.size)
+            _viewEvent.send(ViewEvent.Navigation(screen))*/
         }
     }
 
     fun onCopyClicked() {
+        return
         viewModelScope.launch {
             taskType = TaskType.COPY
-            // taskBuffer = selectedFiles.toList()
+            taskBuffer = selectedNodes.toList()
             selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
@@ -380,10 +384,30 @@ internal class ExplorerViewModel @Inject constructor(
                     selectedNodes = selectedNodes,
                 )
             }
+            val message = stringProvider.getString(R.string.message_select_folder_to_paste)
+            _viewEvent.send(ViewEvent.Toast(message))
+        }
+    }
+
+    fun onCutClicked() {
+        return
+        viewModelScope.launch {
+            taskType = TaskType.CUT
+            taskBuffer = selectedNodes.toList()
+            selectedNodes = emptyList()
+            _viewState.update {
+                it.copy(
+                    taskType = taskType,
+                    selectedNodes = selectedNodes,
+                )
+            }
+            val message = stringProvider.getString(R.string.message_select_folder_to_paste)
+            _viewEvent.send(ViewEvent.Toast(message))
         }
     }
 
     fun onPasteClicked() {
+        return
         when (taskType) {
             TaskType.CUT -> cutFiles()
             TaskType.COPY -> copyFiles()
@@ -391,27 +415,8 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    fun onCutClicked() {
-        taskType = TaskType.CUT
-        // taskBuffer = selectedFiles.toList()
-        selectedNodes = emptyList()
-        _viewState.update {
-            it.copy(
-                taskType = taskType,
-                selectedNodes = selectedNodes,
-            )
-        }
-    }
-
-    fun onSelectAllClicked() {
-        /* TODO val parent = breadcrumbs[selectedBreadcrumb]
-        selectedFiles = parent.fileList
-        _viewState.update {
-            it.copy(selectedFiles = selectedFiles)
-        }*/
-    }
-
     fun onOpenWithClicked(fileModel: FileModel? = null) {
+        return
         viewModelScope.launch {
             val source = fileModel ?: selectedNodes.first()
             // _viewEvent.send(ExplorerViewEvent.OpenFileWith(source))
@@ -420,6 +425,7 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onPropertiesClicked() {
+        return
         viewModelScope.launch {
             val fileModel = selectedNodes.first()
             /*val screen = PropertiesDialog(
@@ -435,6 +441,7 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onCopyPathClicked() {
+        return
         viewModelScope.launch {
             val fileModel = selectedNodes.first()
             // _viewEvent.send(ExplorerViewEvent.CopyPath(fileModel))
@@ -443,6 +450,7 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onCompressClicked() {
+        return
         viewModelScope.launch {
             taskType = TaskType.COMPRESS
             // taskBuffer = selectedFiles.toList()
@@ -467,17 +475,14 @@ internal class ExplorerViewModel @Inject constructor(
                 ErrorAction.REQUEST_PERMISSIONS -> {
                     _viewEvent.send(ExplorerViewEvent.RequestPermission)
                 }
-
                 ErrorAction.ENTER_PASSWORD -> {
                     val screen = AuthDialog(AuthMethod.PASSWORD)
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 }
-
                 ErrorAction.ENTER_PASSPHRASE -> {
                     val screen = AuthDialog(AuthMethod.KEY)
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 }
-
                 ErrorAction.UNDEFINED -> Unit
             }
         }
@@ -491,6 +496,7 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onPermissionGranted() {
+        return
         onRefreshClicked()
     }
 
@@ -558,7 +564,7 @@ internal class ExplorerViewModel @Inject constructor(
     fun cloneRepository(url: String) {
         viewModelScope.launch {
             val taskId = "1"
-            /*val parent = breadcrumbs[selectedBreadcrumb].fileModel
+            /* TODO val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.cloneRepository(parent, url)*/
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
@@ -577,8 +583,9 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun renameFile(fileName: String) {
         viewModelScope.launch {
-            val fileModel = taskBuffer.first()
-            val taskId = explorerRepository.renameFile(fileModel, fileName)
+            val taskId = "1"
+            /* TODO val fileModel = taskBuffer.first()
+            val taskId = explorerRepository.renameFile(fileModel, fileName)*/
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -596,7 +603,8 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun deleteFile() {
         viewModelScope.launch {
-            val taskId = explorerRepository.deleteFiles(taskBuffer.toList())
+            val taskId = "1"
+            // TODO val taskId = explorerRepository.deleteFiles(taskBuffer.toList())
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -615,7 +623,7 @@ internal class ExplorerViewModel @Inject constructor(
     fun compressFiles(fileName: String) {
         viewModelScope.launch {
             val taskId = "1"
-            /*val parent = breadcrumbs[selectedBreadcrumb].fileModel
+            /* TODO val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.compressFiles(taskBuffer.toList(), parent, fileName)*/
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
@@ -635,7 +643,7 @@ internal class ExplorerViewModel @Inject constructor(
     private fun cutFiles() {
         viewModelScope.launch {
             val taskId = "1"
-            /*val parent = breadcrumbs[selectedBreadcrumb].fileModel
+            /* TODO val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.cutFiles(taskBuffer.toList(), parent)*/
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
@@ -655,7 +663,7 @@ internal class ExplorerViewModel @Inject constructor(
     private fun copyFiles() {
         viewModelScope.launch {
             val taskId = "1"
-            /*val parent = breadcrumbs[selectedBreadcrumb].fileModel
+            /* TODO val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.copyFiles(taskBuffer.toList(), parent)*/
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
@@ -675,7 +683,7 @@ internal class ExplorerViewModel @Inject constructor(
     private fun extractFiles(fileModel: FileModel) {
         viewModelScope.launch {
             val taskId = "1"
-            /*val parent = breadcrumbs[selectedBreadcrumb].fileModel
+            /* TODO val parent = breadcrumbs[selectedBreadcrumb].fileModel
             val taskId = explorerRepository.extractFiles(fileModel, parent)*/
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))

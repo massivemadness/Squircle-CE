@@ -18,6 +18,9 @@ package com.blacksquircle.ui.feature.explorer.ui.explorer
 
 import android.Manifest
 import android.os.Build
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -52,6 +55,7 @@ import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ErrorStatus
+import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ExplorerActionBar
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ExplorerToolbar
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.FileExplorer
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.Filesystems
@@ -100,7 +104,6 @@ internal fun ExplorerScreen(
         onPasteClicked = viewModel::onPasteClicked,
         onDeleteClicked = viewModel::onDeleteClicked,
         onCutClicked = viewModel::onCutClicked,
-        onSelectAllClicked = viewModel::onSelectAllClicked,
         onOpenWithClicked = viewModel::onOpenWithClicked,
         onRenameClicked = viewModel::onRenameClicked,
         onPropertiesClicked = viewModel::onPropertiesClicked,
@@ -200,7 +203,6 @@ private fun ExplorerScreen(
     onPasteClicked: () -> Unit = {},
     onDeleteClicked: () -> Unit = {},
     onCutClicked: () -> Unit = {},
-    onSelectAllClicked: () -> Unit = {},
     onOpenWithClicked: () -> Unit = {},
     onRenameClicked: () -> Unit = {},
     onPropertiesClicked: () -> Unit = {},
@@ -239,7 +241,6 @@ private fun ExplorerScreen(
                     onCopyClicked = onCopyClicked,
                     onDeleteClicked = onDeleteClicked,
                     onCutClicked = onCutClicked,
-                    onSelectAllClicked = onSelectAllClicked,
                     onOpenWithClicked = onOpenWithClicked,
                     onRenameClicked = onRenameClicked,
                     onPropertiesClicked = onPropertiesClicked,
@@ -247,6 +248,17 @@ private fun ExplorerScreen(
                     onCompressClicked = onCompressClicked,
                     onBackClicked = onBackClicked,
                 )
+            },
+            bottomBar = {
+                AnimatedVisibility(
+                    visible = viewState.showActionBar,
+                    enter = slideInVertically(initialOffsetY = { it }),
+                    exit = slideOutVertically(targetOffsetY = { it }),
+                ) {
+                    ExplorerActionBar(
+                        taskType = viewState.taskType,
+                    )
+                }
             },
             backgroundColor = SquircleTheme.colors.colorBackgroundSecondary,
             modifier = Modifier.imePadding(),

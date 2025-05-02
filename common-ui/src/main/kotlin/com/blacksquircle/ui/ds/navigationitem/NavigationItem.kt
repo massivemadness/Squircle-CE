@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -55,9 +56,9 @@ import com.blacksquircle.ui.ds.R as UiR
 fun NavigationItem(
     iconResId: Int,
     label: String,
-    selected: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
+    selected: Boolean = false,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     navigationItemStyle: NavigationItemStyle = NavigationItemStyleDefaults.Default,
@@ -67,7 +68,10 @@ fun NavigationItem(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .size(navigationItemSize.itemSize)
+            .defaultMinSize(
+                minWidth = navigationItemSize.itemSize.width,
+                minHeight = navigationItemSize.itemSize.height,
+            )
             .debounceSelectable(
                 selected = selected,
                 onClick = onClick,

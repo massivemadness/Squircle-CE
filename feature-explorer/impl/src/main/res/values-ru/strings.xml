@@ -34,6 +34,8 @@
     <string name="action_compress">Сжать</string>
     <string name="action_open_with">Открыть как</string>
     <string name="action_properties">Свойства</string>
+    <string name="action_refresh">Обновить</string>
+    <string name="action_paste">Вставить</string>
     <string name="dialog_title_authentication">Авторизация</string>
     <string name="dialog_title_create">Создать…</string>
     <string name="dialog_title_clone">Клонировать…</string>
@@ -62,6 +64,7 @@
     <string name="sort_by_name">Сорт. по имени</string>
     <string name="sort_by_size">Сорт. по размеру</string>
     <string name="sort_by_date">Сорт. по дате</string>
+    <string name="message_select_folder_to_paste">Выберите папку для вставки</string>
     <string name="message_auth_required">Требуется авторизация</string>
     <string name="message_enter_password">Введите пароль для подключения к серверу</string>
     <string name="message_enter_passphrase">Введите фразу-пароль для подключения к серверу</string>

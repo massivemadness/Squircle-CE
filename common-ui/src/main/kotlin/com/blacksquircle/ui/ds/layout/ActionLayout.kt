@@ -28,6 +28,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -43,6 +44,9 @@ fun ActionLayout(
     title: String? = null,
     subtitle: String? = null,
     onClick: () -> Unit = {},
+    iconColor: Color = SquircleTheme.colors.colorTextAndIconSecondary,
+    titleColor: Color = SquircleTheme.colors.colorTextAndIconPrimary,
+    subtitleColor: Color = SquircleTheme.colors.colorTextAndIconSecondary,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -58,7 +62,7 @@ fun ActionLayout(
             Icon(
                 painter = painterResource(iconRes),
                 contentDescription = null,
-                tint = SquircleTheme.colors.colorTextAndIconPrimary,
+                tint = iconColor,
             )
             Spacer(modifier = Modifier.width(16.dp))
         }
@@ -68,7 +72,7 @@ fun ActionLayout(
                 Text(
                     text = title,
                     style = SquircleTheme.typography.text16Regular,
-                    color = SquircleTheme.colors.colorTextAndIconPrimary,
+                    color = titleColor,
                 )
             }
             if (title != null && subtitle != null) {
@@ -78,7 +82,7 @@ fun ActionLayout(
                 Text(
                     text = subtitle,
                     style = SquircleTheme.typography.text14Regular,
-                    color = SquircleTheme.colors.colorTextAndIconSecondary,
+                    color = subtitleColor,
                 )
             }
         }

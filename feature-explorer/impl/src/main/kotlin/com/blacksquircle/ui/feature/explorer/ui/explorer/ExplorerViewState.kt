@@ -40,6 +40,9 @@ internal data class ExplorerViewState(
     val showFiles: Boolean
         get() = !isLoading && !isError
 
+    val showActionBar: Boolean
+        get() = selectedNodes.size == 1 && selectedNodes[0].isDirectory
+
     val errorState: ErrorState?
         get() = fileNodes.getOrNull(0)?.errorState
 

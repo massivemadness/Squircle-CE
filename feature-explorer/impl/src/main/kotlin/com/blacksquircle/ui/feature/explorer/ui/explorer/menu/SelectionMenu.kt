@@ -31,7 +31,6 @@ internal fun SelectionMenu(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     onCutClicked: () -> Unit = {},
-    onSelectAllClicked: () -> Unit = {},
     onOpenWithClicked: () -> Unit = {},
     onRenameClicked: () -> Unit = {},
     onPropertiesClicked: () -> Unit = {},
@@ -47,10 +46,6 @@ internal fun SelectionMenu(
         PopupMenuItem(
             title = stringResource(android.R.string.cut),
             onClick = onCutClicked,
-        )
-        PopupMenuItem(
-            title = stringResource(android.R.string.selectAll),
-            onClick = onSelectAllClicked,
         )
         if (count == 1) {
             PopupMenuItem(

@@ -37,6 +37,8 @@
     <string name="action_compress">Compress</string>
     <string name="action_open_with">Open with</string>
     <string name="action_properties">Properties</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_paste">Paste</string>
 
     <string name="dialog_title_authentication">Authentication</string>
     <string name="dialog_title_create">Create…</string>
@@ -75,6 +77,7 @@
     <string name="sort_by_size">Sort by Size</string>
     <string name="sort_by_date">Sort by Date</string>
 
+    <string name="message_select_folder_to_paste">Select folder to paste</string>
     <string name="message_auth_required">Auth Required</string>
     <string name="message_enter_password">Enter password to connect to remote server</string>
     <string name="message_enter_passphrase">Enter passphrase to connect to remote server</string>

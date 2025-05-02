@@ -67,7 +67,6 @@ internal fun Filesystems(
         NavigationItem(
             iconResId = UiR.drawable.ic_plus,
             label = stringResource(R.string.storage_add),
-            selected = false,
             onClick = onAddFilesystemClicked,
         )
     }
