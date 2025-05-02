@@ -72,6 +72,8 @@ internal fun ExplorerToolbar(
     onBackClicked: () -> Unit = {},
 ) {
     val selectionMode = selectedNodes.isNotEmpty()
+    val rootSelected = selectedNodes.size == 1 && selectedNodes[0].isRoot
+
     var searchMode by rememberSaveable { mutableStateOf(false) }
     var menuExpanded by rememberSaveable { mutableStateOf(false) }
 
@@ -120,6 +122,11 @@ internal fun ExplorerToolbar(
                 }
             } else {
                 Spacer(Modifier.weight(1f))
+            }
+
+            /** Don't show file actions if root node is selected */
+            if (rootSelected) {
+                return@Toolbar
             }
 
             if (!searchMode && !selectionMode) {

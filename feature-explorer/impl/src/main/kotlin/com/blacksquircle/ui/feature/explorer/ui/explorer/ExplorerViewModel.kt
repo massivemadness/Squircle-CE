@@ -261,9 +261,12 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onFileSelected(fileNode: FileNode) {
-        if (fileNode.isRoot) {
-            return
-        }
+        val anySelected = selectedNodes.isNotEmpty()
+        val rootSelected = selectedNodes.any(FileNode::isRoot)
+
+        if (fileNode.isRoot && anySelected && !rootSelected) return
+        if (!fileNode.isRoot && rootSelected) return
+
         val index = selectedNodes.indexOf { it.key == fileNode.key }
         if (index == -1) {
             selectedNodes += fileNode
