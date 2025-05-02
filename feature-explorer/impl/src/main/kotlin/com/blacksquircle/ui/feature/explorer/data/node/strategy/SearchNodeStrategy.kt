@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.explorer.data.node.strategy
 import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderOptions
 import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderStrategy
 import com.blacksquircle.ui.feature.explorer.data.node.NodeMap
+import com.blacksquircle.ui.feature.explorer.data.node.findParentKey
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
 
@@ -47,22 +48,13 @@ internal class SearchNodeStrategy(private val options: NodeBuilderOptions) : Nod
             return fileNode.file.name.contains(options.searchQuery, ignoreCase = true)
         }
 
-        fun findParentKey(key: NodeKey): NodeKey? {
-            for ((parent, children) in nodeMap) {
-                if (children.any { it.key == key }) {
-                    return parent
-                }
-            }
-            return null
-        }
-
         fun collectMatches(key: NodeKey) {
             val children = nodeMap[key] ?: return
             for (child in children) {
                 if (matches(child)) {
                     var current: NodeKey? = key
                     while (current != null && foundMatches.add(current)) {
-                        current = findParentKey(current)
+                        current = nodeMap.findParentKey(current)
                     }
                     foundMatches.add(child.key)
                 }

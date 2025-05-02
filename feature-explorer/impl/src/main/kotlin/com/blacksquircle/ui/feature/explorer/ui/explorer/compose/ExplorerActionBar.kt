@@ -36,6 +36,7 @@ internal fun ExplorerActionBar(
     taskType: TaskType,
     modifier: Modifier = Modifier,
     onRefreshClicked: () -> Unit = {},
+    onCloneClicked: () -> Unit = {},
     onCreateClicked: () -> Unit = {},
     onPasteClicked: () -> Unit = {},
     onClearBufferClicked: () -> Unit = {},
@@ -79,7 +80,7 @@ internal fun ExplorerActionBar(
             NavigationItem(
                 iconResId = UiR.drawable.ic_git,
                 label = stringResource(R.string.action_clone),
-                onClick = onCancelClicked,
+                onClick = onCloneClicked,
                 modifier = Modifier.weight(1f),
             )
             NavigationItem(
