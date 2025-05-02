@@ -28,7 +28,7 @@ data class CircularProgressSize(
 
 object CircularProgressSizeDefaults {
 
-    val S: CircularProgressSize
+    val XS: CircularProgressSize
         get() = CircularProgressSize(
             circleSize = 12.dp,
             strokeWidth = 2.dp,

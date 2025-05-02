@@ -53,8 +53,7 @@ internal val MinItemWidth = 248.dp
 internal val MinTextWidth = 178.dp
 
 private val VerticalPadding = 4.dp
-private val StartPadding = 20.dp
-private val EndPadding = 12.dp
+private val HorizontalPadding = 12.dp
 
 @Composable
 internal fun FileItem(
@@ -82,47 +81,42 @@ internal fun FileItem(
             .padding(
                 top = VerticalPadding,
                 bottom = VerticalPadding,
-                start = StartPadding * fileNode.displayDepth,
-                end = EndPadding,
+                start = HorizontalPadding * fileNode.displayDepth,
+                end = HorizontalPadding,
             )
     ) {
-        if (fileNode.isDirectory) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .padding(horizontal = 4.dp)
-                    .size(20.dp)
-            ) {
-                when {
-                    fileNode.isLoading -> {
-                        CircularProgress(
-                            circularProgressStyle = CircularProgressStyleDefaults.Primary,
-                            circularProgressSize = CircularProgressSizeDefaults.S,
-                        )
-                    }
-                    fileNode.isError -> {
-                        Icon(
-                            painter = painterResource(UiR.drawable.ic_alert_circle),
-                            contentDescription = null,
-                            tint = SquircleTheme.colors.colorTextAndIconError,
-                            modifier = Modifier.padding(2.dp)
-                        )
-                    }
-                    else -> {
-                        Icon(
-                            painter = if (fileNode.isExpanded) {
-                                painterResource(UiR.drawable.ic_arrow_down)
-                            } else {
-                                painterResource(UiR.drawable.ic_arrow_right)
-                            },
-                            contentDescription = null,
-                            tint = SquircleTheme.colors.colorTextAndIconSecondary,
-                        )
-                    }
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .padding(horizontal = 4.dp)
+                .size(18.dp)
+        ) {
+            when {
+                fileNode.isLoading -> {
+                    CircularProgress(
+                        circularProgressStyle = CircularProgressStyleDefaults.Primary,
+                        circularProgressSize = CircularProgressSizeDefaults.XS,
+                    )
+                }
+                fileNode.isError -> {
+                    Icon(
+                        painter = painterResource(UiR.drawable.ic_alert_circle),
+                        contentDescription = null,
+                        tint = SquircleTheme.colors.colorTextAndIconError,
+                    )
+                }
+                fileNode.isDirectory -> {
+                    Icon(
+                        painter = if (fileNode.isExpanded) {
+                            painterResource(UiR.drawable.ic_arrow_down)
+                        } else {
+                            painterResource(UiR.drawable.ic_arrow_right)
+                        },
+                        contentDescription = null,
+                        tint = SquircleTheme.colors.colorTextAndIconSecondary,
+                    )
                 }
             }
-        } else {
-            Spacer(Modifier.width(28.dp))
         }
 
         val icon = when {
@@ -143,7 +137,7 @@ internal fun FileItem(
             painter = painterResource(icon),
             contentDescription = null,
             tint = tint.copy(alpha = if (fileNode.file.isHidden) 0.45f else 1f),
-            modifier = Modifier.size(22.dp)
+            modifier = Modifier.size(24.dp)
         )
 
         Spacer(Modifier.width(8.dp))
@@ -152,7 +146,6 @@ internal fun FileItem(
             text = if (fileNode.isRoot) "/" else fileNode.displayName,
             color = SquircleTheme.colors.colorTextAndIconSecondary,
             style = SquircleTheme.typography.text16Regular,
-            fontSize = 15.sp,
             maxLines = 1,
             overflow = TextOverflow.Visible,
             modifier = Modifier.widthIn(min = MinTextWidth)
