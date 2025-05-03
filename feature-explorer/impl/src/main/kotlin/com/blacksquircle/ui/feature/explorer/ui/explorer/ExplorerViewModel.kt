@@ -66,7 +66,6 @@ import com.blacksquircle.ui.filesystem.base.exception.InvalidArchiveException
 import com.blacksquircle.ui.filesystem.base.exception.SplitArchiveException
 import com.blacksquircle.ui.filesystem.base.exception.UnsupportedArchiveException
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
@@ -261,14 +260,16 @@ internal class ExplorerViewModel @Inject constructor(
                 } else {
                     loadFiles(fileNode)
                 }
-            } else when (fileNode.file.type) {
-                FileType.ARCHIVE -> extractFiles(fileNode)
-                FileType.DEFAULT,
-                FileType.TEXT -> {
-                    editorInteractor.openFile(fileNode.file)
-                    _viewEvent.send(ViewEvent.PopBackStack)
+            } else {
+                when (fileNode.file.type) {
+                    FileType.ARCHIVE -> extractFiles(fileNode)
+                    FileType.DEFAULT,
+                    FileType.TEXT -> {
+                        editorInteractor.openFile(fileNode.file)
+                        _viewEvent.send(ViewEvent.PopBackStack)
+                    }
+                    else -> onOpenWithClicked(fileNode)
                 }
-                else -> onOpenWithClicked(fileNode)
             }
         }
     }
@@ -715,9 +716,10 @@ internal class ExplorerViewModel @Inject constructor(
 
     private fun extractFiles(fileNode: FileNode) {
         viewModelScope.launch {
-            val taskId = "1"
-            /* TODO val parent = breadcrumbs[selectedBreadcrumb].fileModel
-            val taskId = explorerRepository.extractFiles(fileModel, parent)*/
+            val parentKey = cache.findParentKey(fileNode.key) ?: return@launch
+            val parentNode = cache.findNodeByKey(parentKey) ?: return@launch
+
+            val taskId = explorerRepository.extractFiles(fileNode.file, parentNode.file)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -726,7 +728,10 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> Unit // onTaskFinished()
+                    is TaskStatus.Done -> {
+                        onTaskFinished()
+                        loadFiles(parentNode)
+                    }
                     else -> Unit
                 }
             }
