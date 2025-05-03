@@ -16,8 +16,15 @@
 
 package com.blacksquircle.ui.feature.explorer.data.node
 
+import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
+
+internal fun List<FileNode>.applyFilter(options: NodeBuilderOptions): List<FileNode> {
+    return filter { options.showHidden || !it.isHidden }
+        .sortedWith(fileComparator(options.sortMode))
+        .sortedBy { it.isDirectory != options.foldersOnTop }
+}
 
 internal fun NodeMap.findParentKey(key: NodeKey): NodeKey? {
     for ((parent, children) in this) {

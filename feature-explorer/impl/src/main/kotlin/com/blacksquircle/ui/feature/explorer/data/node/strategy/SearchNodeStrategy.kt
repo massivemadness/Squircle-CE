@@ -44,14 +44,10 @@ internal class SearchNodeStrategy(private val options: NodeBuilderOptions) : Nod
     private fun search(nodeMap: NodeMap): Set<NodeKey> {
         val foundMatches = mutableSetOf<NodeKey>()
 
-        fun matches(fileNode: FileNode): Boolean {
-            return fileNode.file.name.contains(options.searchQuery, ignoreCase = true)
-        }
-
         fun collectMatches(key: NodeKey) {
             val children = nodeMap[key] ?: return
             for (child in children) {
-                if (matches(child)) {
+                if (child.file.name.contains(options.searchQuery, ignoreCase = true)) {
                     var current: NodeKey? = key
                     while (current != null && foundMatches.add(current)) {
                         current = nodeMap.findParentKey(current)
@@ -63,7 +59,6 @@ internal class SearchNodeStrategy(private val options: NodeBuilderOptions) : Nod
         }
 
         collectMatches(NodeKey.Root)
-
         return foundMatches
     }
 }

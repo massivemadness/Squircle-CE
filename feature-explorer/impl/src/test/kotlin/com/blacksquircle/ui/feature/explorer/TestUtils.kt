@@ -130,3 +130,25 @@ internal fun createFileNode(
         errorState = errorState,
     )
 }
+
+internal fun createFolderNode(
+    name: String,
+    size: Long = 100L,
+    lastModified: Long = 100L,
+    depth: Int = 0,
+    isExpanded: Boolean = false,
+    isLoading: Boolean = false,
+    errorState: ErrorState? = null,
+): FileNode {
+    return FileNode(
+        file = createFolder(
+            name = name,
+            size = size,
+            lastModified = lastModified
+        ),
+        depth = depth,
+        isExpanded = isExpanded,
+        isLoading = isLoading,
+        errorState = errorState,
+    )
+}

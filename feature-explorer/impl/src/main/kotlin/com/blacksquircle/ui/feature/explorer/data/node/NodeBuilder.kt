@@ -19,7 +19,6 @@ package com.blacksquircle.ui.feature.explorer.data.node
 import com.blacksquircle.ui.feature.explorer.data.node.strategy.AppendNodeStrategy
 import com.blacksquircle.ui.feature.explorer.data.node.strategy.CompactNodeStrategy
 import com.blacksquircle.ui.feature.explorer.data.node.strategy.SearchNodeStrategy
-import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
 
@@ -35,10 +34,7 @@ internal object NodeBuilder {
 
         fun appendNode(parent: NodeKey) {
             val children = nodeMap[parent].orEmpty()
-                .filter { options.showHidden || !it.isHidden }
-                .sortedWith(fileComparator(options.sortMode))
-                .sortedBy { it.isDirectory != options.foldersOnTop }
-
+                .applyFilter(options)
             for (child in children) {
                 strategy.build(
                     parent = parent,

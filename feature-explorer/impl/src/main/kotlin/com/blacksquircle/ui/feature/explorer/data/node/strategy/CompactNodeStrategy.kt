@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.explorer.data.node.strategy
 import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderOptions
 import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderStrategy
 import com.blacksquircle.ui.feature.explorer.data.node.NodeMap
-import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
+import com.blacksquircle.ui.feature.explorer.data.node.applyFilter
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
 import java.io.File
@@ -60,13 +60,10 @@ internal class CompactNodeStrategy(private val options: NodeBuilderOptions) : No
 
         while (true) {
             val children = nodeMap[currentKey].orEmpty()
-                .filter { options.showHidden || !it.isHidden }
-                .sortedWith(fileComparator(options.sortMode))
-                .sortedBy { it.isDirectory != options.foldersOnTop }
+                .applyFilter(options)
             if (children.size != 1 || !children[0].isDirectory) {
                 break
             }
-
             current = children[0]
             currentKey = current.key
             nestedNodes += current
@@ -81,9 +78,7 @@ internal class CompactNodeStrategy(private val options: NodeBuilderOptions) : No
         append: (FileNode) -> Unit
     ) {
         val children = nodeMap[parent].orEmpty()
-            .filter { options.showHidden || !it.isHidden }
-            .sortedWith(fileComparator(options.sortMode))
-            .sortedBy { it.isDirectory != options.foldersOnTop }
+            .applyFilter(options)
         for (child in children) {
             val adjusted = child.copy(displayDepth = depth)
             append(adjusted)
