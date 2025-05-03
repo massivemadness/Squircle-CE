@@ -248,30 +248,27 @@ internal class ExplorerViewModel @Inject constructor(
     fun onFileClicked(fileNode: FileNode) {
         if (selectedNodes.isNotEmpty()) {
             onFileSelected(fileNode)
-        } else if (fileNode.isDirectory) {
-            val cacheNode = cache[fileNode.key]
-            if (cacheNode != null) {
-                cache.updateNode(fileNode) {
-                    it.copy(isExpanded = !fileNode.isExpanded)
-                }
-                viewModelScope.launch {
-                    updateNodeList()
-                }
-            } else {
-                loadFiles(fileNode)
-            }
-        } else {
-            viewModelScope.launch {
-                when (fileNode.file.type) {
-                    FileType.ARCHIVE -> Unit // TODO extractFiles(fileModel)
-                    FileType.DEFAULT,
-                    FileType.TEXT -> {
-                        editorInteractor.openFile(fileNode.file)
-                        _viewEvent.send(ViewEvent.PopBackStack)
+            return
+        }
+        viewModelScope.launch {
+            if (fileNode.isDirectory) {
+                val cacheNode = cache[fileNode.key]
+                if (cacheNode != null) {
+                    cache.updateNode(fileNode) {
+                        it.copy(isExpanded = !fileNode.isExpanded)
                     }
-
-                    else -> onOpenWithClicked(fileNode)
+                    updateNodeList()
+                } else {
+                    loadFiles(fileNode)
                 }
+            } else when (fileNode.file.type) {
+                FileType.ARCHIVE -> extractFiles(fileNode)
+                FileType.DEFAULT,
+                FileType.TEXT -> {
+                    editorInteractor.openFile(fileNode.file)
+                    _viewEvent.send(ViewEvent.PopBackStack)
+                }
+                else -> onOpenWithClicked(fileNode)
             }
         }
     }
@@ -497,8 +494,10 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onPermissionGranted() {
-        return
-        onRefreshClicked()
+        val rootNode = cache[NodeKey.Root]?.firstOrNull()
+        if (rootNode != null) {
+            loadFiles(rootNode)
+        }
     }
 
     fun onCredentialsEntered(credentials: String) {
@@ -714,7 +713,7 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun extractFiles(fileModel: FileModel) {
+    private fun extractFiles(fileNode: FileNode) {
         viewModelScope.launch {
             val taskId = "1"
             /* TODO val parent = breadcrumbs[selectedBreadcrumb].fileModel
