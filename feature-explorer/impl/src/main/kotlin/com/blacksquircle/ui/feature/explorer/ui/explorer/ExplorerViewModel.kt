@@ -809,7 +809,7 @@ internal class ExplorerViewModel @Inject constructor(
                 val autoLoad = searchQuery.isBlank() &&
                     updatedNodes.size == 1 &&
                     updatedNodes[0].isDirectory &&
-                    (showHidden && !updatedNodes[0].isHidden) &&
+                    (showHidden || !updatedNodes[0].isHidden) &&
                     compactPackages
 
                 if (autoLoad) {
