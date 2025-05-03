@@ -70,7 +70,6 @@ import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -784,15 +783,21 @@ internal class ExplorerViewModel @Inject constructor(
                 }
                 updateNodeList()
 
-                val fileNodes = explorerRepository.listFiles(fileNode.file).map { fileModel ->
+                val fileList = explorerRepository.listFiles(fileNode.file)
+                val currentNodes = cache[fileNode.key].orEmpty()
+                val updatedNodes = fileList.map { fileModel ->
+                    val currentNode = currentNodes.find { it.file.fileUri == fileModel.fileUri }
                     FileNode(
                         file = fileModel,
-                        depth = fileNode.depth + 1
+                        depth = currentNode?.depth ?: (fileNode.depth + 1),
+                        displayName = currentNode?.displayName ?: fileModel.name,
+                        displayDepth = currentNode?.displayDepth ?: (fileNode.depth + 1),
+                        isExpanded = currentNode?.isExpanded ?: false,
+                        isLoading = currentNode?.isLoading ?: false,
+                        errorState = currentNode?.errorState,
                     )
                 }
-                cache[fileNode.key] = fileNodes
-
-                delay(150L) // run animation smoothly
+                cache[fileNode.key] = updatedNodes
 
                 cache.updateNode(fileNode) {
                     it.copy(
@@ -801,19 +806,20 @@ internal class ExplorerViewModel @Inject constructor(
                     )
                 }
 
-                val autoLoad = fileNode.isExpanded &&
-                    searchQuery.isBlank() &&
-                    fileNodes.size == 1 &&
-                    fileNodes[0].isDirectory &&
-                    (showHidden && !fileNodes[0].isHidden) &&
+                val autoLoad = searchQuery.isBlank() &&
+                    updatedNodes.size == 1 &&
+                    updatedNodes[0].isDirectory &&
+                    (showHidden && !updatedNodes[0].isHidden) &&
                     compactPackages
 
                 if (autoLoad) {
-                    val nestedNode = fileNodes[0]
+                    val nestedNode = updatedNodes[0].copy(
+                        displayDepth = fileNode.depth,
+                    )
                     cache.updateNode(nestedNode) {
                         it.copy(isExpanded = true)
                     }
-                    loadFiles(nestedNode.copy(displayDepth = fileNode.depth))
+                    loadFiles(nestedNode)
                 } else {
                     updateNodeList()
                 }
