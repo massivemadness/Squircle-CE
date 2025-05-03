@@ -149,7 +149,11 @@ internal class ExplorerViewModel @Inject constructor(
                 cache.clear()
                 resetBuffer()
 
-                val rootNode = FileNode(filesystem.defaultLocation)
+                val rootNode = FileNode(
+                    file = filesystem.defaultLocation,
+                    isExpanded = true,
+                    isLoading = true,
+                )
                 cache[NodeKey.Root] = listOf(rootNode)
 
                 _viewState.update {
@@ -259,6 +263,9 @@ internal class ExplorerViewModel @Inject constructor(
                     }
                     updateNodeList()
                 } else {
+                    cache.updateNode(fileNode) {
+                        it.copy(isExpanded = true)
+                    }
                     loadFiles(fileNode)
                 }
             } else {
@@ -789,7 +796,6 @@ internal class ExplorerViewModel @Inject constructor(
 
                 cache.updateNode(fileNode) {
                     it.copy(
-                        isExpanded = true,
                         isLoading = false,
                         errorState = null,
                     )
@@ -836,7 +842,11 @@ internal class ExplorerViewModel @Inject constructor(
 
                 selectedFilesystem = filesystemModel
 
-                val rootNode = FileNode(filesystemModel.defaultLocation)
+                val rootNode = FileNode(
+                    file = filesystemModel.defaultLocation,
+                    isExpanded = true,
+                    isLoading = true,
+                )
                 cache[NodeKey.Root] = listOf(rootNode)
 
                 _viewState.update {
