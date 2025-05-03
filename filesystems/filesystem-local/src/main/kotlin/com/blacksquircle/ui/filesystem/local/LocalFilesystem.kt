@@ -101,7 +101,8 @@ class LocalFilesystem : Filesystem {
     override fun deleteFile(fileModel: FileModel) {
         val file = toFileObject(fileModel)
         if (!file.exists()) {
-            throw FileNotFoundException(fileModel.path)
+            // throw FileNotFoundException(fileModel.path)
+            return
         }
         file.deleteRecursively()
     }
