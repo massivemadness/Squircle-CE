@@ -17,9 +17,7 @@
 package com.blacksquircle.ui.feature.explorer.data.repository
 
 import android.content.Context
-import android.net.Uri
 import android.os.Environment
-import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.extensions.PermissionException
 import com.blacksquircle.ui.core.extensions.isStorageAccessGranted
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
@@ -27,7 +25,6 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
-import com.blacksquircle.ui.feature.explorer.data.mapper.FileMapper
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
@@ -35,6 +32,7 @@ import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepositor
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import kotlinx.coroutines.delay
@@ -51,7 +49,6 @@ internal class ExplorerRepositoryImpl(
     private val gitInteractor: GitInteractor,
     private val serverInteractor: ServerInteractor,
     private val filesystemFactory: FilesystemFactory,
-    private val pathDao: PathDao,
     private val context: Context,
 ) : ExplorerRepository {
 
@@ -63,19 +60,23 @@ internal class ExplorerRepositoryImpl(
             val defaultFilesystems = listOf(
                 FilesystemModel(
                     uuid = LocalFilesystem.LOCAL_UUID,
+                    type = FilesystemType.LOCAL,
                     title = context.getString(R.string.storage_local),
                     defaultLocation = FileModel(
                         fileUri = LocalFilesystem.LOCAL_SCHEME +
                             Environment.getExternalStorageDirectory().absolutePath,
                         filesystemUuid = LocalFilesystem.LOCAL_UUID,
+                        isDirectory = true,
                     ),
                 ),
                 FilesystemModel(
                     uuid = RootFilesystem.ROOT_UUID,
+                    type = FilesystemType.ROOT,
                     title = context.getString(R.string.storage_root),
                     defaultLocation = FileModel(
                         fileUri = RootFilesystem.ROOT_SCHEME,
                         filesystemUuid = RootFilesystem.ROOT_UUID,
+                        isDirectory = true,
                     ),
                 ),
             )
@@ -85,10 +86,12 @@ internal class ExplorerRepositoryImpl(
                 val fileUri = if (path.isNotEmpty()) scheme + File.separator + path else scheme
                 FilesystemModel(
                     uuid = config.uuid,
+                    type = FilesystemType.SERVER,
                     title = config.name,
                     defaultLocation = FileModel(
                         fileUri = fileUri,
                         filesystemUuid = config.uuid,
+                        isDirectory = true,
                     ),
                 )
             }
@@ -97,50 +100,12 @@ internal class ExplorerRepositoryImpl(
         }
     }
 
-    override suspend fun loadBreadcrumbs(filesystemModel: FilesystemModel): List<FileModel> {
-        return withContext(dispatcherProvider.io()) {
-            val pathEntity = pathDao.load(filesystemModel.uuid)
-                ?: return@withContext listOf(filesystemModel.defaultLocation)
-
-            val fileModel = FileMapper.toModel(pathEntity)
-            val defaultLocation = filesystemModel.defaultLocation
-
-            val fileUri = Uri.parse(fileModel.fileUri)
-            val defaultUri = Uri.parse(defaultLocation.fileUri)
-
-            val scheme = "${fileUri.scheme}://"
-            val filePath = fileUri.path.orEmpty()
-            val defaultPath = defaultUri.path.orEmpty()
-            val base = defaultPath.trim(File.separatorChar)
-            val parts = filePath
-                .removePrefix(defaultPath)
-                .trim(File.separatorChar)
-                .split(File.separator)
-                .filterNot(String::isEmpty)
-
-            val defaultList = listOf(defaultLocation)
-            val pathParts = parts.indices.map { index ->
-                val part = parts.subList(0, index + 1).joinToString(File.separator)
-                FileModel(
-                    fileUri = scheme + File.separator + base + File.separator + part,
-                    filesystemUuid = filesystemModel.uuid,
-                )
-            }
-
-            defaultList + pathParts
-        }
-    }
-
     override suspend fun listFiles(parent: FileModel): List<FileModel> {
         return withContext(dispatcherProvider.io()) {
             if (!context.isStorageAccessGranted()) {
                 throw PermissionException()
             }
-
             val filesystem = filesystemFactory.create(currentFilesystem)
-            val entity = FileMapper.toEntity(parent)
-            pathDao.insert(entity)
-
             filesystem.listFiles(parent)
         }
     }
@@ -150,7 +115,7 @@ internal class ExplorerRepositoryImpl(
             val filesystem = filesystemFactory.create(currentFilesystem)
             val fileModel = parent.copy(
                 fileUri = parent.fileUri + File.separator + fileName,
-                directory = isFolder,
+                isDirectory = isFolder,
             )
 
             val progress = TaskStatus.Progress(
@@ -214,8 +179,8 @@ internal class ExplorerRepositoryImpl(
         }
     }
 
-    override fun cutFiles(source: List<FileModel>, dest: FileModel): String {
-        return taskManager.execute(TaskType.CUT) { update ->
+    override fun moveFiles(source: List<FileModel>, dest: FileModel): String {
+        return taskManager.execute(TaskType.MOVE) { update ->
             val filesystem = filesystemFactory.create(currentFilesystem)
             source.forEachIndexed { index, fileModel ->
                 val progress = TaskStatus.Progress(
@@ -237,7 +202,7 @@ internal class ExplorerRepositoryImpl(
             val filesystem = filesystemFactory.create(currentFilesystem)
             val child = dest.copy(
                 fileUri = dest.fileUri + File.separator + fileName,
-                directory = false,
+                isDirectory = false,
             )
 
             filesystem.compressFiles(source, child)

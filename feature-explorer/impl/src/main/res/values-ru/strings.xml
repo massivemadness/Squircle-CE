@@ -16,7 +16,6 @@
   -->
 <resources>
     <string name="hint_enter_file_name">Введите имя файла</string>
-    <string name="hint_enter_folder_name">Введите имя папки</string>
     <string name="hint_enter_archive_name">Введите название архива</string>
     <string name="hint_enter_password">Введите пароль</string>
     <string name="hint_enter_passphrase">Введите фразу-пароль</string>
@@ -24,15 +23,17 @@
     <string name="action_authenticate">Авторизовать</string>
     <string name="action_create">Создать</string>
     <string name="action_copy_path">Скопировать путь</string>
-    <string name="action_new_file">Файл</string>
-    <string name="action_new_folder">Папка</string>
+    <string name="action_folder">Папка</string>
     <string name="action_clone">Клонировать</string>
     <string name="action_rename">Переименовать</string>
     <string name="action_run_in_background">Выполнять в фоне</string>
     <string name="action_show_hidden_files">Скрытые файлы</string>
+    <string name="action_compact_packages">Сворачивать папки</string>
     <string name="action_compress">Сжать</string>
     <string name="action_open_with">Открыть как</string>
     <string name="action_properties">Свойства</string>
+    <string name="action_refresh">Обновить</string>
+    <string name="action_paste">Вставить</string>
     <string name="dialog_title_authentication">Авторизация</string>
     <string name="dialog_title_create">Создать…</string>
     <string name="dialog_title_clone">Клонировать…</string>
@@ -58,10 +59,10 @@
     <string name="properties_modified">Последнее изменение:</string>
     <string name="properties_size">Размер файла:</string>
     <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
-    <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
     <string name="sort_by_name">Сорт. по имени</string>
     <string name="sort_by_size">Сорт. по размеру</string>
     <string name="sort_by_date">Сорт. по дате</string>
+    <string name="message_select_folder_to_paste">Выберите папку для вставки</string>
     <string name="message_auth_required">Требуется авторизация</string>
     <string name="message_enter_password">Введите пароль для подключения к серверу</string>
     <string name="message_enter_passphrase">Введите фразу-пароль для подключения к серверу</string>
@@ -75,6 +76,7 @@
     <string name="message_encrypted_archive">Архив зашифрован</string>
     <string name="message_operation_cancelled">Операция отменена</string>
     <string name="message_operation_not_supported">Операция не поддерживается</string>
+    <string name="message_same_directory_required">Файлы должны находится в одной папке</string>
     <string name="message_done">Готово</string>
     <string name="message_file_not_found">Файл не найден</string>
     <string name="message_elapsed_time">Прошло времени: %1$s</string>
@@ -88,7 +90,5 @@
     <string name="explorer_channel_name">Файловый менеджер</string>
     <string name="explorer_channel_description">Отображение и управление файловыми операциями</string>
     <string name="explorer_service_message">Выполняются фоновые операции</string>
-    <string name="storage_local">Устройство</string>
-    <string name="storage_root">Корневой каталог</string>
-    <string name="storage_add">Добавить сервер</string>
+    <string name="storage_add">Добавить</string>
 </resources>

@@ -89,16 +89,16 @@ internal class FilesHeaderViewModel @Inject constructor(
         }
     }
 
-    fun onFoldersOnTopChanged(foldersOnTop: Boolean) {
+    fun onCompactPackagesChanged(compactPackages: Boolean) {
         viewModelScope.launch {
-            settingsManager.foldersOnTop = foldersOnTop
+            settingsManager.compactPackages = compactPackages
             _viewState.value = updateViewState()
         }
     }
 
-    fun onViewModeChanged(viewMode: String) {
+    fun onFoldersOnTopChanged(foldersOnTop: Boolean) {
         viewModelScope.launch {
-            settingsManager.viewMode = viewMode
+            settingsManager.foldersOnTop = foldersOnTop
             _viewState.value = updateViewState()
         }
     }
@@ -120,7 +120,7 @@ internal class FilesHeaderViewModel @Inject constructor(
             lineBreakForSaving = settingsManager.lineBreakForSaving,
             showHidden = settingsManager.showHidden,
             foldersOnTop = settingsManager.foldersOnTop,
-            viewMode = settingsManager.viewMode,
+            compactPackages = settingsManager.compactPackages,
             sortMode = settingsManager.sortMode,
         )
     }

@@ -59,7 +59,7 @@ object TextFieldStyleDefaults {
             helpTextStyle = SquircleTheme.typography.text12Regular,
             helpTextColor = SquircleTheme.colors.colorTextAndIconSecondary,
             errorTextStyle = SquircleTheme.typography.text12Regular,
-            errorTextColor = SquircleTheme.colors.colorError,
-            errorBorderColor = SquircleTheme.colors.colorError,
+            errorTextColor = SquircleTheme.colors.colorTextAndIconError,
+            errorBorderColor = SquircleTheme.colors.colorTextAndIconError,
         )
 }

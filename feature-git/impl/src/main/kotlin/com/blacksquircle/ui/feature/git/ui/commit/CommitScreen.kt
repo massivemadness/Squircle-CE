@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -131,19 +130,10 @@ private fun CommitScreen(
                     }
 
                     else -> {
-                        Text(
-                            text = stringResource(R.string.git_commit_uncommitted_changes),
-                            style = SquircleTheme.typography.text12Regular,
-                            color = SquircleTheme.colors.colorTextAndIconSecondary,
-                        )
-
-                        Spacer(Modifier.height(6.dp))
-
                         ChangeList(
                             changesList = viewState.changesList,
                             selectedChanges = viewState.selectedChanges,
                             onChangeSelected = onChangeSelected,
-                            modifier = Modifier.heightIn(max = 200.dp)
                         )
 
                         Spacer(Modifier.height(12.dp))

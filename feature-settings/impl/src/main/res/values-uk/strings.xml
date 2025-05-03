@@ -23,8 +23,6 @@
     <string name="sort_by_name">Сортувати за назвою</string>
     <string name="sort_by_size">Сортувати за розміром</string>
     <string name="sort_by_date">Сортувати за датою</string>
-    <string name="view_mode_compact_list">Компактний список</string>
-    <string name="view_mode_detailed_list">Детальний список</string>
     <string name="linebreak_lf">Unix и macOS (\\n)</string>
     <string name="linebreak_crlf">Windows (\\r\\n)</string>
     <string name="linebreak_cr">Classic Mac OS (\\r)</string>
@@ -109,7 +107,6 @@
     <string name="pref_show_hidden_files_summary">Приховані файли та папки (що починаються з крапки) відображатимуться</string>
     <string name="pref_folders_on_top_title">Папки зверху</string>
     <string name="pref_folders_on_top_summary">Папки будуть відображатись зверху</string>
-    <string name="pref_view_mode_title">Режим перегляду</string>
     <string name="pref_sort_mode_title">Режим сортування</string>
     <string name="pref_about_summary">Squircle CE є проєктом з відкритим вихідним кодом, опублікованим під ліцензією Apache 2.0\n\nВерсія: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">Політика конфіденційності</string>

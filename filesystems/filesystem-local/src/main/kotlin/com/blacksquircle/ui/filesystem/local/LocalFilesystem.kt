@@ -41,6 +41,9 @@ class LocalFilesystem : Filesystem {
         if (!file.isDirectory) {
             throw DirectoryExpectedException()
         }
+        if (!file.exists()) {
+            throw FileNotFoundException(file.path)
+        }
         return file.listFiles().orEmpty()
             .map(::toFileModel)
     }
@@ -50,7 +53,7 @@ class LocalFilesystem : Filesystem {
         if (file.exists()) {
             throw FileAlreadyExistsException(fileModel.path)
         }
-        if (fileModel.directory) {
+        if (fileModel.isDirectory) {
             file.mkdirs()
         } else {
             val parentFile = file.parentFile!!
@@ -65,7 +68,7 @@ class LocalFilesystem : Filesystem {
         val sourceFile = toFileObject(source)
         val destFile = File(sourceFile.parentFile, name)
         if (!sourceFile.exists()) {
-            throw FileNotFoundException(source.path)
+            throw FileNotFoundException(sourceFile.path)
         }
 
         val sourcePath = sourceFile.absolutePath
@@ -75,33 +78,28 @@ class LocalFilesystem : Filesystem {
         }
 
         if (destFile.exists()) {
-            if (sourcePath.equals(destPath, ignoreCase = true)) {
-                val tempFile = File(sourceFile.parent, "temp_${System.currentTimeMillis()}.tmp")
-                if (!sourceFile.renameTo(tempFile)) {
-                    throw RenameFileException(tempFile.absolutePath)
-                }
-                if (!tempFile.renameTo(destFile)) {
-                    throw RenameFileException(destFile.absolutePath)
-                }
-                return
-            } else {
+            if (!sourcePath.equals(destPath, ignoreCase = true)) {
                 throw FileAlreadyExistsException(destFile.absolutePath)
             }
-        }
-
-        if (!sourceFile.renameTo(destFile)) {
-            throw RenameFileException(destFile.absolutePath)
-        }
-
-        if (!destFile.exists()) {
-            throw RenameFileException(destFile.absolutePath)
+            val tempFile = File(sourceFile.parent, "temp_${System.currentTimeMillis()}.tmp")
+            if (!sourceFile.renameTo(tempFile)) {
+                throw RenameFileException(tempFile.absolutePath)
+            }
+            if (!tempFile.renameTo(destFile)) {
+                throw RenameFileException(destFile.absolutePath)
+            }
+        } else {
+            if (!sourceFile.renameTo(destFile)) {
+                throw RenameFileException(destFile.absolutePath)
+            }
         }
     }
 
     override fun deleteFile(fileModel: FileModel) {
         val file = toFileObject(fileModel)
         if (!file.exists()) {
-            throw FileNotFoundException(fileModel.path)
+            // throw FileNotFoundException(file.path)
+            return
         }
         file.deleteRecursively()
     }
@@ -111,7 +109,7 @@ class LocalFilesystem : Filesystem {
         val sourceFile = toFileObject(source)
         val destFile = File(directory, sourceFile.name)
         if (!sourceFile.exists()) {
-            throw FileNotFoundException(source.path)
+            throw FileNotFoundException(sourceFile.path)
         }
         if (destFile.exists()) {
             throw FileAlreadyExistsException(dest.path)
@@ -134,32 +132,30 @@ class LocalFilesystem : Filesystem {
             invokeOnClose {
                 archiveFile.progressMonitor.isCancelAllTasks = true
             }
-            if (!destFile.exists()) {
-                for (fileModel in source) {
-                    val sourceFile = toFileObject(fileModel)
-                    if (sourceFile.exists()) {
-                        try {
-                            if (sourceFile.isDirectory) {
-                                archiveFile.addFolder(sourceFile)
-                            } else {
-                                archiveFile.addFile(sourceFile)
-                            }
-                        } catch (e: ZipException) {
-                            if (e.type == ZipException.Type.TASK_CANCELLED_EXCEPTION) {
-                                throw CancellationException()
-                            } else {
-                                throw e
-                            }
-                        }
-                        send(fileModel)
-                    } else {
-                        throw FileNotFoundException(fileModel.path)
-                    }
-                }
-                close()
-            } else {
+            if (destFile.exists()) {
                 throw FileAlreadyExistsException(destFile.absolutePath)
             }
+            for (fileModel in source) {
+                val sourceFile = toFileObject(fileModel)
+                if (!sourceFile.exists()) {
+                    throw FileNotFoundException(sourceFile.path)
+                }
+                try {
+                    if (sourceFile.isDirectory) {
+                        archiveFile.addFolder(sourceFile)
+                    } else {
+                        archiveFile.addFile(sourceFile)
+                    }
+                } catch (e: ZipException) {
+                    if (e.type == ZipException.Type.TASK_CANCELLED_EXCEPTION) {
+                        throw CancellationException()
+                    } else {
+                        throw e
+                    }
+                }
+                send(fileModel)
+            }
+            close()
         }
     }
 
@@ -171,39 +167,37 @@ class LocalFilesystem : Filesystem {
             invokeOnClose {
                 archiveFile.progressMonitor.isCancelAllTasks = true
             }
-            if (sourceFile.exists()) {
-                if (sourceFile.name.endsWith(supportedArchives)) {
-                    when {
-                        archiveFile.isValidZipFile -> {
-                            try {
-                                archiveFile.extractAll(dest.path)
-                            } catch (e: ZipException) {
-                                if (e.type == ZipException.Type.TASK_CANCELLED_EXCEPTION) {
-                                    throw CancellationException()
-                                } else {
-                                    throw e
-                                }
-                            }
-                            send(source)
-                            close() // FIXME send() вызывается только 1 раз
-                        }
-                        archiveFile.isEncrypted -> throw EncryptedArchiveException(source.path)
-                        archiveFile.isSplitArchive -> throw SplitArchiveException(source.path)
-                        else -> throw InvalidArchiveException(source.path)
-                    }
-                } else {
-                    throw UnsupportedArchiveException(source.path)
-                }
-            } else {
-                throw FileNotFoundException(source.path)
+            if (!sourceFile.exists()) {
+                throw FileNotFoundException(sourceFile.path)
             }
+            if (!sourceFile.name.endsWith(supportedArchives)) {
+                throw UnsupportedArchiveException(source.path)
+            }
+            when {
+                archiveFile.isValidZipFile -> {
+                    try {
+                        archiveFile.extractAll(dest.path)
+                    } catch (e: ZipException) {
+                        if (e.type == ZipException.Type.TASK_CANCELLED_EXCEPTION) {
+                            throw CancellationException()
+                        } else {
+                            throw e
+                        }
+                    }
+                    send(source)
+                }
+                archiveFile.isEncrypted -> throw EncryptedArchiveException(source.path)
+                archiveFile.isSplitArchive -> throw SplitArchiveException(source.path)
+                else -> throw InvalidArchiveException(source.path)
+            }
+            close() // FIXME send() вызывается только 1 раз
         }
     }
 
     override fun loadFile(fileModel: FileModel, fileParams: FileParams): String {
         val file = File(fileModel.path)
         if (!file.exists()) {
-            throw FileNotFoundException(fileModel.path)
+            throw FileNotFoundException(file.path)
         }
         val charset = if (fileParams.chardet) {
             try {
@@ -248,7 +242,7 @@ class LocalFilesystem : Filesystem {
                 filesystemUuid = LOCAL_UUID,
                 size = fileObject.length(),
                 lastModified = fileObject.lastModified(),
-                directory = fileObject.isDirectory,
+                isDirectory = fileObject.isDirectory,
                 permission = with(fileObject) {
                     var permission = Permission.EMPTY
                     if (fileObject.canRead()) {

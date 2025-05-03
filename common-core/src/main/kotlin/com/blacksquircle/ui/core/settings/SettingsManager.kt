@@ -74,8 +74,8 @@ class SettingsManager(private val context: Context) {
 
         // File Explorer
         const val KEY_SHOW_HIDDEN_FILES = "show_hidden_files"
+        const val KEY_COMPACT_PACKAGES = "compact_packages"
         const val KEY_FOLDERS_ON_TOP = "folders_on_top"
-        const val KEY_VIEW_MODE = "view_mode"
         const val KEY_SORT_MODE = "sort_mode"
         const val KEY_FILESYSTEM = "filesystem"
 
@@ -189,12 +189,12 @@ class SettingsManager(private val context: Context) {
     var showHidden: Boolean
         get() = sharedPreferences.getBoolean(KEY_SHOW_HIDDEN_FILES, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_SHOW_HIDDEN_FILES, value).apply()
+    var compactPackages: Boolean
+        get() = sharedPreferences.getBoolean(KEY_COMPACT_PACKAGES, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_COMPACT_PACKAGES, value).apply()
     var foldersOnTop: Boolean
         get() = sharedPreferences.getBoolean(KEY_FOLDERS_ON_TOP, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_FOLDERS_ON_TOP, value).apply()
-    var viewMode: String
-        get() = sharedPreferences.getString(KEY_VIEW_MODE, "compact_list") ?: "compact_list"
-        set(value) = sharedPreferences.edit().putString(KEY_VIEW_MODE, value).apply()
     var sortMode: String
         get() = sharedPreferences.getString(KEY_SORT_MODE, "sort_by_name") ?: "sort_by_name"
         set(value) = sharedPreferences.edit().putString(KEY_SORT_MODE, value).apply()

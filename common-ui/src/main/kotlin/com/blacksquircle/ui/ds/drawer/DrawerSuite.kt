@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.ds.drawer
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
@@ -30,6 +31,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.DrawerDefaults
 import androidx.compose.material.DrawerValue
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
@@ -50,20 +52,23 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastCoerceIn
 import androidx.compose.ui.util.fastRoundToInt
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.roundToInt
 
-private val DrawerMaxWidth = 300.dp
+private val DrawerMaxWidth = 312.dp
+private const val DrawerScrimOpacity = 0.45f
 
 /**
  * Fork of material ModalDrawer with minor tweaks:
  * - Added offset for [content] when dragging the drawer
  * - Drawer max width changed to 300dp
- * - Changed tween's animation easing
- * - Removed scrim color
+ * - Changed [drawerBackgroundColor] value
+ * - Changed [scrimColor] value
+ * - Removed gesturesEnabled condition in [Scrim]
  */
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
@@ -74,8 +79,9 @@ internal fun DrawerSuite(
     gesturesEnabled: Boolean = true,
     drawerShape: Shape = DrawerDefaults.shape,
     drawerElevation: Dp = DrawerDefaults.Elevation,
-    drawerBackgroundColor: Color = DrawerDefaults.backgroundColor,
+    drawerBackgroundColor: Color = MaterialTheme.colors.background,
     drawerContentColor: Color = contentColorFor(drawerBackgroundColor),
+    scrimColor: Color = Color.Black.copy(alpha = DrawerScrimOpacity),
     content: @Composable () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -114,10 +120,7 @@ internal fun DrawerSuite(
                 Modifier.offset {
                     val drawerOffset = abs(drawerState.offset)
                     val contentOffset = (maxWidth - drawerOffset).fastRoundToInt()
-                    IntOffset(
-                        x = contentOffset,
-                        y = 0,
-                    )
+                    IntOffset(x = contentOffset, y = 0)
                 }
             ) {
                 content()
@@ -125,10 +128,12 @@ internal fun DrawerSuite(
             Scrim(
                 open = drawerState.isOpen,
                 onClose = {
-                    if (gesturesEnabled && drawerState.isOpen) {
+                    if (drawerState.isOpen) {
                         scope.launch { drawerState.close() }
                     }
                 },
+                fraction = { calculateFraction(minValue, maxValue, drawerState.requireOffset()) },
+                color = scrimColor
             )
             Surface(
                 modifier = with(LocalDensity.current) {
@@ -170,7 +175,12 @@ internal fun DrawerSuite(
 }
 
 @Composable
-private fun Scrim(open: Boolean, onClose: () -> Unit) {
+private fun Scrim(
+    open: Boolean,
+    onClose: () -> Unit,
+    fraction: () -> Float,
+    color: Color,
+) {
     val closeDrawer = "Close drawer"
     val dismissDrawer = if (open) {
         Modifier
@@ -186,9 +196,15 @@ private fun Scrim(open: Boolean, onClose: () -> Unit) {
         Modifier
     }
 
-    Box(
+    Canvas(
         Modifier
             .fillMaxSize()
             .then(dismissDrawer)
-    )
+    ) {
+        drawRect(color, alpha = fraction())
+    }
 }
+
+@Suppress("SameParameterValue")
+private fun calculateFraction(a: Float, b: Float, pos: Float) =
+    ((pos - a) / (b - a)).fastCoerceIn(0f, 1f)

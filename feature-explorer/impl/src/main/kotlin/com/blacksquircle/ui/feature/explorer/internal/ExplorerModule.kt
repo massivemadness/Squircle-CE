@@ -17,12 +17,11 @@
 package com.blacksquircle.ui.feature.explorer.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.database.AppDatabase
-import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
@@ -32,6 +31,12 @@ import dagger.Provides
 
 @Module
 internal object ExplorerModule {
+
+    @Provides
+    @ExplorerScope
+    fun provideAsyncNodeBuilder(dispatcherProvider: DispatcherProvider): AsyncNodeBuilder {
+        return AsyncNodeBuilder(dispatcherProvider)
+    }
 
     @Provides
     @ExplorerScope
@@ -48,7 +53,6 @@ internal object ExplorerModule {
         gitInteractor: GitInteractor,
         serverInteractor: ServerInteractor,
         filesystemFactory: FilesystemFactory,
-        pathDao: PathDao,
         context: Context,
     ): ExplorerRepository {
         return ExplorerRepositoryImpl(
@@ -58,13 +62,7 @@ internal object ExplorerModule {
             gitInteractor = gitInteractor,
             serverInteractor = serverInteractor,
             filesystemFactory = filesystemFactory,
-            pathDao = pathDao,
             context = context,
         )
-    }
-
-    @Provides
-    fun providePathDao(appDatabase: AppDatabase): PathDao {
-        return appDatabase.pathDao()
     }
 }

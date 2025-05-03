@@ -30,8 +30,6 @@ internal val LocalColors = staticCompositionLocalOf { Colors.darkColors() }
 class Colors internal constructor(
     val colorPrimary: Color,
     val colorOutline: Color,
-    val colorSuccess: Color,
-    val colorError: Color,
     val colorBackgroundPrimary: Color,
     val colorBackgroundSecondary: Color,
     val colorBackgroundTertiary: Color,
@@ -40,6 +38,8 @@ class Colors internal constructor(
     val colorTextAndIconSecondary: Color,
     val colorTextAndIconDisabled: Color,
     val colorTextAndIconAdditional: Color,
+    val colorTextAndIconSuccess: Color,
+    val colorTextAndIconError: Color,
     val isDark: Boolean,
 ) {
 
@@ -48,8 +48,6 @@ class Colors internal constructor(
         fun lightColors() = Colors(
             colorPrimary = Color(0xFF3E73B9),
             colorOutline = Color(0xFFE0E0E0),
-            colorSuccess = Color(0xFF008860),
-            colorError = Color(0xFFCD0000),
             colorBackgroundPrimary = Color(0xFFFFFFFF),
             colorBackgroundSecondary = Color(0xFFFFFFFF),
             colorBackgroundTertiary = Color(0xFFF0F1F4),
@@ -58,14 +56,14 @@ class Colors internal constructor(
             colorTextAndIconSecondary = Color(0xFF7F8290),
             colorTextAndIconDisabled = Color(0xFFA9ADBC),
             colorTextAndIconAdditional = Color(0xFF8CCEF7),
+            colorTextAndIconSuccess = Color(0xFF008860),
+            colorTextAndIconError = Color(0xFFCD0000),
             isDark = false,
         )
 
         fun darkColors() = Colors(
             colorPrimary = Color(0xFFFF8000),
             colorOutline = Color(0xFF393B40),
-            colorSuccess = Color(0xFF71D98C),
-            colorError = Color(0xFFE45356),
             colorBackgroundPrimary = Color(0xFF1E1F22),
             colorBackgroundSecondary = Color(0xFF2B2D30),
             colorBackgroundTertiary = Color(0xFF3E3F43),
@@ -74,14 +72,14 @@ class Colors internal constructor(
             colorTextAndIconSecondary = Color(0xFFBCBCBC),
             colorTextAndIconDisabled = Color(0xFF6E6E6E),
             colorTextAndIconAdditional = Color(0xFFFFBB33),
+            colorTextAndIconSuccess = Color(0xFF71D98C),
+            colorTextAndIconError = Color(0xFFE45356),
             isDark = true,
         )
 
         fun dynamicColors(
             colorPrimary: Color,
             colorOutline: Color,
-            colorSuccess: Color,
-            colorError: Color,
             colorBackgroundPrimary: Color,
             colorBackgroundSecondary: Color,
             colorBackgroundTertiary: Color,
@@ -90,12 +88,12 @@ class Colors internal constructor(
             colorTextAndIconSecondary: Color,
             colorTextAndIconDisabled: Color,
             colorTextAndIconAdditional: Color,
+            colorTextAndIconSuccess: Color,
+            colorTextAndIconError: Color,
             isDark: Boolean,
         ) = Colors(
             colorPrimary = colorPrimary,
             colorOutline = colorOutline,
-            colorSuccess = colorSuccess,
-            colorError = colorError,
             colorBackgroundPrimary = colorBackgroundPrimary,
             colorBackgroundSecondary = colorBackgroundSecondary,
             colorBackgroundTertiary = colorBackgroundTertiary,
@@ -104,6 +102,8 @@ class Colors internal constructor(
             colorTextAndIconSecondary = colorTextAndIconSecondary,
             colorTextAndIconDisabled = colorTextAndIconDisabled,
             colorTextAndIconAdditional = colorTextAndIconAdditional,
+            colorTextAndIconSuccess = colorTextAndIconSuccess,
+            colorTextAndIconError = colorTextAndIconError,
             isDark = isDark,
         )
     }
@@ -118,7 +118,7 @@ class Colors internal constructor(
                 secondaryVariant = colorPrimary,
                 background = colorBackgroundPrimary,
                 surface = colorBackgroundSecondary,
-                error = colorError,
+                error = colorTextAndIconError,
                 onPrimary = Color.Black,
                 onSecondary = Color.Black,
                 onBackground = Color.White,
@@ -133,7 +133,7 @@ class Colors internal constructor(
                 secondaryVariant = colorPrimary,
                 background = colorBackgroundPrimary,
                 surface = colorBackgroundSecondary,
-                error = colorError,
+                error = colorTextAndIconError,
                 onPrimary = Color.White,
                 onSecondary = Color.Black,
                 onBackground = Color.Black,

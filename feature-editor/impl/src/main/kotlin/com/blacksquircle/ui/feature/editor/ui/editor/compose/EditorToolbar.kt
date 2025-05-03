@@ -28,7 +28,6 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.toolbar.Toolbar
-import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.EditMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.FileMenu
@@ -150,7 +149,6 @@ internal fun EditorToolbar(
                 }
             )
         },
-        toolbarSize = ToolbarSizeDefaults.S,
         modifier = modifier,
     )
 }

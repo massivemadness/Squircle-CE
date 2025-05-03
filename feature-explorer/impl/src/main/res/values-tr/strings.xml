@@ -51,7 +51,6 @@
     <string name="properties_modified">Son Düzenleme:</string>
     <string name="properties_size">Dosya Boyutu:</string>
     <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
-    <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
     <string name="sort_by_name">Ada göre sırala</string>
     <string name="sort_by_size">Boyuta göre sırala</string>
     <string name="sort_by_date">Tarihe göre Sırala</string>
@@ -79,7 +78,4 @@
     <string name="explorer_channel_name">Dosya Yöneticisi</string>
     <string name="explorer_channel_description">Dosya işlemlerini görüntüleme ve kontrol etme</string>
     <string name="explorer_service_message">Arkaplan işlemleri devam ediyor</string>
-    <string name="storage_local">Yerel Depolama</string>
-    <string name="storage_root">Kök Dizin</string>
-    <string name="storage_add">Sunucu Ekle</string>
 </resources>

@@ -21,21 +21,38 @@ import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
-import com.blacksquircle.ui.feature.explorer.domain.model.ViewMode
-import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
-import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 
 @Immutable
 internal data class ExplorerViewState(
     val filesystems: List<FilesystemModel> = emptyList(),
-    val selectedFilesystem: String = "",
-    val breadcrumbs: List<BreadcrumbState> = emptyList(),
-    val selectedBreadcrumb: Int = -1,
-    val selectedFiles: List<FileModel> = emptyList(),
+    val selectedFilesystem: FilesystemModel? = null,
+    val fileNodes: List<FileNode> = emptyList(),
+    val selectedNodes: List<FileNode> = emptyList(),
     val searchQuery: String = "",
     val showHidden: Boolean = true,
+    val compactPackages: Boolean = true,
     val sortMode: SortMode = SortMode.SORT_BY_NAME,
-    val viewMode: ViewMode = ViewMode.COMPACT_LIST,
     val taskType: TaskType = TaskType.CREATE,
-    val isLoading: Boolean = true,
-) : ViewState
+) : ViewState {
+
+    val showFiles: Boolean
+        get() = !isLoading && !isError
+
+    val showActionBar: Boolean
+        get() = selectedNodes.size == 1 && selectedNodes[0].isDirectory
+
+    val errorState: ErrorState?
+        get() = fileNodes.getOrNull(0)?.errorState
+
+    val isLoading: Boolean
+        get() = fileNodes.size == 1 && fileNodes[0].isRoot && fileNodes[0].isLoading
+
+    val isError: Boolean
+        get() = fileNodes.size == 1 && fileNodes[0].isRoot && fileNodes[0].isError
+
+    val isEmpty: Boolean
+        get() = fileNodes.isEmpty() ||
+            (fileNodes.size == 1 && fileNodes[0].isRoot && fileNodes[0].isExpanded)
+}

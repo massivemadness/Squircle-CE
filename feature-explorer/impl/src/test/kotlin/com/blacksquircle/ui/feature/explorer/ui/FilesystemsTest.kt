@@ -19,16 +19,17 @@ package com.blacksquircle.ui.feature.explorer.ui
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
-import com.blacksquircle.ui.feature.explorer.createFile
+import com.blacksquircle.ui.feature.explorer.createFileNode
 import com.blacksquircle.ui.feature.explorer.createFilesystem
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
 import com.blacksquircle.ui.feature.explorer.defaultFilesystems
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
-import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
-import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.clearMocks
@@ -38,7 +39,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -52,12 +52,14 @@ class FilesystemsTest {
     @get:Rule
     val timberConsoleRule = TimberConsoleRule()
 
+    private val dispatcherProvider = TestDispatcherProvider()
     private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val taskManager = mockk<TaskManager>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
     private val explorerRepository = mockk<ExplorerRepository>(relaxed = true)
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
+    private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
 
     private val filesystems = defaultFilesystems()
     private val selectedFilesystem = filesystems[0]
@@ -65,8 +67,7 @@ class FilesystemsTest {
     @Before
     fun setup() {
         coEvery { explorerRepository.loadFilesystems() } returns filesystems
-        coEvery { explorerRepository.loadBreadcrumbs(selectedFilesystem) } returns
-            listOf(selectedFilesystem.defaultLocation)
+        coEvery { explorerRepository.listFiles(any()) } returns emptyList()
 
         every { settingsManager.filesystem } returns selectedFilesystem.uuid
         every { settingsManager.filesystem = any() } answers {
@@ -75,43 +76,15 @@ class FilesystemsTest {
     }
 
     @Test
-    fun `When screen opens Then display loading state`() = runTest {
-        // Given
-        coEvery { explorerRepository.loadFilesystems() } coAnswers {
-            delay(200)
-            emptyList()
-        }
-
-        // When
-        val viewModel = createViewModel() // init {}
-
-        // Then
-        assertEquals(true, viewModel.viewState.value.isLoading)
-    }
-
-    @Test
-    fun `When screen opens Then load filesystems and breadcrumbs`() = runTest {
+    fun `When screen opens Then load filesystems`() = runTest {
         // When
         val viewModel = createViewModel() // init {}
 
         // Then
         assertEquals(filesystems, viewModel.viewState.value.filesystems)
-        assertEquals(selectedFilesystem.uuid, viewModel.viewState.value.selectedFilesystem)
-
-        val breadcrumbs = listOf(BreadcrumbState(selectedFilesystem.defaultLocation))
-        assertEquals(breadcrumbs, viewModel.viewState.value.breadcrumbs)
-        assertEquals(0, viewModel.viewState.value.selectedBreadcrumb)
+        assertEquals(selectedFilesystem, viewModel.viewState.value.selectedFilesystem)
 
         coVerify(exactly = 1) { explorerRepository.loadFilesystems() }
-        coVerify(exactly = 1) { explorerRepository.loadBreadcrumbs(selectedFilesystem) }
-    }
-
-    @Test
-    fun `When filesystems loaded Then list files called`() = runTest {
-        // When
-        createViewModel() // init {}
-
-        // Then
         coVerify(exactly = 1) { explorerRepository.listFiles(selectedFilesystem.defaultLocation) }
     }
 
@@ -122,11 +95,11 @@ class FilesystemsTest {
         clearMocks(explorerRepository, answers = false, recordedCalls = true) // reset verify count
 
         // When
-        viewModel.onFilesystemSelected(selectedFilesystem.uuid) // already selected
+        viewModel.onFilesystemClicked(selectedFilesystem) // already selected
 
         // Then
         assertEquals(filesystems, viewModel.viewState.value.filesystems)
-        assertEquals(selectedFilesystem.uuid, viewModel.viewState.value.selectedFilesystem)
+        assertEquals(selectedFilesystem, viewModel.viewState.value.selectedFilesystem)
 
         verify(exactly = 0) { settingsManager.filesystem = selectedFilesystem.uuid }
         coVerify(exactly = 0) { explorerRepository.listFiles(selectedFilesystem.defaultLocation) }
@@ -139,11 +112,11 @@ class FilesystemsTest {
         val nextSelected = filesystems[1]
 
         // When
-        viewModel.onFilesystemSelected(nextSelected.uuid)
+        viewModel.onFilesystemClicked(nextSelected)
 
         // Then
         assertEquals(filesystems, viewModel.viewState.value.filesystems)
-        assertEquals(nextSelected.uuid, viewModel.viewState.value.selectedFilesystem)
+        assertEquals(nextSelected, viewModel.viewState.value.selectedFilesystem)
 
         verify(exactly = 1) { settingsManager.filesystem = nextSelected.uuid }
         coVerify(exactly = 1) { explorerRepository.listFiles(selectedFilesystem.defaultLocation) }
@@ -153,20 +126,20 @@ class FilesystemsTest {
     fun `When filesystem changed Then reset buffer`() = runTest {
         // Given
         val viewModel = createViewModel()
-        val fileModel = createFile("untitled.txt")
+        val fileNode = createFileNode(name = "untitled.txt")
 
         // When
-        viewModel.onFileSelected(fileModel)
-        assertEquals(listOf(fileModel), viewModel.viewState.value.selectedFiles)
+        viewModel.onFileSelected(fileNode)
+        assertEquals(listOf(fileNode), viewModel.viewState.value.selectedNodes)
 
         viewModel.onDeleteClicked()
         assertEquals(TaskType.DELETE, viewModel.viewState.value.taskType)
 
-        viewModel.onFilesystemSelected(filesystems[1].uuid)
+        viewModel.onFilesystemClicked(filesystems[1])
 
         // Then
         assertEquals(TaskType.CREATE, viewModel.viewState.value.taskType)
-        assertEquals(emptyList<FileModel>(), viewModel.viewState.value.selectedFiles)
+        assertEquals(emptyList<FileNode>(), viewModel.viewState.value.selectedNodes)
     }
 
     @Test
@@ -192,7 +165,8 @@ class FilesystemsTest {
             taskManager = taskManager,
             editorInteractor = editorInteractor,
             explorerRepository = explorerRepository,
-            serverInteractor = serverInteractor
+            serverInteractor = serverInteractor,
+            asyncNodeBuilder = asyncNodeBuilder,
         )
     }
 }

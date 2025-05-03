@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.servers.repository
 
 import android.content.Context
-import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.database.dao.server.ServerDao
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.servers.api.factory.ServerFactory
@@ -44,11 +43,10 @@ import org.junit.Test
 
 class ServerRepositoryImplTest {
 
-    private val serverFactory = mockk<ServerFactory>()
+    private val serverFactory = mockk<ServerFactory>(relaxed = true)
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val dispatcherProvider = TestDispatcherProvider()
     private val serverDao = mockk<ServerDao>(relaxed = true)
-    private val pathDao = mockk<PathDao>(relaxed = true)
     private val context = mockk<Context>(relaxed = true)
 
     private val serverRepository = ServerRepositoryImpl(
@@ -56,7 +54,6 @@ class ServerRepositoryImplTest {
         settingsManager = settingsManager,
         dispatcherProvider = dispatcherProvider,
         serverDao = serverDao,
-        pathDao = pathDao,
         context = context
     )
 
@@ -123,7 +120,7 @@ class ServerRepositoryImplTest {
     }
 
     @Test
-    fun `When updating the server Then update server, clear credentials and path`() = runTest {
+    fun `When updating the server Then update server and clear credentials`() = runTest {
         // Given
         val serverConfig = createServerConfig(uuid = serverId)
         val serverEntity = createServerEntity(uuid = serverId)
@@ -135,7 +132,6 @@ class ServerRepositoryImplTest {
 
         // Then
         coVerify(exactly = 1) { serverDao.insert(serverEntity) }
-        coVerify(exactly = 1) { pathDao.delete(serverConfig.uuid) }
         verify(exactly = 1) { ServerCredentials.remove(serverConfig.uuid) }
         unmockkObject(ServerCredentials)
     }
@@ -154,7 +150,7 @@ class ServerRepositoryImplTest {
     }
 
     @Test
-    fun `When deleting the server Then delete server, clear credentials and path`() = runTest {
+    fun `When deleting the server Then delete server and clear credentials`() = runTest {
         // Given
         val serverConfig = createServerConfig(uuid = serverId)
         every { settingsManager.filesystem } returns "different"
@@ -165,7 +161,6 @@ class ServerRepositoryImplTest {
 
         // Then
         coVerify(exactly = 1) { serverDao.delete(serverConfig.uuid) }
-        coVerify(exactly = 1) { pathDao.delete(serverConfig.uuid) }
         verify(exactly = 1) { ServerCredentials.remove(serverConfig.uuid) }
         unmockkObject(ServerCredentials)
     }

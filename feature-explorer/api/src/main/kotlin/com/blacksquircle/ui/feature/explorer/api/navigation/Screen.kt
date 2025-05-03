@@ -26,10 +26,7 @@ data object ExplorerScreen
 data class AuthDialog(val authMethod: AuthMethod)
 
 @Serializable
-data object CreateFileDialog
-
-@Serializable
-data object CreateFolderDialog
+data object CreateDialog
 
 @Serializable
 data object CloneRepoDialog

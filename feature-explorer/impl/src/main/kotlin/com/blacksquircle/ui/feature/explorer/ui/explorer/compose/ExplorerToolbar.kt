@@ -34,46 +34,36 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastMap
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
-import com.blacksquircle.ui.ds.dropdown.Dropdown
-import com.blacksquircle.ui.ds.dropdown.DropdownStyleDefaults
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
-import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SelectionMenu
 import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SortingMenu
-import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.local.LocalFilesystem
-import com.blacksquircle.ui.filesystem.root.RootFilesystem
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ExplorerToolbar(
     searchQuery: String,
-    selectedFilesystem: String,
-    filesystems: List<FilesystemModel>,
-    selectedFiles: List<FileModel>,
+    selectedNodes: List<FileNode>,
     showHidden: Boolean,
+    compactPackages: Boolean,
     sortMode: SortMode,
     modifier: Modifier = Modifier,
-    onFilesystemSelected: (String) -> Unit = {},
-    onAddServerClicked: () -> Unit = {},
     onQueryChanged: (String) -> Unit = {},
     onClearQueryClicked: () -> Unit = {},
     onShowHiddenClicked: () -> Unit = {},
+    onCompactPackagesClicked: () -> Unit = {},
     onSortModeSelected: (SortMode) -> Unit = {},
     onCopyClicked: () -> Unit = {},
     onDeleteClicked: () -> Unit = {},
     onCutClicked: () -> Unit = {},
-    onSelectAllClicked: () -> Unit = {},
     onOpenWithClicked: () -> Unit = {},
     onRenameClicked: () -> Unit = {},
     onPropertiesClicked: () -> Unit = {},
@@ -81,12 +71,14 @@ internal fun ExplorerToolbar(
     onCompressClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
 ) {
-    val selectionMode = selectedFiles.isNotEmpty()
+    val selectionMode = selectedNodes.isNotEmpty()
+    val rootSelected = selectedNodes.size == 1 && selectedNodes[0].isRoot
+
     var searchMode by rememberSaveable { mutableStateOf(false) }
     var menuExpanded by rememberSaveable { mutableStateOf(false) }
 
     Toolbar(
-        title = if (selectionMode) selectedFiles.size.toString() else null,
+        title = if (selectionMode) selectedNodes.size.toString() else null,
         navigationIcon = if (selectionMode) UiR.drawable.ic_back else null,
         onNavigationClicked = onBackClicked,
         navigationActions = {
@@ -128,37 +120,13 @@ internal fun ExplorerToolbar(
                     onClearQueryClicked()
                     searchMode = false
                 }
-            } else if (filesystems.isNotEmpty()) {
-                val addServerEntry = stringResource(R.string.storage_add)
-                val addServerValue = "add_server"
-
-                val entries = remember(filesystems) {
-                    (filesystems.fastMap(FilesystemModel::title) + addServerEntry).toTypedArray()
-                }
-                val entryValues = remember(filesystems) {
-                    (filesystems.fastMap(FilesystemModel::uuid) + addServerValue).toTypedArray()
-                }
-
-                Dropdown(
-                    entries = entries,
-                    entryValues = entryValues,
-                    currentValue = selectedFilesystem,
-                    onValueSelected = { value ->
-                        if (value == addServerValue) {
-                            onAddServerClicked()
-                        } else {
-                            onFilesystemSelected(value)
-                        }
-                    },
-                    dropdownStyle = DropdownStyleDefaults.Default.copy(
-                        textStyle = SquircleTheme.typography.text18Medium,
-                    ),
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 4.dp)
-                )
             } else {
                 Spacer(Modifier.weight(1f))
+            }
+
+            /** Don't show file actions if root node is selected */
+            if (rootSelected) {
+                return@Toolbar
             }
 
             if (!searchMode && !selectionMode) {
@@ -185,11 +153,10 @@ internal fun ExplorerToolbar(
                 anchor = {
                     if (selectionMode) {
                         SelectionMenu(
-                            count = selectedFiles.size,
+                            count = selectedNodes.size,
                             expanded = menuExpanded,
                             onDismiss = { menuExpanded = false },
                             onCutClicked = { menuExpanded = false; onCutClicked() },
-                            onSelectAllClicked = { menuExpanded = false; onSelectAllClicked() },
                             onOpenWithClicked = { menuExpanded = false; onOpenWithClicked() },
                             onRenameClicked = { menuExpanded = false; onRenameClicked() },
                             onPropertiesClicked = { menuExpanded = false; onPropertiesClicked() },
@@ -201,15 +168,26 @@ internal fun ExplorerToolbar(
                             expanded = menuExpanded,
                             onDismiss = { menuExpanded = false },
                             showHidden = showHidden,
+                            compactPackages = compactPackages,
                             sortMode = sortMode,
-                            onSortModeSelected = { menuExpanded = false; onSortModeSelected(it) },
-                            onShowHiddenClicked = { menuExpanded = false; onShowHiddenClicked() },
+                            onShowHiddenClicked = {
+                                menuExpanded = false
+                                onShowHiddenClicked()
+                            },
+                            onCompactPackagesClicked = {
+                                menuExpanded = false
+                                onCompactPackagesClicked()
+                            },
+                            onSortModeSelected = {
+                                menuExpanded = false
+                                onSortModeSelected(it)
+                            },
                         )
                     }
                 }
             )
         },
-        toolbarSize = ToolbarSizeDefaults.S,
+        toolbarSize = ToolbarSizeDefaults.M.copy(shadowSize = 0.dp),
         modifier = modifier,
     )
 }
@@ -220,34 +198,10 @@ private fun ExplorerToolbarPreview() {
     PreviewBackground {
         ExplorerToolbar(
             searchQuery = "",
-            selectedFilesystem = LocalFilesystem.LOCAL_UUID,
-            filesystems = listOf(
-                FilesystemModel(
-                    uuid = LocalFilesystem.LOCAL_UUID,
-                    title = "Local Storage",
-                    defaultLocation = FileModel(
-                        fileUri = "file:///storage/emulated/0/",
-                        filesystemUuid = LocalFilesystem.LOCAL_UUID,
-                    ),
-                ),
-                FilesystemModel(
-                    uuid = RootFilesystem.ROOT_UUID,
-                    title = "Root Directory",
-                    defaultLocation = FileModel(
-                        fileUri = "sufile:///",
-                        filesystemUuid = RootFilesystem.ROOT_UUID,
-                    ),
-                ),
-            ),
-            selectedFiles = emptyList(),
+            selectedNodes = emptyList(),
             showHidden = true,
+            compactPackages = true,
             sortMode = SortMode.SORT_BY_NAME,
-            onFilesystemSelected = {},
-            onQueryChanged = {},
-            onClearQueryClicked = {},
-            onShowHiddenClicked = {},
-            onSortModeSelected = {},
-            onBackClicked = {},
         )
     }
 }

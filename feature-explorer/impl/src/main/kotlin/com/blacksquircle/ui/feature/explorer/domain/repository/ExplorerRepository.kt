@@ -22,14 +22,13 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 internal interface ExplorerRepository {
 
     suspend fun loadFilesystems(): List<FilesystemModel>
-    suspend fun loadBreadcrumbs(filesystemModel: FilesystemModel): List<FileModel>
     suspend fun listFiles(parent: FileModel): List<FileModel>
 
     fun createFile(parent: FileModel, fileName: String, isFolder: Boolean): String
     fun renameFile(source: FileModel, fileName: String): String
     fun deleteFiles(source: List<FileModel>): String
     fun copyFiles(source: List<FileModel>, dest: FileModel): String
-    fun cutFiles(source: List<FileModel>, dest: FileModel): String
+    fun moveFiles(source: List<FileModel>, dest: FileModel): String
     fun compressFiles(source: List<FileModel>, dest: FileModel, fileName: String): String
     fun extractFiles(source: FileModel, dest: FileModel): String
     fun cloneRepository(parent: FileModel, url: String): String

@@ -16,7 +16,6 @@
   -->
 <resources>
     <string name="hint_enter_file_name">Enter file name</string>
-    <string name="hint_enter_folder_name">Enter folder name</string>
     <string name="hint_enter_archive_name">Enter archive name</string>
     <string name="hint_enter_password">Enter password</string>
     <string name="hint_enter_passphrase">Enter passphrase</string>
@@ -24,15 +23,17 @@
     <string name="action_authenticate">Authenticate</string>
     <string name="action_create">Create</string>
     <string name="action_copy_path">Copy Path</string>
-    <string name="action_new_file">File</string>
-    <string name="action_new_folder">Folder</string>
+    <string name="action_folder">Folder</string>
     <string name="action_clone">Clone</string>
     <string name="action_rename">Rename</string>
     <string name="action_run_in_background">Run in background</string>
     <string name="action_show_hidden_files">Show hidden files</string>
+    <string name="action_compact_packages">Compact packages</string>
     <string name="action_compress">Compress</string>
     <string name="action_open_with">Open with</string>
     <string name="action_properties">Properties</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_paste">Paste</string>
     <string name="dialog_title_authentication">Authentication</string>
     <string name="dialog_title_create">Create…</string>
     <string name="dialog_title_clone">Clone…</string>
@@ -58,10 +59,10 @@
     <string name="properties_modified">Last Modified:</string>
     <string name="properties_size">File Size:</string>
     <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
-    <string name="explorer_date_format">dd MMM yy E HH:mm:ss</string>
     <string name="sort_by_name">Sort by Name</string>
     <string name="sort_by_size">Sort by Size</string>
     <string name="sort_by_date">Sort by Date</string>
+    <string name="message_select_folder_to_paste">Select folder to paste</string>
     <string name="message_auth_required">Auth Required</string>
     <string name="message_enter_password">Enter password to connect to remote server</string>
     <string name="message_enter_passphrase">Enter passphrase to connect to remote server</string>
@@ -75,6 +76,7 @@
     <string name="message_encrypted_archive">Archive is encrypted</string>
     <string name="message_operation_cancelled">Operation cancelled</string>
     <string name="message_operation_not_supported">Operation not supported</string>
+    <string name="message_same_directory_required">Files must be located in the same directory</string>
     <string name="message_done">Done</string>
     <string name="message_file_not_found">File not found</string>
     <string name="message_elapsed_time">Elapsed time: %1$s</string>
@@ -88,7 +90,5 @@
     <string name="explorer_channel_name">File Manager</string>
     <string name="explorer_channel_description">Display and control file operations</string>
     <string name="explorer_service_message">Background operations in progress</string>
-    <string name="storage_local">Local Storage</string>
-    <string name="storage_root">Root Directory</string>
-    <string name="storage_add">Add Server</string>
+    <string name="storage_add">Add</string>
 </resources>

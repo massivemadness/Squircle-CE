@@ -20,7 +20,7 @@ internal enum class TaskType(val value: String) {
     CREATE("create"),
     RENAME("rename"),
     DELETE("delete"),
-    CUT("cut"),
+    MOVE("move"),
     COPY("copy"),
     COMPRESS("compress"),
     EXTRACT("extract"),

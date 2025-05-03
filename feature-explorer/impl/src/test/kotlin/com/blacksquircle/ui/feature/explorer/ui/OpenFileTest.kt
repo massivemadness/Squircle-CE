@@ -21,20 +21,22 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.createFile
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
 import com.blacksquircle.ui.feature.explorer.defaultFilesystems
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -47,12 +49,14 @@ class OpenFileTest {
     @get:Rule
     val timberConsoleRule = TimberConsoleRule()
 
+    private val dispatcherProvider = TestDispatcherProvider()
     private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val taskManager = mockk<TaskManager>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
     private val explorerRepository = mockk<ExplorerRepository>(relaxed = true)
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
+    private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
 
     private val filesystems = defaultFilesystems()
     private val selectedFilesystem = filesystems[0]
@@ -62,8 +66,7 @@ class OpenFileTest {
     @Before
     fun setup() {
         coEvery { explorerRepository.loadFilesystems() } returns filesystems
-        coEvery { explorerRepository.loadBreadcrumbs(selectedFilesystem) } returns
-            listOf(defaultLocation)
+        coEvery { explorerRepository.listFiles(any()) } returns emptyList()
 
         every { settingsManager.filesystem } returns selectedFilesystem.uuid
         every { settingsManager.filesystem = any() } answers {
@@ -74,71 +77,67 @@ class OpenFileTest {
     @Test
     fun `When text file clicked Then open it in the editor`() = runTest {
         // Given
-        val viewModel = createViewModel()
-        val fileList = listOf(
-            createFile(name = "file.txt"),
-        )
-        coEvery { explorerRepository.listFiles(defaultLocation) } returns fileList
+        val fileModel = createFile(name = "file.txt")
+        coEvery { explorerRepository.listFiles(defaultLocation) } returns listOf(fileModel)
 
         // When
-        viewModel.onFileClicked(fileList.first())
+        val viewModel = createViewModel()
+        val fileNode = viewModel.viewState.value.fileNodes[1]
+        viewModel.onFileClicked(fileNode)
 
         // Then
-        coVerify(exactly = 1) { editorInteractor.openFile(fileList.first()) }
+        coVerify(exactly = 1) { editorInteractor.openFile(fileModel) }
     }
 
     @Test
     fun `When image file clicked Then open system application chooser`() = runTest {
         // Given
-        val viewModel = createViewModel()
-        val fileList = listOf(
-            createFile(name = "file.png"),
-        )
-        coEvery { explorerRepository.listFiles(defaultLocation) } returns fileList
+        val fileModel = createFile(name = "file.png")
+        coEvery { explorerRepository.listFiles(defaultLocation) } returns listOf(fileModel)
 
         // When
-        viewModel.onFileClicked(fileList.first())
+        val viewModel = createViewModel()
+        val fileNode = viewModel.viewState.value.fileNodes[1]
+        viewModel.onFileClicked(fileNode)
 
         // Then
-        val expected = ExplorerViewEvent.OpenFileWith(fileList.first())
+        val expected = ExplorerViewEvent.OpenFileWith(fileModel)
         assertEquals(expected, viewModel.viewEvent.first())
-        coVerify(exactly = 0) { editorInteractor.openFile(fileList.first()) }
+        coVerify(exactly = 0) { editorInteractor.openFile(fileModel) }
     }
 
     @Test
     fun `When image file selected Then open system application chooser`() = runTest {
         // Given
-        val viewModel = createViewModel()
-        val fileList = listOf(
-            createFile(name = "file.png"),
-        )
-        coEvery { explorerRepository.listFiles(defaultLocation) } returns fileList
+        val fileModel = createFile(name = "file.png")
+        coEvery { explorerRepository.listFiles(defaultLocation) } returns listOf(fileModel)
 
         // When
-        viewModel.onFileSelected(fileList.first())
+        val viewModel = createViewModel()
+        val fileNode = viewModel.viewState.value.fileNodes[1]
+        viewModel.onFileSelected(fileNode)
         viewModel.onOpenWithClicked()
 
         // Then
-        val expected = ExplorerViewEvent.OpenFileWith(fileList.first())
+        val expected = ExplorerViewEvent.OpenFileWith(fileModel)
         assertEquals(expected, viewModel.viewEvent.first())
-        coVerify(exactly = 0) { editorInteractor.openFile(fileList.first()) }
+        coVerify(exactly = 0) { editorInteractor.openFile(fileModel) }
     }
 
     @Test
     fun `When copy path clicked Then send copy path event`() = runTest {
         // Given
-        val viewModel = createViewModel()
-        val fileList = listOf(
-            createFile(name = "file.txt"),
-        )
-        coEvery { explorerRepository.listFiles(defaultLocation) } returns fileList
+        val fileModel = createFile(name = "file.txt")
+        coEvery { explorerRepository.listFiles(defaultLocation) } returns listOf(fileModel)
 
         // When
-        viewModel.onFileSelected(fileList.first())
+        val viewModel = createViewModel()
+        val fileNode = viewModel.viewState.value.fileNodes[1]
+        viewModel.onFileSelected(fileNode)
         viewModel.onCopyPathClicked()
 
         // Then
-        val expected = ExplorerViewEvent.CopyPath(fileList.first())
+        val expected = ExplorerViewEvent.CopyPath(fileModel)
         assertEquals(expected, viewModel.viewEvent.first())
     }
 
@@ -149,7 +148,8 @@ class OpenFileTest {
             taskManager = taskManager,
             editorInteractor = editorInteractor,
             explorerRepository = explorerRepository,
-            serverInteractor = serverInteractor
+            serverInteractor = serverInteractor,
+            asyncNodeBuilder = asyncNodeBuilder,
         )
     }
 }

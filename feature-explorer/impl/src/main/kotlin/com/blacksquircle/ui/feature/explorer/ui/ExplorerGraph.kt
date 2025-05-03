@@ -26,8 +26,7 @@ import com.blacksquircle.ui.ds.extensions.LocalNavController
 import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CloneRepoDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFileDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFolderDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.CreateDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.api.navigation.NotificationDeniedDialog
@@ -39,7 +38,6 @@ import com.blacksquircle.ui.feature.explorer.ui.auth.AuthScreen
 import com.blacksquircle.ui.feature.explorer.ui.clone.CloneRepoScreen
 import com.blacksquircle.ui.feature.explorer.ui.compress.CompressScreen
 import com.blacksquircle.ui.feature.explorer.ui.create.CreateFileScreen
-import com.blacksquircle.ui.feature.explorer.ui.create.CreateFolderScreen
 import com.blacksquircle.ui.feature.explorer.ui.delete.DeleteScreen
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.permissions.NotificationDeniedScreen
@@ -56,11 +54,8 @@ fun NavGraphBuilder.explorerGraph(navController: NavHostController) {
         val navArgs = backStackEntry.toRoute<AuthDialog>()
         AuthScreen(navArgs, navController)
     }
-    dialog<CreateFileDialog> {
+    dialog<CreateDialog> {
         CreateFileScreen(navController)
-    }
-    dialog<CreateFolderDialog> {
-        CreateFolderScreen(navController)
     }
     dialog<CloneRepoDialog> {
         CloneRepoScreen(navController)

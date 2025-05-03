@@ -33,9 +33,11 @@ internal fun SortingMenu(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     showHidden: Boolean = true,
+    compactPackages: Boolean = true,
     sortMode: SortMode = SortMode.SORT_BY_NAME,
-    onSortModeSelected: (SortMode) -> Unit = {},
     onShowHiddenClicked: () -> Unit = {},
+    onCompactPackagesClicked: () -> Unit = {},
+    onSortModeSelected: (SortMode) -> Unit = {},
 ) {
     PopupMenu(
         expanded = expanded,
@@ -50,6 +52,16 @@ internal fun SortingMenu(
                 CheckBox(
                     checked = showHidden,
                     onClick = onShowHiddenClicked,
+                )
+            }
+        )
+        PopupMenuItem(
+            title = stringResource(R.string.action_compact_packages),
+            onClick = onCompactPackagesClicked,
+            trailing = {
+                CheckBox(
+                    checked = compactPackages,
+                    onClick = onCompactPackagesClicked,
                 )
             }
         )

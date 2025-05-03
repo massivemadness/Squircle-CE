@@ -30,7 +30,7 @@ internal object DocumentMapper {
             filesystemUuid = documentModel.filesystemUuid,
             size = 0,
             lastModified = 0,
-            directory = false,
+            isDirectory = false,
         )
     }
 

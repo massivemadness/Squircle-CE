@@ -111,7 +111,7 @@ private fun OutlinedButtonEnabledPreview() {
     PreviewBackground {
         OutlinedButton(
             text = "Outlined Button",
-            startIconResId = R.drawable.ic_info_outline,
+            startIconResId = R.drawable.ic_plus,
             onClick = {},
             enabled = true,
         )
@@ -124,7 +124,7 @@ private fun OutlinedButtonDisabledPreview() {
     PreviewBackground {
         OutlinedButton(
             text = "Outlined Button",
-            startIconResId = R.drawable.ic_info_outline,
+            startIconResId = R.drawable.ic_plus,
             onClick = {},
             enabled = false,
         )

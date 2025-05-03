@@ -52,8 +52,8 @@ class FilesHeaderViewModelTest {
         every { settingsManager.encodingForSaving } returns Charsets.UTF_8.name()
         every { settingsManager.lineBreakForSaving } returns LineBreak.LF.value
         every { settingsManager.showHidden } returns true
+        every { settingsManager.compactPackages } returns true
         every { settingsManager.foldersOnTop } returns true
-        every { settingsManager.viewMode } returns "compact_list"
         every { settingsManager.sortMode } returns "sort_by_name"
 
         // When
@@ -68,8 +68,8 @@ class FilesHeaderViewModelTest {
                 .map(Map.Entry<String, Charset>::key),
             lineBreakForSaving = LineBreak.LF.value,
             showHidden = true,
+            compactPackages = true,
             foldersOnTop = true,
-            viewMode = "compact_list",
             sortMode = "sort_by_name",
         )
         assertEquals(viewState, viewModel.viewState.value)
@@ -173,6 +173,20 @@ class FilesHeaderViewModelTest {
     }
 
     @Test
+    fun `When compact packages changed Then update view state`() = runTest {
+        // Given
+        every { settingsManager.compactPackages } returns true andThen false
+
+        // When
+        val viewModel = createViewModel()
+        viewModel.onCompactPackagesChanged(false)
+
+        // Then
+        assertEquals(false, viewModel.viewState.value.compactPackages)
+        verify(exactly = 1) { settingsManager.compactPackages = false }
+    }
+
+    @Test
     fun `When folders on top changed Then update view state`() = runTest {
         // Given
         every { settingsManager.foldersOnTop } returns true andThen false
@@ -184,20 +198,6 @@ class FilesHeaderViewModelTest {
         // Then
         assertEquals(false, viewModel.viewState.value.foldersOnTop)
         verify(exactly = 1) { settingsManager.foldersOnTop = false }
-    }
-
-    @Test
-    fun `When view mode changed Then update view state`() = runTest {
-        // Given
-        every { settingsManager.viewMode } returns "compact_list" andThen "detailed_list"
-
-        // When
-        val viewModel = createViewModel()
-        viewModel.onViewModeChanged("detailed_list")
-
-        // Then
-        assertEquals("detailed_list", viewModel.viewState.value.viewMode)
-        verify(exactly = 1) { settingsManager.viewMode = "detailed_list" }
     }
 
     @Test
