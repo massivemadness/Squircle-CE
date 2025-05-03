@@ -41,7 +41,7 @@ class UpdateNodeTest {
         }
 
         // Then
-        val expected = folderNode.copy(isExpanded = true)
+        val expected = folderNode.copy(isExpanded = false)
         val actual = nodeMap.findNodeByKey(folderNode.key)
         assertEquals(expected, actual)
     }
