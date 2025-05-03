@@ -378,7 +378,6 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onCopyClicked() {
-        return
         viewModelScope.launch {
             taskType = TaskType.COPY
             taskBuffer = selectedNodes.toList()
@@ -395,9 +394,8 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onCutClicked() {
-        return
         viewModelScope.launch {
-            taskType = TaskType.CUT
+            taskType = TaskType.MOVE
             taskBuffer = selectedNodes.toList()
             selectedNodes = emptyList()
             _viewState.update {
@@ -412,9 +410,8 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onPasteClicked() {
-        return
         when (taskType) {
-            TaskType.CUT -> cutFiles()
+            TaskType.MOVE -> moveFiles()
             TaskType.COPY -> copyFiles()
             else -> Unit
         }
@@ -666,11 +663,13 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun cutFiles() {
+    private fun moveFiles() {
         viewModelScope.launch {
-            val taskId = "1"
-            /* TODO val parent = breadcrumbs[selectedBreadcrumb].fileModel
-            val taskId = explorerRepository.cutFiles(taskBuffer.toList(), parent)*/
+            val parentNode = selectedNodes.firstOrNull() ?: return@launch
+            val fileNodes = taskBuffer.toList()
+            val fileModels = taskBuffer.map(FileNode::file)
+
+            val taskId = explorerRepository.moveFiles(fileModels, parentNode.file)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -679,7 +678,12 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> Unit // onTaskFinished()
+                    is TaskStatus.Done -> {
+                        onTaskFinished()
+
+                        fileNodes.forEach(cache::removeNode)
+                        loadFiles(parentNode)
+                    }
                     else -> Unit
                 }
             }
@@ -688,9 +692,10 @@ internal class ExplorerViewModel @Inject constructor(
 
     private fun copyFiles() {
         viewModelScope.launch {
-            val taskId = "1"
-            /* TODO val parent = breadcrumbs[selectedBreadcrumb].fileModel
-            val taskId = explorerRepository.copyFiles(taskBuffer.toList(), parent)*/
+            val parentNode = selectedNodes.firstOrNull() ?: return@launch
+            val fileModels = taskBuffer.map(FileNode::file)
+
+            val taskId = explorerRepository.copyFiles(fileModels, parentNode.file)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -699,7 +704,10 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> Unit // onTaskFinished()
+                    is TaskStatus.Done -> {
+                        onTaskFinished()
+                        loadFiles(parentNode)
+                    }
                     else -> Unit
                 }
             }

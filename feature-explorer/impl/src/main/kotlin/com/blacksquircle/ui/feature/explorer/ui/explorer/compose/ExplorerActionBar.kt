@@ -40,9 +40,8 @@ internal fun ExplorerActionBar(
     onCreateClicked: () -> Unit = {},
     onPasteClicked: () -> Unit = {},
     onClearBufferClicked: () -> Unit = {},
-    onCancelClicked: () -> Unit = {},
 ) {
-    val hasBuffer = taskType == TaskType.CUT ||
+    val hasBuffer = taskType == TaskType.MOVE ||
         taskType == TaskType.COPY
 
     Row(

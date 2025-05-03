@@ -183,9 +183,9 @@ class FileTaskTest {
     fun `When cut file clicked Then execute task`() = runTest {
         // Given
         val viewModel = createViewModel()
-        val fileTask = Task(taskId, TaskType.CUT)
+        val fileTask = Task(taskId, TaskType.MOVE)
 
-        every { explorerRepository.cutFiles(any(), any()) } returns taskId
+        every { explorerRepository.moveFiles(any(), any()) } returns taskId
         every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
 
         // When
@@ -196,7 +196,7 @@ class FileTaskTest {
         // Then
         verify(exactly = 1) { taskManager.monitor(taskId) }
         coVerify(exactly = 1) {
-            explorerRepository.cutFiles(listOf(fileList[0]), defaultLocation)
+            explorerRepository.moveFiles(listOf(fileList[0]), defaultLocation)
         }
     }
 

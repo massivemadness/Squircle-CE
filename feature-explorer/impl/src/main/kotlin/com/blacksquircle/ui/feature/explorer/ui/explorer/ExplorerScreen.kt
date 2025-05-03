@@ -258,6 +258,8 @@ private fun ExplorerScreen(
                         onRefreshClicked = onRefreshClicked,
                         onCloneClicked = onCloneClicked,
                         onCreateClicked = onCreateClicked,
+                        onPasteClicked = onPasteClicked,
+                        onClearBufferClicked = {}, // TODO
                     )
                 }
             },

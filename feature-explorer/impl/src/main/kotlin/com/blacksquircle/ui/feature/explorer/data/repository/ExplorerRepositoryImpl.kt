@@ -179,8 +179,8 @@ internal class ExplorerRepositoryImpl(
         }
     }
 
-    override fun cutFiles(source: List<FileModel>, dest: FileModel): String {
-        return taskManager.execute(TaskType.CUT) { update ->
+    override fun moveFiles(source: List<FileModel>, dest: FileModel): String {
+        return taskManager.execute(TaskType.MOVE) { update ->
             val filesystem = filesystemFactory.create(currentFilesystem)
             source.forEachIndexed { index, fileModel ->
                 val progress = TaskStatus.Progress(

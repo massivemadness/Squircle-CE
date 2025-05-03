@@ -28,7 +28,7 @@ internal interface ExplorerRepository {
     fun renameFile(source: FileModel, fileName: String): String
     fun deleteFiles(source: List<FileModel>): String
     fun copyFiles(source: List<FileModel>, dest: FileModel): String
-    fun cutFiles(source: List<FileModel>, dest: FileModel): String
+    fun moveFiles(source: List<FileModel>, dest: FileModel): String
     fun compressFiles(source: List<FileModel>, dest: FileModel, fileName: String): String
     fun extractFiles(source: FileModel, dest: FileModel): String
     fun cloneRepository(parent: FileModel, url: String): String

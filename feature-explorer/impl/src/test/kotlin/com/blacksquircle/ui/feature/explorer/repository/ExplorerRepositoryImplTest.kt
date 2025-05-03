@@ -265,7 +265,7 @@ class ExplorerRepositoryImplTest {
     }
 
     @Test
-    fun `When cut files called Then execute task`() = runTest {
+    fun `When move files called Then execute task`() = runTest {
         // Given
         val filesystemUuid = LocalFilesystem.LOCAL_UUID
         val source = listOf(
@@ -279,14 +279,14 @@ class ExplorerRepositoryImplTest {
         coEvery { filesystemFactory.create(filesystemUuid) } returns filesystem
 
         val taskActionSlot = slot<TaskAction>()
-        every { taskManager.execute(TaskType.CUT, capture(taskActionSlot)) } returns "12345"
+        every { taskManager.execute(TaskType.MOVE, capture(taskActionSlot)) } returns "12345"
 
         // When
-        explorerRepository.cutFiles(source, dest)
+        explorerRepository.moveFiles(source, dest)
         taskActionSlot.captured.invoke { /* no-op */ }
 
         // Then
-        verify(exactly = 1) { taskManager.execute(TaskType.CUT, any()) }
+        verify(exactly = 1) { taskManager.execute(TaskType.MOVE, any()) }
         coVerify(exactly = 1) { filesystemFactory.create(filesystemUuid) }
 
         verify(exactly = 1) { filesystem.copyFile(source[0], dest) }
