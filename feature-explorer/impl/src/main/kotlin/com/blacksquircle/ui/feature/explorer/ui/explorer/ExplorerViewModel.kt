@@ -42,6 +42,7 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderOptions
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
+import com.blacksquircle.ui.feature.explorer.data.node.ensureCommonParentKey
 import com.blacksquircle.ui.feature.explorer.data.node.findNodeByKey
 import com.blacksquircle.ui.feature.explorer.data.node.findParentKey
 import com.blacksquircle.ui.feature.explorer.data.node.removeNode
@@ -296,7 +297,11 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             val fileNode = selectedNodes.firstOrNull() ?: return@launch
             loadFiles(fileNode)
-            resetBuffer()
+
+            selectedNodes = emptyList()
+            _viewState.update {
+                it.copy(selectedNodes = selectedNodes)
+            }
         }
     }
 
@@ -449,10 +454,15 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onCompressClicked() {
-        return
         viewModelScope.launch {
+            if (!cache.ensureCommonParentKey(selectedNodes)) {
+                val message = stringProvider.getString(R.string.message_same_directory_required)
+                _viewEvent.send(ViewEvent.Toast(message))
+                return@launch
+            }
+
             taskType = TaskType.COMPRESS
-            // taskBuffer = selectedFiles.toList()
+            taskBuffer = selectedNodes.toList()
             selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
@@ -463,6 +473,18 @@ internal class ExplorerViewModel @Inject constructor(
 
             val screen = CompressDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onClearBufferClicked() {
+        taskType = TaskType.CREATE
+        taskBuffer = emptyList()
+        selectedNodes = emptyList()
+        _viewState.update {
+            it.copy(
+                taskType = taskType,
+                selectedNodes = selectedNodes,
+            )
         }
     }
 
@@ -645,9 +667,12 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun compressFiles(fileName: String) {
         viewModelScope.launch {
-            val taskId = "1"
-            /* TODO val parent = breadcrumbs[selectedBreadcrumb].fileModel
-            val taskId = explorerRepository.compressFiles(taskBuffer.toList(), parent, fileName)*/
+            val fileModels = taskBuffer.map(FileNode::file)
+            val fileNode = taskBuffer.firstOrNull() ?: return@launch
+            val parentKey = cache.findParentKey(fileNode.key) ?: return@launch
+            val parentNode = cache.findNodeByKey(parentKey) ?: return@launch
+
+            val taskId = explorerRepository.compressFiles(fileModels, parentNode.file, fileName)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -656,7 +681,10 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> Unit // onTaskFinished()
+                    is TaskStatus.Done -> {
+                        onTaskFinished()
+                        loadFiles(parentNode)
+                    }
                     else -> Unit
                 }
             }
@@ -961,47 +989,38 @@ internal class ExplorerViewModel @Inject constructor(
                 val message = stringProvider.getString(R.string.message_file_not_found)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             is FileAlreadyExistsException -> {
                 val message = stringProvider.getString(R.string.message_file_already_exists)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             is UnsupportedArchiveException -> {
                 val message = stringProvider.getString(R.string.message_unsupported_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             is EncryptedArchiveException -> {
                 val message = stringProvider.getString(R.string.message_encrypted_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             is SplitArchiveException -> {
                 val message = stringProvider.getString(R.string.message_split_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             is InvalidArchiveException -> {
                 val message = stringProvider.getString(R.string.message_invalid_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             is UnsupportedOperationException -> {
                 val message = stringProvider.getString(R.string.message_operation_not_supported)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             is CancellationException -> {
                 val message = stringProvider.getString(R.string.message_operation_cancelled)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             else -> {
                 _viewEvent.send(ViewEvent.Toast(e.message.toString()))
             }
         }
-        onRefreshClicked()
     }
 
     private suspend fun updateNodeList() {

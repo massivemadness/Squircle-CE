@@ -101,6 +101,7 @@ internal fun ExplorerScreen(
         onCloneClicked = viewModel::onCloneClicked,
         onCopyClicked = viewModel::onCopyClicked,
         onPasteClicked = viewModel::onPasteClicked,
+        onClearBufferClicked = viewModel::onClearBufferClicked,
         onDeleteClicked = viewModel::onDeleteClicked,
         onCutClicked = viewModel::onCutClicked,
         onOpenWithClicked = viewModel::onOpenWithClicked,
@@ -199,6 +200,7 @@ private fun ExplorerScreen(
     onCloneClicked: () -> Unit = {},
     onCopyClicked: () -> Unit = {},
     onPasteClicked: () -> Unit = {},
+    onClearBufferClicked: () -> Unit = {},
     onDeleteClicked: () -> Unit = {},
     onCutClicked: () -> Unit = {},
     onOpenWithClicked: () -> Unit = {},
@@ -259,7 +261,7 @@ private fun ExplorerScreen(
                         onCloneClicked = onCloneClicked,
                         onCreateClicked = onCreateClicked,
                         onPasteClicked = onPasteClicked,
-                        onClearBufferClicked = {}, // TODO
+                        onClearBufferClicked = onClearBufferClicked,
                     )
                 }
             },

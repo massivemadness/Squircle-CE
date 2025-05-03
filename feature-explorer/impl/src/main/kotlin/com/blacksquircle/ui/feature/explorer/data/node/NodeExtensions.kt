@@ -63,3 +63,14 @@ internal fun NodeMap.removeNode(fileNode: FileNode) {
         remove(fileNode.key)
     }
 }
+
+internal fun NodeMap.ensureCommonParentKey(fileNodes: List<FileNode>): Boolean {
+    if (fileNodes.isEmpty()) {
+        return false
+    }
+    val parentKey = findParentKey(fileNodes.first().key)
+        ?: return false
+    return fileNodes.all { node ->
+        findParentKey(node.key) == parentKey
+    }
+}

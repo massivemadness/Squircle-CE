@@ -76,6 +76,7 @@
     <string name="message_encrypted_archive">Архив зашифрован</string>
     <string name="message_operation_cancelled">Операция отменена</string>
     <string name="message_operation_not_supported">Операция не поддерживается</string>
+    <string name="message_same_directory_required">Файлы должны находится в одной папке</string>
     <string name="message_done">Готово</string>
     <string name="message_file_not_found">Файл не найден</string>
     <string name="message_elapsed_time">Прошло времени: %1$s</string>

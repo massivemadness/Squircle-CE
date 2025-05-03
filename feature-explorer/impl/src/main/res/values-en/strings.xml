@@ -76,6 +76,7 @@
     <string name="message_encrypted_archive">Archive is encrypted</string>
     <string name="message_operation_cancelled">Operation cancelled</string>
     <string name="message_operation_not_supported">Operation not supported</string>
+    <string name="message_same_directory_required">Files must be located in the same directory</string>
     <string name="message_done">Done</string>
     <string name="message_file_not_found">File not found</string>
     <string name="message_elapsed_time">Elapsed time: %1$s</string>
