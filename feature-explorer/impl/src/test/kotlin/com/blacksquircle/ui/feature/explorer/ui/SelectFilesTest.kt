@@ -21,12 +21,15 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.createFile
+import com.blacksquircle.ui.feature.explorer.createNode
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
 import com.blacksquircle.ui.feature.explorer.defaultFilesystems
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
-import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
@@ -47,12 +50,14 @@ class SelectFilesTest {
     @get:Rule
     val timberConsoleRule = TimberConsoleRule()
 
+    private val dispatcherProvider = TestDispatcherProvider()
     private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val taskManager = mockk<TaskManager>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
     private val explorerRepository = mockk<ExplorerRepository>(relaxed = true)
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
+    private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
 
     private val filesystems = defaultFilesystems()
     private val selectedFilesystem = filesystems[0]
@@ -62,6 +67,12 @@ class SelectFilesTest {
         createFile(name = "Apple"),
         createFile(name = "Banana"),
         createFile(name = "Cherry"),
+    )
+    private val fileNodes = listOf(
+        createNode(file = defaultLocation, depth = 0, isExpanded = true),
+        createNode(file = fileList[0], depth = 1),
+        createNode(file = fileList[1], depth = 1),
+        createNode(file = fileList[2], depth = 1),
     )
 
     @Before
@@ -81,40 +92,85 @@ class SelectFilesTest {
         val viewModel = createViewModel()
 
         // When
-        viewModel.onFileSelected(fileList[0])
-        viewModel.onFileSelected(fileList[1])
+        viewModel.onFileSelected(fileNodes[1])
+        viewModel.onFileSelected(fileNodes[2])
 
         // Then
-        val expected = listOf(fileList[0], fileList[1])
+        val expected = listOf(fileNodes[1], fileNodes[2])
         assertEquals(expected, viewModel.viewState.value.selectedNodes)
     }
 
     @Test
-    fun `When selection mode active Then click selects a file`() = runTest {
+    fun `When selecting file Then can't select root node`() = runTest {
         // Given
         val viewModel = createViewModel()
 
         // When
-        viewModel.onFileSelected(fileList[0])
-        viewModel.onFileClicked(fileList[1])
-        viewModel.onFileClicked(fileList[2])
+        viewModel.onFileSelected(fileNodes[1])
+        viewModel.onFileSelected(fileNodes[2])
+        viewModel.onFileSelected(fileNodes[0])
 
         // Then
-        assertEquals(fileList, viewModel.viewState.value.selectedNodes)
+        val expected = listOf(fileNodes[1], fileNodes[2])
+        assertEquals(expected, viewModel.viewState.value.selectedNodes)
     }
 
     @Test
-    fun `When selection mode active Then click removes a file from selection`() = runTest {
+    fun `When selecting root node Then can't select anything else`() = runTest {
         // Given
         val viewModel = createViewModel()
 
         // When
-        viewModel.onFileSelected(fileList[0])
-        viewModel.onFileClicked(fileList[1])
-        viewModel.onFileClicked(fileList[1])
+        viewModel.onFileSelected(fileNodes[0])
+        viewModel.onFileSelected(fileNodes[1])
+        viewModel.onFileSelected(fileNodes[2])
 
         // Then
-        val expected = listOf(fileList[0])
+        val expected = listOf(fileNodes[0])
+        assertEquals(expected, viewModel.viewState.value.selectedNodes)
+    }
+
+    @Test
+    fun `When unselecting root node Then remove node from selection`() = runTest {
+        // Given
+        val viewModel = createViewModel()
+
+        // When
+        viewModel.onFileSelected(fileNodes[0])
+        viewModel.onFileSelected(fileNodes[0])
+
+        // Then
+        val expected = emptyList<FileNode>()
+        assertEquals(expected, viewModel.viewState.value.selectedNodes)
+    }
+
+    @Test
+    fun `When selection mode active Then single click selects a file`() = runTest {
+        // Given
+        val viewModel = createViewModel()
+
+        // When
+        viewModel.onFileSelected(fileNodes[1])
+        viewModel.onFileClicked(fileNodes[2])
+        viewModel.onFileClicked(fileNodes[3])
+
+        // Then
+        val expected = listOf(fileNodes[1], fileNodes[2], fileNodes[3])
+        assertEquals(expected, viewModel.viewState.value.selectedNodes)
+    }
+
+    @Test
+    fun `When selection mode active Then single click removes a file from selection`() = runTest {
+        // Given
+        val viewModel = createViewModel()
+
+        // When
+        viewModel.onFileSelected(fileNodes[1])
+        viewModel.onFileClicked(fileNodes[2])
+        viewModel.onFileClicked(fileNodes[2])
+
+        // Then
+        val expected = listOf(fileNodes[1])
         assertEquals(expected, viewModel.viewState.value.selectedNodes)
     }
 
@@ -124,13 +180,14 @@ class SelectFilesTest {
         val viewModel = createViewModel()
 
         // When
-        viewModel.onFileSelected(fileList[0])
-        viewModel.onFileSelected(fileList[1])
-        viewModel.onFileSelected(fileList[2])
+        viewModel.onFileSelected(fileNodes[1])
+        viewModel.onFileSelected(fileNodes[2])
+        viewModel.onFileSelected(fileNodes[3])
         viewModel.onBackClicked()
 
         // Then
-        assertEquals(emptyList<FileModel>(), viewModel.viewState.value.selectedNodes)
+        val expected = emptyList<FileNode>()
+        assertEquals(expected, viewModel.viewState.value.selectedNodes)
     }
 
     @Test
@@ -145,18 +202,6 @@ class SelectFilesTest {
         assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
     }
 
-    @Test
-    fun `When select all clicked Then select all files`() = runTest {
-        // Given
-        val viewModel = createViewModel()
-
-        // When
-        viewModel.onSelectAllClicked()
-
-        // Then
-        assertEquals(fileList, viewModel.viewState.value.selectedNodes)
-    }
-
     private fun createViewModel(): ExplorerViewModel {
         return ExplorerViewModel(
             stringProvider = stringProvider,
@@ -164,7 +209,8 @@ class SelectFilesTest {
             taskManager = taskManager,
             editorInteractor = editorInteractor,
             explorerRepository = explorerRepository,
-            serverInteractor = serverInteractor
+            serverInteractor = serverInteractor,
+            asyncNodeBuilder = asyncNodeBuilder,
         )
     }
 }

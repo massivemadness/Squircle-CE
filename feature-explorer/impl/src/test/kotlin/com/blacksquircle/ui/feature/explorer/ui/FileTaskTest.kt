@@ -16,17 +16,22 @@
 
 package com.blacksquircle.ui.feature.explorer.ui
 
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.createFile
+import com.blacksquircle.ui.feature.explorer.createFolder
+import com.blacksquircle.ui.feature.explorer.createNode
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
 import com.blacksquircle.ui.feature.explorer.defaultFilesystems
 import com.blacksquircle.ui.feature.explorer.domain.model.Task
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
@@ -35,7 +40,9 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -48,12 +55,14 @@ class FileTaskTest {
     @get:Rule
     val timberConsoleRule = TimberConsoleRule()
 
+    private val dispatcherProvider = TestDispatcherProvider()
     private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val taskManager = mockk<TaskManager>(relaxed = true)
     private val explorerRepository = mockk<ExplorerRepository>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
+    private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
 
     private val filesystems = defaultFilesystems()
     private val selectedFilesystem = filesystems[0]
@@ -87,6 +96,8 @@ class FileTaskTest {
         every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
 
         // When
+        val fileNode = createNode(defaultLocation)
+        viewModel.onFileSelected(fileNode)
         viewModel.onCreateClicked()
         viewModel.createFile("file.txt")
 
@@ -107,7 +118,9 @@ class FileTaskTest {
         every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
 
         // When
-        viewModel.onCreateFolderClicked()
+        val fileNode = createNode(defaultLocation)
+        viewModel.onFileSelected(fileNode)
+        viewModel.onCreateClicked()
         viewModel.createFolder("folder")
 
         // Then
@@ -127,6 +140,8 @@ class FileTaskTest {
         every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
 
         // When
+        val fileNode = createNode(defaultLocation)
+        viewModel.onFileSelected(fileNode)
         viewModel.onCloneClicked()
         viewModel.cloneRepository("https://...")
 
@@ -147,7 +162,8 @@ class FileTaskTest {
         every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
 
         // When
-        viewModel.onFileSelected(fileList[0])
+        val fileNode = createNode(fileList[0])
+        viewModel.onFileSelected(fileNode)
         viewModel.onRenameClicked()
         viewModel.renameFile("file.txt")
 
@@ -168,7 +184,8 @@ class FileTaskTest {
         every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
 
         // When
-        viewModel.onFileSelected(fileList[0])
+        val fileNode = createNode(fileList[0])
+        viewModel.onFileSelected(fileNode)
         viewModel.onDeleteClicked()
         viewModel.deleteFile()
 
@@ -180,7 +197,7 @@ class FileTaskTest {
     }
 
     @Test
-    fun `When cut file clicked Then execute task`() = runTest {
+    fun `When move file clicked Then execute task`() = runTest {
         // Given
         val viewModel = createViewModel()
         val fileTask = Task(taskId, TaskType.MOVE)
@@ -189,8 +206,12 @@ class FileTaskTest {
         every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
 
         // When
-        viewModel.onFileSelected(fileList[0])
+        val fileNode = createNode(fileList[0])
+        viewModel.onFileSelected(fileNode)
         viewModel.onCutClicked()
+
+        val rootNode = createNode(defaultLocation)
+        viewModel.onFileSelected(rootNode)
         viewModel.onPasteClicked()
 
         // Then
@@ -210,8 +231,12 @@ class FileTaskTest {
         every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
 
         // When
-        viewModel.onFileSelected(fileList[0])
+        val fileNode = createNode(fileList[0])
+        viewModel.onFileSelected(fileNode)
         viewModel.onCopyClicked()
+
+        val rootNode = createNode(defaultLocation)
+        viewModel.onFileSelected(rootNode)
         viewModel.onPasteClicked()
 
         // Then
@@ -231,7 +256,8 @@ class FileTaskTest {
         every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
 
         // When
-        viewModel.onFileSelected(fileList[0])
+        val fileNode = createNode(fileList[0])
+        viewModel.onFileSelected(fileNode)
         viewModel.onCompressClicked()
         viewModel.compressFiles("archive.zip")
 
@@ -243,22 +269,61 @@ class FileTaskTest {
     }
 
     @Test
+    fun `When compressing files in different directories Then show error`() = runTest {
+        // Given
+        val parentList = listOf(
+            createFolder(name = "Documents"),
+            createFolder(name = "Downloads"),
+        )
+        val childList = listOf(
+            createFile(name = "Documents/one.txt"),
+            createFile(name = "Documents/two.txt"),
+        )
+        coEvery { explorerRepository.listFiles(defaultLocation) } returns parentList
+        coEvery { explorerRepository.listFiles(parentList[0]) } returns childList
+
+        val viewModel = createViewModel()
+        val fileTask = Task(taskId, TaskType.COMPRESS)
+
+        every { explorerRepository.compressFiles(any(), any(), any()) } returns taskId
+        every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
+
+        // When
+        val parentNode = createNode(parentList[0]) // Documents
+        val childNode = createNode(childList[0]) // one.txt
+        viewModel.onFileClicked(parentNode)
+
+        viewModel.onFileSelected(parentNode)
+        viewModel.onFileSelected(childNode)
+        viewModel.onCompressClicked()
+
+        // Then
+        assertTrue(viewModel.viewEvent.first() is ViewEvent.Toast)
+
+        verify(exactly = 0) { taskManager.monitor(taskId) }
+        coVerify(exactly = 0) { explorerRepository.compressFiles(any(), any(), any()) }
+    }
+
+    @Test
     fun `When extract file clicked Then execute task`() = runTest {
         // Given
+        val fileModel = createFile("archive.zip")
+        coEvery { explorerRepository.listFiles(any()) } returns listOf(fileModel)
+
         val viewModel = createViewModel()
-        val archiveFile = createFile("archive.zip")
         val fileTask = Task(taskId, TaskType.EXTRACT)
 
         every { explorerRepository.extractFiles(any(), any()) } returns taskId
         every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
 
         // When
-        viewModel.onFileClicked(archiveFile)
+        val fileNode = createNode(fileModel)
+        viewModel.onFileClicked(fileNode)
 
         // Then
         verify(exactly = 1) { taskManager.monitor(taskId) }
         coVerify(exactly = 1) {
-            explorerRepository.extractFiles(archiveFile, defaultLocation)
+            explorerRepository.extractFiles(fileModel, defaultLocation)
         }
     }
 
@@ -270,6 +335,7 @@ class FileTaskTest {
             editorInteractor = editorInteractor,
             explorerRepository = explorerRepository,
             serverInteractor = serverInteractor,
+            asyncNodeBuilder = asyncNodeBuilder,
         )
     }
 }

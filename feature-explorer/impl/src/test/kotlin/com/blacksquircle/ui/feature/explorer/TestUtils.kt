@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.explorer
 
 import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FilesystemType
@@ -60,20 +61,6 @@ internal fun createFilesystem(
     )
 }
 
-internal fun createFileNode(
-    name: String,
-    size: Long = 100L,
-    lastModified: Long = 100L
-): FileNode {
-    return FileNode(
-        file = createFile(
-            name = name,
-            size = size,
-            lastModified = lastModified,
-        )
-    )
-}
-
 internal fun createFile(
     name: String,
     size: Long = 100L,
@@ -99,5 +86,47 @@ internal fun createFolder(
         size = size,
         lastModified = lastModified,
         isDirectory = true,
+    )
+}
+
+internal fun createNode(
+    file: FileModel,
+    depth: Int = 0,
+    displayName: String = file.name,
+    displayDepth: Int = depth,
+    isExpanded: Boolean = false,
+    isLoading: Boolean = false,
+    errorState: ErrorState? = null,
+): FileNode {
+    return FileNode(
+        file = file,
+        depth = depth,
+        displayName = displayName,
+        displayDepth = displayDepth,
+        isExpanded = isExpanded,
+        isLoading = isLoading,
+        errorState = errorState,
+    )
+}
+
+internal fun createFileNode(
+    name: String,
+    size: Long = 100L,
+    lastModified: Long = 100L,
+    depth: Int = 0,
+    isExpanded: Boolean = false,
+    isLoading: Boolean = false,
+    errorState: ErrorState? = null,
+): FileNode {
+    return FileNode(
+        file = createFile(
+            name = name,
+            size = size,
+            lastModified = lastModified
+        ),
+        depth = depth,
+        isExpanded = isExpanded,
+        isLoading = isLoading,
+        errorState = errorState,
     )
 }

@@ -22,14 +22,16 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
+import com.blacksquircle.ui.feature.explorer.createNode
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
 import com.blacksquircle.ui.feature.explorer.defaultFilesystems
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
-import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.clearMocks
@@ -52,12 +54,14 @@ class StoragePermissionsTest {
     @get:Rule
     val timberConsoleRule = TimberConsoleRule()
 
+    private val dispatcherProvider = TestDispatcherProvider()
     private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val taskManager = mockk<TaskManager>(relaxed = true)
     private val explorerRepository = mockk<ExplorerRepository>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
+    private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
 
     private val filesystems = defaultFilesystems()
     private val selectedFilesystem = filesystems[0]
@@ -83,17 +87,14 @@ class StoragePermissionsTest {
         val viewModel = createViewModel() // init {}
 
         // Then
-        val breadcrumbs = listOf(
-            BreadcrumbState(
-                fileModel = defaultLocation,
-                fileList = emptyList(),
-                errorState = ErrorState(
-                    action = ErrorAction.REQUEST_PERMISSIONS,
-                )
+        val expected = listOf(
+            createNode(
+                file = defaultLocation,
+                isExpanded = true,
+                errorState = ErrorState(action = ErrorAction.REQUEST_PERMISSIONS)
             )
         )
-        assertEquals(breadcrumbs, viewModel.viewState.value.breadcrumbs)
-        assertEquals(breadcrumbs.size - 1, viewModel.viewState.value.selectedBreadcrumb)
+        assertEquals(expected, viewModel.viewState.value.fileNodes)
     }
 
     @Test
@@ -130,6 +131,7 @@ class StoragePermissionsTest {
             editorInteractor = editorInteractor,
             explorerRepository = explorerRepository,
             serverInteractor = serverInteractor,
+            asyncNodeBuilder = asyncNodeBuilder,
         )
     }
 }
