@@ -801,14 +801,19 @@ internal class ExplorerViewModel @Inject constructor(
                     )
                 }
 
-                val autoLoad = searchQuery.isBlank() &&
+                val autoLoad = fileNode.isExpanded &&
+                    searchQuery.isBlank() &&
                     fileNodes.size == 1 &&
                     fileNodes[0].isDirectory &&
                     (showHidden && !fileNodes[0].isHidden) &&
                     compactPackages
 
                 if (autoLoad) {
-                    loadFiles(fileNodes[0].copy(displayDepth = fileNode.depth))
+                    val nestedNode = fileNodes[0]
+                    cache.updateNode(nestedNode) {
+                        it.copy(isExpanded = true)
+                    }
+                    loadFiles(nestedNode.copy(displayDepth = fileNode.depth))
                 } else {
                     updateNodeList()
                 }
