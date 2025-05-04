@@ -49,8 +49,6 @@ import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.feature.explorer.data.utils.clipText
-import com.blacksquircle.ui.feature.explorer.data.utils.createLocalWorkspace
-import com.blacksquircle.ui.feature.explorer.data.utils.createRootWorkspace
 import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
@@ -93,6 +91,7 @@ internal fun ExplorerScreen(
         onBackClicked = viewModel::onBackClicked,
         onWorkspaceClicked = viewModel::onWorkspaceClicked,
         onAddWorkspaceClicked = viewModel::onAddWorkspaceClicked,
+        onRemoveWorkspaceClicked = viewModel::onRemoveWorkspaceClicked,
         onQueryChanged = viewModel::onQueryChanged,
         onClearQueryClicked = viewModel::onClearQueryClicked,
         onShowHiddenClicked = viewModel::onShowHiddenClicked,
@@ -189,6 +188,7 @@ private fun ExplorerScreen(
     onBackClicked: () -> Unit = {},
     onWorkspaceClicked: (WorkspaceModel) -> Unit = {},
     onAddWorkspaceClicked: () -> Unit = {},
+    onRemoveWorkspaceClicked: (WorkspaceModel) -> Unit = {},
     onQueryChanged: (String) -> Unit = {},
     onClearQueryClicked: () -> Unit = {},
     onShowHiddenClicked: () -> Unit = {},
@@ -217,6 +217,7 @@ private fun ExplorerScreen(
             selectedWorkspace = viewState.selectedWorkspace,
             onWorkspaceClicked = onWorkspaceClicked,
             onAddWorkspaceClicked = onAddWorkspaceClicked,
+            onRemoveWorkspaceClicked = onRemoveWorkspaceClicked,
         )
 
         if (!SquircleTheme.colors.isDark) {

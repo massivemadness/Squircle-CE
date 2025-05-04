@@ -83,21 +83,21 @@ internal class ServerRepositoryImpl(
     override suspend fun upsertServer(serverConfig: ServerConfig) {
         withContext(dispatcherProvider.io()) {
             ServerCredentials.remove(serverConfig.uuid)
-            val entity = ServerMapper.toEntity(serverConfig)
-            serverDao.insert(entity)
             if (settingsManager.workspace == serverConfig.uuid) {
                 settingsManager.remove(SettingsManager.KEY_WORKSPACE)
             }
+            val entity = ServerMapper.toEntity(serverConfig)
+            serverDao.insert(entity)
         }
     }
 
     override suspend fun deleteServer(serverConfig: ServerConfig) {
         withContext(dispatcherProvider.io()) {
-            ServerCredentials.remove(serverConfig.uuid)
-            serverDao.delete(serverConfig.uuid)
             if (settingsManager.workspace == serverConfig.uuid) {
                 settingsManager.remove(SettingsManager.KEY_WORKSPACE)
             }
+            ServerCredentials.remove(serverConfig.uuid)
+            serverDao.delete(serverConfig.uuid)
         }
     }
 }

@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.Flow
 internal interface ExplorerRepository {
 
     suspend fun loadWorkspaces(): Flow<List<WorkspaceModel>>
-    suspend fun createWorkspace(workspace: WorkspaceModel)
+    suspend fun createWorkspace(filePath: String)
     suspend fun deleteWorkspace(workspace: WorkspaceModel)
 
     suspend fun listFiles(parent: FileModel): List<FileModel>

@@ -58,6 +58,7 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
+import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
 import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.exception.EncryptedArchiveException
@@ -68,6 +69,8 @@ import com.blacksquircle.ui.filesystem.base.exception.SplitArchiveException
 import com.blacksquircle.ui.filesystem.base.exception.UnsupportedArchiveException
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileType
+import com.blacksquircle.ui.filesystem.base.model.FilesystemType
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -174,6 +177,24 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             val screen = WorkspaceDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onRemoveWorkspaceClicked(workspace: WorkspaceModel) {
+        viewModelScope.launch {
+            when (workspace.filesystemType) {
+                FilesystemType.LOCAL -> {
+                    if (workspace.uuid != LocalFilesystem.LOCAL_UUID) {
+                        // val screen =
+                        // _viewEvent.send(ViewEvent.Navigation(screen))
+                    }
+                }
+                FilesystemType.ROOT -> Unit
+                FilesystemType.SERVER -> {
+                    val screen = ServerDialog(workspace.uuid)
+                    _viewEvent.send(ViewEvent.Navigation(screen))
+                }
+            }
         }
     }
 

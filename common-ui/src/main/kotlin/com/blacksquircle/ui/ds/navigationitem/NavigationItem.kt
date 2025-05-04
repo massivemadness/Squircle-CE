@@ -44,12 +44,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.ds.modifier.debounceSelectable
+import com.blacksquircle.ui.ds.modifier.debounceClickable
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -58,6 +60,7 @@ fun NavigationItem(
     label: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
+    onLongClick: () -> Unit = {},
     selected: Boolean = false,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -72,14 +75,17 @@ fun NavigationItem(
                 minWidth = navigationItemSize.itemSize.width,
                 minHeight = navigationItemSize.itemSize.height,
             )
-            .debounceSelectable(
-                selected = selected,
+            .debounceClickable(
                 onClick = onClick,
+                onLongClick = onLongClick,
                 enabled = enabled,
                 role = Role.Tab,
                 interactionSource = interactionSource,
                 indication = null,
             )
+            .semantics {
+                this.selected = selected
+            }
     ) {
         val iconColor by animateColorAsState(
             targetValue = when {

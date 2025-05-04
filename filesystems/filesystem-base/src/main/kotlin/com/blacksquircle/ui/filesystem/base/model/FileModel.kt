@@ -33,7 +33,7 @@ data class FileModel(
     val name: String
         get() = path.substringAfterLast(File.separator)
     val extension: String
-        get() = "." + name.substringAfterLast(".", "")
+        get() = "." + name.substringAfterLast(".")
     val type: FileType
         get() = when (extension) {
             in TEXT -> FileType.TEXT
@@ -46,8 +46,6 @@ data class FileModel(
             in APPLICATION -> FileType.APPLICATION
             else -> FileType.DEFAULT
         }
-    val isHidden: Boolean
-        get() = name.startsWith(".")
 
     companion object {
 

@@ -30,6 +30,12 @@ interface WorkspaceDao {
     @Query("SELECT * FROM `${Tables.WORKSPACES}`")
     fun flowAll(): Flow<List<WorkspaceEntity>>
 
+    @Query("SELECT * FROM `${Tables.WORKSPACES}` WHERE `uuid` = :uuid")
+    suspend fun load(uuid: String): WorkspaceEntity?
+
+    @Query("DELETE FROM `${Tables.WORKSPACES}` WHERE `uuid` = :uuid")
+    suspend fun delete(uuid: String)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(workspace: WorkspaceEntity): Long
 }

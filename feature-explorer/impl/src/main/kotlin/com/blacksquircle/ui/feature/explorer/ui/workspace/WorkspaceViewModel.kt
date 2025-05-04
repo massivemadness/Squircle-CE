@@ -21,12 +21,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
+import com.blacksquircle.ui.feature.explorer.data.utils.guessFilePath
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewState
-import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
-import com.blacksquircle.ui.filesystem.saf.SAFFilesystem
+import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -36,7 +34,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -77,17 +74,9 @@ internal class WorkspaceViewModel @Inject constructor(
     fun onFolderSelected(fileUri: Uri) {
         viewModelScope.launch {
             try {
-                val workspace = WorkspaceModel(
-                    uuid = UUID.randomUUID().toString(),
-                    title = fileUri.lastPathSegment.orEmpty(),
-                    filesystemType = FilesystemType.SAF,
-                    defaultLocation = FileModel(
-                        fileUri = fileUri.toString(),
-                        filesystemUuid = SAFFilesystem.SAF_UUID,
-                    )
-                )
-                explorerRepository.createWorkspace(workspace)
-
+                val absolutePath = fileUri.guessFilePath()
+                    ?: throw FileNotFoundException(fileUri.toString())
+                explorerRepository.createWorkspace(absolutePath)
                 _viewEvent.send(ViewEvent.PopBackStack)
             } catch (e: CancellationException) {
                 throw e

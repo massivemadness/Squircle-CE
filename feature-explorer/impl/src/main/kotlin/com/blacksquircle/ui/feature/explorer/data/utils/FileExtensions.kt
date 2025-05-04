@@ -14,17 +14,23 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.filesystem.base.model
+package com.blacksquircle.ui.feature.explorer.data.utils
 
-enum class FilesystemType(val value: String) {
-    LOCAL("local"),
-    ROOT("root"),
-    SERVER("server");
+import android.net.Uri
+import android.os.Environment
+import android.provider.DocumentsContract
+import java.io.File
 
-    companion object {
+private const val PRIMARY = "primary:"
 
-        fun of(value: String): FilesystemType {
-            return entries.find { it.value == value } ?: LOCAL
+internal fun Uri.guessFilePath(): String? {
+    if (DocumentsContract.isTreeUri(this)) {
+        val docId = DocumentsContract.getTreeDocumentId(this)
+        if (docId.startsWith(PRIMARY)) {
+            val basePath = Environment.getExternalStorageDirectory().absolutePath
+            val relativePath = docId.removePrefix(PRIMARY)
+            return basePath + File.separator + relativePath
         }
     }
+    return null
 }

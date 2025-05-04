@@ -24,6 +24,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
@@ -39,8 +41,10 @@ internal fun Workspaces(
     selectedWorkspace: WorkspaceModel?,
     onWorkspaceClicked: (WorkspaceModel) -> Unit,
     onAddWorkspaceClicked: () -> Unit,
+    onRemoveWorkspaceClicked: (WorkspaceModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
     Column(
         modifier = modifier
             .width(64.dp)
@@ -53,12 +57,15 @@ internal fun Workspaces(
                 iconResId = when (workspace.filesystemType) {
                     FilesystemType.LOCAL -> UiR.drawable.ic_folder
                     FilesystemType.ROOT -> UiR.drawable.ic_folder_pound
-                    FilesystemType.SAF -> UiR.drawable.ic_folder
                     FilesystemType.SERVER -> UiR.drawable.ic_server_network
                 },
                 label = workspace.title,
                 selected = workspace == selectedWorkspace,
                 onClick = { onWorkspaceClicked(workspace) },
+                onLongClick = {
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onRemoveWorkspaceClicked(workspace)
+                },
             )
         }
         NavigationItem(
