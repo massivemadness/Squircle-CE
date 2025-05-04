@@ -23,8 +23,6 @@
     <string name="sort_by_name">Сорт. по имени</string>
     <string name="sort_by_size">Сорт. по размеру</string>
     <string name="sort_by_date">Сорт. по дате</string>
-    <string name="view_mode_compact_list">Компактный список</string>
-    <string name="view_mode_detailed_list">Подробный список</string>
     <string name="linebreak_lf">Unix и macOS (\\n)</string>
     <string name="linebreak_crlf">Windows (\\r\\n)</string>
     <string name="linebreak_cr">Classic Mac OS (\\r)</string>
@@ -116,9 +114,10 @@
     <string name="pref_linebreaks_for_saving_files_summary">Выбранные разделители будут использоваться для сохранения файлов</string>
     <string name="pref_show_hidden_files_title">Показывать скрытые файлы</string>
     <string name="pref_show_hidden_files_summary">Скрытые файлы и папки (начинающиеся с точки) будут отображаться</string>
+    <string name="pref_compact_packages_title">Сворачивать папки</string>
+    <string name="pref_compact_packages_summary">Отображать последовательность папок как один элемент</string>
     <string name="pref_folders_on_top_title">Папки сверху</string>
     <string name="pref_folders_on_top_summary">Папки будут отображаться сверху</string>
-    <string name="pref_view_mode_title">Режим просмотра</string>
     <string name="pref_sort_mode_title">Режим сортировки</string>
     <string name="pref_git_credentials_title">Учетные данные</string>
     <string name="pref_git_credentials_summary">Учетные данные для доступа к удалённым репозиториям</string>
