@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="action_restore">Palauta oletukset</string>
+    <string name="pref_header_keybindings_title">Näppäinsidokset</string>
+    <string name="pref_category_file_keybindings">Tiedostojen näppäinsidokset</string>
+    <string name="pref_category_editor_keybindings">Editorin näppäinsidokset</string>
+    <string name="pref_category_tools_keybindings">Työkalujen näppäinsidokset</string>
+    <string name="shortcut_new_file">Uusi tiedosto</string>
+    <string name="shortcut_open_file">Avaa tiedosto</string>
+    <string name="shortcut_save_file">Tallenna tiedosto</string>
+    <string name="shortcut_save_as">Tallenna nimellä</string>
+    <string name="shortcut_close_file">Sulje tiedosto</string>
+    <string name="shortcut_select_line">Valitse rivi</string>
+    <string name="shortcut_delete_line">Poista rivi</string>
+    <string name="shortcut_duplicate_line">Monista rivi</string>
+    <string name="shortcut_toggle_case">Vaihda kirjainkokoa</string>
+    <string name="shortcut_prev_word">Edellinen sana</string>
+    <string name="shortcut_next_word">Seuraava sana</string>
+    <string name="shortcut_start_of_line">Rivin alku</string>
+    <string name="shortcut_end_of_line">Rivin loppu</string>
+    <string name="shortcut_undo">Kumoa</string>
+    <string name="shortcut_redo">Tee uudelleen</string>
+    <string name="shortcut_find">Etsi</string>
+    <string name="shortcut_replace">Korvaa</string>
+    <string name="shortcut_goto_line">Siirry riville</string>
+    <string name="shortcut_force_syntax">Pakota syntaksi</string>
+    <string name="shortcut_insert_color">Lisää väri</string>
+    <string name="shortcut_conflict">Tämä pikanäppäin on jo asetettu muille toiminnoille. Haluatko poistaa toiset näppäinasetukset?</string>
+    <string name="shortcut_press_key">Paina uutta näppäinsidontaa (täytyy sisältää Ctrl tai Alt)</string>
+    <string name="shortcut_none">Ei asetettu</string>
+</resources>
