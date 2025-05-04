@@ -73,11 +73,11 @@ class SettingsManager(private val context: Context) {
         const val KEY_LINEBREAK_FOR_SAVING = "linebreak_for_saving"
 
         // File Explorer
+        const val KEY_WORKSPACE = "workspace"
         const val KEY_SHOW_HIDDEN_FILES = "show_hidden_files"
         const val KEY_COMPACT_PACKAGES = "compact_packages"
         const val KEY_FOLDERS_ON_TOP = "folders_on_top"
         const val KEY_SORT_MODE = "sort_mode"
-        const val KEY_FILESYSTEM = "filesystem"
 
         // Git
         const val KEY_GIT_CREDENTIALS_USERNAME = "git_credentials_username"
@@ -198,9 +198,9 @@ class SettingsManager(private val context: Context) {
     var sortMode: String
         get() = sharedPreferences.getString(KEY_SORT_MODE, "sort_by_name") ?: "sort_by_name"
         set(value) = sharedPreferences.edit().putString(KEY_SORT_MODE, value).apply()
-    var filesystem: String
-        get() = sharedPreferences.getString(KEY_FILESYSTEM, "local") ?: "local"
-        set(value) = sharedPreferences.edit().putString(KEY_FILESYSTEM, value).apply()
+    var workspace: String
+        get() = sharedPreferences.getString(KEY_WORKSPACE, "local") ?: "local"
+        set(value) = sharedPreferences.edit().putString(KEY_WORKSPACE, value).apply()
     var gitCredentialsUsername: String
         get() = sharedPreferences.getString(KEY_GIT_CREDENTIALS_USERNAME, "") ?: ""
         set(value) = sharedPreferences.edit().putString(KEY_GIT_CREDENTIALS_USERNAME, value).apply()

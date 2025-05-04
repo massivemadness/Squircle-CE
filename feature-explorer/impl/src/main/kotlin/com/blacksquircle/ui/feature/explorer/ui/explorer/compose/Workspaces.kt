@@ -29,16 +29,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import com.blacksquircle.ui.ds.navigationitem.NavigationItem
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun Filesystems(
-    filesystems: List<FilesystemModel>,
-    selectedFilesystem: FilesystemModel?,
-    onFilesystemClicked: (FilesystemModel) -> Unit,
-    onAddFilesystemClicked: () -> Unit,
+internal fun Workspaces(
+    workspaces: List<WorkspaceModel>,
+    selectedWorkspace: WorkspaceModel?,
+    onWorkspaceClicked: (WorkspaceModel) -> Unit,
+    onAddWorkspaceClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -48,26 +48,26 @@ internal fun Filesystems(
             .verticalScroll(rememberScrollState())
             .systemBarsPadding()
     ) {
-        filesystems.fastForEach { filesystem ->
+        workspaces.fastForEach { workspace ->
             NavigationItem(
-                iconResId = when (filesystem.type) {
+                iconResId = when (workspace.filesystemType) {
                     FilesystemType.LOCAL -> UiR.drawable.ic_folder
                     FilesystemType.ROOT -> UiR.drawable.ic_folder_pound
                     FilesystemType.SERVER -> UiR.drawable.ic_server_network
                 },
-                label = when (filesystem.type) {
+                label = when (workspace.filesystemType) {
                     FilesystemType.LOCAL -> stringResource(R.string.storage_local)
                     FilesystemType.ROOT -> stringResource(R.string.storage_root)
-                    FilesystemType.SERVER -> filesystem.title
+                    FilesystemType.SERVER -> workspace.title
                 },
-                selected = filesystem == selectedFilesystem,
-                onClick = { onFilesystemClicked(filesystem) },
+                selected = workspace == selectedWorkspace,
+                onClick = { onWorkspaceClicked(workspace) },
             )
         }
         NavigationItem(
             iconResId = UiR.drawable.ic_plus,
             label = stringResource(R.string.storage_add),
-            onClick = onAddFilesystemClicked,
+            onClick = onAddWorkspaceClicked,
         )
     }
 }

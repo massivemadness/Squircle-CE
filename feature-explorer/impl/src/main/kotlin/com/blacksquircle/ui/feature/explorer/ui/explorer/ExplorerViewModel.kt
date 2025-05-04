@@ -39,6 +39,7 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.WorkspaceDialog
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderOptions
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
@@ -48,16 +49,15 @@ import com.blacksquircle.ui.feature.explorer.data.node.findParentKey
 import com.blacksquircle.ui.feature.explorer.data.node.removeNode
 import com.blacksquircle.ui.feature.explorer.data.node.updateNode
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
-import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
 import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.exception.EncryptedArchiveException
@@ -102,8 +102,8 @@ internal class ExplorerViewModel @Inject constructor(
     private var selectedNodes: List<FileNode> = emptyList()
     private var taskType: TaskType = TaskType.CREATE
     private var taskBuffer: List<FileNode> = emptyList()
-    private var filesystems: List<FilesystemModel> = emptyList()
-    private var selectedFilesystem: FilesystemModel? = null
+    private var workspaces: List<WorkspaceModel> = emptyList()
+    private var selectedWorkspace: WorkspaceModel? = null
     private var searchQuery: String = ""
 
     private var showHidden = settingsManager.showHidden
@@ -112,7 +112,7 @@ internal class ExplorerViewModel @Inject constructor(
     private var sortMode = SortMode.of(settingsManager.sortMode)
 
     init {
-        loadFilesystems()
+        loadWorkspaces()
         registerOnPreferenceChangeListeners()
     }
 
@@ -134,22 +134,22 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    fun onFilesystemClicked(filesystem: FilesystemModel) {
+    fun onWorkspaceClicked(workspace: WorkspaceModel) {
         viewModelScope.launch {
             try {
-                if (filesystem.uuid == selectedFilesystem?.uuid) {
+                if (workspace.uuid == selectedWorkspace?.uuid) {
                     return@launch
                 }
 
-                settingsManager.filesystem = filesystem.uuid
+                settingsManager.workspace = workspace.uuid
 
-                selectedFilesystem = filesystem
+                selectedWorkspace = workspace
 
                 cache.clear()
                 resetBuffer()
 
                 val rootNode = FileNode(
-                    file = filesystem.defaultLocation,
+                    file = workspace.defaultLocation,
                     isExpanded = true,
                     isLoading = true,
                 )
@@ -157,7 +157,7 @@ internal class ExplorerViewModel @Inject constructor(
 
                 _viewState.update {
                     it.copy(
-                        selectedFilesystem = selectedFilesystem,
+                        selectedWorkspace = selectedWorkspace,
                         fileNodes = listOf(rootNode),
                     )
                 }
@@ -171,13 +171,13 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    fun onFilesystemAdded() {
+    fun onWorkspaceAdded() {
         viewModelScope.launch {
             try {
-                filesystems = explorerRepository.loadFilesystems()
+                workspaces = explorerRepository.loadWorkspaces()
 
                 _viewState.update {
-                    it.copy(filesystems = filesystems)
+                    it.copy(workspaces = workspaces)
                 }
             } catch (e: CancellationException) {
                 throw e
@@ -188,9 +188,9 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    fun onAddFilesystemClicked() {
+    fun onAddWorkspaceClicked() {
         viewModelScope.launch {
-            val screen = ServerDialog(null)
+            val screen = WorkspaceDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -532,8 +532,8 @@ internal class ExplorerViewModel @Inject constructor(
     fun onCredentialsEntered(credentials: String) {
         viewModelScope.launch {
             try {
-                selectedFilesystem?.let { filesystem ->
-                    serverInteractor.authenticate(filesystem.uuid, credentials)
+                selectedWorkspace?.let { workspace ->
+                    serverInteractor.authenticate(workspace.uuid, credentials)
                     val rootNode = cache[NodeKey.Root]?.firstOrNull()
                     if (rootNode != null) {
                         loadFiles(rootNode)
@@ -842,19 +842,19 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    private fun loadFilesystems() {
+    private fun loadWorkspaces() {
         viewModelScope.launch {
             try {
-                filesystems = explorerRepository.loadFilesystems()
+                workspaces = explorerRepository.loadWorkspaces()
 
-                val filesystemModel = filesystems
-                    .find { it.uuid == settingsManager.filesystem }
-                    ?: filesystems.first()
+                val workspace = workspaces
+                    .find { it.uuid == settingsManager.workspace }
+                    ?: workspaces.first()
 
-                selectedFilesystem = filesystemModel
+                selectedWorkspace = workspace
 
                 val rootNode = FileNode(
-                    file = filesystemModel.defaultLocation,
+                    file = workspace.defaultLocation,
                     isExpanded = true,
                     isLoading = true,
                 )
@@ -862,8 +862,8 @@ internal class ExplorerViewModel @Inject constructor(
 
                 _viewState.update {
                     it.copy(
-                        filesystems = filesystems,
-                        selectedFilesystem = selectedFilesystem,
+                        workspaces = workspaces,
+                        selectedWorkspace = selectedWorkspace,
                         fileNodes = listOf(rootNode),
                         searchQuery = searchQuery,
                         showHidden = showHidden,

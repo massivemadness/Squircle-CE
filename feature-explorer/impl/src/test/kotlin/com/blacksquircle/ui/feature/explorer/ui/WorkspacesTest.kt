@@ -20,10 +20,10 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.createFileNode
-import com.blacksquircle.ui.feature.explorer.createFilesystem
+import com.blacksquircle.ui.feature.explorer.createWorkspace
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
-import com.blacksquircle.ui.feature.explorer.defaultFilesystems
+import com.blacksquircle.ui.feature.explorer.defaultWorkspaces
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
@@ -44,7 +44,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class FilesystemsTest {
+class WorkspacesTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -61,69 +61,69 @@ class FilesystemsTest {
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
     private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
 
-    private val filesystems = defaultFilesystems()
-    private val selectedFilesystem = filesystems[0]
+    private val workspaces = defaultWorkspaces()
+    private val selectedWorkspace = workspaces[0]
 
     @Before
     fun setup() {
-        coEvery { explorerRepository.loadFilesystems() } returns filesystems
+        coEvery { explorerRepository.loadWorkspaces() } returns workspaces
         coEvery { explorerRepository.listFiles(any()) } returns emptyList()
 
-        every { settingsManager.filesystem } returns selectedFilesystem.uuid
-        every { settingsManager.filesystem = any() } answers {
-            every { settingsManager.filesystem } returns firstArg()
+        every { settingsManager.workspace } returns selectedWorkspace.uuid
+        every { settingsManager.workspace = any() } answers {
+            every { settingsManager.workspace } returns firstArg()
         }
     }
 
     @Test
-    fun `When screen opens Then load filesystems`() = runTest {
+    fun `When screen opens Then load workspaces`() = runTest {
         // When
         val viewModel = createViewModel() // init {}
 
         // Then
-        assertEquals(filesystems, viewModel.viewState.value.filesystems)
-        assertEquals(selectedFilesystem, viewModel.viewState.value.selectedFilesystem)
+        assertEquals(workspaces, viewModel.viewState.value.workspaces)
+        assertEquals(selectedWorkspace, viewModel.viewState.value.selectedWorkspace)
 
-        coVerify(exactly = 1) { explorerRepository.loadFilesystems() }
-        coVerify(exactly = 1) { explorerRepository.listFiles(selectedFilesystem.defaultLocation) }
+        coVerify(exactly = 1) { explorerRepository.loadWorkspaces() }
+        coVerify(exactly = 1) { explorerRepository.listFiles(selectedWorkspace.defaultLocation) }
     }
 
     @Test
-    fun `When filesystem is already selected Then ignore`() = runTest {
+    fun `When workspace is already selected Then ignore`() = runTest {
         // Given
         val viewModel = createViewModel()
         clearMocks(explorerRepository, answers = false, recordedCalls = true) // reset verify count
 
         // When
-        viewModel.onFilesystemClicked(selectedFilesystem) // already selected
+        viewModel.onWorkspaceClicked(selectedWorkspace) // already selected
 
         // Then
-        assertEquals(filesystems, viewModel.viewState.value.filesystems)
-        assertEquals(selectedFilesystem, viewModel.viewState.value.selectedFilesystem)
+        assertEquals(workspaces, viewModel.viewState.value.workspaces)
+        assertEquals(selectedWorkspace, viewModel.viewState.value.selectedWorkspace)
 
-        verify(exactly = 0) { settingsManager.filesystem = selectedFilesystem.uuid }
-        coVerify(exactly = 0) { explorerRepository.listFiles(selectedFilesystem.defaultLocation) }
+        verify(exactly = 0) { settingsManager.workspace = selectedWorkspace.uuid }
+        coVerify(exactly = 0) { explorerRepository.listFiles(selectedWorkspace.defaultLocation) }
     }
 
     @Test
-    fun `When filesystem changed Then reload file list`() = runTest {
+    fun `When workspace changed Then reload file list`() = runTest {
         // Given
         val viewModel = createViewModel()
-        val nextSelected = filesystems[1]
+        val nextSelected = workspaces[1]
 
         // When
-        viewModel.onFilesystemClicked(nextSelected)
+        viewModel.onWorkspaceClicked(nextSelected)
 
         // Then
-        assertEquals(filesystems, viewModel.viewState.value.filesystems)
-        assertEquals(nextSelected, viewModel.viewState.value.selectedFilesystem)
+        assertEquals(workspaces, viewModel.viewState.value.workspaces)
+        assertEquals(nextSelected, viewModel.viewState.value.selectedWorkspace)
 
-        verify(exactly = 1) { settingsManager.filesystem = nextSelected.uuid }
-        coVerify(exactly = 1) { explorerRepository.listFiles(selectedFilesystem.defaultLocation) }
+        verify(exactly = 1) { settingsManager.workspace = nextSelected.uuid }
+        coVerify(exactly = 1) { explorerRepository.listFiles(selectedWorkspace.defaultLocation) }
     }
 
     @Test
-    fun `When filesystem changed Then reset buffer`() = runTest {
+    fun `When workspace changed Then reset buffer`() = runTest {
         // Given
         val viewModel = createViewModel()
         val fileNode = createFileNode(name = "untitled.txt")
@@ -135,7 +135,7 @@ class FilesystemsTest {
         viewModel.onDeleteClicked()
         assertEquals(TaskType.DELETE, viewModel.viewState.value.taskType)
 
-        viewModel.onFilesystemClicked(filesystems[1])
+        viewModel.onWorkspaceClicked(workspaces[1])
 
         // Then
         assertEquals(TaskType.CREATE, viewModel.viewState.value.taskType)
@@ -143,19 +143,19 @@ class FilesystemsTest {
     }
 
     @Test
-    fun `When filesystem added Then load filesystems`() = runTest {
+    fun `When workspace added Then load workspaces`() = runTest {
         // Given
         val viewModel = createViewModel()
-        val updatedFilesystems = filesystems + createFilesystem("12345")
+        val updatedWorkspaces = workspaces + createWorkspace("12345")
         clearMocks(explorerRepository, answers = false, recordedCalls = true) // reset verify count
-        coEvery { explorerRepository.loadFilesystems() } returns updatedFilesystems
+        coEvery { explorerRepository.loadWorkspaces() } returns updatedWorkspaces
 
         // When
-        viewModel.onFilesystemAdded()
+        viewModel.onWorkspaceAdded()
 
         // Then
-        assertEquals(updatedFilesystems, viewModel.viewState.value.filesystems)
-        coVerify(exactly = 1) { explorerRepository.loadFilesystems() }
+        assertEquals(updatedWorkspaces, viewModel.viewState.value.workspaces)
+        coVerify(exactly = 1) { explorerRepository.loadWorkspaces() }
     }
 
     private fun createViewModel(): ExplorerViewModel {

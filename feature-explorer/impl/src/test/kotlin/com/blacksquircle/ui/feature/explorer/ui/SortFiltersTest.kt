@@ -23,7 +23,7 @@ import com.blacksquircle.ui.feature.explorer.createFile
 import com.blacksquircle.ui.feature.explorer.createNode
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
-import com.blacksquircle.ui.feature.explorer.defaultFilesystems
+import com.blacksquircle.ui.feature.explorer.defaultWorkspaces
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
@@ -57,10 +57,10 @@ class SortFiltersTest {
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
     private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
 
-    private val filesystems = defaultFilesystems()
-    private val selectedFilesystem = filesystems[0]
+    private val workspaces = defaultWorkspaces()
+    private val selectedWorkspace = workspaces[0]
 
-    private val defaultLocation = selectedFilesystem.defaultLocation
+    private val defaultLocation = selectedWorkspace.defaultLocation
     private val fileList = listOf(
         createFile(name = ".nomedia", size = 0, lastModified = 1000),
         createFile(name = "Apple", size = 100, lastModified = 2000),
@@ -77,12 +77,12 @@ class SortFiltersTest {
 
     @Before
     fun setup() {
-        coEvery { explorerRepository.loadFilesystems() } returns filesystems
+        coEvery { explorerRepository.loadWorkspaces() } returns workspaces
         coEvery { explorerRepository.listFiles(defaultLocation) } returns fileList
 
-        every { settingsManager.filesystem } returns selectedFilesystem.uuid
-        every { settingsManager.filesystem = any() } answers {
-            every { settingsManager.filesystem } returns firstArg()
+        every { settingsManager.workspace } returns selectedWorkspace.uuid
+        every { settingsManager.workspace = any() } answers {
+            every { settingsManager.workspace } returns firstArg()
         }
         every { settingsManager.showHidden } returns true
         every { settingsManager.showHidden = any() } answers {

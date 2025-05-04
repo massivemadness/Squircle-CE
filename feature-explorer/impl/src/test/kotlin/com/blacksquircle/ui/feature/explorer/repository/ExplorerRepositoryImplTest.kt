@@ -73,7 +73,7 @@ class ExplorerRepositoryImplTest {
     )
 
     @Test
-    fun `When loading filesystems without servers Then return default filesystems`() = runTest {
+    fun `When loading workspaces without servers Then return default workspaces`() = runTest {
         // Given
         mockkStatic(Environment::class)
         every { Environment.getExternalStorageDirectory() } returns mockk<File>().apply {
@@ -82,16 +82,16 @@ class ExplorerRepositoryImplTest {
         coEvery { serverInteractor.loadServers() } returns emptyList()
 
         // When
-        val filesystems = explorerRepository.loadFilesystems()
+        val workspaces = explorerRepository.loadWorkspaces()
 
         // Then
-        assertTrue(filesystems.size == 2)
-        assertEquals(filesystems[0].uuid, LocalFilesystem.LOCAL_UUID)
-        assertEquals(filesystems[1].uuid, RootFilesystem.ROOT_UUID)
+        assertTrue(workspaces.size == 2)
+        assertEquals(workspaces[0].uuid, LocalFilesystem.LOCAL_UUID)
+        assertEquals(workspaces[1].uuid, RootFilesystem.ROOT_UUID)
     }
 
     @Test
-    fun `When loading filesystems with servers Then return all filesystems`() = runTest {
+    fun `When loading workspaces with servers Then return all workspaces`() = runTest {
         // Given
         mockkStatic(Environment::class)
         every { Environment.getExternalStorageDirectory() } returns mockk<File>().apply {
@@ -114,13 +114,13 @@ class ExplorerRepositoryImplTest {
         coEvery { serverInteractor.loadServers() } returns listOf(server)
 
         // When
-        val filesystems = explorerRepository.loadFilesystems()
+        val workspaces = explorerRepository.loadWorkspaces()
 
         // Then
-        assertTrue(filesystems.size == 3)
-        assertEquals(filesystems[0].uuid, LocalFilesystem.LOCAL_UUID)
-        assertEquals(filesystems[1].uuid, RootFilesystem.ROOT_UUID)
-        assertEquals(filesystems[2].uuid, serverId)
+        assertTrue(workspaces.size == 3)
+        assertEquals(workspaces[0].uuid, LocalFilesystem.LOCAL_UUID)
+        assertEquals(workspaces[1].uuid, RootFilesystem.ROOT_UUID)
+        assertEquals(workspaces[2].uuid, serverId)
     }
 
     @Test(expected = PermissionException::class)
@@ -166,7 +166,7 @@ class ExplorerRepositoryImplTest {
         val parent = createFolder("Documents")
         val child = createFile("Documents/untitled.txt")
 
-        every { settingsManager.filesystem } returns filesystemUuid
+        every { settingsManager.workspace } returns filesystemUuid
         coEvery { filesystemFactory.create(filesystemUuid) } returns filesystem
 
         val taskActionSlot = slot<TaskAction>()
@@ -189,7 +189,7 @@ class ExplorerRepositoryImplTest {
         val source = createFile("untitled.txt")
         val fileName = "new_name.txt"
 
-        every { settingsManager.filesystem } returns filesystemUuid
+        every { settingsManager.workspace } returns filesystemUuid
         coEvery { filesystemFactory.create(filesystemUuid) } returns filesystem
 
         val taskActionSlot = slot<TaskAction>()
@@ -215,7 +215,7 @@ class ExplorerRepositoryImplTest {
             createFile("file_3.txt"),
         )
 
-        every { settingsManager.filesystem } returns filesystemUuid
+        every { settingsManager.workspace } returns filesystemUuid
         coEvery { filesystemFactory.create(filesystemUuid) } returns filesystem
 
         val taskActionSlot = slot<TaskAction>()
@@ -245,7 +245,7 @@ class ExplorerRepositoryImplTest {
         )
         val dest = createFolder("Documents")
 
-        every { settingsManager.filesystem } returns filesystemUuid
+        every { settingsManager.workspace } returns filesystemUuid
         coEvery { filesystemFactory.create(filesystemUuid) } returns filesystem
 
         val taskActionSlot = slot<TaskAction>()
@@ -275,7 +275,7 @@ class ExplorerRepositoryImplTest {
         )
         val dest = createFolder("Documents")
 
-        every { settingsManager.filesystem } returns filesystemUuid
+        every { settingsManager.workspace } returns filesystemUuid
         coEvery { filesystemFactory.create(filesystemUuid) } returns filesystem
 
         val taskActionSlot = slot<TaskAction>()
@@ -310,7 +310,7 @@ class ExplorerRepositoryImplTest {
         val dest = createFolder("Documents")
         val archive = createFile("Documents/archive.zip")
 
-        every { settingsManager.filesystem } returns filesystemUuid
+        every { settingsManager.workspace } returns filesystemUuid
         coEvery { filesystemFactory.create(filesystemUuid) } returns filesystem
 
         val taskActionSlot = slot<TaskAction>()
@@ -333,7 +333,7 @@ class ExplorerRepositoryImplTest {
         val source = createFile("archive.zip")
         val dest = createFolder("Documents")
 
-        every { settingsManager.filesystem } returns filesystemUuid
+        every { settingsManager.workspace } returns filesystemUuid
         coEvery { filesystemFactory.create(filesystemUuid) } returns filesystem
 
         val taskActionSlot = slot<TaskAction>()

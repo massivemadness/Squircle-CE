@@ -85,8 +85,8 @@ internal class ServerRepositoryImpl(
             ServerCredentials.remove(serverConfig.uuid)
             val entity = ServerMapper.toEntity(serverConfig)
             serverDao.insert(entity)
-            if (settingsManager.filesystem == serverConfig.uuid) {
-                settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
+            if (settingsManager.workspace == serverConfig.uuid) {
+                settingsManager.remove(SettingsManager.KEY_WORKSPACE)
             }
         }
     }
@@ -95,8 +95,8 @@ internal class ServerRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             ServerCredentials.remove(serverConfig.uuid)
             serverDao.delete(serverConfig.uuid)
-            if (settingsManager.filesystem == serverConfig.uuid) {
-                settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
+            if (settingsManager.workspace == serverConfig.uuid) {
+                settingsManager.remove(SettingsManager.KEY_WORKSPACE)
             }
         }
     }

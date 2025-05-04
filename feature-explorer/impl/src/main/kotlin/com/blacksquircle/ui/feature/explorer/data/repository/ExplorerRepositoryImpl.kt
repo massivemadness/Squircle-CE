@@ -25,9 +25,9 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
@@ -52,16 +52,16 @@ internal class ExplorerRepositoryImpl(
     private val context: Context,
 ) : ExplorerRepository {
 
-    private val currentFilesystem: String
-        get() = settingsManager.filesystem
+    private val currentWorkspace: String
+        get() = settingsManager.workspace
 
-    override suspend fun loadFilesystems(): List<FilesystemModel> {
+    override suspend fun loadWorkspaces(): List<WorkspaceModel> {
         return withContext(dispatcherProvider.io()) {
-            val defaultFilesystems = listOf(
-                FilesystemModel(
+            val defaultWorkspaces = listOf(
+                WorkspaceModel(
                     uuid = LocalFilesystem.LOCAL_UUID,
-                    type = FilesystemType.LOCAL,
                     title = context.getString(R.string.storage_local),
+                    filesystemType = FilesystemType.LOCAL,
                     defaultLocation = FileModel(
                         fileUri = LocalFilesystem.LOCAL_SCHEME +
                             Environment.getExternalStorageDirectory().absolutePath,
@@ -69,10 +69,10 @@ internal class ExplorerRepositoryImpl(
                         isDirectory = true,
                     ),
                 ),
-                FilesystemModel(
+                WorkspaceModel(
                     uuid = RootFilesystem.ROOT_UUID,
-                    type = FilesystemType.ROOT,
                     title = context.getString(R.string.storage_root),
+                    filesystemType = FilesystemType.ROOT,
                     defaultLocation = FileModel(
                         fileUri = RootFilesystem.ROOT_SCHEME,
                         filesystemUuid = RootFilesystem.ROOT_UUID,
@@ -80,14 +80,14 @@ internal class ExplorerRepositoryImpl(
                     ),
                 ),
             )
-            val serverFilesystems = serverInteractor.loadServers().map { config ->
+            val serverWorkspaces = serverInteractor.loadServers().map { config ->
                 val scheme = config.scheme.value
                 val path = config.initialDir.trim(File.separatorChar)
                 val fileUri = if (path.isNotEmpty()) scheme + File.separator + path else scheme
-                FilesystemModel(
+                WorkspaceModel(
                     uuid = config.uuid,
-                    type = FilesystemType.SERVER,
                     title = config.name,
+                    filesystemType = FilesystemType.SERVER,
                     defaultLocation = FileModel(
                         fileUri = fileUri,
                         filesystemUuid = config.uuid,
@@ -96,7 +96,7 @@ internal class ExplorerRepositoryImpl(
                 )
             }
 
-            defaultFilesystems + serverFilesystems
+            defaultWorkspaces + serverWorkspaces
         }
     }
 
@@ -105,14 +105,14 @@ internal class ExplorerRepositoryImpl(
             if (!context.isStorageAccessGranted()) {
                 throw PermissionException()
             }
-            val filesystem = filesystemFactory.create(currentFilesystem)
+            val filesystem = filesystemFactory.create(currentWorkspace)
             filesystem.listFiles(parent)
         }
     }
 
     override fun createFile(parent: FileModel, fileName: String, isFolder: Boolean): String {
         return taskManager.execute(TaskType.CREATE) { update ->
-            val filesystem = filesystemFactory.create(currentFilesystem)
+            val filesystem = filesystemFactory.create(currentWorkspace)
             val fileModel = parent.copy(
                 fileUri = parent.fileUri + File.separator + fileName,
                 isDirectory = isFolder,
@@ -132,7 +132,7 @@ internal class ExplorerRepositoryImpl(
 
     override fun renameFile(source: FileModel, fileName: String): String {
         return taskManager.execute(TaskType.RENAME) { update ->
-            val filesystem = filesystemFactory.create(currentFilesystem)
+            val filesystem = filesystemFactory.create(currentWorkspace)
             val progress = TaskStatus.Progress(
                 count = 1,
                 totalCount = 1,
@@ -147,7 +147,7 @@ internal class ExplorerRepositoryImpl(
 
     override fun deleteFiles(source: List<FileModel>): String {
         return taskManager.execute(TaskType.DELETE) { update ->
-            val filesystem = filesystemFactory.create(currentFilesystem)
+            val filesystem = filesystemFactory.create(currentWorkspace)
             source.forEachIndexed { index, fileModel ->
                 val progress = TaskStatus.Progress(
                     count = index + 1,
@@ -164,7 +164,7 @@ internal class ExplorerRepositoryImpl(
 
     override fun copyFiles(source: List<FileModel>, dest: FileModel): String {
         return taskManager.execute(TaskType.COPY) { update ->
-            val filesystem = filesystemFactory.create(currentFilesystem)
+            val filesystem = filesystemFactory.create(currentWorkspace)
             source.forEachIndexed { index, fileModel ->
                 val progress = TaskStatus.Progress(
                     count = index + 1,
@@ -181,7 +181,7 @@ internal class ExplorerRepositoryImpl(
 
     override fun moveFiles(source: List<FileModel>, dest: FileModel): String {
         return taskManager.execute(TaskType.MOVE) { update ->
-            val filesystem = filesystemFactory.create(currentFilesystem)
+            val filesystem = filesystemFactory.create(currentWorkspace)
             source.forEachIndexed { index, fileModel ->
                 val progress = TaskStatus.Progress(
                     count = index + 1,
@@ -199,7 +199,7 @@ internal class ExplorerRepositoryImpl(
 
     override fun compressFiles(source: List<FileModel>, dest: FileModel, fileName: String): String {
         return taskManager.execute(TaskType.COMPRESS) { update ->
-            val filesystem = filesystemFactory.create(currentFilesystem)
+            val filesystem = filesystemFactory.create(currentWorkspace)
             val child = dest.copy(
                 fileUri = dest.fileUri + File.separator + fileName,
                 isDirectory = false,
@@ -220,7 +220,7 @@ internal class ExplorerRepositoryImpl(
 
     override fun extractFiles(source: FileModel, dest: FileModel): String {
         return taskManager.execute(TaskType.EXTRACT) { update ->
-            val filesystem = filesystemFactory.create(currentFilesystem)
+            val filesystem = filesystemFactory.create(currentWorkspace)
             filesystem.extractFiles(source, dest)
                 .onStart {
                     val progress = TaskStatus.Progress(

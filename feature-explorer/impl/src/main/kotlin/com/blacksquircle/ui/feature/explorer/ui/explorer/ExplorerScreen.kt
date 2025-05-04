@@ -51,14 +51,14 @@ import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.feature.explorer.data.utils.clipText
 import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ErrorStatus
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ExplorerActionBar
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ExplorerToolbar
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.FileExplorer
-import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.Filesystems
+import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.Workspaces
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.servers.api.navigation.CloudScreen
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -90,8 +90,8 @@ internal fun ExplorerScreen(
     ExplorerScreen(
         viewState = viewState,
         onBackClicked = viewModel::onBackClicked,
-        onFilesystemClicked = viewModel::onFilesystemClicked,
-        onAddFilesystemClicked = viewModel::onAddFilesystemClicked,
+        onWorkspaceClicked = viewModel::onWorkspaceClicked,
+        onAddWorkspaceClicked = viewModel::onAddWorkspaceClicked,
         onQueryChanged = viewModel::onQueryChanged,
         onClearQueryClicked = viewModel::onClearQueryClicked,
         onShowHiddenClicked = viewModel::onShowHiddenClicked,
@@ -150,7 +150,7 @@ internal fun ExplorerScreen(
     }
 
     NavResultEffect(CloudScreen.KEY_SAVE) {
-        viewModel.onFilesystemAdded()
+        viewModel.onWorkspaceAdded()
     }
     NavResultEffect(KEY_AUTHENTICATION) { bundle ->
         val credentials = bundle.getString(ARG_USER_INPUT).orEmpty()
@@ -189,8 +189,8 @@ internal fun ExplorerScreen(
 private fun ExplorerScreen(
     viewState: ExplorerViewState,
     onBackClicked: () -> Unit = {},
-    onFilesystemClicked: (FilesystemModel) -> Unit = {},
-    onAddFilesystemClicked: () -> Unit = {},
+    onWorkspaceClicked: (WorkspaceModel) -> Unit = {},
+    onAddWorkspaceClicked: () -> Unit = {},
     onQueryChanged: (String) -> Unit = {},
     onClearQueryClicked: () -> Unit = {},
     onShowHiddenClicked: () -> Unit = {},
@@ -214,11 +214,11 @@ private fun ExplorerScreen(
     onRefreshClicked: () -> Unit = {},
 ) {
     Row(Modifier.fillMaxSize()) {
-        Filesystems(
-            filesystems = viewState.filesystems,
-            selectedFilesystem = viewState.selectedFilesystem,
-            onFilesystemClicked = onFilesystemClicked,
-            onAddFilesystemClicked = onAddFilesystemClicked,
+        Workspaces(
+            workspaces = viewState.workspaces,
+            selectedWorkspace = viewState.selectedWorkspace,
+            onWorkspaceClicked = onWorkspaceClicked,
+            onAddWorkspaceClicked = onAddWorkspaceClicked,
         )
 
         if (!SquircleTheme.colors.isDark) {
@@ -306,30 +306,30 @@ private fun ExplorerScreenPreview() {
     PreviewBackground {
         ExplorerScreen(
             viewState = ExplorerViewState(
-                filesystems = listOf(
-                    FilesystemModel(
+                workspaces = listOf(
+                    WorkspaceModel(
                         uuid = LocalFilesystem.LOCAL_UUID,
-                        type = FilesystemType.LOCAL,
                         title = "Local",
+                        filesystemType = FilesystemType.LOCAL,
                         defaultLocation = FileModel(
                             fileUri = "file:///storage/emulated/0/",
                             filesystemUuid = LocalFilesystem.LOCAL_UUID,
                         ),
                     ),
-                    FilesystemModel(
+                    WorkspaceModel(
                         uuid = RootFilesystem.ROOT_UUID,
-                        type = FilesystemType.ROOT,
                         title = "Root",
+                        filesystemType = FilesystemType.ROOT,
                         defaultLocation = FileModel(
                             fileUri = "sufile:///",
                             filesystemUuid = RootFilesystem.ROOT_UUID,
                         ),
                     ),
                 ),
-                selectedFilesystem = FilesystemModel(
+                selectedWorkspace = WorkspaceModel(
                     uuid = LocalFilesystem.LOCAL_UUID,
-                    type = FilesystemType.LOCAL,
                     title = "Local",
+                    filesystemType = FilesystemType.LOCAL,
                     defaultLocation = FileModel(
                         fileUri = "file:///storage/emulated/0/",
                         filesystemUuid = LocalFilesystem.LOCAL_UUID,

@@ -25,7 +25,7 @@ import com.blacksquircle.ui.feature.explorer.createFolder
 import com.blacksquircle.ui.feature.explorer.createNode
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
-import com.blacksquircle.ui.feature.explorer.defaultFilesystems
+import com.blacksquircle.ui.feature.explorer.defaultWorkspaces
 import com.blacksquircle.ui.feature.explorer.domain.model.Task
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
@@ -64,10 +64,10 @@ class FileTaskTest {
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
     private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
 
-    private val filesystems = defaultFilesystems()
-    private val selectedFilesystem = filesystems[0]
+    private val workspaces = defaultWorkspaces()
+    private val selectedWorkspace = workspaces[0]
 
-    private val defaultLocation = selectedFilesystem.defaultLocation
+    private val defaultLocation = selectedWorkspace.defaultLocation
     private val fileList = listOf(
         createFile(name = "Apple"),
         createFile(name = "Banana"),
@@ -77,12 +77,12 @@ class FileTaskTest {
 
     @Before
     fun setup() {
-        coEvery { explorerRepository.loadFilesystems() } returns filesystems
+        coEvery { explorerRepository.loadWorkspaces() } returns workspaces
         coEvery { explorerRepository.listFiles(any()) } returns fileList
 
-        every { settingsManager.filesystem } returns selectedFilesystem.uuid
-        every { settingsManager.filesystem = any() } answers {
-            every { settingsManager.filesystem } returns firstArg()
+        every { settingsManager.workspace } returns selectedWorkspace.uuid
+        every { settingsManager.workspace = any() } answers {
+            every { settingsManager.workspace } returns firstArg()
         }
     }
 
