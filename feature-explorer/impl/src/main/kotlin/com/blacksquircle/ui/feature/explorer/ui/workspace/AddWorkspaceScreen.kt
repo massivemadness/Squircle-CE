@@ -32,6 +32,7 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.layout.ActionLayout
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.api.navigation.LocalWorkspaceDialog
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
 import com.blacksquircle.ui.ds.R as UiR
@@ -54,7 +55,7 @@ internal fun AddWorkspaceScreen(
     AddWorkspaceScreen(
         onLocalDirectoryClicked = {
             navController.popBackStack()
-            // navController.navigate()
+            navController.navigate(LocalWorkspaceDialog)
         },
         onInternalStorageClicked = {
             openFolderContract.launch(null)

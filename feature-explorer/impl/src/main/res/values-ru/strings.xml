@@ -57,9 +57,9 @@
     <string name="dialog_message_notification_permission">Squircle CE требуется доступ к уведомлениям для работы в фоне\n\nПожалуйста, предоставьте разрешение в настройках системы</string>
     <string name="dialog_message_delete_workspace">Вы уверены что хотите удалить это пространство?</string>
     <string name="workspace_local_storage_title">Локальная папка</string>
-    <string name="workspace_local_storage_description">Открыть папку используя путь (рекомендуется)</string>
+    <string name="workspace_local_storage_description">Открыть папку используя абсолютный путь</string>
     <string name="workspace_internal_storage_title">Внутреннее хранилище</string>
-    <string name="workspace_internal_storage_description">Открыть папку используя SAF (есть ограничения по работе с файлами)</string>
+    <string name="workspace_internal_storage_description">Открыть папку используя системное приложение</string>
     <string name="workspace_remote_server_title">Удаленный сервер</string>
     <string name="workspace_remote_server_description">Подключиться к удаленному серверу используя учетные данные</string>
     <string name="properties_name">Имя файла:</string>
