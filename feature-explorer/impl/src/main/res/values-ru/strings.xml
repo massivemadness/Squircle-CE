@@ -55,6 +55,7 @@
     <string name="dialog_message_multi_delete">Вы уверены что хотите удалить выделенные файлы?</string>
     <string name="dialog_message_storage_permission">Squircle CE требуется доступ ко всем файлам для корректной работы\n\nПожалуйста, предоставьте разрешение в настройках системы</string>
     <string name="dialog_message_notification_permission">Squircle CE требуется доступ к уведомлениям для работы в фоне\n\nПожалуйста, предоставьте разрешение в настройках системы</string>
+    <string name="dialog_message_delete_workspace">Вы уверены что хотите удалить это пространство?</string>
     <string name="workspace_local_storage_title">Локальная папка</string>
     <string name="workspace_local_storage_description">Открыть папку используя путь (рекомендуется)</string>
     <string name="workspace_internal_storage_title">Внутреннее хранилище</string>

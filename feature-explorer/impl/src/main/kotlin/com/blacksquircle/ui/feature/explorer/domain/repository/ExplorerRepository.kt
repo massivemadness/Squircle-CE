@@ -24,7 +24,7 @@ internal interface ExplorerRepository {
 
     suspend fun loadWorkspaces(): Flow<List<WorkspaceModel>>
     suspend fun createWorkspace(filePath: String)
-    suspend fun deleteWorkspace(workspace: WorkspaceModel)
+    suspend fun deleteWorkspace(uuid: String)
 
     suspend fun listFiles(parent: FileModel): List<FileModel>
 

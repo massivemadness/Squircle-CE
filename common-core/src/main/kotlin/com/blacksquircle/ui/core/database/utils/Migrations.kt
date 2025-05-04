@@ -26,7 +26,7 @@ object Migrations {
             db.execSQL("DROP TABLE IF EXISTS `tbl_paths`")
             db.execSQL(
                 "CREATE TABLE IF NOT EXISTS `${Tables.WORKSPACES}` (`uuid` TEXT NOT NULL, " +
-                    "`title` TEXT NOT NULL, `type` TEXT NOT NULL, `file_uri` TEXT NOT NULL, " +
+                    "`name` TEXT NOT NULL, `type` TEXT NOT NULL, `file_uri` TEXT NOT NULL, " +
                     "`filesystem_uuid` TEXT NOT NULL, PRIMARY KEY(`uuid`))"
             )
         }

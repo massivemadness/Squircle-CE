@@ -91,7 +91,7 @@ internal fun ExplorerScreen(
         onBackClicked = viewModel::onBackClicked,
         onWorkspaceClicked = viewModel::onWorkspaceClicked,
         onAddWorkspaceClicked = viewModel::onAddWorkspaceClicked,
-        onRemoveWorkspaceClicked = viewModel::onRemoveWorkspaceClicked,
+        onDeleteWorkspaceClicked = viewModel::onDeleteWorkspaceClicked,
         onQueryChanged = viewModel::onQueryChanged,
         onClearQueryClicked = viewModel::onClearQueryClicked,
         onShowHiddenClicked = viewModel::onShowHiddenClicked,
@@ -188,7 +188,7 @@ private fun ExplorerScreen(
     onBackClicked: () -> Unit = {},
     onWorkspaceClicked: (WorkspaceModel) -> Unit = {},
     onAddWorkspaceClicked: () -> Unit = {},
-    onRemoveWorkspaceClicked: (WorkspaceModel) -> Unit = {},
+    onDeleteWorkspaceClicked: (WorkspaceModel) -> Unit = {},
     onQueryChanged: (String) -> Unit = {},
     onClearQueryClicked: () -> Unit = {},
     onShowHiddenClicked: () -> Unit = {},
@@ -217,7 +217,7 @@ private fun ExplorerScreen(
             selectedWorkspace = viewState.selectedWorkspace,
             onWorkspaceClicked = onWorkspaceClicked,
             onAddWorkspaceClicked = onAddWorkspaceClicked,
-            onRemoveWorkspaceClicked = onRemoveWorkspaceClicked,
+            onDeleteWorkspaceClicked = onDeleteWorkspaceClicked,
         )
 
         if (!SquircleTheme.colors.isDark) {
@@ -308,7 +308,7 @@ private fun ExplorerScreenPreview() {
                 workspaces = listOf(
                     WorkspaceModel(
                         uuid = LocalFilesystem.LOCAL_UUID,
-                        title = "Local",
+                        name = "Local",
                         filesystemType = FilesystemType.LOCAL,
                         defaultLocation = FileModel(
                             fileUri = "file:///storage/emulated/0/",
@@ -317,7 +317,7 @@ private fun ExplorerScreenPreview() {
                     ),
                     WorkspaceModel(
                         uuid = RootFilesystem.ROOT_UUID,
-                        title = "Root",
+                        name = "Root",
                         filesystemType = FilesystemType.ROOT,
                         defaultLocation = FileModel(
                             fileUri = "sufile:///",
@@ -327,7 +327,7 @@ private fun ExplorerScreenPreview() {
                 ),
                 selectedWorkspace = WorkspaceModel(
                     uuid = LocalFilesystem.LOCAL_UUID,
-                    title = "Local",
+                    name = "Local",
                     filesystemType = FilesystemType.LOCAL,
                     defaultLocation = FileModel(
                         fileUri = "file:///storage/emulated/0/",

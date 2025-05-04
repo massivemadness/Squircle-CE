@@ -16,67 +16,31 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.workspace
 
-import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.explorer.data.utils.guessFilePath
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewState
-import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
-internal class WorkspaceViewModel @Inject constructor(
+internal class DeleteWorkspaceViewModel @Inject constructor(
     private val explorerRepository: ExplorerRepository,
 ) : ViewModel() {
-
-    private val _viewState = MutableStateFlow(ExplorerViewState())
-    val viewState: StateFlow<ExplorerViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    fun onBackClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
-    }
-
-    fun onLocalDirectoryClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
-    }
-
-    fun onInternalStorageClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(WorkspaceViewEvent.SelectFolder)
-        }
-    }
-
-    fun onRemoteServerClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
-    }
-
-    fun onFolderSelected(fileUri: Uri) {
+    fun onDeleteWorkspaceClicked(uuid: String) {
         viewModelScope.launch {
             try {
-                val absolutePath = fileUri.guessFilePath()
-                    ?: throw FileNotFoundException(fileUri.toString())
-                explorerRepository.createWorkspace(absolutePath)
+                explorerRepository.deleteWorkspace(uuid)
                 _viewEvent.send(ViewEvent.PopBackStack)
             } catch (e: CancellationException) {
                 throw e
@@ -90,7 +54,7 @@ internal class WorkspaceViewModel @Inject constructor(
     class Factory : ViewModelProvider.Factory {
 
         @Inject
-        lateinit var viewModelProvider: Provider<WorkspaceViewModel>
+        lateinit var viewModelProvider: Provider<DeleteWorkspaceViewModel>
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

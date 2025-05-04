@@ -82,7 +82,7 @@ internal class ExplorerRepositoryImpl(
             )
             val workspace = WorkspaceModel(
                 uuid = UUID.randomUUID().toString(),
-                title = defaultLocation.name,
+                name = defaultLocation.name,
                 filesystemType = FilesystemType.LOCAL,
                 defaultLocation = defaultLocation,
             )
@@ -91,15 +91,12 @@ internal class ExplorerRepositoryImpl(
         }
     }
 
-    override suspend fun deleteWorkspace(workspace: WorkspaceModel) {
+    override suspend fun deleteWorkspace(uuid: String) {
         withContext(dispatcherProvider.io()) {
-            if (workspace.filesystemType != FilesystemType.LOCAL) {
+            if (uuid == LocalFilesystem.LOCAL_UUID) {
                 return@withContext
             }
-            if (workspace.uuid == LocalFilesystem.LOCAL_UUID) {
-                return@withContext
-            }
-            workspaceDao.delete(workspace.uuid)
+            workspaceDao.delete(uuid)
         }
     }
 

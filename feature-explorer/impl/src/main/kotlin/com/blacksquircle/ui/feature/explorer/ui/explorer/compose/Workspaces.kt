@@ -41,7 +41,7 @@ internal fun Workspaces(
     selectedWorkspace: WorkspaceModel?,
     onWorkspaceClicked: (WorkspaceModel) -> Unit,
     onAddWorkspaceClicked: () -> Unit,
-    onRemoveWorkspaceClicked: (WorkspaceModel) -> Unit,
+    onDeleteWorkspaceClicked: (WorkspaceModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val hapticFeedback = LocalHapticFeedback.current
@@ -59,12 +59,12 @@ internal fun Workspaces(
                     FilesystemType.ROOT -> UiR.drawable.ic_folder_pound
                     FilesystemType.SERVER -> UiR.drawable.ic_server_network
                 },
-                label = workspace.title,
+                label = workspace.name,
                 selected = workspace == selectedWorkspace,
                 onClick = { onWorkspaceClicked(workspace) },
                 onLongClick = {
                     hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                    onRemoveWorkspaceClicked(workspace)
+                    onDeleteWorkspaceClicked(workspace)
                 },
             )
         }

@@ -26,8 +26,8 @@ data class WorkspaceEntity(
     @PrimaryKey
     @ColumnInfo(name = "uuid")
     val uuid: String,
-    @ColumnInfo(name = "title")
-    val title: String,
+    @ColumnInfo(name = "name")
+    val name: String,
     @ColumnInfo(name = "type")
     val type: String,
     @ColumnInfo(name = "file_uri")

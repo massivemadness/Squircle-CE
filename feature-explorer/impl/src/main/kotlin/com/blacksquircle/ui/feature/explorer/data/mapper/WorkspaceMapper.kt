@@ -28,7 +28,7 @@ internal object WorkspaceMapper {
     fun toModel(workspaceEntity: WorkspaceEntity): WorkspaceModel {
         return WorkspaceModel(
             uuid = workspaceEntity.uuid,
-            title = workspaceEntity.title,
+            name = workspaceEntity.name,
             filesystemType = FilesystemType.of(workspaceEntity.type),
             defaultLocation = FileModel(
                 fileUri = workspaceEntity.fileUri,
@@ -44,7 +44,7 @@ internal object WorkspaceMapper {
         val fileUri = if (path.isNotEmpty()) scheme + File.separator + path else scheme
         return WorkspaceModel(
             uuid = serverConfig.uuid,
-            title = serverConfig.name,
+            name = serverConfig.name,
             filesystemType = FilesystemType.SERVER,
             defaultLocation = FileModel(
                 fileUri = fileUri,
@@ -57,7 +57,7 @@ internal object WorkspaceMapper {
     fun toEntity(workspace: WorkspaceModel): WorkspaceEntity {
         return WorkspaceEntity(
             uuid = workspace.uuid,
-            title = workspace.title,
+            name = workspace.name,
             type = workspace.filesystemType.value,
             fileUri = workspace.defaultLocation.fileUri,
             filesystemUuid = workspace.defaultLocation.filesystemUuid,

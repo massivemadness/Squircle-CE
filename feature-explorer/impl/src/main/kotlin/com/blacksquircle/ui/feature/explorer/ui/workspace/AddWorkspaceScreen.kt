@@ -33,14 +33,15 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.layout.ActionLayout
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
+import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun WorkspaceScreen(
+internal fun AddWorkspaceScreen(
     navController: NavController,
-    viewModel: WorkspaceViewModel = daggerViewModel { context ->
+    viewModel: AddWorkspaceViewModel = daggerViewModel { context ->
         val component = ExplorerComponent.buildOrGet(context)
-        WorkspaceViewModel.Factory().also(component::inject)
+        AddWorkspaceViewModel.Factory().also(component::inject)
     },
 ) {
     val openFolderContract = rememberOpenFolderContract { result ->
@@ -50,11 +51,21 @@ internal fun WorkspaceScreen(
         }
     }
 
-    WorkspaceScreen(
-        onLocalDirectoryClicked = viewModel::onLocalDirectoryClicked,
-        onInternalStorageClicked = viewModel::onInternalStorageClicked,
-        onRemoteServerClicked = viewModel::onRemoteServerClicked,
-        onBackClicked = viewModel::onBackClicked,
+    AddWorkspaceScreen(
+        onLocalDirectoryClicked = {
+            navController.popBackStack()
+            // navController.navigate()
+        },
+        onInternalStorageClicked = {
+            openFolderContract.launch(null)
+        },
+        onRemoteServerClicked = {
+            navController.popBackStack()
+            navController.navigate(ServerDialog(null))
+        },
+        onCancelClicked = {
+            navController.popBackStack()
+        },
     )
 
     val context = LocalContext.current
@@ -64,18 +75,17 @@ internal fun WorkspaceScreen(
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
-                is WorkspaceViewEvent.SelectFolder -> openFolderContract.launch(null)
             }
         }
     }
 }
 
 @Composable
-private fun WorkspaceScreen(
+private fun AddWorkspaceScreen(
     onLocalDirectoryClicked: () -> Unit = {},
     onInternalStorageClicked: () -> Unit = {},
     onRemoteServerClicked: () -> Unit = {},
-    onBackClicked: () -> Unit = {}
+    onCancelClicked: () -> Unit = {}
 ) {
     AlertDialog(
         title = stringResource(R.string.dialog_title_add_workspace),
@@ -103,15 +113,15 @@ private fun WorkspaceScreen(
             }
         },
         dismissButton = stringResource(android.R.string.cancel),
-        onDismissClicked = onBackClicked,
-        onDismiss = onBackClicked
+        onDismissClicked = onCancelClicked,
+        onDismiss = onCancelClicked,
     )
 }
 
 @PreviewLightDark
 @Composable
-private fun WorkspaceScreenPreview() {
+private fun AddWorkspaceScreenPreview() {
     PreviewBackground {
-        WorkspaceScreen()
+        AddWorkspaceScreen()
     }
 }

@@ -30,16 +30,17 @@ import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_SHOW_HID
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_SORT_MODE
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.api.navigation.AddWorkspaceDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CloneRepoDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CreateDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteWorkspaceDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.WorkspaceDialog
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderOptions
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
@@ -175,18 +176,18 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onAddWorkspaceClicked() {
         viewModelScope.launch {
-            val screen = WorkspaceDialog
+            val screen = AddWorkspaceDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 
-    fun onRemoveWorkspaceClicked(workspace: WorkspaceModel) {
+    fun onDeleteWorkspaceClicked(workspace: WorkspaceModel) {
         viewModelScope.launch {
             when (workspace.filesystemType) {
                 FilesystemType.LOCAL -> {
                     if (workspace.uuid != LocalFilesystem.LOCAL_UUID) {
-                        // val screen =
-                        // _viewEvent.send(ViewEvent.Navigation(screen))
+                        val screen = DeleteWorkspaceDialog(workspace.uuid, workspace.name)
+                        _viewEvent.send(ViewEvent.Navigation(screen))
                     }
                 }
                 FilesystemType.ROOT -> Unit

@@ -60,6 +60,7 @@
     <string name="dialog_message_multi_delete">Are you sure you want to delete selected files?</string>
     <string name="dialog_message_storage_permission">Squircle CE needs full access to your files to function properly\n\nPlease grant permission in the upcoming system settings</string>
     <string name="dialog_message_notification_permission">Squircle CE needs access to notifications to run in background\n\nPlease grant permission in the upcoming system settings</string>
+    <string name="dialog_message_delete_workspace">Are you sure you want to delete this workspace?</string>
 
     <string name="workspace_local_storage_title">Local Directory</string>
     <string name="workspace_local_storage_description">Open a folder using absolute path (recommended)</string>
