@@ -14,8 +14,51 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
+    <string name="hint_line">Rivi:</string>
+    <string name="action_file">Tiedosto</string>
+    <string name="action_close">Sulje</string>
+    <string name="action_close_others">Sulje muut</string>
+    <string name="action_close_all">Sulje kaikki</string>
+    <string name="action_insert">Liitä</string>
+    <string name="action_new">Uusi</string>
+    <string name="action_open">Avaa</string>
+    <string name="action_save_as">Tallenna nimellä</string>
+    <string name="action_edit">Muokkaa</string>
+    <string name="action_select_line">Valitse rivi</string>
+    <string name="action_delete_line">Poista rivi</string>
+    <string name="action_duplicate_line">Monista rivi</string>
+    <string name="action_regex">Säännöllinen lauseke</string>
+    <string name="action_match_case">Huomioi kirjainkoko</string>
+    <string name="action_words_only">Vain sanat</string>
+    <string name="action_find">Etsi</string>
+    <string name="action_replace">Korvaa</string>
+    <string name="action_replace_all">Korvaa kaikki</string>
+    <string name="action_prev">Edellinen</string>
+    <string name="action_next">Seuraava</string>
+    <string name="action_goto_line">Siirry riville</string>
+    <string name="action_go_to">Siirry</string>
+    <string name="action_undo">Kumoa</string>
+    <string name="action_redo">Tee uudelleen</string>
+    <string name="action_force_syntax">Pakota syntaksi</string>
+    <string name="action_insert_color">Lisää väri</string>
+    <string name="action_settings">Asetukset</string>
+    <string name="action_tools">Työkalut</string>
+    <string name="dialog_title_goto_line">Siirry riville…</string>
+    <string name="dialog_title_force_syntax">Syntaksin korostaminen</string>
+    <string name="dialog_title_color_picker">Värivalitsin</string>
     <string name="dialog_title_exit">Poistu</string>
     <string name="dialog_message_exit">Oletko varma, että haluat poistua? Kaikki muutokset tallennetaan välimuistiin</string>
+    <string name="dialog_message_close_tab">Haluatko varmasti sulkea tämän tiedoston? Kaikki tallentamattomat muutokset hylätään</string>
+    <string name="message_no_open_files">Ei avoimia tiedostoja</string>
+    <string name="message_file_not_found">Tiedostoa ei löytynyt</string>
+    <string name="message_out_of_memory">Ei vapaata muistia</string>
+    <string name="message_saved">Tallennettu</string>
+    <string name="message_nothing_to_cut">Ei leikattavaa</string>
+    <string name="message_nothing_to_copy">Ei kopioitavaa</string>
+    <string name="message_nothing_to_paste">Ei liitettävää</string>
+    <string name="message_line_not_exists">Riviä ei löydy</string>
+    <string name="message_git_invalid_credentials">Tarkista Gitin asetukset</string>
+    <string name="message_git_repository_not_found">Git-tietovarastoa ei löytynyt</string>
+    <string name="message_git_unsupported_filesystem">Git tarvitsee paikallisen tiedostojärjestelmän</string>
 </resources>
