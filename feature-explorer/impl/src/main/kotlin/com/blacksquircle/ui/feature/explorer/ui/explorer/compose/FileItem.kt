@@ -135,7 +135,7 @@ internal fun FileItem(
         Icon(
             painter = painterResource(icon),
             contentDescription = null,
-            tint = tint.copy(alpha = if (fileNode.file.isHidden) 0.45f else 1f),
+            tint = tint.copy(alpha = if (fileNode.isHidden) 0.45f else 1f),
             modifier = Modifier.size(24.dp)
         )
 

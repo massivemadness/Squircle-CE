@@ -33,7 +33,7 @@ internal data class FileNode(
     val isDirectory: Boolean
         get() = file.isDirectory
     val isHidden: Boolean
-        get() = file.isHidden
+        get() = displayName.startsWith('.')
     val isError: Boolean
         get() = errorState != null
     val isRoot: Boolean
