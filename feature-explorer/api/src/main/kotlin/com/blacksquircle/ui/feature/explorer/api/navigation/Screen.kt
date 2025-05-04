@@ -57,3 +57,6 @@ data object StorageDeniedDialog
 
 @Serializable
 data object NotificationDeniedDialog
+
+@Serializable
+data object WorkspaceDialog

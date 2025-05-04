@@ -50,10 +50,17 @@
     <string name="dialog_title_archive_name">Название архива</string>
     <string name="dialog_title_storage_permission">Доступ к хранилищу</string>
     <string name="dialog_title_notification_permission">Уведомления</string>
+    <string name="dialog_title_add_workspace">Добавить пространство</string>
     <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл?</string>
     <string name="dialog_message_multi_delete">Вы уверены что хотите удалить выделенные файлы?</string>
     <string name="dialog_message_storage_permission">Squircle CE требуется доступ ко всем файлам для корректной работы\n\nПожалуйста, предоставьте разрешение в настройках системы</string>
     <string name="dialog_message_notification_permission">Squircle CE требуется доступ к уведомлениям для работы в фоне\n\nПожалуйста, предоставьте разрешение в настройках системы</string>
+    <string name="workspace_local_storage_title">Локальная папка</string>
+    <string name="workspace_local_storage_description">Открыть папку используя путь (рекомендуется)</string>
+    <string name="workspace_internal_storage_title">Внутреннее хранилище</string>
+    <string name="workspace_internal_storage_description">Открыть папку используя SAF (есть ограничения по работе с файлами)</string>
+    <string name="workspace_remote_server_title">Удаленный сервер</string>
+    <string name="workspace_remote_server_description">Подключиться к удаленному серверу используя учетные данные</string>
     <string name="properties_name">Имя файла:</string>
     <string name="properties_path">Путь к файлу:</string>
     <string name="properties_modified">Последнее изменение:</string>

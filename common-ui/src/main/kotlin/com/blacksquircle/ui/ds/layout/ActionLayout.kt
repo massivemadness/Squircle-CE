@@ -54,7 +54,7 @@ fun ActionLayout(
             .fillMaxWidth()
             .debounceClickable(onClick = onClick)
             .padding(
-                horizontal = 16.dp,
+                horizontal = 18.dp,
                 vertical = 12.dp,
             )
     ) {

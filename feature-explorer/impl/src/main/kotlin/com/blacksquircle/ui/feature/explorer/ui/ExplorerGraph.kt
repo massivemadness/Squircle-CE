@@ -34,6 +34,7 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.WorkspaceDialog
 import com.blacksquircle.ui.feature.explorer.ui.auth.AuthScreen
 import com.blacksquircle.ui.feature.explorer.ui.clone.CloneRepoScreen
 import com.blacksquircle.ui.feature.explorer.ui.compress.CompressScreen
@@ -45,6 +46,7 @@ import com.blacksquircle.ui.feature.explorer.ui.permissions.StorageDeniedScreen
 import com.blacksquircle.ui.feature.explorer.ui.properties.PropertiesScreen
 import com.blacksquircle.ui.feature.explorer.ui.rename.RenameScreen
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskScreen
+import com.blacksquircle.ui.feature.explorer.ui.workspace.WorkspaceScreen
 
 fun NavGraphBuilder.explorerGraph(navController: NavHostController) {
     composable<ExplorerScreen> {
@@ -84,6 +86,9 @@ fun NavGraphBuilder.explorerGraph(navController: NavHostController) {
     }
     dialog<NotificationDeniedDialog> {
         NotificationDeniedScreen(navController)
+    }
+    dialog<WorkspaceDialog> {
+        WorkspaceScreen(navController)
     }
 }
 
