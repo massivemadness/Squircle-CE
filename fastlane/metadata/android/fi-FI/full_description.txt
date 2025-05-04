@@ -1,0 +1,39 @@
+<b>Squircle CE</b> on erittäin kevyt ja nopea koodieditori ja tiedostoselain. Tukee yli 30 ohjelmointikieltä, tiedostojen etäkäyttöä SFTP/FTP(S)-yhteyksillä sekä Git-versionhallintaa. Opiskelijalle, harrastajalle ja ammattidevaajalle — Squircle CE:llä kirjoitat, hallinnoit ja versioit lähdekoodiasi missä ja milloin tahansa, suoraan puhelimeltasi tai tabletiltasi.
+
+Tässä joitakin tuottavuutta parantavista ominaisuuksista:
+
+<b>• Tukee useita kieliä</b>
+Ohjelmoi yli 30 kielellä: Java, Kotlin, Python, C/C++, HTML, JavaScript, TypeScript, PHP, Rust, Go ynnä muut.
+
+<b>• Syntaksikorostus</b>
+Siisti ja värikäs syntaksikorostus auttaa ymmärtämään koodiasi.
+
+<b>• Koodintäydennys</b>
+Älykkäät sisältöön perustuvat muuttuja-, funktio- ja avainsanaehdotukset nopeuttavat kirjoittamista.
+
+<b>• Git-integraatio</b>
+Hallitse koodisi versioita suoraan editorista. Toimita, työnnä ja vedä muutoksia sekä hallitse haaroja helposti.
+
+<b>• Tiedostonhallinta</b>
+Hallitse tiedostoja paikallisesti tai etänä SFTP/FTP(S)-tuella — ei tarvetta erilliselle tiedostoselaimelle.
+
+<b>• Istuntojen välinen muokkaus</b>
+Pidä työsi turvassa automaattisella tallennuksella — voit jatkaa suoraan siitä mihin jäit.
+
+<b>• Rajaton kumoa/toista</b>
+Korjaa virheitä helposti rajattomalla toimintohistorialla, kumoa ja tee uudelleen muutoksia jopa uudelleenkäynnistyksen jälkeen.
+
+<b>• Sulkeiden täsmäys</b>
+Hahmota koodin rakenne nopeasti toisiaan vastaavien sulkeiden automaattisella korostuksella — (), [], {}.
+
+<b>• Koodin muotoilu</b>
+Tuota siistimpää koodia automaattisen sisennyksen avulla ja fiksulla sulkeiden ja lainausmerkkien sulkemisella.
+
+<b>• Edistyneet muokkaustyökalut</b>
+Valitse, poista tai monista rivejä helposti kätevien asetusten avulla.
+
+<b>• Väriteemat</b>
+Valitse silmää miellyttävä teema valikoimasta ja luo viihtyisä ympäristö ohjelmoinnille.
+
+<b>• Avointa lähdekoodia</b>
+Tutustu ja osallistu: <u>https://github.com/massivemadness/Squircle-CE</u>
