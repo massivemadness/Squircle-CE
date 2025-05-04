@@ -67,7 +67,7 @@ class ServerInteractorImplTest {
     @Test
     fun `When loading servers Then load from repository`() = runTest {
         // When
-        serverInteractor.loadServers()
+        serverInteractor.flowAll()
 
         // Then
         coVerify(exactly = 1) { serverRepository.loadServers() }

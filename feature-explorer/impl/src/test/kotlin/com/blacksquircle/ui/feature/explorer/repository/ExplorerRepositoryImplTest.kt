@@ -79,7 +79,7 @@ class ExplorerRepositoryImplTest {
         every { Environment.getExternalStorageDirectory() } returns mockk<File>().apply {
             every { absolutePath } returns ""
         }
-        coEvery { serverInteractor.loadServers() } returns emptyList()
+        coEvery { serverInteractor.flowAll() } returns emptyList()
 
         // When
         val workspaces = explorerRepository.loadWorkspaces()
@@ -111,7 +111,7 @@ class ExplorerRepositoryImplTest {
             keyId = null,
             passphrase = null,
         )
-        coEvery { serverInteractor.loadServers() } returns listOf(server)
+        coEvery { serverInteractor.flowAll() } returns listOf(server)
 
         // When
         val workspaces = explorerRepository.loadWorkspaces()

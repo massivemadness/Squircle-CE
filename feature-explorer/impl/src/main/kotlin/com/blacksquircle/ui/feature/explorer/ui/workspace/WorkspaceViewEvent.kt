@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-plugins {
-    id("com.blacksquircle.kotlin")
-    alias(libs.plugins.kotlin.serialization)
-}
+package com.blacksquircle.ui.feature.explorer.ui.workspace
 
-dependencies {
+import com.blacksquircle.ui.core.mvi.ViewEvent
 
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.serialization)
-
-    api(project(":filesystems:filesystem-base"))
+internal sealed class WorkspaceViewEvent : ViewEvent {
+    data object SelectFolder : WorkspaceViewEvent()
 }

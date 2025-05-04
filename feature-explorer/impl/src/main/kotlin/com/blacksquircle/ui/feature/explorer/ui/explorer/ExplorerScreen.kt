@@ -49,6 +49,8 @@ import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.feature.explorer.data.utils.clipText
+import com.blacksquircle.ui.feature.explorer.data.utils.createLocalWorkspace
+import com.blacksquircle.ui.feature.explorer.data.utils.createRootWorkspace
 import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
@@ -60,7 +62,6 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ExplorerToolbar
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.FileExplorer
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.Workspaces
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
-import com.blacksquircle.ui.feature.servers.api.navigation.CloudScreen
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
@@ -149,9 +150,6 @@ internal fun ExplorerScreen(
         }
     }
 
-    NavResultEffect(CloudScreen.KEY_SAVE) {
-        viewModel.onWorkspaceAdded()
-    }
     NavResultEffect(KEY_AUTHENTICATION) { bundle ->
         val credentials = bundle.getString(ARG_USER_INPUT).orEmpty()
         viewModel.onCredentialsEntered(credentials)

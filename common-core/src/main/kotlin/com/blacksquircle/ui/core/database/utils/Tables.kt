@@ -20,4 +20,5 @@ object Tables {
     const val DOCUMENTS = "tbl_documents"
     const val FONTS = "tbl_fonts"
     const val SERVERS = "tbl_servers"
+    const val WORKSPACES = "tbl_workspaces"
 }

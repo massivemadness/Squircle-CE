@@ -142,7 +142,6 @@ internal class ExplorerViewModel @Inject constructor(
                 }
 
                 settingsManager.workspace = workspace.uuid
-
                 selectedWorkspace = workspace
 
                 cache.clear()
@@ -162,23 +161,6 @@ internal class ExplorerViewModel @Inject constructor(
                     )
                 }
                 loadFiles(rootNode)
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    fun onWorkspaceAdded() {
-        viewModelScope.launch {
-            try {
-                workspaces = explorerRepository.loadWorkspaces()
-
-                _viewState.update {
-                    it.copy(workspaces = workspaces)
-                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -845,33 +827,41 @@ internal class ExplorerViewModel @Inject constructor(
     private fun loadWorkspaces() {
         viewModelScope.launch {
             try {
-                workspaces = explorerRepository.loadWorkspaces()
+                explorerRepository.loadWorkspaces().collect { workspaces ->
+                    this@ExplorerViewModel.workspaces = workspaces
 
-                val workspace = workspaces
-                    .find { it.uuid == settingsManager.workspace }
-                    ?: workspaces.first()
+                    val workspace = workspaces
+                        .find { it.uuid == settingsManager.workspace }
+                        ?: workspaces.first()
 
-                selectedWorkspace = workspace
+                    if (workspace.uuid != selectedWorkspace?.uuid) {
+                        settingsManager.workspace = workspace.uuid
+                        selectedWorkspace = workspace
 
-                val rootNode = FileNode(
-                    file = workspace.defaultLocation,
-                    isExpanded = true,
-                    isLoading = true,
-                )
-                cache[NodeKey.Root] = listOf(rootNode)
+                        cache.clear()
+                        resetBuffer()
 
-                _viewState.update {
-                    it.copy(
-                        workspaces = workspaces,
-                        selectedWorkspace = selectedWorkspace,
-                        fileNodes = listOf(rootNode),
-                        searchQuery = searchQuery,
-                        showHidden = showHidden,
-                        compactPackages = compactPackages,
-                        sortMode = sortMode,
-                    )
+                        val rootNode = FileNode(
+                            file = workspace.defaultLocation,
+                            isExpanded = true,
+                            isLoading = true,
+                        )
+                        cache[NodeKey.Root] = listOf(rootNode)
+
+                        loadFiles(rootNode)
+                    }
+
+                    _viewState.update {
+                        it.copy(
+                            workspaces = workspaces,
+                            selectedWorkspace = selectedWorkspace,
+                            searchQuery = searchQuery,
+                            showHidden = showHidden,
+                            compactPackages = compactPackages,
+                            sortMode = sortMode,
+                        )
+                    }
                 }
-                loadFiles(rootNode)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {

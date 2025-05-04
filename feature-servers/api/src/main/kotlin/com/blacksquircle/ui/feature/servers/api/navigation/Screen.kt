@@ -19,10 +19,7 @@ package com.blacksquircle.ui.feature.servers.api.navigation
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object CloudScreen {
-    const val KEY_SAVE = "KEY_SAVE"
-    const val KEY_DELETE = "KEY_DELETE"
-}
+data object CloudScreen
 
 @Serializable
 data class ServerDialog(val serverId: String?)

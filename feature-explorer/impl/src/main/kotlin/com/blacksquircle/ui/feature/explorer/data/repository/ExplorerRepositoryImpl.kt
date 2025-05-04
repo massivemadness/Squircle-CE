@@ -17,14 +17,16 @@
 package com.blacksquircle.ui.feature.explorer.data.repository
 
 import android.content.Context
-import android.os.Environment
+import com.blacksquircle.ui.core.database.dao.workspace.WorkspaceDao
 import com.blacksquircle.ui.core.extensions.PermissionException
 import com.blacksquircle.ui.core.extensions.isStorageAccessGranted
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.data.mapper.WorkspaceMapper
+import com.blacksquircle.ui.feature.explorer.data.utils.createLocalWorkspace
+import com.blacksquircle.ui.feature.explorer.data.utils.createRootWorkspace
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
@@ -32,12 +34,11 @@ import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepositor
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
-import com.blacksquircle.ui.filesystem.local.LocalFilesystem
-import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectIndexed
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -49,54 +50,40 @@ internal class ExplorerRepositoryImpl(
     private val gitInteractor: GitInteractor,
     private val serverInteractor: ServerInteractor,
     private val filesystemFactory: FilesystemFactory,
+    private val workspaceDao: WorkspaceDao,
     private val context: Context,
 ) : ExplorerRepository {
 
     private val currentWorkspace: String
         get() = settingsManager.workspace
 
-    override suspend fun loadWorkspaces(): List<WorkspaceModel> {
-        return withContext(dispatcherProvider.io()) {
-            val defaultWorkspaces = listOf(
-                WorkspaceModel(
-                    uuid = LocalFilesystem.LOCAL_UUID,
-                    title = context.getString(R.string.storage_local),
-                    filesystemType = FilesystemType.LOCAL,
-                    defaultLocation = FileModel(
-                        fileUri = LocalFilesystem.LOCAL_SCHEME +
-                            Environment.getExternalStorageDirectory().absolutePath,
-                        filesystemUuid = LocalFilesystem.LOCAL_UUID,
-                        isDirectory = true,
-                    ),
-                ),
-                WorkspaceModel(
-                    uuid = RootFilesystem.ROOT_UUID,
-                    title = context.getString(R.string.storage_root),
-                    filesystemType = FilesystemType.ROOT,
-                    defaultLocation = FileModel(
-                        fileUri = RootFilesystem.ROOT_SCHEME,
-                        filesystemUuid = RootFilesystem.ROOT_UUID,
-                        isDirectory = true,
-                    ),
-                ),
-            )
-            val serverWorkspaces = serverInteractor.loadServers().map { config ->
-                val scheme = config.scheme.value
-                val path = config.initialDir.trim(File.separatorChar)
-                val fileUri = if (path.isNotEmpty()) scheme + File.separator + path else scheme
-                WorkspaceModel(
-                    uuid = config.uuid,
-                    title = config.name,
-                    filesystemType = FilesystemType.SERVER,
-                    defaultLocation = FileModel(
-                        fileUri = fileUri,
-                        filesystemUuid = config.uuid,
-                        isDirectory = true,
-                    ),
-                )
-            }
+    private val workspaceFlow = workspaceDao.flowAll()
+    private val serverFlow = serverInteractor.flowAll()
 
-            defaultWorkspaces + serverWorkspaces
+    override suspend fun loadWorkspaces(): Flow<List<WorkspaceModel>> {
+        return combine(workspaceFlow, serverFlow) { workspaces, servers ->
+            val defaultWorkspaces = listOf(
+                context.createLocalWorkspace(),
+                context.createRootWorkspace(),
+            )
+            val userWorkspaces = workspaces.map(WorkspaceMapper::toModel)
+            val serverWorkspaces = servers.map(WorkspaceMapper::toModel)
+            defaultWorkspaces + userWorkspaces + serverWorkspaces
+        }
+    }
+
+    override suspend fun createWorkspace(workspace: WorkspaceModel) {
+        withContext(dispatcherProvider.io()) {
+            val workspaceEntity = WorkspaceMapper.toEntity(workspace)
+            workspaceDao.insert(workspaceEntity)
+        }
+    }
+
+    override suspend fun deleteWorkspace(workspace: WorkspaceModel) {
+        withContext(dispatcherProvider.io()) {
+            // TODO
+            serverInteractor
+            workspaceDao
         }
     }
 

@@ -21,15 +21,18 @@ import androidx.room.RoomDatabase
 import com.blacksquircle.ui.core.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.database.dao.font.FontDao
 import com.blacksquircle.ui.core.database.dao.server.ServerDao
+import com.blacksquircle.ui.core.database.dao.workspace.WorkspaceDao
 import com.blacksquircle.ui.core.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.core.database.entity.font.FontEntity
 import com.blacksquircle.ui.core.database.entity.server.ServerEntity
+import com.blacksquircle.ui.core.database.entity.workspace.WorkspaceEntity
 
 @Database(
     entities = [
         DocumentEntity::class,
         FontEntity::class,
         ServerEntity::class,
+        WorkspaceEntity::class,
     ],
     version = 2,
 )
@@ -42,4 +45,5 @@ abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
     abstract override fun documentDao(): DocumentDao
     abstract override fun fontDao(): FontDao
     abstract override fun serverDao(): ServerDao
+    abstract override fun workspaceDao(): WorkspaceDao
 }

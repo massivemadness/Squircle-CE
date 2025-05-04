@@ -14,15 +14,24 @@
  * limitations under the License.
  */
 
-plugins {
-    id("com.blacksquircle.kotlin")
-    alias(libs.plugins.kotlin.serialization)
-}
+package com.blacksquircle.ui.core.database.entity.workspace
 
-dependencies {
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.blacksquircle.ui.core.database.utils.Tables
 
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.serialization)
-
-    api(project(":filesystems:filesystem-base"))
-}
+@Entity(tableName = Tables.WORKSPACES)
+data class WorkspaceEntity(
+    @PrimaryKey
+    @ColumnInfo(name = "uuid")
+    val uuid: String,
+    @ColumnInfo(name = "title")
+    val title: String,
+    @ColumnInfo(name = "type")
+    val type: String,
+    @ColumnInfo(name = "file_uri")
+    val fileUri: String,
+    @ColumnInfo(name = "filesystem_uuid")
+    val filesystemUuid: String,
+)

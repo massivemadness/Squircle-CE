@@ -19,5 +19,13 @@ package com.blacksquircle.ui.filesystem.base.model
 enum class FilesystemType(val value: String) {
     LOCAL("local"),
     ROOT("root"),
-    SERVER("server"),
+    SAF("saf"),
+    SERVER("server");
+
+    companion object {
+
+        fun of(value: String): FilesystemType {
+            return checkNotNull(entries.find { it.value == value })
+        }
+    }
 }

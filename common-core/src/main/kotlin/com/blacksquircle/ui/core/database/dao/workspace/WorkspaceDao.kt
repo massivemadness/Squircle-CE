@@ -14,15 +14,22 @@
  * limitations under the License.
  */
 
-plugins {
-    id("com.blacksquircle.kotlin")
-    alias(libs.plugins.kotlin.serialization)
-}
+package com.blacksquircle.ui.core.database.dao.workspace
 
-dependencies {
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.blacksquircle.ui.core.database.entity.workspace.WorkspaceEntity
+import com.blacksquircle.ui.core.database.utils.Tables
+import kotlinx.coroutines.flow.Flow
 
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.serialization)
+@Dao
+interface WorkspaceDao {
 
-    api(project(":filesystems:filesystem-base"))
+    @Query("SELECT * FROM `${Tables.WORKSPACES}`")
+    fun flowAll(): Flow<List<WorkspaceEntity>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(workspace: WorkspaceEntity): Long
 }

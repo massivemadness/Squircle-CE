@@ -53,13 +53,10 @@ internal fun Workspaces(
                 iconResId = when (workspace.filesystemType) {
                     FilesystemType.LOCAL -> UiR.drawable.ic_folder
                     FilesystemType.ROOT -> UiR.drawable.ic_folder_pound
+                    FilesystemType.SAF -> UiR.drawable.ic_folder
                     FilesystemType.SERVER -> UiR.drawable.ic_server_network
                 },
-                label = when (workspace.filesystemType) {
-                    FilesystemType.LOCAL -> stringResource(R.string.storage_local)
-                    FilesystemType.ROOT -> stringResource(R.string.storage_root)
-                    FilesystemType.SERVER -> workspace.title
-                },
+                label = workspace.title,
                 selected = workspace == selectedWorkspace,
                 onClick = { onWorkspaceClicked(workspace) },
             )

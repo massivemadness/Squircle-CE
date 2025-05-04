@@ -18,25 +18,56 @@ package com.blacksquircle.ui.feature.explorer.ui.workspace
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.navigation.NavController
+import com.blacksquircle.ui.core.contract.ContractResult
+import com.blacksquircle.ui.core.contract.rememberOpenFolderContract
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.layout.ActionLayout
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun WorkspaceScreen(navController: NavController) {
-    WorkspaceScreen(
-        onLocalDirectoryClicked = {},
-        onInternalStorageClicked = {},
-        onRemoteServerClicked = {},
-        onBackClicked = {
-            navController.popBackStack()
+internal fun WorkspaceScreen(
+    navController: NavController,
+    viewModel: WorkspaceViewModel = daggerViewModel { context ->
+        val component = ExplorerComponent.buildOrGet(context)
+        WorkspaceViewModel.Factory().also(component::inject)
+    },
+) {
+    val openFolderContract = rememberOpenFolderContract { result ->
+        when (result) {
+            is ContractResult.Success -> viewModel.onFolderSelected(result.uri)
+            is ContractResult.Canceled -> Unit
         }
+    }
+
+    WorkspaceScreen(
+        onLocalDirectoryClicked = viewModel::onLocalDirectoryClicked,
+        onInternalStorageClicked = viewModel::onInternalStorageClicked,
+        onRemoteServerClicked = viewModel::onRemoteServerClicked,
+        onBackClicked = viewModel::onBackClicked,
     )
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.viewEvent.collect { event ->
+            when (event) {
+                is ViewEvent.Toast -> context.showToast(text = event.message)
+                is ViewEvent.Navigation -> navController.navigate(event.screen)
+                is ViewEvent.PopBackStack -> navController.popBackStack()
+                is WorkspaceViewEvent.SelectFolder -> openFolderContract.launch(null)
+            }
+        }
+    }
 }
 
 @Composable

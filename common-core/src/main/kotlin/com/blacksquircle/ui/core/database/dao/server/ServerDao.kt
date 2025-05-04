@@ -22,9 +22,13 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.blacksquircle.ui.core.database.entity.server.ServerEntity
 import com.blacksquircle.ui.core.database.utils.Tables
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ServerDao {
+
+    @Query("SELECT * FROM `${Tables.SERVERS}`")
+    fun flowAll(): Flow<List<ServerEntity>>
 
     @Query("SELECT * FROM `${Tables.SERVERS}`")
     suspend fun loadAll(): List<ServerEntity>

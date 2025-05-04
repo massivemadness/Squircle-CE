@@ -17,6 +17,8 @@
 package com.blacksquircle.ui.feature.explorer.internal
 
 import android.content.Context
+import com.blacksquircle.ui.core.database.AppDatabase
+import com.blacksquircle.ui.core.database.dao.workspace.WorkspaceDao
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
@@ -53,6 +55,7 @@ internal object ExplorerModule {
         gitInteractor: GitInteractor,
         serverInteractor: ServerInteractor,
         filesystemFactory: FilesystemFactory,
+        workspaceDao: WorkspaceDao,
         context: Context,
     ): ExplorerRepository {
         return ExplorerRepositoryImpl(
@@ -62,7 +65,13 @@ internal object ExplorerModule {
             gitInteractor = gitInteractor,
             serverInteractor = serverInteractor,
             filesystemFactory = filesystemFactory,
+            workspaceDao = workspaceDao,
             context = context,
         )
+    }
+
+    @Provides
+    fun provideWorkspaceDao(appDatabase: AppDatabase): WorkspaceDao {
+        return appDatabase.workspaceDao()
     }
 }
