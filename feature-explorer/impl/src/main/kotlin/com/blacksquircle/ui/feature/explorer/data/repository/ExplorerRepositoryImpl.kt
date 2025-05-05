@@ -58,11 +58,11 @@ internal class ExplorerRepositoryImpl(
     private val context: Context,
 ) : ExplorerRepository {
 
-    private val workspaceFlow = workspaceDao.flowAll()
-    private val serverFlow = serverInteractor.flowAll()
-
     override suspend fun loadWorkspaces(): Flow<List<WorkspaceModel>> {
-        return combine(workspaceFlow, serverFlow) { workspaces, servers ->
+        return combine(
+            workspaceDao.flowAll(),
+            serverInteractor.flowAll(),
+        ) { workspaces, servers ->
             val defaultWorkspaces = listOf(
                 context.createLocalWorkspace(),
                 context.createRootWorkspace(),

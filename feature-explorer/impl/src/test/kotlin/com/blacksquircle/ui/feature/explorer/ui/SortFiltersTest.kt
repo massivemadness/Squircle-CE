@@ -35,6 +35,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -77,7 +78,7 @@ class SortFiltersTest {
 
     @Before
     fun setup() {
-        coEvery { explorerRepository.loadWorkspaces() } returns workspaces
+        coEvery { explorerRepository.loadWorkspaces() } returns flowOf(workspaces)
         coEvery { explorerRepository.listFiles(defaultLocation) } returns fileList
 
         every { settingsManager.workspace } returns selectedWorkspace.uuid

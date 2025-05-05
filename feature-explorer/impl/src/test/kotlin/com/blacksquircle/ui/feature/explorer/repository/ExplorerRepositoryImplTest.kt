@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.explorer.repository
 
 import android.content.Context
 import android.os.Environment
+import com.blacksquircle.ui.core.database.dao.workspace.WorkspaceDao
 import com.blacksquircle.ui.core.extensions.PermissionException
 import com.blacksquircle.ui.core.extensions.isStorageAccessGranted
 import com.blacksquircle.ui.core.settings.SettingsManager
@@ -46,7 +47,10 @@ import io.mockk.slot
 import io.mockk.verify
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Test
 import java.io.File
 
@@ -58,6 +62,7 @@ class ExplorerRepositoryImplTest {
     private val gitInteractor = mockk<GitInteractor>(relaxed = true)
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
     private val filesystemFactory = mockk<FilesystemFactory>(relaxed = true)
+    private val workspaceDao = mockk<WorkspaceDao>(relaxed = true)
     private val context = mockk<Context>(relaxed = true)
 
     private val filesystem = mockk<Filesystem>(relaxed = true)
@@ -69,8 +74,14 @@ class ExplorerRepositoryImplTest {
         gitInteractor = gitInteractor,
         serverInteractor = serverInteractor,
         filesystemFactory = filesystemFactory,
+        workspaceDao = workspaceDao,
         context = context
     )
+
+    @Before
+    fun setup() {
+        coEvery { workspaceDao.load(any()) } returns null
+    }
 
     @Test
     fun `When loading workspaces without servers Then return default workspaces`() = runTest {
@@ -79,10 +90,11 @@ class ExplorerRepositoryImplTest {
         every { Environment.getExternalStorageDirectory() } returns mockk<File>().apply {
             every { absolutePath } returns ""
         }
-        coEvery { serverInteractor.flowAll() } returns emptyList()
+        coEvery { serverInteractor.flowAll() } returns flowOf(emptyList())
+        coEvery { workspaceDao.flowAll() } returns flowOf(emptyList())
 
         // When
-        val workspaces = explorerRepository.loadWorkspaces()
+        val workspaces = explorerRepository.loadWorkspaces().first()
 
         // Then
         assertTrue(workspaces.size == 2)
@@ -111,10 +123,11 @@ class ExplorerRepositoryImplTest {
             keyId = null,
             passphrase = null,
         )
-        coEvery { serverInteractor.flowAll() } returns listOf(server)
+        coEvery { serverInteractor.flowAll() } returns flowOf(listOf(server))
+        coEvery { workspaceDao.flowAll() } returns flowOf(emptyList())
 
         // When
-        val workspaces = explorerRepository.loadWorkspaces()
+        val workspaces = explorerRepository.loadWorkspaces().first()
 
         // Then
         assertTrue(workspaces.size == 3)

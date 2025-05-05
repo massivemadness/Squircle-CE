@@ -41,6 +41,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -77,7 +78,7 @@ class FileTaskTest {
 
     @Before
     fun setup() {
-        coEvery { explorerRepository.loadWorkspaces() } returns workspaces
+        coEvery { explorerRepository.loadWorkspaces() } returns flowOf(workspaces)
         coEvery { explorerRepository.listFiles(any()) } returns fileList
 
         every { settingsManager.workspace } returns selectedWorkspace.uuid

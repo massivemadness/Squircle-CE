@@ -39,6 +39,9 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -66,7 +69,7 @@ class WorkspacesTest {
 
     @Before
     fun setup() {
-        coEvery { explorerRepository.loadWorkspaces() } returns workspaces
+        coEvery { explorerRepository.loadWorkspaces() } returns flowOf(workspaces)
         coEvery { explorerRepository.listFiles(any()) } returns emptyList()
 
         every { settingsManager.workspace } returns selectedWorkspace.uuid
@@ -93,6 +96,7 @@ class WorkspacesTest {
         // Given
         val viewModel = createViewModel()
         clearMocks(explorerRepository, answers = false, recordedCalls = true) // reset verify count
+        clearMocks(settingsManager, answers = false, recordedCalls = true)
 
         // When
         viewModel.onWorkspaceClicked(selectedWorkspace) // already selected
@@ -143,19 +147,46 @@ class WorkspacesTest {
     }
 
     @Test
-    fun `When workspace added Then load workspaces`() = runTest {
+    fun `When workspace list changed Then reload workspaces`() = runTest {
         // Given
+        val workspacesFlow = MutableStateFlow(workspaces)
+        val updatedWorkspaces = workspaces + createWorkspace("new_workspace")
+        coEvery { explorerRepository.loadWorkspaces() } returns workspacesFlow
         val viewModel = createViewModel()
-        val updatedWorkspaces = workspaces + createWorkspace("12345")
-        clearMocks(explorerRepository, answers = false, recordedCalls = true) // reset verify count
-        coEvery { explorerRepository.loadWorkspaces() } returns updatedWorkspaces
 
         // When
-        viewModel.onWorkspaceAdded()
+        workspacesFlow.update {
+            updatedWorkspaces
+        }
 
         // Then
         assertEquals(updatedWorkspaces, viewModel.viewState.value.workspaces)
         coVerify(exactly = 1) { explorerRepository.loadWorkspaces() }
+    }
+
+    @Test
+    fun `When selected workspace removed Then fallback to default`() = runTest {
+        // Given
+        val workspacesFlow = MutableStateFlow(workspaces)
+        val selectedWorkspace = workspaces[1]
+        val fallbackWorkspace = workspaces[0]
+        val updatedWorkspaces = listOf(fallbackWorkspace)
+
+        coEvery { explorerRepository.loadWorkspaces() } returns workspacesFlow
+        every { settingsManager.workspace } returns selectedWorkspace.uuid
+
+        val viewModel = createViewModel()
+
+        // When
+        workspacesFlow.update {
+            updatedWorkspaces
+        }
+
+        // Then
+        assertEquals(updatedWorkspaces, viewModel.viewState.value.workspaces)
+        assertEquals(fallbackWorkspace, viewModel.viewState.value.selectedWorkspace)
+        coVerify(exactly = 1) { explorerRepository.loadWorkspaces() }
+        verify(exactly = 1) { settingsManager.workspace = fallbackWorkspace.uuid }
     }
 
     private fun createViewModel(): ExplorerViewModel {

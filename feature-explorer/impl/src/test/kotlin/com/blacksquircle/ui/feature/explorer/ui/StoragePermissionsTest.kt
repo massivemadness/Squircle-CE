@@ -40,6 +40,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -69,7 +70,7 @@ class StoragePermissionsTest {
 
     @Before
     fun setup() {
-        coEvery { explorerRepository.loadWorkspaces() } returns workspaces
+        coEvery { explorerRepository.loadWorkspaces() } returns flowOf(workspaces)
         coEvery { explorerRepository.listFiles(any()) } returns emptyList()
 
         every { settingsManager.workspace } returns selectedWorkspace.uuid
