@@ -37,6 +37,7 @@ import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
+import com.scottyab.rootbeer.RootBeer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -55,6 +56,7 @@ internal class ExplorerRepositoryImpl(
     private val serverInteractor: ServerInteractor,
     private val filesystemFactory: FilesystemFactory,
     private val workspaceDao: WorkspaceDao,
+    private val rootBeer: RootBeer,
     private val context: Context,
 ) : ExplorerRepository {
 
@@ -63,10 +65,12 @@ internal class ExplorerRepositoryImpl(
             workspaceDao.flowAll(),
             serverInteractor.flowAll(),
         ) { workspaces, servers ->
-            val defaultWorkspaces = listOf(
-                context.createLocalWorkspace(),
-                context.createRootWorkspace(),
-            )
+            val defaultWorkspaces = buildList {
+                add(context.createLocalWorkspace())
+                if (rootBeer.isRooted) {
+                    add(context.createRootWorkspace())
+                }
+            }
             val userWorkspaces = workspaces.map(WorkspaceMapper::toModel)
             val serverWorkspaces = servers.map(WorkspaceMapper::toModel)
             defaultWorkspaces + userWorkspaces + serverWorkspaces
