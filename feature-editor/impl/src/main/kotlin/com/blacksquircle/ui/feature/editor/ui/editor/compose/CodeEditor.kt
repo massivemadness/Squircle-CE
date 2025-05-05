@@ -36,7 +36,6 @@ import com.blacksquircle.ui.feature.editor.ui.editor.view.nextWord
 import com.blacksquircle.ui.feature.editor.ui.editor.view.previousWord
 import com.blacksquircle.ui.feature.editor.ui.editor.view.selectLine
 import com.blacksquircle.ui.feature.editor.ui.editor.view.startOfLine
-import com.blacksquircle.ui.feature.editor.ui.editor.view.syncScroll
 import com.blacksquircle.ui.feature.editor.ui.editor.view.toggleCase
 import io.github.rosemoe.sora.event.ContentChangeEvent
 import io.github.rosemoe.sora.event.KeyBindingEvent
@@ -108,7 +107,8 @@ internal fun CodeEditor(
             )
             editor.setEditorLanguage(editorLanguage)
             editor.setText(content)
-            editor.syncScroll()
+            editor.scroller.startScroll(0, 0, content.scrollX, content.scrollY, 0)
+            editor.scroller.abortAnimation()
         },
         onRelease = CodeEditor::release,
         modifier = modifier,
