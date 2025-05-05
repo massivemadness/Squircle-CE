@@ -36,6 +36,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -153,6 +154,73 @@ class UndoRedoTest {
 
         // Then
         coVerify(exactly = 0) { content.redo() }
+    }
+
+    @Test
+    fun `When closing unselected file Then preserve undo history`() = runTest {
+        // Given
+        val documentList = listOf(
+            createDocument(uuid = "1", fileName = "first.txt", position = 0),
+            createDocument(uuid = "2", fileName = "second.txt", position = 1),
+        )
+        val selected = documentList[0]
+        val selectedContent = mockk<Content>(relaxed = true).apply {
+            every { canUndo() } returns true
+            every { canRedo() } returns true
+        }
+
+        val unselected = documentList[1]
+        val unselectedContent = mockk<Content>(relaxed = true).apply {
+            every { canUndo() } returns true
+            every { canRedo() } returns false
+        }
+
+        every { settingsManager.selectedUuid } returns selected.uuid
+        coEvery { documentRepository.loadDocuments() } returns documentList
+        coEvery { documentRepository.loadDocument(selected) } returns selectedContent
+        coEvery { documentRepository.loadDocument(unselected) } returns unselectedContent
+
+        // When
+        val viewModel = createViewModel()
+        viewModel.onCloseClicked(unselected)
+
+        // Then
+        assertEquals(true, viewModel.viewState.value.canUndo)
+        assertEquals(true, viewModel.viewState.value.canRedo)
+    }
+
+    @Test
+    fun `When closing selected file Then reload undo history`() = runTest {
+        // Given
+        val documentList = listOf(
+            createDocument(uuid = "1", fileName = "first.txt", position = 0),
+            createDocument(uuid = "2", fileName = "second.txt", position = 1),
+        )
+        val selected = documentList[0]
+        val selectedContent = mockk<Content>(relaxed = true).apply {
+            every { canUndo() } returns true
+            every { canRedo() } returns true
+        }
+
+        val unselected = documentList[1]
+        val unselectedContent = mockk<Content>(relaxed = true).apply {
+            every { canUndo() } returns true
+            every { canRedo() } returns false
+        }
+
+        every { settingsManager.selectedUuid } returns selected.uuid
+        coEvery { documentRepository.loadDocuments() } returns documentList
+        coEvery { documentRepository.loadDocument(selected) } returns selectedContent
+        coEvery { documentRepository.loadDocument(unselected.copy(position = 0)) } returns
+            unselectedContent
+
+        // When
+        val viewModel = createViewModel()
+        viewModel.onCloseClicked(selected)
+
+        // Then
+        assertEquals(true, viewModel.viewState.value.canUndo)
+        assertEquals(false, viewModel.viewState.value.canRedo)
     }
 
     private fun createViewModel(): EditorViewModel {
