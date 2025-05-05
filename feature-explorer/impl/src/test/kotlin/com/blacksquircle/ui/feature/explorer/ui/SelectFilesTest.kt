@@ -24,7 +24,7 @@ import com.blacksquircle.ui.feature.explorer.createFile
 import com.blacksquircle.ui.feature.explorer.createNode
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
-import com.blacksquircle.ui.feature.explorer.defaultFilesystems
+import com.blacksquircle.ui.feature.explorer.defaultWorkspaces
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
@@ -37,6 +37,7 @@ import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -59,10 +60,10 @@ class SelectFilesTest {
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
     private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
 
-    private val filesystems = defaultFilesystems()
-    private val selectedFilesystem = filesystems[0]
+    private val workspaces = defaultWorkspaces()
+    private val selectedWorkspace = workspaces[0]
 
-    private val defaultLocation = selectedFilesystem.defaultLocation
+    private val defaultLocation = selectedWorkspace.defaultLocation
     private val fileList = listOf(
         createFile(name = "Apple"),
         createFile(name = "Banana"),
@@ -77,12 +78,12 @@ class SelectFilesTest {
 
     @Before
     fun setup() {
-        coEvery { explorerRepository.loadFilesystems() } returns filesystems
+        coEvery { explorerRepository.loadWorkspaces() } returns flowOf(workspaces)
         coEvery { explorerRepository.listFiles(defaultLocation) } returns fileList
 
-        every { settingsManager.filesystem } returns selectedFilesystem.uuid
-        every { settingsManager.filesystem = any() } answers {
-            every { settingsManager.filesystem } returns firstArg()
+        every { settingsManager.workspace } returns selectedWorkspace.uuid
+        every { settingsManager.workspace = any() } answers {
+            every { settingsManager.workspace } returns firstArg()
         }
     }
 

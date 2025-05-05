@@ -20,6 +20,7 @@
     <string name="hint_enter_password">Введите пароль</string>
     <string name="hint_enter_passphrase">Введите фразу-пароль</string>
     <string name="hint_enter_git_url">Введите URL-адрес</string>
+    <string name="hint_enter_dir_path">Введите путь к папке</string>
     <string name="action_authenticate">Авторизовать</string>
     <string name="action_create">Создать</string>
     <string name="action_copy_path">Скопировать путь</string>
@@ -34,6 +35,7 @@
     <string name="action_properties">Свойства</string>
     <string name="action_refresh">Обновить</string>
     <string name="action_paste">Вставить</string>
+    <string name="action_add">Добавить</string>
     <string name="dialog_title_authentication">Авторизация</string>
     <string name="dialog_title_create">Создать…</string>
     <string name="dialog_title_clone">Клонировать…</string>
@@ -50,10 +52,18 @@
     <string name="dialog_title_archive_name">Название архива</string>
     <string name="dialog_title_storage_permission">Доступ к хранилищу</string>
     <string name="dialog_title_notification_permission">Уведомления</string>
+    <string name="dialog_title_add_workspace">Добавить пространство</string>
     <string name="dialog_message_delete">Вы уверены что хотите удалить этот файл?</string>
     <string name="dialog_message_multi_delete">Вы уверены что хотите удалить выделенные файлы?</string>
     <string name="dialog_message_storage_permission">Squircle CE требуется доступ ко всем файлам для корректной работы\n\nПожалуйста, предоставьте разрешение в настройках системы</string>
     <string name="dialog_message_notification_permission">Squircle CE требуется доступ к уведомлениям для работы в фоне\n\nПожалуйста, предоставьте разрешение в настройках системы</string>
+    <string name="dialog_message_delete_workspace">Вы уверены что хотите удалить это пространство?</string>
+    <string name="workspace_local_storage_title">Локальная папка</string>
+    <string name="workspace_local_storage_description">Открыть папку используя абсолютный путь</string>
+    <string name="workspace_internal_storage_title">Внутреннее хранилище</string>
+    <string name="workspace_internal_storage_description">Открыть папку используя системное приложение</string>
+    <string name="workspace_remote_server_title">Удаленный сервер</string>
+    <string name="workspace_remote_server_description">Подключиться к удаленному серверу используя учетные данные</string>
     <string name="properties_name">Имя файла:</string>
     <string name="properties_path">Путь к файлу:</string>
     <string name="properties_modified">Последнее изменение:</string>
@@ -90,5 +100,4 @@
     <string name="explorer_channel_name">Файловый менеджер</string>
     <string name="explorer_channel_description">Отображение и управление файловыми операциями</string>
     <string name="explorer_service_message">Выполняются фоновые операции</string>
-    <string name="storage_add">Добавить</string>
 </resources>

@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer
 
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -24,21 +24,21 @@ import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 
-internal fun defaultFilesystems(): List<FilesystemModel> {
+internal fun defaultWorkspaces(): List<WorkspaceModel> {
     return listOf(
-        FilesystemModel(
+        WorkspaceModel(
             uuid = LocalFilesystem.LOCAL_UUID,
-            type = FilesystemType.LOCAL,
-            title = "Local",
+            name = "Local",
+            filesystemType = FilesystemType.LOCAL,
             defaultLocation = FileModel(
                 fileUri = "file:///storage/emulated/0/",
                 filesystemUuid = LocalFilesystem.LOCAL_UUID,
             ),
         ),
-        FilesystemModel(
+        WorkspaceModel(
             uuid = RootFilesystem.ROOT_UUID,
-            type = FilesystemType.ROOT,
-            title = "Root",
+            name = "Root",
+            filesystemType = FilesystemType.ROOT,
             defaultLocation = FileModel(
                 fileUri = "sufile:///",
                 filesystemUuid = RootFilesystem.ROOT_UUID,
@@ -47,13 +47,13 @@ internal fun defaultFilesystems(): List<FilesystemModel> {
     )
 }
 
-internal fun createFilesystem(
+internal fun createWorkspace(
     uuid: String = LocalFilesystem.LOCAL_UUID,
-): FilesystemModel {
-    return FilesystemModel(
+): WorkspaceModel {
+    return WorkspaceModel(
         uuid = uuid,
-        type = FilesystemType.LOCAL,
-        title = "Filesystem",
+        name = "Filesystem",
+        filesystemType = FilesystemType.LOCAL,
         defaultLocation = FileModel(
             fileUri = "file:///storage/emulated/0/",
             filesystemUuid = uuid,

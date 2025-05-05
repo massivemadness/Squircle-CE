@@ -24,23 +24,27 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import com.blacksquircle.ui.ds.navigationitem.NavigationItem
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun Filesystems(
-    filesystems: List<FilesystemModel>,
-    selectedFilesystem: FilesystemModel?,
-    onFilesystemClicked: (FilesystemModel) -> Unit,
-    onAddFilesystemClicked: () -> Unit,
+internal fun Workspaces(
+    workspaces: List<WorkspaceModel>,
+    selectedWorkspace: WorkspaceModel?,
+    onWorkspaceClicked: (WorkspaceModel) -> Unit,
+    onAddWorkspaceClicked: () -> Unit,
+    onDeleteWorkspaceClicked: (WorkspaceModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
     Column(
         modifier = modifier
             .width(64.dp)
@@ -48,26 +52,26 @@ internal fun Filesystems(
             .verticalScroll(rememberScrollState())
             .systemBarsPadding()
     ) {
-        filesystems.fastForEach { filesystem ->
+        workspaces.fastForEach { workspace ->
             NavigationItem(
-                iconResId = when (filesystem.type) {
+                iconResId = when (workspace.filesystemType) {
                     FilesystemType.LOCAL -> UiR.drawable.ic_folder
                     FilesystemType.ROOT -> UiR.drawable.ic_folder_pound
                     FilesystemType.SERVER -> UiR.drawable.ic_server_network
                 },
-                label = when (filesystem.type) {
-                    FilesystemType.LOCAL -> stringResource(R.string.storage_local)
-                    FilesystemType.ROOT -> stringResource(R.string.storage_root)
-                    FilesystemType.SERVER -> filesystem.title
+                label = workspace.name,
+                selected = workspace == selectedWorkspace,
+                onClick = { onWorkspaceClicked(workspace) },
+                onLongClick = {
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onDeleteWorkspaceClicked(workspace)
                 },
-                selected = filesystem == selectedFilesystem,
-                onClick = { onFilesystemClicked(filesystem) },
             )
         }
         NavigationItem(
             iconResId = UiR.drawable.ic_plus,
-            label = stringResource(R.string.storage_add),
-            onClick = onAddFilesystemClicked,
+            label = stringResource(R.string.action_add),
+            onClick = onAddWorkspaceClicked,
         )
     }
 }

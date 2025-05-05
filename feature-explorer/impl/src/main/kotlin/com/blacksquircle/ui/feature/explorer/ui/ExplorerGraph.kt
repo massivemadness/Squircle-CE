@@ -23,12 +23,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
 import com.blacksquircle.ui.ds.extensions.LocalNavController
+import com.blacksquircle.ui.feature.explorer.api.navigation.AddWorkspaceDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CloneRepoDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CreateDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteWorkspaceDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.ExplorerScreen
+import com.blacksquircle.ui.feature.explorer.api.navigation.LocalWorkspaceDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.NotificationDeniedDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
@@ -45,6 +48,9 @@ import com.blacksquircle.ui.feature.explorer.ui.permissions.StorageDeniedScreen
 import com.blacksquircle.ui.feature.explorer.ui.properties.PropertiesScreen
 import com.blacksquircle.ui.feature.explorer.ui.rename.RenameScreen
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskScreen
+import com.blacksquircle.ui.feature.explorer.ui.workspace.AddWorkspaceScreen
+import com.blacksquircle.ui.feature.explorer.ui.workspace.DeleteWorkspaceScreen
+import com.blacksquircle.ui.feature.explorer.ui.workspace.LocalWorkspaceScreen
 
 fun NavGraphBuilder.explorerGraph(navController: NavHostController) {
     composable<ExplorerScreen> {
@@ -84,6 +90,16 @@ fun NavGraphBuilder.explorerGraph(navController: NavHostController) {
     }
     dialog<NotificationDeniedDialog> {
         NotificationDeniedScreen(navController)
+    }
+    dialog<AddWorkspaceDialog> {
+        AddWorkspaceScreen(navController)
+    }
+    dialog<DeleteWorkspaceDialog> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<DeleteWorkspaceDialog>()
+        DeleteWorkspaceScreen(navArgs, navController)
+    }
+    dialog<LocalWorkspaceDialog> {
+        LocalWorkspaceScreen(navController)
     }
 }
 

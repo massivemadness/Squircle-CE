@@ -19,9 +19,9 @@ package com.blacksquircle.ui.feature.explorer.domain.model
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 
-internal data class FilesystemModel(
+internal data class WorkspaceModel(
     val uuid: String,
-    val type: FilesystemType,
-    val title: String,
+    val name: String,
+    val filesystemType: FilesystemType,
     val defaultLocation: FileModel,
 )

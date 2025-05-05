@@ -46,10 +46,12 @@ import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SelectionMenu
 import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SortingMenu
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
+import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ExplorerToolbar(
+    filesystemType: FilesystemType,
     searchQuery: String,
     selectedNodes: List<FileNode>,
     showHidden: Boolean,
@@ -137,10 +139,12 @@ internal fun ExplorerToolbar(
             }
 
             if (selectionMode) {
-                IconButton(
-                    iconResId = UiR.drawable.ic_copy,
-                    onClick = onCopyClicked,
-                )
+                if (filesystemType == FilesystemType.LOCAL) {
+                    IconButton(
+                        iconResId = UiR.drawable.ic_copy,
+                        onClick = onCopyClicked,
+                    )
+                }
                 IconButton(
                     iconResId = UiR.drawable.ic_delete,
                     onClick = onDeleteClicked,
@@ -154,6 +158,7 @@ internal fun ExplorerToolbar(
                     if (selectionMode) {
                         SelectionMenu(
                             count = selectedNodes.size,
+                            filesystemType = filesystemType,
                             expanded = menuExpanded,
                             onDismiss = { menuExpanded = false },
                             onCutClicked = { menuExpanded = false; onCutClicked() },
@@ -197,6 +202,7 @@ internal fun ExplorerToolbar(
 private fun ExplorerToolbarPreview() {
     PreviewBackground {
         ExplorerToolbar(
+            filesystemType = FilesystemType.LOCAL,
             searchQuery = "",
             selectedNodes = emptyList(),
             showHidden = true,

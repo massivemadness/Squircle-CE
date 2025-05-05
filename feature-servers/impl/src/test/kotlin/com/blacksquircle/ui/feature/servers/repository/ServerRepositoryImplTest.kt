@@ -124,7 +124,7 @@ class ServerRepositoryImplTest {
         // Given
         val serverConfig = createServerConfig(uuid = serverId)
         val serverEntity = createServerEntity(uuid = serverId)
-        every { settingsManager.filesystem } returns "different"
+        every { settingsManager.workspace } returns "different"
         mockkObject(ServerCredentials)
 
         // When
@@ -137,23 +137,23 @@ class ServerRepositoryImplTest {
     }
 
     @Test
-    fun `When updating selected server Then clear selected filesystem`() = runTest {
+    fun `When updating selected server Then clear selected workspace`() = runTest {
         // Given
         val serverConfig = createServerConfig(uuid = serverId)
-        every { settingsManager.filesystem } returns serverId
+        every { settingsManager.workspace } returns serverId
 
         // When
         serverRepository.upsertServer(serverConfig)
 
         // Then
-        verify(exactly = 1) { settingsManager.remove(SettingsManager.KEY_FILESYSTEM) }
+        verify(exactly = 1) { settingsManager.remove(SettingsManager.KEY_WORKSPACE) }
     }
 
     @Test
     fun `When deleting the server Then delete server and clear credentials`() = runTest {
         // Given
         val serverConfig = createServerConfig(uuid = serverId)
-        every { settingsManager.filesystem } returns "different"
+        every { settingsManager.workspace } returns "different"
         mockkObject(ServerCredentials)
 
         // When
@@ -166,15 +166,15 @@ class ServerRepositoryImplTest {
     }
 
     @Test
-    fun `When deleting selected server Then clear selected filesystem`() = runTest {
+    fun `When deleting selected server Then clear selected workspace`() = runTest {
         // Given
         val serverConfig = createServerConfig(uuid = serverId)
-        every { settingsManager.filesystem } returns serverId
+        every { settingsManager.workspace } returns serverId
 
         // When
         serverRepository.deleteServer(serverConfig)
 
         // Then
-        verify(exactly = 1) { settingsManager.remove(SettingsManager.KEY_FILESYSTEM) }
+        verify(exactly = 1) { settingsManager.remove(SettingsManager.KEY_WORKSPACE) }
     }
 }

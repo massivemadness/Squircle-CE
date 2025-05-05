@@ -16,12 +16,16 @@
 
 package com.blacksquircle.ui.feature.explorer.domain.repository
 
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import kotlinx.coroutines.flow.Flow
 
 internal interface ExplorerRepository {
 
-    suspend fun loadFilesystems(): List<FilesystemModel>
+    suspend fun loadWorkspaces(): Flow<List<WorkspaceModel>>
+    suspend fun createWorkspace(filePath: String)
+    suspend fun deleteWorkspace(uuid: String)
+
     suspend fun listFiles(parent: FileModel): List<FileModel>
 
     fun createFile(parent: FileModel, fileName: String, isFolder: Boolean): String

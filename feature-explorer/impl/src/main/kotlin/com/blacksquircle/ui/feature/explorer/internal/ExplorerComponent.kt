@@ -26,6 +26,9 @@ import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiProvider
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskService
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskViewModel
+import com.blacksquircle.ui.feature.explorer.ui.workspace.AddWorkspaceViewModel
+import com.blacksquircle.ui.feature.explorer.ui.workspace.DeleteWorkspaceViewModel
+import com.blacksquircle.ui.feature.explorer.ui.workspace.LocalWorkspaceViewModel
 import com.blacksquircle.ui.feature.git.api.internal.GitApiDepsProvider
 import com.blacksquircle.ui.feature.git.api.internal.GitApiProvider
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiDepsProvider
@@ -50,6 +53,9 @@ internal interface ExplorerComponent {
     fun inject(service: TaskService)
     fun inject(factory: TaskViewModel.ParameterizedFactory)
     fun inject(factory: ExplorerViewModel.Factory)
+    fun inject(factory: AddWorkspaceViewModel.Factory)
+    fun inject(factory: DeleteWorkspaceViewModel.Factory)
+    fun inject(factory: LocalWorkspaceViewModel.Factory)
 
     @Component.Factory
     interface Factory {

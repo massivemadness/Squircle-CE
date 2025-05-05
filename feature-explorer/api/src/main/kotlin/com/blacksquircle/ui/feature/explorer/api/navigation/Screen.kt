@@ -57,3 +57,12 @@ data object StorageDeniedDialog
 
 @Serializable
 data object NotificationDeniedDialog
+
+@Serializable
+data object AddWorkspaceDialog
+
+@Serializable
+data class DeleteWorkspaceDialog(val uuid: String, val name: String)
+
+@Serializable
+data object LocalWorkspaceDialog

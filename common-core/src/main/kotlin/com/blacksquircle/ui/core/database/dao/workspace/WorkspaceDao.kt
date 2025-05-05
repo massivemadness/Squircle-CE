@@ -14,34 +14,28 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.database.dao.server
+package com.blacksquircle.ui.core.database.dao.workspace
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.blacksquircle.ui.core.database.entity.server.ServerEntity
+import com.blacksquircle.ui.core.database.entity.workspace.WorkspaceEntity
 import com.blacksquircle.ui.core.database.utils.Tables
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface ServerDao {
+interface WorkspaceDao {
 
-    @Query("SELECT * FROM `${Tables.SERVERS}`")
-    fun flowAll(): Flow<List<ServerEntity>>
+    @Query("SELECT * FROM `${Tables.WORKSPACES}`")
+    fun flowAll(): Flow<List<WorkspaceEntity>>
 
-    @Query("SELECT * FROM `${Tables.SERVERS}`")
-    suspend fun loadAll(): List<ServerEntity>
+    @Query("SELECT * FROM `${Tables.WORKSPACES}` WHERE `uuid` = :uuid")
+    suspend fun load(uuid: String): WorkspaceEntity?
 
-    @Query("DELETE FROM `${Tables.SERVERS}`")
-    suspend fun deleteAll()
-
-    @Query("SELECT * FROM `${Tables.SERVERS}` WHERE `uuid` = :uuid")
-    suspend fun load(uuid: String): ServerEntity
-
-    @Query("DELETE FROM `${Tables.SERVERS}` WHERE `uuid` = :uuid")
+    @Query("DELETE FROM `${Tables.WORKSPACES}` WHERE `uuid` = :uuid")
     suspend fun delete(uuid: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(serverEntity: ServerEntity): Long
+    suspend fun insert(workspace: WorkspaceEntity): Long
 }

@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.domain.repository
+package com.blacksquircle.ui.feature.explorer.data.utils
 
 import android.net.Uri
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
+import android.os.Environment
+import android.provider.DocumentsContract
+import java.io.File
 
-internal interface ServerRepository {
+private const val PRIMARY = "primary:"
 
-    suspend fun checkAvailability(serverConfig: ServerConfig): Long
-    suspend fun saveKeyFile(fileUri: Uri): String
-
-    suspend fun loadServers(): List<ServerConfig>
-    suspend fun loadServer(uuid: String): ServerConfig
-    suspend fun upsertServer(serverConfig: ServerConfig)
-    suspend fun deleteServer(serverConfig: ServerConfig)
+internal fun Uri.guessFilePath(): String? {
+    if (DocumentsContract.isTreeUri(this)) {
+        val docId = DocumentsContract.getTreeDocumentId(this)
+        if (docId.startsWith(PRIMARY)) {
+            val basePath = Environment.getExternalStorageDirectory().absolutePath
+            val relativePath = docId.removePrefix(PRIMARY)
+            return basePath + File.separator + relativePath
+        }
+    }
+    return null
 }

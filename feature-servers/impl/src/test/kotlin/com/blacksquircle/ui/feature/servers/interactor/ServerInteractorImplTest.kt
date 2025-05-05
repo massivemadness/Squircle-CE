@@ -16,11 +16,13 @@
 
 package com.blacksquircle.ui.feature.servers.interactor
 
+import com.blacksquircle.ui.core.database.dao.server.ServerDao
 import com.blacksquircle.ui.feature.servers.createServerConfig
+import com.blacksquircle.ui.feature.servers.createServerEntity
 import com.blacksquircle.ui.feature.servers.data.cache.ServerCredentials
 import com.blacksquircle.ui.feature.servers.data.interactor.ServerInteractorImpl
-import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -35,8 +37,12 @@ import org.junit.Test
 
 class ServerInteractorImplTest {
 
-    private val serverRepository = mockk<ServerRepository>(relaxed = true)
-    private val serverInteractor = ServerInteractorImpl(serverRepository)
+    private val dispatcherProvider = TestDispatcherProvider()
+    private val serverDao = mockk<ServerDao>(relaxed = true)
+    private val serverInteractor = ServerInteractorImpl(
+        dispatcherProvider = dispatcherProvider,
+        serverDao = serverDao,
+    )
 
     private val serverId = "12345"
     private val serverPassword = "secret"
@@ -65,49 +71,59 @@ class ServerInteractorImplTest {
     }
 
     @Test
-    fun `When loading servers Then load from repository`() = runTest {
+    fun `When loading servers Then load from database`() = runTest {
         // When
-        serverInteractor.loadServers()
+        serverInteractor.flowAll()
 
         // Then
-        coVerify(exactly = 1) { serverRepository.loadServers() }
+        coVerify(exactly = 1) { serverDao.flowAll() }
     }
 
     @Test
-    fun `When server with no password Then load credentials from memory`() = runTest {
+    fun `When loading server Then load password from memory`() = runTest {
         // Given
-        val serverConfig = createServerConfig(
+        val serverEntity = createServerEntity(
             uuid = serverId,
             authMethod = AuthMethod.PASSWORD,
             password = null, // requires authentication
         )
-        coEvery { serverRepository.loadServer(serverId) } returns serverConfig
+        coEvery { serverDao.load(serverId) } returns serverEntity
         ServerCredentials.put(serverId, serverPassword)
 
         // When
         val server = serverInteractor.loadServer(serverId)
 
         // Then
-        assertEquals(serverPassword, server.password)
-        coVerify(exactly = 1) { serverRepository.loadServer(serverId) }
+        val expected = createServerConfig(
+            uuid = serverId,
+            authMethod = AuthMethod.PASSWORD,
+            password = serverPassword,
+        )
+        assertEquals(expected, server)
+        coVerify(exactly = 1) { serverDao.load(serverId) }
     }
 
     @Test
-    fun `When server has no passphrase Then load credentials from memory`() = runTest {
+    fun `When loading server Then load passphrase from memory`() = runTest {
         // Given
-        val serverConfig = createServerConfig(
+        val serverEntity = createServerEntity(
             uuid = serverId,
             authMethod = AuthMethod.KEY,
             passphrase = null, // requires authentication
         )
-        coEvery { serverRepository.loadServer(serverId) } returns serverConfig
+        coEvery { serverDao.load(serverId) } returns serverEntity
         ServerCredentials.put(serverId, serverPassword)
 
         // When
         val server = serverInteractor.loadServer(serverId)
 
         // Then
-        assertEquals(serverPassword, server.passphrase)
-        coVerify(exactly = 1) { serverRepository.loadServer(serverId) }
+        val serverConfig = createServerConfig(
+            uuid = serverId,
+            authMethod = AuthMethod.KEY,
+            passphrase = serverPassword,
+        )
+        assertEquals(serverConfig, server)
+        coVerify(exactly = 1) { serverDao.load(serverId) }
     }
 }
