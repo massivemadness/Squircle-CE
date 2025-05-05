@@ -38,6 +38,7 @@ import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.blacksquircle.ui.test.provider.TestDispatcherProvider
+import com.scottyab.rootbeer.RootBeer
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -63,6 +64,7 @@ class ExplorerRepositoryImplTest {
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
     private val filesystemFactory = mockk<FilesystemFactory>(relaxed = true)
     private val workspaceDao = mockk<WorkspaceDao>(relaxed = true)
+    private val rootBeer = mockk<RootBeer>(relaxed = true)
     private val context = mockk<Context>(relaxed = true)
 
     private val filesystem = mockk<Filesystem>(relaxed = true)
@@ -75,6 +77,7 @@ class ExplorerRepositoryImplTest {
         serverInteractor = serverInteractor,
         filesystemFactory = filesystemFactory,
         workspaceDao = workspaceDao,
+        rootBeer = rootBeer,
         context = context
     )
 
@@ -84,7 +87,7 @@ class ExplorerRepositoryImplTest {
     }
 
     @Test
-    fun `When loading workspaces without servers Then return default workspaces`() = runTest {
+    fun `When loading workspaces without root Then return local workspace`() = runTest {
         // Given
         mockkStatic(Environment::class)
         every { Environment.getExternalStorageDirectory() } returns mockk<File>().apply {
@@ -92,6 +95,26 @@ class ExplorerRepositoryImplTest {
         }
         coEvery { serverInteractor.flowAll() } returns flowOf(emptyList())
         coEvery { workspaceDao.flowAll() } returns flowOf(emptyList())
+        coEvery { rootBeer.isRooted } returns false
+
+        // When
+        val workspaces = explorerRepository.loadWorkspaces().first()
+
+        // Then
+        assertTrue(workspaces.size == 1)
+        assertEquals(workspaces[0].uuid, LocalFilesystem.LOCAL_UUID)
+    }
+
+    @Test
+    fun `When loading workspaces with root Then return local and root workspaces`() = runTest {
+        // Given
+        mockkStatic(Environment::class)
+        every { Environment.getExternalStorageDirectory() } returns mockk<File>().apply {
+            every { absolutePath } returns ""
+        }
+        coEvery { serverInteractor.flowAll() } returns flowOf(emptyList())
+        coEvery { workspaceDao.flowAll() } returns flowOf(emptyList())
+        coEvery { rootBeer.isRooted } returns true
 
         // When
         val workspaces = explorerRepository.loadWorkspaces().first()
@@ -130,10 +153,9 @@ class ExplorerRepositoryImplTest {
         val workspaces = explorerRepository.loadWorkspaces().first()
 
         // Then
-        assertTrue(workspaces.size == 3)
+        assertTrue(workspaces.size == 2)
         assertEquals(workspaces[0].uuid, LocalFilesystem.LOCAL_UUID)
-        assertEquals(workspaces[1].uuid, RootFilesystem.ROOT_UUID)
-        assertEquals(workspaces[2].uuid, serverId)
+        assertEquals(workspaces[1].uuid, serverId)
     }
 
     @Test(expected = PermissionException::class)
