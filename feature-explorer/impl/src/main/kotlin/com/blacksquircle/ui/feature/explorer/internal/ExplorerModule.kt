@@ -28,6 +28,7 @@ import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryI
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
+import com.scottyab.rootbeer.RootBeer
 import dagger.Module
 import dagger.Provides
 
@@ -56,6 +57,7 @@ internal object ExplorerModule {
         serverInteractor: ServerInteractor,
         filesystemFactory: FilesystemFactory,
         workspaceDao: WorkspaceDao,
+        rootBeer: RootBeer,
         context: Context,
     ): ExplorerRepository {
         return ExplorerRepositoryImpl(
@@ -66,6 +68,7 @@ internal object ExplorerModule {
             serverInteractor = serverInteractor,
             filesystemFactory = filesystemFactory,
             workspaceDao = workspaceDao,
+            rootBeer = rootBeer,
             context = context,
         )
     }
@@ -73,5 +76,10 @@ internal object ExplorerModule {
     @Provides
     fun provideWorkspaceDao(appDatabase: AppDatabase): WorkspaceDao {
         return appDatabase.workspaceDao()
+    }
+
+    @Provides
+    fun provideRootBeer(context: Context): RootBeer {
+        return RootBeer(context)
     }
 }
