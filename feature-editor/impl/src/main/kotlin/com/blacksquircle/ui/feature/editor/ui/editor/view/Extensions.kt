@@ -73,11 +73,6 @@ internal fun CodeEditor.endOfLine() {
     moveOrExtendSelection(SelectionMovement.LINE_END, false)
 }
 
-internal fun CodeEditor.syncScroll() {
-    scroller.startScroll(0, 0, text.scrollX, text.scrollY)
-    scroller.abortAnimation()
-}
-
 internal fun CodeEditor.createFromRegistry(
     language: String,
     codeCompletion: Boolean,

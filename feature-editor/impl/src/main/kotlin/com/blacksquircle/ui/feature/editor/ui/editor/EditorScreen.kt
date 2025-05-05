@@ -29,6 +29,7 @@ import androidx.compose.material.DrawerValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -392,15 +393,17 @@ private fun EditorScreen(
             }
 
             if (!isError && !isLoading && content != null) {
-                CodeEditor(
-                    content = currentDocument.content,
-                    language = currentDocument.document.language,
-                    settings = viewState.settings,
-                    controller = editorController,
-                    onContentChanged = onContentChanged,
-                    onShortcutPressed = onShortcutPressed,
-                    modifier = Modifier.fillMaxSize(),
-                )
+                key(currentDocument.document.uuid) {
+                    CodeEditor(
+                        content = currentDocument.content,
+                        language = currentDocument.document.language,
+                        settings = viewState.settings,
+                        controller = editorController,
+                        onContentChanged = onContentChanged,
+                        onShortcutPressed = onShortcutPressed,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
             }
 
             if (isError && !isLoading) {
