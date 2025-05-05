@@ -22,6 +22,7 @@
     <string name="hint_enter_password">Enter password</string>
     <string name="hint_enter_passphrase">Enter passphrase</string>
     <string name="hint_enter_git_url">Enter git url</string>
+    <string name="hint_enter_dir_path">Enter directory path</string>
 
     <string name="action_authenticate">Authenticate</string>
     <string name="action_create">Create</string>
@@ -37,6 +38,7 @@
     <string name="action_properties">Properties</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_paste">Paste</string>
+    <string name="action_add">Add</string>
 
     <string name="dialog_title_authentication">Authentication</string>
     <string name="dialog_title_create">Create…</string>
@@ -117,6 +119,5 @@
 
     <string name="storage_local" translatable="false">Local</string>
     <string name="storage_root" translatable="false">Root</string>
-    <string name="storage_add">Add</string>
 
 </resources>

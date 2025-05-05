@@ -20,6 +20,7 @@
     <string name="hint_enter_password">Введите пароль</string>
     <string name="hint_enter_passphrase">Введите фразу-пароль</string>
     <string name="hint_enter_git_url">Введите URL-адрес</string>
+    <string name="hint_enter_dir_path">Введите путь к папке</string>
     <string name="action_authenticate">Авторизовать</string>
     <string name="action_create">Создать</string>
     <string name="action_copy_path">Скопировать путь</string>
@@ -34,6 +35,7 @@
     <string name="action_properties">Свойства</string>
     <string name="action_refresh">Обновить</string>
     <string name="action_paste">Вставить</string>
+    <string name="action_add">Добавить</string>
     <string name="dialog_title_authentication">Авторизация</string>
     <string name="dialog_title_create">Создать…</string>
     <string name="dialog_title_clone">Клонировать…</string>
@@ -98,5 +100,4 @@
     <string name="explorer_channel_name">Файловый менеджер</string>
     <string name="explorer_channel_description">Отображение и управление файловыми операциями</string>
     <string name="explorer_service_message">Выполняются фоновые операции</string>
-    <string name="storage_add">Добавить</string>
 </resources>

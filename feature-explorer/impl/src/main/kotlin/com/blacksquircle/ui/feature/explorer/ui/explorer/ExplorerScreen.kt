@@ -227,6 +227,8 @@ private fun ExplorerScreen(
         ScaffoldSuite(
             topBar = {
                 ExplorerToolbar(
+                    filesystemType = viewState.selectedWorkspace
+                        ?.filesystemType ?: FilesystemType.LOCAL,
                     searchQuery = viewState.searchQuery,
                     selectedNodes = viewState.selectedNodes,
                     showHidden = viewState.showHidden,

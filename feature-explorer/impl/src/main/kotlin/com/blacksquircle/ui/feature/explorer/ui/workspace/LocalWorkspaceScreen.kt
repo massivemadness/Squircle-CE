@@ -35,7 +35,6 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
-import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun LocalWorkspaceScreen(
@@ -82,10 +81,10 @@ private fun LocalWorkspaceScreen(
             TextField(
                 inputText = filePath,
                 onInputChanged = { filePath = it },
-                labelText = stringResource(R.string.hint_enter_file_name),
+                labelText = stringResource(R.string.hint_enter_dir_path),
             )
         },
-        confirmButton = stringResource(UiR.string.common_continue),
+        confirmButton = stringResource(R.string.action_add),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = { onConfirmClicked(filePath) },
         onDismissClicked = onCancelClicked,
