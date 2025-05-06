@@ -29,8 +29,8 @@ android {
 
     defaultConfig {
         applicationId = "com.blacksquircle.ui"
-        versionCode = 10026
-        versionName = "2025.1.1"
+        versionCode = 10027
+        versionName = "2025.1.2"
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true

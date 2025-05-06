@@ -1,0 +1,10 @@
+- Added: Tree View in File Manager
+- Added: Compact middle packages in Settings > Files
+- Added: Workspaces — quick access for project folders
+- Added: Regex replace with capture groups
+- Added: Refresh option in File menu
+- Added: Syntax Highlighting for Dockerfile and Makefile
+- Added: Option to clone git repository with submodules
+- Fixed: Scroll position was not restored when switching tabs
+- Fixed: TOML syntax highlighting could cause a crash
+- Bugfixes and minor improvements
