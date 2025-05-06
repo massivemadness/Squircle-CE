@@ -100,8 +100,15 @@ class CompactNodeStrategyTest {
         )
 
         // Then
-        assertEquals(listOf(folderA), appended)
-        assertEquals(listOf(folderA.key), recursed)
+        assertEquals(
+            listOf(
+                folderA,
+                folderB.copy(displayDepth = 1),
+                folderC.copy(displayDepth = 1)
+            ),
+            appended
+        )
+        assertEquals(emptyList<FileNode>(), recursed)
     }
 
     @Test
@@ -138,5 +145,61 @@ class CompactNodeStrategyTest {
         assertEquals(folderA.depth, collapsed.displayDepth)
         assertEquals(folderB.depth + 1, collapsedChild.displayDepth)
         assertEquals(fileC.key, collapsedChild.key)
+    }
+
+    @Test
+    fun `When compacted node has nested folders Then nested folders are compacted too`() {
+        // Given
+        val rootKey = NodeKey.Root
+        val folderA = createFolderNode(name = "a", isExpanded = true)
+        val folderB = createFolderNode(name = "a/b", isExpanded = true)
+        val folderC = createFolderNode(name = "a/b/c", isExpanded = true)
+        val fileD = createFileNode(name = "a/b/c/d.txt")
+
+        val folderDE = createFolderNode(name = "a/b/c/d", isExpanded = true)
+        val folderEF = createFolderNode(name = "a/b/c/d/e", isExpanded = true)
+        val folderF = createFolderNode(name = "a/b/c/d/e/f", isExpanded = true)
+        val fileG = createFileNode(name = "a/b/c/d/e/f/g.txt")
+
+        val nodeMap = hashMapOf(
+            rootKey to listOf(folderA),
+            folderA.key to listOf(folderB),
+            folderB.key to listOf(folderC),
+            folderC.key to listOf(fileD, folderDE),
+            folderDE.key to listOf(folderEF),
+            folderEF.key to listOf(folderF),
+            folderF.key to listOf(fileG),
+        )
+
+        val appended = mutableListOf<FileNode>()
+        val recursed = mutableListOf<NodeKey>()
+
+        // When
+        strategy.build(
+            nodeMap = nodeMap,
+            parent = rootKey,
+            child = folderA,
+            append = { appended += it },
+            recurse = { recursed += it }
+        )
+
+        // Then
+        assertEquals(4, appended.size)
+
+        val collapsedABC = appended[0]
+        val collapsedDEF = appended[1]
+        val fileGNode = appended[2]
+        val fileDNode = appended[3]
+
+        assertEquals("a/b/c", collapsedABC.displayName)
+        assertEquals(folderA.depth, collapsedABC.displayDepth)
+
+        assertEquals("d/e/f", collapsedDEF.displayName)
+        assertEquals(fileDNode.displayDepth, collapsedDEF.displayDepth)
+
+        assertEquals(fileG.key, fileGNode.key)
+
+        assertEquals(fileD.key, fileDNode.key)
+        assertEquals(collapsedABC.displayDepth + 1, fileDNode.displayDepth)
     }
 }

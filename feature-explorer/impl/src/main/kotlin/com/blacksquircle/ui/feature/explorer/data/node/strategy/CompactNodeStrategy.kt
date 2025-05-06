@@ -34,22 +34,53 @@ internal class CompactNodeStrategy(private val options: NodeBuilderOptions) : No
         recurse: (NodeKey) -> Unit
     ) {
         if (child.isDirectory) {
-            val nestedNodes = findNestedNodes(nodeMap, child)
-            if (nestedNodes.size > 1) {
-                val lastNode = nestedNodes.last().copy(
-                    displayName = nestedNodes.joinToString(File.separator) { it.file.name },
-                    displayDepth = child.depth,
-                )
-                append(lastNode)
-                if (lastNode.isExpanded) {
-                    recurseCollapsed(nodeMap, lastNode.key, child.depth + 1, append)
-                }
-                return
+            appendDirectory(nodeMap, child, child.depth, append)
+        } else {
+            append(child)
+        }
+    }
+
+    private fun appendDirectory(
+        nodeMap: NodeMap,
+        node: FileNode,
+        depth: Int,
+        append: (FileNode) -> Unit
+    ) {
+        val nestedNodes = findNestedNodes(nodeMap, node)
+        if (nestedNodes.size > 1) {
+            val compactName = nestedNodes.joinToString(File.separator) { it.file.name }
+            val compactNode = nestedNodes.last().copy(
+                displayName = compactName,
+                displayDepth = depth,
+            )
+            append(compactNode)
+            if (compactNode.isExpanded) {
+                recurseCollapsed(nodeMap, compactNode.key, depth + 1, append)
+            }
+        } else {
+            val adjusted = node.copy(displayDepth = depth)
+            append(adjusted)
+            if (node.isExpanded) {
+                recurseCollapsed(nodeMap, node.key, depth + 1, append)
             }
         }
-        append(child)
-        if (child.isExpanded) {
-            recurse(child.key)
+    }
+
+    private fun recurseCollapsed(
+        nodeMap: NodeMap,
+        parent: NodeKey,
+        depth: Int,
+        append: (FileNode) -> Unit
+    ) {
+        val children = nodeMap[parent].orEmpty()
+            .applyFilter(options)
+        for (child in children) {
+            if (child.isDirectory) {
+                appendDirectory(nodeMap, child, depth, append)
+            } else {
+                val adjusted = child.copy(displayDepth = depth)
+                append(adjusted)
+            }
         }
     }
 
@@ -69,22 +100,5 @@ internal class CompactNodeStrategy(private val options: NodeBuilderOptions) : No
             nestedNodes += current
         }
         return nestedNodes
-    }
-
-    private fun recurseCollapsed(
-        nodeMap: NodeMap,
-        parent: NodeKey,
-        depth: Int,
-        append: (FileNode) -> Unit
-    ) {
-        val children = nodeMap[parent].orEmpty()
-            .applyFilter(options)
-        for (child in children) {
-            val adjusted = child.copy(displayDepth = depth)
-            append(adjusted)
-            if (child.isExpanded) {
-                recurseCollapsed(nodeMap, child.key, depth + 1, append)
-            }
-        }
     }
 }
