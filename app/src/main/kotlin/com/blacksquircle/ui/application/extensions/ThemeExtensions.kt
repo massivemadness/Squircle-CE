@@ -33,8 +33,6 @@ internal fun toComposeColors(colorScheme: ColorScheme?): Colors {
     return Colors.dynamicColors(
         colorPrimary = colorScheme.colorPrimary?.let(::Color) ?: defaultTheme.colorPrimary,
         colorOutline = colorScheme.colorOutline?.let(::Color) ?: defaultTheme.colorOutline,
-        colorSuccess = colorScheme.colorSuccess?.let(::Color) ?: defaultTheme.colorSuccess,
-        colorError = colorScheme.colorError?.let(::Color) ?: defaultTheme.colorError,
         colorBackgroundPrimary = colorScheme.colorBackgroundPrimary?.let(::Color)
             ?: defaultTheme.colorBackgroundPrimary,
         colorBackgroundSecondary = colorScheme.colorBackgroundSecondary?.let(::Color)
@@ -51,6 +49,10 @@ internal fun toComposeColors(colorScheme: ColorScheme?): Colors {
             ?: defaultTheme.colorTextAndIconDisabled,
         colorTextAndIconAdditional = colorScheme.colorTextAndIconAdditional?.let(::Color)
             ?: defaultTheme.colorTextAndIconAdditional,
+        colorTextAndIconSuccess = colorScheme.colorTextAndIconSuccess?.let(::Color)
+            ?: defaultTheme.colorTextAndIconSuccess,
+        colorTextAndIconError = colorScheme.colorTextAndIconError?.let(::Color)
+            ?: defaultTheme.colorTextAndIconError,
         isDark = colorScheme.type == ThemeType.DARK,
     )
 }

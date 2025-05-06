@@ -30,9 +30,6 @@
     <string name="sort_by_size">Ordenar por tamanho</string>
     <string name="sort_by_date">Ordenar por data</string>
 
-    <string name="view_mode_compact_list">Lista compacta</string>
-    <string name="view_mode_detailed_list">Lista detalhada</string>
-
     <string name="linebreak_lf">Unix and macOS (\\n)</string>
     <string name="linebreak_crlf">Windows (\\r\\n)</string>
     <string name="linebreak_cr">Classic Mac OS (\\r)</string>
@@ -123,7 +120,6 @@
     <string name="pref_show_hidden_files_summary">Arquivos e pastas escondido(a)s (que começam com um ponto) aparecerão</string>
     <string name="pref_folders_on_top_title">Pastas primeiro</string>
     <string name="pref_folders_on_top_summary">As pastas serão mostradas antes dos arquivos</string>
-    <string name="pref_view_mode_title">Modo da lista</string>
     <string name="pref_sort_mode_title">Ordenação</string>
 
     <string name="pref_about_summary">Squircle CE é um projeto de código aberto publicado sob a licença Apache 2.0\n\nVersão %1$s (%2$d)</string>

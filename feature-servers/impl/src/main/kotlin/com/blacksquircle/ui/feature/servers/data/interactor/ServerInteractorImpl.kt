@@ -16,34 +16,46 @@
 
 package com.blacksquircle.ui.feature.servers.data.interactor
 
+import com.blacksquircle.ui.core.database.dao.server.ServerDao
+import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.feature.servers.data.cache.ServerCredentials
-import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
+import com.blacksquircle.ui.feature.servers.data.mapper.ServerMapper
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 internal class ServerInteractorImpl(
-    private val serverRepository: ServerRepository,
+    private val dispatcherProvider: DispatcherProvider,
+    private val serverDao: ServerDao,
 ) : ServerInteractor {
+
+    override fun flowAll(): Flow<List<ServerConfig>> {
+        return serverDao.flowAll().map { servers ->
+            servers.map(ServerMapper::toModel)
+        }
+    }
 
     override suspend fun authenticate(uuid: String, credentials: String) {
         ServerCredentials.put(uuid, credentials)
     }
 
-    override suspend fun loadServers(): List<ServerConfig> {
-        return serverRepository.loadServers()
-    }
-
     override suspend fun loadServer(uuid: String): ServerConfig {
-        val serverConfig = serverRepository.loadServer(uuid)
-        val authorizedConfig = when (serverConfig.authMethod) {
-            AuthMethod.PASSWORD -> serverConfig.copy(
-                password = ServerCredentials.get(uuid) ?: serverConfig.password
-            )
-            AuthMethod.KEY -> serverConfig.copy(
-                passphrase = ServerCredentials.get(uuid) ?: serverConfig.passphrase
-            )
+        return withContext(dispatcherProvider.io()) {
+            val serverEntity = serverDao.load(uuid)
+            val serverConfig = ServerMapper.toModel(serverEntity)
+            when (serverConfig.authMethod) {
+                AuthMethod.PASSWORD -> serverConfig.copy(
+                    password = ServerCredentials.get(uuid)
+                        ?: serverConfig.password
+                )
+                AuthMethod.KEY -> serverConfig.copy(
+                    passphrase = ServerCredentials.get(uuid)
+                        ?: serverConfig.passphrase
+                )
+            }
         }
-        return authorizedConfig
     }
 }

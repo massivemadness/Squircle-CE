@@ -23,15 +23,16 @@ import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 
 @Composable
 internal fun SelectionMenu(
     count: Int,
+    filesystemType: FilesystemType,
     expanded: Boolean,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     onCutClicked: () -> Unit = {},
-    onSelectAllClicked: () -> Unit = {},
     onOpenWithClicked: () -> Unit = {},
     onRenameClicked: () -> Unit = {},
     onPropertiesClicked: () -> Unit = {},
@@ -44,19 +45,19 @@ internal fun SelectionMenu(
         verticalOffset = (-56).dp,
         modifier = modifier,
     ) {
-        PopupMenuItem(
-            title = stringResource(android.R.string.cut),
-            onClick = onCutClicked,
-        )
-        PopupMenuItem(
-            title = stringResource(android.R.string.selectAll),
-            onClick = onSelectAllClicked,
-        )
-        if (count == 1) {
+        if (filesystemType == FilesystemType.LOCAL) {
             PopupMenuItem(
-                title = stringResource(R.string.action_open_with),
-                onClick = onOpenWithClicked,
+                title = stringResource(android.R.string.cut),
+                onClick = onCutClicked,
             )
+        }
+        if (count == 1) {
+            if (filesystemType != FilesystemType.SERVER) {
+                PopupMenuItem(
+                    title = stringResource(R.string.action_open_with),
+                    onClick = onOpenWithClicked,
+                )
+            }
             PopupMenuItem(
                 title = stringResource(R.string.action_rename),
                 onClick = onRenameClicked,
@@ -70,9 +71,11 @@ internal fun SelectionMenu(
                 onClick = onCopyPathClicked,
             )
         }
-        PopupMenuItem(
-            title = stringResource(R.string.action_compress),
-            onClick = onCompressClicked,
-        )
+        if (filesystemType == FilesystemType.LOCAL) {
+            PopupMenuItem(
+                title = stringResource(R.string.action_compress),
+                onClick = onCompressClicked,
+            )
+        }
     }
 }

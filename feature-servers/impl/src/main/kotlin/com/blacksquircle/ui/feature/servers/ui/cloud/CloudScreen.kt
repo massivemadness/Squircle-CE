@@ -51,6 +51,9 @@ import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.ds.R as UiR
 
+internal const val KEY_SAVE = "KEY_SAVE"
+internal const val KEY_DELETE = "KEY_DELETE"
+
 @Composable
 internal fun CloudScreen(
     navController: NavController,
@@ -78,10 +81,10 @@ internal fun CloudScreen(
         }
     }
 
-    NavResultEffect(CloudScreen.KEY_SAVE) {
+    NavResultEffect(KEY_SAVE) {
         viewModel.loadServers()
     }
-    NavResultEffect(CloudScreen.KEY_DELETE) {
+    NavResultEffect(KEY_DELETE) {
         viewModel.loadServers()
     }
 }

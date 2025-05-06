@@ -19,8 +19,7 @@ package com.blacksquircle.ui.feature.servers.domain.repository
 import android.net.Uri
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 
-// internal
-interface ServerRepository {
+internal interface ServerRepository {
 
     suspend fun checkAvailability(serverConfig: ServerConfig): Long
     suspend fun saveKeyFile(fileUri: Uri): String

@@ -51,7 +51,6 @@
     <string name="properties_modified">最後修改：</string>
     <string name="properties_size">檔案大小：</string>
     <string name="properties_date_format">yyyy年MM月dd日 HH:mm</string>
-    <string name="explorer_date_format">yyyy/M/d HH:mm:ss</string>
     <string name="sort_by_name">依名稱排序</string>
     <string name="sort_by_size">依大小排序</string>
     <string name="sort_by_date">依日期排序</string>
@@ -79,7 +78,4 @@
     <string name="explorer_channel_name">檔案管理器</string>
     <string name="explorer_channel_description">顯示和控制檔案操作</string>
     <string name="explorer_service_message">Background operations in progress</string>
-    <string name="storage_local">本機存儲</string>
-    <string name="storage_root">根目錄</string>
-    <string name="storage_add">添加伺服器</string>
 </resources>

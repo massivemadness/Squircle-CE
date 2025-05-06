@@ -24,33 +24,40 @@ import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_COMPACT_PACKAGES
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FOLDERS_ON_TOP
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_SHOW_HIDDEN_FILES
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_SORT_MODE
-import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_VIEW_MODE
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.api.navigation.AddWorkspaceDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CloneRepoDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFileDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFolderDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.CreateDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteWorkspaceDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
-import com.blacksquircle.ui.feature.explorer.data.utils.fileComparator
+import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderOptions
+import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
+import com.blacksquircle.ui.feature.explorer.data.node.ensureCommonParentKey
+import com.blacksquircle.ui.feature.explorer.data.node.findNodeByKey
+import com.blacksquircle.ui.feature.explorer.data.node.findParentKey
+import com.blacksquircle.ui.feature.explorer.data.node.removeNode
+import com.blacksquircle.ui.feature.explorer.data.node.updateNode
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
-import com.blacksquircle.ui.feature.explorer.domain.model.ViewMode
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
 import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
@@ -62,12 +69,11 @@ import com.blacksquircle.ui.filesystem.base.exception.InvalidArchiveException
 import com.blacksquircle.ui.filesystem.base.exception.SplitArchiveException
 import com.blacksquircle.ui.filesystem.base.exception.UnsupportedArchiveException
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileType
+import com.blacksquircle.ui.filesystem.base.model.FilesystemType
+import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -87,6 +93,7 @@ internal class ExplorerViewModel @Inject constructor(
     private val editorInteractor: EditorInteractor,
     private val explorerRepository: ExplorerRepository,
     private val serverInteractor: ServerInteractor,
+    private val asyncNodeBuilder: AsyncNodeBuilder,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(ExplorerViewState())
@@ -95,28 +102,21 @@ internal class ExplorerViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private var selectedFilesystem: String
-        get() = settingsManager.filesystem
-        set(value) {
-            settingsManager.filesystem = value
-        }
-
+    private val cache = HashMap<NodeKey, List<FileNode>>(128)
+    private var selectedNodes: List<FileNode> = emptyList()
     private var taskType: TaskType = TaskType.CREATE
-    private var taskBuffer: List<FileModel> = emptyList()
-    private var selectedFiles: List<FileModel> = emptyList()
-    private var filesystems: List<FilesystemModel> = emptyList()
-    private var breadcrumbs: List<BreadcrumbState> = emptyList()
-    private var selectedBreadcrumb: Int = -1
+    private var taskBuffer: List<FileNode> = emptyList()
+    private var workspaces: List<WorkspaceModel> = emptyList()
+    private var selectedWorkspace: WorkspaceModel? = null
     private var searchQuery: String = ""
-    private var currentJob: Job? = null
 
     private var showHidden = settingsManager.showHidden
     private var foldersOnTop = settingsManager.foldersOnTop
-    private var viewMode = ViewMode.of(settingsManager.viewMode)
+    private var compactPackages = settingsManager.compactPackages
     private var sortMode = SortMode.of(settingsManager.sortMode)
 
     init {
-        loadFilesystems()
+        loadWorkspaces()
         registerOnPreferenceChangeListeners()
     }
 
@@ -126,10 +126,10 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onBackClicked() {
-        if (selectedFiles.isNotEmpty()) {
-            selectedFiles = emptyList()
+        if (selectedNodes.isNotEmpty()) {
+            selectedNodes = emptyList()
             _viewState.update {
-                it.copy(selectedFiles = selectedFiles)
+                it.copy(selectedNodes = selectedNodes)
             }
         } else {
             viewModelScope.launch {
@@ -138,27 +138,33 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    fun onFilesystemSelected(filesystem: String) {
+    fun onWorkspaceClicked(workspace: WorkspaceModel) {
         viewModelScope.launch {
             try {
-                if (filesystem == selectedFilesystem) {
+                if (workspace.uuid == selectedWorkspace?.uuid) {
                     return@launch
                 }
-                val filesystemModel = filesystems.first { it.uuid == filesystem }
 
-                selectedFilesystem = filesystem
-                breadcrumbs = explorerRepository.loadBreadcrumbs(filesystemModel).mapBreadcrumbs()
-                selectedBreadcrumb = breadcrumbs.size - 1
+                settingsManager.workspace = workspace.uuid
+                selectedWorkspace = workspace
+
+                cache.clear()
                 resetBuffer()
+
+                val rootNode = FileNode(
+                    file = workspace.defaultLocation,
+                    isExpanded = true,
+                    isLoading = true,
+                )
+                cache[NodeKey.Root] = listOf(rootNode)
 
                 _viewState.update {
                     it.copy(
-                        selectedFilesystem = selectedFilesystem,
-                        breadcrumbs = breadcrumbs,
-                        selectedBreadcrumb = selectedBreadcrumb,
+                        selectedWorkspace = selectedWorkspace,
+                        fileNodes = listOf(rootNode),
                     )
                 }
-                onRefreshClicked()
+                loadFiles(rootNode)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -168,150 +174,177 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    fun onFilesystemAdded() {
+    fun onAddWorkspaceClicked() {
         viewModelScope.launch {
-            try {
-                filesystems = explorerRepository.loadFilesystems()
-
-                _viewState.update {
-                    it.copy(filesystems = filesystems)
-                }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    fun onAddServerClicked() {
-        viewModelScope.launch {
-            val screen = ServerDialog(null)
+            val screen = AddWorkspaceDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onDeleteWorkspaceClicked(workspace: WorkspaceModel) {
+        viewModelScope.launch {
+            when (workspace.filesystemType) {
+                FilesystemType.LOCAL -> {
+                    if (workspace.uuid != LocalFilesystem.LOCAL_UUID) {
+                        val screen = DeleteWorkspaceDialog(workspace.uuid, workspace.name)
+                        _viewEvent.send(ViewEvent.Navigation(screen))
+                    }
+                }
+                FilesystemType.ROOT -> Unit
+                FilesystemType.SERVER -> {
+                    val screen = ServerDialog(workspace.uuid)
+                    _viewEvent.send(ViewEvent.Navigation(screen))
+                }
+            }
         }
     }
 
     fun onQueryChanged(query: String) {
         searchQuery = query
-        reapplyFilter()
+        _viewState.update {
+            it.copy(searchQuery = searchQuery)
+        }
+        viewModelScope.launch {
+            updateNodeList()
+        }
     }
 
     fun onClearQueryClicked() {
         searchQuery = ""
-        reapplyFilter()
+        _viewState.update {
+            it.copy(searchQuery = searchQuery)
+        }
+        viewModelScope.launch {
+            updateNodeList()
+        }
     }
 
     fun onShowHiddenClicked() {
         this.showHidden = !showHidden
         settingsManager.showHidden = showHidden
-        reapplyFilter()
+        _viewState.update {
+            it.copy(showHidden = showHidden)
+        }
+        viewModelScope.launch {
+            updateNodeList()
+        }
+    }
+
+    fun onCompactPackagesClicked() {
+        this.compactPackages = !compactPackages
+        settingsManager.compactPackages = compactPackages
+        _viewState.update {
+            it.copy(compactPackages = compactPackages)
+        }
+        viewModelScope.launch {
+            updateNodeList()
+        }
     }
 
     fun onSortModeSelected(sortMode: SortMode) {
         this.sortMode = sortMode
         settingsManager.sortMode = sortMode.value
-        reapplyFilter()
-    }
-
-    fun onHomeClicked() {
-        if (breadcrumbs.isNotEmpty()) {
-            val breadcrumb = breadcrumbs.first()
-            loadFiles(breadcrumb.fileModel, fromUser = true)
-        }
-    }
-
-    fun onBreadcrumbClicked(breadcrumb: BreadcrumbState) {
-        selectedFiles = emptyList()
         _viewState.update {
-            it.copy(selectedFiles = selectedFiles)
+            it.copy(sortMode = sortMode)
         }
-        loadFiles(breadcrumb.fileModel, fromUser = true)
+        viewModelScope.launch {
+            updateNodeList()
+        }
     }
 
-    fun onFileClicked(fileModel: FileModel) {
-        if (selectedFiles.isNotEmpty()) {
-            onFileSelected(fileModel)
-        } else if (fileModel.directory) {
-            loadFiles(fileModel, fromUser = true)
-        } else {
-            viewModelScope.launch {
-                when (fileModel.type) {
-                    FileType.ARCHIVE -> extractFiles(fileModel)
+    fun onFileClicked(fileNode: FileNode) {
+        if (selectedNodes.isNotEmpty()) {
+            onFileSelected(fileNode)
+            return
+        }
+        viewModelScope.launch {
+            if (fileNode.isDirectory) {
+                val cacheNode = cache[fileNode.key]
+                if (cacheNode != null) {
+                    cache.updateNode(fileNode) {
+                        it.copy(isExpanded = !fileNode.isExpanded)
+                    }
+                    updateNodeList()
+                } else {
+                    cache.updateNode(fileNode) {
+                        it.copy(isExpanded = true)
+                    }
+                    loadFiles(fileNode)
+                }
+            } else {
+                when (fileNode.file.type) {
+                    FileType.ARCHIVE -> extractFiles(fileNode)
                     FileType.DEFAULT,
                     FileType.TEXT -> {
-                        editorInteractor.openFile(fileModel)
+                        editorInteractor.openFile(fileNode.file)
                         _viewEvent.send(ViewEvent.PopBackStack)
                     }
-
-                    else -> onOpenWithClicked(fileModel)
+                    else -> onOpenWithClicked(fileNode)
                 }
             }
         }
     }
 
-    fun onFileSelected(fileModel: FileModel) {
-        val index = selectedFiles.indexOf { it.fileUri == fileModel.fileUri }
+    fun onFileSelected(fileNode: FileNode) {
+        val anySelected = selectedNodes.isNotEmpty()
+        val rootSelected = selectedNodes.any(FileNode::isRoot)
+
+        if (fileNode.isRoot && anySelected && !rootSelected) return
+        if (!fileNode.isRoot && rootSelected) return
+
+        val index = selectedNodes.indexOf { it.key == fileNode.key }
         if (index == -1) {
-            selectedFiles += fileModel
+            selectedNodes += fileNode
         } else {
-            selectedFiles -= fileModel
+            selectedNodes -= fileNode
         }
         _viewState.update {
-            it.copy(selectedFiles = selectedFiles)
+            it.copy(selectedNodes = selectedNodes)
         }
     }
 
     fun onRefreshClicked() {
-        if (breadcrumbs.isNotEmpty()) {
-            val breadcrumb = breadcrumbs[selectedBreadcrumb]
-            loadFiles(breadcrumb.fileModel, fromUser = false)
+        viewModelScope.launch {
+            val fileNode = selectedNodes.firstOrNull() ?: return@launch
+            loadFiles(fileNode)
+
+            selectedNodes = emptyList()
+            _viewState.update {
+                it.copy(selectedNodes = selectedNodes)
+            }
         }
     }
 
-    fun onCreateFileClicked() {
+    fun onCreateClicked() {
         viewModelScope.launch {
+            val fileNode = selectedNodes.firstOrNull() ?: return@launch
+
             taskType = TaskType.CREATE
-            taskBuffer = emptyList()
-            selectedFiles = emptyList()
+            taskBuffer = listOf(fileNode)
+            selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedFiles = selectedFiles,
+                    selectedNodes = selectedNodes,
                 )
             }
 
-            val screen = CreateFileDialog
+            val screen = CreateDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
 
-    fun onCreateFolderClicked() {
+    fun onCloneClicked() {
         viewModelScope.launch {
-            taskType = TaskType.CREATE
-            taskBuffer = emptyList()
-            selectedFiles = emptyList()
-            _viewState.update {
-                it.copy(
-                    taskType = taskType,
-                    selectedFiles = selectedFiles,
-                )
-            }
+            val fileNode = selectedNodes.firstOrNull() ?: return@launch
 
-            val screen = CreateFolderDialog
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
-    }
-
-    fun onCloneRepoClicked() {
-        viewModelScope.launch {
             taskType = TaskType.CLONE
-            taskBuffer = emptyList()
-            selectedFiles = emptyList()
+            taskBuffer = listOf(fileNode)
+            selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedFiles = selectedFiles,
+                    selectedNodes = selectedNodes,
                 )
             }
 
@@ -322,17 +355,19 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onRenameClicked() {
         viewModelScope.launch {
+            val fileNode = selectedNodes.firstOrNull() ?: return@launch
+
             taskType = TaskType.RENAME
-            taskBuffer = listOf(selectedFiles.first())
-            selectedFiles = emptyList()
+            taskBuffer = listOf(fileNode)
+            selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedFiles = selectedFiles,
+                    selectedNodes = selectedNodes,
                 )
             }
 
-            val screen = RenameDialog(taskBuffer.first().name)
+            val screen = RenameDialog(fileNode.file.name)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -340,16 +375,17 @@ internal class ExplorerViewModel @Inject constructor(
     fun onDeleteClicked() {
         viewModelScope.launch {
             taskType = TaskType.DELETE
-            taskBuffer = selectedFiles.toList()
-            selectedFiles = emptyList()
+            taskBuffer = selectedNodes.toList()
+            selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedFiles = selectedFiles,
+                    selectedNodes = selectedNodes,
                 )
             }
 
-            val screen = DeleteDialog(taskBuffer.first().name, taskBuffer.size)
+            val fileName = taskBuffer.first().file.name
+            val screen = DeleteDialog(fileName, taskBuffer.size)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -357,62 +393,62 @@ internal class ExplorerViewModel @Inject constructor(
     fun onCopyClicked() {
         viewModelScope.launch {
             taskType = TaskType.COPY
-            taskBuffer = selectedFiles.toList()
-            selectedFiles = emptyList()
+            taskBuffer = selectedNodes.toList()
+            selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedFiles = selectedFiles,
+                    selectedNodes = selectedNodes,
                 )
             }
+            val message = stringProvider.getString(R.string.message_select_folder_to_paste)
+            _viewEvent.send(ViewEvent.Toast(message))
+        }
+    }
+
+    fun onCutClicked() {
+        viewModelScope.launch {
+            taskType = TaskType.MOVE
+            taskBuffer = selectedNodes.toList()
+            selectedNodes = emptyList()
+            _viewState.update {
+                it.copy(
+                    taskType = taskType,
+                    selectedNodes = selectedNodes,
+                )
+            }
+            val message = stringProvider.getString(R.string.message_select_folder_to_paste)
+            _viewEvent.send(ViewEvent.Toast(message))
         }
     }
 
     fun onPasteClicked() {
         when (taskType) {
-            TaskType.CUT -> cutFiles()
+            TaskType.MOVE -> moveFiles()
             TaskType.COPY -> copyFiles()
             else -> Unit
         }
     }
 
-    fun onCutClicked() {
-        taskType = TaskType.CUT
-        taskBuffer = selectedFiles.toList()
-        selectedFiles = emptyList()
-        _viewState.update {
-            it.copy(
-                taskType = taskType,
-                selectedFiles = selectedFiles,
-            )
-        }
-    }
-
-    fun onSelectAllClicked() {
-        val parent = breadcrumbs[selectedBreadcrumb]
-        selectedFiles = parent.fileList
-        _viewState.update {
-            it.copy(selectedFiles = selectedFiles)
-        }
-    }
-
-    fun onOpenWithClicked(fileModel: FileModel? = null) {
+    fun onOpenWithClicked(fileNode: FileNode? = null) {
         viewModelScope.launch {
-            val source = fileModel ?: selectedFiles.first()
-            _viewEvent.send(ExplorerViewEvent.OpenFileWith(source))
+            val source = fileNode ?: selectedNodes.firstOrNull()
+            if (source != null) {
+                _viewEvent.send(ExplorerViewEvent.OpenFileWith(source.file))
+            }
             resetBuffer()
         }
     }
 
     fun onPropertiesClicked() {
         viewModelScope.launch {
-            val fileModel = selectedFiles.first()
+            val fileNode = selectedNodes.firstOrNull() ?: return@launch
             val screen = PropertiesDialog(
-                fileName = fileModel.name,
-                filePath = fileModel.path,
-                fileSize = fileModel.size,
-                lastModified = fileModel.lastModified,
-                permission = fileModel.permission,
+                fileName = fileNode.file.name,
+                filePath = fileNode.file.path,
+                fileSize = fileNode.file.size,
+                lastModified = fileNode.file.lastModified,
+                permission = fileNode.file.permission,
             )
             _viewEvent.send(ViewEvent.Navigation(screen))
             resetBuffer()
@@ -421,26 +457,44 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onCopyPathClicked() {
         viewModelScope.launch {
-            val fileModel = selectedFiles.first()
-            _viewEvent.send(ExplorerViewEvent.CopyPath(fileModel))
+            val fileNode = selectedNodes.firstOrNull() ?: return@launch
+            _viewEvent.send(ExplorerViewEvent.CopyPath(fileNode.file))
             resetBuffer()
         }
     }
 
     fun onCompressClicked() {
         viewModelScope.launch {
+            if (!cache.ensureCommonParentKey(selectedNodes)) {
+                val message = stringProvider.getString(R.string.message_same_directory_required)
+                _viewEvent.send(ViewEvent.Toast(message))
+                return@launch
+            }
+
             taskType = TaskType.COMPRESS
-            taskBuffer = selectedFiles.toList()
-            selectedFiles = emptyList()
+            taskBuffer = selectedNodes.toList()
+            selectedNodes = emptyList()
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedFiles = selectedFiles,
+                    selectedNodes = selectedNodes,
                 )
             }
 
             val screen = CompressDialog
             _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onClearBufferClicked() {
+        taskType = TaskType.CREATE
+        taskBuffer = emptyList()
+        selectedNodes = emptyList()
+        _viewState.update {
+            it.copy(
+                taskType = taskType,
+                selectedNodes = selectedNodes,
+            )
         }
     }
 
@@ -452,17 +506,14 @@ internal class ExplorerViewModel @Inject constructor(
                 ErrorAction.REQUEST_PERMISSIONS -> {
                     _viewEvent.send(ExplorerViewEvent.RequestPermission)
                 }
-
                 ErrorAction.ENTER_PASSWORD -> {
                     val screen = AuthDialog(AuthMethod.PASSWORD)
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 }
-
                 ErrorAction.ENTER_PASSPHRASE -> {
                     val screen = AuthDialog(AuthMethod.KEY)
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 }
-
                 ErrorAction.UNDEFINED -> Unit
             }
         }
@@ -476,15 +527,22 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onPermissionGranted() {
-        onRefreshClicked()
+        val rootNode = cache[NodeKey.Root]?.firstOrNull()
+        if (rootNode != null) {
+            loadFiles(rootNode)
+        }
     }
 
     fun onCredentialsEntered(credentials: String) {
         viewModelScope.launch {
             try {
-                serverInteractor.authenticate(selectedFilesystem, credentials)
-                val breadcrumb = breadcrumbs[selectedBreadcrumb]
-                loadFiles(breadcrumb.fileModel, fromUser = false)
+                selectedWorkspace?.let { workspace ->
+                    serverInteractor.authenticate(workspace.uuid, credentials)
+                    val rootNode = cache[NodeKey.Root]?.firstOrNull()
+                    if (rootNode != null) {
+                        loadFiles(rootNode)
+                    }
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -498,8 +556,9 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun createFile(fileName: String) {
         viewModelScope.launch {
-            val parent = breadcrumbs[selectedBreadcrumb].fileModel
-            val taskId = explorerRepository.createFile(parent, fileName, isFolder = false)
+            val parentNode = taskBuffer.firstOrNull() ?: return@launch
+
+            val taskId = explorerRepository.createFile(parentNode.file, fileName, isFolder = false)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -508,7 +567,10 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> {
+                        loadFiles(parentNode)
+                        onTaskFinished()
+                    }
                     else -> Unit
                 }
             }
@@ -517,8 +579,9 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun createFolder(fileName: String) {
         viewModelScope.launch {
-            val parent = breadcrumbs[selectedBreadcrumb].fileModel
-            val taskId = explorerRepository.createFile(parent, fileName, isFolder = true)
+            val parentNode = taskBuffer.firstOrNull() ?: return@launch
+
+            val taskId = explorerRepository.createFile(parentNode.file, fileName, isFolder = true)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -527,17 +590,21 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> {
+                        loadFiles(parentNode)
+                        onTaskFinished()
+                    }
                     else -> Unit
                 }
             }
         }
     }
 
-    fun cloneRepository(url: String) {
+    fun cloneRepository(url: String, submodules: Boolean) {
         viewModelScope.launch {
-            val parent = breadcrumbs[selectedBreadcrumb].fileModel
-            val taskId = explorerRepository.cloneRepository(parent, url)
+            val parentNode = taskBuffer.firstOrNull() ?: return@launch
+
+            val taskId = explorerRepository.cloneRepository(parentNode.file, url, submodules)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -546,7 +613,10 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> {
+                        loadFiles(parentNode)
+                        onTaskFinished()
+                    }
                     else -> Unit
                 }
             }
@@ -555,8 +625,9 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun renameFile(fileName: String) {
         viewModelScope.launch {
-            val fileModel = taskBuffer.first()
-            val taskId = explorerRepository.renameFile(fileModel, fileName)
+            val fileNode = taskBuffer.firstOrNull() ?: return@launch
+
+            val taskId = explorerRepository.renameFile(fileNode.file, fileName)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -565,7 +636,13 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> {
+                        onTaskFinished()
+
+                        val parentKey = cache.findParentKey(fileNode.key) ?: return@collect
+                        val parentNode = cache.findNodeByKey(parentKey) ?: return@collect
+                        loadFiles(parentNode)
+                    }
                     else -> Unit
                 }
             }
@@ -574,7 +651,10 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun deleteFile() {
         viewModelScope.launch {
-            val taskId = explorerRepository.deleteFiles(taskBuffer.toList())
+            val fileNodes = taskBuffer.toList()
+            val fileModels = taskBuffer.map(FileNode::file)
+
+            val taskId = explorerRepository.deleteFiles(fileModels)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -583,7 +663,12 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> {
+                        onTaskFinished()
+
+                        fileNodes.forEach(cache::removeNode)
+                        updateNodeList()
+                    }
                     else -> Unit
                 }
             }
@@ -592,8 +677,12 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun compressFiles(fileName: String) {
         viewModelScope.launch {
-            val parent = breadcrumbs[selectedBreadcrumb].fileModel
-            val taskId = explorerRepository.compressFiles(taskBuffer.toList(), parent, fileName)
+            val fileModels = taskBuffer.map(FileNode::file)
+            val fileNode = taskBuffer.firstOrNull() ?: return@launch
+            val parentKey = cache.findParentKey(fileNode.key) ?: return@launch
+            val parentNode = cache.findNodeByKey(parentKey) ?: return@launch
+
+            val taskId = explorerRepository.compressFiles(fileModels, parentNode.file, fileName)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -602,17 +691,23 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> {
+                        onTaskFinished()
+                        loadFiles(parentNode)
+                    }
                     else -> Unit
                 }
             }
         }
     }
 
-    private fun cutFiles() {
+    private fun moveFiles() {
         viewModelScope.launch {
-            val parent = breadcrumbs[selectedBreadcrumb].fileModel
-            val taskId = explorerRepository.cutFiles(taskBuffer.toList(), parent)
+            val parentNode = selectedNodes.firstOrNull() ?: return@launch
+            val fileNodes = taskBuffer.toList()
+            val fileModels = taskBuffer.map(FileNode::file)
+
+            val taskId = explorerRepository.moveFiles(fileModels, parentNode.file)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -621,7 +716,12 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> {
+                        onTaskFinished()
+
+                        fileNodes.forEach(cache::removeNode)
+                        loadFiles(parentNode)
+                    }
                     else -> Unit
                 }
             }
@@ -630,8 +730,10 @@ internal class ExplorerViewModel @Inject constructor(
 
     private fun copyFiles() {
         viewModelScope.launch {
-            val parent = breadcrumbs[selectedBreadcrumb].fileModel
-            val taskId = explorerRepository.copyFiles(taskBuffer.toList(), parent)
+            val parentNode = selectedNodes.firstOrNull() ?: return@launch
+            val fileModels = taskBuffer.map(FileNode::file)
+
+            val taskId = explorerRepository.copyFiles(fileModels, parentNode.file)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -640,17 +742,22 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> {
+                        onTaskFinished()
+                        loadFiles(parentNode)
+                    }
                     else -> Unit
                 }
             }
         }
     }
 
-    private fun extractFiles(fileModel: FileModel) {
+    private fun extractFiles(fileNode: FileNode) {
         viewModelScope.launch {
-            val parent = breadcrumbs[selectedBreadcrumb].fileModel
-            val taskId = explorerRepository.extractFiles(fileModel, parent)
+            val parentKey = cache.findParentKey(fileNode.key) ?: return@launch
+            val parentNode = cache.findNodeByKey(parentKey) ?: return@launch
+
+            val taskId = explorerRepository.extractFiles(fileNode.file, parentNode.file)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 
@@ -659,114 +766,124 @@ internal class ExplorerViewModel @Inject constructor(
             taskManager.monitor(taskId).collect { task ->
                 when (val status = task.status) {
                     is TaskStatus.Error -> onTaskFailed(status.exception)
-                    is TaskStatus.Done -> onTaskFinished()
+                    is TaskStatus.Done -> {
+                        onTaskFinished()
+                        loadFiles(parentNode)
+                    }
                     else -> Unit
                 }
             }
         }
     }
 
-    private fun loadFiles(parent: FileModel, fromUser: Boolean) {
-        currentJob?.cancel()
-        currentJob = viewModelScope.launch {
+    private fun loadFiles(fileNode: FileNode) {
+        viewModelScope.launch {
             try {
-                /** Check if [parent] is already added to breadcrumbs */
-                val existingIndex = breadcrumbs.indexOf { it.fileModel.fileUri == parent.fileUri }
-                if (existingIndex == selectedBreadcrumb && selectedBreadcrumb != -1 && fromUser) {
-                    return@launch
-                }
-
-                if (existingIndex != -1) {
-                    /** Refresh directory, don't open a new tab */
-                    selectedBreadcrumb = existingIndex
-                } else {
-                    /** Remove all tabs after the selected one, insert empty tree at the end */
-                    val fromIndex = 0
-                    val toIndex = if (selectedBreadcrumb > -1) selectedBreadcrumb + 1 else 0
-                    val newState = BreadcrumbState(
-                        fileModel = parent,
-                        fileList = emptyList(),
-                        errorState = null,
-                    )
-                    breadcrumbs = breadcrumbs.subList(fromIndex, toIndex) + newState
-                    selectedBreadcrumb = breadcrumbs.size - 1
-                }
-
-                _viewState.update {
+                cache.updateNode(fileNode) {
                     it.copy(
-                        breadcrumbs = breadcrumbs,
-                        selectedBreadcrumb = selectedBreadcrumb,
                         isLoading = true,
+                        errorState = null,
                     )
                 }
+                updateNodeList()
 
-                val fileList = explorerRepository.listFiles(parent)
-                ensureActive()
+                val fileList = explorerRepository.listFiles(fileNode.file)
+                val currentNodes = cache[fileNode.key].orEmpty()
+                val updatedNodes = fileList.map { fileModel ->
+                    val currentNode = currentNodes.find { it.file.fileUri == fileModel.fileUri }
+                    FileNode(
+                        file = fileModel,
+                        depth = currentNode?.depth ?: (fileNode.depth + 1),
+                        displayName = currentNode?.displayName ?: fileModel.name,
+                        displayDepth = currentNode?.displayDepth ?: (fileNode.depth + 1),
+                        isExpanded = currentNode?.isExpanded ?: false,
+                        isLoading = currentNode?.isLoading ?: false,
+                        errorState = currentNode?.errorState,
+                    )
+                }
+                cache[fileNode.key] = updatedNodes
 
-                breadcrumbs = breadcrumbs.mapSelected {
+                cache.updateNode(fileNode) {
                     it.copy(
-                        fileList = fileList,
+                        isLoading = false,
                         errorState = null,
                     )
                 }
 
-                _viewState.update {
-                    it.copy(
-                        breadcrumbs = breadcrumbs.mapSelected { state ->
-                            state.copy(fileList = state.fileList.applyFilter())
-                        },
-                        selectedBreadcrumb = selectedBreadcrumb,
-                        isLoading = false,
+                val autoLoad = searchQuery.isBlank() &&
+                    updatedNodes.size == 1 &&
+                    updatedNodes[0].isDirectory &&
+                    (showHidden || !updatedNodes[0].isHidden) &&
+                    compactPackages
+
+                if (autoLoad) {
+                    val nestedNode = updatedNodes[0].copy(
+                        displayDepth = fileNode.depth,
                     )
+                    cache.updateNode(nestedNode) {
+                        it.copy(isExpanded = true)
+                    }
+                    loadFiles(nestedNode)
+                } else {
+                    updateNodeList()
                 }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Throwable) {
                 Timber.e(e, e.message)
-
-                /** Clear list and show error */
-                breadcrumbs = breadcrumbs.mapSelected {
-                    it.copy(
-                        fileList = emptyList(),
-                        errorState = errorState(e),
-                    )
+                if (!fileNode.isRoot) {
+                    _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
                 }
 
-                _viewState.update {
+                cache.updateNode(fileNode) {
                     it.copy(
-                        breadcrumbs = breadcrumbs,
-                        selectedBreadcrumb = selectedBreadcrumb,
                         isLoading = false,
+                        errorState = errorState(e)
                     )
                 }
+                updateNodeList()
             }
         }
     }
 
-    private fun loadFilesystems() {
+    private fun loadWorkspaces() {
         viewModelScope.launch {
             try {
-                filesystems = explorerRepository.loadFilesystems()
+                explorerRepository.loadWorkspaces().collect { workspaces ->
+                    this@ExplorerViewModel.workspaces = workspaces
 
-                val filesystemModel = filesystems.find { it.uuid == selectedFilesystem }
-                    ?: filesystems.first()
+                    val workspace = workspaces
+                        .find { it.uuid == settingsManager.workspace }
+                        ?: workspaces.first()
 
-                breadcrumbs = explorerRepository.loadBreadcrumbs(filesystemModel).mapBreadcrumbs()
-                selectedBreadcrumb = breadcrumbs.size - 1
+                    if (workspace.uuid != selectedWorkspace?.uuid) {
+                        settingsManager.workspace = workspace.uuid
+                        selectedWorkspace = workspace
 
-                _viewState.update {
-                    it.copy(
-                        filesystems = filesystems,
-                        selectedFilesystem = selectedFilesystem,
-                        breadcrumbs = breadcrumbs,
-                        selectedBreadcrumb = selectedBreadcrumb,
-                        searchQuery = searchQuery,
-                        showHidden = showHidden,
-                        sortMode = sortMode,
-                        viewMode = viewMode,
-                    )
+                        cache.clear()
+                        resetBuffer()
+
+                        val rootNode = FileNode(
+                            file = workspace.defaultLocation,
+                            isExpanded = true,
+                            isLoading = true,
+                        )
+                        cache[NodeKey.Root] = listOf(rootNode)
+
+                        loadFiles(rootNode)
+                    }
+
+                    _viewState.update {
+                        it.copy(
+                            workspaces = workspaces,
+                            selectedWorkspace = selectedWorkspace,
+                            searchQuery = searchQuery,
+                            showHidden = showHidden,
+                            compactPackages = compactPackages,
+                            sortMode = sortMode,
+                        )
+                    }
                 }
-                onRefreshClicked()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -783,7 +900,25 @@ internal class ExplorerViewModel @Inject constructor(
                 return@registerListener
             }
             showHidden = newValue
-            reapplyFilter()
+            _viewState.update {
+                it.copy(showHidden = showHidden)
+            }
+            viewModelScope.launch {
+                updateNodeList()
+            }
+        }
+        settingsManager.registerListener(KEY_COMPACT_PACKAGES) {
+            val newValue = settingsManager.compactPackages
+            if (compactPackages == newValue) {
+                return@registerListener
+            }
+            compactPackages = newValue
+            _viewState.update {
+                it.copy(compactPackages = compactPackages)
+            }
+            viewModelScope.launch {
+                updateNodeList()
+            }
         }
         settingsManager.registerListener(KEY_FOLDERS_ON_TOP) {
             val newValue = settingsManager.foldersOnTop
@@ -791,7 +926,12 @@ internal class ExplorerViewModel @Inject constructor(
                 return@registerListener
             }
             foldersOnTop = newValue
-            reapplyFilter()
+            /*_viewState.update {
+                it.copy(foldersOnTop = foldersOnTop)
+            }*/
+            viewModelScope.launch {
+                updateNodeList()
+            }
         }
         settingsManager.registerListener(KEY_SORT_MODE) {
             val newValue = SortMode.of(settingsManager.sortMode)
@@ -799,33 +939,30 @@ internal class ExplorerViewModel @Inject constructor(
                 return@registerListener
             }
             sortMode = newValue
-            reapplyFilter()
-        }
-        settingsManager.registerListener(KEY_VIEW_MODE) {
-            val newValue = ViewMode.of(settingsManager.viewMode)
-            if (viewMode == newValue) {
-                return@registerListener
+            _viewState.update {
+                it.copy(sortMode = sortMode)
             }
-            viewMode = newValue
-            reapplyFilter()
+            viewModelScope.launch {
+                updateNodeList()
+            }
         }
     }
 
     private fun unregisterOnPreferenceChangeListeners() {
         settingsManager.unregisterListener(KEY_SHOW_HIDDEN_FILES)
+        settingsManager.unregisterListener(KEY_COMPACT_PACKAGES)
         settingsManager.unregisterListener(KEY_FOLDERS_ON_TOP)
         settingsManager.unregisterListener(KEY_SORT_MODE)
-        settingsManager.unregisterListener(KEY_VIEW_MODE)
     }
 
     private fun resetBuffer() {
         taskType = TaskType.CREATE
         taskBuffer = emptyList()
-        selectedFiles = emptyList()
+        selectedNodes = emptyList()
         _viewState.update {
             it.copy(
                 taskType = taskType,
-                selectedFiles = selectedFiles,
+                selectedNodes = selectedNodes,
             )
         }
     }
@@ -877,7 +1014,6 @@ internal class ExplorerViewModel @Inject constructor(
     private suspend fun onTaskFinished() {
         val message = stringProvider.getString(R.string.message_done)
         _viewEvent.send(ViewEvent.Toast(message))
-        onRefreshClicked()
     }
 
     private suspend fun onTaskFailed(e: Exception) {
@@ -886,85 +1022,51 @@ internal class ExplorerViewModel @Inject constructor(
                 val message = stringProvider.getString(R.string.message_file_not_found)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             is FileAlreadyExistsException -> {
                 val message = stringProvider.getString(R.string.message_file_already_exists)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             is UnsupportedArchiveException -> {
                 val message = stringProvider.getString(R.string.message_unsupported_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             is EncryptedArchiveException -> {
                 val message = stringProvider.getString(R.string.message_encrypted_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             is SplitArchiveException -> {
                 val message = stringProvider.getString(R.string.message_split_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             is InvalidArchiveException -> {
                 val message = stringProvider.getString(R.string.message_invalid_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             is UnsupportedOperationException -> {
                 val message = stringProvider.getString(R.string.message_operation_not_supported)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             is CancellationException -> {
                 val message = stringProvider.getString(R.string.message_operation_cancelled)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
-
             else -> {
                 _viewEvent.send(ViewEvent.Toast(e.message.toString()))
             }
         }
-        onRefreshClicked()
     }
 
-    private fun List<FileModel>.mapBreadcrumbs(): List<BreadcrumbState> {
-        return map { fileModel ->
-            BreadcrumbState(fileModel = fileModel)
-        }
-    }
-
-    private inline fun List<BreadcrumbState>.mapSelected(
-        predicate: (BreadcrumbState) -> BreadcrumbState
-    ): List<BreadcrumbState> {
-        return mapIndexed { index, state ->
-            if (index == selectedBreadcrumb) {
-                predicate(state)
-            } else {
-                state
-            }
-        }
-    }
-
-    private fun List<FileModel>.applyFilter(): List<FileModel> {
-        return filter { it.name.contains(searchQuery, ignoreCase = true) }
-            .filter { if (it.isHidden) showHidden else true }
-            .sortedWith(fileComparator(sortMode.value))
-            .sortedBy { it.directory != foldersOnTop }
-    }
-
-    private fun reapplyFilter() {
+    private suspend fun updateNodeList() {
+        val options = NodeBuilderOptions(
+            searchQuery = searchQuery,
+            showHidden = showHidden,
+            sortMode = sortMode,
+            foldersOnTop = foldersOnTop,
+            compactPackages = compactPackages,
+        )
+        val fileNodes = asyncNodeBuilder.buildNodeList(cache, options)
         _viewState.update {
-            it.copy(
-                breadcrumbs = breadcrumbs.mapSelected { state ->
-                    state.copy(fileList = state.fileList.applyFilter())
-                },
-                searchQuery = searchQuery,
-                showHidden = showHidden,
-                sortMode = sortMode,
-                viewMode = viewMode,
-            )
+            it.copy(fileNodes = fileNodes)
         }
     }
 

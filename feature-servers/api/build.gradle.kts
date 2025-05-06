@@ -21,6 +21,7 @@ plugins {
 
 dependencies {
 
+    implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization)
 
     api(project(":filesystems:filesystem-base"))

@@ -54,7 +54,7 @@ class RootFilesystem : Filesystem {
         if (file.exists()) {
             throw FileAlreadyExistsException(fileModel.path)
         }
-        if (fileModel.directory) {
+        if (fileModel.isDirectory) {
             file.mkdirs()
         } else {
             val parentFile = file.parentFile!!
@@ -157,7 +157,7 @@ class RootFilesystem : Filesystem {
                 filesystemUuid = ROOT_UUID,
                 size = fileObject.length(),
                 lastModified = fileObject.lastModified(),
-                directory = fileObject.isDirectory,
+                isDirectory = fileObject.isDirectory,
                 permission = with(fileObject) {
                     var permission = Permission.EMPTY
                     if (fileObject.canRead()) {

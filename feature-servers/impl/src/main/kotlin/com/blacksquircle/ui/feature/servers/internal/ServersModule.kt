@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.servers.internal
 
 import android.content.Context
 import com.blacksquircle.ui.core.database.AppDatabase
-import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.database.dao.server.ServerDao
 import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
@@ -49,7 +48,6 @@ internal object ServersModule {
         settingsManager: SettingsManager,
         dispatcherProvider: DispatcherProvider,
         serverDao: ServerDao,
-        pathDao: PathDao,
         context: Context,
     ): ServerRepository {
         return ServerRepositoryImpl(
@@ -57,7 +55,6 @@ internal object ServersModule {
             settingsManager = settingsManager,
             dispatcherProvider = dispatcherProvider,
             serverDao = serverDao,
-            pathDao = pathDao,
             context = context,
         )
     }
@@ -65,10 +62,5 @@ internal object ServersModule {
     @Provides
     fun provideServerDao(appDatabase: AppDatabase): ServerDao {
         return appDatabase.serverDao()
-    }
-
-    @Provides
-    fun providePathDao(appDatabase: AppDatabase): PathDao {
-        return appDatabase.pathDao()
     }
 }

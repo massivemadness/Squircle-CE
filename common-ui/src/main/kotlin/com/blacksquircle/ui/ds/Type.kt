@@ -26,10 +26,6 @@ internal val LocalTypography = staticCompositionLocalOf { Typography() }
 
 @Immutable
 class Typography internal constructor(
-    val text10Medium: TextStyle = Default.copy(
-        fontWeight = FontWeight.Medium,
-        fontSize = 10.sp,
-    ),
     val text12Regular: TextStyle = Default.copy(
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
@@ -70,33 +66,17 @@ class Typography internal constructor(
         fontWeight = FontWeight.Bold,
         fontSize = 18.sp,
     ),
-    val header20Regular: TextStyle = Default.copy(
+    val text20Regular: TextStyle = Default.copy(
         fontWeight = FontWeight.Normal,
         fontSize = 20.sp,
     ),
-    val header20Medium: TextStyle = Default.copy(
+    val text20Medium: TextStyle = Default.copy(
         fontWeight = FontWeight.Medium,
         fontSize = 20.sp,
     ),
     val header20Bold: TextStyle = Default.copy(
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
-    ),
-    val header24Regular: TextStyle = Default.copy(
-        fontWeight = FontWeight.Normal,
-        fontSize = 24.sp,
-    ),
-    val header24Bold: TextStyle = Default.copy(
-        fontWeight = FontWeight.Bold,
-        fontSize = 24.sp,
-    ),
-    val header32Bold: TextStyle = Default.copy(
-        fontWeight = FontWeight.Bold,
-        fontSize = 32.sp,
-    ),
-    val display48Bold: TextStyle = Default.copy(
-        fontWeight = FontWeight.Bold,
-        fontSize = 48.sp,
     ),
 ) {
 

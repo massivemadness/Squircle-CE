@@ -23,7 +23,7 @@ data class FileModel(
     val filesystemUuid: String,
     val size: Long = 0L,
     val lastModified: Long = 0L,
-    val directory: Boolean = false,
+    val isDirectory: Boolean = false,
     @Permission val permission: Int = Permission.EMPTY,
 ) {
     val scheme: String
@@ -33,7 +33,7 @@ data class FileModel(
     val name: String
         get() = path.substringAfterLast(File.separator)
     val extension: String
-        get() = "." + name.substringAfterLast(".", "")
+        get() = "." + name.substringAfterLast(".")
     val type: FileType
         get() = when (extension) {
             in TEXT -> FileType.TEXT
@@ -46,8 +46,6 @@ data class FileModel(
             in APPLICATION -> FileType.APPLICATION
             else -> FileType.DEFAULT
         }
-    val isHidden: Boolean
-        get() = name.startsWith(".")
 
     companion object {
 

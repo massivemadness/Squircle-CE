@@ -16,21 +16,24 @@
 
 package com.blacksquircle.ui.feature.explorer.domain.repository
 
-import com.blacksquircle.ui.feature.explorer.domain.model.FilesystemModel
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import kotlinx.coroutines.flow.Flow
 
 internal interface ExplorerRepository {
 
-    suspend fun loadFilesystems(): List<FilesystemModel>
-    suspend fun loadBreadcrumbs(filesystemModel: FilesystemModel): List<FileModel>
+    suspend fun loadWorkspaces(): Flow<List<WorkspaceModel>>
+    suspend fun createWorkspace(filePath: String)
+    suspend fun deleteWorkspace(uuid: String)
+
     suspend fun listFiles(parent: FileModel): List<FileModel>
 
     fun createFile(parent: FileModel, fileName: String, isFolder: Boolean): String
     fun renameFile(source: FileModel, fileName: String): String
     fun deleteFiles(source: List<FileModel>): String
     fun copyFiles(source: List<FileModel>, dest: FileModel): String
-    fun cutFiles(source: List<FileModel>, dest: FileModel): String
+    fun moveFiles(source: List<FileModel>, dest: FileModel): String
     fun compressFiles(source: List<FileModel>, dest: FileModel, fileName: String): String
     fun extractFiles(source: FileModel, dest: FileModel): String
-    fun cloneRepository(parent: FileModel, url: String): String
+    fun cloneRepository(parent: FileModel, url: String, submodules: Boolean): String
 }

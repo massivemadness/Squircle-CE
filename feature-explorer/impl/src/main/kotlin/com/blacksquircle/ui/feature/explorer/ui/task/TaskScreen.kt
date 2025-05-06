@@ -137,7 +137,7 @@ private fun TaskScreen(
             TaskType.CREATE -> stringResource(R.string.dialog_title_creating)
             TaskType.RENAME -> stringResource(R.string.dialog_title_renaming)
             TaskType.DELETE -> stringResource(R.string.dialog_title_deleting)
-            TaskType.CUT -> stringResource(R.string.dialog_title_copying)
+            TaskType.MOVE -> stringResource(R.string.dialog_title_copying)
             TaskType.COPY -> stringResource(R.string.dialog_title_copying)
             TaskType.COMPRESS -> stringResource(R.string.dialog_title_compressing)
             TaskType.EXTRACT -> stringResource(R.string.dialog_title_extracting)
@@ -165,7 +165,7 @@ private fun TaskScreen(
                                 TaskType.CREATE -> R.string.message_creating
                                 TaskType.RENAME -> R.string.message_renaming
                                 TaskType.DELETE -> R.string.message_deleting
-                                TaskType.CUT -> R.string.message_copying
+                                TaskType.MOVE -> R.string.message_copying
                                 TaskType.COPY -> R.string.message_copying
                                 TaskType.COMPRESS -> R.string.message_compressing
                                 TaskType.EXTRACT -> R.string.message_extracting

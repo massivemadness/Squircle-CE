@@ -31,9 +31,6 @@
     <string name="sort_by_size">Sort by Size</string>
     <string name="sort_by_date">Sort by Date</string>
 
-    <string name="view_mode_compact_list">Compact List</string>
-    <string name="view_mode_detailed_list">Detailed List</string>
-
     <string name="linebreak_lf">Unix and macOS (\\n)</string>
     <string name="linebreak_crlf">Windows (\\r\\n)</string>
     <string name="linebreak_cr">Classic Mac OS (\\r)</string>
@@ -132,9 +129,10 @@
     <string name="pref_linebreaks_for_saving_files_summary">Linebreak type to use when saving files</string>
     <string name="pref_show_hidden_files_title">Show hidden files</string>
     <string name="pref_show_hidden_files_summary">Hidden files and folders (starting with a dot) will be displayed</string>
+    <string name="pref_compact_packages_title">Compact middle packages</string>
+    <string name="pref_compact_packages_summary">Consecutive folders will be shown as one merged item</string>
     <string name="pref_folders_on_top_title">Folders on top</string>
     <string name="pref_folders_on_top_summary">Folders will be displayed on top</string>
-    <string name="pref_view_mode_title">View Mode</string>
     <string name="pref_sort_mode_title">Sort Mode</string>
 
     <string name="pref_git_credentials_title">Git Credentials</string>

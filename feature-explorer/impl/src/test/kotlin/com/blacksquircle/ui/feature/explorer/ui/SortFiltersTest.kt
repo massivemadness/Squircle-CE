@@ -20,18 +20,22 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.createFile
+import com.blacksquircle.ui.feature.explorer.createNode
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
-import com.blacksquircle.ui.feature.explorer.defaultFilesystems
+import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
+import com.blacksquircle.ui.feature.explorer.defaultWorkspaces
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -45,34 +49,41 @@ class SortFiltersTest {
     @get:Rule
     val timberConsoleRule = TimberConsoleRule()
 
+    private val dispatcherProvider = TestDispatcherProvider()
     private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val taskManager = mockk<TaskManager>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
     private val explorerRepository = mockk<ExplorerRepository>(relaxed = true)
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
+    private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
 
-    private val filesystems = defaultFilesystems()
-    private val selectedFilesystem = filesystems[0]
+    private val workspaces = defaultWorkspaces()
+    private val selectedWorkspace = workspaces[0]
 
-    private val defaultLocation = selectedFilesystem.defaultLocation
+    private val defaultLocation = selectedWorkspace.defaultLocation
     private val fileList = listOf(
         createFile(name = ".nomedia", size = 0, lastModified = 1000),
         createFile(name = "Apple", size = 100, lastModified = 2000),
         createFile(name = "Banana", size = 200, lastModified = 1500),
         createFile(name = "Cherry", size = 300, lastModified = 900),
     )
+    private val fileNodes = listOf(
+        createNode(file = defaultLocation, depth = 0, isExpanded = true),
+        createNode(file = fileList[0], depth = 1),
+        createNode(file = fileList[1], depth = 1),
+        createNode(file = fileList[2], depth = 1),
+        createNode(file = fileList[3], depth = 1),
+    )
 
     @Before
     fun setup() {
-        coEvery { explorerRepository.loadFilesystems() } returns filesystems
-        coEvery { explorerRepository.loadBreadcrumbs(selectedFilesystem) } returns
-            listOf(defaultLocation)
+        coEvery { explorerRepository.loadWorkspaces() } returns flowOf(workspaces)
         coEvery { explorerRepository.listFiles(defaultLocation) } returns fileList
 
-        every { settingsManager.filesystem } returns selectedFilesystem.uuid
-        every { settingsManager.filesystem = any() } answers {
-            every { settingsManager.filesystem } returns firstArg()
+        every { settingsManager.workspace } returns selectedWorkspace.uuid
+        every { settingsManager.workspace = any() } answers {
+            every { settingsManager.workspace } returns firstArg()
         }
         every { settingsManager.showHidden } returns true
         every { settingsManager.showHidden = any() } answers {
@@ -93,11 +104,11 @@ class SortFiltersTest {
         viewModel.onQueryChanged("Apple")
 
         // Then
-        val breadcrumb = viewModel.viewState.value.breadcrumbs.first()
         val expected = listOf(
-            createFile(name = "Apple", size = 100, lastModified = 2000),
+            fileNodes[0],
+            fileNodes[2],
         )
-        assertEquals(expected, breadcrumb.fileList)
+        assertEquals(expected, viewModel.viewState.value.fileNodes)
     }
 
     @Test
@@ -110,8 +121,8 @@ class SortFiltersTest {
         viewModel.onClearQueryClicked()
 
         // Then
-        val breadcrumb = viewModel.viewState.value.breadcrumbs.first()
-        assertEquals(fileList, breadcrumb.fileList)
+        val expected = fileNodes
+        assertEquals(expected, viewModel.viewState.value.fileNodes)
     }
 
     @Test
@@ -123,13 +134,13 @@ class SortFiltersTest {
         viewModel.onShowHiddenClicked()
 
         // Then
-        val breadcrumb = viewModel.viewState.value.breadcrumbs.first()
         val expected = listOf(
-            createFile(name = "Apple", size = 100, lastModified = 2000),
-            createFile(name = "Banana", size = 200, lastModified = 1500),
-            createFile(name = "Cherry", size = 300, lastModified = 900),
+            fileNodes[0],
+            fileNodes[2],
+            fileNodes[3],
+            fileNodes[4],
         )
-        assertEquals(expected, breadcrumb.fileList)
+        assertEquals(expected, viewModel.viewState.value.fileNodes)
     }
 
     @Test
@@ -141,14 +152,14 @@ class SortFiltersTest {
         viewModel.onSortModeSelected(SortMode.SORT_BY_SIZE)
 
         // Then
-        val breadcrumb = viewModel.viewState.value.breadcrumbs.first()
         val expected = listOf(
-            createFile(name = "Cherry", size = 300, lastModified = 900),
-            createFile(name = "Banana", size = 200, lastModified = 1500),
-            createFile(name = "Apple", size = 100, lastModified = 2000),
-            createFile(name = ".nomedia", size = 0, lastModified = 1000),
+            fileNodes[0],
+            fileNodes[4],
+            fileNodes[3],
+            fileNodes[2],
+            fileNodes[1],
         )
-        assertEquals(expected, breadcrumb.fileList)
+        assertEquals(expected, viewModel.viewState.value.fileNodes)
     }
 
     @Test
@@ -160,14 +171,14 @@ class SortFiltersTest {
         viewModel.onSortModeSelected(SortMode.SORT_BY_DATE)
 
         // Then
-        val breadcrumb = viewModel.viewState.value.breadcrumbs.first()
         val expected = listOf(
-            createFile(name = "Apple", size = 100, lastModified = 2000),
-            createFile(name = "Banana", size = 200, lastModified = 1500),
-            createFile(name = ".nomedia", size = 0, lastModified = 1000),
-            createFile(name = "Cherry", size = 300, lastModified = 900),
+            fileNodes[0],
+            fileNodes[2],
+            fileNodes[3],
+            fileNodes[1],
+            fileNodes[4],
         )
-        assertEquals(expected, breadcrumb.fileList)
+        assertEquals(expected, viewModel.viewState.value.fileNodes)
     }
 
     private fun createViewModel(): ExplorerViewModel {
@@ -177,7 +188,8 @@ class SortFiltersTest {
             taskManager = taskManager,
             editorInteractor = editorInteractor,
             explorerRepository = explorerRepository,
-            serverInteractor = serverInteractor
+            serverInteractor = serverInteractor,
+            asyncNodeBuilder = asyncNodeBuilder,
         )
     }
 }

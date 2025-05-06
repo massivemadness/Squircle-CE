@@ -18,12 +18,12 @@ package com.blacksquircle.ui.core.database
 
 import com.blacksquircle.ui.core.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.database.dao.font.FontDao
-import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.database.dao.server.ServerDao
+import com.blacksquircle.ui.core.database.dao.workspace.WorkspaceDao
 
 interface AppDatabase {
     fun documentDao(): DocumentDao
     fun fontDao(): FontDao
-    fun pathDao(): PathDao
     fun serverDao(): ServerDao
+    fun workspaceDao(): WorkspaceDao
 }

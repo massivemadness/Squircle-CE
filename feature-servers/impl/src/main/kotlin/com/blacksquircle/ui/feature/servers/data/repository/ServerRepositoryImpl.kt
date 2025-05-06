@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.servers.data.repository
 
 import android.content.Context
 import android.net.Uri
-import com.blacksquircle.ui.core.database.dao.path.PathDao
 import com.blacksquircle.ui.core.database.dao.server.ServerDao
 import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
@@ -38,7 +37,6 @@ internal class ServerRepositoryImpl(
     private val settingsManager: SettingsManager,
     private val dispatcherProvider: DispatcherProvider,
     private val serverDao: ServerDao,
-    private val pathDao: PathDao,
     private val context: Context,
 ) : ServerRepository {
 
@@ -85,23 +83,21 @@ internal class ServerRepositoryImpl(
     override suspend fun upsertServer(serverConfig: ServerConfig) {
         withContext(dispatcherProvider.io()) {
             ServerCredentials.remove(serverConfig.uuid)
+            if (settingsManager.workspace == serverConfig.uuid) {
+                settingsManager.remove(SettingsManager.KEY_WORKSPACE)
+            }
             val entity = ServerMapper.toEntity(serverConfig)
             serverDao.insert(entity)
-            pathDao.delete(serverConfig.uuid)
-            if (settingsManager.filesystem == serverConfig.uuid) {
-                settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
-            }
         }
     }
 
     override suspend fun deleteServer(serverConfig: ServerConfig) {
         withContext(dispatcherProvider.io()) {
+            if (settingsManager.workspace == serverConfig.uuid) {
+                settingsManager.remove(SettingsManager.KEY_WORKSPACE)
+            }
             ServerCredentials.remove(serverConfig.uuid)
             serverDao.delete(serverConfig.uuid)
-            pathDao.delete(serverConfig.uuid)
-            if (settingsManager.filesystem == serverConfig.uuid) {
-                settingsManager.remove(SettingsManager.KEY_FILESYSTEM)
-            }
         }
     }
 }

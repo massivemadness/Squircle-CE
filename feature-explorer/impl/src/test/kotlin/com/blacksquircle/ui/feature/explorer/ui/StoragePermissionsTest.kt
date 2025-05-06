@@ -22,14 +22,16 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
+import com.blacksquircle.ui.feature.explorer.createNode
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
-import com.blacksquircle.ui.feature.explorer.defaultFilesystems
+import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
+import com.blacksquircle.ui.feature.explorer.defaultWorkspaces
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
-import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
+import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.clearMocks
@@ -38,6 +40,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -52,26 +55,27 @@ class StoragePermissionsTest {
     @get:Rule
     val timberConsoleRule = TimberConsoleRule()
 
+    private val dispatcherProvider = TestDispatcherProvider()
     private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val taskManager = mockk<TaskManager>(relaxed = true)
     private val explorerRepository = mockk<ExplorerRepository>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
+    private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
 
-    private val filesystems = defaultFilesystems()
-    private val selectedFilesystem = filesystems[0]
-    private val defaultLocation = selectedFilesystem.defaultLocation
+    private val workspaces = defaultWorkspaces()
+    private val selectedWorkspace = workspaces[0]
+    private val defaultLocation = selectedWorkspace.defaultLocation
 
     @Before
     fun setup() {
-        coEvery { explorerRepository.loadFilesystems() } returns filesystems
-        coEvery { explorerRepository.loadBreadcrumbs(selectedFilesystem) } returns
-            listOf(defaultLocation)
+        coEvery { explorerRepository.loadWorkspaces() } returns flowOf(workspaces)
+        coEvery { explorerRepository.listFiles(any()) } returns emptyList()
 
-        every { settingsManager.filesystem } returns selectedFilesystem.uuid
-        every { settingsManager.filesystem = any() } answers {
-            every { settingsManager.filesystem } returns firstArg()
+        every { settingsManager.workspace } returns selectedWorkspace.uuid
+        every { settingsManager.workspace = any() } answers {
+            every { settingsManager.workspace } returns firstArg()
         }
     }
 
@@ -84,17 +88,14 @@ class StoragePermissionsTest {
         val viewModel = createViewModel() // init {}
 
         // Then
-        val breadcrumbs = listOf(
-            BreadcrumbState(
-                fileModel = defaultLocation,
-                fileList = emptyList(),
-                errorState = ErrorState(
-                    action = ErrorAction.REQUEST_PERMISSIONS,
-                )
+        val expected = listOf(
+            createNode(
+                file = defaultLocation,
+                isExpanded = true,
+                errorState = ErrorState(action = ErrorAction.REQUEST_PERMISSIONS)
             )
         )
-        assertEquals(breadcrumbs, viewModel.viewState.value.breadcrumbs)
-        assertEquals(breadcrumbs.size - 1, viewModel.viewState.value.selectedBreadcrumb)
+        assertEquals(expected, viewModel.viewState.value.fileNodes)
     }
 
     @Test
@@ -120,7 +121,7 @@ class StoragePermissionsTest {
         viewModel.onPermissionGranted()
 
         // Then
-        coVerify(exactly = 1) { explorerRepository.listFiles(selectedFilesystem.defaultLocation) }
+        coVerify(exactly = 1) { explorerRepository.listFiles(selectedWorkspace.defaultLocation) }
     }
 
     private fun createViewModel(): ExplorerViewModel {
@@ -131,6 +132,7 @@ class StoragePermissionsTest {
             editorInteractor = editorInteractor,
             explorerRepository = explorerRepository,
             serverInteractor = serverInteractor,
+            asyncNodeBuilder = asyncNodeBuilder,
         )
     }
 }

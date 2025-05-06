@@ -26,10 +26,7 @@ data object ExplorerScreen
 data class AuthDialog(val authMethod: AuthMethod)
 
 @Serializable
-data object CreateFileDialog
-
-@Serializable
-data object CreateFolderDialog
+data object CreateDialog
 
 @Serializable
 data object CloneRepoDialog
@@ -60,3 +57,12 @@ data object StorageDeniedDialog
 
 @Serializable
 data object NotificationDeniedDialog
+
+@Serializable
+data object AddWorkspaceDialog
+
+@Serializable
+data class DeleteWorkspaceDialog(val uuid: String, val name: String)
+
+@Serializable
+data object LocalWorkspaceDialog

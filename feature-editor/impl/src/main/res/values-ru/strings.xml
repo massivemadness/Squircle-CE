@@ -24,6 +24,7 @@
     <string name="action_new">Новый файл</string>
     <string name="action_open">Открыть</string>
     <string name="action_save_as">Сохранить как</string>
+    <string name="action_refresh">Обновить</string>
     <string name="action_edit">Правка</string>
     <string name="action_select_line">Выделить строку</string>
     <string name="action_delete_line">Удалить строку</string>

@@ -29,6 +29,7 @@ import androidx.compose.material.DrawerValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -115,6 +116,7 @@ internal fun EditorScreen(
         onOpenFileClicked = viewModel::onOpenFileClicked,
         onSaveFileClicked = viewModel::onSaveFileClicked,
         onSaveFileAsClicked = viewModel::onSaveFileAsClicked,
+        onRefreshFileClicked = viewModel::onRefreshFileClicked,
         onCloseFileClicked = viewModel::onCloseFileClicked,
         onContentChanged = viewModel::onContentChanged,
         onShortcutPressed = viewModel::onShortcutPressed,
@@ -219,10 +221,10 @@ internal fun EditorScreen(
         viewModel.onColorSelected(color)
     }
     NavResultEffect(KEY_PULL) {
-        viewModel.onDocumentRefreshed()
+        viewModel.onRefreshFileClicked()
     }
     NavResultEffect(KEY_CHECKOUT) {
-        viewModel.onDocumentRefreshed()
+        viewModel.onRefreshFileClicked()
     }
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
@@ -261,6 +263,7 @@ private fun EditorScreen(
     onOpenFileClicked: () -> Unit = {},
     onSaveFileClicked: () -> Unit = {},
     onSaveFileAsClicked: () -> Unit = {},
+    onRefreshFileClicked: () -> Unit = {},
     onCloseFileClicked: () -> Unit = {},
     onContentChanged: () -> Unit = {},
     onShortcutPressed: (Boolean, Boolean, Boolean, Int) -> Unit = { _, _, _, _ -> },
@@ -307,6 +310,7 @@ private fun EditorScreen(
                 onOpenFileClicked = onOpenFileClicked,
                 onSaveFileClicked = onSaveFileClicked,
                 onSaveFileAsClicked = onSaveFileAsClicked,
+                onRefreshFileClicked = onRefreshFileClicked,
                 onCloseFileClicked = onCloseFileClicked,
                 onCutClicked = onCutClicked,
                 onCopyClicked = onCopyClicked,
@@ -392,15 +396,17 @@ private fun EditorScreen(
             }
 
             if (!isError && !isLoading && content != null) {
-                CodeEditor(
-                    content = currentDocument.content,
-                    language = currentDocument.document.language,
-                    settings = viewState.settings,
-                    controller = editorController,
-                    onContentChanged = onContentChanged,
-                    onShortcutPressed = onShortcutPressed,
-                    modifier = Modifier.fillMaxSize(),
-                )
+                key(currentDocument.document.uuid) {
+                    CodeEditor(
+                        content = currentDocument.content,
+                        language = currentDocument.document.language,
+                        settings = viewState.settings,
+                        controller = editorController,
+                        onContentChanged = onContentChanged,
+                        onShortcutPressed = onShortcutPressed,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
             }
 
             if (isError && !isLoading) {

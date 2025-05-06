@@ -28,7 +28,6 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.toolbar.Toolbar
-import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.EditMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.FileMenu
@@ -47,6 +46,7 @@ internal fun EditorToolbar(
     onOpenFileClicked: () -> Unit = {},
     onSaveFileClicked: () -> Unit = {},
     onSaveFileAsClicked: () -> Unit = {},
+    onRefreshFileClicked: () -> Unit = {},
     onCloseFileClicked: () -> Unit = {},
     onCutClicked: () -> Unit = {},
     onCopyClicked: () -> Unit = {},
@@ -84,6 +84,7 @@ internal fun EditorToolbar(
                         onOpenFileClicked = { menuType = null; onOpenFileClicked() },
                         onSaveFileClicked = { menuType = null; onSaveFileClicked() },
                         onSaveFileAsClicked = { menuType = null; onSaveFileAsClicked() },
+                        onRefreshFileClicked = { menuType = null; onRefreshFileClicked() },
                         onCloseFileClicked = { menuType = null; onCloseFileClicked() },
                     )
                 }
@@ -150,7 +151,6 @@ internal fun EditorToolbar(
                 }
             )
         },
-        toolbarSize = ToolbarSizeDefaults.S,
         modifier = modifier,
     )
 }

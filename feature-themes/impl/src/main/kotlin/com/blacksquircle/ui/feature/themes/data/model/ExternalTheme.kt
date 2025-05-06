@@ -33,10 +33,6 @@ internal data class ExternalColors(
     val colorPrimary: String? = null,
     @SerialName("global.colorOutline")
     val colorOutline: String? = null,
-    @SerialName("global.colorSuccess")
-    val colorSuccess: String? = null,
-    @SerialName("global.colorError")
-    val colorError: String? = null,
     @SerialName("global.colorBackgroundPrimary")
     val colorBackgroundPrimary: String? = null,
     @SerialName("global.colorBackgroundSecondary")
@@ -53,4 +49,8 @@ internal data class ExternalColors(
     val colorTextAndIconDisabled: String? = null,
     @SerialName("global.colorTextAndIconAdditional")
     val colorTextAndIconAdditional: String? = null,
+    @SerialName("global.colorTextAndIconSuccess")
+    val colorTextAndIconSuccess: String? = null,
+    @SerialName("global.colorTextAndIconError")
+    val colorTextAndIconError: String? = null,
 )

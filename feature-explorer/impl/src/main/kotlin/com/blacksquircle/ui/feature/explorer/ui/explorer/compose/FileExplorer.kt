@@ -16,144 +16,70 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer.compose
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.util.fastAny
-import com.blacksquircle.ui.ds.R
-import com.blacksquircle.ui.ds.SquircleTheme
-import com.blacksquircle.ui.ds.emptyview.EmptyView
-import com.blacksquircle.ui.ds.progress.CircularProgress
-import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
-import com.blacksquircle.ui.feature.explorer.domain.model.ViewMode
-import com.blacksquircle.ui.feature.explorer.ui.explorer.model.BreadcrumbState
-import com.blacksquircle.ui.filesystem.base.model.FileModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 
-private const val RefreshDelay = 500L
-
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun FileExplorer(
     contentPadding: PaddingValues,
-    breadcrumbState: BreadcrumbState,
-    selectedFiles: List<FileModel>,
-    viewMode: ViewMode,
-    isLoading: Boolean,
+    fileNodes: List<FileNode>,
+    selectedNodes: List<FileNode>,
     modifier: Modifier = Modifier,
-    onFileClicked: (FileModel) -> Unit = {},
-    onFileSelected: (FileModel) -> Unit = {},
-    onErrorActionClicked: (ErrorAction) -> Unit = {},
-    onRefreshClicked: () -> Unit = {},
+    onFileClicked: (FileNode) -> Unit = {},
+    onFileSelected: (FileNode) -> Unit = {},
 ) {
-    val refreshScope = rememberCoroutineScope()
-    var refreshing by remember { mutableStateOf(false) }
-    fun refresh() = refreshScope.launch {
-        refreshing = true
-        onRefreshClicked()
-        delay(RefreshDelay)
-        refreshing = false
+    val density = LocalDensity.current
+    val hapticFeedback = LocalHapticFeedback.current
+    var cacheItemWidth by remember {
+        mutableStateOf(MinItemWidth)
     }
 
-    val refreshState = rememberPullRefreshState(refreshing, ::refresh)
-    val lazyListState = rememberLazyListState()
-
-    val haptic = LocalHapticFeedback.current
-    val fileList = breadcrumbState.fileList
-    val isError = breadcrumbState.errorState != null
-    val isEmpty = fileList.isEmpty()
-
-    Box(
+    LazyColumn(
+        contentPadding = contentPadding,
         modifier = modifier
             .fillMaxSize()
-            .pullRefresh(refreshState)
+            .horizontalScroll(rememberScrollState())
     ) {
-        LazyColumn(
-            state = lazyListState,
-            contentPadding = contentPadding,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(
-                items = if (isLoading) emptyList() else fileList,
-                key = FileModel::fileUri,
-            ) { fileModel ->
-                val isSelected = selectedFiles
-                    .fastAny { it.fileUri == fileModel.fileUri }
-                when (viewMode) {
-                    ViewMode.COMPACT_LIST -> {
-                        CompactFileItem(
-                            fileModel = fileModel,
-                            isSelected = isSelected,
-                            onClick = { onFileClicked(fileModel) },
-                            onLongClick = {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                onFileSelected(fileModel)
-                            },
-                            modifier = Modifier.animateItem(),
-                        )
+        items(
+            items = fileNodes,
+            key = { it.file.fileUri },
+        ) { fileNode ->
+            val isSelected = selectedNodes.fastAny { it.key == fileNode.key }
+            FileItem(
+                fileNode = fileNode,
+                isSelected = isSelected,
+                onClick = { onFileClicked(fileNode) },
+                onLongClick = {
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onFileSelected(fileNode)
+                },
+                modifier = Modifier
+                    .onSizeChanged { size ->
+                        val itemWidthDp = with(density) { size.width.toDp() }
+                        if (cacheItemWidth < itemWidthDp) {
+                            cacheItemWidth = itemWidthDp
+                        }
                     }
-
-                    ViewMode.DETAILED_LIST -> {
-                        DetailedFileItem(
-                            fileModel = fileModel,
-                            isSelected = isSelected,
-                            onClick = { onFileClicked(fileModel) },
-                            onLongClick = {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                onFileSelected(fileModel)
-                            },
-                            modifier = Modifier.animateItem(),
-                        )
-                    }
-                }
-            }
-        }
-
-        if (isError && !isLoading) {
-            ErrorStatus(
-                errorState = breadcrumbState.errorState,
-                onActionClicked = onErrorActionClicked,
-                modifier = Modifier.align(Alignment.Center)
+                    .widthIn(min = cacheItemWidth)
+                    .animateItem()
             )
         }
-        if (isLoading) {
-            CircularProgress(
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
-        if (isEmpty && !isLoading && !isError) {
-            EmptyView(
-                iconResId = R.drawable.ic_file_find,
-                title = stringResource(R.string.common_no_result),
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
-
-        PullRefreshIndicator(
-            state = refreshState,
-            refreshing = refreshing,
-            backgroundColor = SquircleTheme.colors.colorBackgroundSecondary,
-            contentColor = SquircleTheme.colors.colorPrimary,
-            modifier = Modifier.align(Alignment.TopCenter),
-        )
     }
 }

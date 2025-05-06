@@ -122,7 +122,7 @@ internal class TaskService : ComponentService() {
                 TaskType.CREATE -> getString(R.string.dialog_title_creating)
                 TaskType.RENAME -> getString(R.string.dialog_title_renaming)
                 TaskType.DELETE -> getString(R.string.dialog_title_deleting)
-                TaskType.CUT -> getString(R.string.dialog_title_copying)
+                TaskType.MOVE -> getString(R.string.dialog_title_copying)
                 TaskType.COPY -> getString(R.string.dialog_title_copying)
                 TaskType.COMPRESS -> getString(R.string.dialog_title_compressing)
                 TaskType.EXTRACT -> getString(R.string.dialog_title_extracting)

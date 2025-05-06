@@ -26,6 +26,7 @@ navigation = "2.8.9"
 profile-installer = "1.4.1"
 reorderable = "2.4.3"
 room = "2.7.0"
+rootbeer = "0.1.1"
 serialization = "1.8.1"
 sora = "0.23.5"
 splashscreen = "1.0.1"
@@ -89,6 +90,7 @@ libsu-io = { module = "com.github.topjohnwu.libsu:io", version.ref = "superuser"
 lingala-zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
 mwiede-jsch = { module = "com.github.mwiede:jsch", version.ref = "jsch" }
 pinterest-ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
+scottyab-rootbeer = { module = "com.scottyab:rootbeer-lib", version.ref = "rootbeer" }
 skydoves-colorpicker-compose = { module = "com.github.skydoves:colorpicker-compose", version.ref = "colorpicker" }
 sora-editor = { module = "io.github.Rosemoe.sora-editor:editor", version.ref = "sora" }
 sora-textmate = { module = "io.github.Rosemoe.sora-editor:language-textmate", version.ref = "sora" }

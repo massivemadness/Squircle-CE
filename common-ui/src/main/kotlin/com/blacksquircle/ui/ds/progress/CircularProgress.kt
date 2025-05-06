@@ -16,24 +16,25 @@
 
 package com.blacksquircle.ui.ds.progress
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.SquircleTheme
 
 @Composable
 @NonRestartableComposable
 fun CircularProgress(
-    color: Color = SquircleTheme.colors.colorPrimary,
+    circularProgressStyle: CircularProgressStyle = CircularProgressStyleDefaults.Primary,
+    circularProgressSize: CircularProgressSize = CircularProgressSizeDefaults.M,
     modifier: Modifier = Modifier
 ) {
     CircularProgressIndicator(
-        color = color,
-        modifier = modifier,
+        color = circularProgressStyle.color,
+        strokeWidth = circularProgressSize.strokeWidth,
+        modifier = modifier.size(circularProgressSize.circleSize),
     )
 }
 

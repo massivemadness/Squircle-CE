@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     testImplementation(libs.kotlinx.coroutines.test)
     implementation(libs.kotlinx.serialization)
+    implementation(libs.scottyab.rootbeer)
 
     ksp(libs.google.dagger.compiler)
 

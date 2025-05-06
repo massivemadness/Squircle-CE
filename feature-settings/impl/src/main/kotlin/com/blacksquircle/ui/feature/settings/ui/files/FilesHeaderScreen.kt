@@ -65,8 +65,8 @@ internal fun FilesHeaderScreen(
         onLineBreaksForSavingChanged = viewModel::onLineBreakForSavingChanged,
         onStorageAccessClicked = viewModel::onStorageAccessClicked,
         onShowHiddenChanged = viewModel::onShowHiddenChanged,
+        onCompactPackagesChanged = viewModel::onCompactPackagesChanged,
         onFoldersOnTopChanged = viewModel::onFoldersOnTopChanged,
-        onViewModeChanged = viewModel::onViewModeChanged,
         onSortModeChanged = viewModel::onSortModeChanged,
     )
 
@@ -93,8 +93,8 @@ private fun FilesHeaderScreen(
     onLineBreaksForSavingChanged: (String) -> Unit = {},
     onStorageAccessClicked: () -> Unit = {},
     onShowHiddenChanged: (Boolean) -> Unit = {},
+    onCompactPackagesChanged: (Boolean) -> Unit = {},
     onFoldersOnTopChanged: (Boolean) -> Unit = {},
-    onViewModeChanged: (String) -> Unit = {},
     onSortModeChanged: (String) -> Unit = {},
 ) {
     ScaffoldSuite(
@@ -171,18 +171,16 @@ private fun FilesHeaderScreen(
                 onCheckedChange = onShowHiddenChanged,
             )
             SwitchPreference(
+                title = stringResource(R.string.pref_compact_packages_title),
+                subtitle = stringResource(R.string.pref_compact_packages_summary),
+                checked = viewState.compactPackages,
+                onCheckedChange = onCompactPackagesChanged,
+            )
+            SwitchPreference(
                 title = stringResource(R.string.pref_folders_on_top_title),
                 subtitle = stringResource(R.string.pref_folders_on_top_summary),
                 checked = viewState.foldersOnTop,
                 onCheckedChange = onFoldersOnTopChanged,
-            )
-            ListPreference(
-                title = stringResource(R.string.pref_view_mode_title),
-                entryNameAsSubtitle = true,
-                entries = stringArrayResource(R.array.view_mode_entries),
-                entryValues = stringArrayResource(R.array.view_mode_values),
-                selectedValue = viewState.viewMode,
-                onValueSelected = onViewModeChanged,
             )
             ListPreference(
                 title = stringResource(R.string.pref_sort_mode_title),
@@ -208,8 +206,8 @@ private fun FilesHeaderScreenPreview() {
                 encodingList = emptyList(),
                 lineBreakForSaving = "lf",
                 showHidden = true,
+                compactPackages = true,
                 foldersOnTop = true,
-                viewMode = "compact_list",
                 sortMode = "sort_by_name",
             ),
         )

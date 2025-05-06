@@ -23,8 +23,6 @@
     <string name="sort_by_name">按名称排序</string>
     <string name="sort_by_size">按大小排序</string>
     <string name="sort_by_date">按日期排序</string>
-    <string name="view_mode_compact_list">紧凑列表</string>
-    <string name="view_mode_detailed_list">详细列表</string>
     <string name="linebreak_lf">Unix and macOS (\\n)</string>
     <string name="linebreak_crlf">Windows (\\r\\n)</string>
     <string name="linebreak_cr">Classic Mac OS (\\r)</string>
@@ -109,7 +107,6 @@
     <string name="pref_show_hidden_files_summary">将显示隐藏的文件和文件夹（以“.”开头）。</string>
     <string name="pref_folders_on_top_title">文件夹置顶</string>
     <string name="pref_folders_on_top_summary">文件夹将优先显示在文件的前面。</string>
-    <string name="pref_view_mode_title">视图模式</string>
     <string name="pref_sort_mode_title">排序方式</string>
     <string name="pref_about_summary">Squircle CE 是依据 Apache 2.0 许可协议发布的开源项目\n\n当前版本: %1$s (%2$d)</string>
     <string name="pref_privacy_policy_title">查看“隐私政策”</string>
