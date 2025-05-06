@@ -51,6 +51,8 @@ internal object FileAssociation {
         associations[".html"] = LanguageScope.HTML
         associations[".ini"] = LanguageScope.INI
         associations[".properties"] = LanguageScope.INI
+        associations[".editorconfig"] = LanguageScope.INI
+        associations[".env"] = LanguageScope.INI
         associations[".java"] = LanguageScope.JAVA
         associations[".js"] = LanguageScope.JAVASCRIPT
         associations[".jsx"] = LanguageScope.JAVASCRIPT
