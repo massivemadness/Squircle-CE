@@ -24,6 +24,7 @@
     <string name="action_new">New</string>
     <string name="action_open">Open</string>
     <string name="action_save_as">Save As</string>
+    <string name="action_refresh">Refresh</string>
     <string name="action_edit">Edit</string>
     <string name="action_select_line">Select Line</string>
     <string name="action_delete_line">Delete Line</string>

@@ -46,6 +46,7 @@ internal fun EditorToolbar(
     onOpenFileClicked: () -> Unit = {},
     onSaveFileClicked: () -> Unit = {},
     onSaveFileAsClicked: () -> Unit = {},
+    onRefreshFileClicked: () -> Unit = {},
     onCloseFileClicked: () -> Unit = {},
     onCutClicked: () -> Unit = {},
     onCopyClicked: () -> Unit = {},
@@ -83,6 +84,7 @@ internal fun EditorToolbar(
                         onOpenFileClicked = { menuType = null; onOpenFileClicked() },
                         onSaveFileClicked = { menuType = null; onSaveFileClicked() },
                         onSaveFileAsClicked = { menuType = null; onSaveFileAsClicked() },
+                        onRefreshFileClicked = { menuType = null; onRefreshFileClicked() },
                         onCloseFileClicked = { menuType = null; onCloseFileClicked() },
                     )
                 }
