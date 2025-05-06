@@ -90,7 +90,7 @@ internal fun SearchPanel(
                 TextField(
                     inputText = searchState.findText,
                     onInputChanged = onFindTextChanged,
-                    placeholderText = stringResource(R.string.action_find),
+                    placeholderText = stringResource(R.string.editor_menu_find),
                     keyboardOptions = KeyboardOptions(
                         imeAction = if (searchState.replaceShown) {
                             ImeAction.Next
@@ -133,7 +133,7 @@ internal fun SearchPanel(
                     TextField(
                         inputText = searchState.replaceText,
                         onInputChanged = onReplaceTextChanged,
-                        placeholderText = stringResource(R.string.action_replace),
+                        placeholderText = stringResource(R.string.editor_menu_find_replace),
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )
                 }
@@ -158,23 +158,23 @@ internal fun SearchPanel(
                 .fillMaxWidth()
         ) {
             TextButton(
-                text = stringResource(R.string.action_prev),
+                text = stringResource(R.string.editor_menu_find_prev),
                 onClick = onPreviousMatchClicked,
                 debounce = false,
             )
             TextButton(
-                text = stringResource(R.string.action_next),
+                text = stringResource(R.string.editor_menu_find_next),
                 onClick = onNextMatchClicked,
                 debounce = false,
             )
             TextButton(
-                text = stringResource(R.string.action_replace),
+                text = stringResource(R.string.editor_menu_find_replace),
                 onClick = onReplaceMatchClicked,
                 enabled = searchState.replaceShown,
                 debounce = false,
             )
             TextButton(
-                text = stringResource(R.string.action_replace_all),
+                text = stringResource(R.string.editor_menu_find_replace_all),
                 onClick = onReplaceAllClicked,
                 enabled = searchState.replaceShown,
                 debounce = true,

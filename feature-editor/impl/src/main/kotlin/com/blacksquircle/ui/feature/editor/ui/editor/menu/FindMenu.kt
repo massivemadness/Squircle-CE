@@ -48,7 +48,7 @@ internal fun FindMenu(
         modifier = modifier,
     ) {
         PopupMenuItem(
-            title = stringResource(R.string.action_regex),
+            title = stringResource(R.string.editor_menu_find_regex),
             onClick = onRegexClicked,
             trailing = {
                 CheckBox(
@@ -58,7 +58,7 @@ internal fun FindMenu(
             }
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_match_case),
+            title = stringResource(R.string.editor_menu_find_match_case),
             onClick = onMatchCaseClicked,
             trailing = {
                 CheckBox(
@@ -68,7 +68,7 @@ internal fun FindMenu(
             }
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_words_only),
+            title = stringResource(R.string.editor_menu_find_words_only),
             onClick = onWordsOnlyClicked,
             trailing = {
                 CheckBox(

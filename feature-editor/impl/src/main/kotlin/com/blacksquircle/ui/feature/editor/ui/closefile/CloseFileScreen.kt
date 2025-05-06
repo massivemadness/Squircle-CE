@@ -61,12 +61,12 @@ private fun CloseFileScreen(
         title = fileName,
         content = {
             Text(
-                text = stringResource(R.string.dialog_message_close_tab),
+                text = stringResource(R.string.editor_close_tab_dialog_message),
                 color = SquircleTheme.colors.colorTextAndIconSecondary,
                 style = SquircleTheme.typography.text16Regular,
             )
         },
-        confirmButton = stringResource(R.string.action_close),
+        confirmButton = stringResource(R.string.editor_close_tab_dialog_button_close),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = onConfirmClicked,
         onDismissClicked = onCancelClicked,

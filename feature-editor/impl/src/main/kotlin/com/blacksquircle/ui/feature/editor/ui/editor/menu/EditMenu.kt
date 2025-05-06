@@ -66,17 +66,17 @@ internal fun EditMenu(
             onClick = onSelectAllClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_select_line),
+            title = stringResource(R.string.editor_menu_edit_select_line),
             iconResId = UiR.drawable.ic_line_select,
             onClick = onSelectLineClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_delete_line),
+            title = stringResource(R.string.editor_menu_edit_delete_line),
             iconResId = UiR.drawable.ic_minus,
             onClick = onDeleteLineClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_duplicate_line),
+            title = stringResource(R.string.editor_menu_edit_duplicate_line),
             iconResId = UiR.drawable.ic_line_duplicate,
             onClick = onDuplicateLineClicked,
         )

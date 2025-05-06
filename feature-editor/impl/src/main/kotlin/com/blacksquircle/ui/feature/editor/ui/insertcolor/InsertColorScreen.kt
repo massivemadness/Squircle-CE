@@ -31,8 +31,8 @@ import com.blacksquircle.ui.feature.editor.ui.editor.KEY_INSERT_COLOR
 @Composable
 internal fun InsertColorScreen(navController: NavController) {
     ColorPickerDialog(
-        title = stringResource(R.string.dialog_title_color_picker),
-        confirmButton = stringResource(R.string.action_insert),
+        title = stringResource(R.string.editor_color_picker_dialog_title),
+        confirmButton = stringResource(R.string.editor_color_picker_dialog_button_insert),
         dismissButton = stringResource(android.R.string.cancel),
         onColorSelected = { color ->
             sendNavigationResult(

@@ -16,6 +16,6 @@
   -->
 
 <resources>
-    <string name="dialog_title_exit">Salir</string>
-    <string name="dialog_message_exit">¿Seguro que quieres salir? Se guardarán todos los cambios en la caché</string>
+    <string name="editor_exit_dialog_title">Salir</string>
+    <string name="editor_exit_dialog_message">¿Seguro que quieres salir? Se guardarán todos los cambios en la caché</string>
 </resources>

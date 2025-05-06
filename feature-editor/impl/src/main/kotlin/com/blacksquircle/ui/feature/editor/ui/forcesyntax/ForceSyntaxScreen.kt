@@ -75,7 +75,7 @@ private fun ForceSyntaxScreen(
     val entryValues = stringArrayResource(R.array.language_values)
 
     AlertDialog(
-        title = stringResource(R.string.dialog_title_force_syntax),
+        title = stringResource(R.string.editor_force_syntax_dialog_title),
         verticalScroll = false,
         horizontalPadding = false,
         content = {

@@ -17,44 +17,39 @@
 
 <resources>
 
-    <string name="hint_line">"Zeile: "</string>
+    <string name="editor_goto_line_label">"Zeile: "</string>
 
-    <string name="action_close">Schließen</string>
-    <string name="action_close_others">Die anderen schließen</string>
-    <string name="action_close_all">Alle schließen</string>
-    <string name="action_insert">Einfügen</string>
-    <string name="action_new">Neu</string>
-    <string name="action_open">Öffnen</string>
-    <string name="action_save_as">Speichern unter</string>
-    <string name="action_select_line">Zeile auswählen</string>
-    <string name="action_delete_line">Zeile löschen</string>
-    <string name="action_duplicate_line">Zeile duplizieren</string>
-    <string name="action_regex">Regulärer Ausdruck</string>
-    <string name="action_match_case">Groß- und Kleinschreibung berücksichtigen</string>
-    <string name="action_words_only">Nur Wörter</string>
-    <string name="action_find">Finden</string>
-    <string name="action_replace">Ersetzen</string>
-    <string name="action_goto_line">Gehe zu Zeile</string>
-    <string name="action_go_to">Gehe zu</string>
-    <string name="action_force_syntax">Force Syntax</string>
-    <string name="action_insert_color">Farbe einfügen</string>
-    <string name="action_settings">Einstellungen</string>
-    <string name="action_tools">Tools</string>
+    <string name="editor_menu_file_new">Neu</string>
+    <string name="editor_menu_file_open">Öffnen</string>
+    <string name="editor_menu_file_save">Speichern</string>
+    <string name="editor_menu_file_save_as">Speichern unter</string>
+    <string name="editor_menu_file_close">Schließen</string>
+    <string name="editor_menu_file_close_others">Die anderen schließen</string>
+    <string name="editor_menu_file_close_all">Alle schließen</string>
+    <string name="editor_color_picker_dialog_button_insert">Einfügen</string>
+    <string name="editor_menu_edit_select_line">Zeile auswählen</string>
+    <string name="editor_menu_edit_delete_line">Zeile löschen</string>
+    <string name="editor_menu_edit_duplicate_line">Zeile duplizieren</string>
+    <string name="editor_menu_find_regex">Regulärer Ausdruck</string>
+    <string name="editor_menu_find_match_case">Groß- und Kleinschreibung berücksichtigen</string>
+    <string name="editor_menu_find_words_only">Nur Wörter</string>
+    <string name="editor_menu_find">Finden</string>
+    <string name="editor_menu_find_replace">Ersetzen</string>
+    <string name="editor_goto_line_dialog_button_go_to">Gehe zu</string>
+    <string name="editor_menu_tools_force_syntax">Force Syntax</string>
+    <string name="editor_menu_tools_insert_color">Farbe einfügen</string>
+    <string name="editor_menu_settings">Einstellungen</string>
+    <string name="editor_menu_tools">Tools</string>
 
-    <string name="dialog_title_goto_line">Gehe zu Zeile…</string>
-    <string name="dialog_title_force_syntax">Syntax Highlighting</string>
-    <string name="dialog_title_color_picker">Farbauswahl</string>
-    <string name="dialog_title_exit">Verlassen</string>
-    <string name="dialog_message_exit">Sind Sie sicher, dass Sie die App verlassen wollen? Alle Änderungen werden im Cache gespeichert</string>
-    <string name="dialog_message_close_tab">Sind Sie sicher, dass Sie die Datei schließen wollen? Alle ungespeicherten Änderungen werden verworfen</string>
+    <string name="editor_goto_line_dialog_title">Gehe zu Zeile…</string>
+    <string name="editor_force_syntax_dialog_title">Syntax Highlighting</string>
+    <string name="editor_color_picker_dialog_title">Farbauswahl</string>
+    <string name="editor_exit_dialog_title">Verlassen</string>
+    <string name="editor_exit_dialog_message">Sind Sie sicher, dass Sie die App verlassen wollen? Alle Änderungen werden im Cache gespeichert</string>
+    <string name="editor_close_tab_dialog_message">Sind Sie sicher, dass Sie die Datei schließen wollen? Alle ungespeicherten Änderungen werden verworfen</string>
+    <string name="editor_close_tab_dialog_button_close">Close</string>
 
-    <string name="message_no_open_files">Keine geöffneten Dateien</string>
-    <string name="message_file_not_found">Datei nicht gefunden</string>
-    <string name="message_out_of_memory">Kein Speicherplatz mehr</string>
-    <string name="message_saved">Gespeichert</string>
-    <string name="message_nothing_to_cut">Nichts zum Ausschneiden</string>
-    <string name="message_nothing_to_copy">Nichts zum Kopieren</string>
-    <string name="message_nothing_to_paste">Nichts zum Einfügen</string>
-    <string name="message_line_not_exists">Zeile existiert nicht</string>
+    <string name="editor_empty_view_title">Keine geöffneten Dateien</string>
+    <string name="editor_toast_file_saved">Gespeichert</string>
 
 </resources>

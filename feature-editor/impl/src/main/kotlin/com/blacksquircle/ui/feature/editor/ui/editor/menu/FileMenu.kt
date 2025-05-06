@@ -44,32 +44,32 @@ internal fun FileMenu(
         modifier = modifier,
     ) {
         PopupMenuItem(
-            title = stringResource(R.string.action_new),
+            title = stringResource(R.string.editor_menu_file_new),
             iconResId = UiR.drawable.ic_plus,
             onClick = onNewFileClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_open),
+            title = stringResource(R.string.editor_menu_file_open),
             iconResId = UiR.drawable.ic_folder_open,
             onClick = onOpenFileClicked,
         )
         PopupMenuItem(
-            title = stringResource(UiR.string.common_save),
+            title = stringResource(R.string.editor_menu_file_save),
             iconResId = UiR.drawable.ic_save,
             onClick = onSaveFileClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_save_as),
+            title = stringResource(R.string.editor_menu_file_save_as),
             iconResId = UiR.drawable.ic_save_as,
             onClick = onSaveFileAsClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_refresh),
+            title = stringResource(R.string.editor_menu_file_refresh),
             iconResId = UiR.drawable.ic_file_refresh,
             onClick = onRefreshFileClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_close),
+            title = stringResource(R.string.editor_menu_file_close),
             iconResId = UiR.drawable.ic_file_remove,
             onClick = onCloseFileClicked,
         )

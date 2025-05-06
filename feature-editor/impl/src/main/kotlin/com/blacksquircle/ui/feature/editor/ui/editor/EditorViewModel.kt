@@ -151,7 +151,7 @@ internal class EditorViewModel @Inject constructor(
 
                 documentRepository.saveDocument(updatedDocument, content)
 
-                val message = stringProvider.getString(R.string.message_saved)
+                val message = stringProvider.getString(R.string.editor_toast_file_saved)
                 _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: CancellationException) {
                 throw e
@@ -184,7 +184,7 @@ internal class EditorViewModel @Inject constructor(
 
                 documentRepository.saveExternal(document, content, fileUri)
 
-                val message = stringProvider.getString(R.string.message_saved)
+                val message = stringProvider.getString(R.string.editor_toast_file_saved)
                 _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: CancellationException) {
                 throw e
@@ -693,13 +693,13 @@ internal class EditorViewModel @Inject constructor(
                 val screen = GitDialog(repository)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: InvalidCredentialsException) {
-                val message = stringProvider.getString(R.string.message_git_invalid_credentials)
+                val message = stringProvider.getString(R.string.editor_toast_git_invalid_credentials)
                 _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: RepositoryNotFoundException) {
-                val message = stringProvider.getString(R.string.message_git_repository_not_found)
+                val message = stringProvider.getString(R.string.editor_toast_git_repository_not_found)
                 _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: UnsupportedFilesystemException) {
-                val message = stringProvider.getString(R.string.message_git_unsupported_filesystem)
+                val message = stringProvider.getString(R.string.editor_toast_git_unsupported_filesystem)
                 _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: CancellationException) {
                 throw e

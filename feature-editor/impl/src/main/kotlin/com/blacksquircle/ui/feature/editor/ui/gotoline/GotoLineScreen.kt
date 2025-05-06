@@ -65,13 +65,13 @@ private fun GotoLineScreen(
     var lineNumber by rememberSaveable { mutableStateOf("") }
 
     AlertDialog(
-        title = stringResource(R.string.dialog_title_goto_line),
+        title = stringResource(R.string.editor_goto_line_dialog_title),
         content = {
             TextField(
                 inputText = lineNumber,
                 onInputChanged = { lineNumber = it },
-                labelText = stringResource(R.string.hint_line),
-                placeholderText = stringResource(R.string.hint_line_number),
+                labelText = stringResource(R.string.editor_goto_line_label),
+                placeholderText = stringResource(R.string.editor_goto_line_placeholder),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                 ),
@@ -81,7 +81,7 @@ private fun GotoLineScreen(
                 focusRequester.requestFocus()
             }
         },
-        confirmButton = stringResource(R.string.action_go_to),
+        confirmButton = stringResource(R.string.editor_goto_line_dialog_button_go_to),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = {
             var intValue = lineNumber.toIntOrNull() ?: 0

@@ -16,6 +16,6 @@
   -->
 
 <resources>
-    <string name="dialog_title_exit">Wyjdź</string>
-    <string name="dialog_message_exit">Czy na pewno chcesz wyjść? Wszystkie zmiany zostaną zapisane w pamięci podręcznej</string>
+    <string name="editor_exit_dialog_title">Wyjdź</string>
+    <string name="editor_exit_dialog_message">Czy na pewno chcesz wyjść? Wszystkie zmiany zostaną zapisane w pamięci podręcznej</string>
 </resources>

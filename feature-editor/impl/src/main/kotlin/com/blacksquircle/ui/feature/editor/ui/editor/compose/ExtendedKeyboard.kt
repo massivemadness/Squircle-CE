@@ -105,7 +105,7 @@ internal fun ExtendedKeyboard(
             ) {
                 ExtraKey(
                     iconResId = UiR.drawable.ic_folder_open,
-                    text = stringResource(R.string.action_open),
+                    text = stringResource(R.string.editor_menu_file_open),
                     debounce = true,
                     onClick = onOpenFileClicked,
                     modifier = Modifier.animateItem(),
@@ -129,7 +129,7 @@ internal fun ExtendedKeyboard(
             ) {
                 ExtraKey(
                     iconResId = UiR.drawable.ic_file_remove,
-                    text = stringResource(R.string.action_close),
+                    text = stringResource(R.string.editor_menu_file_close),
                     debounce = true,
                     onClick = onCloseFileClicked,
                     modifier = Modifier.animateItem(),
@@ -141,7 +141,7 @@ internal fun ExtendedKeyboard(
             ) {
                 ExtraKey(
                     iconResId = UiR.drawable.ic_undo,
-                    text = stringResource(R.string.action_undo),
+                    text = stringResource(R.string.editor_menu_edit_undo),
                     debounce = false,
                     onClick = onUndoClicked,
                     modifier = Modifier.animateItem(),
@@ -153,7 +153,7 @@ internal fun ExtendedKeyboard(
             ) {
                 ExtraKey(
                     iconResId = UiR.drawable.ic_redo,
-                    text = stringResource(R.string.action_redo),
+                    text = stringResource(R.string.editor_menu_edit_redo),
                     debounce = false,
                     onClick = onRedoClicked,
                     modifier = Modifier.animateItem(),

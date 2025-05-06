@@ -422,7 +422,7 @@ private fun EditorScreen(
                 Box(Modifier.fillMaxSize()) {
                     EmptyView(
                         iconResId = UiR.drawable.ic_file_find,
-                        title = stringResource(R.string.message_no_open_files),
+                        title = stringResource(R.string.editor_empty_view_title),
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }

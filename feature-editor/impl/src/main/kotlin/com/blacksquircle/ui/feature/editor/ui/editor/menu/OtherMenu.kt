@@ -46,12 +46,12 @@ internal fun OtherMenu(
         modifier = modifier,
     ) {
         PopupMenuItem(
-            title = stringResource(R.string.action_find),
+            title = stringResource(R.string.editor_menu_find),
             iconResId = UiR.drawable.ic_file_find,
             onClick = onFindClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_tools),
+            title = stringResource(R.string.editor_menu_tools),
             iconResId = UiR.drawable.ic_wrench,
             onClick = onToolsClicked,
             trailing = {
@@ -63,12 +63,12 @@ internal fun OtherMenu(
             }
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_git),
+            title = stringResource(R.string.editor_menu_git),
             iconResId = UiR.drawable.ic_git,
             onClick = onGitClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_settings),
+            title = stringResource(R.string.editor_menu_settings),
             iconResId = UiR.drawable.ic_settings,
             onClick = onSettingsClicked,
         )

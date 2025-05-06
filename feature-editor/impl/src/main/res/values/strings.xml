@@ -17,57 +17,61 @@
 
 <resources>
 
-    <string name="hint_line">Line:</string>
-    <string name="hint_line_number" translatable="false">0</string>
+    <string name="editor_menu_file">File</string>
+    <string name="editor_menu_file_new">New</string>
+    <string name="editor_menu_file_open">Open</string>
+    <string name="editor_menu_file_save">Save</string>
+    <string name="editor_menu_file_save_as">Save As</string>
+    <string name="editor_menu_file_refresh">Refresh</string>
+    <string name="editor_menu_file_close">Close</string>
+    <string name="editor_menu_file_close_others">Close Others</string>
+    <string name="editor_menu_file_close_all">Close All</string>
 
-    <string name="action_file">File</string>
-    <string name="action_close">Close</string>
-    <string name="action_close_others">Close Others</string>
-    <string name="action_close_all">Close All</string>
-    <string name="action_insert">Insert</string>
-    <string name="action_new">New</string>
-    <string name="action_open">Open</string>
-    <string name="action_save_as">Save As</string>
-    <string name="action_refresh">Refresh</string>
-    <string name="action_edit">Edit</string>
-    <string name="action_select_line">Select Line</string>
-    <string name="action_delete_line">Delete Line</string>
-    <string name="action_duplicate_line">Duplicate Line</string>
-    <string name="action_regex">Regex</string>
-    <string name="action_match_case">Match Case</string>
-    <string name="action_words_only">Words Only</string>
-    <string name="action_find">Find</string>
-    <string name="action_replace">Replace</string>
-    <string name="action_replace_all">Replace All</string>
-    <string name="action_prev">Prev</string>
-    <string name="action_next">Next</string>
-    <string name="action_goto_line">Go to Line</string>
-    <string name="action_go_to">Go to</string>
-    <string name="action_undo">Undo</string>
-    <string name="action_redo">Redo</string>
-    <string name="action_force_syntax">Force Syntax</string>
-    <string name="action_insert_color">Insert Color</string>
-    <string name="action_git" translatable="false">Git</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_tools">Tools</string>
+    <string name="editor_menu_edit">Edit</string>
+    <string name="editor_menu_edit_select_line">Select Line</string>
+    <string name="editor_menu_edit_delete_line">Delete Line</string>
+    <string name="editor_menu_edit_duplicate_line">Duplicate Line</string>
+    <string name="editor_menu_edit_undo">Undo</string>
+    <string name="editor_menu_edit_redo">Redo</string>
 
-    <string name="dialog_title_goto_line">Go to Line…</string>
-    <string name="dialog_title_force_syntax">Syntax Highlighting</string>
-    <string name="dialog_title_color_picker">Color Picker</string>
-    <string name="dialog_title_exit">Exit</string>
-    <string name="dialog_message_exit">Are you sure you want to exit? All changes will be saved into a cache</string>
-    <string name="dialog_message_close_tab">Are you sure you want to close this file? All unsaved changes will be discarded</string>
+    <string name="editor_menu_find">Find</string>
+    <string name="editor_menu_find_regex">Regex</string>
+    <string name="editor_menu_find_match_case">Match Case</string>
+    <string name="editor_menu_find_words_only">Words Only</string>
+    <string name="editor_menu_find_prev">Prev</string>
+    <string name="editor_menu_find_next">Next</string>
+    <string name="editor_menu_find_replace">Replace</string>
+    <string name="editor_menu_find_replace_all">Replace All</string>
 
-    <string name="message_no_open_files">No open files</string>
-    <string name="message_file_not_found">File not found</string>
-    <string name="message_out_of_memory">Out of memory</string>
-    <string name="message_saved">Saved</string>
-    <string name="message_nothing_to_cut">Nothing to cut</string>
-    <string name="message_nothing_to_copy">Nothing to copy</string>
-    <string name="message_nothing_to_paste">Nothing to paste</string>
-    <string name="message_line_not_exists">Line does not exists</string>
-    <string name="message_git_invalid_credentials">Git requires configuration in settings</string>
-    <string name="message_git_repository_not_found">Git repository not found</string>
-    <string name="message_git_unsupported_filesystem">Git requires local filesystem</string>
+    <string name="editor_menu_tools">Tools</string>
+    <string name="editor_menu_tools_force_syntax">Force Syntax</string>
+    <string name="editor_menu_tools_insert_color">Insert Color</string>
+
+    <string name="editor_menu_git" translatable="false">Git</string>
+
+    <string name="editor_menu_settings">Settings</string>
+
+    <string name="editor_empty_view_title">No open files</string>
+
+    <string name="editor_toast_file_saved">Saved</string>
+    <string name="editor_toast_git_invalid_credentials">Git requires configuration in settings</string>
+    <string name="editor_toast_git_repository_not_found">Git repository not found</string>
+    <string name="editor_toast_git_unsupported_filesystem">Git requires local filesystem</string>
+
+    <string name="editor_goto_line_dialog_title">Go to Line…</string>
+    <string name="editor_goto_line_dialog_button_go_to">Go to</string>
+    <string name="editor_goto_line_label">Line:</string>
+    <string name="editor_goto_line_placeholder" translatable="false">0</string>
+
+    <string name="editor_force_syntax_dialog_title">Syntax Highlighting</string>
+
+    <string name="editor_color_picker_dialog_title">Color Picker</string>
+    <string name="editor_color_picker_dialog_button_insert">Insert</string>
+
+    <string name="editor_close_tab_dialog_message">Are you sure you want to close this file? All unsaved changes will be discarded</string>
+    <string name="editor_close_tab_dialog_button_close">Close</string>
+
+    <string name="editor_exit_dialog_title">Exit</string>
+    <string name="editor_exit_dialog_message">Are you sure you want to exit? All changes will be saved into a cache</string>
 
 </resources>

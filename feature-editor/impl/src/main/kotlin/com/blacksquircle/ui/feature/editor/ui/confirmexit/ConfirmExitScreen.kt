@@ -43,10 +43,10 @@ private fun ConfirmExitScreen(
     onCancelClicked: () -> Unit = {}
 ) {
     AlertDialog(
-        title = stringResource(R.string.dialog_title_exit),
+        title = stringResource(R.string.editor_exit_dialog_title),
         content = {
             Text(
-                text = stringResource(R.string.dialog_message_exit),
+                text = stringResource(R.string.editor_exit_dialog_message),
                 color = SquircleTheme.colors.colorTextAndIconSecondary,
                 style = SquircleTheme.typography.text16Regular,
             )

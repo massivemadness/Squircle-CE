@@ -75,7 +75,7 @@ internal fun EditorToolbar(
             IconButton(
                 iconResId = UiR.drawable.ic_folder,
                 onClick = { menuType = MenuType.FILE },
-                contentDescription = stringResource(R.string.action_file),
+                contentDescription = stringResource(R.string.editor_menu_file),
                 anchor = {
                     FileMenu(
                         expanded = menuType == MenuType.FILE,
@@ -92,7 +92,7 @@ internal fun EditorToolbar(
             IconButton(
                 iconResId = UiR.drawable.ic_pencil,
                 onClick = { menuType = MenuType.EDIT },
-                contentDescription = stringResource(R.string.action_edit),
+                contentDescription = stringResource(R.string.editor_menu_edit),
                 anchor = {
                     EditMenu(
                         expanded = menuType == MenuType.EDIT,
@@ -112,14 +112,14 @@ internal fun EditorToolbar(
                 onClick = onUndoClicked,
                 enabled = canUndo,
                 debounce = false,
-                contentDescription = stringResource(R.string.action_undo)
+                contentDescription = stringResource(R.string.editor_menu_edit_undo)
             )
             IconButton(
                 iconResId = UiR.drawable.ic_redo,
                 onClick = onRedoClicked,
                 enabled = canRedo,
                 debounce = false,
-                contentDescription = stringResource(R.string.action_redo)
+                contentDescription = stringResource(R.string.editor_menu_edit_redo)
             )
             IconButton(
                 iconResId = UiR.drawable.ic_dots_vertical,

@@ -40,15 +40,15 @@ internal fun CloseMenu(
         modifier = modifier,
     ) {
         PopupMenuItem(
-            title = stringResource(R.string.action_close),
+            title = stringResource(R.string.editor_menu_file_close),
             onClick = onCloseClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_close_others),
+            title = stringResource(R.string.editor_menu_file_close_others),
             onClick = onCloseOthersClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_close_all),
+            title = stringResource(R.string.editor_menu_file_close_all),
             onClick = onCloseAllClicked,
         )
     }

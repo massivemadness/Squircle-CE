@@ -40,12 +40,12 @@ internal fun ToolsMenu(
         modifier = modifier,
     ) {
         PopupMenuItem(
-            title = stringResource(R.string.action_force_syntax),
+            title = stringResource(R.string.editor_menu_tools_force_syntax),
             iconResId = UiR.drawable.ic_marker,
             onClick = onForceSyntaxClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_insert_color),
+            title = stringResource(R.string.editor_menu_tools_insert_color),
             iconResId = UiR.drawable.ic_palette,
             onClick = onInsertColorClicked,
         )
