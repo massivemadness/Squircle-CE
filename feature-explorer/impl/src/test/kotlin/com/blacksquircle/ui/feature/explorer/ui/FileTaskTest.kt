@@ -137,7 +137,7 @@ class FileTaskTest {
         val viewModel = createViewModel()
         val fileTask = Task(taskId, TaskType.CLONE)
 
-        every { explorerRepository.cloneRepository(any(), any()) } returns taskId
+        every { explorerRepository.cloneRepository(any(), any(), any()) } returns taskId
         every { taskManager.monitor(taskId) } returns MutableStateFlow(fileTask)
 
         // When
@@ -149,7 +149,7 @@ class FileTaskTest {
         // Then
         verify(exactly = 1) { taskManager.monitor(taskId) }
         coVerify(exactly = 1) {
-            explorerRepository.cloneRepository(defaultLocation, "https://...")
+            explorerRepository.cloneRepository(defaultLocation, "https://...", false)
         }
     }
 

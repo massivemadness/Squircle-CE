@@ -394,11 +394,11 @@ class ExplorerRepositoryImplTest {
         every { taskManager.execute(TaskType.CLONE, capture(taskActionSlot)) } returns "12345"
 
         // When
-        explorerRepository.cloneRepository(parent, url)
+        explorerRepository.cloneRepository(parent, url, false)
         taskActionSlot.captured.invoke { /* no-op */ }
 
         // Then
         verify(exactly = 1) { taskManager.execute(TaskType.CLONE, any()) }
-        coVerify(exactly = 1) { gitInteractor.cloneRepository(parent, url) }
+        coVerify(exactly = 1) { gitInteractor.cloneRepository(parent, url, false) }
     }
 }
