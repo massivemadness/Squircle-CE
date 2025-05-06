@@ -195,6 +195,17 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    fun onRefreshFileClicked() {
+        viewModelScope.launch {
+            if (selectedPosition !in documents.indices) {
+                return@launch
+            }
+            val document = documents[selectedPosition].document
+            documentRepository.refreshDocument(document)
+            loadDocument(document, fromUser = false)
+        }
+    }
+
     fun onCloseFileClicked() {
         if (selectedPosition !in documents.indices) {
             return
@@ -687,16 +698,6 @@ internal class EditorViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, e.message)
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    fun onDocumentRefreshed() {
-        viewModelScope.launch {
-            if (selectedPosition in documents.indices) {
-                val document = documents[selectedPosition].document
-                documentRepository.refreshDocument(document)
-                loadDocument(document, fromUser = false)
             }
         }
     }
