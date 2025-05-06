@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="action_create">Luo</string>
+    <string name="action_checkout">Checkout (haaranvaihto)</string>
+    <string name="action_new_branch">Uusi haara</string>
+    <string name="action_commit">Toimita</string>
+    <string name="action_amend">Oikaise</string>
+    <string name="action_push">Työnnä</string>
+    <string name="action_force">Pakota</string>
+    <string name="git_fetch_title">Hae</string>
+    <string name="git_fetch_description">Hae tiedostoja etätietovarastosta</string>
+    <string name="git_fetch_fetching">Haetaan päivityksiä etätietovarastosta…</string>
+    <string name="git_fetch_complete">Haettu</string>
+    <string name="git_pull_title">Vedä (pull)</string>
+    <string name="git_pull_description">Vedä muutokset etätietovarastosta</string>
+    <string name="git_pull_pulling">Vedetään muutoksia etätietovarastosta…</string>
+    <string name="git_pull_complete">Vedetty</string>
+    <string name="git_commit_title">Toimita</string>
+    <string name="git_commit_description">Toimita muutokset paikallisessa tietovarastossa</string>
+    <string name="git_commit_message">Toimitusviesti</string>
+    <string name="git_commit_uncommitted_changes">Toimittamattomat muutokset</string>
+    <string name="git_commit_no_changes">Ei muutoksia</string>
+    <string name="git_commit_committing">Toimitetaan muutoksia paikalliseen tietovarastoon…</string>
+    <string name="git_commit_complete">Toimitettu</string>
+    <string name="git_push_title">Työnnä (push)</string>
+    <string name="git_push_description">Työnnä tiedostoja etätietovarastoon</string>
+    <string name="git_push_branch">Tätä haaraa ei löydy etätietovarastosta. Työnnä ja luo uusi etähaara?</string>
+    <string name="git_push_commits">Olet työntämässä %1$d toimitusta kohteeseen %2$s. Jatketaanko?</string>
+    <string name="git_push_no_commits">Ei toimituksia työnnettäväksi</string>
+    <string name="git_push_pushing">Työnnetään muutoksia etätietovarastoon…</string>
+    <string name="git_push_complete">Push valmis</string>
+    <string name="git_checkout_title">Checkout (haaranvaihto)</string>
+    <string name="git_checkout_description">Vaihda tai luo paikallisen tietovaraston haara</string>
+    <string name="git_checkout_branches">Haarat</string>
+    <string name="git_checkout_branch_name">Haaran nimi</string>
+    <string name="git_checkout_branch_base">Tämä haara perustuu versioon %1$s</string>
+    <string name="git_checkout_checking_out">Vaihdetaan haara…</string>
+    <string name="git_checkout_checked_out">Vaihdettu haaraan %1$s</string>
+    <string name="git_added">Lisätty</string>
+    <string name="git_modified">Muokattu</string>
+    <string name="git_deleted">Poistettu</string>
+</resources>

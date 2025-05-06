@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="hint_enter_file_name">Syötä tiedostonimi</string>
+    <string name="hint_enter_archive_name">Syötä arkiston nimi</string>
+    <string name="hint_enter_password">Kirjoita salasana</string>
+    <string name="hint_enter_passphrase">Kirjoita salalause</string>
+    <string name="hint_enter_git_url">Syötä Git URL</string>
+    <string name="action_authenticate">Tunnistaudu</string>
+    <string name="action_create">Luo</string>
+    <string name="action_copy_path">Kopioi polku</string>
+    <string name="action_folder">Kansio</string>
+    <string name="action_clone">Kloonaa</string>
+    <string name="action_rename">Nimeä uudelleen</string>
+    <string name="action_run_in_background">Suorita taustalla</string>
+    <string name="action_show_hidden_files">Näytä piilotetut tiedostot</string>
+    <string name="action_compact_packages">Tiiviit paketit</string>
+    <string name="action_compress">Pakkaa</string>
+    <string name="action_open_with">Avaa sovelluksella</string>
+    <string name="action_properties">Ominaisuudet</string>
+    <string name="action_refresh">Virkistä</string>
+    <string name="action_paste">Liitä</string>
+    <string name="action_add">Lisää</string>
+    <string name="dialog_title_authentication">Tunnistautuminen</string>
+    <string name="dialog_title_create">Luo…</string>
+    <string name="dialog_title_clone">Kloonaa…</string>
+    <string name="dialog_title_rename">Nimeä uudelleen…</string>
+    <string name="dialog_title_multi_delete">Poista monta</string>
+    <string name="dialog_title_properties">Ominaisuudet</string>
+    <string name="dialog_title_creating">Luodaan…</string>
+    <string name="dialog_title_renaming">Nimetään uudelleen…</string>
+    <string name="dialog_title_deleting">Poistetaan…</string>
+    <string name="dialog_title_copying">Kopioidaan…</string>
+    <string name="dialog_title_compressing">Pakataan…</string>
+    <string name="dialog_title_extracting">Puretaan…</string>
+    <string name="dialog_title_cloning">Kloonataan…</string>
+    <string name="dialog_title_archive_name">Arkiston nimi</string>
+    <string name="dialog_title_storage_permission">Käyttöoikeus tallennustilaan</string>
+    <string name="dialog_title_notification_permission">Ilmoitukset</string>
+    <string name="dialog_message_delete">Haluatko varmasti poistaa tiedoston?</string>
+    <string name="dialog_message_multi_delete">Haluatko varmasti poistaa valitut tiedostot?</string>
+    <string name="dialog_message_storage_permission">Squircle CE tarvitsee käyttöoikeuden kaikkiin tiedostoihisi toimiakseen kunnolla\n\nMyönnä lupa järjestelmäasetusten avautuessa</string>
+    <string name="dialog_message_notification_permission">Squircle CE tarvitsee oikeuden näyttää ilmoituksia toimiakseen taustalla\n\nMyönnä lupa järjestelmäasetusten avautuessa</string>
+    <string name="properties_name">Tiedoston nimi:</string>
+    <string name="properties_path">Tiedoston polku:</string>
+    <string name="properties_modified">Muokattu viimeksi:</string>
+    <string name="properties_size">Tiedoston koko:</string>
+    <string name="properties_date_format">dd/MM/yyy EEE HH:mm</string>
+    <string name="sort_by_name">Järjestä nimen mukaan</string>
+    <string name="sort_by_size">Järjestä koon mukaan</string>
+    <string name="sort_by_date">Järjestä päiväyksen mukaan</string>
+    <string name="message_select_folder_to_paste">Valitse kansio johon liittää</string>
+    <string name="message_auth_required">Tunnistautuminen vaaditaan</string>
+    <string name="message_enter_password">Syötä etäpalvelimen salasana</string>
+    <string name="message_enter_passphrase">Syötä etäpalvelimen salalause</string>
+    <string name="message_cannot_be_opened">Tiedostoa ei voitu avata</string>
+    <string name="message_invalid_file_name">Virheellinen tiedostonimi</string>
+    <string name="message_invalid_url">Virheellinen URL</string>
+    <string name="message_file_already_exists">Tiedosto on jo olemassa</string>
+    <string name="message_unsupported_archive">Arkiston tyyppi ei ole tuettu</string>
+    <string name="message_invalid_archive">Virheellinen arkisto</string>
+    <string name="message_split_archive">Arkisto on jaettu</string>
+    <string name="message_encrypted_archive">Arkisto on salattu</string>
+    <string name="message_operation_cancelled">Toiminto peruutettu</string>
+    <string name="message_operation_not_supported">Toimintoa ei tueta</string>
+    <string name="message_same_directory_required">Tiedostojen tulee olla samassa hakemistossa</string>
+    <string name="message_done">Valmis</string>
+    <string name="message_file_not_found">Tiedostoa ei löytynyt</string>
+    <string name="message_elapsed_time">Aikaa kulunut: %1$s</string>
+    <string name="message_creating">Luodaan…%1$s</string>
+    <string name="message_renaming">Nimetään uudelleen…%1$s</string>
+    <string name="message_deleting">Poistetaan…%1$s</string>
+    <string name="message_copying">Kopioidaan…%1$s</string>
+    <string name="message_compressing">Pakataan…%1$s</string>
+    <string name="message_extracting">Puretaan…%1$s</string>
+    <string name="message_cloning">Kloonataan…%1$s</string>
+    <string name="explorer_channel_name">Tiedostonhallinta</string>
+    <string name="explorer_channel_description">Näytä ja hallitse tiedostotoimenpiteitä</string>
+    <string name="explorer_service_message">Taustatoimintoja käynnissä</string>
+</resources>

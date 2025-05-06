@@ -20,6 +20,12 @@
     <string name="common_save">Tallenna</string>
     <string name="common_delete">Poista</string>
     <string name="common_continue">Jatkaa</string>
+    <string name="common_select">Valitse</string>
+    <string name="common_selected">Valittu</string>
     <string name="common_yes">Kyllä</string>
     <string name="common_no">Ei</string>
+    <string name="common_menu">Valikko</string>
+    <string name="common_grant_access">Myönnä käyttöoikeus</string>
+    <string name="message_access_denied">Pääsy kielletty</string>
+    <string name="message_access_required">Sovellus tarvitsee käyttöoikeuden tallennustilaasi käsitellääksen tiedostoja</string>
 </resources>

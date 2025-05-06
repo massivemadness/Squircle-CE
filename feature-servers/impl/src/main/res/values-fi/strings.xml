@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="hint_server_name">Palvelimen nimi</string>
+    <string name="hint_server_address">Palvelimen osoite</string>
+    <string name="hint_initial_dir">Aloituskansio</string>
+    <string name="hint_port">Portti</string>
+    <string name="hint_username">Käyttäjänimi</string>
+    <string name="hint_password">Salasana</string>
+    <string name="hint_passphrase">Salalause</string>
+    <string name="hint_key_file">Avaintiedosto</string>
+    <string name="hint_required">Pakollinen</string>
+    <string name="server_ftp">FTP</string>
+    <string name="server_ftps">FTPS (FTP yli TLS/SSL)</string>
+    <string name="server_ftpes">FTPES (eksplisiittisen tilan FTPS)</string>
+    <string name="server_sftp">SFTP</string>
+    <string name="connection_checking">Tarkistetaan…</string>
+    <string name="connection_available">Saatavilla, ping: %1$d ms</string>
+    <string name="connection_unavailable">Ei saatavilla, %1$s</string>
+    <string name="auth_method_password">Tunnistautuminen salasanalla</string>
+    <string name="auth_method_key">Tunnistautuminen yksityisellä avaimella</string>
+    <string name="ask_for_password">Kysy salasanaa</string>
+    <string name="save_password">Tallenna salasana</string>
+    <string name="ask_for_passphrase">Kysy salalausetta</string>
+    <string name="save_passphrase">Tallenna salalause</string>
+    <string name="pref_header_cloud_title">Pilvi &amp; palvelimet</string>
+    <string name="pref_category_servers">FTP(S) palvelimet</string>
+    <string name="pref_add_server_title">Lisää palvelin</string>
+    <string name="pref_edit_server_title">Muokkaa palvelinta</string>
+</resources>

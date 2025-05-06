@@ -1,0 +1,1 @@
+Nopea ja tehokas koodieditori & tiedostoselain, joka tukee yli 30 ohjelmointikieltä
