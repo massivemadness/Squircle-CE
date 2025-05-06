@@ -29,6 +29,7 @@ internal object FileAssociation {
         associations[".cs"] = LanguageScope.CSHARP
         associations[".css"] = LanguageScope.CSS
         associations[".scss"] = LanguageScope.CSS
+        associations[".Dockerfile"] = LanguageScope.DOCKER
         associations[".f03"] = LanguageScope.FORTRAN
         associations[".f08"] = LanguageScope.FORTRAN
         associations[".f18"] = LanguageScope.FORTRAN
@@ -50,6 +51,8 @@ internal object FileAssociation {
         associations[".html"] = LanguageScope.HTML
         associations[".ini"] = LanguageScope.INI
         associations[".properties"] = LanguageScope.INI
+        associations[".editorconfig"] = LanguageScope.INI
+        associations[".env"] = LanguageScope.INI
         associations[".java"] = LanguageScope.JAVA
         associations[".js"] = LanguageScope.JAVASCRIPT
         associations[".jsx"] = LanguageScope.JAVASCRIPT
@@ -65,6 +68,7 @@ internal object FileAssociation {
         associations[".cl"] = LanguageScope.LISP
         associations[".l"] = LanguageScope.LISP
         associations[".lua"] = LanguageScope.LUA
+        associations[".Makefile"] = LanguageScope.MAKE
         associations[".md"] = LanguageScope.MARKDOWN
         associations[".php"] = LanguageScope.PHP
         associations[".php3"] = LanguageScope.PHP

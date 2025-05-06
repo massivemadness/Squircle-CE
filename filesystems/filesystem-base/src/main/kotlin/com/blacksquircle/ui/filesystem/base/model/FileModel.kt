@@ -59,8 +59,9 @@ data class FileModel(
             ".php3", ".php4", ".php5", ".phps", ".phtml", ".ts", ".ino", ".log",
             ".mjs", ".cjs", ".jl", ".yaml", ".yml", ".toml", ".gradle", ".mts",
             ".cts", ".smali", ".css", ".scss", ".go", ".tex", ".f77", ".f90", ".f95",
-            ".f03", ".f08", ".f18", ".f", ".fpp", ".for", ".ftn", ".pf",
-            ".rs", ".jsx", ".tsx", ".ini", ".properties"
+            ".f03", ".f08", ".f18", ".f", ".fpp", ".for", ".ftn", ".pf", ".env",
+            ".rs", ".jsx", ".tsx", ".ini", ".properties", ".Dockerfile", ".Makefile",
+            ".editorconfig",
         )
         val ARCHIVE = arrayOf(
             ".zip", ".jar", ".rar", ".7z", ".tar", ".gz", ".tgz",

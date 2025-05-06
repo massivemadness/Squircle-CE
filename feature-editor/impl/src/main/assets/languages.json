@@ -25,6 +25,12 @@
       "languageConfiguration": "languages/css/language-configuration.json"
     },
     {
+      "grammar": "languages/docker/syntaxes/docker.tmLanguage.json",
+      "name": "docker",
+      "scopeName": "source.dockerfile",
+      "languageConfiguration": "languages/docker/language-configuration.json"
+    },
+    {
       "grammar": "languages/fortran/syntaxes/fortran.tmLanguage.json",
       "name": "fortran",
       "scopeName": "source.fortran",
@@ -104,6 +110,12 @@
       "name": "lua",
       "scopeName": "source.lua",
       "languageConfiguration": "languages/lua/language-configuration.json"
+    },
+    {
+      "grammar": "languages/make/syntaxes/make.tmLanguage.json",
+      "name": "make",
+      "scopeName": "source.makefile",
+      "languageConfiguration": "languages/make/language-configuration.json"
     },
     {
       "grammar": "languages/markdown/syntaxes/markdown.tmLanguage.json",
