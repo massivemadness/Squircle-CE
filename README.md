@@ -39,8 +39,8 @@ You can contribute by reporting issues, suggesting features, or submitting pull 
 
 * `gms`: A flavor used for publishing the app
   on [Google Play](https://play.google.com/store/apps/details?id=com.blacksquircle.ui)
-* `fdroid`: A flavor used for publishing the app
-  on [F-Droid](https://f-droid.org/packages/com.blacksquircle.ui/)
+* `foss`: A flavor without closed-source libraries, used for publishing the app
+  on [F-Droid](https://f-droid.org/packages/com.blacksquircle.ui/) and GitHub
 
 ## Translations &middot; [![Crowdin](https://badges.crowdin.net/squircle-ce/localized.svg)](https://crowdin.com/project/squircle-ce)
 

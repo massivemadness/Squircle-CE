@@ -50,7 +50,7 @@ class ApplicationModulePlugin : Plugin<Project> {
                     create("gms") {
                         dimension = "platform_services"
                     }
-                    create("fdroid") {
+                    create("foss") {
                         dimension = "platform_services"
                     }
                 }
