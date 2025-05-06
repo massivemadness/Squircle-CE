@@ -50,16 +50,16 @@ private fun UpdateScreen(
     onCancelClicked: () -> Unit = {},
 ) {
     AlertDialog(
-        title = stringResource(R.string.dialog_title_update),
+        title = stringResource(R.string.app_update_dialog_title),
         content = {
             Text(
-                text = stringResource(R.string.dialog_message_update),
+                text = stringResource(R.string.app_update_dialog_message),
                 color = SquircleTheme.colors.colorTextAndIconSecondary,
                 style = SquircleTheme.typography.text16Regular,
             )
         },
-        confirmButton = stringResource(R.string.action_install),
-        dismissButton = stringResource(R.string.action_later),
+        confirmButton = stringResource(R.string.app_update_dialog_button_install),
+        dismissButton = stringResource(R.string.app_update_dialog_button_later),
         onConfirmClicked = onConfirmClicked,
         onDismissClicked = onCancelClicked,
         onDismiss = onCancelClicked,

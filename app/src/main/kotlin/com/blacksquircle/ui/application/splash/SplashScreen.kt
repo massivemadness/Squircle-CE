@@ -68,7 +68,7 @@ internal fun SplashScreen() {
             )
 
             Text(
-                text = stringResource(R.string.loading),
+                text = stringResource(R.string.app_splash_loading),
                 style = SquircleTheme.typography.text16Regular,
                 color = Color.White,
             )

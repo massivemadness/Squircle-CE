@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="action_install">İndir</string>
-    <string name="action_later">Daha sonra</string>
-    <string name="dialog_title_update">Güncelleme mevcut</string>
-    <string name="dialog_message_update">Uygulamanın yeni bir sürümü mevcut. Şimdi yükleyebilir veya daha sonra uygulama mağazasından yükseltebilirsiniz.</string>
+    <string name="app_update_dialog_button_install">İndir</string>
+    <string name="app_update_dialog_button_later">Daha sonra</string>
+    <string name="app_update_dialog_title">Güncelleme mevcut</string>
+    <string name="app_update_dialog_message">Uygulamanın yeni bir sürümü mevcut. Şimdi yükleyebilir veya daha sonra uygulama mağazasından yükseltebilirsiniz.</string>
 </resources>

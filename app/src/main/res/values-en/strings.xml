@@ -15,9 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="action_install">Install</string>
-    <string name="action_later">Later</string>
-    <string name="dialog_title_update">Update available</string>
-    <string name="dialog_message_update">A new version of the app is available. You can install it now, or update later through the app store.</string>
-    <string name="loading">Loading…</string>
+    <string name="app_splash_loading">Loading…</string>
+    <string name="app_update_dialog_button_install">Install</string>
+    <string name="app_update_dialog_button_later">Later</string>
+    <string name="app_update_dialog_title">Update available</string>
+    <string name="app_update_dialog_message">A new version of the app is available. You can install it now, or update later through the app store.</string>
 </resources>

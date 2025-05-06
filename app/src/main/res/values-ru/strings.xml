@@ -15,9 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="action_install">Установить</string>
-    <string name="action_later">Позже</string>
-    <string name="dialog_title_update">Доступно обновление</string>
-    <string name="dialog_message_update">Доступна новая версия приложения. Вы можете установить ее сейчас, или обновить позже в магазине приложений.</string>
-    <string name="loading">Загрузка…</string>
+    <string name="app_splash_loading">Загрузка…</string>
+    <string name="app_update_dialog_button_install">Установить</string>
+    <string name="app_update_dialog_button_later">Позже</string>
+    <string name="app_update_dialog_title">Доступно обновление</string>
+    <string name="app_update_dialog_message">Доступна новая версия приложения. Вы можете установить ее сейчас, или обновить позже в магазине приложений.</string>
 </resources>
