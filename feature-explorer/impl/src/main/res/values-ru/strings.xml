@@ -26,6 +26,7 @@
     <string name="action_copy_path">Скопировать путь</string>
     <string name="action_folder">Папка</string>
     <string name="action_clone">Клонировать</string>
+    <string name="action_submodules">Submodules</string>
     <string name="action_rename">Переименовать</string>
     <string name="action_run_in_background">Выполнять в фоне</string>
     <string name="action_show_hidden_files">Скрытые файлы</string>

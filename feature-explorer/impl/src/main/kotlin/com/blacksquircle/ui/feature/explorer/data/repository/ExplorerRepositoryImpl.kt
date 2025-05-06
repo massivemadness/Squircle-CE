@@ -238,9 +238,9 @@ internal class ExplorerRepositoryImpl(
         }
     }
 
-    override fun cloneRepository(parent: FileModel, url: String): String {
+    override fun cloneRepository(parent: FileModel, url: String, submodules: Boolean): String {
         return taskManager.execute(TaskType.CLONE) { update ->
-            gitInteractor.cloneRepository(parent, url).collect { details ->
+            gitInteractor.cloneRepository(parent, url, submodules).collect { details ->
                 val progress = TaskStatus.Progress(
                     count = -1,
                     totalCount = -1,
