@@ -1,4 +1,4 @@
-name: Publish Release
+name: Publish Release (F-Droid)
 
 on:
   workflow_dispatch:
@@ -44,28 +44,13 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew :app:assembleRelease --no-configuration-cache
+        run: ./gradlew :app:assembleFossRelease --no-configuration-cache
 
-      - name: Upload APK (Google Play)
+      - name: Upload APK (FOSS)
         uses: actions/upload-artifact@v4
         with:
-          name: Google Play App (Release)
-          path: ./app/build/outputs/apk/gms/release/app-gms-release.apk
-
-      - name: Upload APK (F-Droid)
-        uses: actions/upload-artifact@v4
-        with:
-          name: F-Droid App (Release)
-          path: ./app/build/outputs/apk/fdroid/release/app-fdroid-release.apk
-
-      - name: Upload APK to Play Store
-        uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-          packageName: com.blacksquircle.ui
-          track: production
-          releaseFiles: ./app/build/outputs/apk/gms/release/app-gms-release.apk
-          mappingFile: ./app/build/outputs/mapping/gmsRelease/mapping.txt
+          name: FOSS App (Release)
+          path: ./app/build/outputs/apk/foss/release/app-foss-release.apk
 
       - name: Delete Keystore
         run: rm app/keystore.jks

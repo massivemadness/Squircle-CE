@@ -1,0 +1,65 @@
+name: Publish Release (Google Play)
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Setup Keystore and local.properties
+        run: |
+          echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > app/keystore.jks
+          echo "KEYSTORE_PATH=keystore.jks" > local.properties
+          echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> local.properties
+          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> local.properties
+          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> local.properties
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew :app:assembleGmsRelease --no-configuration-cache
+
+      - name: Upload APK (Google Play)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Google Play App (Release)
+          path: ./app/build/outputs/apk/gms/release/app-gms-release.apk
+
+      - name: Upload APK to Play Store
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.blacksquircle.ui
+          track: production
+          releaseFiles: ./app/build/outputs/apk/gms/release/app-gms-release.apk
+          mappingFile: ./app/build/outputs/mapping/gmsRelease/mapping.txt
+
+      - name: Delete Keystore
+        run: rm app/keystore.jks
