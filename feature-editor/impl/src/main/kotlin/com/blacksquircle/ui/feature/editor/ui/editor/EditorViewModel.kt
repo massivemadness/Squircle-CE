@@ -201,6 +201,14 @@ internal class EditorViewModel @Inject constructor(
                 return@launch
             }
             val document = documents[selectedPosition].document
+            if (document.modified) {
+                documents = documents.mapSelected { state ->
+                    state.copy(document = document.copy(modified = false))
+                }
+                _viewState.update {
+                    it.copy(documents = documents)
+                }
+            }
             documentRepository.refreshDocument(document)
             loadDocument(document, fromUser = false)
         }
