@@ -33,6 +33,7 @@ internal fun defaultWorkspaces(): List<WorkspaceModel> {
             defaultLocation = FileModel(
                 fileUri = "file:///storage/emulated/0/",
                 filesystemUuid = LocalFilesystem.LOCAL_UUID,
+                isDirectory = true,
             ),
         ),
         WorkspaceModel(
@@ -42,6 +43,7 @@ internal fun defaultWorkspaces(): List<WorkspaceModel> {
             defaultLocation = FileModel(
                 fileUri = "sufile:///",
                 filesystemUuid = RootFilesystem.ROOT_UUID,
+                isDirectory = true,
             ),
         )
     )
