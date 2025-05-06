@@ -26,6 +26,6 @@
     <string name="common_no">Нет</string>
     <string name="common_menu">Меню</string>
     <string name="common_grant_access">Предоставить</string>
-    <string name="message_access_denied">Доступ запрещён</string>
-    <string name="message_access_required">Приложение требует разрешения для работы с файлами</string>
+    <string name="common_access_denied_dialog_title">Доступ запрещён</string>
+    <string name="common_access_denied_dialog_message">Приложение требует разрешения для работы с файлами</string>
 </resources>

@@ -24,6 +24,6 @@
     <string name="common_yes">Так</string>
     <string name="common_no">Ні</string>
     <string name="common_grant_access">Надати доступ</string>
-    <string name="message_access_denied">Доступ заборонено</string>
-    <string name="message_access_required">Додаток потребує дозволу для роботи з файлами</string>
+    <string name="common_access_denied_dialog_title">Доступ заборонено</string>
+    <string name="common_access_denied_dialog_message">Додаток потребує дозволу для роботи з файлами</string>
 </resources>

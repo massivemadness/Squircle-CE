@@ -24,6 +24,6 @@
     <string name="common_yes">Sim</string>
     <string name="common_no">Não</string>
     <string name="common_grant_access">Permitir acesso</string>
-    <string name="message_access_denied">Acesso negado</string>
-    <string name="message_access_required">O Squircle precisa de acesso ao armazenamento para trabalhar com arquivos</string>
+    <string name="common_access_denied_dialog_title">Acesso negado</string>
+    <string name="common_access_denied_dialog_message">O Squircle precisa de acesso ao armazenamento para trabalhar com arquivos</string>
 </resources>

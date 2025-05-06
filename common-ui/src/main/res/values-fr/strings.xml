@@ -26,6 +26,6 @@
     <string name="common_no">Non</string>
     <string name="common_menu">Menu</string>
     <string name="common_grant_access">Accorder l\'Accès</string>
-    <string name="message_access_denied">Accès Refusé</string>
-    <string name="message_access_required">L\'application requiert l\'accès au stockage pour travailler avec les fichiers</string>
+    <string name="common_access_denied_dialog_title">Accès Refusé</string>
+    <string name="common_access_denied_dialog_message">L\'application requiert l\'accès au stockage pour travailler avec les fichiers</string>
 </resources>

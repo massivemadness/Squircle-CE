@@ -26,6 +26,6 @@
     <string name="common_no">Hayır</string>
     <string name="common_menu">Menü</string>
     <string name="common_grant_access">Erişim İzni Ver</string>
-    <string name="message_access_denied">Erişim Reddedildi</string>
-    <string name="message_access_required">Uygulamanın dosyalarla çalışabilmesi için depolama erişimine ihtiyacı var</string>
+    <string name="common_access_denied_dialog_title">Erişim Reddedildi</string>
+    <string name="common_access_denied_dialog_message">Uygulamanın dosyalarla çalışabilmesi için depolama erişimine ihtiyacı var</string>
 </resources>

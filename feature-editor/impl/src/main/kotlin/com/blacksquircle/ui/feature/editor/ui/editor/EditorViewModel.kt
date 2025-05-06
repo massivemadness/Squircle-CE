@@ -1168,8 +1168,8 @@ internal class EditorViewModel @Inject constructor(
     private fun errorState(e: Throwable): ErrorState = when (e) {
         is PermissionException -> ErrorState(
             icon = UiR.drawable.ic_file_error,
-            title = stringProvider.getString(UiR.string.message_access_denied),
-            subtitle = stringProvider.getString(UiR.string.message_access_required),
+            title = stringProvider.getString(UiR.string.common_access_denied_dialog_title),
+            subtitle = stringProvider.getString(UiR.string.common_access_denied_dialog_message),
             action = ErrorAction.REQUEST_PERMISSIONS,
         )
 

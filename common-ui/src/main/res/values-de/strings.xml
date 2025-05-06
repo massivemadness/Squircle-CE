@@ -27,7 +27,7 @@
     <string name="common_no">Nein</string>
     <string name="common_grant_access">Zugriff zulassen</string>
 
-    <string name="message_access_denied">Zugriff abgelehnt</string>
-    <string name="message_access_required">Anwendung benötigt Speicherzugriff, um mit Dateien zu arbeiten</string>
+    <string name="common_access_denied_dialog_title">Zugriff abgelehnt</string>
+    <string name="common_access_denied_dialog_message">Anwendung benötigt Speicherzugriff, um mit Dateien zu arbeiten</string>
 
 </resources>

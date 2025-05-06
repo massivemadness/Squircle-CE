@@ -58,8 +58,8 @@ private fun ExplorerErrorPreview() {
     PreviewBackground {
         ErrorStatus(
             errorState = ErrorState(
-                title = stringResource(UiR.string.message_access_denied),
-                subtitle = stringResource(UiR.string.message_access_required),
+                title = stringResource(UiR.string.common_access_denied_dialog_title),
+                subtitle = stringResource(UiR.string.common_access_denied_dialog_message),
                 action = ErrorAction.REQUEST_PERMISSIONS,
             ),
         )
