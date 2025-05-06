@@ -144,7 +144,7 @@ class FileTaskTest {
         val fileNode = createNode(defaultLocation)
         viewModel.onFileSelected(fileNode)
         viewModel.onCloneClicked()
-        viewModel.cloneRepository("https://...")
+        viewModel.cloneRepository("https://...", false)
 
         // Then
         verify(exactly = 1) { taskManager.monitor(taskId) }
