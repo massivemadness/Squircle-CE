@@ -178,7 +178,7 @@ private fun CheckoutScreen(
         onDismissClicked = onBackClicked,
         onDismiss = onBackClicked,
         confirmButton = if (viewState.isNewBranch) {
-            stringResource(R.string.action_create)
+            stringResource(R.string.explorer_menu_selection_create)
         } else {
             stringResource(R.string.action_checkout)
         },

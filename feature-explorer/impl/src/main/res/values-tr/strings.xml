@@ -15,23 +15,28 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="hint_enter_file_name">Dosya ismi girin</string>
-    <string name="hint_enter_archive_name">Arşiv ismi girin</string>
-    <string name="hint_enter_password">Şifre girin</string>
-    <string name="hint_enter_passphrase">Parolayı girin</string>
-    <string name="action_authenticate">Doğrulama</string>
-    <string name="action_create">Oluştur</string>
-    <string name="action_copy_path">Yolu Kopyala</string>
-    <string name="action_rename">Yeniden adlandır</string>
+    <string name="explorer_delete_dialog_button_delete">Sil</string>
+    <string name="explorer_create_dialog_input_label">Dosya ismi girin</string>
+    <string name="explorer_rename_dialog_input_label">Dosya ismi girin</string>
+    <string name="explorer_rename_dialog_button_rename">Yeniden adlandır</string>
+    <string name="explorer_compress_dialog_input_label">Arşiv ismi girin</string>
+    <string name="explorer_compress_dialog_button_compress">Sıkıştır</string>
+    <string name="explorer_auth_dialog_input_password_label">Şifre girin</string>
+    <string name="explorer_auth_dialog_input_passphrase_label">Parolayı girin</string>
+    <string name="explorer_create_dialog_button_create">Oluştur</string>
+    <string name="explorer_auth_dialog_button_authenticate">Doğrulama</string>
+    <string name="explorer_menu_selection_create">Oluştur</string>
+    <string name="explorer_menu_selection_copy_path">Yolu Kopyala</string>
+    <string name="explorer_menu_selection_rename">Yeniden adlandır</string>
     <string name="action_run_in_background">Arka planda çalıştır</string>
-    <string name="action_show_hidden_files">Gizli dosyaları göster</string>
-    <string name="action_compress">Sıkıştır</string>
-    <string name="action_open_with">Şununla aç</string>
-    <string name="action_properties">Özellikler</string>
-    <string name="dialog_title_authentication">Doğrulama</string>
-    <string name="dialog_title_create">Oluştur…</string>
-    <string name="dialog_title_rename">Yeniden isimlendir…</string>
-    <string name="dialog_title_multi_delete">Çoklu silme</string>
+    <string name="explorer_menu_sort_show_hidden">Gizli dosyaları göster</string>
+    <string name="explorer_menu_selection_compress">Sıkıştır</string>
+    <string name="explorer_menu_selection_open_with">Şununla aç</string>
+    <string name="explorer_menu_selection_properties">Özellikler</string>
+    <string name="explorer_auth_dialog_title">Doğrulama</string>
+    <string name="explorer_create_dialog_title">Oluştur…</string>
+    <string name="explorer_rename_dialog_title">Yeniden isimlendir…</string>
+    <string name="explorer_delete_dialog_title">Çoklu silme</string>
     <string name="dialog_title_properties">Özellikler</string>
     <string name="dialog_title_creating">Oluşturuluyor…</string>
     <string name="dialog_title_renaming">Yeniden adlandırılıyor…</string>
@@ -39,7 +44,7 @@
     <string name="dialog_title_copying">Kopyalanıyor…</string>
     <string name="dialog_title_compressing">Sıkıştırılıyor…</string>
     <string name="dialog_title_extracting">Çıkartılıyor…</string>
-    <string name="dialog_title_archive_name">Arşiv adı</string>
+    <string name="explorer_compress_dialog_title">Arşiv adı</string>
     <string name="dialog_title_storage_permission">Depolama Erişimi</string>
     <string name="dialog_title_notification_permission">Bildirimler</string>
     <string name="dialog_message_delete">Bu dosyayı silmek istediğinizden emin misiniz?</string>
@@ -51,9 +56,9 @@
     <string name="properties_modified">Son Düzenleme:</string>
     <string name="properties_size">Dosya Boyutu:</string>
     <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
-    <string name="sort_by_name">Ada göre sırala</string>
-    <string name="sort_by_size">Boyuta göre sırala</string>
-    <string name="sort_by_date">Tarihe göre Sırala</string>
+    <string name="explorer_menu_sort_by_name">Ada göre sırala</string>
+    <string name="explorer_menu_sort_by_size">Boyuta göre sırala</string>
+    <string name="explorer_menu_sort_by_date">Tarihe göre Sırala</string>
     <string name="message_auth_required">Doğrulama Gerekli</string>
     <string name="message_enter_password">Uzak sunucuya bağlanmak için şifreyi girin</string>
     <string name="message_enter_passphrase">Uzak sunucuya bağlanmak için parolayı girin</string>
@@ -75,7 +80,7 @@
     <string name="message_copying">%1$s kopyalanıyor</string>
     <string name="message_compressing">%1$s sıkıştırılıyor</string>
     <string name="message_extracting">%1$s ayıklanıyor</string>
-    <string name="explorer_channel_name">Dosya Yöneticisi</string>
-    <string name="explorer_channel_description">Dosya işlemlerini görüntüleme ve kontrol etme</string>
-    <string name="explorer_service_message">Arkaplan işlemleri devam ediyor</string>
+    <string name="explorer_notification_channel_name">Dosya Yöneticisi</string>
+    <string name="explorer_notification_channel_description">Dosya işlemlerini görüntüleme ve kontrol etme</string>
+    <string name="explorer_task_service_message">Arkaplan işlemleri devam ediyor</string>
 </resources>

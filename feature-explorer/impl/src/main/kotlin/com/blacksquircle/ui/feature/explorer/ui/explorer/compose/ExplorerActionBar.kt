@@ -53,13 +53,13 @@ internal fun ExplorerActionBar(
         if (hasBuffer) {
             NavigationItem(
                 iconResId = UiR.drawable.ic_autorenew,
-                label = stringResource(R.string.action_refresh),
+                label = stringResource(R.string.explorer_menu_selection_refresh),
                 onClick = onRefreshClicked,
                 modifier = Modifier.weight(1f),
             )
             NavigationItem(
                 iconResId = UiR.drawable.ic_paste,
-                label = stringResource(R.string.action_paste),
+                label = stringResource(android.R.string.paste),
                 onClick = onPasteClicked,
                 modifier = Modifier.weight(1f),
             )
@@ -72,19 +72,19 @@ internal fun ExplorerActionBar(
         } else {
             NavigationItem(
                 iconResId = UiR.drawable.ic_autorenew,
-                label = stringResource(R.string.action_refresh),
+                label = stringResource(R.string.explorer_menu_selection_refresh),
                 onClick = onRefreshClicked,
                 modifier = Modifier.weight(1f),
             )
             NavigationItem(
                 iconResId = UiR.drawable.ic_git,
-                label = stringResource(R.string.action_clone),
+                label = stringResource(R.string.explorer_menu_selection_clone),
                 onClick = onCloneClicked,
                 modifier = Modifier.weight(1f),
             )
             NavigationItem(
                 iconResId = UiR.drawable.ic_plus,
-                label = stringResource(R.string.action_create),
+                label = stringResource(R.string.explorer_menu_selection_create),
                 onClick = onCreateClicked,
                 modifier = Modifier.weight(1f),
             )

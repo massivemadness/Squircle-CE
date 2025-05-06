@@ -15,23 +15,28 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="hint_enter_file_name">输入文件名称</string>
-    <string name="hint_enter_archive_name">输入压缩包名称</string>
-    <string name="hint_enter_password">请输入密码</string>
-    <string name="hint_enter_passphrase">请输入密码口令</string>
-    <string name="action_authenticate">认证</string>
-    <string name="action_create">创建</string>
-    <string name="action_copy_path">复制路径</string>
-    <string name="action_rename">重命名</string>
+    <string name="explorer_delete_dialog_button_delete">删除</string>
+    <string name="explorer_create_dialog_button_create">创建</string>
+    <string name="explorer_create_dialog_input_label">输入文件名称</string>
+    <string name="explorer_rename_dialog_input_label">输入文件名称</string>
+    <string name="explorer_rename_dialog_button_rename">重命名</string>
+    <string name="explorer_compress_dialog_input_label">输入压缩包名称</string>
+    <string name="explorer_compress_dialog_button_compress">压缩</string>
+    <string name="explorer_auth_dialog_input_password_label">请输入密码</string>
+    <string name="explorer_auth_dialog_input_passphrase_label">请输入密码口令</string>
+    <string name="explorer_auth_dialog_button_authenticate">认证</string>
+    <string name="explorer_menu_selection_create">创建</string>
+    <string name="explorer_menu_selection_copy_path">复制路径</string>
+    <string name="explorer_menu_selection_rename">重命名</string>
     <string name="action_run_in_background">在后台运行</string>
-    <string name="action_show_hidden_files">显示隐藏文件</string>
-    <string name="action_compress">压缩</string>
-    <string name="action_open_with">另开为</string>
-    <string name="action_properties">属性</string>
-    <string name="dialog_title_authentication">认证</string>
-    <string name="dialog_title_create">创建文件</string>
-    <string name="dialog_title_rename">重命名文件</string>
-    <string name="dialog_title_multi_delete">删除所选文件</string>
+    <string name="explorer_menu_sort_show_hidden">显示隐藏文件</string>
+    <string name="explorer_menu_selection_compress">压缩</string>
+    <string name="explorer_menu_selection_open_with">另开为</string>
+    <string name="explorer_menu_selection_properties">属性</string>
+    <string name="explorer_auth_dialog_title">认证</string>
+    <string name="explorer_create_dialog_title">创建文件</string>
+    <string name="explorer_rename_dialog_title">重命名文件</string>
+    <string name="explorer_delete_dialog_title">删除所选文件</string>
     <string name="dialog_title_properties">属性</string>
     <string name="dialog_title_creating">正在创建中</string>
     <string name="dialog_title_renaming">正在重命名中</string>
@@ -39,7 +44,7 @@
     <string name="dialog_title_copying">文件复制中</string>
     <string name="dialog_title_compressing">正在压缩中</string>
     <string name="dialog_title_extracting">正在解压中</string>
-    <string name="dialog_title_archive_name">压缩包名称</string>
+    <string name="explorer_compress_dialog_title">压缩包名称</string>
     <string name="dialog_title_storage_permission">外部存储权限</string>
     <string name="dialog_title_notification_permission">通知</string>
     <string name="dialog_message_delete">确定要删除该文件吗？</string>
@@ -51,9 +56,9 @@
     <string name="properties_modified">最后修改:</string>
     <string name="properties_size">文件大小:</string>
     <string name="properties_date_format">yyyy年MM月dd日 HH:mm</string>
-    <string name="sort_by_name">按名称排序</string>
-    <string name="sort_by_size">按大小排序</string>
-    <string name="sort_by_date">按日期排序</string>
+    <string name="explorer_menu_sort_by_name">按名称排序</string>
+    <string name="explorer_menu_sort_by_size">按大小排序</string>
+    <string name="explorer_menu_sort_by_date">按日期排序</string>
     <string name="message_auth_required">需要认证</string>
     <string name="message_enter_password">请输入密码以连接到远程服务器</string>
     <string name="message_enter_passphrase">请输入密码以连接到远程服务器</string>
@@ -75,7 +80,7 @@
     <string name="message_copying">复制中…%1$s</string>
     <string name="message_compressing">压缩中…%1$s</string>
     <string name="message_extracting">解压中…%1$s</string>
-    <string name="explorer_channel_name">文件管理器</string>
-    <string name="explorer_channel_description">显示并控制文件操作</string>
-    <string name="explorer_service_message">Background operations in progress</string>
+    <string name="explorer_notification_channel_name">文件管理器</string>
+    <string name="explorer_notification_channel_description">显示并控制文件操作</string>
+    <string name="explorer_task_service_message">Background operations in progress</string>
 </resources>

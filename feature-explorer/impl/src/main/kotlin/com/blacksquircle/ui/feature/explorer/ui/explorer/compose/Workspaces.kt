@@ -70,7 +70,7 @@ internal fun Workspaces(
         }
         NavigationItem(
             iconResId = UiR.drawable.ic_plus,
-            label = stringResource(R.string.action_add),
+            label = stringResource(R.string.explorer_workspace_button_add),
             onClick = onAddWorkspaceClicked,
         )
     }

@@ -15,23 +15,28 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="hint_enter_file_name">輸入檔案名稱</string>
-    <string name="hint_enter_archive_name">輸入壓縮檔名稱</string>
-    <string name="hint_enter_password">輸入密碼</string>
-    <string name="hint_enter_passphrase">輸入複雜密碼</string>
-    <string name="action_authenticate">驗證</string>
-    <string name="action_create">新增</string>
-    <string name="action_copy_path">複製路徑</string>
-    <string name="action_rename">重新命名</string>
+    <string name="explorer_delete_dialog_button_delete">刪除</string>
+    <string name="explorer_create_dialog_button_create">新增</string>
+    <string name="explorer_create_dialog_input_label">輸入檔案名稱</string>
+    <string name="explorer_rename_dialog_input_label">輸入檔案名稱</string>
+    <string name="explorer_rename_dialog_button_rename">重新命名</string>
+    <string name="explorer_compress_dialog_input_label">輸入壓縮檔名稱</string>
+    <string name="explorer_compress_dialog_button_compress">壓縮</string>
+    <string name="explorer_auth_dialog_input_password_label">輸入密碼</string>
+    <string name="explorer_auth_dialog_input_passphrase_label">輸入複雜密碼</string>
+    <string name="explorer_auth_dialog_button_authenticate">驗證</string>
+    <string name="explorer_menu_selection_create">新增</string>
+    <string name="explorer_menu_selection_copy_path">複製路徑</string>
+    <string name="explorer_menu_selection_rename">重新命名</string>
     <string name="action_run_in_background">在後台運行</string>
-    <string name="action_show_hidden_files">顯示隱藏檔案</string>
-    <string name="action_compress">壓縮</string>
-    <string name="action_open_with">另開為</string>
-    <string name="action_properties">屬性</string>
-    <string name="dialog_title_authentication">驗證</string>
-    <string name="dialog_title_create">新增檔案</string>
-    <string name="dialog_title_rename">重新命名檔案</string>
-    <string name="dialog_title_multi_delete">刪除所選檔案</string>
+    <string name="explorer_menu_sort_show_hidden">顯示隱藏檔案</string>
+    <string name="explorer_menu_selection_compress">壓縮</string>
+    <string name="explorer_menu_selection_open_with">另開為</string>
+    <string name="explorer_menu_selection_properties">屬性</string>
+    <string name="explorer_auth_dialog_title">驗證</string>
+    <string name="explorer_create_dialog_title">新增檔案</string>
+    <string name="explorer_rename_dialog_title">重新命名檔案</string>
+    <string name="explorer_delete_dialog_title">刪除所選檔案</string>
     <string name="dialog_title_properties">屬性</string>
     <string name="dialog_title_creating">正在創建…</string>
     <string name="dialog_title_renaming">正在重新命名…</string>
@@ -39,7 +44,7 @@
     <string name="dialog_title_copying">正在複製檔案</string>
     <string name="dialog_title_compressing">正在壓縮</string>
     <string name="dialog_title_extracting">正在解壓縮</string>
-    <string name="dialog_title_archive_name">壓縮檔名稱</string>
+    <string name="explorer_compress_dialog_title">壓縮檔名稱</string>
     <string name="dialog_title_storage_permission">外部存儲權限</string>
     <string name="dialog_title_notification_permission">通知</string>
     <string name="dialog_message_delete">確定要刪除該檔案嗎？</string>
@@ -51,9 +56,9 @@
     <string name="properties_modified">最後修改：</string>
     <string name="properties_size">檔案大小：</string>
     <string name="properties_date_format">yyyy年MM月dd日 HH:mm</string>
-    <string name="sort_by_name">依名稱排序</string>
-    <string name="sort_by_size">依大小排序</string>
-    <string name="sort_by_date">依日期排序</string>
+    <string name="explorer_menu_sort_by_name">依名稱排序</string>
+    <string name="explorer_menu_sort_by_size">依大小排序</string>
+    <string name="explorer_menu_sort_by_date">依日期排序</string>
     <string name="message_auth_required">需要驗證</string>
     <string name="message_enter_password">輸入密碼以連線至遠端伺服器</string>
     <string name="message_enter_passphrase">輸入複雜密碼以連線至遠端伺服器</string>
@@ -75,7 +80,7 @@
     <string name="message_copying">正在複製…%1$s</string>
     <string name="message_compressing">正在壓縮…%1$s</string>
     <string name="message_extracting">正在解壓縮…%1$s</string>
-    <string name="explorer_channel_name">檔案管理器</string>
-    <string name="explorer_channel_description">顯示和控制檔案操作</string>
-    <string name="explorer_service_message">Background operations in progress</string>
+    <string name="explorer_notification_channel_name">檔案管理器</string>
+    <string name="explorer_notification_channel_description">顯示和控制檔案操作</string>
+    <string name="explorer_task_service_message">Background operations in progress</string>
 </resources>

@@ -71,7 +71,7 @@ private fun CloneRepoScreen(
     var isError by rememberSaveable { mutableStateOf(false) }
 
     AlertDialog(
-        title = stringResource(R.string.dialog_title_clone),
+        title = stringResource(R.string.explorer_clone_dialog_title),
         content = {
             Column {
                 TextField(
@@ -80,20 +80,20 @@ private fun CloneRepoScreen(
                         url = value
                         isError = false
                     },
-                    labelText = stringResource(R.string.hint_enter_git_url),
+                    labelText = stringResource(R.string.explorer_clone_dialog_input_label),
                     errorText = stringResource(R.string.message_invalid_url),
                     placeholderText = stringResource(UiR.string.common_https),
                     error = isError,
                 )
                 Spacer(Modifier.height(8.dp))
                 CheckBox(
-                    title = stringResource(R.string.action_submodules),
+                    title = stringResource(R.string.explorer_clone_dialog_checkbox_submodules),
                     checked = submodules,
                     onClick = { submodules = !submodules },
                 )
             }
         },
-        confirmButton = stringResource(R.string.action_clone),
+        confirmButton = stringResource(R.string.explorer_menu_selection_clone),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = {
             if (url.isValidUrl()) {

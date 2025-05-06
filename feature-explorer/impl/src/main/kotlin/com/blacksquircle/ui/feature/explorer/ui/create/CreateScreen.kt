@@ -68,7 +68,7 @@ private fun CreateFileScreen(
     var isError by rememberSaveable { mutableStateOf(false) }
 
     AlertDialog(
-        title = stringResource(R.string.dialog_title_create),
+        title = stringResource(R.string.explorer_create_dialog_title),
         content = {
             Column {
                 TextField(
@@ -77,20 +77,20 @@ private fun CreateFileScreen(
                         fileName = value
                         isError = !value.isValidFileName()
                     },
-                    labelText = stringResource(R.string.hint_enter_file_name),
+                    labelText = stringResource(R.string.explorer_create_dialog_input_label),
                     errorText = stringResource(R.string.message_invalid_file_name),
                     placeholderText = stringResource(UiR.string.common_untitled),
                     error = isError,
                 )
                 Spacer(Modifier.height(8.dp))
                 CheckBox(
-                    title = stringResource(R.string.action_folder),
+                    title = stringResource(R.string.explorer_create_dialog_checkbox_folder),
                     checked = isFolder,
                     onClick = { isFolder = !isFolder },
                 )
             }
         },
-        confirmButton = stringResource(R.string.action_create),
+        confirmButton = stringResource(R.string.explorer_create_dialog_button_create),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = {
             if (fileName.isValidFileName()) {

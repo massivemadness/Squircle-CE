@@ -63,7 +63,7 @@ private fun DeleteScreen(
 
     AlertDialog(
         title = if (isMultiDelete) {
-            stringResource(R.string.dialog_title_multi_delete)
+            stringResource(R.string.explorer_delete_dialog_title)
         } else {
             fileName
         },
@@ -78,7 +78,7 @@ private fun DeleteScreen(
                 style = SquircleTheme.typography.text16Regular,
             )
         },
-        confirmButton = stringResource(UiR.string.common_delete),
+        confirmButton = stringResource(R.string.explorer_delete_dialog_button_delete),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = onConfirmClicked,
         onDismissClicked = onCancelClicked,

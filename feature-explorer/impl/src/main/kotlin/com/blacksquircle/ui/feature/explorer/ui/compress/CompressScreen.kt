@@ -60,7 +60,7 @@ private fun CompressScreen(
     var isError by rememberSaveable { mutableStateOf(false) }
 
     AlertDialog(
-        title = stringResource(R.string.dialog_title_archive_name),
+        title = stringResource(R.string.explorer_compress_dialog_title),
         content = {
             TextField(
                 inputText = fileName,
@@ -68,13 +68,13 @@ private fun CompressScreen(
                     fileName = value
                     isError = !value.isValidFileName()
                 },
-                labelText = stringResource(R.string.hint_enter_archive_name),
+                labelText = stringResource(R.string.explorer_compress_dialog_input_label),
                 errorText = stringResource(R.string.message_invalid_file_name),
                 placeholderText = stringResource(UiR.string.common_untitled),
                 error = isError,
             )
         },
-        confirmButton = stringResource(R.string.action_compress),
+        confirmButton = stringResource(R.string.explorer_compress_dialog_button_compress),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = {
             if (fileName.isValidFileName()) {

@@ -401,7 +401,7 @@ internal class ExplorerViewModel @Inject constructor(
                     selectedNodes = selectedNodes,
                 )
             }
-            val message = stringProvider.getString(R.string.message_select_folder_to_paste)
+            val message = stringProvider.getString(R.string.explorer_toast_select_folder_to_paste)
             _viewEvent.send(ViewEvent.Toast(message))
         }
     }
@@ -417,7 +417,7 @@ internal class ExplorerViewModel @Inject constructor(
                     selectedNodes = selectedNodes,
                 )
             }
-            val message = stringProvider.getString(R.string.message_select_folder_to_paste)
+            val message = stringProvider.getString(R.string.explorer_toast_select_folder_to_paste)
             _viewEvent.send(ViewEvent.Toast(message))
         }
     }

@@ -76,7 +76,7 @@ private fun LocalWorkspaceScreen(
     }
 
     AlertDialog(
-        title = stringResource(R.string.workspace_local_storage_title),
+        title = stringResource(R.string.explorer_workspace_local_storage_title),
         content = {
             TextField(
                 inputText = filePath,
@@ -84,7 +84,7 @@ private fun LocalWorkspaceScreen(
                 labelText = stringResource(R.string.hint_enter_dir_path),
             )
         },
-        confirmButton = stringResource(R.string.action_add),
+        confirmButton = stringResource(R.string.explorer_workspace_button_add),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = { onConfirmClicked(filePath) },
         onDismissClicked = onCancelClicked,

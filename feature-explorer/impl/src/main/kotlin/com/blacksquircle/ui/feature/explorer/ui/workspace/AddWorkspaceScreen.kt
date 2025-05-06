@@ -89,26 +89,26 @@ private fun AddWorkspaceScreen(
     onCancelClicked: () -> Unit = {}
 ) {
     AlertDialog(
-        title = stringResource(R.string.dialog_title_add_workspace),
+        title = stringResource(R.string.explorer_workspace_dialog_add_title),
         horizontalPadding = false,
         content = {
             Column {
                 ActionLayout(
                     iconRes = UiR.drawable.ic_folder_plus,
-                    title = stringResource(R.string.workspace_local_storage_title),
-                    subtitle = stringResource(R.string.workspace_local_storage_description),
+                    title = stringResource(R.string.explorer_workspace_local_storage_title),
+                    subtitle = stringResource(R.string.explorer_workspace_local_storage_description),
                     onClick = onLocalDirectoryClicked,
                 )
                 ActionLayout(
                     iconRes = UiR.drawable.ic_folder_open,
-                    title = stringResource(R.string.workspace_internal_storage_title),
-                    subtitle = stringResource(R.string.workspace_internal_storage_description),
+                    title = stringResource(R.string.explorer_workspace_internal_storage_title),
+                    subtitle = stringResource(R.string.explorer_workspace_internal_storage_description),
                     onClick = onInternalStorageClicked,
                 )
                 ActionLayout(
                     iconRes = UiR.drawable.ic_server_network,
-                    title = stringResource(R.string.workspace_remote_server_title),
-                    subtitle = stringResource(R.string.workspace_remote_server_description),
+                    title = stringResource(R.string.explorer_workspace_remote_server_title),
+                    subtitle = stringResource(R.string.explorer_workspace_remote_server_description),
                     onClick = onRemoteServerClicked,
                 )
             }

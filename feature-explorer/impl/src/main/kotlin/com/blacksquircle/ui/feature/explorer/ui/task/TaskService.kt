@@ -52,14 +52,14 @@ internal class TaskService : ComponentService() {
         super.onCreate()
         createChannel(
             channelId = CHANNEL_ID,
-            channelName = R.string.explorer_channel_name,
-            channelDescription = R.string.explorer_channel_description,
+            channelName = R.string.explorer_notification_channel_name,
+            channelDescription = R.string.explorer_notification_channel_description,
         )
 
         val serviceNotification = buildNotification(
             channelId = CHANNEL_ID,
-            notificationTitle = getString(R.string.explorer_channel_name),
-            notificationMessage = getString(R.string.explorer_service_message),
+            notificationTitle = getString(R.string.explorer_notification_channel_name),
+            notificationMessage = getString(R.string.explorer_task_service_message),
             ongoing = true,
             silent = true,
         )

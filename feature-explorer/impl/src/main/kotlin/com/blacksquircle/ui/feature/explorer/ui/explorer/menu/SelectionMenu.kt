@@ -54,26 +54,26 @@ internal fun SelectionMenu(
         if (count == 1) {
             if (filesystemType != FilesystemType.SERVER) {
                 PopupMenuItem(
-                    title = stringResource(R.string.action_open_with),
+                    title = stringResource(R.string.explorer_menu_selection_open_with),
                     onClick = onOpenWithClicked,
                 )
             }
             PopupMenuItem(
-                title = stringResource(R.string.action_rename),
+                title = stringResource(R.string.explorer_menu_selection_rename),
                 onClick = onRenameClicked,
             )
             PopupMenuItem(
-                title = stringResource(R.string.action_properties),
+                title = stringResource(R.string.explorer_menu_selection_properties),
                 onClick = onPropertiesClicked,
             )
             PopupMenuItem(
-                title = stringResource(R.string.action_copy_path),
+                title = stringResource(R.string.explorer_menu_selection_copy_path),
                 onClick = onCopyPathClicked,
             )
         }
         if (filesystemType == FilesystemType.LOCAL) {
             PopupMenuItem(
-                title = stringResource(R.string.action_compress),
+                title = stringResource(R.string.explorer_menu_selection_compress),
                 onClick = onCompressClicked,
             )
         }

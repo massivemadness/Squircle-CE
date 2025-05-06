@@ -46,7 +46,7 @@ internal fun SortingMenu(
         modifier = modifier,
     ) {
         PopupMenuItem(
-            title = stringResource(R.string.action_show_hidden_files),
+            title = stringResource(R.string.explorer_menu_sort_show_hidden),
             onClick = onShowHiddenClicked,
             trailing = {
                 CheckBox(
@@ -56,7 +56,7 @@ internal fun SortingMenu(
             }
         )
         PopupMenuItem(
-            title = stringResource(R.string.action_compact_packages),
+            title = stringResource(R.string.explorer_menu_sort_compact_packages),
             onClick = onCompactPackagesClicked,
             trailing = {
                 CheckBox(
@@ -66,7 +66,7 @@ internal fun SortingMenu(
             }
         )
         PopupMenuItem(
-            title = stringResource(R.string.sort_by_name),
+            title = stringResource(R.string.explorer_menu_sort_by_name),
             onClick = { onSortModeSelected(SortMode.SORT_BY_NAME) },
             trailing = {
                 Radio(
@@ -76,7 +76,7 @@ internal fun SortingMenu(
             }
         )
         PopupMenuItem(
-            title = stringResource(R.string.sort_by_size),
+            title = stringResource(R.string.explorer_menu_sort_by_size),
             onClick = { onSortModeSelected(SortMode.SORT_BY_SIZE) },
             trailing = {
                 Radio(
@@ -86,7 +86,7 @@ internal fun SortingMenu(
             }
         )
         PopupMenuItem(
-            title = stringResource(R.string.sort_by_date),
+            title = stringResource(R.string.explorer_menu_sort_by_date),
             onClick = { onSortModeSelected(SortMode.SORT_BY_DATE) },
             trailing = {
                 Radio(

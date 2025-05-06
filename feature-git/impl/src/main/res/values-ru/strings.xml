@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="action_create">Создать</string>
+    <string name="explorer_menu_selection_create">Создать</string>
     <string name="action_checkout">Checkout</string>
     <string name="action_new_branch">Новая ветка</string>
     <string name="action_commit">Commit</string>

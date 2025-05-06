@@ -15,23 +15,28 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="hint_enter_file_name">Введіть назву файлу</string>
-    <string name="hint_enter_archive_name">Вкажіть назву архіву</string>
-    <string name="hint_enter_password">Уведіть пароль</string>
-    <string name="hint_enter_passphrase">Уведіть фразу-пароль</string>
-    <string name="action_authenticate">Автентифікація</string>
-    <string name="action_create">Створити</string>
-    <string name="action_copy_path">Копіювати шлях</string>
-    <string name="action_rename">Перейменувати</string>
+    <string name="explorer_delete_dialog_button_delete">Видалити</string>
+    <string name="explorer_create_dialog_button_create">Створити</string>
+    <string name="explorer_create_dialog_input_label">Введіть назву файлу</string>
+    <string name="explorer_rename_dialog_input_label">Введіть назву файлу</string>
+    <string name="explorer_rename_dialog_button_rename">Перейменувати</string>
+    <string name="explorer_compress_dialog_input_label">Вкажіть назву архіву</string>
+    <string name="explorer_compress_dialog_button_compress">Стиснути</string>
+    <string name="explorer_auth_dialog_input_password_label">Уведіть пароль</string>
+    <string name="explorer_auth_dialog_input_passphrase_label">Уведіть фразу-пароль</string>
+    <string name="explorer_auth_dialog_button_authenticate">Автентифікація</string>
+    <string name="explorer_menu_selection_create">Створити</string>
+    <string name="explorer_menu_selection_copy_path">Копіювати шлях</string>
+    <string name="explorer_menu_selection_rename">Перейменувати</string>
     <string name="action_run_in_background">Запускати у фоновому режимі</string>
-    <string name="action_show_hidden_files">Показувати приховані файли</string>
-    <string name="action_compress">Стиснути</string>
-    <string name="action_open_with">Відкрити в</string>
-    <string name="action_properties">Властивості</string>
-    <string name="dialog_title_authentication">Авторизація</string>
-    <string name="dialog_title_create">Створити…</string>
-    <string name="dialog_title_rename">Перейменувати…</string>
-    <string name="dialog_title_multi_delete">Мульти-видалення</string>
+    <string name="explorer_menu_sort_show_hidden">Показувати приховані файли</string>
+    <string name="explorer_menu_selection_compress">Стиснути</string>
+    <string name="explorer_menu_selection_open_with">Відкрити в</string>
+    <string name="explorer_menu_selection_properties">Властивості</string>
+    <string name="explorer_auth_dialog_title">Авторизація</string>
+    <string name="explorer_create_dialog_title">Створити…</string>
+    <string name="explorer_rename_dialog_title">Перейменувати…</string>
+    <string name="explorer_delete_dialog_title">Мульти-видалення</string>
     <string name="dialog_title_properties">Властивості</string>
     <string name="dialog_title_creating">Створення…</string>
     <string name="dialog_title_renaming">Перейменування…</string>
@@ -39,7 +44,7 @@
     <string name="dialog_title_copying">Копіювання…</string>
     <string name="dialog_title_compressing">Стиснення…</string>
     <string name="dialog_title_extracting">Видобування…</string>
-    <string name="dialog_title_archive_name">Назва архіву</string>
+    <string name="explorer_compress_dialog_title">Назва архіву</string>
     <string name="dialog_title_storage_permission">Доступ до сховища</string>
     <string name="dialog_title_notification_permission">Сповіщення</string>
     <string name="dialog_message_delete">Ви впевнені, що хочете видалити цей файл?</string>
@@ -51,9 +56,9 @@
     <string name="properties_modified">Остання зміна:</string>
     <string name="properties_size">Розмір файла:</string>
     <string name="properties_date_format">dd/MM/yyyy EEE HH:mm</string>
-    <string name="sort_by_name">Сортувати за назвою</string>
-    <string name="sort_by_size">Сортувати за розміром</string>
-    <string name="sort_by_date">Сортувати за датою</string>
+    <string name="explorer_menu_sort_by_name">Сортувати за назвою</string>
+    <string name="explorer_menu_sort_by_size">Сортувати за розміром</string>
+    <string name="explorer_menu_sort_by_date">Сортувати за датою</string>
     <string name="message_auth_required">Потрібна авторизація</string>
     <string name="message_enter_password">Введіть пароль для підключення до сервера</string>
     <string name="message_enter_passphrase">Введіть фразу-пароль для підключення до сервера</string>
@@ -75,7 +80,7 @@
     <string name="message_copying">Копіювання…%1$s</string>
     <string name="message_compressing">Стиснення…%1$s</string>
     <string name="message_extracting">Видобування…%1$s</string>
-    <string name="explorer_channel_name">Файловий менеджер</string>
-    <string name="explorer_channel_description">Відображення та керування файловими операціями</string>
-    <string name="explorer_service_message">Background operations in progress</string>
+    <string name="explorer_notification_channel_name">Файловий менеджер</string>
+    <string name="explorer_notification_channel_description">Відображення та керування файловими операціями</string>
+    <string name="explorer_task_service_message">Background operations in progress</string>
 </resources>

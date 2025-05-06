@@ -17,25 +17,30 @@
 
 <resources>
 
-    <string name="hint_enter_file_name">Geben Sie einen Dateinamen ein</string>
-    <string name="hint_enter_archive_name">Geben Sie einen Archivnamen ein</string>
-    <string name="hint_enter_password">Enter password</string>
-    <string name="hint_enter_passphrase">Enter passphrase</string>
+    <string name="explorer_delete_dialog_button_delete">Löschen</string>
+    <string name="explorer_create_dialog_input_label">Geben Sie einen Dateinamen ein</string>
+    <string name="explorer_rename_dialog_input_label">Geben Sie einen Dateinamen ein</string>
+    <string name="explorer_rename_dialog_button_rename">Umbenennen</string>
+    <string name="explorer_compress_dialog_input_label">Geben Sie einen Archivnamen ein</string>
+    <string name="explorer_compress_dialog_button_compress">Compress</string>
+    <string name="explorer_auth_dialog_input_password_label">Enter password</string>
+    <string name="explorer_auth_dialog_input_passphrase_label">Enter passphrase</string>
 
-    <string name="action_authenticate">Authenticate</string>
-    <string name="action_create">Erstellen</string>
-    <string name="action_copy_path">Pfad kopieren</string>
-    <string name="action_rename">Umbenennen</string>
+    <string name="explorer_auth_dialog_button_authenticate">Authenticate</string>
+    <string name="explorer_menu_selection_create">Erstellen</string>
+    <string name="explorer_menu_selection_copy_path">Pfad kopieren</string>
+    <string name="explorer_menu_selection_rename">Umbenennen</string>
     <string name="action_run_in_background">Im Hintergrund laufen</string>
-    <string name="action_show_hidden_files">Versteckte Dateien anzeigen</string>
-    <string name="action_compress">Compress</string>
-    <string name="action_open_with">Öffnen als</string>
-    <string name="action_properties">Eigenschaften</string>
+    <string name="explorer_menu_sort_show_hidden">Versteckte Dateien anzeigen</string>
+    <string name="explorer_menu_selection_compress">Compress</string>
+    <string name="explorer_menu_selection_open_with">Öffnen als</string>
+    <string name="explorer_menu_selection_properties">Eigenschaften</string>
 
-    <string name="dialog_title_authentication">Authentication</string>
-    <string name="dialog_title_create">Erstellen…</string>
-    <string name="dialog_title_multi_delete">Mehrfaches Entfernen</string>
-    <string name="dialog_title_rename">Umbenennen…</string>
+    <string name="explorer_create_dialog_button_create">Erstellen</string>
+    <string name="explorer_auth_dialog_title">Authentication</string>
+    <string name="explorer_create_dialog_title">Erstellen…</string>
+    <string name="explorer_delete_dialog_title">Mehrfaches Entfernen</string>
+    <string name="explorer_rename_dialog_title">Umbenennen…</string>
     <string name="dialog_title_properties">Eigenschaften</string>
     <string name="dialog_title_creating">Creating…</string>
     <string name="dialog_title_renaming">Renaming…</string>
@@ -43,7 +48,7 @@
     <string name="dialog_title_copying">Kopieren…</string>
     <string name="dialog_title_compressing">Komprimieren…</string>
     <string name="dialog_title_extracting">Extrahieren…</string>
-    <string name="dialog_title_archive_name">Name des Archivs</string>
+    <string name="explorer_compress_dialog_title">Name des Archivs</string>
     <string name="dialog_title_storage_permission">Storage Access</string>
     <string name="dialog_title_notification_permission">Notifications</string>
 
@@ -59,9 +64,9 @@
 
     <string name="properties_date_format">dd.MM.yyyy EEE HH:mm</string>
 
-    <string name="sort_by_name">Nach Name sortieren</string>
-    <string name="sort_by_size">Nach Größe sortieren</string>
-    <string name="sort_by_date">Nach Datum sortieren</string>
+    <string name="explorer_menu_sort_by_name">Nach Name sortieren</string>
+    <string name="explorer_menu_sort_by_size">Nach Größe sortieren</string>
+    <string name="explorer_menu_sort_by_date">Nach Datum sortieren</string>
 
     <string name="message_auth_required">Auth Required</string>
     <string name="message_enter_password">Enter password to connect to remote server</string>
@@ -85,8 +90,8 @@
     <string name="message_compressing">Komprimieren…%1$s</string>
     <string name="message_extracting">Extrahieren…%1$s</string>
 
-    <string name="explorer_channel_name">File Manager</string>
-    <string name="explorer_channel_description">Display and control file operations</string>
-    <string name="explorer_service_message">Background operations in progress</string>
+    <string name="explorer_notification_channel_name">File Manager</string>
+    <string name="explorer_notification_channel_description">Display and control file operations</string>
+    <string name="explorer_task_service_message">Background operations in progress</string>
 
 </resources>

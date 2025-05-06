@@ -69,14 +69,14 @@ private fun AuthScreen(
         mutableStateOf("")
     }
     AlertDialog(
-        title = stringResource(R.string.dialog_title_authentication),
+        title = stringResource(R.string.explorer_auth_dialog_title),
         content = {
             TextField(
                 inputText = credentials,
                 onInputChanged = { credentials = it },
                 labelText = when (authMethod) {
-                    AuthMethod.PASSWORD -> stringResource(R.string.hint_enter_password)
-                    AuthMethod.KEY -> stringResource(R.string.hint_enter_passphrase)
+                    AuthMethod.PASSWORD -> stringResource(R.string.explorer_auth_dialog_input_password_label)
+                    AuthMethod.KEY -> stringResource(R.string.explorer_auth_dialog_input_passphrase_label)
                 },
                 keyboardOptions = KeyboardOptions(
                     autoCorrectEnabled = false,
@@ -85,7 +85,7 @@ private fun AuthScreen(
                 visualTransformation = PasswordVisualTransformation(),
             )
         },
-        confirmButton = stringResource(UiR.string.common_continue),
+        confirmButton = stringResource(R.string.explorer_auth_dialog_button_authenticate),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = { onConfirmClicked(credentials) },
         onDismissClicked = onCancelClicked,

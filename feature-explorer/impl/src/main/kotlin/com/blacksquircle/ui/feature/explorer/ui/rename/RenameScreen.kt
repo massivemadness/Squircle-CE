@@ -66,7 +66,7 @@ private fun RenameScreen(
     var isError by rememberSaveable { mutableStateOf(false) }
 
     AlertDialog(
-        title = stringResource(R.string.dialog_title_rename),
+        title = stringResource(R.string.explorer_rename_dialog_title),
         content = {
             TextField(
                 inputText = fileName,
@@ -74,13 +74,13 @@ private fun RenameScreen(
                     fileName = value
                     isError = !value.isValidFileName()
                 },
-                labelText = stringResource(R.string.hint_enter_file_name),
+                labelText = stringResource(R.string.explorer_rename_dialog_input_label),
                 errorText = stringResource(R.string.message_invalid_file_name),
                 placeholderText = stringResource(UiR.string.common_untitled),
                 error = isError,
             )
         },
-        confirmButton = stringResource(R.string.action_rename),
+        confirmButton = stringResource(R.string.explorer_menu_selection_rename),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = {
             if (fileName.isValidFileName()) {

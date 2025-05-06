@@ -28,7 +28,7 @@ import com.blacksquircle.ui.filesystem.root.RootFilesystem
 internal fun Context.createLocalWorkspace(): WorkspaceModel {
     return WorkspaceModel(
         uuid = LocalFilesystem.LOCAL_UUID,
-        name = getString(R.string.storage_local),
+        name = getString(R.string.explorer_workspace_button_local),
         filesystemType = FilesystemType.LOCAL,
         defaultLocation = FileModel(
             fileUri = LocalFilesystem.LOCAL_SCHEME +
@@ -42,7 +42,7 @@ internal fun Context.createLocalWorkspace(): WorkspaceModel {
 internal fun Context.createRootWorkspace(): WorkspaceModel {
     return WorkspaceModel(
         uuid = RootFilesystem.ROOT_UUID,
-        name = getString(R.string.storage_root),
+        name = getString(R.string.explorer_workspace_button_root),
         filesystemType = FilesystemType.ROOT,
         defaultLocation = FileModel(
             fileUri = RootFilesystem.ROOT_SCHEME,

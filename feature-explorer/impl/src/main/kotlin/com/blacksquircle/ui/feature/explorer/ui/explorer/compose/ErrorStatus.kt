@@ -43,7 +43,7 @@ internal fun ErrorStatus(
             action = when (errorState.action) {
                 ErrorAction.REQUEST_PERMISSIONS -> stringResource(UiR.string.common_grant_access)
                 ErrorAction.ENTER_PASSWORD,
-                ErrorAction.ENTER_PASSPHRASE -> stringResource(R.string.action_authenticate)
+                ErrorAction.ENTER_PASSPHRASE -> stringResource(R.string.explorer_auth_dialog_button_authenticate)
                 else -> null
             },
             onClick = { onActionClicked(errorState.action) },
