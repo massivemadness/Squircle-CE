@@ -34,6 +34,7 @@
     <string name="action_properties">Ominaisuudet</string>
     <string name="action_refresh">Virkistä</string>
     <string name="action_paste">Liitä</string>
+    <string name="action_add">Lisää</string>
     <string name="dialog_title_authentication">Tunnistautuminen</string>
     <string name="dialog_title_create">Luo…</string>
     <string name="dialog_title_clone">Kloonaa…</string>
@@ -90,5 +91,4 @@
     <string name="explorer_channel_name">Tiedostonhallinta</string>
     <string name="explorer_channel_description">Näytä ja hallitse tiedostotoimenpiteitä</string>
     <string name="explorer_service_message">Taustatoimintoja käynnissä</string>
-    <string name="storage_add">Lisää</string>
 </resources>
