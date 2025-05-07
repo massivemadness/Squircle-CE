@@ -18,6 +18,6 @@
     <string name="fonts_toolbar_title">Schriftarten</string>
     <string name="fonts_item_button_remove">Entfernen</string>
     <string name="fonts_toast_font_selected">Ausgewählt «%1$s»</string>
-    <string name="fonts_toast_font_added">Neue Schriftart verfügar</string>
     <string name="fonts_toast_font_removed">Schriftart «%1$s» entfernt</string>
+    <string name="fonts_toast_font_added">Neue Schriftart verfügar</string>
 </resources>
