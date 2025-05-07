@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="shortcuts_menu_restore">重置为默认</string>
     <string name="shortcuts_toolbar_title">快捷键</string>
+    <string name="shortcuts_menu_restore">重置为默认</string>
     <string name="shortcuts_category_file">文件操作快捷键</string>
     <string name="shortcuts_category_editor">编辑操作快捷键</string>
     <string name="shortcuts_category_tools">工具操作快捷键</string>
@@ -40,7 +40,7 @@
     <string name="shortcuts_goto_line_title">转到行</string>
     <string name="shortcuts_force_syntax_title">强制语法</string>
     <string name="shortcuts_insert_color_title">插入颜色</string>
-    <string name="shortcuts_conflict_dialog_message">该快捷键已被其他操作绑定，是否继续将绑定改为此操作？</string>
-    <string name="shortcuts_assign_dialog_message">按下新的快捷键（必须包含 Ctrl 或 Alt）</string>
     <string name="shortcuts_none_set">无设定</string>
+    <string name="shortcuts_assign_dialog_message">按下新的快捷键（必须包含 Ctrl 或 Alt）</string>
+    <string name="shortcuts_conflict_dialog_message">该快捷键已被其他操作绑定，是否继续将绑定改为此操作？</string>
 </resources>
