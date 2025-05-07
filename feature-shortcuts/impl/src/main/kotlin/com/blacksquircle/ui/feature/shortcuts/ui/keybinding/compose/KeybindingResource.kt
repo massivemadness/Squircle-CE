@@ -25,7 +25,7 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 @ReadOnlyComposable
 internal fun keybindingResource(ctrl: Boolean, shift: Boolean, alt: Boolean, key: Char): String {
-    val noneSet = stringResource(R.string.shortcut_none)
+    val noneSet = stringResource(R.string.shortcuts_none_set)
     val ctrlLabel = stringResource(UiR.string.common_ctrl)
     val shiftLabel = stringResource(UiR.string.common_shift)
     val altLabel = stringResource(UiR.string.common_alt)

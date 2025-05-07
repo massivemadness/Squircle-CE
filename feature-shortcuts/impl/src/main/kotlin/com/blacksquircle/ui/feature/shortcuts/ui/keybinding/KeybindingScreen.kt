@@ -123,35 +123,35 @@ private fun KeybindingScreen(
 ) {
     AlertDialog(
         title = when (viewState.shortcut) {
-            Shortcut.NEW -> stringResource(R.string.shortcut_new_file)
-            Shortcut.OPEN -> stringResource(R.string.shortcut_open_file)
-            Shortcut.SAVE -> stringResource(R.string.shortcut_save_file)
-            Shortcut.SAVE_AS -> stringResource(R.string.shortcut_save_as)
-            Shortcut.CLOSE -> stringResource(R.string.shortcut_close_file)
+            Shortcut.NEW -> stringResource(R.string.shortcuts_new_file_title)
+            Shortcut.OPEN -> stringResource(R.string.shortcuts_open_file_title)
+            Shortcut.SAVE -> stringResource(R.string.shortcuts_save_file_title)
+            Shortcut.SAVE_AS -> stringResource(R.string.shortcuts_save_file_as_title)
+            Shortcut.CLOSE -> stringResource(R.string.shortcuts_close_file_title)
             Shortcut.CUT -> stringResource(android.R.string.cut)
             Shortcut.COPY -> stringResource(android.R.string.copy)
             Shortcut.PASTE -> stringResource(android.R.string.paste)
             Shortcut.SELECT_ALL -> stringResource(android.R.string.selectAll)
-            Shortcut.SELECT_LINE -> stringResource(R.string.shortcut_select_line)
-            Shortcut.DELETE_LINE -> stringResource(R.string.shortcut_delete_line)
-            Shortcut.DUPLICATE_LINE -> stringResource(R.string.shortcut_duplicate_line)
-            Shortcut.TOGGLE_CASE -> stringResource(R.string.shortcut_toggle_case)
-            Shortcut.PREV_WORD -> stringResource(R.string.shortcut_prev_word)
-            Shortcut.NEXT_WORD -> stringResource(R.string.shortcut_next_word)
-            Shortcut.START_OF_LINE -> stringResource(R.string.shortcut_start_of_line)
-            Shortcut.END_OF_LINE -> stringResource(R.string.shortcut_end_of_line)
-            Shortcut.UNDO -> stringResource(R.string.shortcut_undo)
-            Shortcut.REDO -> stringResource(R.string.shortcut_redo)
-            Shortcut.FIND -> stringResource(R.string.shortcut_find)
-            Shortcut.REPLACE -> stringResource(R.string.shortcut_replace)
-            Shortcut.GOTO_LINE -> stringResource(R.string.shortcut_goto_line)
-            Shortcut.FORCE_SYNTAX -> stringResource(R.string.shortcut_force_syntax)
-            Shortcut.INSERT_COLOR -> stringResource(R.string.shortcut_insert_color)
+            Shortcut.SELECT_LINE -> stringResource(R.string.shortcuts_select_line_title)
+            Shortcut.DELETE_LINE -> stringResource(R.string.shortcuts_delete_line_title)
+            Shortcut.DUPLICATE_LINE -> stringResource(R.string.shortcuts_duplicate_line_title)
+            Shortcut.TOGGLE_CASE -> stringResource(R.string.shortcuts_toggle_case_title)
+            Shortcut.PREV_WORD -> stringResource(R.string.shortcuts_previous_word_title)
+            Shortcut.NEXT_WORD -> stringResource(R.string.shortcuts_next_word_title)
+            Shortcut.START_OF_LINE -> stringResource(R.string.shortcuts_start_of_line_title)
+            Shortcut.END_OF_LINE -> stringResource(R.string.shortcuts_end_of_line_title)
+            Shortcut.UNDO -> stringResource(R.string.shortcuts_undo_title)
+            Shortcut.REDO -> stringResource(R.string.shortcuts_redo_title)
+            Shortcut.FIND -> stringResource(R.string.shortcuts_find_title)
+            Shortcut.REPLACE -> stringResource(R.string.shortcuts_replace_title)
+            Shortcut.GOTO_LINE -> stringResource(R.string.shortcuts_goto_line_title)
+            Shortcut.FORCE_SYNTAX -> stringResource(R.string.shortcuts_force_syntax_title)
+            Shortcut.INSERT_COLOR -> stringResource(R.string.shortcuts_insert_color_title)
         },
         content = {
             Column {
                 Text(
-                    text = stringResource(R.string.shortcut_press_key),
+                    text = stringResource(R.string.shortcuts_assign_dialog_message),
                     style = SquircleTheme.typography.text16Regular,
                     color = SquircleTheme.colors.colorTextAndIconSecondary,
                 )

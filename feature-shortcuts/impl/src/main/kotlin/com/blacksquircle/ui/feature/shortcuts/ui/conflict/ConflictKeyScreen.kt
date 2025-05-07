@@ -52,7 +52,7 @@ private fun ConflictKeyScreen(
         title = stringResource(android.R.string.dialog_alert_title),
         content = {
             Text(
-                text = stringResource(R.string.shortcut_conflict),
+                text = stringResource(R.string.shortcuts_conflict_dialog_message),
                 color = SquircleTheme.colors.colorTextAndIconSecondary,
                 style = SquircleTheme.typography.text16Regular,
             )
