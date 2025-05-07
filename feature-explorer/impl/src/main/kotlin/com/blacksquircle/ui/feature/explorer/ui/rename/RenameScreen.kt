@@ -75,12 +75,12 @@ private fun RenameScreen(
                     isError = !value.isValidFileName()
                 },
                 labelText = stringResource(R.string.explorer_rename_dialog_input_label),
-                errorText = stringResource(R.string.explorer_create_dialog_input_error),
+                errorText = stringResource(R.string.explorer_rename_dialog_input_error),
                 placeholderText = stringResource(UiR.string.common_untitled),
                 error = isError,
             )
         },
-        confirmButton = stringResource(R.string.explorer_menu_selection_rename),
+        confirmButton = stringResource(R.string.explorer_rename_dialog_button_rename),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = {
             if (fileName.isValidFileName()) {

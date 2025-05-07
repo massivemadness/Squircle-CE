@@ -68,7 +68,7 @@ internal fun PullScreen(
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
                 is PullViewEvent.PullComplete -> {
-                    context.showToast(R.string.git_pull_complete)
+                    context.showToast(R.string.git_toast_pull_complete)
 
                     sendNavigationResult(KEY_PULL, Bundle.EMPTY)
                     navController.popBackStack()

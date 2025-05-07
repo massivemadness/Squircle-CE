@@ -16,6 +16,7 @@
   -->
 <resources>
     <string name="explorer_compress_dialog_input_error">Неприпустима назва файла</string>
+    <string name="explorer_rename_dialog_input_error">Неприпустима назва файла</string>
     <string name="explorer_delete_dialog_button_delete">Видалити</string>
     <string name="explorer_create_dialog_button_create">Створити</string>
     <string name="explorer_create_dialog_input_label">Введіть назву файлу</string>

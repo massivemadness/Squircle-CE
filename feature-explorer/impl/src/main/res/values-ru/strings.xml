@@ -19,6 +19,7 @@
     <string name="explorer_delete_dialog_button_delete">Удалить</string>
     <string name="explorer_create_dialog_input_label">Введите имя файла</string>
     <string name="explorer_rename_dialog_input_label">Введите имя файла</string>
+    <string name="explorer_rename_dialog_input_error">Некорректное имя файла</string>
     <string name="explorer_rename_dialog_button_rename">Переименовать</string>
     <string name="explorer_compress_dialog_input_label">Введите название архива</string>
     <string name="explorer_compress_dialog_input_error">Некорректное имя архива</string>

@@ -78,7 +78,7 @@ internal class PushViewModel @AssistedInject constructor(
 
                 gitRepository.push(repository, isForce)
 
-                val message = stringProvider.getString(R.string.git_push_complete)
+                val message = stringProvider.getString(R.string.git_toast_push_complete)
                 _viewEvent.send(ViewEvent.Toast(message))
 
                 _viewEvent.send(ViewEvent.PopBackStack)

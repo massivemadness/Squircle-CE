@@ -46,11 +46,11 @@
     <string name="git_checkout_dialog_checkbox_new">Uusi haara</string>
     <string name="git_checkout_dialog_button_create">Luo</string>
     <string name="git_checkout_dialog_button_checkout">Checkout (haaranvaihto)</string>
-    <string name="git_fetch_complete">Haettu</string>
-    <string name="git_pull_complete">Vedetty</string>
-    <string name="git_commit_complete">Toimitettu</string>
-    <string name="git_push_complete">Push valmis</string>
-    <string name="git_checkout_checked_out">Vaihdettu haaraan %1$s</string>
+    <string name="git_toast_fetch_complete">Haettu</string>
+    <string name="git_toast_pull_complete">Vedetty</string>
+    <string name="git_toast_commit_created">Toimitettu</string>
+    <string name="git_toast_push_complete">Push valmis</string>
+    <string name="git_toast_checked_out">Vaihdettu haaraan %1$s</string>
     <string name="git_change_added">Lisätty</string>
     <string name="git_change_modified">Muokattu</string>
     <string name="git_change_deleted">Poistettu</string>

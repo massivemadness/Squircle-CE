@@ -56,11 +56,11 @@
     <string name="git_checkout_dialog_button_create">Create</string>
     <string name="git_checkout_dialog_button_checkout">Checkout</string>
 
-    <string name="git_fetch_complete">Fetch completed</string>
-    <string name="git_pull_complete">Pull completed</string>
-    <string name="git_commit_complete">Commit created</string>
-    <string name="git_push_complete">Push completed</string>
-    <string name="git_checkout_checked_out">Checked out %1$s</string>
+    <string name="git_toast_fetch_complete">Fetch completed</string>
+    <string name="git_toast_pull_complete">Pull completed</string>
+    <string name="git_toast_commit_created">Commit created</string>
+    <string name="git_toast_push_complete">Push completed</string>
+    <string name="git_toast_checked_out">Checked out %1$s</string>
 
     <string name="git_change_added">Added</string>
     <string name="git_change_modified">Modified</string>

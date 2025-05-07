@@ -42,6 +42,7 @@
 
     <string name="explorer_rename_dialog_title">Rename…</string>
     <string name="explorer_rename_dialog_input_label">Enter file name</string>
+    <string name="explorer_rename_dialog_input_error">Invalid file name</string>
     <string name="explorer_rename_dialog_button_rename">Rename</string>
 
     <string name="explorer_compress_dialog_title">Archive name</string>

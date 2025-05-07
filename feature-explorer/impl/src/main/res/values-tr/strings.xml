@@ -19,6 +19,7 @@
     <string name="explorer_delete_dialog_button_delete">Sil</string>
     <string name="explorer_create_dialog_input_label">Dosya ismi girin</string>
     <string name="explorer_rename_dialog_input_label">Dosya ismi girin</string>
+    <string name="explorer_rename_dialog_input_error">Geçersiz dosya adı</string>
     <string name="explorer_rename_dialog_button_rename">Yeniden adlandır</string>
     <string name="explorer_compress_dialog_input_label">Arşiv ismi girin</string>
     <string name="explorer_compress_dialog_button_compress">Sıkıştır</string>

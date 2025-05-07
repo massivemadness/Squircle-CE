@@ -69,7 +69,7 @@ internal class FetchViewModel @AssistedInject constructor(
 
                 gitRepository.fetch(repository)
 
-                val message = stringProvider.getString(R.string.git_fetch_complete)
+                val message = stringProvider.getString(R.string.git_toast_fetch_complete)
                 _viewEvent.send(ViewEvent.Toast(message))
 
                 _viewEvent.send(ViewEvent.PopBackStack)

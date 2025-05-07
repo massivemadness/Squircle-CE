@@ -18,6 +18,7 @@
     <string name="explorer_delete_dialog_button_delete">Poista</string>
     <string name="explorer_create_dialog_input_label">Syötä tiedostonimi</string>
     <string name="explorer_rename_dialog_input_label">Syötä tiedostonimi</string>
+    <string name="explorer_rename_dialog_input_error">Virheellinen tiedostonimi</string>
     <string name="explorer_rename_dialog_button_rename">Nimeä uudelleen</string>
     <string name="explorer_compress_dialog_input_label">Syötä arkiston nimi</string>
     <string name="explorer_compress_dialog_input_error">Virheellinen tiedostonimi</string>

@@ -102,7 +102,7 @@ internal class CommitViewModel @AssistedInject constructor(
 
                 gitRepository.commit(repository, selectedChanges, commitMessage, isAmend)
 
-                val message = stringProvider.getString(R.string.git_commit_complete)
+                val message = stringProvider.getString(R.string.git_toast_commit_created)
                 _viewEvent.send(ViewEvent.Toast(message))
 
                 _viewEvent.send(ViewEvent.PopBackStack)

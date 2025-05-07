@@ -80,7 +80,7 @@ internal fun CheckoutScreen(
                 is CheckoutViewEvent.CheckoutComplete -> {
                     context.showToast(
                         text = context.getString(
-                            R.string.git_checkout_checked_out,
+                            R.string.git_toast_checked_out,
                             event.branchName
                         )
                     )

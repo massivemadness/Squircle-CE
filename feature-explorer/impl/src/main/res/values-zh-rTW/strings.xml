@@ -16,6 +16,7 @@
   -->
 <resources>
     <string name="explorer_compress_dialog_input_error">無效的檔案名稱</string>
+    <string name="explorer_rename_dialog_input_error">無效的檔案名稱</string>
     <string name="explorer_delete_dialog_button_delete">刪除</string>
     <string name="explorer_create_dialog_button_create">新增</string>
     <string name="explorer_create_dialog_input_label">輸入檔案名稱</string>

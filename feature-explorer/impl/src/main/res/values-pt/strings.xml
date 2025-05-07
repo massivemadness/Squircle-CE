@@ -21,6 +21,7 @@
     <string name="explorer_delete_dialog_button_delete">Deletar</string>
     <string name="explorer_create_dialog_input_label">Insira o nome do arquivo</string>
     <string name="explorer_rename_dialog_input_label">Insira o nome do arquivo</string>
+    <string name="explorer_rename_dialog_input_error">Nome inválido</string>
     <string name="explorer_rename_dialog_button_rename">Renomear</string>
     <string name="explorer_compress_dialog_input_label">Insira o nome do documento</string>
 
