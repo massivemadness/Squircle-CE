@@ -38,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -50,6 +51,7 @@ import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
 import com.blacksquircle.ui.ds.modifier.debounceSelectable
 import com.blacksquircle.ui.ds.tabs.TabIndicator
+import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.CloseMenu
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -107,6 +109,7 @@ internal fun DocumentTab(
                 iconResId = UiR.drawable.ic_close,
                 iconButtonStyle = IconButtonStyleDefaults.Secondary,
                 onClick = onCloseClicked,
+                contentDescription = stringResource(R.string.editor_menu_file_close),
                 iconButtonSize = IconButtonSizeDefaults.XXS,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )

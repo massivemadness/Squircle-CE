@@ -93,7 +93,7 @@ private fun CloneRepoScreen(
                 )
             }
         },
-        confirmButton = stringResource(R.string.explorer_menu_selection_clone),
+        confirmButton = stringResource(R.string.explorer_clone_dialog_button_clone),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = {
             if (url.isValidUrl()) {

@@ -74,8 +74,12 @@ private fun AuthScreen(
                 inputText = credentials,
                 onInputChanged = { credentials = it },
                 labelText = when (authMethod) {
-                    AuthMethod.PASSWORD -> stringResource(R.string.explorer_auth_dialog_input_password_label)
-                    AuthMethod.KEY -> stringResource(R.string.explorer_auth_dialog_input_passphrase_label)
+                    AuthMethod.PASSWORD -> {
+                        stringResource(R.string.explorer_auth_dialog_input_password_label)
+                    }
+                    AuthMethod.KEY -> {
+                        stringResource(R.string.explorer_auth_dialog_input_passphrase_label)
+                    }
                 },
                 keyboardOptions = KeyboardOptions(
                     autoCorrectEnabled = false,

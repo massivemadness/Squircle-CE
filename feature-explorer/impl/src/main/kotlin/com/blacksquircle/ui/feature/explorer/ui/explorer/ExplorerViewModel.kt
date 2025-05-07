@@ -466,7 +466,8 @@ internal class ExplorerViewModel @Inject constructor(
     fun onCompressClicked() {
         viewModelScope.launch {
             if (!cache.ensureCommonParentKey(selectedNodes)) {
-                val message = stringProvider.getString(R.string.explorer_toast_same_directory_required)
+                val message =
+                    stringProvider.getString(R.string.explorer_toast_same_directory_required)
                 _viewEvent.send(ViewEvent.Toast(message))
                 return@launch
             }
@@ -980,8 +981,10 @@ internal class ExplorerViewModel @Inject constructor(
                 icon = UiR.drawable.ic_file_error,
                 title = stringProvider.getString(R.string.explorer_error_view_title_auth),
                 subtitle = when (e.authMethod) {
-                    AuthMethod.PASSWORD -> stringProvider.getString(R.string.explorer_error_view_message_password)
-                    AuthMethod.KEY -> stringProvider.getString(R.string.explorer_error_view_message_passphrase)
+                    AuthMethod.PASSWORD ->
+                        stringProvider.getString(R.string.explorer_error_view_message_password)
+                    AuthMethod.KEY ->
+                        stringProvider.getString(R.string.explorer_error_view_message_passphrase)
                 },
                 action = when (e.authMethod) {
                     AuthMethod.PASSWORD -> ErrorAction.ENTER_PASSWORD
@@ -993,8 +996,10 @@ internal class ExplorerViewModel @Inject constructor(
                 icon = UiR.drawable.ic_file_error,
                 title = stringProvider.getString(UiR.string.common_error_occurred),
                 subtitle = when (e.authMethod) {
-                    AuthMethod.PASSWORD -> stringProvider.getString(R.string.explorer_error_view_message_password)
-                    AuthMethod.KEY -> stringProvider.getString(R.string.explorer_error_view_message_passphrase)
+                    AuthMethod.PASSWORD ->
+                        stringProvider.getString(R.string.explorer_error_view_message_password)
+                    AuthMethod.KEY ->
+                        stringProvider.getString(R.string.explorer_error_view_message_passphrase)
                 },
                 action = when (e.authMethod) {
                     AuthMethod.PASSWORD -> ErrorAction.ENTER_PASSWORD
@@ -1043,7 +1048,8 @@ internal class ExplorerViewModel @Inject constructor(
                 _viewEvent.send(ViewEvent.Toast(message))
             }
             is UnsupportedOperationException -> {
-                val message = stringProvider.getString(R.string.explorer_toast_operation_not_supported)
+                val message =
+                    stringProvider.getString(R.string.explorer_toast_operation_not_supported)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
             is CancellationException -> {

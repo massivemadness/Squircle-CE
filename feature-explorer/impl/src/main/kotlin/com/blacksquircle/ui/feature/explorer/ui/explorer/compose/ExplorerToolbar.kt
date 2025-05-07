@@ -42,6 +42,7 @@ import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
+import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SelectionMenu
 import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SortingMenu
@@ -135,6 +136,7 @@ internal fun ExplorerToolbar(
                 IconButton(
                     iconResId = UiR.drawable.ic_search,
                     onClick = { searchMode = true },
+                    contentDescription = stringResource(android.R.string.search_go)
                 )
             }
 
@@ -143,17 +145,20 @@ internal fun ExplorerToolbar(
                     IconButton(
                         iconResId = UiR.drawable.ic_copy,
                         onClick = onCopyClicked,
+                        contentDescription = stringResource(android.R.string.copy),
                     )
                 }
                 IconButton(
                     iconResId = UiR.drawable.ic_delete,
                     onClick = onDeleteClicked,
+                    contentDescription = stringResource(R.string.explorer_menu_selection_delete)
                 )
             }
 
             IconButton(
                 iconResId = UiR.drawable.ic_dots_vertical,
                 onClick = { menuExpanded = true },
+                contentDescription = stringResource(UiR.string.common_menu),
                 anchor = {
                     if (selectionMode) {
                         SelectionMenu(

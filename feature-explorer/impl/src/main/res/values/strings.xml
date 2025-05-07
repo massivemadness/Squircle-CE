@@ -23,6 +23,8 @@
     <string name="explorer_menu_sort_by_size">Sort by Size</string>
     <string name="explorer_menu_sort_by_date">Sort by Date</string>
 
+    <string name="explorer_menu_selection_delete">Delete</string>
+    <string name="explorer_menu_selection_open_with">Open with</string>
     <string name="explorer_menu_selection_open_with">Open with</string>
     <string name="explorer_menu_selection_rename">Rename</string>
     <string name="explorer_menu_selection_properties">Properties</string>
@@ -44,6 +46,7 @@
 
     <string name="explorer_compress_dialog_title">Archive name</string>
     <string name="explorer_compress_dialog_input_label">Enter archive name</string>
+    <string name="explorer_compress_dialog_input_error">Invalid archive name</string>
     <string name="explorer_compress_dialog_button_compress">Compress</string>
 
     <string name="explorer_auth_dialog_title">Authentication</string>
@@ -55,6 +58,7 @@
     <string name="explorer_clone_dialog_input_label">Enter git url</string>
     <string name="explorer_clone_dialog_input_error">Invalid URL</string>
     <string name="explorer_clone_dialog_checkbox_submodules">Submodules</string>
+    <string name="explorer_clone_dialog_button_clone">Clone</string>
 
     <string name="explorer_multidelete_dialog_title">Multi-delete</string>
     <string name="explorer_multidelete_dialog_message">Are you sure you want to delete selected files?</string>
@@ -129,6 +133,7 @@
     <string name="explorer_toast_done">Done</string>
 
     <string name="explorer_error_view_title_auth">Auth Required</string>
+    <string name="explorer_error_view_button_authenticate">Authenticate</string>
     <string name="explorer_error_view_message_password">Enter password to connect to remote server</string>
     <string name="explorer_error_view_message_passphrase">Enter passphrase to connect to remote server</string>
 

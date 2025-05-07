@@ -58,8 +58,7 @@ private fun EditorErrorPreview() {
         ErrorStatus(
             errorState = ErrorState(
                 title = stringResource(UiR.string.common_error_occurred),
-                subtitle = "java.io.FileNotFoundException: " +
-                    "(The system cannot find the file specified)",
+                subtitle = "java.io.FileNotFoundException",
                 action = ErrorAction.CLOSE_DOCUMENT,
             ),
         )

@@ -40,6 +40,8 @@ import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.editor.ARG_LINE_NUMBER
 import com.blacksquircle.ui.feature.editor.ui.editor.KEY_GOTO_LINE
 
+private const val DEFAULT_LINE = 0
+
 @Composable
 internal fun GoToLineScreen(navController: NavController) {
     GotoLineScreen(
@@ -71,7 +73,7 @@ private fun GotoLineScreen(
                 inputText = lineNumber,
                 onInputChanged = { lineNumber = it },
                 labelText = stringResource(R.string.editor_goto_line_dialog_input_label),
-                placeholderText = stringResource(R.string.editor_goto_line_dialog_input_placeholder),
+                placeholderText = DEFAULT_LINE.toString(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                 ),

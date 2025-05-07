@@ -15,6 +15,7 @@
   ~ limitations under the License.
   -->
 <resources>
+    <string name="explorer_compress_dialog_input_error">无效的文件名称</string>
     <string name="explorer_delete_dialog_button_delete">删除</string>
     <string name="explorer_create_dialog_button_create">创建</string>
     <string name="explorer_create_dialog_input_label">输入文件名称</string>
@@ -25,6 +26,7 @@
     <string name="explorer_auth_dialog_input_password_label">请输入密码</string>
     <string name="explorer_auth_dialog_input_passphrase_label">请输入密码口令</string>
     <string name="explorer_auth_dialog_button_authenticate">认证</string>
+    <string name="explorer_menu_selection_delete">删除</string>
     <string name="explorer_menu_selection_create">创建</string>
     <string name="explorer_menu_selection_copy_path">复制路径</string>
     <string name="explorer_menu_selection_rename">重命名</string>
@@ -60,6 +62,7 @@
     <string name="explorer_menu_sort_by_size">按大小排序</string>
     <string name="explorer_menu_sort_by_date">按日期排序</string>
     <string name="explorer_error_view_title_auth">需要认证</string>
+    <string name="explorer_error_view_button_authenticate">认证</string>
     <string name="explorer_error_view_message_password">请输入密码以连接到远程服务器</string>
     <string name="explorer_error_view_message_passphrase">请输入密码以连接到远程服务器</string>
     <string name="explorer_toast_file_cannot_be_opened">文件无法打开</string>
