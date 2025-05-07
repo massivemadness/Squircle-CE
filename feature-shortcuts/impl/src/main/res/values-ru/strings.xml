@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="shortcuts_menu_restore">Восстановить</string>
     <string name="shortcuts_toolbar_title">Сочетания клавиш</string>
+    <string name="shortcuts_menu_restore">Восстановить</string>
     <string name="shortcuts_category_file">Файл</string>
     <string name="shortcuts_category_editor">Редактор</string>
     <string name="shortcuts_category_tools">Инструменты</string>
@@ -40,7 +40,7 @@
     <string name="shortcuts_goto_line_title">Перейти к строке</string>
     <string name="shortcuts_force_syntax_title">Синтаксис</string>
     <string name="shortcuts_insert_color_title">Вставить цвет</string>
-    <string name="shortcuts_conflict_dialog_message">На выбранную клавишу уже назначено действие. Вы хотите отвязать клавишу?</string>
-    <string name="shortcuts_assign_dialog_message">Нажмите новую клавишу (Ctrl или Alt обязателен)</string>
     <string name="shortcuts_none_set">Не назначено</string>
+    <string name="shortcuts_assign_dialog_message">Нажмите новую клавишу (Ctrl или Alt обязателен)</string>
+    <string name="shortcuts_conflict_dialog_message">На выбранную клавишу уже назначено действие. Вы хотите отвязать клавишу?</string>
 </resources>
