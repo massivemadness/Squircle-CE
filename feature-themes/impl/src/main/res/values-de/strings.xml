@@ -14,14 +14,9 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
     <string name="themes_toolbar_title">Themes</string>
-
     <string name="themes_item_button_remove">Entfernen</string>
-
     <string name="themes_toast_theme_selected">«%1$s» ausgewählt</string>
     <string name="themes_toast_theme_removed">Theme «%1$s» entfernt</string>
-
 </resources>
