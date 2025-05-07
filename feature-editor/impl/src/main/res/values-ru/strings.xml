@@ -48,8 +48,8 @@
     <string name="editor_toast_git_repository_not_found">Git репозиторий не найден</string>
     <string name="editor_toast_git_unsupported_filesystem">Git работает только с локальными файлами</string>
     <string name="editor_goto_line_dialog_title">Перейти к строке…</string>
+    <string name="editor_goto_line_dialog_input_label">Линия:</string>
     <string name="editor_goto_line_dialog_button_go_to">Перейти</string>
-    <string name="editor_goto_line_label">Линия:</string>
     <string name="editor_force_syntax_dialog_title">Подсветка синтаксиса</string>
     <string name="editor_color_picker_dialog_title">Выберите цвет</string>
     <string name="editor_color_picker_dialog_button_insert">Вставить</string>
