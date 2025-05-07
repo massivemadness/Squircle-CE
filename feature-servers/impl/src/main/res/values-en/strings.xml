@@ -15,29 +15,30 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="servers_edit_dialog_input_name_label">Server Name</string>
-    <string name="servers_edit_dialog_input_address_label">Server Address</string>
-    <string name="servers_edit_dialog_input_initialdir_label">Initial Folder</string>
-    <string name="servers_edit_dialog_input_port_label">Port</string>
-    <string name="servers_edit_dialog_input_username_label">Username</string>
-    <string name="servers_edit_dialog_input_password_label">Password</string>
-    <string name="servers_edit_dialog_input_passphrase_label">Passphrase</string>
-    <string name="servers_edit_dialog_input_keyfile_label">Key File</string>
-    <string name="servers_edit_dialog_scheme_ftp">FTP</string>
-    <string name="servers_edit_dialog_scheme_ftps">FTPS (FTP over TLS/SSL)</string>
-    <string name="servers_edit_dialog_scheme_ftpes">FTPES (Explicit FTPS)</string>
-    <string name="servers_edit_dialog_scheme_sftp">SFTP</string>
-    <string name="servers_connection_checking">Checking…</string>
-    <string name="servers_connection_available">Available, Ping: %1$d ms</string>
-    <string name="servers_connection_unavailable">Unavailable, %1$s</string>
-    <string name="servers_edit_dialog_auth_method_password">Password Authentication</string>
-    <string name="servers_edit_dialog_auth_method_key">Private Key Authentication</string>
-    <string name="servers_edit_dialog_auth_action_ask_password">Ask for password</string>
-    <string name="servers_edit_dialog_auth_action_save_password">Save password</string>
-    <string name="servers_edit_dialog_auth_action_ask_passphrase">Ask for passphrase</string>
-    <string name="servers_edit_dialog_auth_action_save_passphrase">Save passphrase</string>
-    <string name="servers_toolbar_title">Cloud &amp; Servers</string>
-    <string name="servers_category_ftp_servers">FTP(S) Servers</string>
-    <string name="servers_add_dialog_title">Add Server</string>
-    <string name="servers_edit_dialog_title">Edit Server</string>
+    <string name="hint_server_name">Server Name</string>
+    <string name="hint_server_address">Server Address</string>
+    <string name="hint_initial_dir">Initial Folder</string>
+    <string name="hint_port">Port</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_passphrase">Passphrase</string>
+    <string name="hint_key_file">Key File</string>
+    <string name="hint_required">Required</string>
+    <string name="server_ftp">FTP</string>
+    <string name="server_ftps">FTPS (FTP over TLS/SSL)</string>
+    <string name="server_ftpes">FTPES (Explicit FTPS)</string>
+    <string name="server_sftp">SFTP</string>
+    <string name="connection_checking">Checking…</string>
+    <string name="connection_available">Available, Ping: %1$d ms</string>
+    <string name="connection_unavailable">Unavailable, %1$s</string>
+    <string name="auth_method_password">Password Authentication</string>
+    <string name="auth_method_key">Private Key Authentication</string>
+    <string name="ask_for_password">Ask for password</string>
+    <string name="save_password">Save password</string>
+    <string name="ask_for_passphrase">Ask for passphrase</string>
+    <string name="save_passphrase">Save passphrase</string>
+    <string name="pref_header_cloud_title">Cloud &amp; Servers</string>
+    <string name="pref_category_servers">FTP(S) Servers</string>
+    <string name="pref_add_server_title">Add Server</string>
+    <string name="pref_edit_server_title">Edit Server</string>
 </resources>
