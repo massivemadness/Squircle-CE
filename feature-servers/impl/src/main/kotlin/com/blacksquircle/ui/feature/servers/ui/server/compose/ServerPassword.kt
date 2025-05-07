@@ -36,7 +36,7 @@ internal fun ServerPassword(
 ) {
     TextField(
         inputText = password,
-        labelText = stringResource(R.string.hint_password),
+        labelText = stringResource(R.string.servers_edit_dialog_input_password_label),
         keyboardOptions = KeyboardOptions(
             autoCorrectEnabled = false,
             keyboardType = KeyboardType.Password,

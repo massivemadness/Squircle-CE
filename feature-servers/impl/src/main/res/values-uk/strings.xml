@@ -15,27 +15,26 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="hint_server_name">Назва сервера</string>
-    <string name="hint_server_address">Адреса сервера</string>
-    <string name="hint_initial_dir">Початкова папка</string>
-    <string name="hint_port">Порт</string>
-    <string name="hint_username">Ім\'я користувача</string>
-    <string name="hint_password">Пароль</string>
-    <string name="hint_passphrase">Кодова фраза</string>
-    <string name="hint_key_file">Ключовий файл</string>
-    <string name="hint_required">Обов\'язково</string>
-    <string name="server_ftp">FTP</string>
-    <string name="server_ftps">FTPS (FTP через TLS/SSL)</string>
-    <string name="server_ftpes">FTPES (явний FTPS)</string>
-    <string name="server_sftp">SFTP</string>
-    <string name="auth_method_password">Авторизація за паролем</string>
-    <string name="auth_method_key">Авторизація приватним ключем</string>
-    <string name="ask_for_password">Запитувати пароль</string>
-    <string name="save_password">Зберегти пароль</string>
-    <string name="ask_for_passphrase">Запитувати фразу-пароль</string>
-    <string name="save_passphrase">Зберегти фразу-пароль</string>
-    <string name="pref_header_cloud_title">Хмарне зберігання</string>
-    <string name="pref_category_servers">FTP(S) Сервери</string>
-    <string name="pref_add_server_title">Додати сервер</string>
-    <string name="pref_edit_server_title">Редагувати сервер</string>
+    <string name="servers_edit_dialog_input_name_label">Назва сервера</string>
+    <string name="servers_edit_dialog_input_address_label">Адреса сервера</string>
+    <string name="servers_edit_dialog_input_initialdir_label">Початкова папка</string>
+    <string name="servers_edit_dialog_input_port_label">Порт</string>
+    <string name="servers_edit_dialog_input_username_label">Ім\'я користувача</string>
+    <string name="servers_edit_dialog_input_password_label">Пароль</string>
+    <string name="servers_edit_dialog_input_passphrase_label">Кодова фраза</string>
+    <string name="servers_edit_dialog_input_keyfile_label">Ключовий файл</string>
+    <string name="servers_edit_dialog_scheme_ftp">FTP</string>
+    <string name="servers_edit_dialog_scheme_ftps">FTPS (FTP через TLS/SSL)</string>
+    <string name="servers_edit_dialog_scheme_ftpes">FTPES (явний FTPS)</string>
+    <string name="servers_edit_dialog_scheme_sftp">SFTP</string>
+    <string name="servers_edit_dialog_auth_method_password">Авторизація за паролем</string>
+    <string name="servers_edit_dialog_auth_method_key">Авторизація приватним ключем</string>
+    <string name="servers_edit_dialog_auth_action_ask_password">Запитувати пароль</string>
+    <string name="servers_edit_dialog_auth_action_save_password">Зберегти пароль</string>
+    <string name="servers_edit_dialog_auth_action_ask_passphrase">Запитувати фразу-пароль</string>
+    <string name="servers_edit_dialog_auth_action_save_passphrase">Зберегти фразу-пароль</string>
+    <string name="servers_toolbar_title">Хмарне зберігання</string>
+    <string name="servers_category_ftp_servers">FTP(S) Сервери</string>
+    <string name="servers_add_dialog_title">Додати сервер</string>
+    <string name="servers_edit_dialog_title">Редагувати сервер</string>
 </resources>

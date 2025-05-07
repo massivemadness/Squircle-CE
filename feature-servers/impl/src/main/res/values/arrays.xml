@@ -18,25 +18,25 @@
 <resources>
 
     <string-array name="server_type">
-        <item>@string/server_ftp</item>
-        <item>@string/server_ftps</item>
-        <item>@string/server_ftpes</item>
-        <item>@string/server_sftp</item>
+        <item>@string/servers_edit_dialog_scheme_ftp</item>
+        <item>@string/servers_edit_dialog_scheme_ftps</item>
+        <item>@string/servers_edit_dialog_scheme_ftpes</item>
+        <item>@string/servers_edit_dialog_scheme_sftp</item>
     </string-array>
 
     <string-array name="passwordAction">
-        <item>@string/ask_for_password</item>
-        <item>@string/save_password</item>
+        <item>@string/servers_edit_dialog_auth_action_ask_password</item>
+        <item>@string/servers_edit_dialog_auth_action_save_password</item>
     </string-array>
 
     <string-array name="passphraseAction">
-        <item>@string/ask_for_passphrase</item>
-        <item>@string/save_passphrase</item>
+        <item>@string/servers_edit_dialog_auth_action_ask_passphrase</item>
+        <item>@string/servers_edit_dialog_auth_action_save_passphrase</item>
     </string-array>
 
     <string-array name="authMethod">
-        <item>@string/auth_method_password</item>
-        <item>@string/auth_method_key</item>
+        <item>@string/servers_edit_dialog_auth_method_password</item>
+        <item>@string/servers_edit_dialog_auth_method_key</item>
     </string-array>
 
 </resources>

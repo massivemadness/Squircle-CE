@@ -15,27 +15,26 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="hint_server_name">服务器名称</string>
-    <string name="hint_server_address">服务器地址</string>
-    <string name="hint_initial_dir">初始路径</string>
-    <string name="hint_port">端口</string>
-    <string name="hint_username">用户名</string>
-    <string name="hint_password">密码</string>
-    <string name="hint_passphrase">口令</string>
-    <string name="hint_key_file">密钥文件</string>
-    <string name="hint_required">必填项</string>
-    <string name="server_ftp">FTP</string>
-    <string name="server_ftps">FTPS (通过 TLS/SSL)</string>
-    <string name="server_ftpes">FTPES (显式 FTPS)</string>
-    <string name="server_sftp">SFTP</string>
-    <string name="auth_method_password">密码验证</string>
-    <string name="auth_method_key">私钥验证</string>
-    <string name="ask_for_password">询问密码</string>
-    <string name="save_password">保存密码</string>
-    <string name="ask_for_passphrase">询问口令</string>
-    <string name="save_passphrase">保存口令</string>
-    <string name="pref_header_cloud_title">云 &amp; 服务器</string>
-    <string name="pref_category_servers">FTP(S) 服务器</string>
-    <string name="pref_add_server_title">添加服务器</string>
-    <string name="pref_edit_server_title">编辑服务器</string>
+    <string name="servers_edit_dialog_input_name_label">服务器名称</string>
+    <string name="servers_edit_dialog_input_address_label">服务器地址</string>
+    <string name="servers_edit_dialog_input_initialdir_label">初始路径</string>
+    <string name="servers_edit_dialog_input_port_label">端口</string>
+    <string name="servers_edit_dialog_input_username_label">用户名</string>
+    <string name="servers_edit_dialog_input_password_label">密码</string>
+    <string name="servers_edit_dialog_input_passphrase_label">口令</string>
+    <string name="servers_edit_dialog_input_keyfile_label">密钥文件</string>
+    <string name="servers_edit_dialog_scheme_ftp">FTP</string>
+    <string name="servers_edit_dialog_scheme_ftps">FTPS (通过 TLS/SSL)</string>
+    <string name="servers_edit_dialog_scheme_ftpes">FTPES (显式 FTPS)</string>
+    <string name="servers_edit_dialog_scheme_sftp">SFTP</string>
+    <string name="servers_edit_dialog_auth_method_password">密码验证</string>
+    <string name="servers_edit_dialog_auth_method_key">私钥验证</string>
+    <string name="servers_edit_dialog_auth_action_ask_password">询问密码</string>
+    <string name="servers_edit_dialog_auth_action_save_password">保存密码</string>
+    <string name="servers_edit_dialog_auth_action_ask_passphrase">询问口令</string>
+    <string name="servers_edit_dialog_auth_action_save_passphrase">保存口令</string>
+    <string name="servers_toolbar_title">云 &amp; 服务器</string>
+    <string name="servers_category_ftp_servers">FTP(S) 服务器</string>
+    <string name="servers_add_dialog_title">添加服务器</string>
+    <string name="servers_edit_dialog_title">编辑服务器</string>
 </resources>

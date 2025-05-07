@@ -47,7 +47,7 @@ internal fun ServerAddress(
     Row(modifier) {
         TextField(
             inputText = address,
-            labelText = stringResource(R.string.hint_server_address),
+            labelText = stringResource(R.string.servers_edit_dialog_input_address_label),
             placeholderText = HINT_ADDRESS,
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next,
@@ -61,7 +61,7 @@ internal fun ServerAddress(
 
         TextField(
             inputText = port,
-            labelText = stringResource(R.string.hint_port),
+            labelText = stringResource(R.string.servers_edit_dialog_input_port_label),
             placeholderText = when (scheme) {
                 ServerType.FTP,
                 ServerType.FTPS,

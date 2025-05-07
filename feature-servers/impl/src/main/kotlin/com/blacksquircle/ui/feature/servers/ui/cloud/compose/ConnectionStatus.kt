@@ -102,13 +102,13 @@ internal fun ConnectionStatus(
         Text(
             text = when (status) {
                 is ServerStatus.Checking -> {
-                    stringResource(R.string.connection_checking)
+                    stringResource(R.string.servers_connection_checking)
                 }
                 is ServerStatus.Available -> {
-                    stringResource(R.string.connection_available, status.latency)
+                    stringResource(R.string.servers_connection_available, status.latency)
                 }
                 is ServerStatus.Unavailable -> {
-                    stringResource(R.string.connection_unavailable, status.message)
+                    stringResource(R.string.servers_connection_unavailable, status.message)
                 }
             },
             color = when (status) {

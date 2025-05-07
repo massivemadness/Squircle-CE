@@ -15,27 +15,26 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="hint_server_name">伺服器名稱</string>
-    <string name="hint_server_address">伺服器地址</string>
-    <string name="hint_initial_dir">初始資料夾</string>
-    <string name="hint_port">連接埠</string>
-    <string name="hint_username">使用者名稱</string>
-    <string name="hint_password">密碼</string>
-    <string name="hint_passphrase">複雜密碼</string>
-    <string name="hint_key_file">金鑰檔案</string>
-    <string name="hint_required">必要</string>
-    <string name="server_ftp">FTP</string>
-    <string name="server_ftps">FTPS (FTP over TLS/SSL)</string>
-    <string name="server_ftpes">FTPES (明確 FTPS)</string>
-    <string name="server_sftp">SFTP</string>
-    <string name="auth_method_password">密碼驗證</string>
-    <string name="auth_method_key">私人金鑰驗證</string>
-    <string name="ask_for_password">詢問密碼</string>
-    <string name="save_password">儲存密碼</string>
-    <string name="ask_for_passphrase">詢問複雜密碼</string>
-    <string name="save_passphrase">儲存複雜密碼</string>
-    <string name="pref_header_cloud_title">雲端 &amp; 伺服器</string>
-    <string name="pref_category_servers">FTP(S) 伺服器</string>
-    <string name="pref_add_server_title">添加伺服器</string>
-    <string name="pref_edit_server_title">編輯伺服器</string>
+    <string name="servers_edit_dialog_input_name_label">伺服器名稱</string>
+    <string name="servers_edit_dialog_input_address_label">伺服器地址</string>
+    <string name="servers_edit_dialog_input_initialdir_label">初始資料夾</string>
+    <string name="servers_edit_dialog_input_port_label">連接埠</string>
+    <string name="servers_edit_dialog_input_username_label">使用者名稱</string>
+    <string name="servers_edit_dialog_input_password_label">密碼</string>
+    <string name="servers_edit_dialog_input_passphrase_label">複雜密碼</string>
+    <string name="servers_edit_dialog_input_keyfile_label">金鑰檔案</string>
+    <string name="servers_edit_dialog_scheme_ftp">FTP</string>
+    <string name="servers_edit_dialog_scheme_ftps">FTPS (FTP over TLS/SSL)</string>
+    <string name="servers_edit_dialog_scheme_ftpes">FTPES (明確 FTPS)</string>
+    <string name="servers_edit_dialog_scheme_sftp">SFTP</string>
+    <string name="servers_edit_dialog_auth_method_password">密碼驗證</string>
+    <string name="servers_edit_dialog_auth_method_key">私人金鑰驗證</string>
+    <string name="servers_edit_dialog_auth_action_ask_password">詢問密碼</string>
+    <string name="servers_edit_dialog_auth_action_save_password">儲存密碼</string>
+    <string name="servers_edit_dialog_auth_action_ask_passphrase">詢問複雜密碼</string>
+    <string name="servers_edit_dialog_auth_action_save_passphrase">儲存複雜密碼</string>
+    <string name="servers_toolbar_title">雲端 &amp; 伺服器</string>
+    <string name="servers_category_ftp_servers">FTP(S) 伺服器</string>
+    <string name="servers_add_dialog_title">添加伺服器</string>
+    <string name="servers_edit_dialog_title">編輯伺服器</string>
 </resources>

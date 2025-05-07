@@ -15,30 +15,29 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="hint_server_name">Имя сервера</string>
-    <string name="hint_server_address">Адрес сервера</string>
-    <string name="hint_initial_dir">Папка по-умолчанию</string>
-    <string name="hint_port">Порт</string>
-    <string name="hint_username">Имя пользователя</string>
-    <string name="hint_password">Пароль</string>
-    <string name="hint_passphrase">Фраза-пароль</string>
-    <string name="hint_key_file">Файл ключа</string>
-    <string name="hint_required">Обязательно</string>
-    <string name="server_ftp">FTP</string>
-    <string name="server_ftps">FTPS (FTP через TLS/SSL)</string>
-    <string name="server_ftpes">FTPES (явный FTPS)</string>
-    <string name="server_sftp">SFTP</string>
-    <string name="connection_checking">Проверка…</string>
-    <string name="connection_available">Доступен, пинг: %1$d мс</string>
-    <string name="connection_unavailable">Недоступен, %1$s</string>
-    <string name="auth_method_password">Авторизация по паролю</string>
-    <string name="auth_method_key">Авторизация приватным ключом</string>
-    <string name="ask_for_password">Спрашивать пароль</string>
-    <string name="save_password">Запомнить пароль</string>
-    <string name="ask_for_passphrase">Спрашивать фразу-пароль</string>
-    <string name="save_passphrase">Запомнить фразу-пароль</string>
-    <string name="pref_header_cloud_title">Облачное хранение</string>
-    <string name="pref_category_servers">FTP(S) Сервера</string>
-    <string name="pref_add_server_title">Добавить сервер</string>
-    <string name="pref_edit_server_title">Изменить сервер</string>
+    <string name="servers_edit_dialog_input_name_label">Имя сервера</string>
+    <string name="servers_edit_dialog_input_address_label">Адрес сервера</string>
+    <string name="servers_edit_dialog_input_initialdir_label">Папка по-умолчанию</string>
+    <string name="servers_edit_dialog_input_port_label">Порт</string>
+    <string name="servers_edit_dialog_input_username_label">Имя пользователя</string>
+    <string name="servers_edit_dialog_input_password_label">Пароль</string>
+    <string name="servers_edit_dialog_input_passphrase_label">Фраза-пароль</string>
+    <string name="servers_edit_dialog_input_keyfile_label">Файл ключа</string>
+    <string name="servers_edit_dialog_scheme_ftp">FTP</string>
+    <string name="servers_edit_dialog_scheme_ftps">FTPS (FTP через TLS/SSL)</string>
+    <string name="servers_edit_dialog_scheme_ftpes">FTPES (явный FTPS)</string>
+    <string name="servers_edit_dialog_scheme_sftp">SFTP</string>
+    <string name="servers_connection_checking">Проверка…</string>
+    <string name="servers_connection_available">Доступен, пинг: %1$d мс</string>
+    <string name="servers_connection_unavailable">Недоступен, %1$s</string>
+    <string name="servers_edit_dialog_auth_method_password">Авторизация по паролю</string>
+    <string name="servers_edit_dialog_auth_method_key">Авторизация приватным ключом</string>
+    <string name="servers_edit_dialog_auth_action_ask_password">Спрашивать пароль</string>
+    <string name="servers_edit_dialog_auth_action_save_password">Запомнить пароль</string>
+    <string name="servers_edit_dialog_auth_action_ask_passphrase">Спрашивать фразу-пароль</string>
+    <string name="servers_edit_dialog_auth_action_save_passphrase">Запомнить фразу-пароль</string>
+    <string name="servers_toolbar_title">Облачное хранение</string>
+    <string name="servers_category_ftp_servers">FTP(S) Сервера</string>
+    <string name="servers_add_dialog_title">Добавить сервер</string>
+    <string name="servers_edit_dialog_title">Изменить сервер</string>
 </resources>

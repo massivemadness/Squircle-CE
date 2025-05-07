@@ -15,30 +15,29 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="hint_server_name">Sunucu Adı</string>
-    <string name="hint_server_address">Sunucu Adresi</string>
-    <string name="hint_initial_dir">Açılış Dizini</string>
-    <string name="hint_port">Bağlantı Noktası</string>
-    <string name="hint_username">Kullanıcı Adı</string>
-    <string name="hint_password">Şifre</string>
-    <string name="hint_passphrase">Parola</string>
-    <string name="hint_key_file">Anahtar Dosyası</string>
-    <string name="hint_required">Gerekli</string>
-    <string name="server_ftp">FTP</string>
-    <string name="server_ftps">FTPS (FTP üzerinde TLS/SSL)</string>
-    <string name="server_ftpes">FTPES (Açık FTPS)</string>
-    <string name="server_sftp">SFTP</string>
-    <string name="connection_checking">Kontrol ediliyor…</string>
-    <string name="connection_available">Mevcut, Ping: %1$d ms</string>
-    <string name="connection_unavailable">Mevcut değil, %1$s</string>
-    <string name="auth_method_password">Şifre doğrulaması</string>
-    <string name="auth_method_key">Özel Anahtar Doğrulaması</string>
-    <string name="ask_for_password">Şifreyi sor</string>
-    <string name="save_password">Şifreyi kaydet</string>
-    <string name="ask_for_passphrase">Parolayı sor</string>
-    <string name="save_passphrase">Parolayı kaydet</string>
-    <string name="pref_header_cloud_title">Bulut &amp; Sunucuları</string>
-    <string name="pref_category_servers">FTP(S) Sunucuları</string>
-    <string name="pref_add_server_title">Sunucu Ekle</string>
-    <string name="pref_edit_server_title">Sunucuyu Düzenle</string>
+    <string name="servers_edit_dialog_input_name_label">Sunucu Adı</string>
+    <string name="servers_edit_dialog_input_address_label">Sunucu Adresi</string>
+    <string name="servers_edit_dialog_input_initialdir_label">Açılış Dizini</string>
+    <string name="servers_edit_dialog_input_port_label">Bağlantı Noktası</string>
+    <string name="servers_edit_dialog_input_username_label">Kullanıcı Adı</string>
+    <string name="servers_edit_dialog_input_password_label">Şifre</string>
+    <string name="servers_edit_dialog_input_passphrase_label">Parola</string>
+    <string name="servers_edit_dialog_input_keyfile_label">Anahtar Dosyası</string>
+    <string name="servers_edit_dialog_scheme_ftp">FTP</string>
+    <string name="servers_edit_dialog_scheme_ftps">FTPS (FTP üzerinde TLS/SSL)</string>
+    <string name="servers_edit_dialog_scheme_ftpes">FTPES (Açık FTPS)</string>
+    <string name="servers_edit_dialog_scheme_sftp">SFTP</string>
+    <string name="servers_connection_checking">Kontrol ediliyor…</string>
+    <string name="servers_connection_available">Mevcut, Ping: %1$d ms</string>
+    <string name="servers_connection_unavailable">Mevcut değil, %1$s</string>
+    <string name="servers_edit_dialog_auth_method_password">Şifre doğrulaması</string>
+    <string name="servers_edit_dialog_auth_method_key">Özel Anahtar Doğrulaması</string>
+    <string name="servers_edit_dialog_auth_action_ask_password">Şifreyi sor</string>
+    <string name="servers_edit_dialog_auth_action_save_password">Şifreyi kaydet</string>
+    <string name="servers_edit_dialog_auth_action_ask_passphrase">Parolayı sor</string>
+    <string name="servers_edit_dialog_auth_action_save_passphrase">Parolayı kaydet</string>
+    <string name="servers_toolbar_title">Bulut &amp; Sunucuları</string>
+    <string name="servers_category_ftp_servers">FTP(S) Sunucuları</string>
+    <string name="servers_add_dialog_title">Sunucu Ekle</string>
+    <string name="servers_edit_dialog_title">Sunucuyu Düzenle</string>
 </resources>

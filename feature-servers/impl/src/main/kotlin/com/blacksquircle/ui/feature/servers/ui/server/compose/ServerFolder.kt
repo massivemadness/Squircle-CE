@@ -32,7 +32,7 @@ internal fun ServerFolder(
 ) {
     TextField(
         inputText = initialDir,
-        labelText = stringResource(R.string.hint_initial_dir),
+        labelText = stringResource(R.string.servers_edit_dialog_input_initialdir_label),
         onInputChanged = onInitialDirChanged,
         modifier = modifier,
     )

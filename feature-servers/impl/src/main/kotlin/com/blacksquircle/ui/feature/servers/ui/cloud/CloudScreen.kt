@@ -99,7 +99,7 @@ private fun CloudScreen(
     ScaffoldSuite(
         topBar = {
             Toolbar(
-                title = stringResource(R.string.pref_header_cloud_title),
+                title = stringResource(R.string.servers_toolbar_title),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
             )
@@ -112,7 +112,7 @@ private fun CloudScreen(
         ) {
             item {
                 PreferenceGroup(
-                    title = stringResource(R.string.pref_category_servers)
+                    title = stringResource(R.string.servers_category_ftp_servers)
                 )
             }
             items(
@@ -133,7 +133,7 @@ private fun CloudScreen(
             }
             item {
                 Preference(
-                    title = stringResource(R.string.pref_add_server_title),
+                    title = stringResource(R.string.servers_add_dialog_title),
                     onClick = onCreateClicked,
                 )
             }

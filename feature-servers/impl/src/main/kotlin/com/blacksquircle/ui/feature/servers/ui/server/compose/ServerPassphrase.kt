@@ -36,7 +36,7 @@ internal fun ServerPassphrase(
 ) {
     TextField(
         inputText = passphrase,
-        labelText = stringResource(R.string.hint_passphrase),
+        labelText = stringResource(R.string.servers_edit_dialog_input_passphrase_label),
         keyboardOptions = KeyboardOptions(
             autoCorrectEnabled = false,
             keyboardType = KeyboardType.Password,

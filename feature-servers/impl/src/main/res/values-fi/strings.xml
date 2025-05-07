@@ -15,30 +15,29 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="hint_server_name">Palvelimen nimi</string>
-    <string name="hint_server_address">Palvelimen osoite</string>
-    <string name="hint_initial_dir">Aloituskansio</string>
-    <string name="hint_port">Portti</string>
-    <string name="hint_username">Käyttäjänimi</string>
-    <string name="hint_password">Salasana</string>
-    <string name="hint_passphrase">Salalause</string>
-    <string name="hint_key_file">Avaintiedosto</string>
-    <string name="hint_required">Pakollinen</string>
-    <string name="server_ftp">FTP</string>
-    <string name="server_ftps">FTPS (FTP yli TLS/SSL)</string>
-    <string name="server_ftpes">FTPES (eksplisiittisen tilan FTPS)</string>
-    <string name="server_sftp">SFTP</string>
-    <string name="connection_checking">Tarkistetaan…</string>
-    <string name="connection_available">Saatavilla, ping: %1$d ms</string>
-    <string name="connection_unavailable">Ei saatavilla, %1$s</string>
-    <string name="auth_method_password">Tunnistautuminen salasanalla</string>
-    <string name="auth_method_key">Tunnistautuminen yksityisellä avaimella</string>
-    <string name="ask_for_password">Kysy salasanaa</string>
-    <string name="save_password">Tallenna salasana</string>
-    <string name="ask_for_passphrase">Kysy salalausetta</string>
-    <string name="save_passphrase">Tallenna salalause</string>
-    <string name="pref_header_cloud_title">Pilvi &amp; palvelimet</string>
-    <string name="pref_category_servers">FTP(S) palvelimet</string>
-    <string name="pref_add_server_title">Lisää palvelin</string>
-    <string name="pref_edit_server_title">Muokkaa palvelinta</string>
+    <string name="servers_edit_dialog_input_name_label">Palvelimen nimi</string>
+    <string name="servers_edit_dialog_input_address_label">Palvelimen osoite</string>
+    <string name="servers_edit_dialog_input_initialdir_label">Aloituskansio</string>
+    <string name="servers_edit_dialog_input_port_label">Portti</string>
+    <string name="servers_edit_dialog_input_username_label">Käyttäjänimi</string>
+    <string name="servers_edit_dialog_input_password_label">Salasana</string>
+    <string name="servers_edit_dialog_input_passphrase_label">Salalause</string>
+    <string name="servers_edit_dialog_input_keyfile_label">Avaintiedosto</string>
+    <string name="servers_edit_dialog_scheme_ftp">FTP</string>
+    <string name="servers_edit_dialog_scheme_ftps">FTPS (FTP yli TLS/SSL)</string>
+    <string name="servers_edit_dialog_scheme_ftpes">FTPES (eksplisiittisen tilan FTPS)</string>
+    <string name="servers_edit_dialog_scheme_sftp">SFTP</string>
+    <string name="servers_connection_checking">Tarkistetaan…</string>
+    <string name="servers_connection_available">Saatavilla, ping: %1$d ms</string>
+    <string name="servers_connection_unavailable">Ei saatavilla, %1$s</string>
+    <string name="servers_edit_dialog_auth_method_password">Tunnistautuminen salasanalla</string>
+    <string name="servers_edit_dialog_auth_method_key">Tunnistautuminen yksityisellä avaimella</string>
+    <string name="servers_edit_dialog_auth_action_ask_password">Kysy salasanaa</string>
+    <string name="servers_edit_dialog_auth_action_save_password">Tallenna salasana</string>
+    <string name="servers_edit_dialog_auth_action_ask_passphrase">Kysy salalausetta</string>
+    <string name="servers_edit_dialog_auth_action_save_passphrase">Tallenna salalause</string>
+    <string name="servers_toolbar_title">Pilvi &amp; palvelimet</string>
+    <string name="servers_category_ftp_servers">FTP(S) palvelimet</string>
+    <string name="servers_add_dialog_title">Lisää palvelin</string>
+    <string name="servers_edit_dialog_title">Muokkaa palvelinta</string>
 </resources>

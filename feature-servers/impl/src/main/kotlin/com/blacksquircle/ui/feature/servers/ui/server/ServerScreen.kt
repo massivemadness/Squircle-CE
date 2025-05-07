@@ -138,9 +138,9 @@ private fun ServerScreen(
 ) {
     AlertDialog(
         title = if (viewState.isEditMode) {
-            stringResource(R.string.pref_edit_server_title)
+            stringResource(R.string.servers_edit_dialog_title)
         } else {
-            stringResource(R.string.pref_add_server_title)
+            stringResource(R.string.servers_add_dialog_title)
         },
         content = {
             Column {

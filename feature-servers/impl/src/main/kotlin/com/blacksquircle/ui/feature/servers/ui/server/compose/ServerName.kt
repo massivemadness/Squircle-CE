@@ -35,7 +35,7 @@ internal fun ServerName(
 ) {
     TextField(
         inputText = name,
-        labelText = stringResource(R.string.hint_server_name),
+        labelText = stringResource(R.string.servers_edit_dialog_input_name_label),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next,
         ),

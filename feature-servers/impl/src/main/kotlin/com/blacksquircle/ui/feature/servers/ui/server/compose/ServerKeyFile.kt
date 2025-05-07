@@ -36,7 +36,7 @@ internal fun ServerKeyFile(
 ) {
     TextField(
         inputText = keyId,
-        labelText = stringResource(R.string.hint_key_file),
+        labelText = stringResource(R.string.servers_edit_dialog_input_keyfile_label),
         readOnly = true,
         endContent = {
             IconButton(
