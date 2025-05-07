@@ -17,14 +17,13 @@
 
 <resources>
 
-    <string name="label_fonts">Fonts</string>
+    <string name="fonts_toolbar_title">Fonts</string>
 
-    <string name="action_remove">Remove</string>
+    <string name="fonts_item_text" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
+    <string name="fonts_item_button_remove">Remove</string>
 
-    <string name="message_selected">Selected «%1$s»</string>
-    <string name="message_new_font_available">New font available</string>
-    <string name="message_font_removed">Font «%1$s» removed</string>
-
-    <string name="font_panagram" translatable="false">the quick brown fox jumps over the lazy dog\n1234567890.:,;\'(!?) +-*/=</string>
+    <string name="fonts_toast_font_selected">Selected «%1$s»</string>
+    <string name="fonts_toast_font_removed">Font «%1$s» removed</string>
+    <string name="fonts_toast_font_added">New font available</string>
 
 </resources>

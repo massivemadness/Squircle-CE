@@ -121,7 +121,7 @@ private fun ThemesScreen(
                 mutableStateOf(false)
             }
             Toolbar(
-                title = stringResource(R.string.label_themes),
+                title = stringResource(R.string.themes_toolbar_title),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
                 navigationActions = {

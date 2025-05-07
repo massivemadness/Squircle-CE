@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="label_themes">Teemat</string>
-    <string name="action_remove">Poista</string>
-    <string name="message_selected">Valittu «%1$s»</string>
-    <string name="message_theme_removed">Teema «%1$s» poistettu</string>
+    <string name="themes_toolbar_title">Teemat</string>
+    <string name="themes_item_button_remove">Poista</string>
+    <string name="themes_toast_theme_selected">Valittu «%1$s»</string>
+    <string name="themes_toast_theme_removed">Teema «%1$s» poistettu</string>
 </resources>

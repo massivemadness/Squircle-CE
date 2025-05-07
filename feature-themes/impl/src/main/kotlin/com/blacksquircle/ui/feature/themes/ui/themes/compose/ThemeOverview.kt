@@ -96,7 +96,7 @@ internal fun ThemeOverview(
                     IconButton(
                         iconResId = UiR.drawable.ic_close,
                         iconButtonStyle = IconButtonStyleDefaults.Secondary,
-                        contentDescription = stringResource(R.string.action_remove),
+                        contentDescription = stringResource(R.string.themes_item_button_remove),
                         onClick = onRemoveClicked,
                     )
                 }

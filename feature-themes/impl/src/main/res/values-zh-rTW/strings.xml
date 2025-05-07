@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="label_themes">主題</string>
-    <string name="action_remove">移除</string>
-    <string name="message_selected">已選擇 «%1$s»</string>
-    <string name="message_theme_removed">主題 «%1$s» 已移除</string>
+    <string name="themes_toolbar_title">主題</string>
+    <string name="themes_item_button_remove">移除</string>
+    <string name="themes_toast_theme_selected">已選擇 «%1$s»</string>
+    <string name="themes_toast_theme_removed">主題 «%1$s» 已移除</string>
 </resources>

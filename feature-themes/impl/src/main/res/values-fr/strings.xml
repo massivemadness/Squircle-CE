@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="label_themes">Thèmes</string>
-    <string name="action_remove">Retirer</string>
-    <string name="message_selected">«%1$s» sélectionné</string>
-    <string name="message_theme_removed">Thème «%1$s» retiré</string>
+    <string name="themes_toolbar_title">Thèmes</string>
+    <string name="themes_item_button_remove">Retirer</string>
+    <string name="themes_toast_theme_selected">«%1$s» sélectionné</string>
+    <string name="themes_toast_theme_removed">Thème «%1$s» retiré</string>
 </resources>

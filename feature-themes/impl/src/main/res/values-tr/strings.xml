@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="label_themes">Temalar</string>
-    <string name="action_remove">Kaldır</string>
-    <string name="message_selected">Seçildi «%1$s»</string>
-    <string name="message_theme_removed">«%1$s» teması silindi</string>
+    <string name="themes_toolbar_title">Temalar</string>
+    <string name="themes_item_button_remove">Kaldır</string>
+    <string name="themes_toast_theme_selected">Seçildi «%1$s»</string>
+    <string name="themes_toast_theme_removed">«%1$s» teması silindi</string>
 </resources>

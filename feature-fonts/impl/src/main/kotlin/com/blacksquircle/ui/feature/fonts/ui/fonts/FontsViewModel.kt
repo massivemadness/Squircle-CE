@@ -88,7 +88,7 @@ internal class FontsViewModel @Inject constructor(
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(
-                            R.string.message_selected,
+                            R.string.fonts_toast_font_selected,
                             fontModel.name,
                         ),
                     ),
@@ -117,7 +117,7 @@ internal class FontsViewModel @Inject constructor(
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(
-                            R.string.message_font_removed,
+                            R.string.fonts_toast_font_removed,
                             fontModel.name,
                         ),
                     ),
@@ -147,7 +147,7 @@ internal class FontsViewModel @Inject constructor(
                     it.copy(searchQuery = "")
                 }
                 _viewEvent.send(
-                    ViewEvent.Toast(stringProvider.getString(R.string.message_new_font_available)),
+                    ViewEvent.Toast(stringProvider.getString(R.string.fonts_toast_font_added)),
                 )
                 loadFonts()
             } catch (e: CancellationException) {

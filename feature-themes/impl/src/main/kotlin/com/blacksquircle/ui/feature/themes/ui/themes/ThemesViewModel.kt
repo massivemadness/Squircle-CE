@@ -94,7 +94,7 @@ internal class ThemesViewModel @Inject constructor(
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(
-                            R.string.message_selected,
+                            R.string.themes_toast_theme_selected,
                             themeModel.name,
                         ),
                     ),
@@ -125,7 +125,7 @@ internal class ThemesViewModel @Inject constructor(
                 _viewEvent.send(
                     ViewEvent.Toast(
                         stringProvider.getString(
-                            R.string.message_theme_removed,
+                            R.string.themes_toast_theme_removed,
                             themeModel.name,
                         ),
                     ),

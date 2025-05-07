@@ -15,9 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="label_fonts">Шрифти</string>
-    <string name="action_remove">Видалити</string>
-    <string name="message_selected">Вибрано «%1$s»</string>
-    <string name="message_new_font_available">Доступний новий шрифт</string>
-    <string name="message_font_removed">Шрифт «%1$s» видалено</string>
+    <string name="fonts_toolbar_title">Шрифти</string>
+    <string name="fonts_item_button_remove">Видалити</string>
+    <string name="fonts_toast_font_selected">Вибрано «%1$s»</string>
+    <string name="fonts_toast_font_added">Доступний новий шрифт</string>
+    <string name="fonts_toast_font_removed">Шрифт «%1$s» видалено</string>
 </resources>

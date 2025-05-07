@@ -84,14 +84,14 @@ internal fun FontOverview(
                 IconButton(
                     iconResId = UiR.drawable.ic_close,
                     iconButtonStyle = IconButtonStyleDefaults.Secondary,
-                    contentDescription = stringResource(R.string.action_remove),
+                    contentDescription = stringResource(R.string.fonts_item_button_remove),
                     onClick = onRemoveClicked,
                 )
             }
         }
 
         Text(
-            text = stringResource(R.string.font_panagram),
+            text = stringResource(R.string.fonts_item_text),
             color = SquircleTheme.colors.colorTextAndIconPrimary,
             style = TextStyle(
                 fontFamily = FontFamily(fontModel.typeface),

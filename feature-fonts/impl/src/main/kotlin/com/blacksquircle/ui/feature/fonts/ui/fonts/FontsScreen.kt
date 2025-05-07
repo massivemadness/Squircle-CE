@@ -147,7 +147,7 @@ private fun FontsScreen(
                 mutableStateOf(false)
             }
             Toolbar(
-                title = stringResource(R.string.label_fonts),
+                title = stringResource(R.string.fonts_toolbar_title),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
                 navigationActions = {

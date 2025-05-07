@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="label_themes">Теми</string>
-    <string name="action_remove">Видалити</string>
-    <string name="message_selected">Вибрано «%1$s»</string>
-    <string name="message_theme_removed">Тема «%1$s» видалена</string>
+    <string name="themes_toolbar_title">Теми</string>
+    <string name="themes_item_button_remove">Видалити</string>
+    <string name="themes_toast_theme_selected">Вибрано «%1$s»</string>
+    <string name="themes_toast_theme_removed">Тема «%1$s» видалена</string>
 </resources>
