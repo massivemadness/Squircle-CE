@@ -14,42 +14,33 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-
-    <string name="shortcuts_menu_restore">Restore defaults</string>
-
-    <string name="shortcuts_toolbar_title">Keybindings</string>
-
-    <string name="shortcuts_category_file">File Keybindings</string>
-    <string name="shortcuts_category_editor">Editor Keybindings</string>
-    <string name="shortcuts_category_tools">Tools Keybindings</string>
-
-    <string name="shortcuts_new_file_title">Neu</string>
-    <string name="shortcuts_open_file_title">Öffnen</string>
-    <string name="shortcuts_save_file_title">Speichern</string>
-    <string name="shortcuts_save_file_as_title">Speichern unter</string>
-    <string name="shortcuts_close_file_title">Schließen</string>
-
-    <string name="shortcuts_select_line_title">Zeile auswählen</string>
-    <string name="shortcuts_delete_line_title">Zeile löschen</string>
-    <string name="shortcuts_duplicate_line_title">Zeile duplizieren</string>
-    <string name="shortcuts_toggle_case_title">Toggle Case</string>
-    <string name="shortcuts_previous_word_title">Previous Word</string>
-    <string name="shortcuts_next_word_title">Next Word</string>
-    <string name="shortcuts_start_of_line_title">Start of Line</string>
-    <string name="shortcuts_end_of_line_title">End of Line</string>
-    <string name="shortcuts_undo_title">Undo</string>
-    <string name="shortcuts_redo_title">Redo</string>
-    <string name="shortcuts_find_title">Finden</string>
-    <string name="shortcuts_replace_title">Ersetzen</string>
-    <string name="shortcuts_goto_line_title">Gehe zu Zeile</string>
-
-    <string name="shortcuts_force_syntax_title">Force Syntax</string>
-    <string name="shortcuts_insert_color_title">Farbe einfügen</string>
-
-    <string name="shortcuts_conflict_dialog_message">This shortcut is already assigned to other actions. Do you want to remove the other assignments?</string>
-    <string name="shortcuts_assign_dialog_message">Press the new keybinding (must contain Ctrl or Alt)</string>
-    <string name="shortcuts_none_set">None set</string>
-
+    <string name="action_restore">Restore defaults</string>
+    <string name="pref_header_keybindings_title">Keybindings</string>
+    <string name="pref_category_file_keybindings">File Keybindings</string>
+    <string name="pref_category_editor_keybindings">Editor Keybindings</string>
+    <string name="pref_category_tools_keybindings">Tools Keybindings</string>
+    <string name="shortcut_new_file">Neu</string>
+    <string name="shortcut_open_file">Öffnen</string>
+    <string name="shortcut_save_file">Speichern</string>
+    <string name="shortcut_save_as">Speichern unter</string>
+    <string name="shortcut_close_file">Schließen</string>
+    <string name="shortcut_select_line">Zeile auswählen</string>
+    <string name="shortcut_delete_line">Zeile löschen</string>
+    <string name="shortcut_duplicate_line">Zeile duplizieren</string>
+    <string name="shortcut_toggle_case">Toggle Case</string>
+    <string name="shortcut_prev_word">Previous Word</string>
+    <string name="shortcut_next_word">Next Word</string>
+    <string name="shortcut_start_of_line">Start of Line</string>
+    <string name="shortcut_end_of_line">End of Line</string>
+    <string name="shortcut_undo">Undo</string>
+    <string name="shortcut_redo">Redo</string>
+    <string name="shortcut_find">Finden</string>
+    <string name="shortcut_replace">Ersetzen</string>
+    <string name="shortcut_goto_line">Gehe zu Zeile</string>
+    <string name="shortcut_force_syntax">Force Syntax</string>
+    <string name="shortcut_insert_color">Farbe einfügen</string>
+    <string name="shortcut_conflict">This shortcut is already assigned to other actions. Do you want to remove the other assignments?</string>
+    <string name="shortcut_press_key">Press the new keybinding (must contain Ctrl or Alt)</string>
+    <string name="shortcut_none">None set</string>
 </resources>
