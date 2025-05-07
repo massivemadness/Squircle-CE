@@ -22,6 +22,7 @@
         <item>C++</item>
         <item>C#</item>
         <item>CSS</item>
+        <item>Dockerfile</item>
         <item>Fortran</item>
         <item>Go</item>
         <item>Groovy</item>
@@ -35,6 +36,7 @@
         <item>LaTeX</item>
         <item>Lisp</item>
         <item>Lua</item>
+        <item>Makefile</item>
         <item>Markdown</item>
         <item>PHP</item>
         <item>Plain Text</item>
@@ -56,6 +58,7 @@
         <item>source.cpp</item>
         <item>source.cs</item>
         <item>source.css</item>
+        <item>source.dockerfile</item>
         <item>source.fortran</item>
         <item>source.go</item>
         <item>source.groovy</item>
@@ -69,6 +72,7 @@
         <item>text.tex</item>
         <item>source.lisp</item>
         <item>source.lua</item>
+        <item>source.makefile</item>
         <item>text.html.markdown</item>
         <item>source.php</item>
         <item>text.plain</item>
