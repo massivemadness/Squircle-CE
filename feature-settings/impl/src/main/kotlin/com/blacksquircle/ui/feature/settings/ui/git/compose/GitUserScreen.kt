@@ -48,13 +48,13 @@ internal fun GitUserScreen(
     var email by rememberSaveable { mutableStateOf(initialEmail) }
 
     AlertDialog(
-        title = stringResource(R.string.pref_git_user_title),
+        title = stringResource(R.string.settings_git_user_title),
         content = {
             Column {
                 TextField(
                     inputText = name,
                     onInputChanged = { name = it },
-                    labelText = stringResource(R.string.pref_git_user_name),
+                    labelText = stringResource(R.string.settings_git_user_input_name_label),
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Next,
                     ),
@@ -65,7 +65,7 @@ internal fun GitUserScreen(
                 TextField(
                     inputText = email,
                     onInputChanged = { email = it },
-                    labelText = stringResource(R.string.pref_git_user_email),
+                    labelText = stringResource(R.string.settings_git_user_input_email_label),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Email,
                     ),

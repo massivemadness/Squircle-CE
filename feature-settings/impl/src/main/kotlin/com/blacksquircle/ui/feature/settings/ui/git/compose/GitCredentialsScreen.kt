@@ -49,13 +49,13 @@ internal fun GitCredentialsScreen(
     var password by rememberSaveable { mutableStateOf(initialPassword) }
 
     AlertDialog(
-        title = stringResource(R.string.pref_git_credentials_title),
+        title = stringResource(R.string.settings_git_credentials_title),
         content = {
             Column {
                 TextField(
                     inputText = username,
                     onInputChanged = { username = it },
-                    labelText = stringResource(R.string.pref_git_credentials_username),
+                    labelText = stringResource(R.string.settings_git_credentials_input_username_label),
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Next,
                     ),
@@ -66,7 +66,7 @@ internal fun GitCredentialsScreen(
                 TextField(
                     inputText = password,
                     onInputChanged = { password = it },
-                    labelText = stringResource(R.string.pref_git_credentials_password),
+                    labelText = stringResource(R.string.settings_git_credentials_input_password_label),
                     keyboardOptions = KeyboardOptions(
                         autoCorrectEnabled = false,
                         keyboardType = KeyboardType.Password,

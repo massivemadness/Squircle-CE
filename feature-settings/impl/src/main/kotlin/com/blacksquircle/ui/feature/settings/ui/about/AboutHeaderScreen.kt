@@ -109,7 +109,7 @@ private fun AboutHeaderScreen(
     ScaffoldSuite(
         topBar = {
             Toolbar(
-                title = stringResource(R.string.pref_header_about_title),
+                title = stringResource(R.string.settings_header_about_title),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
             )
@@ -122,12 +122,12 @@ private fun AboutHeaderScreen(
                 .padding(contentPadding)
         ) {
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_about)
+                title = stringResource(R.string.settings_category_about)
             )
             Preference(
                 title = LocalContext.current.applicationName,
                 subtitle = stringResource(
-                    R.string.pref_about_summary,
+                    R.string.settings_about_subtitle,
                     LocalContext.current.appVersionName(),
                     LocalContext.current.versionCode,
                 ),
@@ -140,21 +140,21 @@ private fun AboutHeaderScreen(
                 },
             )
             Preference(
-                title = stringResource(R.string.pref_privacy_policy_title),
+                title = stringResource(R.string.settings_privacy_policy_title),
                 onClick = onPrivacyClicked,
             )
             HorizontalDivider()
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_contribute)
+                title = stringResource(R.string.settings_category_contribute)
             )
             Preference(
-                title = stringResource(R.string.pref_translation_title),
-                subtitle = stringResource(R.string.pref_translation_summary),
+                title = stringResource(R.string.settings_translation_title),
+                subtitle = stringResource(R.string.settings_translation_subtitle),
                 onClick = onTranslationClicked,
             )
             Preference(
-                title = stringResource(R.string.pref_contribute_title),
-                subtitle = stringResource(R.string.pref_contribute_summary),
+                title = stringResource(R.string.settings_contribute_title),
+                subtitle = stringResource(R.string.settings_contribute_subtitle),
                 onClick = onContributeClicked,
             )
         }
@@ -163,7 +163,7 @@ private fun AboutHeaderScreen(
 
 private fun Context.appVersionName(): String {
     return if (BuildConfig.DEBUG) {
-        this.versionName + getString(R.string.debug_suffix)
+        this.versionName + getString(R.string.settings_about_version_debug)
     } else {
         this.versionName
     }

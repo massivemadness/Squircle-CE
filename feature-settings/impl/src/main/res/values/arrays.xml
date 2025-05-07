@@ -18,9 +18,9 @@
 <resources>
 
     <string-array name="sort_mode_entries">
-        <item>@string/sort_by_name</item>
-        <item>@string/sort_by_size</item>
-        <item>@string/sort_by_date</item>
+        <item>@string/settings_sort_by_name</item>
+        <item>@string/settings_sort_by_size</item>
+        <item>@string/settings_sort_by_date</item>
     </string-array>
 
     <string-array name="sort_mode_values">
@@ -30,9 +30,9 @@
     </string-array>
 
     <string-array name="linebreak_entries">
-        <item>@string/linebreak_lf</item>
-        <item>@string/linebreak_crlf</item>
-        <item>@string/linebreak_cr</item>
+        <item>@string/settings_linebreak_lf</item>
+        <item>@string/settings_linebreak_crlf</item>
+        <item>@string/settings_linebreak_cr</item>
     </string-array>
 
     <string-array name="linebreak_values">

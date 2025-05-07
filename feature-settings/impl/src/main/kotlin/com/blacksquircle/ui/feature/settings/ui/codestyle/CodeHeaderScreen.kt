@@ -86,7 +86,7 @@ private fun CodeHeaderScreen(
     ScaffoldSuite(
         topBar = {
             Toolbar(
-                title = stringResource(R.string.pref_header_codeStyle_title),
+                title = stringResource(R.string.settings_header_codestyle_title),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
             )
@@ -99,33 +99,33 @@ private fun CodeHeaderScreen(
                 .padding(contentPadding)
         ) {
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_code_style)
+                title = stringResource(R.string.settings_category_code_style)
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_auto_indent_title),
-                subtitle = stringResource(R.string.pref_auto_indent_summary),
+                title = stringResource(R.string.settings_auto_indent_title),
+                subtitle = stringResource(R.string.settings_auto_indent_subtitle),
                 checked = viewState.autoIndentation,
                 onCheckedChange = onAutoIndentChanged,
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_auto_close_pairs_title),
-                subtitle = stringResource(R.string.pref_auto_close_pairs_summary),
+                title = stringResource(R.string.settings_auto_close_pairs_title),
+                subtitle = stringResource(R.string.settings_auto_close_pairs_subtitle),
                 checked = viewState.autoClosePairs,
                 onCheckedChange = onAutoClosePairsChanged,
             )
             HorizontalDivider()
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_tab_options)
+                title = stringResource(R.string.settings_category_tab_options)
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_use_spaces_not_tabs_title),
-                subtitle = stringResource(R.string.pref_use_spaces_not_tabs_summary),
+                title = stringResource(R.string.settings_use_spaces_not_tabs_title),
+                subtitle = stringResource(R.string.settings_use_spaces_not_tabs_subtitle),
                 checked = viewState.useSpacesInsteadOfTabs,
                 onCheckedChange = onUseSpacesChanged,
             )
             SliderPreference(
-                title = stringResource(R.string.pref_tab_width_title),
-                subtitle = stringResource(R.string.pref_tab_width_summary),
+                title = stringResource(R.string.settings_tab_width_title),
+                subtitle = stringResource(R.string.settings_tab_width_subtitle),
                 enabled = !viewState.useSpacesInsteadOfTabs,
                 minValue = 2f,
                 maxValue = 8f,

@@ -84,7 +84,7 @@ private fun HeaderListScreen(
     ScaffoldSuite(
         topBar = {
             Toolbar(
-                title = stringResource(R.string.label_settings),
+                title = stringResource(R.string.settings_toolbar_title),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
             )

@@ -100,7 +100,7 @@ private fun FilesHeaderScreen(
     ScaffoldSuite(
         topBar = {
             Toolbar(
-                title = stringResource(R.string.pref_header_files_title),
+                title = stringResource(R.string.settings_header_files_title),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
             )
@@ -113,26 +113,26 @@ private fun FilesHeaderScreen(
                 .padding(contentPadding)
         ) {
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_permissions)
+                title = stringResource(R.string.settings_category_permissions)
             )
             Preference(
-                title = stringResource(R.string.pref_storage_access_title),
-                subtitle = stringResource(R.string.pref_storage_access_summary),
+                title = stringResource(R.string.settings_storage_access_title),
+                subtitle = stringResource(R.string.settings_storage_access_subtitle),
                 onClick = onStorageAccessClicked,
             )
             HorizontalDivider()
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_encoding)
+                title = stringResource(R.string.settings_category_encoding)
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_encoding_auto_detect_title),
-                subtitle = stringResource(R.string.pref_encoding_auto_detect_summary),
+                title = stringResource(R.string.settings_encoding_auto_detect_title),
+                subtitle = stringResource(R.string.settings_encoding_auto_detect_subtitle),
                 checked = viewState.encodingAutoDetect,
                 onCheckedChange = onEncodingAutoDetectChanged,
             )
             ListPreference(
-                title = stringResource(R.string.pref_encoding_for_opening_title),
-                subtitle = stringResource(R.string.pref_encoding_for_opening_summary),
+                title = stringResource(R.string.settings_encoding_for_opening_title),
+                subtitle = stringResource(R.string.settings_encoding_for_opening_subtitle),
                 enabled = !viewState.encodingAutoDetect,
                 entries = viewState.encodingList.toTypedArray(),
                 entryValues = viewState.encodingList.toTypedArray(),
@@ -140,8 +140,8 @@ private fun FilesHeaderScreen(
                 onValueSelected = onEncodingForOpeningChanged,
             )
             ListPreference(
-                title = stringResource(R.string.pref_encoding_for_saving_title),
-                subtitle = stringResource(R.string.pref_encoding_for_saving_summary),
+                title = stringResource(R.string.settings_encoding_for_saving_title),
+                subtitle = stringResource(R.string.settings_encoding_for_saving_subtitle),
                 enabled = !viewState.encodingAutoDetect,
                 entries = viewState.encodingList.toTypedArray(),
                 entryValues = viewState.encodingList.toTypedArray(),
@@ -150,11 +150,11 @@ private fun FilesHeaderScreen(
             )
             HorizontalDivider()
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_linebreaks)
+                title = stringResource(R.string.settings_category_linebreaks)
             )
             ListPreference(
-                title = stringResource(R.string.pref_linebreaks_for_saving_files_title),
-                subtitle = stringResource(R.string.pref_linebreaks_for_saving_files_summary),
+                title = stringResource(R.string.settings_linebreaks_for_saving_files_title),
+                subtitle = stringResource(R.string.settings_linebreaks_for_saving_files_subtitle),
                 entries = stringArrayResource(R.array.linebreak_entries),
                 entryValues = stringArrayResource(R.array.linebreak_values),
                 selectedValue = viewState.lineBreakForSaving,
@@ -162,28 +162,28 @@ private fun FilesHeaderScreen(
             )
             HorizontalDivider()
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_file_manager)
+                title = stringResource(R.string.settings_category_file_manager)
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_show_hidden_files_title),
-                subtitle = stringResource(R.string.pref_show_hidden_files_summary),
+                title = stringResource(R.string.settings_show_hidden_files_title),
+                subtitle = stringResource(R.string.settings_show_hidden_files_subtitle),
                 checked = viewState.showHidden,
                 onCheckedChange = onShowHiddenChanged,
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_compact_packages_title),
-                subtitle = stringResource(R.string.pref_compact_packages_summary),
+                title = stringResource(R.string.settings_compact_packages_title),
+                subtitle = stringResource(R.string.settings_compact_packages_subtitle),
                 checked = viewState.compactPackages,
                 onCheckedChange = onCompactPackagesChanged,
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_folders_on_top_title),
-                subtitle = stringResource(R.string.pref_folders_on_top_summary),
+                title = stringResource(R.string.settings_folders_on_top_title),
+                subtitle = stringResource(R.string.settings_folders_on_top_subtitle),
                 checked = viewState.foldersOnTop,
                 onCheckedChange = onFoldersOnTopChanged,
             )
             ListPreference(
-                title = stringResource(R.string.pref_sort_mode_title),
+                title = stringResource(R.string.settings_sort_mode_title),
                 entryNameAsSubtitle = true,
                 entries = stringArrayResource(R.array.sort_mode_entries),
                 entryValues = stringArrayResource(R.array.sort_mode_values),

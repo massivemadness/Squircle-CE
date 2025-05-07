@@ -114,7 +114,7 @@ private fun EditorHeaderScreen(
     ScaffoldSuite(
         topBar = {
             Toolbar(
-                title = stringResource(R.string.pref_header_editor_title),
+                title = stringResource(R.string.settings_header_editor_title),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
             )
@@ -127,11 +127,11 @@ private fun EditorHeaderScreen(
                 .padding(contentPadding)
         ) {
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_code_style)
+                title = stringResource(R.string.settings_category_font)
             )
             SliderPreference(
-                title = stringResource(R.string.pref_font_size_title),
-                subtitle = stringResource(R.string.pref_font_size_summary),
+                title = stringResource(R.string.settings_font_size_title),
+                subtitle = stringResource(R.string.settings_font_size_subtitle),
                 minValue = 10f,
                 maxValue = 20f,
                 stepCount = 9,
@@ -141,104 +141,103 @@ private fun EditorHeaderScreen(
                 }
             )
             Preference(
-                title = stringResource(R.string.pref_font_type_title),
-                subtitle = stringResource(R.string.pref_font_type_summary),
+                title = stringResource(R.string.settings_font_type_title),
+                subtitle = stringResource(R.string.settings_font_type_subtitle),
                 onClick = onFontTypeClicked,
             )
             HorizontalDivider()
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_editor)
+                title = stringResource(R.string.settings_category_editor)
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_word_wrap_title),
-                subtitle = stringResource(R.string.pref_word_wrap_summary),
+                title = stringResource(R.string.settings_word_wrap_title),
+                subtitle = stringResource(R.string.settings_word_wrap_subtitle),
                 checked = viewState.wordWrap,
                 onCheckedChange = onWordWrapChanged,
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_code_completion_title),
-                subtitle = stringResource(R.string.pref_code_completion_summary),
+                title = stringResource(R.string.settings_code_completion_title),
+                subtitle = stringResource(R.string.settings_code_completion_subtitle),
                 checked = viewState.codeCompletion,
                 onCheckedChange = onCodeCompletionChanged,
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_pinch_zoom_title),
-                subtitle = stringResource(R.string.pref_pinch_zoom_summary),
+                title = stringResource(R.string.settings_pinch_zoom_title),
+                subtitle = stringResource(R.string.settings_pinch_zoom_subtitle),
                 checked = viewState.pinchZoom,
                 onCheckedChange = onPinchZoomChanged,
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_line_numbers_title),
-                subtitle = stringResource(R.string.pref_line_numbers_summary),
+                title = stringResource(R.string.settings_line_numbers_title),
+                subtitle = stringResource(R.string.settings_line_numbers_subtitle),
                 checked = viewState.lineNumbers,
                 onCheckedChange = onLineNumbersChanged,
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_highlight_line_title),
-                subtitle = stringResource(R.string.pref_highlight_line_summary),
+                title = stringResource(R.string.settings_highlight_line_title),
+                subtitle = stringResource(R.string.settings_highlight_line_subtitle),
                 checked = viewState.highlightCurrentLine,
                 onCheckedChange = onHighlightCurrentLineChanged,
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_highlight_delimiters_title),
-                subtitle = stringResource(R.string.pref_highlight_delimiters_summary),
+                title = stringResource(R.string.settings_highlight_delimiters_title),
+                subtitle = stringResource(R.string.settings_highlight_delimiters_subtitle),
                 checked = viewState.highlightMatchingDelimiters,
                 onCheckedChange = onHighlightMatchingDelimitersChanged,
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_highlight_block_title),
-                subtitle = stringResource(R.string.pref_highlight_block_summary),
+                title = stringResource(R.string.settings_highlight_block_title),
+                subtitle = stringResource(R.string.settings_highlight_block_subtitle),
                 checked = viewState.highlightCodeBlocks,
                 onCheckedChange = onHighlightCodeBlocksChanged,
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_invisible_chars_title),
-                subtitle = stringResource(R.string.pref_invisible_chars_summary),
+                title = stringResource(R.string.settings_invisible_chars_title),
+                subtitle = stringResource(R.string.settings_invisible_chars_subtitle),
                 checked = viewState.showInvisibleChars,
                 onCheckedChange = onShowInvisibleCharsChanged,
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_read_only_title),
-                subtitle = stringResource(R.string.pref_read_only_summary),
+                title = stringResource(R.string.settings_read_only_title),
+                subtitle = stringResource(R.string.settings_read_only_subtitle),
                 checked = viewState.readOnly,
                 onCheckedChange = onReadOnlyChanged,
             )
             HorizontalDivider()
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_tabs)
+                title = stringResource(R.string.settings_category_tabs)
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_auto_save_files_title),
-                subtitle = stringResource(R.string.pref_auto_save_files_summary),
+                title = stringResource(R.string.settings_auto_save_files_title),
+                subtitle = stringResource(R.string.settings_auto_save_files_subtitle),
                 checked = viewState.autoSaveFiles,
                 onCheckedChange = onAutoSaveFilesChanged,
             )
             HorizontalDivider()
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_keyboard)
+                title = stringResource(R.string.settings_category_keyboard)
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_extended_keyboard_title),
-                subtitle = stringResource(R.string.pref_extended_keyboard_summary),
+                title = stringResource(R.string.settings_extended_keyboard_title),
+                subtitle = stringResource(R.string.settings_extended_keyboard_subtitle),
                 checked = viewState.extendedKeyboard,
                 onCheckedChange = onExtendedKeyboardChanged,
             )
             TextFieldPreference(
-                title = stringResource(R.string.pref_keyboard_preset_title),
-                subtitle = stringResource(R.string.pref_keyboard_preset_summary),
+                title = stringResource(R.string.settings_keyboard_preset_title),
+                subtitle = stringResource(R.string.settings_keyboard_preset_subtitle),
                 enabled = viewState.extendedKeyboard,
                 confirmButton = stringResource(UiR.string.common_save),
-                dismissButton = stringResource(R.string.action_reset),
-                labelText = stringResource(R.string.hint_enter_preset_chars),
-                helpText = stringResource(R.string.message_preset_disclaimer),
+                dismissButton = stringResource(R.string.settings_keyboard_preset_button_reset),
+                labelText = stringResource(R.string.settings_keyboard_preset_input_label),
                 inputTextStyle = TextStyle(fontFamily = FontFamily.Monospace),
                 inputValue = viewState.keyboardPreset,
                 onConfirmClicked = onKeyboardPresetChanged,
                 onDismissClicked = onResetKeyboardClicked,
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_soft_keyboard_title),
-                subtitle = stringResource(R.string.pref_soft_keyboard_summary),
+                title = stringResource(R.string.settings_soft_keyboard_title),
+                subtitle = stringResource(R.string.settings_soft_keyboard_subtitle),
                 checked = viewState.softKeyboard,
                 onCheckedChange = onSoftKeyboardChanged,
             )

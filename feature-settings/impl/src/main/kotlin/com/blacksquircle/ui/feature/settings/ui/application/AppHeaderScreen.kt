@@ -84,7 +84,7 @@ private fun AppHeaderScreen(
     ScaffoldSuite(
         topBar = {
             Toolbar(
-                title = stringResource(R.string.pref_header_application_title),
+                title = stringResource(R.string.settings_header_application_title),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
             )
@@ -97,26 +97,26 @@ private fun AppHeaderScreen(
                 .padding(contentPadding)
         ) {
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_look_and_feel)
+                title = stringResource(R.string.settings_category_look_and_feel)
             )
             Preference(
-                title = stringResource(R.string.pref_color_scheme_title),
-                subtitle = stringResource(R.string.pref_color_scheme_summary),
+                title = stringResource(R.string.settings_color_scheme_title),
+                subtitle = stringResource(R.string.settings_color_scheme_subtitle),
                 onClick = onColorSchemeClicked,
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_fullscreen_title),
-                subtitle = stringResource(R.string.pref_fullscreen_summary),
+                title = stringResource(R.string.settings_fullscreen_title),
+                subtitle = stringResource(R.string.settings_fullscreen_subtitle),
                 checked = viewState.fullscreenMode,
                 onCheckedChange = onFullscreenChanged,
             )
             HorizontalDivider()
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_other)
+                title = stringResource(R.string.settings_category_other)
             )
             SwitchPreference(
-                title = stringResource(R.string.pref_confirm_exit_title),
-                subtitle = stringResource(R.string.pref_confirm_exit_summary),
+                title = stringResource(R.string.settings_confirm_exit_title),
+                subtitle = stringResource(R.string.settings_confirm_exit_subtitle),
                 checked = viewState.confirmExit,
                 onCheckedChange = onConfirmExitChanged,
             )

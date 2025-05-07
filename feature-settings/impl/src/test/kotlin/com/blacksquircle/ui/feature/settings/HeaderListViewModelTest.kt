@@ -52,8 +52,8 @@ class HeaderListViewModelTest {
     fun `When header clicked Then send popBackStack event`() = runTest {
         // Given
         val header = PreferenceHeader(
-            title = R.string.pref_header_application_title,
-            subtitle = R.string.pref_header_application_summary,
+            title = R.string.settings_header_application_title,
+            subtitle = R.string.settings_header_application_subtitle,
             selected = false,
             screen = AppHeaderScreen,
         )

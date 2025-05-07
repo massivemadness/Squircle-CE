@@ -85,7 +85,7 @@ private fun GitHeaderScreen(
     ScaffoldSuite(
         topBar = {
             Toolbar(
-                title = stringResource(R.string.pref_header_git_title),
+                title = stringResource(R.string.settings_header_git_title),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
             )
@@ -98,7 +98,7 @@ private fun GitHeaderScreen(
                 .padding(contentPadding)
         ) {
             PreferenceGroup(
-                title = stringResource(R.string.pref_category_account)
+                title = stringResource(R.string.settings_category_account)
             )
 
             var credentialsDialogShown by rememberSaveable { mutableStateOf(false) }
@@ -114,8 +114,8 @@ private fun GitHeaderScreen(
                 )
             }
             Preference(
-                title = stringResource(R.string.pref_git_credentials_title),
-                subtitle = stringResource(R.string.pref_git_credentials_summary),
+                title = stringResource(R.string.settings_git_credentials_title),
+                subtitle = stringResource(R.string.settings_git_credentials_subtitle),
                 onClick = { credentialsDialogShown = true },
             )
 
@@ -132,8 +132,8 @@ private fun GitHeaderScreen(
                 )
             }
             Preference(
-                title = stringResource(R.string.pref_git_user_title),
-                subtitle = stringResource(R.string.pref_git_user_summary),
+                title = stringResource(R.string.settings_git_user_title),
+                subtitle = stringResource(R.string.settings_git_user_subtitle),
                 onClick = { userDialogShown = true },
             )
         }
