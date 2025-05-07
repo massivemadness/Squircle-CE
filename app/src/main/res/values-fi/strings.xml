@@ -16,8 +16,8 @@
   -->
 <resources>
     <string name="app_splash_loading">Ladataan…</string>
-    <string name="app_update_dialog_button_install">Asenna</string>
-    <string name="app_update_dialog_button_later">Myöhemmin</string>
     <string name="app_update_dialog_title">Päivitys saatavilla</string>
     <string name="app_update_dialog_message">Sovelluksen uusi versio on saatavilla. Voit asentaa sen heti tai päivittää myöhemmin sovelluskaupastasi.</string>
+    <string name="app_update_dialog_button_install">Asenna</string>
+    <string name="app_update_dialog_button_later">Myöhemmin</string>
 </resources>
