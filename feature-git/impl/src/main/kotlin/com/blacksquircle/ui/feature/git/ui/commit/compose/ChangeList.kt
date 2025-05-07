@@ -51,7 +51,7 @@ internal fun ChangeList(
     modifier: Modifier = Modifier,
 ) {
     SelectionGroup(
-        labelText = stringResource(R.string.git_commit_uncommitted_changes),
+        labelText = stringResource(R.string.git_commit_dialog_selection_label),
         modifier = modifier,
     ) {
         itemsIndexed(changesList) { index, value ->
@@ -73,7 +73,7 @@ internal fun ChangeList(
                         .height(56.dp)
                 ) {
                     Text(
-                        text = stringResource(R.string.git_commit_no_changes),
+                        text = stringResource(R.string.git_commit_dialog_selection_empty),
                         style = SquircleTheme.typography.text16Regular,
                         color = SquircleTheme.colors.colorTextAndIconPrimary,
                     )
@@ -121,9 +121,9 @@ private fun ChangeItem(
 
             Text(
                 text = when (type) {
-                    ChangeType.ADDED -> stringResource(R.string.git_added)
-                    ChangeType.MODIFIED -> stringResource(R.string.git_modified)
-                    ChangeType.DELETED -> stringResource(R.string.git_deleted)
+                    ChangeType.ADDED -> stringResource(R.string.git_change_added)
+                    ChangeType.MODIFIED -> stringResource(R.string.git_change_modified)
+                    ChangeType.DELETED -> stringResource(R.string.git_change_deleted)
                 },
                 style = SquircleTheme.typography.text12Regular,
                 color = when (type) {

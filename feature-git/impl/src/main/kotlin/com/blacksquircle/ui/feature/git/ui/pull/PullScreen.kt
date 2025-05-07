@@ -84,13 +84,13 @@ private fun PullScreen(
     onBackClicked: () -> Unit = {},
 ) {
     AlertDialog(
-        title = stringResource(R.string.git_pull_title),
+        title = stringResource(R.string.git_pull_dialog_title),
         content = {
             Column {
                 when {
                     viewState.isPulling -> {
                         Text(
-                            text = stringResource(R.string.git_pull_pulling),
+                            text = stringResource(R.string.git_pull_dialog_message),
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
                             style = SquircleTheme.typography.text16Regular,
                         )
@@ -105,7 +105,7 @@ private fun PullScreen(
 
                     viewState.isError -> {
                         Text(
-                            text = stringResource(R.string.git_fatal, viewState.errorMessage),
+                            text = stringResource(R.string.git_error_fatal, viewState.errorMessage),
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
                             style = SquircleTheme.typography.text16Regular,
                         )

@@ -103,13 +103,13 @@ private fun CheckoutScreen(
     onBackClicked: () -> Unit = {},
 ) {
     AlertDialog(
-        title = stringResource(R.string.git_checkout_title),
+        title = stringResource(R.string.git_checkout_dialog_title),
         content = {
             Column {
                 when {
                     viewState.isChecking -> {
                         Text(
-                            text = stringResource(R.string.git_checkout_checking_out),
+                            text = stringResource(R.string.git_checkout_dialog_message),
                             style = SquircleTheme.typography.text16Regular,
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
                         )
@@ -135,7 +135,7 @@ private fun CheckoutScreen(
 
                     viewState.isError -> {
                         Text(
-                            text = stringResource(R.string.git_fatal, viewState.errorMessage),
+                            text = stringResource(R.string.git_error_fatal, viewState.errorMessage),
                             style = SquircleTheme.typography.text16Regular,
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
                         )
@@ -145,9 +145,9 @@ private fun CheckoutScreen(
                         TextField(
                             inputText = viewState.newBranchName,
                             onInputChanged = onBranchNameChanged,
-                            labelText = stringResource(R.string.git_checkout_branch_name),
+                            labelText = stringResource(R.string.git_checkout_dialog_input_label),
                             helpText = stringResource(
-                                R.string.git_checkout_branch_base,
+                                R.string.git_checkout_dialog_input_help,
                                 viewState.currentBranch
                             ),
                             modifier = Modifier.fillMaxWidth()
@@ -167,7 +167,7 @@ private fun CheckoutScreen(
                     Spacer(Modifier.height(8.dp))
 
                     CheckBox(
-                        title = stringResource(R.string.action_new_branch),
+                        title = stringResource(R.string.git_checkout_dialog_checkbox_new),
                         checked = viewState.isNewBranch,
                         onClick = onNewBranchClicked,
                     )
@@ -178,9 +178,9 @@ private fun CheckoutScreen(
         onDismissClicked = onBackClicked,
         onDismiss = onBackClicked,
         confirmButton = if (viewState.isNewBranch) {
-            stringResource(R.string.explorer_menu_selection_create)
+            stringResource(R.string.git_checkout_dialog_button_create)
         } else {
-            stringResource(R.string.action_checkout)
+            stringResource(R.string.git_checkout_dialog_button_checkout)
         },
         confirmButtonEnabled = viewState.isNewBranchButtonEnabled ||
             viewState.isCheckoutButtonEnabled,

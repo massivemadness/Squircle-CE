@@ -74,37 +74,37 @@ private fun GitScreen(
     onBackClicked: () -> Unit = {}
 ) {
     AlertDialog(
-        title = stringResource(R.string.label_git),
+        title = stringResource(R.string.git_dialog_title),
         horizontalPadding = false,
         content = {
             Column {
                 ActionLayout(
                     iconRes = UiR.drawable.ic_autorenew,
-                    title = stringResource(R.string.git_fetch_title),
+                    title = stringResource(R.string.git_fetch_dialog_title),
                     subtitle = stringResource(R.string.git_fetch_description),
                     onClick = onFetchClicked,
                 )
                 ActionLayout(
                     iconRes = UiR.drawable.ic_tray_arrow_down,
-                    title = stringResource(R.string.git_pull_title),
+                    title = stringResource(R.string.git_pull_dialog_title),
                     subtitle = stringResource(R.string.git_pull_description),
                     onClick = onPullClicked,
                 )
                 ActionLayout(
                     iconRes = UiR.drawable.ic_source_commit,
-                    title = stringResource(R.string.git_commit_title),
+                    title = stringResource(R.string.git_commit_dialog_title),
                     subtitle = stringResource(R.string.git_commit_description),
                     onClick = onCommitClicked,
                 )
                 ActionLayout(
                     iconRes = UiR.drawable.ic_tray_arrow_up,
-                    title = stringResource(R.string.git_push_title),
+                    title = stringResource(R.string.git_push_dialog_title),
                     subtitle = stringResource(R.string.git_push_description),
                     onClick = onPushClicked,
                 )
                 ActionLayout(
                     iconRes = UiR.drawable.ic_folder_data,
-                    title = stringResource(R.string.git_checkout_title),
+                    title = stringResource(R.string.git_checkout_dialog_title),
                     subtitle = stringResource(R.string.git_checkout_description),
                     onClick = onCheckoutClicked,
                 )

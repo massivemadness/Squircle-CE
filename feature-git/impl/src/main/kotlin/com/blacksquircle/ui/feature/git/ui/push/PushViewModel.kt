@@ -105,7 +105,7 @@ internal class PushViewModel @AssistedInject constructor(
                     _viewState.update {
                         it.copy(
                             isLoading = false,
-                            errorMessage = stringProvider.getString(R.string.git_push_no_commits)
+                            errorMessage = stringProvider.getString(R.string.git_push_dialog_message_empty)
                         )
                     }
                     return@launch

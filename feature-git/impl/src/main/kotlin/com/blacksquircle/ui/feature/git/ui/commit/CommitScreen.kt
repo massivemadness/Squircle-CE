@@ -91,13 +91,13 @@ private fun CommitScreen(
     onBackClicked: () -> Unit = {},
 ) {
     AlertDialog(
-        title = stringResource(R.string.git_commit_title),
+        title = stringResource(R.string.git_commit_dialog_title),
         content = {
             Column {
                 when {
                     viewState.isCommitting -> {
                         Text(
-                            text = stringResource(R.string.git_commit_committing),
+                            text = stringResource(R.string.git_commit_dialog_message),
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
                             style = SquircleTheme.typography.text16Regular,
                         )
@@ -123,7 +123,7 @@ private fun CommitScreen(
 
                     viewState.isError -> {
                         Text(
-                            text = stringResource(R.string.git_fatal, viewState.errorMessage),
+                            text = stringResource(R.string.git_error_fatal, viewState.errorMessage),
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
                             style = SquircleTheme.typography.text16Regular,
                         )
@@ -141,14 +141,14 @@ private fun CommitScreen(
                         TextField(
                             inputText = viewState.commitMessage,
                             onInputChanged = onCommitMessageChanged,
-                            labelText = stringResource(R.string.git_commit_message),
+                            labelText = stringResource(R.string.git_commit_dialog_input_label),
                             modifier = Modifier.fillMaxWidth(),
                         )
 
                         Spacer(Modifier.height(8.dp))
 
                         CheckBox(
-                            title = stringResource(R.string.action_amend),
+                            title = stringResource(R.string.git_commit_dialog_checkbox_amend),
                             checked = viewState.isAmend,
                             onClick = onAmendClicked,
                         )
@@ -159,7 +159,7 @@ private fun CommitScreen(
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
         onDismiss = onBackClicked,
-        confirmButton = stringResource(R.string.action_commit),
+        confirmButton = stringResource(R.string.git_commit_dialog_button_commit),
         confirmButtonEnabled = viewState.isCommitButtonEnabled,
         onConfirmClicked = onCommitClicked
     )

@@ -83,13 +83,13 @@ private fun PushScreen(
     onBackClicked: () -> Unit = {},
 ) {
     AlertDialog(
-        title = stringResource(R.string.git_push_title),
+        title = stringResource(R.string.git_push_dialog_title),
         content = {
             Column {
                 when {
                     viewState.isPushing -> {
                         Text(
-                            text = stringResource(R.string.git_push_pushing),
+                            text = stringResource(R.string.git_push_dialog_message),
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
                             style = SquircleTheme.typography.text16Regular,
                         )
@@ -115,7 +115,7 @@ private fun PushScreen(
 
                     viewState.isError -> {
                         Text(
-                            text = stringResource(R.string.git_fatal, viewState.errorMessage),
+                            text = stringResource(R.string.git_error_fatal, viewState.errorMessage),
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
                             style = SquircleTheme.typography.text16Regular,
                         )
@@ -125,11 +125,11 @@ private fun PushScreen(
                         Text(
                             text = when {
                                 viewState.commitCount == -1 -> {
-                                    stringResource(R.string.git_push_branch)
+                                    stringResource(R.string.git_push_dialog_message_branch)
                                 }
                                 else -> {
                                     stringResource(
-                                        R.string.git_push_commits,
+                                        R.string.git_push_dialog_message_commits,
                                         viewState.commitCount,
                                         viewState.currentBranch,
                                     )
@@ -142,7 +142,7 @@ private fun PushScreen(
                         Spacer(Modifier.height(8.dp))
 
                         CheckBox(
-                            title = stringResource(R.string.action_force),
+                            title = stringResource(R.string.git_push_dialog_checkbox_force),
                             checked = viewState.isForce,
                             onClick = onForceClicked,
                         )
@@ -153,7 +153,7 @@ private fun PushScreen(
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
         onDismiss = onBackClicked,
-        confirmButton = stringResource(R.string.action_push),
+        confirmButton = stringResource(R.string.git_push_dialog_button_push),
         confirmButtonEnabled = viewState.isPushButtonEnabled,
         onConfirmClicked = onPushClicked
     )

@@ -17,53 +17,55 @@
 
 <resources>
 
-    <string name="label_git" translatable="false">Git</string>
+    <string name="git_dialog_title" translatable="false">Git</string>
 
-    <string name="explorer_menu_selection_create">Create</string>
-    <string name="action_checkout">Checkout</string>
-    <string name="action_new_branch">New branch</string>
-    <string name="action_commit">Commit</string>
-    <string name="action_amend">Amend</string>
-    <string name="action_push">Push</string>
-    <string name="action_force">Force</string>
-
-    <string name="git_fetch_title">Fetch</string>
     <string name="git_fetch_description">Fetch content from remote repository</string>
-    <string name="git_fetch_fetching">Fetching updates from the remote repository…</string>
-    <string name="git_fetch_complete">Fetch completed</string>
-
-    <string name="git_pull_title">Pull</string>
     <string name="git_pull_description">Pull changes from remote repository</string>
-    <string name="git_pull_pulling">Pulling changes from the remote repository…</string>
-    <string name="git_pull_complete">Pull completed</string>
-
-    <string name="git_commit_title">Commit</string>
     <string name="git_commit_description">Commit local repository changes</string>
-    <string name="git_commit_message">Commit message</string>
-    <string name="git_commit_uncommitted_changes">Uncommitted changes</string>
-    <string name="git_commit_no_changes">No changes</string>
-    <string name="git_commit_committing">Committing your changes to the local repository…</string>
-    <string name="git_commit_complete">Commit created</string>
-
-    <string name="git_push_title">Push</string>
     <string name="git_push_description">Push content to remote repository</string>
-    <string name="git_push_branch">This branch does not exist on the remote repository. Push it to create a new remote branch?</string>
-    <string name="git_push_commits">You are about to push %1$d commit(s) to %2$s. Continue?</string>
-    <string name="git_push_no_commits">There are no commits to push</string>
-    <string name="git_push_pushing">Pushing changes to the remote repository…</string>
-    <string name="git_push_complete">Push completed</string>
-
-    <string name="git_checkout_title">Checkout</string>
     <string name="git_checkout_description">Change or create local repository branch</string>
-    <string name="git_checkout_branches">Branches</string>
-    <string name="git_checkout_branch_name">Branch name</string>
-    <string name="git_checkout_branch_base">Your branch will be based on %1$s</string>
-    <string name="git_checkout_checking_out">Checking out the branch…</string>
+
+    <string name="git_fetch_dialog_title">Fetch</string>
+    <string name="git_fetch_dialog_message">Fetching updates from the remote repository…</string>
+
+    <string name="git_pull_dialog_title">Pull</string>
+    <string name="git_pull_dialog_message">Pulling changes from the remote repository…</string>
+
+    <string name="git_commit_dialog_title">Commit</string>
+    <string name="git_commit_dialog_message">Committing your changes to the local repository…</string>
+    <string name="git_commit_dialog_input_label">Commit message</string>
+    <string name="git_commit_dialog_selection_label">Uncommitted changes</string>
+    <string name="git_commit_dialog_selection_empty">No changes</string>
+    <string name="git_commit_dialog_checkbox_amend">Amend</string>
+    <string name="git_commit_dialog_button_commit">Commit</string>
+
+    <string name="git_push_dialog_title">Push</string>
+    <string name="git_push_dialog_message">Pushing changes to the remote repository…</string>
+    <string name="git_push_dialog_message_branch">This branch does not exist on the remote repository. Push it to create a new remote branch?</string>
+    <string name="git_push_dialog_message_commits">You are about to push %1$d commit(s) to %2$s. Continue?</string>
+    <string name="git_push_dialog_message_empty">There are no commits to push</string>
+    <string name="git_push_dialog_checkbox_force">Force</string>
+    <string name="git_push_dialog_button_push">Push</string>
+
+    <string name="git_checkout_dialog_title">Checkout</string>
+    <string name="git_checkout_dialog_message">Checking out the branch…</string>
+    <string name="git_checkout_dialog_selection_label">Branches</string>
+    <string name="git_checkout_dialog_input_label">Branch name</string>
+    <string name="git_checkout_dialog_input_help">Your branch will be based on %1$s</string>
+    <string name="git_checkout_dialog_checkbox_new">New branch</string>
+    <string name="git_checkout_dialog_button_create">Create</string>
+    <string name="git_checkout_dialog_button_checkout">Checkout</string>
+
+    <string name="git_fetch_complete">Fetch completed</string>
+    <string name="git_pull_complete">Pull completed</string>
+    <string name="git_commit_complete">Commit created</string>
+    <string name="git_push_complete">Push completed</string>
     <string name="git_checkout_checked_out">Checked out %1$s</string>
 
-    <string name="git_added">Added</string>
-    <string name="git_modified">Modified</string>
-    <string name="git_deleted">Deleted</string>
-    <string name="git_fatal" translatable="false">fatal: %1$s</string>
+    <string name="git_change_added">Added</string>
+    <string name="git_change_modified">Modified</string>
+    <string name="git_change_deleted">Deleted</string>
+
+    <string name="git_error_fatal" translatable="false">fatal: %1$s</string>
 
 </resources>

@@ -75,13 +75,13 @@ private fun FetchScreen(
     onBackClicked: () -> Unit = {},
 ) {
     AlertDialog(
-        title = stringResource(R.string.git_fetch_title),
+        title = stringResource(R.string.git_fetch_dialog_title),
         content = {
             Column {
                 when {
                     viewState.isFetching -> {
                         Text(
-                            text = stringResource(R.string.git_fetch_fetching),
+                            text = stringResource(R.string.git_fetch_dialog_message),
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
                             style = SquircleTheme.typography.text16Regular,
                         )
@@ -96,7 +96,7 @@ private fun FetchScreen(
 
                     viewState.isError -> {
                         Text(
-                            text = stringResource(R.string.git_fatal, viewState.errorMessage),
+                            text = stringResource(R.string.git_error_fatal, viewState.errorMessage),
                             color = SquircleTheme.colors.colorTextAndIconSecondary,
                             style = SquircleTheme.typography.text16Regular,
                         )

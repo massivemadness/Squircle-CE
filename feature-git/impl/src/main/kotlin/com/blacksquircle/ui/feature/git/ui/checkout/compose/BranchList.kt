@@ -49,7 +49,7 @@ internal fun BranchList(
         initialFirstVisibleItemIndex = selectedIndex
     )
     SelectionGroup(
-        labelText = stringResource(R.string.git_checkout_branches),
+        labelText = stringResource(R.string.git_checkout_dialog_selection_label),
         state = lazyListState,
         modifier = modifier,
     ) {
