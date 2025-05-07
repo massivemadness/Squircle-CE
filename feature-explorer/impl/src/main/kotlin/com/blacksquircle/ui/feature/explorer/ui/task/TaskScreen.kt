@@ -134,20 +134,20 @@ private fun TaskScreen(
 
     AlertDialog(
         title = when (viewState.type) {
-            TaskType.CREATE -> stringResource(R.string.dialog_title_creating)
-            TaskType.RENAME -> stringResource(R.string.dialog_title_renaming)
-            TaskType.DELETE -> stringResource(R.string.dialog_title_deleting)
-            TaskType.MOVE -> stringResource(R.string.dialog_title_copying)
-            TaskType.COPY -> stringResource(R.string.dialog_title_copying)
-            TaskType.COMPRESS -> stringResource(R.string.dialog_title_compressing)
-            TaskType.EXTRACT -> stringResource(R.string.dialog_title_extracting)
-            TaskType.CLONE -> stringResource(R.string.dialog_title_cloning)
+            TaskType.CREATE -> stringResource(R.string.explorer_task_dialog_title_creating)
+            TaskType.RENAME -> stringResource(R.string.explorer_task_dialog_title_renaming)
+            TaskType.DELETE -> stringResource(R.string.explorer_task_dialog_title_deleting)
+            TaskType.MOVE -> stringResource(R.string.explorer_task_dialog_title_copying)
+            TaskType.COPY -> stringResource(R.string.explorer_task_dialog_title_copying)
+            TaskType.COMPRESS -> stringResource(R.string.explorer_task_dialog_title_compressing)
+            TaskType.EXTRACT -> stringResource(R.string.explorer_task_dialog_title_extracting)
+            TaskType.CLONE -> stringResource(R.string.explorer_task_dialog_title_cloning)
         },
         content = {
             Column {
-                val pattern = stringResource(R.string.progress_time_format)
+                val pattern = stringResource(R.string.explorer_task_dialog_progress_time_format)
                 val elapsedTime = stringResource(
-                    R.string.message_elapsed_time,
+                    R.string.explorer_task_dialog_progress_time,
                     elapsedMillis.formatDate(pattern),
                 )
                 Text(
@@ -159,20 +159,18 @@ private fun TaskScreen(
                 Spacer(Modifier.height(16.dp))
 
                 if (viewState.details.isNotEmpty()) {
+                    val message = when (viewState.type) {
+                        TaskType.CREATE -> R.string.explorer_task_dialog_message_creating
+                        TaskType.RENAME -> R.string.explorer_task_dialog_message_renaming
+                        TaskType.DELETE -> R.string.explorer_task_dialog_message_deleting
+                        TaskType.MOVE -> R.string.explorer_task_dialog_message_copying
+                        TaskType.COPY -> R.string.explorer_task_dialog_message_copying
+                        TaskType.COMPRESS -> R.string.explorer_task_dialog_message_compressing
+                        TaskType.EXTRACT -> R.string.explorer_task_dialog_message_extracting
+                        TaskType.CLONE -> R.string.explorer_task_dialog_message_cloning
+                    }
                     Text(
-                        text = stringResource(
-                            when (viewState.type) {
-                                TaskType.CREATE -> R.string.message_creating
-                                TaskType.RENAME -> R.string.message_renaming
-                                TaskType.DELETE -> R.string.message_deleting
-                                TaskType.MOVE -> R.string.message_copying
-                                TaskType.COPY -> R.string.message_copying
-                                TaskType.COMPRESS -> R.string.message_compressing
-                                TaskType.EXTRACT -> R.string.message_extracting
-                                TaskType.CLONE -> R.string.message_cloning
-                            },
-                            viewState.details
-                        ),
+                        text = stringResource(message, viewState.details),
                         color = SquircleTheme.colors.colorTextAndIconSecondary,
                         style = SquircleTheme.typography.text14Regular,
                     )
@@ -183,7 +181,7 @@ private fun TaskScreen(
                     if (viewState.count > 0 && viewState.totalCount > 0) {
                         Text(
                             text = stringResource(
-                                R.string.message_of_total,
+                                R.string.explorer_task_dialog_progress_total,
                                 viewState.count,
                                 viewState.totalCount,
                             ),
@@ -202,7 +200,7 @@ private fun TaskScreen(
                 }
             }
         },
-        confirmButton = stringResource(R.string.action_run_in_background),
+        confirmButton = stringResource(R.string.explorer_task_dialog_button_background),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = onRunInBackgroundClicked,
         onDismissClicked = onCancelClicked,

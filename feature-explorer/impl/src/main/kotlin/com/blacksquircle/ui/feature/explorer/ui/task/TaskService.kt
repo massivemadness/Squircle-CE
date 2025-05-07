@@ -52,13 +52,13 @@ internal class TaskService : ComponentService() {
         super.onCreate()
         createChannel(
             channelId = CHANNEL_ID,
-            channelName = R.string.explorer_notification_channel_name,
-            channelDescription = R.string.explorer_notification_channel_description,
+            channelName = R.string.explorer_task_service_channel_name,
+            channelDescription = R.string.explorer_task_service_channel_description,
         )
 
         val serviceNotification = buildNotification(
             channelId = CHANNEL_ID,
-            notificationTitle = getString(R.string.explorer_notification_channel_name),
+            notificationTitle = getString(R.string.explorer_task_service_channel_name),
             notificationMessage = getString(R.string.explorer_task_service_message),
             ongoing = true,
             silent = true,
@@ -119,14 +119,14 @@ internal class TaskService : ComponentService() {
         return buildNotification(
             channelId = CHANNEL_ID,
             notificationTitle = when (task.type) {
-                TaskType.CREATE -> getString(R.string.dialog_title_creating)
-                TaskType.RENAME -> getString(R.string.dialog_title_renaming)
-                TaskType.DELETE -> getString(R.string.dialog_title_deleting)
-                TaskType.MOVE -> getString(R.string.dialog_title_copying)
-                TaskType.COPY -> getString(R.string.dialog_title_copying)
-                TaskType.COMPRESS -> getString(R.string.dialog_title_compressing)
-                TaskType.EXTRACT -> getString(R.string.dialog_title_extracting)
-                TaskType.CLONE -> getString(R.string.dialog_title_cloning)
+                TaskType.CREATE -> getString(R.string.explorer_task_dialog_title_creating)
+                TaskType.RENAME -> getString(R.string.explorer_task_dialog_title_renaming)
+                TaskType.DELETE -> getString(R.string.explorer_task_dialog_title_deleting)
+                TaskType.MOVE -> getString(R.string.explorer_task_dialog_title_copying)
+                TaskType.COPY -> getString(R.string.explorer_task_dialog_title_copying)
+                TaskType.COMPRESS -> getString(R.string.explorer_task_dialog_title_compressing)
+                TaskType.EXTRACT -> getString(R.string.explorer_task_dialog_title_extracting)
+                TaskType.CLONE -> getString(R.string.explorer_task_dialog_title_cloning)
             },
             notificationMessage = details,
             smallIcon = UiR.drawable.ic_file_clock,

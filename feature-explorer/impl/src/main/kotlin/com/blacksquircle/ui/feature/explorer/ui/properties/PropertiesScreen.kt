@@ -66,12 +66,12 @@ private fun PropertiesScreen(
     onCancelClicked: () -> Unit = {}
 ) {
     AlertDialog(
-        title = stringResource(R.string.dialog_title_properties),
+        title = stringResource(R.string.explorer_properties_dialog_title),
         content = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 TextField(
                     inputText = fileName,
-                    labelText = stringResource(R.string.properties_name),
+                    labelText = stringResource(R.string.explorer_properties_dialog_name),
                     readOnly = true,
                 )
 
@@ -79,7 +79,7 @@ private fun PropertiesScreen(
 
                 TextField(
                     inputText = filePath,
-                    labelText = stringResource(R.string.properties_path),
+                    labelText = stringResource(R.string.explorer_properties_dialog_path),
                     readOnly = true,
                 )
 
@@ -87,9 +87,9 @@ private fun PropertiesScreen(
 
                 TextField(
                     inputText = lastModified.formatDate(
-                        pattern = stringResource(R.string.properties_date_format)
+                        pattern = stringResource(R.string.explorer_properties_dialog_date_format)
                     ),
-                    labelText = stringResource(R.string.properties_modified),
+                    labelText = stringResource(R.string.explorer_properties_dialog_date),
                     readOnly = true,
                 )
 
@@ -97,7 +97,7 @@ private fun PropertiesScreen(
 
                 TextField(
                     inputText = fileSize.formatSize(),
-                    labelText = stringResource(R.string.properties_size),
+                    labelText = stringResource(R.string.explorer_properties_dialog_size),
                     readOnly = true,
                 )
 
@@ -105,15 +105,15 @@ private fun PropertiesScreen(
 
                 Row {
                     CheckBox(
-                        title = stringResource(R.string.properties_readable),
+                        title = stringResource(R.string.explorer_properties_dialog_read),
                         checked = permission hasFlag Permission.OWNER_READ,
                     )
                     CheckBox(
-                        title = stringResource(R.string.properties_writable),
+                        title = stringResource(R.string.explorer_properties_dialog_write),
                         checked = permission hasFlag Permission.OWNER_WRITE,
                     )
                     CheckBox(
-                        title = stringResource(R.string.properties_executable),
+                        title = stringResource(R.string.explorer_properties_dialog_exec),
                         checked = permission hasFlag Permission.OWNER_EXECUTE,
                     )
                 }

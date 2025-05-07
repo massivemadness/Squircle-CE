@@ -81,7 +81,7 @@ private fun LocalWorkspaceScreen(
             TextField(
                 inputText = filePath,
                 onInputChanged = { filePath = it },
-                labelText = stringResource(R.string.hint_enter_dir_path),
+                labelText = stringResource(R.string.explorer_workspace_local_dialog_input_label),
             )
         },
         confirmButton = stringResource(R.string.explorer_workspace_button_add),

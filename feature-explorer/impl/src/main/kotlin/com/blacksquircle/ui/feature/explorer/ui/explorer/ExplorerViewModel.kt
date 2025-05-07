@@ -466,7 +466,7 @@ internal class ExplorerViewModel @Inject constructor(
     fun onCompressClicked() {
         viewModelScope.launch {
             if (!cache.ensureCommonParentKey(selectedNodes)) {
-                val message = stringProvider.getString(R.string.message_same_directory_required)
+                val message = stringProvider.getString(R.string.explorer_toast_same_directory_required)
                 _viewEvent.send(ViewEvent.Toast(message))
                 return@launch
             }
@@ -978,10 +978,10 @@ internal class ExplorerViewModel @Inject constructor(
 
             is AuthRequiredException -> ErrorState(
                 icon = UiR.drawable.ic_file_error,
-                title = stringProvider.getString(R.string.message_auth_required),
+                title = stringProvider.getString(R.string.explorer_error_view_title_auth),
                 subtitle = when (e.authMethod) {
-                    AuthMethod.PASSWORD -> stringProvider.getString(R.string.message_enter_password)
-                    AuthMethod.KEY -> stringProvider.getString(R.string.message_enter_passphrase)
+                    AuthMethod.PASSWORD -> stringProvider.getString(R.string.explorer_error_view_message_password)
+                    AuthMethod.KEY -> stringProvider.getString(R.string.explorer_error_view_message_passphrase)
                 },
                 action = when (e.authMethod) {
                     AuthMethod.PASSWORD -> ErrorAction.ENTER_PASSWORD
@@ -993,8 +993,8 @@ internal class ExplorerViewModel @Inject constructor(
                 icon = UiR.drawable.ic_file_error,
                 title = stringProvider.getString(UiR.string.common_error_occurred),
                 subtitle = when (e.authMethod) {
-                    AuthMethod.PASSWORD -> stringProvider.getString(R.string.message_enter_password)
-                    AuthMethod.KEY -> stringProvider.getString(R.string.message_enter_passphrase)
+                    AuthMethod.PASSWORD -> stringProvider.getString(R.string.explorer_error_view_message_password)
+                    AuthMethod.KEY -> stringProvider.getString(R.string.explorer_error_view_message_passphrase)
                 },
                 action = when (e.authMethod) {
                     AuthMethod.PASSWORD -> ErrorAction.ENTER_PASSWORD
@@ -1012,42 +1012,42 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     private suspend fun onTaskFinished() {
-        val message = stringProvider.getString(R.string.message_done)
+        val message = stringProvider.getString(R.string.explorer_toast_done)
         _viewEvent.send(ViewEvent.Toast(message))
     }
 
     private suspend fun onTaskFailed(e: Exception) {
         when (e) {
             is FileNotFoundException -> {
-                val message = stringProvider.getString(R.string.message_file_not_found)
+                val message = stringProvider.getString(R.string.explorer_toast_file_not_found)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
             is FileAlreadyExistsException -> {
-                val message = stringProvider.getString(R.string.message_file_already_exists)
+                val message = stringProvider.getString(R.string.explorer_toast_file_already_exists)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
             is UnsupportedArchiveException -> {
-                val message = stringProvider.getString(R.string.message_unsupported_archive)
+                val message = stringProvider.getString(R.string.explorer_toast_unsupported_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
             is EncryptedArchiveException -> {
-                val message = stringProvider.getString(R.string.message_encrypted_archive)
+                val message = stringProvider.getString(R.string.explorer_toast_encrypted_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
             is SplitArchiveException -> {
-                val message = stringProvider.getString(R.string.message_split_archive)
+                val message = stringProvider.getString(R.string.explorer_toast_split_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
             is InvalidArchiveException -> {
-                val message = stringProvider.getString(R.string.message_invalid_archive)
+                val message = stringProvider.getString(R.string.explorer_toast_invalid_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
             is UnsupportedOperationException -> {
-                val message = stringProvider.getString(R.string.message_operation_not_supported)
+                val message = stringProvider.getString(R.string.explorer_toast_operation_not_supported)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
             is CancellationException -> {
-                val message = stringProvider.getString(R.string.message_operation_cancelled)
+                val message = stringProvider.getString(R.string.explorer_toast_operation_cancelled)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
             else -> {

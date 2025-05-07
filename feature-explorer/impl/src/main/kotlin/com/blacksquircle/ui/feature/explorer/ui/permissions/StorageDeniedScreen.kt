@@ -49,10 +49,10 @@ private fun StorageDeniedScreen(
     onCancelClicked: () -> Unit = {}
 ) {
     AlertDialog(
-        title = stringResource(R.string.dialog_title_storage_permission),
+        title = stringResource(R.string.explorer_storage_permission_dialog_title),
         content = {
             Text(
-                text = stringResource(R.string.dialog_message_storage_permission),
+                text = stringResource(R.string.explorer_storage_permission_dialog_message),
                 color = SquircleTheme.colors.colorTextAndIconSecondary,
                 style = SquircleTheme.typography.text16Regular,
             )

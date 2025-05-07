@@ -62,16 +62,16 @@ private fun DeleteScreen(
 
     AlertDialog(
         title = if (isMultiDelete) {
-            stringResource(R.string.explorer_delete_dialog_title)
+            stringResource(R.string.explorer_multidelete_dialog_title)
         } else {
             fileName
         },
         content = {
             Text(
                 text = if (isMultiDelete) {
-                    stringResource(R.string.dialog_message_multi_delete)
+                    stringResource(R.string.explorer_multidelete_dialog_message)
                 } else {
-                    stringResource(R.string.dialog_message_delete)
+                    stringResource(R.string.explorer_delete_dialog_message)
                 },
                 color = SquircleTheme.colors.colorTextAndIconSecondary,
                 style = SquircleTheme.typography.text16Regular,

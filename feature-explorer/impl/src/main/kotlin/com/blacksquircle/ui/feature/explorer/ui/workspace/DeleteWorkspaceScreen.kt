@@ -61,7 +61,7 @@ private fun DeleteWorkspaceScreen(
         title = name,
         content = {
             Text(
-                text = stringResource(R.string.explorer_workspace_dialog_delete_message),
+                text = stringResource(R.string.explorer_workspace_delete_dialog_message),
                 style = SquircleTheme.typography.text16Regular,
                 color = SquircleTheme.colors.colorTextAndIconSecondary,
             )

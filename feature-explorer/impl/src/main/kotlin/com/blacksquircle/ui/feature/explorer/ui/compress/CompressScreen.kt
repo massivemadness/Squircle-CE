@@ -69,7 +69,7 @@ private fun CompressScreen(
                     isError = !value.isValidFileName()
                 },
                 labelText = stringResource(R.string.explorer_compress_dialog_input_label),
-                errorText = stringResource(R.string.message_invalid_file_name),
+                errorText = stringResource(R.string.explorer_create_dialog_input_error),
                 placeholderText = stringResource(UiR.string.common_untitled),
                 error = isError,
             )

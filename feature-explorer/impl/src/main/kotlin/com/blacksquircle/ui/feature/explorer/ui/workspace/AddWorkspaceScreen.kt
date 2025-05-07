@@ -89,7 +89,7 @@ private fun AddWorkspaceScreen(
     onCancelClicked: () -> Unit = {}
 ) {
     AlertDialog(
-        title = stringResource(R.string.explorer_workspace_dialog_add_title),
+        title = stringResource(R.string.explorer_workspace_add_dialog_title),
         horizontalPadding = false,
         content = {
             Column {
