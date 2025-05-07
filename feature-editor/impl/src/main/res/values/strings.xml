@@ -59,9 +59,9 @@
     <string name="editor_toast_git_unsupported_filesystem">Git requires local filesystem</string>
 
     <string name="editor_goto_line_dialog_title">Go to Line…</string>
+    <string name="editor_goto_line_dialog_input_label">Line:</string>
+    <string name="editor_goto_line_dialog_input_placeholder" translatable="false">0</string>
     <string name="editor_goto_line_dialog_button_go_to">Go to</string>
-    <string name="editor_goto_line_label">Line:</string>
-    <string name="editor_goto_line_placeholder" translatable="false">0</string>
 
     <string name="editor_force_syntax_dialog_title">Syntax Highlighting</string>
 

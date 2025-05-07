@@ -17,7 +17,7 @@
 
 <resources>
 
-    <string name="editor_goto_line_label">Linha:</string>
+    <string name="editor_goto_line_dialog_input_label">Linha:</string>
 
     <string name="editor_menu_file_close">Fechar</string>
     <string name="editor_menu_file_close_others">Fechar outros</string>

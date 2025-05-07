@@ -70,8 +70,8 @@ private fun GotoLineScreen(
             TextField(
                 inputText = lineNumber,
                 onInputChanged = { lineNumber = it },
-                labelText = stringResource(R.string.editor_goto_line_label),
-                placeholderText = stringResource(R.string.editor_goto_line_placeholder),
+                labelText = stringResource(R.string.editor_goto_line_dialog_input_label),
+                placeholderText = stringResource(R.string.editor_goto_line_dialog_input_placeholder),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                 ),

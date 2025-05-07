@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="editor_goto_line_label">Линия:</string>
+    <string name="editor_goto_line_dialog_input_label">Линия:</string>
     <string name="editor_menu_file">Файл</string>
     <string name="editor_menu_file_close">Закрыть</string>
     <string name="editor_menu_file_close_others">Закрыть другие</string>

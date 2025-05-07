@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="editor_goto_line_label">Satır:</string>
+    <string name="editor_goto_line_dialog_input_label">Satır:</string>
     <string name="editor_menu_file">Dosya</string>
     <string name="editor_menu_file_close">Kapat</string>
     <string name="editor_menu_file_close_others">Diğerlerini kapat</string>

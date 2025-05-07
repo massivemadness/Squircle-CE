@@ -37,7 +37,6 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ARG_USER_INPUT
 import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_AUTHENTICATION
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun AuthScreen(

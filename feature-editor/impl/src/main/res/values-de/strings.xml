@@ -17,7 +17,7 @@
 
 <resources>
 
-    <string name="editor_goto_line_label">"Zeile: "</string>
+    <string name="editor_goto_line_dialog_input_label">"Zeile: "</string>
 
     <string name="editor_menu_file_new">Neu</string>
     <string name="editor_menu_file_open">Öffnen</string>

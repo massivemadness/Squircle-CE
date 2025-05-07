@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="editor_goto_line_label">Rivi:</string>
+    <string name="editor_goto_line_dialog_input_label">Rivi:</string>
     <string name="editor_menu_file">Tiedosto</string>
     <string name="editor_menu_file_close">Sulje</string>
     <string name="editor_menu_file_close_others">Sulje muut</string>

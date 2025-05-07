@@ -29,7 +29,6 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteDialog
 import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_DELETE_FILE
-import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun DeleteScreen(
