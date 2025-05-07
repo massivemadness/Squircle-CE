@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="shortcuts_menu_restore">還原為預設值</string>
     <string name="shortcuts_toolbar_title">按鍵繫結</string>
+    <string name="shortcuts_menu_restore">還原為預設值</string>
     <string name="shortcuts_category_file">檔案按鍵繫結</string>
     <string name="shortcuts_category_editor">編輯器按鍵繫結</string>
     <string name="shortcuts_category_tools">工具按鍵繫結</string>
@@ -40,7 +40,7 @@
     <string name="shortcuts_goto_line_title">跳到行</string>
     <string name="shortcuts_force_syntax_title">強制語法</string>
     <string name="shortcuts_insert_color_title">插入顏色</string>
-    <string name="shortcuts_conflict_dialog_message">此捷徑已指派至其他動作，要移除其他指派嗎？</string>
-    <string name="shortcuts_assign_dialog_message">按下新的按鍵繫結關係 (必須包含 Ctrl 或 Alt)</string>
     <string name="shortcuts_none_set">未設定</string>
+    <string name="shortcuts_assign_dialog_message">按下新的按鍵繫結關係 (必須包含 Ctrl 或 Alt)</string>
+    <string name="shortcuts_conflict_dialog_message">此捷徑已指派至其他動作，要移除其他指派嗎？</string>
 </resources>

@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="shortcuts_menu_restore">Varsayılanları geri yükle</string>
     <string name="shortcuts_toolbar_title">Tuş Atamaları</string>
+    <string name="shortcuts_menu_restore">Varsayılanları geri yükle</string>
     <string name="shortcuts_category_file">Dosya Tuş Atamaları</string>
     <string name="shortcuts_category_editor">Düzenleyici Tuş Atamaları</string>
     <string name="shortcuts_category_tools">Araç Tuş Atamaları</string>
@@ -40,7 +40,7 @@
     <string name="shortcuts_goto_line_title">Satıra git</string>
     <string name="shortcuts_force_syntax_title">Sözdizimine Zorla</string>
     <string name="shortcuts_insert_color_title">Renk ekle</string>
-    <string name="shortcuts_conflict_dialog_message">Bu kısayol zaten diğer eylemlere atanmış. Diğer atamaları kaldırmak istiyor musunuz?</string>
-    <string name="shortcuts_assign_dialog_message">Yeni tuş atamasına basın (Ctrl veya Alt içermeli)</string>
     <string name="shortcuts_none_set">Hiçbiri ayarlanmadı</string>
+    <string name="shortcuts_assign_dialog_message">Yeni tuş atamasına basın (Ctrl veya Alt içermeli)</string>
+    <string name="shortcuts_conflict_dialog_message">Bu kısayol zaten diğer eylemlere atanmış. Diğer atamaları kaldırmak istiyor musunuz?</string>
 </resources>

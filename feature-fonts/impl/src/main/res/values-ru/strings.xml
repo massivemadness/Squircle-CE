@@ -18,6 +18,6 @@
     <string name="fonts_toolbar_title">Шрифты</string>
     <string name="fonts_item_button_remove">Удалить</string>
     <string name="fonts_toast_font_selected">Выбран «%1$s»</string>
-    <string name="fonts_toast_font_added">Добавлен новый шрифт</string>
     <string name="fonts_toast_font_removed">Шрифт «%1$s» удален</string>
+    <string name="fonts_toast_font_added">Добавлен новый шрифт</string>
 </resources>
