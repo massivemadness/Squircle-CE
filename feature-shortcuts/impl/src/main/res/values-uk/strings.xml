@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="shortcuts_menu_restore">Відновити значення за замовчуванням</string>
     <string name="shortcuts_toolbar_title">Гарячі клавіші</string>
+    <string name="shortcuts_menu_restore">Відновити значення за замовчуванням</string>
     <string name="shortcuts_category_file">Файл</string>
     <string name="shortcuts_category_editor">Редактор</string>
     <string name="shortcuts_category_tools">Інструменти</string>
@@ -40,7 +40,7 @@
     <string name="shortcuts_goto_line_title">Перейти до рядка</string>
     <string name="shortcuts_force_syntax_title">Синтаксис</string>
     <string name="shortcuts_insert_color_title">Вставити колір</string>
-    <string name="shortcuts_conflict_dialog_message">На обрану клавішу вже призначено дію. Ви хочете відв\'язати клавішу?</string>
-    <string name="shortcuts_assign_dialog_message">Натисніть нову клавішу (Ctrl або Alt обов\'язковий)</string>
     <string name="shortcuts_none_set">Не встановлено</string>
+    <string name="shortcuts_assign_dialog_message">Натисніть нову клавішу (Ctrl або Alt обов\'язковий)</string>
+    <string name="shortcuts_conflict_dialog_message">На обрану клавішу вже призначено дію. Ви хочете відв\'язати клавішу?</string>
 </resources>
