@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.editor.data.mapper
 
 import com.blacksquircle.ui.core.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.feature.editor.data.model.FileAssociation
+import com.blacksquircle.ui.feature.editor.data.model.LanguageScope
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import java.util.*
@@ -39,7 +40,8 @@ internal object DocumentMapper {
             uuid = UUID.randomUUID().toString(),
             fileUri = fileModel.fileUri,
             filesystemUuid = fileModel.filesystemUuid,
-            language = FileAssociation.guessLanguage(fileModel.extension),
+            language = FileAssociation.guessLanguage(fileModel.extension)
+                ?: LanguageScope.TEXT,
             modified = false,
             position = position,
             scrollX = 0,
