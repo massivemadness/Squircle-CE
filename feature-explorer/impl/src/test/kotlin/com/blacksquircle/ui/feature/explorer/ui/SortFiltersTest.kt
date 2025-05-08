@@ -95,6 +95,8 @@ class SortFiltersTest {
         every { settingsManager.sortMode = any() } answers {
             every { settingsManager.sortMode } returns firstArg()
         }
+
+        every { fileIconProvider.fileIcon(any()) } returns -1
     }
 
     @Test

@@ -79,6 +79,8 @@ class StoragePermissionsTest {
         every { settingsManager.workspace = any() } answers {
             every { settingsManager.workspace } returns firstArg()
         }
+
+        every { fileIconProvider.fileIcon(any()) } returns -1
     }
 
     @Test
