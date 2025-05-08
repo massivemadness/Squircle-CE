@@ -29,6 +29,7 @@ import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FOLDERS_
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_SHOW_HIDDEN_FILES
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_SORT_MODE
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
+import com.blacksquircle.ui.feature.editor.api.provider.FileIconProvider
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.AddWorkspaceDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
@@ -88,6 +89,7 @@ import com.blacksquircle.ui.ds.R as UiR
 
 internal class ExplorerViewModel @Inject constructor(
     private val stringProvider: StringProvider,
+    private val fileIconProvider: FileIconProvider,
     private val settingsManager: SettingsManager,
     private val taskManager: TaskManager,
     private val editorInteractor: EditorInteractor,
@@ -274,8 +276,7 @@ internal class ExplorerViewModel @Inject constructor(
             } else {
                 when (fileNode.file.type) {
                     FileType.ARCHIVE -> extractFiles(fileNode)
-                    FileType.DEFAULT,
-                    FileType.TEXT -> {
+                    FileType.DEFAULT -> {
                         editorInteractor.openFile(fileNode.file)
                         _viewEvent.send(ViewEvent.PopBackStack)
                     }
@@ -797,6 +798,7 @@ internal class ExplorerViewModel @Inject constructor(
                         depth = currentNode?.depth ?: (fileNode.depth + 1),
                         displayName = currentNode?.displayName ?: fileModel.name,
                         displayDepth = currentNode?.displayDepth ?: (fileNode.depth + 1),
+                        displayIcon = fileIconProvider.fileIcon(fileModel),
                         isExpanded = currentNode?.isExpanded ?: false,
                         isLoading = currentNode?.isLoading ?: false,
                         errorState = currentNode?.errorState,

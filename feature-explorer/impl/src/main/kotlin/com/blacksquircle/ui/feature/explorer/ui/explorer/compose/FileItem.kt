@@ -120,12 +120,15 @@ internal fun FileItem(
 
         val icon = when {
             fileNode.isDirectory -> UiR.drawable.ic_folder
-            fileNode.file.type == FileType.TEXT -> UiR.drawable.ic_file_document
             fileNode.file.type == FileType.ARCHIVE -> UiR.drawable.ic_folder_zip
             fileNode.file.type == FileType.IMAGE -> UiR.drawable.ic_file_image
             fileNode.file.type == FileType.AUDIO -> UiR.drawable.ic_file_music
             fileNode.file.type == FileType.VIDEO -> UiR.drawable.ic_file_video
-            else -> UiR.drawable.ic_file
+            else -> if (fileNode.displayIcon != -1) {
+                fileNode.displayIcon
+            } else {
+                UiR.drawable.ic_file
+            }
         }
         val tint = when {
             fileNode.isDirectory -> SquircleTheme.colors.colorTextAndIconAdditional

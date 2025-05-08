@@ -26,6 +26,7 @@ internal data class FileNode(
     val key: NodeKey = NodeKey.File(file.fileUri),
     val displayName: String = file.name,
     val displayDepth: Int = depth,
+    val displayIcon: Int = -1,
     val isExpanded: Boolean = false,
     val isLoading: Boolean = false,
     val errorState: ErrorState? = null,

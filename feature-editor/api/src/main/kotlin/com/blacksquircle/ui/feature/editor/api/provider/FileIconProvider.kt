@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.filesystem.base.model
+package com.blacksquircle.ui.feature.editor.api.provider
 
-enum class FileType {
-    DEFAULT,
-    ARCHIVE,
-    IMAGE,
-    AUDIO,
-    VIDEO,
-    DOCUMENT,
-    EBOOK,
-    APPLICATION,
+import com.blacksquircle.ui.filesystem.base.model.FileModel
+
+interface FileIconProvider {
+    fun fileIcon(fileModel: FileModel): Int
 }
