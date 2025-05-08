@@ -36,10 +36,10 @@ internal class FileIconProviderImpl : FileIconProvider {
             LanguageScope.GO -> UiR.drawable.ic_language_go
             LanguageScope.GROOVY -> UiR.drawable.ic_file_code
             LanguageScope.HTML -> UiR.drawable.ic_language_html
-            LanguageScope.INI -> UiR.drawable.ic_file_document
+            LanguageScope.INI -> UiR.drawable.ic_language_ini
             LanguageScope.JAVA -> UiR.drawable.ic_language_java
             LanguageScope.JAVASCRIPT -> UiR.drawable.ic_language_javascript
-            LanguageScope.JSON -> UiR.drawable.ic_file_document
+            LanguageScope.JSON -> UiR.drawable.ic_language_json
             LanguageScope.JULIA -> UiR.drawable.ic_file_code
             LanguageScope.KOTLIN -> UiR.drawable.ic_language_kotlin
             LanguageScope.LATEX -> UiR.drawable.ic_file_code
@@ -51,13 +51,14 @@ internal class FileIconProviderImpl : FileIconProvider {
             LanguageScope.PYTHON -> UiR.drawable.ic_language_python
             LanguageScope.RUBY -> UiR.drawable.ic_language_ruby
             LanguageScope.RUST -> UiR.drawable.ic_language_rust
-            LanguageScope.SHELL -> UiR.drawable.ic_file_code
+            LanguageScope.SHELL -> UiR.drawable.ic_language_shell
             LanguageScope.SMALI -> UiR.drawable.ic_file_code
-            LanguageScope.SQL -> UiR.drawable.ic_database
+            LanguageScope.SQL -> UiR.drawable.ic_language_sql
             LanguageScope.TEXT -> UiR.drawable.ic_file_document
+            LanguageScope.TOML -> UiR.drawable.ic_file_document
             LanguageScope.TYPESCRIPT -> UiR.drawable.ic_language_typescript
             LanguageScope.VISUALBASIC -> UiR.drawable.ic_file_code
-            LanguageScope.XML -> UiR.drawable.ic_file_code
+            LanguageScope.XML -> UiR.drawable.ic_language_xml
             LanguageScope.YAML -> UiR.drawable.ic_file_code
             else -> -1
         }
