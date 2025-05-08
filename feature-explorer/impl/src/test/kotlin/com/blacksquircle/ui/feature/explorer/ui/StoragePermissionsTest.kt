@@ -21,6 +21,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
+import com.blacksquircle.ui.feature.editor.api.provider.FileIconProvider
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.explorer.createNode
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
@@ -57,6 +58,7 @@ class StoragePermissionsTest {
 
     private val dispatcherProvider = TestDispatcherProvider()
     private val stringProvider = mockk<StringProvider>(relaxed = true)
+    private val fileIconProvider = mockk<FileIconProvider>(relaxed = true)
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val taskManager = mockk<TaskManager>(relaxed = true)
     private val explorerRepository = mockk<ExplorerRepository>(relaxed = true)
@@ -127,6 +129,7 @@ class StoragePermissionsTest {
     private fun createViewModel(): ExplorerViewModel {
         return ExplorerViewModel(
             stringProvider = stringProvider,
+            fileIconProvider = fileIconProvider,
             settingsManager = settingsManager,
             taskManager = taskManager,
             editorInteractor = editorInteractor,
