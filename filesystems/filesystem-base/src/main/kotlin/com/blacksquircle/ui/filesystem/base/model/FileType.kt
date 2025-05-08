@@ -18,7 +18,6 @@ package com.blacksquircle.ui.filesystem.base.model
 
 enum class FileType {
     DEFAULT,
-    TEXT,
     ARCHIVE,
     IMAGE,
     AUDIO,

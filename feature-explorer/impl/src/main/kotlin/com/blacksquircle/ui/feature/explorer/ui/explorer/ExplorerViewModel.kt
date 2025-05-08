@@ -273,16 +273,13 @@ internal class ExplorerViewModel @Inject constructor(
                     }
                     loadFiles(fileNode)
                 }
-            } else {
-                when (fileNode.file.type) {
-                    FileType.ARCHIVE -> extractFiles(fileNode)
-                    FileType.DEFAULT,
-                    FileType.TEXT -> {
-                        editorInteractor.openFile(fileNode.file)
-                        _viewEvent.send(ViewEvent.PopBackStack)
-                    }
-                    else -> onOpenWithClicked(fileNode)
+            } else when (fileNode.file.type) {
+                FileType.ARCHIVE -> extractFiles(fileNode)
+                FileType.DEFAULT -> {
+                    editorInteractor.openFile(fileNode.file)
+                    _viewEvent.send(ViewEvent.PopBackStack)
                 }
+                else -> onOpenWithClicked(fileNode)
             }
         }
     }
