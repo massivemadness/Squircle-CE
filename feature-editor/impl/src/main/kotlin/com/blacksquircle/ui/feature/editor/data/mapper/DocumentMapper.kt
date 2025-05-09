@@ -17,8 +17,6 @@
 package com.blacksquircle.ui.feature.editor.data.mapper
 
 import com.blacksquircle.ui.core.database.entity.document.DocumentEntity
-import com.blacksquircle.ui.feature.editor.data.model.FileAssociation
-import com.blacksquircle.ui.feature.editor.data.model.LanguageScope
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import java.util.*
@@ -32,22 +30,6 @@ internal object DocumentMapper {
             size = 0,
             lastModified = 0,
             isDirectory = false,
-        )
-    }
-
-    fun toModel(fileModel: FileModel, position: Int): DocumentModel {
-        return DocumentModel(
-            uuid = UUID.randomUUID().toString(),
-            fileUri = fileModel.fileUri,
-            filesystemUuid = fileModel.filesystemUuid,
-            language = FileAssociation.guessLanguage(fileModel.extension) ?: LanguageScope.TEXT,
-            modified = false,
-            position = position,
-            scrollX = 0,
-            scrollY = 0,
-            selectionStart = 0,
-            selectionEnd = 0,
-            gitRepository = null,
         )
     }
 

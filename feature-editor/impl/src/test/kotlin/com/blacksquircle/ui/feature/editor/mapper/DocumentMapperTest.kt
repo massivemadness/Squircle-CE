@@ -20,53 +20,11 @@ import com.blacksquircle.ui.core.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.data.model.LanguageScope
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
-import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class DocumentMapperTest {
-
-    @Test
-    fun `When mapping FileModel Then return DocumentModel`() {
-        // Given
-        val fileModel = FileModel(
-            fileUri = "file:///storage/emulated/0/Test.txt",
-            filesystemUuid = LocalFilesystem.LOCAL_UUID,
-            size = 0L,
-            lastModified = 1L,
-            isDirectory = false,
-        )
-        val expected = DocumentModel(
-            uuid = "0",
-            fileUri = "file:///storage/emulated/0/Test.txt",
-            filesystemUuid = LocalFilesystem.LOCAL_UUID,
-            gitRepository = null,
-            language = LanguageScope.TEXT,
-            modified = false,
-            position = 0,
-            scrollX = 0,
-            scrollY = 0,
-            selectionStart = 0,
-            selectionEnd = 0,
-        )
-
-        // When
-        val actual = DocumentMapper.toModel(fileModel, position = 0)
-
-        // Then
-        // assertEquals(expected.uuid, actual.uuid)
-        assertEquals(expected.fileUri, actual.fileUri)
-        assertEquals(expected.filesystemUuid, actual.filesystemUuid)
-        assertEquals(expected.language, actual.language)
-        assertEquals(expected.modified, actual.modified)
-        assertEquals(expected.position, actual.position)
-        assertEquals(expected.scrollX, actual.scrollX)
-        assertEquals(expected.scrollY, actual.scrollY)
-        assertEquals(expected.selectionStart, actual.selectionStart)
-        assertEquals(expected.selectionEnd, actual.selectionEnd)
-        assertEquals(expected.gitRepository, actual.gitRepository)
-    }
 
     @Test
     fun `When mapping DocumentEntity Then return DocumentModel`() {
