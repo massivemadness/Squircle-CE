@@ -26,6 +26,7 @@ import com.blacksquircle.ui.core.database.utils.Migrations
 import com.blacksquircle.ui.core.database.utils.Tables
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertNull
 import org.junit.Rule
 import org.junit.Test
 
@@ -67,8 +68,8 @@ class MigrationTest {
         // Given
         helper.createDatabase(TEST_DB, 1).apply {
             val values = ContentValues().apply {
-                put("filesystem_uuid", "12345")
-                put("file_uri", "/")
+                put("file_uri", "file:///")
+                put("filesystem_uuid", "local")
             }
             insert("tbl_paths", SQLiteDatabase.CONFLICT_REPLACE, values)
             close()
@@ -85,6 +86,40 @@ class MigrationTest {
         db.query("SELECT * FROM `${Tables.WORKSPACES}`").use { cursor ->
             assertEquals(5, cursor.columnNames.size)
             assertEquals(0, cursor.count)
+        }
+    }
+
+    @Test
+    fun migrate2To3() {
+        helper.createDatabase(TEST_DB, 2).apply {
+            val values = ContentValues().apply {
+                put("uuid", "12345")
+                put("file_uri", "file:///")
+                put("filesystem_uuid", "local")
+                put("language", "text.plain")
+                put("modified", false)
+                put("position", 0)
+                put("scroll_x", 0)
+                put("scroll_y", 0)
+                put("selection_start", 0)
+                put("selection_end", 0)
+            }
+            insert(Tables.DOCUMENTS, SQLiteDatabase.CONFLICT_REPLACE, values)
+            close()
+        }
+
+        // When
+        val db = helper.runMigrationsAndValidate(TEST_DB, 3, true, Migrations.MIGRATION_2_3)
+
+        // Then
+        db.query("SELECT * FROM `${Tables.DOCUMENTS}`").use { cursor ->
+            if (cursor.moveToFirst()) {
+                val columnIndex = cursor.getColumnIndex("git_repository")
+                do {
+                    val columnValue = cursor.getString(columnIndex)
+                    assertNull(columnValue)
+                } while (cursor.moveToNext())
+            }
         }
     }
 }
