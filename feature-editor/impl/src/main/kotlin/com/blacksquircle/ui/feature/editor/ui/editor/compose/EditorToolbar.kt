@@ -29,6 +29,7 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.EditMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.FileMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.GitMenu
@@ -39,6 +40,7 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun EditorToolbar(
+    document: DocumentModel?,
     canUndo: Boolean,
     canRedo: Boolean,
     modifier: Modifier = Modifier,
@@ -132,6 +134,7 @@ internal fun EditorToolbar(
                 contentDescription = stringResource(UiR.string.common_menu),
                 anchor = {
                     OtherMenu(
+                        showGit = document?.gitRepository != null,
                         expanded = menuType == MenuType.OTHER,
                         onDismiss = { menuType = null },
                         onFindClicked = { menuType = null; onFindClicked() },
@@ -170,6 +173,7 @@ internal fun EditorToolbar(
 private fun EditorToolbarPreview() {
     PreviewBackground {
         EditorToolbar(
+            document = null,
             canUndo = true,
             canRedo = false,
         )
