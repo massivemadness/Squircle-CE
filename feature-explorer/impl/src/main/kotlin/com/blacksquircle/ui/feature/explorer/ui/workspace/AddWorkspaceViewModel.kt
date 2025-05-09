@@ -21,9 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.explorer.data.utils.guessFilePath
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -43,9 +41,7 @@ internal class AddWorkspaceViewModel @Inject constructor(
     fun onFolderSelected(fileUri: Uri) {
         viewModelScope.launch {
             try {
-                val absolutePath = fileUri.guessFilePath()
-                    ?: throw FileNotFoundException(fileUri.toString())
-                explorerRepository.createWorkspace(absolutePath)
+                explorerRepository.createWorkspace(fileUri)
                 _viewEvent.send(ViewEvent.PopBackStack)
             } catch (e: CancellationException) {
                 throw e

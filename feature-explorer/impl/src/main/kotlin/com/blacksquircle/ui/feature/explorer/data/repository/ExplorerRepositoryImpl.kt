@@ -17,8 +17,10 @@
 package com.blacksquircle.ui.feature.explorer.data.repository
 
 import android.content.Context
+import android.net.Uri
 import com.blacksquircle.ui.core.database.dao.workspace.WorkspaceDao
 import com.blacksquircle.ui.core.extensions.PermissionException
+import com.blacksquircle.ui.core.extensions.extractFilePath
 import com.blacksquircle.ui.core.extensions.isStorageAccessGranted
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
@@ -34,6 +36,7 @@ import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepositor
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
+import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
@@ -74,6 +77,14 @@ internal class ExplorerRepositoryImpl(
             val userWorkspaces = workspaces.map(WorkspaceMapper::toModel)
             val serverWorkspaces = servers.map(WorkspaceMapper::toModel)
             defaultWorkspaces + userWorkspaces + serverWorkspaces
+        }
+    }
+
+    override suspend fun createWorkspace(fileUri: Uri) {
+        withContext(dispatcherProvider.io()) {
+            val absolutePath = context.extractFilePath(fileUri)
+                ?: throw FileNotFoundException(fileUri.toString())
+            createWorkspace(absolutePath)
         }
     }
 

@@ -164,8 +164,12 @@ class SelectFileTest {
         val selected = documentList[0]
         val expected = documentList[1]
 
+        mockkStatic(UUID::class)
+        every { UUID.randomUUID().toString() } returns expected.uuid
+
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
+        coEvery { documentRepository.openDocument(any(), any()) } returns expected
 
         // When
         val viewModel = createViewModel()
@@ -191,9 +195,13 @@ class SelectFileTest {
         val expected = createDocument(uuid = "3", fileName = "third.txt", position = 2)
         val content = Content()
 
+        mockkStatic(UUID::class)
+        every { UUID.randomUUID().toString() } returns expected.uuid
+
         every { settingsManager.selectedUuid } returns selected.uuid
         coEvery { documentRepository.loadDocuments() } returns documentList
         coEvery { documentRepository.loadDocument(any()) } returns content
+        coEvery { documentRepository.openDocument(any(), any()) } returns expected
 
         // When
         val viewModel = createViewModel()
@@ -201,10 +209,7 @@ class SelectFileTest {
             fileUri = expected.fileUri,
             filesystemUuid = expected.filesystemUuid
         )
-        mockkStatic(UUID::class) {
-            every { UUID.randomUUID().toString() } returns expected.uuid
-            eventBus.emit(EditorApiEvent.OpenFile(fileModel))
-        }
+        eventBus.emit(EditorApiEvent.OpenFile(fileModel))
 
         // Then
         val documents = listOf(
