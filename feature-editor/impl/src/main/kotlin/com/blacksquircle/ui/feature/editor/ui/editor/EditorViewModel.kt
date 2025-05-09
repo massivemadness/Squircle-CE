@@ -1103,9 +1103,7 @@ internal class EditorViewModel @Inject constructor(
                     )
                 }
 
-                /** Can't use [document] here, it might have different UUID with same file uri */
-                val documentState = documents[selectedPosition]
-                val content = documentRepository.loadDocument(documentState.document)
+                val content = documentRepository.loadDocument(document)
                 ensureActive()
 
                 documents = documents.mapSelected {
