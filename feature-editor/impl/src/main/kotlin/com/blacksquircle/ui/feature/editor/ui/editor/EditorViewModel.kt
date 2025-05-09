@@ -214,6 +214,14 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    fun onReadOnlyClicked() {
+        settings = settings.copy(readOnly = !settings.readOnly)
+        _viewState.update {
+            it.copy(settings = settings)
+        }
+        settingsManager.readOnly = settings.readOnly
+    }
+
     fun onCloseFileClicked() {
         if (selectedPosition !in documents.indices) {
             return

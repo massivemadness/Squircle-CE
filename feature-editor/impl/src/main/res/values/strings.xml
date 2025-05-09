@@ -26,6 +26,7 @@
     <string name="editor_menu_file_close">Close</string>
     <string name="editor_menu_file_close_others">Close Others</string>
     <string name="editor_menu_file_close_all">Close All</string>
+    <string name="editor_menu_file_read_only">Read Only</string>
 
     <string name="editor_menu_edit">Edit</string>
     <string name="editor_menu_edit_select_line">Select Line</string>

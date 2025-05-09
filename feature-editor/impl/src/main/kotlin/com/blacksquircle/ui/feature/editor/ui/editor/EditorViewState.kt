@@ -44,7 +44,6 @@ internal data class EditorViewState(
     val showExtendedKeyboard: Boolean
         get() = settings.extendedKeyboard &&
             settings.keyboardPreset.isNotEmpty() &&
-            !settings.readOnly &&
             !isError &&
             !isLoading &&
             !isEmpty
