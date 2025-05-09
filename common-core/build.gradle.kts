@@ -59,4 +59,10 @@ dependencies {
 
     ksp(libs.androidx.room.compiler)
     ksp(libs.google.dagger.compiler)
+
+    testImplementation(libs.test.junit)
+    testImplementation(libs.test.mockk)
+    androidTestImplementation(libs.androidx.room.testing)
+    androidTestImplementation(libs.test.junit.ext)
+    androidTestImplementation(libs.test.runner)
 }

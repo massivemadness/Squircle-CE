@@ -40,6 +40,8 @@ class FeatureModulePlugin : Plugin<Project> {
                 defaultConfig {
                     minSdk = BuildConst.MIN_SDK
 
+                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
                     consumerProguardFiles("consumer-rules.pro")
                 }
                 compileOptions {
