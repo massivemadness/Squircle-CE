@@ -19,9 +19,6 @@ package com.blacksquircle.ui.feature.git.api.navigation
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GitDialog(val repository: String)
-
-@Serializable
 data class FetchDialog(val repository: String)
 
 @Serializable

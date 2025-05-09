@@ -15,11 +15,6 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="git_fetch_description">Hae tiedostoja etätietovarastosta</string>
-    <string name="git_pull_description">Vedä muutokset etätietovarastosta</string>
-    <string name="git_commit_description">Toimita muutokset paikallisessa tietovarastossa</string>
-    <string name="git_push_description">Työnnä tiedostoja etätietovarastoon</string>
-    <string name="git_checkout_description">Vaihda tai luo paikallisen tietovaraston haara</string>
     <string name="git_fetch_dialog_title">Hae</string>
     <string name="git_fetch_dialog_message">Haetaan päivityksiä etätietovarastosta…</string>
     <string name="git_pull_dialog_title">Vedä (pull)</string>

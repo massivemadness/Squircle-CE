@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.git.data.interactor
 
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.git.api.exception.InvalidCredentialsException
+import com.blacksquircle.ui.feature.git.api.exception.RepositoryNotFoundException
 import com.blacksquircle.ui.feature.git.api.exception.UnsupportedFilesystemException
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
@@ -34,6 +35,20 @@ import java.io.File
 internal class GitInteractorImpl(
     private val settingsManager: SettingsManager
 ) : GitInteractor {
+
+    override suspend fun checkRepository(repository: String?): String {
+        if (repository == null || !File(repository).exists()) {
+            throw RepositoryNotFoundException()
+        }
+        if (settingsManager.gitCredentialsUsername.isBlank() ||
+            settingsManager.gitCredentialsPassword.isBlank() ||
+            settingsManager.gitUserEmail.isBlank() ||
+            settingsManager.gitUserName.isBlank()
+        ) {
+            throw InvalidCredentialsException()
+        }
+        return repository
+    }
 
     override suspend fun cloneRepository(
         fileModel: FileModel,

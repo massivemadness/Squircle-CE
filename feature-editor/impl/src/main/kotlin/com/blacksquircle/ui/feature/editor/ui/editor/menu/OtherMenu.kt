@@ -66,6 +66,13 @@ internal fun OtherMenu(
             title = stringResource(R.string.editor_menu_git),
             iconResId = UiR.drawable.ic_git,
             onClick = onGitClicked,
+            trailing = {
+                Icon(
+                    painter = painterResource(UiR.drawable.ic_menu_right),
+                    contentDescription = null,
+                    tint = SquircleTheme.colors.colorTextAndIconSecondary,
+                )
+            }
         )
         PopupMenuItem(
             title = stringResource(R.string.editor_menu_settings),

@@ -20,5 +20,6 @@ internal enum class MenuType {
     FILE,
     EDIT,
     TOOLS,
+    GIT,
     OTHER,
 }
