@@ -3,7 +3,7 @@
   "author": "Squircle CE",
   "type": "dark",
   "colors": {
-    "global.colorPrimary": "#FF8000",
+    "global.colorPrimary": "#F07199",
     "global.colorOutline": "#333B49",
     "global.colorBackgroundPrimary": "#21282D",
     "global.colorBackgroundSecondary": "#293239",
@@ -19,7 +19,7 @@
     "editor.foreground": "#E0E2E4",
     "editor.whitespace": "#859599",
     "editor.cursor": "#C0C5CE",
-    "editor.handle": "#FF8000",
+    "editor.handle": "#F07199",
     "editor.selection.background": "#622742",
     "editor.currentLine.background": "#383341",
     "editor.highlightedDelimiters.background": "#616161",

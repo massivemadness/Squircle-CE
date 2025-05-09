@@ -3,7 +3,7 @@
   "author": "Squircle CE",
   "type": "dark",
   "colors": {
-    "global.colorPrimary": "#87D35C",
+    "global.colorPrimary": "#92DE66",
     "global.colorOutline": "#3F4749",
     "global.colorBackgroundPrimary": "#23282A",
     "global.colorBackgroundSecondary": "#2E3539",
@@ -19,7 +19,7 @@
     "editor.foreground": "#E0E2E4",
     "editor.whitespace": "#859599",
     "editor.cursor": "#E0E2E4",
-    "editor.handle": "#87D35C",
+    "editor.handle": "#92DE66",
     "editor.selection.background": "#404C4E",
     "editor.currentLine.background": "#2B3134",
     "editor.highlightedDelimiters.background": "#404C4E",
