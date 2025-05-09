@@ -41,6 +41,7 @@ class DocumentMapperTest {
             uuid = "0",
             fileUri = "file:///storage/emulated/0/Test.txt",
             filesystemUuid = LocalFilesystem.LOCAL_UUID,
+            gitRepository = null,
             language = LanguageScope.TEXT,
             modified = false,
             position = 0,
@@ -64,6 +65,7 @@ class DocumentMapperTest {
         assertEquals(expected.scrollY, actual.scrollY)
         assertEquals(expected.selectionStart, actual.selectionStart)
         assertEquals(expected.selectionEnd, actual.selectionEnd)
+        assertEquals(expected.gitRepository, actual.gitRepository)
     }
 
     @Test
@@ -80,6 +82,7 @@ class DocumentMapperTest {
             scrollY = 50,
             selectionStart = 8,
             selectionEnd = 10,
+            gitRepository = null,
         )
         val expected = DocumentModel(
             uuid = "0",
@@ -92,6 +95,7 @@ class DocumentMapperTest {
             scrollY = 50,
             selectionStart = 8,
             selectionEnd = 10,
+            gitRepository = null,
         )
 
         // When
@@ -115,6 +119,7 @@ class DocumentMapperTest {
             scrollY = 50,
             selectionStart = 8,
             selectionEnd = 10,
+            gitRepository = null,
         )
         val expected = DocumentEntity(
             uuid = "0",
@@ -127,6 +132,7 @@ class DocumentMapperTest {
             scrollY = 50,
             selectionStart = 8,
             selectionEnd = 10,
+            gitRepository = null,
         )
 
         // When

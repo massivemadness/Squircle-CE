@@ -40,14 +40,14 @@ internal object DocumentMapper {
             uuid = UUID.randomUUID().toString(),
             fileUri = fileModel.fileUri,
             filesystemUuid = fileModel.filesystemUuid,
-            language = FileAssociation.guessLanguage(fileModel.extension)
-                ?: LanguageScope.TEXT,
+            language = FileAssociation.guessLanguage(fileModel.extension) ?: LanguageScope.TEXT,
             modified = false,
             position = position,
             scrollX = 0,
             scrollY = 0,
             selectionStart = 0,
             selectionEnd = 0,
+            gitRepository = null,
         )
     }
 
@@ -63,6 +63,7 @@ internal object DocumentMapper {
             scrollY = documentEntity.scrollY,
             selectionStart = documentEntity.selectionStart,
             selectionEnd = documentEntity.selectionEnd,
+            gitRepository = documentEntity.gitRepository,
         )
     }
 
@@ -78,6 +79,7 @@ internal object DocumentMapper {
             scrollY = documentModel.scrollY,
             selectionStart = documentModel.selectionStart,
             selectionEnd = documentModel.selectionEnd,
+            gitRepository = documentModel.gitRepository,
         )
     }
 }

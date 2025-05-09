@@ -38,6 +38,7 @@ internal fun createDocument(
         scrollY = 0,
         selectionStart = 0,
         selectionEnd = 0,
+        gitRepository = null,
     )
 }
 
@@ -58,5 +59,6 @@ internal fun createDocumentEntity(
         scrollY = 0,
         selectionStart = 0,
         selectionEnd = 0,
+        gitRepository = null,
     )
 }

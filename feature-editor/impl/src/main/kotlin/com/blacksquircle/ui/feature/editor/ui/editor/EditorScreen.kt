@@ -459,6 +459,7 @@ private fun EditorScreenPreview() {
                             scrollY = 0,
                             selectionStart = 0,
                             selectionEnd = 0,
+                            gitRepository = null,
                         ),
                     )
                 ),
