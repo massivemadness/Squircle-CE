@@ -33,6 +33,8 @@ enum class Shortcut(val key: String, val group: KeyGroup, val defaultValue: Stri
     DELETE_LINE("shortcut_delete_line", KeyGroup.EDITOR, "100\u232B"), // Ctrl + ⌫
     DUPLICATE_LINE("shortcut_duplicate_line", KeyGroup.EDITOR, "100D"), // Ctrl + D
     TOGGLE_CASE("shortcut_toggle_case", KeyGroup.EDITOR, "110U"), // Ctrl + Shift + U
+    COMMENT_LINE("shortcut_comment_line", KeyGroup.EDITOR, "100/"), // Ctrl + /
+    COMMENT_SELECTION("shortcut_comment_selection", KeyGroup.EDITOR, "110/"), // Ctrl + Shift + /
     PREV_WORD("shortcut_prev_word", KeyGroup.EDITOR, "001\u2190"), // Alt + ←
     NEXT_WORD("shortcut_next_word", KeyGroup.EDITOR, "001\u2192"), // Alt + →
     START_OF_LINE("shortcut_start_of_line", KeyGroup.EDITOR, "100\u2190"), // Ctrl + ←

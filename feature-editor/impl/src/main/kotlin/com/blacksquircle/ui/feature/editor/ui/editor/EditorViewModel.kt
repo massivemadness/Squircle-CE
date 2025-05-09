@@ -282,6 +282,8 @@ internal class EditorViewModel @Inject constructor(
             Shortcut.DELETE_LINE -> onDeleteLineClicked()
             Shortcut.DUPLICATE_LINE -> onDuplicateLineClicked()
             Shortcut.TOGGLE_CASE -> onToggleCaseClicked()
+            Shortcut.COMMENT_LINE -> onCommentLineClicked()
+            Shortcut.COMMENT_SELECTION -> onCommentSelectionClicked()
             Shortcut.PREV_WORD -> onPreviousWordClicked()
             Shortcut.NEXT_WORD -> onNextWordClicked()
             Shortcut.START_OF_LINE -> onStartOfLineClicked()

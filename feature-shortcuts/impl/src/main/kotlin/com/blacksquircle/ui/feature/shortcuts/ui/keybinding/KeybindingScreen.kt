@@ -136,6 +136,8 @@ private fun KeybindingScreen(
             Shortcut.DELETE_LINE -> stringResource(R.string.shortcuts_delete_line_title)
             Shortcut.DUPLICATE_LINE -> stringResource(R.string.shortcuts_duplicate_line_title)
             Shortcut.TOGGLE_CASE -> stringResource(R.string.shortcuts_toggle_case_title)
+            Shortcut.COMMENT_LINE -> "Comment Line"
+            Shortcut.COMMENT_SELECTION -> "Comment Selection"
             Shortcut.PREV_WORD -> stringResource(R.string.shortcuts_previous_word_title)
             Shortcut.NEXT_WORD -> stringResource(R.string.shortcuts_next_word_title)
             Shortcut.START_OF_LINE -> stringResource(R.string.shortcuts_start_of_line_title)
