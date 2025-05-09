@@ -51,9 +51,8 @@ import com.blacksquircle.ui.ds.R as UiR
 private const val TypeIcon = "type_icon"
 private const val TypeKey = "type_key"
 private const val ItemOptions = "key_options"
-private const val ItemOpenFile = "key_open_file"
 private const val ItemSaveFile = "key_save_file"
-private const val ItemCloseFile = "key_close_file"
+private const val ItemReadOnly = "key_read_only"
 private const val ItemEditUndo = "key_edit_undo"
 private const val ItemEditRedo = "key_edit_redo"
 private const val ItemEditTab = "key_edit_tab"
@@ -63,12 +62,12 @@ private const val ItemKey = "key_"
 internal fun ExtendedKeyboard(
     preset: List<Char>,
     showExtraKeys: Boolean,
+    readOnly: Boolean,
     modifier: Modifier = Modifier,
     onExtraKeyClicked: (Char) -> Unit = {},
     onExtraOptionsClicked: () -> Unit = {},
-    onOpenFileClicked: () -> Unit = {},
     onSaveFileClicked: () -> Unit = {},
-    onCloseFileClicked: () -> Unit = {},
+    onReadOnlyClicked: () -> Unit = {},
     onUndoClicked: () -> Unit = {},
     onRedoClicked: () -> Unit = {},
 ) {
@@ -100,18 +99,6 @@ internal fun ExtendedKeyboard(
         }
         if (showExtraKeys) {
             item(
-                key = ItemOpenFile,
-                contentType = TypeIcon,
-            ) {
-                ExtraKey(
-                    iconResId = UiR.drawable.ic_folder_open,
-                    text = stringResource(R.string.editor_menu_file_open),
-                    debounce = true,
-                    onClick = onOpenFileClicked,
-                    modifier = Modifier.animateItem(),
-                )
-            }
-            item(
                 key = ItemSaveFile,
                 contentType = TypeIcon,
             ) {
@@ -124,14 +111,18 @@ internal fun ExtendedKeyboard(
                 )
             }
             item(
-                key = ItemCloseFile,
+                key = ItemReadOnly,
                 contentType = TypeIcon,
             ) {
                 ExtraKey(
-                    iconResId = UiR.drawable.ic_file_remove,
-                    text = stringResource(R.string.editor_menu_file_close),
+                    iconResId = if (readOnly) {
+                        UiR.drawable.ic_pencil
+                    } else {
+                        UiR.drawable.ic_eye
+                    },
+                    text = stringResource(R.string.editor_menu_file_read_only),
                     debounce = true,
-                    onClick = onCloseFileClicked,
+                    onClick = onReadOnlyClicked,
                     modifier = Modifier.animateItem(),
                 )
             }
@@ -238,6 +229,7 @@ private fun ExtendedKeyboardPreview() {
         ExtendedKeyboard(
             preset = "{}();,.=|&![]<>+-/*?:_".map { it },
             showExtraKeys = true,
+            readOnly = false,
         )
     }
 }
