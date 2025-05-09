@@ -28,6 +28,9 @@ internal sealed class EditorCommand {
     data object DuplicateLine : EditorCommand()
     data object ToggleCase : EditorCommand()
 
+    data object CommentLine : EditorCommand()
+    data object CommentSelection : EditorCommand()
+
     data object PreviousWord : EditorCommand()
     data object NextWord : EditorCommand()
     data object StartOfLine : EditorCommand()

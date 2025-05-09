@@ -29,6 +29,8 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorController
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorSettings
 import com.blacksquircle.ui.feature.editor.ui.editor.view.CodeEditor
 import com.blacksquircle.ui.feature.editor.ui.editor.view.SquircleScheme
+import com.blacksquircle.ui.feature.editor.ui.editor.view.commentLine
+import com.blacksquircle.ui.feature.editor.ui.editor.view.commentSelection
 import com.blacksquircle.ui.feature.editor.ui.editor.view.createFromRegistry
 import com.blacksquircle.ui.feature.editor.ui.editor.view.deleteLine
 import com.blacksquircle.ui.feature.editor.ui.editor.view.endOfLine
@@ -125,6 +127,9 @@ internal fun CodeEditor(
                 is EditorCommand.DeleteLine -> view.deleteLine()
                 is EditorCommand.DuplicateLine -> view.duplicateLine()
                 is EditorCommand.ToggleCase -> view.toggleCase()
+
+                is EditorCommand.CommentLine -> view.commentLine()
+                is EditorCommand.CommentSelection -> view.commentSelection()
 
                 is EditorCommand.PreviousWord -> view.previousWord()
                 is EditorCommand.NextWord -> view.nextWord()

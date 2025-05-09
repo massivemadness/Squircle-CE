@@ -358,6 +358,22 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    private fun onCommentLineClicked() {
+        viewModelScope.launch {
+            if (settings.readOnly) return@launch
+            val command = EditorCommand.CommentLine
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
+    private fun onCommentSelectionClicked() {
+        viewModelScope.launch {
+            if (settings.readOnly) return@launch
+            val command = EditorCommand.CommentSelection
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
     private fun onPreviousWordClicked() {
         viewModelScope.launch {
             val command = EditorCommand.PreviousWord

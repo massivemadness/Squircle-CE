@@ -22,6 +22,7 @@ import io.github.rosemoe.sora.lang.EmptyLanguage
 import io.github.rosemoe.sora.lang.Language
 import io.github.rosemoe.sora.langs.textmate.TextMateLanguage
 import io.github.rosemoe.sora.text.Content
+import io.github.rosemoe.sora.text.batchEdit
 import io.github.rosemoe.sora.widget.CodeEditor
 import io.github.rosemoe.sora.widget.SelectionMovement
 
@@ -71,6 +72,29 @@ internal fun CodeEditor.startOfLine() {
 
 internal fun CodeEditor.endOfLine() {
     moveOrExtendSelection(SelectionMovement.LINE_END, false)
+}
+
+internal fun CodeEditor.commentLine() {
+    val lineComment = (editorLanguage as? TextMateLanguage)
+        ?.languageConfiguration
+        ?.comments
+        ?.lineComment
+    if (lineComment != null) {
+        text.insert(text.cursor.leftLine, 0, lineComment)
+    }
+}
+
+internal fun CodeEditor.commentSelection() {
+    val blockComment = (editorLanguage as? TextMateLanguage)
+        ?.languageConfiguration
+        ?.comments
+        ?.blockComment
+    if (blockComment != null) {
+        text.batchEdit {
+            it.insert(cursor.leftLine, cursor.leftColumn, blockComment.open)
+            it.insert(cursor.rightLine, cursor.rightColumn, blockComment.close)
+        }
+    }
 }
 
 internal fun CodeEditor.createFromRegistry(
