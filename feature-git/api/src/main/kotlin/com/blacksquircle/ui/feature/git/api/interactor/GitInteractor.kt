@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface GitInteractor {
 
-    suspend fun getRepoPath(fileModel: FileModel): String
+    suspend fun checkRepository(repository: String?): String
 
     suspend fun cloneRepository(
         fileModel: FileModel,

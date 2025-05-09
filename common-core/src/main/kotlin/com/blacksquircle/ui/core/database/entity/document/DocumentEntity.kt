@@ -44,4 +44,6 @@ data class DocumentEntity(
     val selectionStart: Int,
     @ColumnInfo(name = "selection_end")
     val selectionEnd: Int,
+    @ColumnInfo(name = "git_repository")
+    val gitRepository: String?,
 )

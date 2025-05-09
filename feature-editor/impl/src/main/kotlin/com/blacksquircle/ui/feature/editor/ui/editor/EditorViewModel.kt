@@ -35,7 +35,6 @@ import com.blacksquircle.ui.feature.editor.api.navigation.ConfirmExitDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineDialog
 import com.blacksquircle.ui.feature.editor.api.navigation.InsertColorDialog
-import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
@@ -49,11 +48,12 @@ import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionStart
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
-import com.blacksquircle.ui.feature.git.api.exception.InvalidCredentialsException
-import com.blacksquircle.ui.feature.git.api.exception.RepositoryNotFoundException
-import com.blacksquircle.ui.feature.git.api.exception.UnsupportedFilesystemException
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
-import com.blacksquircle.ui.feature.git.api.navigation.GitDialog
+import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog
+import com.blacksquircle.ui.feature.git.api.navigation.CommitDialog
+import com.blacksquircle.ui.feature.git.api.navigation.FetchDialog
+import com.blacksquircle.ui.feature.git.api.navigation.PullDialog
+import com.blacksquircle.ui.feature.git.api.navigation.PushDialog
 import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
@@ -237,34 +237,24 @@ internal class EditorViewModel @Inject constructor(
                     return@launch
                 }
 
-                val document = documents[selectedPosition].document
-                val content = documents[selectedPosition].content ?: return@launch
+                val documentState = documents[selectedPosition]
+                val document = documentState.document
 
                 if (document.modified) {
-                    _viewState.update {
-                        it.copy(
-                            canUndo = content.canUndo(),
-                            canRedo = content.canRedo(),
-                        )
-                    }
+                    documentState.syncState()
                 } else {
-                    val modified = true
-                    val updatedDocument = document.copy(
-                        modified = modified,
-                    )
+                    val updatedDocument = document.copy(modified = true)
 
                     documents = documents.mapSelected { state ->
                         state.copy(document = updatedDocument)
                     }
                     _viewState.update {
-                        it.copy(
-                            documents = documents,
-                            canUndo = content.canUndo(),
-                            canRedo = content.canRedo(),
-                        )
+                        it.copy(documents = documents)
                     }
 
-                    documentRepository.changeModified(updatedDocument, modified)
+                    documentRepository.changeModified(updatedDocument, true)
+
+                    documents[selectedPosition].syncState()
                 }
             } catch (e: CancellationException) {
                 throw e
@@ -395,93 +385,23 @@ internal class EditorViewModel @Inject constructor(
     }
 
     fun onUndoClicked() {
-        if (selectedPosition !in documents.indices) {
+        if (selectedPosition !in documents.indices || settings.readOnly) {
             return
         }
 
-        if (settings.readOnly) return
-        val content = documents[selectedPosition].content ?: return
-        content.undo()
-
-        _viewState.update {
-            it.copy(
-                canUndo = content.canUndo(),
-                canRedo = content.canRedo(),
-            )
-        }
+        val documentState = documents[selectedPosition]
+        documentState.content?.undo()
+        documentState.syncState()
     }
 
     fun onRedoClicked() {
-        if (selectedPosition !in documents.indices) {
+        if (selectedPosition !in documents.indices || settings.readOnly) {
             return
         }
 
-        if (settings.readOnly) return
-        val content = documents[selectedPosition].content ?: return
-        content.redo()
-
-        _viewState.update {
-            it.copy(
-                canUndo = content.canUndo(),
-                canRedo = content.canRedo(),
-            )
-        }
-    }
-
-    fun onForceSyntaxClicked() {
-        viewModelScope.launch {
-            if (selectedPosition !in documents.indices) {
-                return@launch
-            }
-            val document = documents[selectedPosition].document
-            val screen = ForceSyntaxDialog(document.language)
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
-    }
-
-    fun onLanguageChanged(language: String) {
-        viewModelScope.launch {
-            try {
-                if (selectedPosition !in documents.indices) {
-                    return@launch
-                }
-
-                val document = documents[selectedPosition].document.copy(
-                    language = language,
-                )
-
-                documents = documents.mapSelected { state ->
-                    state.copy(document = document)
-                }
-                _viewState.update {
-                    it.copy(documents = documents)
-                }
-
-                documentRepository.changeLanguage(document, language)
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
-    fun onInsertColorClicked() {
-        viewModelScope.launch {
-            if (selectedPosition !in documents.indices) {
-                return@launch
-            }
-            val screen = InsertColorDialog
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
-    }
-
-    fun onColorSelected(color: Int) {
-        viewModelScope.launch {
-            val command = EditorCommand.Insert(color.toHexString())
-            _viewEvent.send(EditorViewEvent.Command(command))
-        }
+        val documentState = documents[selectedPosition]
+        documentState.content?.redo()
+        documentState.syncState()
     }
 
     fun onToggleFindClicked() {
@@ -682,6 +602,61 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    fun onForceSyntaxClicked() {
+        viewModelScope.launch {
+            if (selectedPosition !in documents.indices) {
+                return@launch
+            }
+            val document = documents[selectedPosition].document
+            val screen = ForceSyntaxDialog(document.language)
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onLanguageChanged(language: String) {
+        viewModelScope.launch {
+            try {
+                if (selectedPosition !in documents.indices) {
+                    return@launch
+                }
+
+                val document = documents[selectedPosition].document
+                    .copy(language = language)
+
+                documents = documents.mapSelected { state ->
+                    state.copy(document = document)
+                }
+                _viewState.update {
+                    it.copy(documents = documents)
+                }
+
+                documentRepository.changeLanguage(document, language)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
+    fun onInsertColorClicked() {
+        viewModelScope.launch {
+            if (selectedPosition !in documents.indices) {
+                return@launch
+            }
+            val screen = InsertColorDialog
+            _viewEvent.send(ViewEvent.Navigation(screen))
+        }
+    }
+
+    fun onColorSelected(color: Int) {
+        viewModelScope.launch {
+            val command = EditorCommand.Insert(color.toHexString())
+            _viewEvent.send(EditorViewEvent.Command(command))
+        }
+    }
+
     fun onSettingsClicked() {
         viewModelScope.launch {
             val screen = HeaderListScreen
@@ -689,34 +664,107 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    fun onGitClicked() {
+    fun onFetchClicked() {
         viewModelScope.launch {
             if (selectedPosition !in documents.indices) {
                 return@launch
             }
             try {
                 val document = documents[selectedPosition].document
-                val fileModel = DocumentMapper.toModel(document)
-                val repository = gitInteractor.getRepoPath(fileModel)
-                val screen = GitDialog(repository)
+                val repository = gitInteractor.checkRepository(document.gitRepository)
+                val screen = FetchDialog(repository)
                 _viewEvent.send(ViewEvent.Navigation(screen))
-            } catch (e: InvalidCredentialsException) {
-                val message =
-                    stringProvider.getString(R.string.editor_toast_git_invalid_credentials)
-                _viewEvent.send(ViewEvent.Toast(message))
-            } catch (e: RepositoryNotFoundException) {
-                val message =
-                    stringProvider.getString(R.string.editor_toast_git_repository_not_found)
-                _viewEvent.send(ViewEvent.Toast(message))
-            } catch (e: UnsupportedFilesystemException) {
-                val message =
-                    stringProvider.getString(R.string.editor_toast_git_unsupported_filesystem)
-                _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
                 Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+                val message = stringProvider
+                    .getString(R.string.editor_toast_git_invalid_credentials)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+        }
+    }
+
+    fun onPullClicked() {
+        viewModelScope.launch {
+            if (selectedPosition !in documents.indices) {
+                return@launch
+            }
+            try {
+                val document = documents[selectedPosition].document
+                val repository = gitInteractor.checkRepository(document.gitRepository)
+                val screen = PullDialog(repository)
+                _viewEvent.send(ViewEvent.Navigation(screen))
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                val message = stringProvider
+                    .getString(R.string.editor_toast_git_invalid_credentials)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+        }
+    }
+
+    fun onCommitClicked() {
+        viewModelScope.launch {
+            if (selectedPosition !in documents.indices) {
+                return@launch
+            }
+            try {
+                val document = documents[selectedPosition].document
+                val repository = gitInteractor.checkRepository(document.gitRepository)
+                val screen = CommitDialog(repository)
+                _viewEvent.send(ViewEvent.Navigation(screen))
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                val message = stringProvider
+                    .getString(R.string.editor_toast_git_invalid_credentials)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+        }
+    }
+
+    fun onPushClicked() {
+        viewModelScope.launch {
+            if (selectedPosition !in documents.indices) {
+                return@launch
+            }
+            try {
+                val document = documents[selectedPosition].document
+                val repository = gitInteractor.checkRepository(document.gitRepository)
+                val screen = PushDialog(repository)
+                _viewEvent.send(ViewEvent.Navigation(screen))
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                val message = stringProvider
+                    .getString(R.string.editor_toast_git_invalid_credentials)
+                _viewEvent.send(ViewEvent.Toast(message))
+            }
+        }
+    }
+
+    fun onCheckoutClicked() {
+        viewModelScope.launch {
+            if (selectedPosition !in documents.indices) {
+                return@launch
+            }
+            try {
+                val document = documents[selectedPosition].document
+                val repository = gitInteractor.checkRepository(document.gitRepository)
+                val screen = CheckoutDialog(repository)
+                _viewEvent.send(ViewEvent.Navigation(screen))
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                val message = stringProvider
+                    .getString(R.string.editor_toast_git_invalid_credentials)
+                _viewEvent.send(ViewEvent.Toast(message))
             }
         }
     }
@@ -826,8 +874,6 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
-                        canUndo = if (reloadFile) false else it.canUndo,
-                        canRedo = if (reloadFile) false else it.canRedo,
                         isLoading = hasMoreFiles,
                     )
                 }
@@ -900,8 +946,6 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
-                        canUndo = false,
-                        canRedo = false,
                         isLoading = false,
                     )
                 }
@@ -1097,8 +1141,6 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
-                        canUndo = false,
-                        canRedo = false,
                         isLoading = true,
                     )
                 }
@@ -1117,8 +1159,6 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
-                        canUndo = content.canUndo(),
-                        canRedo = content.canRedo(),
                         isLoading = false,
                     )
                 }

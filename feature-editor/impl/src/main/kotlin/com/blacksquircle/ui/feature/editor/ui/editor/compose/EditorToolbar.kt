@@ -31,15 +31,16 @@ import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.EditMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.FileMenu
+import com.blacksquircle.ui.feature.editor.ui.editor.menu.GitMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.OtherMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.ToolsMenu
+import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.editor.model.MenuType
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun EditorToolbar(
-    canUndo: Boolean,
-    canRedo: Boolean,
+    currentDocument: DocumentState?,
     modifier: Modifier = Modifier,
     onDrawerClicked: () -> Unit = {},
     onNewFileClicked: () -> Unit = {},
@@ -55,12 +56,16 @@ internal fun EditorToolbar(
     onSelectLineClicked: () -> Unit = {},
     onDeleteLineClicked: () -> Unit = {},
     onDuplicateLineClicked: () -> Unit = {},
-    onForceSyntaxClicked: () -> Unit = {},
-    onInsertColorClicked: () -> Unit = {},
-    onGitClicked: () -> Unit = {},
-    onFindClicked: () -> Unit = {},
     onUndoClicked: () -> Unit = {},
     onRedoClicked: () -> Unit = {},
+    onFindClicked: () -> Unit = {},
+    onForceSyntaxClicked: () -> Unit = {},
+    onInsertColorClicked: () -> Unit = {},
+    onFetchClicked: () -> Unit = {},
+    onPullClicked: () -> Unit = {},
+    onCommitClicked: () -> Unit = {},
+    onPushClicked: () -> Unit = {},
+    onCheckoutClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
 ) {
     val focusManager = LocalFocusManager.current
@@ -107,35 +112,34 @@ internal fun EditorToolbar(
                     )
                 }
             )
+
             IconButton(
                 iconResId = UiR.drawable.ic_undo,
                 onClick = onUndoClicked,
-                enabled = canUndo,
+                enabled = currentDocument?.canUndo?.value ?: false,
                 debounce = false,
                 contentDescription = stringResource(R.string.editor_menu_edit_undo)
             )
             IconButton(
                 iconResId = UiR.drawable.ic_redo,
                 onClick = onRedoClicked,
-                enabled = canRedo,
+                enabled = currentDocument?.canRedo?.value ?: false,
                 debounce = false,
                 contentDescription = stringResource(R.string.editor_menu_edit_redo)
             )
+
             IconButton(
                 iconResId = UiR.drawable.ic_dots_vertical,
                 onClick = { menuType = MenuType.OTHER },
                 contentDescription = stringResource(UiR.string.common_menu),
                 anchor = {
                     OtherMenu(
+                        showGit = currentDocument?.document?.gitRepository != null,
                         expanded = menuType == MenuType.OTHER,
                         onDismiss = { menuType = null },
                         onFindClicked = { menuType = null; onFindClicked() },
                         onToolsClicked = { menuType = MenuType.TOOLS },
-                        onGitClicked = {
-                            focusManager.clearFocus(force = true)
-                            menuType = null
-                            onGitClicked()
-                        },
+                        onGitClicked = { menuType = MenuType.GIT },
                         onSettingsClicked = {
                             focusManager.clearFocus(force = true)
                             menuType = null
@@ -148,6 +152,15 @@ internal fun EditorToolbar(
                         onForceSyntaxClicked = { menuType = null; onForceSyntaxClicked() },
                         onInsertColorClicked = { menuType = null; onInsertColorClicked() },
                     )
+                    GitMenu(
+                        expanded = menuType == MenuType.GIT,
+                        onDismiss = { menuType = null },
+                        onFetchClicked = { menuType = null; onFetchClicked() },
+                        onPullClicked = { menuType = null; onPullClicked() },
+                        onCommitClicked = { menuType = null; onCommitClicked() },
+                        onPushClicked = { menuType = null; onPushClicked() },
+                        onCheckoutClicked = { menuType = null; onCheckoutClicked() },
+                    )
                 }
             )
         },
@@ -159,9 +172,6 @@ internal fun EditorToolbar(
 @Composable
 private fun EditorToolbarPreview() {
     PreviewBackground {
-        EditorToolbar(
-            canUndo = true,
-            canRedo = false,
-        )
+        EditorToolbar(currentDocument = null)
     }
 }

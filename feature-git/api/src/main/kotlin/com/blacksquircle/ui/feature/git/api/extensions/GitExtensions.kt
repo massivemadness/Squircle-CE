@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.git.internal.api
+package com.blacksquircle.ui.feature.git.api.extensions
 
-import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
-import com.blacksquircle.ui.feature.git.data.interactor.GitInteractorImpl
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import com.blacksquircle.ui.filesystem.base.model.FileModel
+import java.io.File
 
-@Module
-object GitApiModule {
+private const val GIT_FOLDER = ".git"
 
-    @Provides
-    @Singleton
-    fun provideGitInteractor(settingsManager: SettingsManager): GitInteractor {
-        return GitInteractorImpl(
-            settingsManager = settingsManager,
-        )
+fun FileModel.findGitRepository(): String? {
+    var current: File? = File(path)
+    while (current != null) {
+        val gitDir = File(current, GIT_FOLDER)
+        if (gitDir.exists() && gitDir.isDirectory) {
+            return current.absolutePath
+        }
+        current = current.parentFile
     }
+    return null
 }

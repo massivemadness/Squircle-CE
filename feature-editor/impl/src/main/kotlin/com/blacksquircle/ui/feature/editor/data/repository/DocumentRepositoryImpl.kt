@@ -31,12 +31,15 @@ import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.data.manager.CacheManager
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
+import com.blacksquircle.ui.feature.editor.data.model.FileAssociation
+import com.blacksquircle.ui.feature.editor.data.model.LanguageScope
 import com.blacksquircle.ui.feature.editor.data.utils.charsetFor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionStart
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
+import com.blacksquircle.ui.feature.git.api.extensions.findGitRepository
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FileParams
 import com.blacksquircle.ui.filesystem.base.model.LineBreak
@@ -45,6 +48,7 @@ import com.blacksquircle.ui.filesystem.saf.SAFFilesystem
 import io.github.rosemoe.sora.text.Content
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.util.UUID
 
 internal class DocumentRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
@@ -67,7 +71,24 @@ internal class DocumentRepositoryImpl(
             if (entity != null) {
                 DocumentMapper.toModel(entity)
             } else {
-                val document = DocumentMapper.toModel(fileModel, position = position)
+                val document = DocumentModel(
+                    uuid = UUID.randomUUID().toString(),
+                    fileUri = fileModel.fileUri,
+                    filesystemUuid = fileModel.filesystemUuid,
+                    language = FileAssociation.guessLanguage(fileModel.extension)
+                        ?: LanguageScope.TEXT,
+                    modified = false,
+                    position = position,
+                    scrollX = 0,
+                    scrollY = 0,
+                    selectionStart = 0,
+                    selectionEnd = 0,
+                    gitRepository = if (fileModel.filesystemUuid == LocalFilesystem.LOCAL_UUID) {
+                        fileModel.findGitRepository()
+                    } else {
+                        null
+                    },
+                )
                 val documentEntity = DocumentMapper.toEntity(document)
                 documentDao.insert(documentEntity)
                 document

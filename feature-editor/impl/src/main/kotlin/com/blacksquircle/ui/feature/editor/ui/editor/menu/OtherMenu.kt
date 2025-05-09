@@ -30,6 +30,7 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun OtherMenu(
+    showGit: Boolean,
     expanded: Boolean,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
@@ -62,11 +63,20 @@ internal fun OtherMenu(
                 )
             }
         )
-        PopupMenuItem(
-            title = stringResource(R.string.editor_menu_git),
-            iconResId = UiR.drawable.ic_git,
-            onClick = onGitClicked,
-        )
+        if (showGit) {
+            PopupMenuItem(
+                title = stringResource(R.string.editor_menu_git),
+                iconResId = UiR.drawable.ic_git,
+                onClick = onGitClicked,
+                trailing = {
+                    Icon(
+                        painter = painterResource(UiR.drawable.ic_menu_right),
+                        contentDescription = null,
+                        tint = SquircleTheme.colors.colorTextAndIconSecondary,
+                    )
+                }
+            )
+        }
         PopupMenuItem(
             title = stringResource(R.string.editor_menu_settings),
             iconResId = UiR.drawable.ic_settings,
