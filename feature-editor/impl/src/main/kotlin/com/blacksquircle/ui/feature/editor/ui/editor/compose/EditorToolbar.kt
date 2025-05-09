@@ -29,20 +29,18 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.EditMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.FileMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.GitMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.OtherMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.menu.ToolsMenu
+import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.editor.model.MenuType
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun EditorToolbar(
-    document: DocumentModel?,
-    canUndo: Boolean,
-    canRedo: Boolean,
+    currentDocument: DocumentState?,
     modifier: Modifier = Modifier,
     onDrawerClicked: () -> Unit = {},
     onNewFileClicked: () -> Unit = {},
@@ -114,27 +112,29 @@ internal fun EditorToolbar(
                     )
                 }
             )
+
             IconButton(
                 iconResId = UiR.drawable.ic_undo,
                 onClick = onUndoClicked,
-                enabled = canUndo,
+                enabled = currentDocument?.canUndo?.value ?: false,
                 debounce = false,
                 contentDescription = stringResource(R.string.editor_menu_edit_undo)
             )
             IconButton(
                 iconResId = UiR.drawable.ic_redo,
                 onClick = onRedoClicked,
-                enabled = canRedo,
+                enabled = currentDocument?.canRedo?.value ?: false,
                 debounce = false,
                 contentDescription = stringResource(R.string.editor_menu_edit_redo)
             )
+
             IconButton(
                 iconResId = UiR.drawable.ic_dots_vertical,
                 onClick = { menuType = MenuType.OTHER },
                 contentDescription = stringResource(UiR.string.common_menu),
                 anchor = {
                     OtherMenu(
-                        showGit = document?.gitRepository != null,
+                        showGit = currentDocument?.document?.gitRepository != null,
                         expanded = menuType == MenuType.OTHER,
                         onDismiss = { menuType = null },
                         onFindClicked = { menuType = null; onFindClicked() },
@@ -172,10 +172,6 @@ internal fun EditorToolbar(
 @Composable
 private fun EditorToolbarPreview() {
     PreviewBackground {
-        EditorToolbar(
-            document = null,
-            canUndo = true,
-            canRedo = false,
-        )
+        EditorToolbar(currentDocument = null)
     }
 }

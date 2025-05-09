@@ -313,9 +313,7 @@ private fun EditorScreen(
     ScaffoldSuite(
         topBar = {
             EditorToolbar(
-                document = viewState.currentDocument?.document,
-                canUndo = viewState.canUndo,
-                canRedo = viewState.canRedo,
+                currentDocument = viewState.currentDocument,
                 onDrawerClicked = onDrawerClicked,
                 onNewFileClicked = onNewFileClicked,
                 onOpenFileClicked = onOpenFileClicked,

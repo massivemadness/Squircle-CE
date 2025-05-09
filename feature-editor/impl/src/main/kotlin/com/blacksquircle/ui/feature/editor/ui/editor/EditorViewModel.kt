@@ -237,34 +237,24 @@ internal class EditorViewModel @Inject constructor(
                     return@launch
                 }
 
-                val document = documents[selectedPosition].document
-                val content = documents[selectedPosition].content ?: return@launch
+                val documentState = documents[selectedPosition]
+                val document = documentState.document
 
                 if (document.modified) {
-                    _viewState.update {
-                        it.copy(
-                            canUndo = content.canUndo(),
-                            canRedo = content.canRedo(),
-                        )
-                    }
+                    documentState.syncState()
                 } else {
-                    val modified = true
-                    val updatedDocument = document.copy(
-                        modified = modified,
-                    )
+                    val updatedDocument = document.copy(modified = true)
 
                     documents = documents.mapSelected { state ->
                         state.copy(document = updatedDocument)
                     }
                     _viewState.update {
-                        it.copy(
-                            documents = documents,
-                            canUndo = content.canUndo(),
-                            canRedo = content.canRedo(),
-                        )
+                        it.copy(documents = documents)
                     }
 
-                    documentRepository.changeModified(updatedDocument, modified)
+                    documentRepository.changeModified(updatedDocument, true)
+
+                    documents[selectedPosition].syncState()
                 }
             } catch (e: CancellationException) {
                 throw e
@@ -395,37 +385,23 @@ internal class EditorViewModel @Inject constructor(
     }
 
     fun onUndoClicked() {
-        if (selectedPosition !in documents.indices) {
+        if (selectedPosition !in documents.indices || settings.readOnly) {
             return
         }
 
-        if (settings.readOnly) return
-        val content = documents[selectedPosition].content ?: return
-        content.undo()
-
-        _viewState.update {
-            it.copy(
-                canUndo = content.canUndo(),
-                canRedo = content.canRedo(),
-            )
-        }
+        val documentState = documents[selectedPosition]
+        documentState.content?.undo()
+        documentState.syncState()
     }
 
     fun onRedoClicked() {
-        if (selectedPosition !in documents.indices) {
+        if (selectedPosition !in documents.indices || settings.readOnly) {
             return
         }
 
-        if (settings.readOnly) return
-        val content = documents[selectedPosition].content ?: return
-        content.redo()
-
-        _viewState.update {
-            it.copy(
-                canUndo = content.canUndo(),
-                canRedo = content.canRedo(),
-            )
-        }
+        val documentState = documents[selectedPosition]
+        documentState.content?.redo()
+        documentState.syncState()
     }
 
     fun onToggleFindClicked() {
@@ -898,8 +874,6 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
-                        canUndo = if (reloadFile) false else it.canUndo,
-                        canRedo = if (reloadFile) false else it.canRedo,
                         isLoading = hasMoreFiles,
                     )
                 }
@@ -972,8 +946,6 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
-                        canUndo = false,
-                        canRedo = false,
                         isLoading = false,
                     )
                 }
@@ -1169,8 +1141,6 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
-                        canUndo = false,
-                        canRedo = false,
                         isLoading = true,
                     )
                 }
@@ -1189,8 +1159,6 @@ internal class EditorViewModel @Inject constructor(
                     it.copy(
                         documents = documents,
                         selectedDocument = selectedPosition,
-                        canUndo = content.canUndo(),
-                        canRedo = content.canRedo(),
                         isLoading = false,
                     )
                 }
