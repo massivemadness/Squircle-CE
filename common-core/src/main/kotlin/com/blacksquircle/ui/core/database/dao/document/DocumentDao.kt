@@ -30,6 +30,9 @@ interface DocumentDao {
     @Query("SELECT * FROM `${Tables.DOCUMENTS}` ORDER BY `position` ASC")
     suspend fun loadAll(): List<DocumentEntity>
 
+    @Query("SELECT * FROM `${Tables.DOCUMENTS}` WHERE `file_uri` = :fileUri")
+    suspend fun load(fileUri: String): DocumentEntity?
+
     @Query("DELETE FROM `${Tables.DOCUMENTS}`")
     suspend fun deleteAll()
 

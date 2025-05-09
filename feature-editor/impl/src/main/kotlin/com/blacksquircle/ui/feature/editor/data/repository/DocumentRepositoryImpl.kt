@@ -59,10 +59,22 @@ internal class DocumentRepositoryImpl(
         }
     }
 
+    override suspend fun openDocument(fileModel: FileModel, position: Int): DocumentModel {
+        return withContext(dispatcherProvider.io()) {
+            val entity = documentDao.load(fileModel.fileUri)
+            if (entity != null) {
+                DocumentMapper.toModel(entity)
+            } else {
+                val document = DocumentMapper.toModel(fileModel, position = position)
+                val documentEntity = DocumentMapper.toEntity(document)
+                documentDao.insert(documentEntity)
+                document
+            }
+        }
+    }
+
     override suspend fun loadDocument(document: DocumentModel): Content {
         return withContext(dispatcherProvider.io()) {
-            val documentEntity = DocumentMapper.toEntity(document)
-            documentDao.insert(documentEntity)
             settingsManager.selectedUuid = document.uuid
 
             if (cacheManager.isCached(document)) {
@@ -192,6 +204,7 @@ internal class DocumentRepositoryImpl(
                         filesystemUuid = SAFFilesystem.SAF_UUID,
                     )
                 }
+
                 fileUri.scheme == ContentResolver.SCHEME_CONTENT -> {
                     val filePath = context.contentResolver.query(
                         /* uri = */ fileUri,
@@ -201,7 +214,8 @@ internal class DocumentRepositoryImpl(
                         /* sortOrder = */ null
                     )?.use { cursor ->
                         if (cursor.moveToFirst()) {
-                            val columnIndex = cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA)
+                            val columnIndex =
+                                cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA)
                             if (columnIndex != -1) {
                                 return@use cursor.getString(columnIndex)
                             }
@@ -220,16 +234,18 @@ internal class DocumentRepositoryImpl(
                         )
                     }
                 }
+
                 fileUri.scheme == ContentResolver.SCHEME_FILE -> {
                     FileModel(
                         fileUri = fileUri.toString(),
                         filesystemUuid = LocalFilesystem.LOCAL_UUID,
                     )
                 }
+
                 else -> throw IllegalArgumentException("File $fileUri not found")
             }
 
-            DocumentMapper.toModel(fileModel, position = position)
+            openDocument(fileModel, position)
         }
     }
 

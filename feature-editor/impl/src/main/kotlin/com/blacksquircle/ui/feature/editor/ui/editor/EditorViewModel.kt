@@ -701,13 +701,16 @@ internal class EditorViewModel @Inject constructor(
                 val screen = GitDialog(repository)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: InvalidCredentialsException) {
-                val message = stringProvider.getString(R.string.editor_toast_git_invalid_credentials)
+                val message =
+                    stringProvider.getString(R.string.editor_toast_git_invalid_credentials)
                 _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: RepositoryNotFoundException) {
-                val message = stringProvider.getString(R.string.editor_toast_git_repository_not_found)
+                val message =
+                    stringProvider.getString(R.string.editor_toast_git_repository_not_found)
                 _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: UnsupportedFilesystemException) {
-                val message = stringProvider.getString(R.string.editor_toast_git_unsupported_filesystem)
+                val message =
+                    stringProvider.getString(R.string.editor_toast_git_unsupported_filesystem)
                 _viewEvent.send(ViewEvent.Toast(message))
             } catch (e: CancellationException) {
                 throw e
@@ -1014,14 +1017,30 @@ internal class EditorViewModel @Inject constructor(
 
     fun onFileOpened(fileUri: Uri) {
         viewModelScope.launch {
-            val document = documentRepository.openExternal(fileUri, documents.size)
-            loadDocument(document, fromUser = true)
+            try {
+                val document = documentRepository.openExternal(fileUri, documents.size)
+                loadDocument(document, fromUser = true)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
         }
     }
 
     private fun onFileOpened(fileModel: FileModel) {
-        val document = DocumentMapper.toModel(fileModel, documents.size)
-        loadDocument(document, fromUser = true)
+        viewModelScope.launch {
+            try {
+                val document = documentRepository.openDocument(fileModel, documents.size)
+                loadDocument(document, fromUser = true)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
     }
 
     private fun loadDocument(document: DocumentModel, fromUser: Boolean) {

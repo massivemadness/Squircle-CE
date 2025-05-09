@@ -111,6 +111,7 @@ internal class SquircleScheme private constructor(
         val lineNumberDivider = rawTheme["editor.lineNumber.divider"] as? String
         if (lineNumberDivider != null) {
             setColor(LINE_DIVIDER, Color.parseColor(lineNumberDivider))
+            setColor(STICKY_SCROLL_DIVIDER, Color.parseColor(lineNumberDivider))
         }
         val lineNumberBackground = rawTheme["editor.lineNumber.background"] as? String
         if (lineNumberBackground != null) {
