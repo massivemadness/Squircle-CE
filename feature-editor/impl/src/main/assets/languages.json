@@ -12,6 +12,12 @@
     "languageConfiguration": "languages/c/language-configuration.json"
   },
   {
+    "name": "clojure",
+    "scopeName": "source.clojure",
+    "grammar": "languages/clojure/syntaxes/clojure.tmLanguage.json",
+    "languageConfiguration": "languages/clojure/language-configuration.json"
+  },
+  {
     "name": "cpp",
     "scopeName": "source.cpp",
     "grammar": "languages/cpp/syntaxes/cpp.tmLanguage.json",

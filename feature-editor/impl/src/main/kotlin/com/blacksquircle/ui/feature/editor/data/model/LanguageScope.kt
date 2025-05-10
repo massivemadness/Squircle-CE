@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.editor.data.model
 internal object LanguageScope {
     const val BAT = "source.batchfile"
     const val C = "source.c"
+    const val CLOJURE = "source.clojure"
     const val CPP = "source.cpp"
     const val CSHARP = "source.cs"
     const val CSS = "source.css"

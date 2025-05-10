@@ -25,6 +25,12 @@ internal object FileAssociation {
         associations[".cmd"] = LanguageScope.BAT
         associations[".c"] = LanguageScope.C
         associations[".h"] = LanguageScope.C
+        associations[".clj"] = LanguageScope.CLOJURE
+        associations[".cljs"] = LanguageScope.CLOJURE
+        associations[".cljc"] = LanguageScope.CLOJURE
+        associations[".cljx"] = LanguageScope.CLOJURE
+        associations[".clojure"] = LanguageScope.CLOJURE
+        associations[".edn"] = LanguageScope.CLOJURE
         associations[".cpp"] = LanguageScope.CPP
         associations[".hpp"] = LanguageScope.CPP
         associations[".ino"] = LanguageScope.CPP

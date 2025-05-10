@@ -29,6 +29,7 @@ internal class FileIconProviderImpl : FileIconProvider {
         return when (language) {
             LanguageScope.BAT -> UiR.drawable.ic_file_document
             LanguageScope.C -> UiR.drawable.ic_language_c
+            LanguageScope.CLOJURE -> UiR.drawable.ic_file_code
             LanguageScope.CPP -> UiR.drawable.ic_language_cpp
             LanguageScope.CSHARP -> UiR.drawable.ic_language_csharp
             LanguageScope.CSS -> UiR.drawable.ic_language_css
