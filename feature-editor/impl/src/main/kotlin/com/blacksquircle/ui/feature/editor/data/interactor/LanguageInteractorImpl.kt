@@ -45,11 +45,15 @@ internal class LanguageInteractorImpl(
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    override suspend fun loadGrammars() {
-        withContext(dispatcherProvider.io()) {
+    override suspend fun loadGrammars(): List<GrammarModel> {
+        return withContext(dispatcherProvider.io()) {
+            if (grammars.isNotEmpty()) {
+                return@withContext grammars
+            }
             val languagesFile = context.assets.open(ASSET_FILE)
             grammars = jsonParser.decodeFromStream<List<GrammarData>>(languagesFile)
                 .map(GrammarMapper::toModel)
+            grammars
         }
     }
 

@@ -23,6 +23,8 @@ import kotlinx.serialization.Serializable
 internal data class GrammarData(
     @SerialName("name")
     val name: String? = null,
+    @SerialName("displayName")
+    val displayName: String? = null,
     @SerialName("scopeName")
     val scopeName: String? = null,
     @SerialName("grammar")

@@ -22,40 +22,52 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.sendNavigationResult
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.modifier.debounceClickable
+import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.radio.Radio
 import com.blacksquircle.ui.ds.radio.RadioStyleDefaults
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
+import com.blacksquircle.ui.feature.editor.domain.model.GrammarModel
+import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.editor.ARG_LANGUAGE
 import com.blacksquircle.ui.feature.editor.ui.editor.KEY_SELECT_LANGUAGE
 
 @Composable
 internal fun ForceSyntaxScreen(
     navArgs: ForceSyntaxDialog,
-    navController: NavController
+    navController: NavController,
+    viewModel: ForceSyntaxViewModel = daggerViewModel { context ->
+        val component = EditorComponent.buildOrGet(context)
+        ForceSyntaxViewModel.ParameterizedFactory(navArgs.language).also(component::inject)
+    }
 ) {
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ForceSyntaxScreen(
-        selectedValue = navArgs.languageName,
-        onLanguageSelected = { language ->
+        viewState = viewState,
+        onLanguageSelected = { grammar ->
             sendNavigationResult(
                 key = KEY_SELECT_LANGUAGE,
-                result = bundleOf(ARG_LANGUAGE to language)
+                result = bundleOf(ARG_LANGUAGE to grammar.scopeName)
             )
             navController.popBackStack()
         },
@@ -67,20 +79,28 @@ internal fun ForceSyntaxScreen(
 
 @Composable
 private fun ForceSyntaxScreen(
-    selectedValue: String,
-    onLanguageSelected: (String) -> Unit = {},
+    viewState: ForceSyntaxViewState,
+    onLanguageSelected: (GrammarModel) -> Unit = {},
     onCancelClicked: () -> Unit = {}
 ) {
-    val entries = stringArrayResource(R.array.language_entries)
-    val entryValues = stringArrayResource(R.array.language_values)
-
     AlertDialog(
         title = stringResource(R.string.editor_force_syntax_dialog_title),
         verticalScroll = false,
         horizontalPadding = false,
         content = {
+            if (viewState.isLoading) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                ) {
+                    CircularProgress()
+                }
+                return@AlertDialog
+            }
             LazyColumn {
-                itemsIndexed(entryValues) { index, value ->
+                items(viewState.languages) { value ->
                     val interactionSource = remember { MutableInteractionSource() }
                     Box(
                         modifier = Modifier
@@ -92,8 +112,8 @@ private fun ForceSyntaxScreen(
                             .padding(horizontal = 24.dp)
                     ) {
                         Radio(
-                            title = entries[index],
-                            checked = value == selectedValue,
+                            title = value.displayName,
+                            checked = value.scopeName == viewState.selectedLanguage,
                             onClick = { onLanguageSelected(value) },
                             radioStyle = RadioStyleDefaults.Primary.copy(
                                 textStyle = SquircleTheme.typography.text18Regular,
@@ -119,7 +139,15 @@ private fun ForceSyntaxScreen(
 private fun ForceSyntaxScreenPreview() {
     PreviewBackground {
         ForceSyntaxScreen(
-            selectedValue = "cplusplus",
+            viewState = ForceSyntaxViewState(
+                languages = listOf(
+                    GrammarModel("c", "C", "source.c", "/", "/", emptyMap()),
+                    GrammarModel("cpp", "C++", "source.cpp", "/", "/", emptyMap()),
+                    GrammarModel("csharp", "C#", "source.csharp", "/", "/", emptyMap()),
+                ),
+                selectedLanguage = "source.c",
+                isLoading = false,
+            )
         )
     }
 }

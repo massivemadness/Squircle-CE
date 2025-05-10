@@ -22,6 +22,7 @@ import com.blacksquircle.ui.core.internal.CoreApiProvider
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiProvider
 import com.blacksquircle.ui.feature.editor.ui.editor.EditorViewModel
+import com.blacksquircle.ui.feature.editor.ui.forcesyntax.ForceSyntaxViewModel
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvider
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiProvider
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiDepsProvider
@@ -49,6 +50,7 @@ import dagger.Component
 internal interface EditorComponent {
 
     fun inject(factory: EditorViewModel.Factory)
+    fun inject(factory: ForceSyntaxViewModel.ParameterizedFactory)
 
     @Component.Factory
     interface Factory {
