@@ -21,6 +21,8 @@ internal object FileAssociation {
     private val associations = HashMap<String, String>(72)
 
     init {
+        associations[".bat"] = LanguageScope.BAT
+        associations[".cmd"] = LanguageScope.BAT
         associations[".c"] = LanguageScope.C
         associations[".h"] = LanguageScope.C
         associations[".cpp"] = LanguageScope.CPP

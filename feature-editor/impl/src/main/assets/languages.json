@@ -1,5 +1,11 @@
 [
   {
+    "name": "bat",
+    "scopeName": "source.batchfile",
+    "grammar": "languages/bat/syntaxes/batchfile.tmLanguage.json",
+    "languageConfiguration": "languages/bat/language-configuration.json"
+  },
+  {
     "name": "c",
     "scopeName": "source.c",
     "grammar": "languages/c/syntaxes/c.tmLanguage.json",

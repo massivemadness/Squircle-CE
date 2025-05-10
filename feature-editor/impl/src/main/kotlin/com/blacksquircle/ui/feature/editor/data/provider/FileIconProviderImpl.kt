@@ -27,6 +27,7 @@ internal class FileIconProviderImpl : FileIconProvider {
     override fun fileIcon(fileModel: FileModel): Int {
         val language = FileAssociation.guessLanguage(fileModel.extension)
         return when (language) {
+            LanguageScope.BAT -> UiR.drawable.ic_file_document
             LanguageScope.C -> UiR.drawable.ic_language_c
             LanguageScope.CPP -> UiR.drawable.ic_language_cpp
             LanguageScope.CSHARP -> UiR.drawable.ic_language_csharp

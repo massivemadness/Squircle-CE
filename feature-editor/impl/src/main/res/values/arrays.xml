@@ -18,6 +18,7 @@
 <resources>
 
     <string-array name="language_entries">
+        <item>Batchfile</item>
         <item>C</item>
         <item>C++</item>
         <item>C#</item>
@@ -54,6 +55,7 @@
     </string-array>
 
     <string-array name="language_values">
+        <item>source.batchfile</item>
         <item>source.c</item>
         <item>source.cpp</item>
         <item>source.cs</item>
