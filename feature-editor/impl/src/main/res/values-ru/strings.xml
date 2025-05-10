@@ -20,7 +20,7 @@
     <string name="editor_menu_file_open">Открыть</string>
     <string name="editor_menu_file_save">Сохранить</string>
     <string name="editor_menu_file_save_as">Сохранить как</string>
-    <string name="editor_menu_file_refresh">Обновить</string>
+    <string name="editor_menu_file_reload">Обновить</string>
     <string name="editor_menu_file_close">Закрыть</string>
     <string name="editor_menu_file_close_others">Закрыть другие</string>
     <string name="editor_menu_file_close_all">Закрыть все</string>

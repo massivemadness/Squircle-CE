@@ -320,7 +320,6 @@ private fun EditorScreen(
                 onSaveFileClicked = onSaveFileClicked,
                 onSaveFileAsClicked = onSaveFileAsClicked,
                 onRefreshFileClicked = onRefreshFileClicked,
-                onCloseFileClicked = onCloseFileClicked,
                 onCutClicked = onCutClicked,
                 onCopyClicked = onCopyClicked,
                 onPasteClicked = onPasteClicked,

@@ -22,7 +22,7 @@
     <string name="editor_menu_file_open">Open</string>
     <string name="editor_menu_file_save">Save</string>
     <string name="editor_menu_file_save_as">Save As</string>
-    <string name="editor_menu_file_refresh">Refresh</string>
+    <string name="editor_menu_file_reload">Reload</string>
     <string name="editor_menu_file_close">Close</string>
     <string name="editor_menu_file_close_others">Close Others</string>
     <string name="editor_menu_file_close_all">Close All</string>
