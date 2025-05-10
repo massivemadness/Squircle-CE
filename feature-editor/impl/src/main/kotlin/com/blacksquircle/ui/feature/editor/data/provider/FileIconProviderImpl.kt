@@ -51,6 +51,7 @@ internal class FileIconProviderImpl : FileIconProvider {
             LanguageScope.LUA -> UiR.drawable.ic_language_lua
             LanguageScope.MAKE -> UiR.drawable.ic_file_code
             LanguageScope.MARKDOWN -> UiR.drawable.ic_language_markdown
+            LanguageScope.PERL -> UiR.drawable.ic_file_code
             LanguageScope.PHP -> UiR.drawable.ic_language_php
             LanguageScope.PYTHON -> UiR.drawable.ic_language_python
             LanguageScope.RUBY -> UiR.drawable.ic_language_ruby

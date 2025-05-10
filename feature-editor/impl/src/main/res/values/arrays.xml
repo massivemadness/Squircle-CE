@@ -42,6 +42,7 @@
         <item>Lua</item>
         <item>Makefile</item>
         <item>Markdown</item>
+        <item>Perl</item>
         <item>PHP</item>
         <item>Plain Text</item>
         <item>Python</item>
@@ -82,6 +83,7 @@
         <item>source.lua</item>
         <item>source.makefile</item>
         <item>text.html.markdown</item>
+        <item>source.perl</item>
         <item>source.php</item>
         <item>text.plain</item>
         <item>source.python</item>

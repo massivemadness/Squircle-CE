@@ -83,6 +83,11 @@ internal object FileAssociation {
         associations[".lua"] = LanguageScope.LUA
         associations[".Makefile"] = LanguageScope.MAKE
         associations[".md"] = LanguageScope.MARKDOWN
+        associations[".pl"] = LanguageScope.PERL
+        associations[".pm"] = LanguageScope.PERL
+        associations[".pod"] = LanguageScope.PERL
+        associations[".t"] = LanguageScope.PERL
+        associations[".psgi"] = LanguageScope.PERL
         associations[".php"] = LanguageScope.PHP
         associations[".php3"] = LanguageScope.PHP
         associations[".php4"] = LanguageScope.PHP

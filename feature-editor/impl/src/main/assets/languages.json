@@ -154,6 +154,12 @@
     }
   },
   {
+    "name": "perl",
+    "scopeName": "source.perl",
+    "grammar": "languages/perl/syntaxes/perl.tmLanguage.json",
+    "languageConfiguration": "languages/perl/language-configuration.json"
+  },
+  {
     "name": "php",
     "scopeName": "source.php",
     "grammar": "languages/php/syntaxes/php.tmLanguage.json",

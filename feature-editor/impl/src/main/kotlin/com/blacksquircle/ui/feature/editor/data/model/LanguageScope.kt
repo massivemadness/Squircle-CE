@@ -41,6 +41,7 @@ internal object LanguageScope {
     const val LUA = "source.lua"
     const val MAKE = "source.makefile"
     const val MARKDOWN = "text.html.markdown"
+    const val PERL = "source.perl"
     const val PHP = "source.php"
     const val PYTHON = "source.python"
     const val RUBY = "source.ruby"
