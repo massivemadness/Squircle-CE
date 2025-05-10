@@ -590,7 +590,8 @@ internal class EditorViewModel @Inject constructor(
             if (selectedPosition !in documents.indices) {
                 return@launch
             }
-            val screen = GoToLineDialog
+            val content = documents[selectedPosition].content ?: return@launch
+            val screen = GoToLineDialog(content.lineCount)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
