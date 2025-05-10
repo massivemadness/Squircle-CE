@@ -14,9 +14,21 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.domain.interactor
+package com.blacksquircle.ui.feature.editor.data.model
 
-internal interface LanguageInteractor {
-    suspend fun loadGrammars()
-    suspend fun registerGrammar(language: String)
-}
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+internal data class GrammarData(
+    @SerialName("name")
+    val name: String? = null,
+    @SerialName("scopeName")
+    val scopeName: String? = null,
+    @SerialName("grammar")
+    val grammar: String? = null,
+    @SerialName("languageConfiguration")
+    val languageConfiguration: String? = null,
+    @SerialName("embeddedLanguages")
+    val embeddedLanguages: Map<String, String>? = null,
+)

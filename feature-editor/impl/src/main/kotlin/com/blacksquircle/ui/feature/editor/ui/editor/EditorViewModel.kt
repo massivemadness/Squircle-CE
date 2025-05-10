@@ -1147,6 +1147,7 @@ internal class EditorViewModel @Inject constructor(
                 }
 
                 val content = documentRepository.loadDocument(document)
+                languageInteractor.registerGrammar(document.language)
                 ensureActive()
 
                 documents = documents.mapSelected {
