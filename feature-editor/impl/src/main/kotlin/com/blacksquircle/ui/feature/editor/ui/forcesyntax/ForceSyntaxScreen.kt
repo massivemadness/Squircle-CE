@@ -16,18 +16,14 @@
 
 package com.blacksquircle.ui.feature.editor.ui.forcesyntax
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -40,12 +36,9 @@ import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.indexOrNull
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
-import com.blacksquircle.ui.ds.modifier.debounceClickable
+import com.blacksquircle.ui.ds.preference.ListSelection
 import com.blacksquircle.ui.ds.progress.CircularProgress
-import com.blacksquircle.ui.ds.radio.Radio
-import com.blacksquircle.ui.ds.radio.RadioStyleDefaults
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
 import com.blacksquircle.ui.feature.editor.domain.model.GrammarModel
@@ -109,30 +102,11 @@ private fun ForceSyntaxScreen(
             )
             LazyColumn(state = lazyListState) {
                 items(viewState.languages) { value ->
-                    val interactionSource = remember { MutableInteractionSource() }
-                    Box(
-                        modifier = Modifier
-                            .debounceClickable(
-                                interactionSource = interactionSource,
-                                indication = ripple(),
-                                onClick = { onLanguageSelected(value) }
-                            )
-                            .padding(horizontal = 24.dp)
-                    ) {
-                        Radio(
-                            title = value.displayName,
-                            checked = value.scopeName == viewState.selectedLanguage,
-                            onClick = { onLanguageSelected(value) },
-                            radioStyle = RadioStyleDefaults.Primary.copy(
-                                textStyle = SquircleTheme.typography.text18Regular,
-                            ),
-                            interactionSource = interactionSource,
-                            indication = null,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(48.dp)
-                        )
-                    }
+                    ListSelection(
+                        title = value.displayName,
+                        selected = value.scopeName == viewState.selectedLanguage,
+                        onClick = { onLanguageSelected(value) },
+                    )
                 }
             }
         },

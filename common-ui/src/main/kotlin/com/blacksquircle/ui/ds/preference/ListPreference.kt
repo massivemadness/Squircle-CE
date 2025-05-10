@@ -88,39 +88,53 @@ fun ListPreference(
                 )
                 LazyColumn(state = lazyListState) {
                     itemsIndexed(entryValues) { index, value ->
-                        val interactionSource = remember { MutableInteractionSource() }
-                        Box(
-                            modifier = Modifier
-                                .debounceClickable(
-                                    interactionSource = interactionSource,
-                                    indication = ripple(),
-                                    onClick = { onValueSelected(value) }
-                                )
-                                .padding(horizontal = 24.dp)
-                        ) {
-                            Radio(
-                                title = entries[index],
-                                checked = index == selectedIndex,
-                                onClick = {
-                                    showDialog = false
-                                    onValueSelected(value)
-                                },
-                                radioStyle = RadioStyleDefaults.Primary.copy(
-                                    textStyle = SquircleTheme.typography.text18Regular,
-                                ),
-                                interactionSource = interactionSource,
-                                indication = null,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(48.dp)
-                            )
-                        }
+                        ListSelection(
+                            title = entries[index],
+                            selected = index == selectedIndex,
+                            onClick = {
+                                showDialog = false
+                                onValueSelected(value)
+                            },
+                        )
                     }
                 }
             },
             dismissButton = stringResource(android.R.string.cancel),
             onDismissClicked = { showDialog = false },
             onDismiss = { showDialog = false },
+        )
+    }
+}
+
+@Composable
+fun ListSelection(
+    title: String,
+    selected: Boolean,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    Box(
+        modifier = modifier
+            .debounceClickable(
+                interactionSource = interactionSource,
+                indication = ripple(),
+                onClick = onClick,
+            )
+            .padding(horizontal = 24.dp)
+    ) {
+        Radio(
+            title = title,
+            checked = selected,
+            onClick = onClick,
+            radioStyle = RadioStyleDefaults.Primary.copy(
+                textStyle = SquircleTheme.typography.text18Regular
+            ),
+            interactionSource = interactionSource,
+            indication = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
         )
     }
 }
