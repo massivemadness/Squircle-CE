@@ -24,6 +24,7 @@
         <item>C++</item>
         <item>C#</item>
         <item>CSS</item>
+        <item>Dart</item>
         <item>Dockerfile</item>
         <item>Fortran</item>
         <item>Go</item>
@@ -62,6 +63,7 @@
         <item>source.cpp</item>
         <item>source.cs</item>
         <item>source.css</item>
+        <item>source.dart</item>
         <item>source.dockerfile</item>
         <item>source.fortran</item>
         <item>source.go</item>

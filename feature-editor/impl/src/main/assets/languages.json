@@ -36,6 +36,12 @@
     "languageConfiguration": "languages/css/language-configuration.json"
   },
   {
+    "name": "dart",
+    "scopeName": "source.dart",
+    "grammar": "languages/dart/syntaxes/dart.tmLanguage.json",
+    "languageConfiguration": "languages/dart/language-configuration.json"
+  },
+  {
     "name": "docker",
     "scopeName": "source.dockerfile",
     "grammar": "languages/docker/syntaxes/docker.tmLanguage.json",

@@ -23,6 +23,7 @@ internal object LanguageScope {
     const val CPP = "source.cpp"
     const val CSHARP = "source.cs"
     const val CSS = "source.css"
+    const val DART = "source.dart"
     const val DOCKER = "source.dockerfile"
     const val FORTRAN = "source.fortran"
     const val GO = "source.go"

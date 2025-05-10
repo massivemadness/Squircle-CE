@@ -37,6 +37,7 @@ internal object FileAssociation {
         associations[".cs"] = LanguageScope.CSHARP
         associations[".css"] = LanguageScope.CSS
         associations[".scss"] = LanguageScope.CSS
+        associations[".dart"] = LanguageScope.DART
         associations[".Dockerfile"] = LanguageScope.DOCKER
         associations[".f03"] = LanguageScope.FORTRAN
         associations[".f08"] = LanguageScope.FORTRAN

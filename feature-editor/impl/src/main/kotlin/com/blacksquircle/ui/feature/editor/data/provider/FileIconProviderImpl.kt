@@ -33,6 +33,7 @@ internal class FileIconProviderImpl : FileIconProvider {
             LanguageScope.CPP -> UiR.drawable.ic_language_cpp
             LanguageScope.CSHARP -> UiR.drawable.ic_language_csharp
             LanguageScope.CSS -> UiR.drawable.ic_language_css
+            LanguageScope.DART -> UiR.drawable.ic_file_code
             LanguageScope.DOCKER -> UiR.drawable.ic_language_docker
             LanguageScope.FORTRAN -> UiR.drawable.ic_language_fortran
             LanguageScope.GO -> UiR.drawable.ic_language_go
