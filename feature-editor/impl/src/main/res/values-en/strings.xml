@@ -46,8 +46,6 @@
     <string name="editor_empty_view_title">No open files</string>
     <string name="editor_toast_file_saved">Saved</string>
     <string name="editor_toast_git_invalid_credentials">Git requires configuration in settings</string>
-    <string name="editor_toast_git_repository_not_found">Git repository not found</string>
-    <string name="editor_toast_git_unsupported_filesystem">Git requires local filesystem</string>
     <string name="editor_goto_line_dialog_title">Go to Line…</string>
     <string name="editor_goto_line_dialog_input_label">Line:</string>
     <string name="editor_goto_line_dialog_button_go_to">Go to</string>

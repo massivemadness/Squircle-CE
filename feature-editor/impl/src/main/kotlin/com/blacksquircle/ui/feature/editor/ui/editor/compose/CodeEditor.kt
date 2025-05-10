@@ -175,7 +175,8 @@ internal fun CodeEditor(
                     }
                 }
                 is EditorCommand.GoToLine -> {
-                    view.setSelection(command.line, 0)
+                    val lineNumber = minOf(view.lineCount - 1, maxOf(0, command.line))
+                    view.setSelection(lineNumber, 0)
                 }
                 is EditorCommand.PreviousMatch -> {
                     if (view.searcher.hasQuery()) {

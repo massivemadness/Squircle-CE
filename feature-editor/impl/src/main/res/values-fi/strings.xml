@@ -54,6 +54,4 @@
     <string name="editor_empty_view_title">Ei avoimia tiedostoja</string>
     <string name="editor_toast_file_saved">Tallennettu</string>
     <string name="editor_toast_git_invalid_credentials">Tarkista Gitin asetukset</string>
-    <string name="editor_toast_git_repository_not_found">Git-tietovarastoa ei löytynyt</string>
-    <string name="editor_toast_git_unsupported_filesystem">Git tarvitsee paikallisen tiedostojärjestelmän</string>
 </resources>

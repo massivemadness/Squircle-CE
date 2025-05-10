@@ -185,8 +185,9 @@ class UndoRedoTest {
         viewModel.onCloseClicked(unselected)
 
         // Then
-        assertEquals(true, viewModel.viewState.value.canUndo)
-        assertEquals(true, viewModel.viewState.value.canRedo)
+        val currentDocument = viewModel.viewState.value.currentDocument!!
+        assertEquals(true, currentDocument.canUndo.value)
+        assertEquals(true, currentDocument.canRedo.value)
     }
 
     @Test
@@ -219,8 +220,9 @@ class UndoRedoTest {
         viewModel.onCloseClicked(selected)
 
         // Then
-        assertEquals(true, viewModel.viewState.value.canUndo)
-        assertEquals(false, viewModel.viewState.value.canRedo)
+        val currentDocument = viewModel.viewState.value.currentDocument!!
+        assertEquals(true, currentDocument.canUndo.value)
+        assertEquals(false, currentDocument.canRedo.value)
     }
 
     private fun createViewModel(): EditorViewModel {

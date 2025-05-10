@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.explorer.ui
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
+import com.blacksquircle.ui.feature.editor.api.provider.FileIconProvider
 import com.blacksquircle.ui.feature.explorer.createFile
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
@@ -52,6 +53,7 @@ class OpenFileTest {
 
     private val dispatcherProvider = TestDispatcherProvider()
     private val stringProvider = mockk<StringProvider>(relaxed = true)
+    private val fileIconProvider = mockk<FileIconProvider>(relaxed = true)
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val taskManager = mockk<TaskManager>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
@@ -73,6 +75,8 @@ class OpenFileTest {
         every { settingsManager.workspace = any() } answers {
             every { settingsManager.workspace } returns firstArg()
         }
+
+        every { fileIconProvider.fileIcon(any()) } returns -1
     }
 
     @Test
@@ -145,6 +149,7 @@ class OpenFileTest {
     private fun createViewModel(): ExplorerViewModel {
         return ExplorerViewModel(
             stringProvider = stringProvider,
+            fileIconProvider = fileIconProvider,
             settingsManager = settingsManager,
             taskManager = taskManager,
             editorInteractor = editorInteractor,

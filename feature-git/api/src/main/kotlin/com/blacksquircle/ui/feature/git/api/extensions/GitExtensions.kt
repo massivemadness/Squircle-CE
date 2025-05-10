@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.data.utils
+package com.blacksquircle.ui.feature.git.api.extensions
 
-import android.net.Uri
-import android.os.Environment
-import android.provider.DocumentsContract
+import com.blacksquircle.ui.filesystem.base.model.FileModel
 import java.io.File
 
-private const val PRIMARY = "primary:"
+private const val GIT_FOLDER = ".git"
 
-internal fun Uri.guessFilePath(): String? {
-    if (DocumentsContract.isTreeUri(this)) {
-        val docId = DocumentsContract.getTreeDocumentId(this)
-        if (docId.startsWith(PRIMARY)) {
-            val basePath = Environment.getExternalStorageDirectory().absolutePath
-            val relativePath = docId.removePrefix(PRIMARY)
-            return basePath + File.separator + relativePath
+fun FileModel.findGitRepository(): String? {
+    var current: File? = File(path)
+    while (current != null) {
+        val gitDir = File(current, GIT_FOLDER)
+        if (gitDir.exists() && gitDir.isDirectory) {
+            return current.absolutePath
         }
+        current = current.parentFile
     }
     return null
 }

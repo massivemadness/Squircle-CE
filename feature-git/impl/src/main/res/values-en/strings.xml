@@ -15,11 +15,6 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="git_fetch_description">Fetch content from remote repository</string>
-    <string name="git_pull_description">Pull changes from remote repository</string>
-    <string name="git_commit_description">Commit local repository changes</string>
-    <string name="git_push_description">Push content to remote repository</string>
-    <string name="git_checkout_description">Change or create local repository branch</string>
     <string name="git_fetch_dialog_title">Fetch</string>
     <string name="git_fetch_dialog_message">Fetching updates from the remote repository…</string>
     <string name="git_pull_dialog_title">Pull</string>

@@ -18,12 +18,14 @@ package com.blacksquircle.ui.feature.editor.domain.repository
 
 import android.net.Uri
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
+import com.blacksquircle.ui.filesystem.base.model.FileModel
 import io.github.rosemoe.sora.text.Content
 
 internal interface DocumentRepository {
 
     suspend fun loadDocuments(): List<DocumentModel>
 
+    suspend fun openDocument(fileModel: FileModel, position: Int): DocumentModel
     suspend fun loadDocument(document: DocumentModel): Content
     suspend fun saveDocument(document: DocumentModel, content: Content)
     suspend fun cacheDocument(document: DocumentModel, content: Content)

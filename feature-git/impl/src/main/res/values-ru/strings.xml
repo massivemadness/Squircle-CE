@@ -15,11 +15,13 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="git_fetch_description">Проверить обновления в удаленном репозитории</string>
-    <string name="git_pull_description">Получить изменения из удаленного репозитория</string>
-    <string name="git_commit_description">Коммит изменений в локальный репозиторий</string>
-    <string name="git_push_description">Отправить изменения в удаленный репозиторий</string>
-    <string name="git_checkout_description">Переключение или создание локальной ветки</string>
+    <string name="git_checkout_dialog_button_create">Создать</string>
+    <string name="git_checkout_dialog_button_checkout">Checkout</string>
+    <string name="git_checkout_dialog_checkbox_new">Новая ветка</string>
+    <string name="git_commit_dialog_button_commit">Commit</string>
+    <string name="git_commit_dialog_checkbox_amend">Amend</string>
+    <string name="git_push_dialog_button_push">Push</string>
+    <string name="git_push_dialog_checkbox_force">Force</string>
     <string name="git_fetch_dialog_title">Fetch</string>
     <string name="git_fetch_dialog_message">Проверка обновлений в удаленном репозитории…</string>
     <string name="git_pull_dialog_title">Pull</string>

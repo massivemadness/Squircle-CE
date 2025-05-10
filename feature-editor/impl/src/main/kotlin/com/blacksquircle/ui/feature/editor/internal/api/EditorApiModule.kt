@@ -17,7 +17,9 @@
 package com.blacksquircle.ui.feature.editor.internal.api
 
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
+import com.blacksquircle.ui.feature.editor.api.provider.FileIconProvider
 import com.blacksquircle.ui.feature.editor.data.interactor.EditorInteractorImpl
+import com.blacksquircle.ui.feature.editor.data.provider.FileIconProviderImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -29,5 +31,11 @@ object EditorApiModule {
     @Singleton
     fun provideEditorInteractor(): EditorInteractor {
         return EditorInteractorImpl()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFileIconProvider(): FileIconProvider {
+        return FileIconProviderImpl()
     }
 }

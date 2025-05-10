@@ -46,8 +46,9 @@ fun NavGraphBuilder.editorGraph(navController: NavHostController) {
         val navArgs = backStackEntry.toRoute<ForceSyntaxDialog>()
         ForceSyntaxScreen(navArgs, navController)
     }
-    dialog<GoToLineDialog> {
-        GoToLineScreen(navController)
+    dialog<GoToLineDialog> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<GoToLineDialog>()
+        GoToLineScreen(navArgs, navController)
     }
     dialog<InsertColorDialog> {
         InsertColorScreen(navController)

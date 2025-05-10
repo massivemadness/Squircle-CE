@@ -1,0 +1,25 @@
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#000000"
+        android:pathData="M12.002,15.15C11.143,15.15 10.319,14.818 9.712,14.227C9.105,13.637 8.764,12.835 8.764,12C8.764,11.165 9.105,10.363 9.712,9.773C10.319,9.182 11.143,8.85 12.002,8.85C12.861,8.85 13.685,9.182 14.292,9.773C14.899,10.363 15.24,11.165 15.24,12C15.24,12.835 14.899,13.637 14.292,14.227C13.685,14.818 12.861,15.15 12.002,15.15ZM18.877,12.873C18.914,12.585 18.941,12.297 18.941,12C18.941,11.703 18.914,11.406 18.877,11.1L20.829,9.633C21.005,9.498 21.051,9.255 20.94,9.057L19.089,5.943C18.978,5.745 18.729,5.664 18.525,5.745L16.221,6.645C15.74,6.294 15.24,5.988 14.658,5.763L14.315,3.378C14.278,3.162 14.084,3 13.852,3H10.151C9.92,3 9.726,3.162 9.689,3.378L9.347,5.763C8.764,5.988 8.264,6.294 7.783,6.645L5.479,5.745C5.275,5.664 5.026,5.745 4.915,5.943L3.064,9.057C2.944,9.255 2.999,9.498 3.175,9.633L5.127,11.1C5.09,11.406 5.063,11.703 5.063,12C5.063,12.297 5.09,12.585 5.127,12.873L3.175,14.367C2.999,14.502 2.944,14.745 3.064,14.943L4.915,18.057C5.026,18.255 5.275,18.327 5.479,18.255L7.783,17.346C8.264,17.706 8.764,18.012 9.347,18.237L9.689,20.622C9.726,20.838 9.92,21 10.151,21H13.852C14.084,21 14.278,20.838 14.315,20.622L14.658,18.237C15.24,18.003 15.74,17.706 16.221,17.346L18.525,18.255C18.729,18.327 18.978,18.255 19.089,18.057L20.94,14.943C21.051,14.745 21.005,14.502 20.829,14.367L18.877,12.873Z" />
+</vector>

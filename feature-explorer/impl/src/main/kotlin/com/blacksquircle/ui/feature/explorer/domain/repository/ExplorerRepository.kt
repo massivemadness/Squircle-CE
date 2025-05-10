@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.explorer.domain.repository
 
+import android.net.Uri
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.Flow
 internal interface ExplorerRepository {
 
     suspend fun loadWorkspaces(): Flow<List<WorkspaceModel>>
+    suspend fun createWorkspace(fileUri: Uri)
     suspend fun createWorkspace(filePath: String)
     suspend fun deleteWorkspace(uuid: String)
 

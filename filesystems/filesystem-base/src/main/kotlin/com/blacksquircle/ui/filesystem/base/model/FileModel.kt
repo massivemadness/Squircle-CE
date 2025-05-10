@@ -36,7 +36,6 @@ data class FileModel(
         get() = "." + name.substringAfterLast(".")
     val type: FileType
         get() = when (extension) {
-            in TEXT -> FileType.TEXT
             in ARCHIVE -> FileType.ARCHIVE
             in IMAGE -> FileType.IMAGE
             in AUDIO -> FileType.AUDIO
@@ -49,27 +48,13 @@ data class FileModel(
 
     companion object {
 
-        val TEXT = arrayOf(
-            ".txt", ".js", ".json", ".java", ".kt", ".kts", ".md", ".lua",
-            ".rb", ".as", ".cs", ".c", ".cpp", ".h", ".hpp", ".lisp", ".lsp",
-            ".cl", ".l", ".py", ".pyw", ".pyi", ".vb", ".bas", ".cls", ".sql",
-            ".sqlite", ".sqlite2", ".sqlite3", ".htm", ".html", ".xhtml", ".xht",
-            ".xaml", ".xdf", ".xmpp", ".xml", ".sh", ".ksh", ".bsh", ".csh",
-            ".tcsh", ".zsh", ".bash", ".groovy", ".gvy", ".gy", ".gsh", ".php",
-            ".php3", ".php4", ".php5", ".phps", ".phtml", ".ts", ".ino", ".log",
-            ".mjs", ".cjs", ".jl", ".yaml", ".yml", ".toml", ".gradle", ".mts",
-            ".cts", ".smali", ".css", ".scss", ".go", ".tex", ".f77", ".f90", ".f95",
-            ".f03", ".f08", ".f18", ".f", ".fpp", ".for", ".ftn", ".pf", ".env",
-            ".rs", ".jsx", ".tsx", ".ini", ".properties", ".Dockerfile", ".Makefile",
-            ".editorconfig",
-        )
         val ARCHIVE = arrayOf(
             ".zip", ".jar", ".rar", ".7z", ".tar", ".gz", ".tgz",
             ".zipx", ".gtar", "xtar", ".z", ".xz", ".bz", ".bz2",
             ".zst", ".lzh", ".lzma", ".arj",
         )
         val IMAGE = arrayOf(
-            ".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".ico",
+            ".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".ico", ".svg"
         )
         val AUDIO = arrayOf(
             ".mp2", ".mp3", ".ogg", ".wma", ".aac", ".wav", ".flac",

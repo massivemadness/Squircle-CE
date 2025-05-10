@@ -113,7 +113,7 @@ internal object FileAssociation {
         associations[".yml"] = LanguageScope.YAML
     }
 
-    fun guessLanguage(extension: String): String {
-        return associations[extension] ?: LanguageScope.TEXT
+    fun guessLanguage(extension: String): String? {
+        return associations[extension]
     }
 }

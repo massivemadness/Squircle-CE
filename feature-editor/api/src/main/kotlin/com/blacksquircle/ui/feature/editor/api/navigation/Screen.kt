@@ -28,7 +28,7 @@ data class CloseFileDialog(val fileUuid: String, val fileName: String)
 data class ForceSyntaxDialog(val languageName: String)
 
 @Serializable
-data object GoToLineDialog
+data class GoToLineDialog(val lineCount: Int)
 
 @Serializable
 data object InsertColorDialog

@@ -17,7 +17,9 @@
 package com.blacksquircle.ui.feature.editor.api.internal
 
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
+import com.blacksquircle.ui.feature.editor.api.provider.FileIconProvider
 
 interface EditorApiDepsProvider {
     fun provideEditorInteractor(): EditorInteractor
+    fun provideFileIconProvider(): FileIconProvider
 }

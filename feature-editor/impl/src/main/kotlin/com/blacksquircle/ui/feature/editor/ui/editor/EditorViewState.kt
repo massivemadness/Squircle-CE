@@ -27,8 +27,6 @@ internal data class EditorViewState(
     val selectedDocument: Int = -1,
     val settings: EditorSettings = EditorSettings(),
     val showExtraKeys: Boolean = false,
-    val canUndo: Boolean = false,
-    val canRedo: Boolean = false,
     val isLoading: Boolean = true,
 ) : ViewState {
 
@@ -44,7 +42,6 @@ internal data class EditorViewState(
     val showExtendedKeyboard: Boolean
         get() = settings.extendedKeyboard &&
             settings.keyboardPreset.isNotEmpty() &&
-            !settings.readOnly &&
             !isError &&
             !isLoading &&
             !isEmpty

@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.git.data.interactor
 
-import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.git.api.exception.InvalidCredentialsException
 import com.blacksquircle.ui.feature.git.api.exception.RepositoryNotFoundException
@@ -28,42 +27,27 @@ import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.withContext
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.lib.ProgressMonitor
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import java.io.File
 
 internal class GitInteractorImpl(
-    private val dispatcherProvider: DispatcherProvider,
     private val settingsManager: SettingsManager
 ) : GitInteractor {
 
-    override suspend fun getRepoPath(fileModel: FileModel): String {
-        return withContext(dispatcherProvider.io()) {
-            if (fileModel.filesystemUuid != LocalFilesystem.LOCAL_UUID) {
-                throw UnsupportedFilesystemException()
-            }
-
-            if (settingsManager.gitCredentialsUsername.isBlank() ||
-                settingsManager.gitCredentialsPassword.isBlank() ||
-                settingsManager.gitUserEmail.isBlank() ||
-                settingsManager.gitUserName.isBlank()
-            ) {
-                throw InvalidCredentialsException()
-            }
-
-            var current: File? = File(fileModel.path)
-            while (current?.parentFile != null) {
-                val gitDir = File(current, GIT_FOLDER)
-                if (gitDir.exists() && gitDir.isDirectory) {
-                    return@withContext current.absolutePath
-                }
-                current = current.parentFile
-            }
-
+    override suspend fun checkRepository(repository: String?): String {
+        if (repository == null || !File(repository).exists()) {
             throw RepositoryNotFoundException()
         }
+        if (settingsManager.gitCredentialsUsername.isBlank() ||
+            settingsManager.gitCredentialsPassword.isBlank() ||
+            settingsManager.gitUserEmail.isBlank() ||
+            settingsManager.gitUserName.isBlank()
+        ) {
+            throw InvalidCredentialsException()
+        }
+        return repository
     }
 
     override suspend fun cloneRepository(

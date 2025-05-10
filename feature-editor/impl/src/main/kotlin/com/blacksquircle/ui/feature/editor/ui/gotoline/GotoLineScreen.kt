@@ -37,14 +37,19 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineDialog
 import com.blacksquircle.ui.feature.editor.ui.editor.ARG_LINE_NUMBER
 import com.blacksquircle.ui.feature.editor.ui.editor.KEY_GOTO_LINE
 
 private const val DEFAULT_LINE = 0
 
 @Composable
-internal fun GoToLineScreen(navController: NavController) {
+internal fun GoToLineScreen(
+    navArgs: GoToLineDialog,
+    navController: NavController
+) {
     GotoLineScreen(
+        lineCount = navArgs.lineCount,
         onConfirmClicked = { lineNumber ->
             sendNavigationResult(
                 key = KEY_GOTO_LINE,
@@ -60,6 +65,7 @@ internal fun GoToLineScreen(navController: NavController) {
 
 @Composable
 private fun GotoLineScreen(
+    lineCount: Int,
     onConfirmClicked: (Int) -> Unit = {},
     onCancelClicked: () -> Unit = {}
 ) {
@@ -73,7 +79,7 @@ private fun GotoLineScreen(
                 inputText = lineNumber,
                 onInputChanged = { lineNumber = it },
                 labelText = stringResource(R.string.editor_goto_line_dialog_input_label),
-                placeholderText = DEFAULT_LINE.toString(),
+                placeholderText = "$DEFAULT_LINE..$lineCount",
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                 ),
@@ -86,10 +92,7 @@ private fun GotoLineScreen(
         confirmButton = stringResource(R.string.editor_goto_line_dialog_button_go_to),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = {
-            var intValue = lineNumber.toIntOrNull() ?: 0
-            if (intValue <= 0) {
-                intValue = 1
-            }
+            val intValue = lineNumber.toIntOrNull() ?: 0
             onConfirmClicked(intValue - 1)
         },
         onDismissClicked = onCancelClicked,
@@ -101,6 +104,6 @@ private fun GotoLineScreen(
 @Composable
 private fun GotoLineScreenPreview() {
     PreviewBackground {
-        GotoLineScreen()
+        GotoLineScreen(lineCount = 1000)
     }
 }
