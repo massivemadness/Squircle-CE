@@ -54,6 +54,12 @@
     "languageConfiguration": "languages/fortran/language-configuration.json"
   },
   {
+    "name": "fsharp",
+    "scopeName": "source.fsharp",
+    "grammar": "languages/fsharp/syntaxes/fsharp.tmLanguage.json",
+    "languageConfiguration": "languages/fsharp/language-configuration.json"
+  },
+  {
     "name": "go",
     "scopeName": "source.go",
     "grammar": "languages/go/syntaxes/go.tmLanguage.json",

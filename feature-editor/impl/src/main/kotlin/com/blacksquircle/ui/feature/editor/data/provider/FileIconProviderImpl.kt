@@ -36,6 +36,7 @@ internal class FileIconProviderImpl : FileIconProvider {
             LanguageScope.DART -> UiR.drawable.ic_file_code
             LanguageScope.DOCKER -> UiR.drawable.ic_language_docker
             LanguageScope.FORTRAN -> UiR.drawable.ic_language_fortran
+            LanguageScope.FSHARP -> UiR.drawable.ic_file_code
             LanguageScope.GO -> UiR.drawable.ic_language_go
             LanguageScope.GROOVY -> UiR.drawable.ic_file_code
             LanguageScope.HTML -> UiR.drawable.ic_language_html

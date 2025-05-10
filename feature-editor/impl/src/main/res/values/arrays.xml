@@ -27,6 +27,7 @@
         <item>Dart</item>
         <item>Dockerfile</item>
         <item>Fortran</item>
+        <item>F#</item>
         <item>Go</item>
         <item>Groovy</item>
         <item>HTML</item>
@@ -66,6 +67,7 @@
         <item>source.dart</item>
         <item>source.dockerfile</item>
         <item>source.fortran</item>
+        <item>source.fsharp</item>
         <item>source.go</item>
         <item>source.groovy</item>
         <item>text.html.basic</item>

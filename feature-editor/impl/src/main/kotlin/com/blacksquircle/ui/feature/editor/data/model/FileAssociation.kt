@@ -50,6 +50,10 @@ internal object FileAssociation {
         associations[".for"] = LanguageScope.FORTRAN
         associations[".ftn"] = LanguageScope.FORTRAN
         associations[".pf"] = LanguageScope.FORTRAN
+        associations[".fs"] = LanguageScope.FSHARP
+        associations[".fsi"] = LanguageScope.FSHARP
+        associations[".fsx"] = LanguageScope.FSHARP
+        associations[".fsscript"] = LanguageScope.FSHARP
         associations[".go"] = LanguageScope.GO
         associations[".groovy"] = LanguageScope.GROOVY
         associations[".gvy"] = LanguageScope.GROOVY
