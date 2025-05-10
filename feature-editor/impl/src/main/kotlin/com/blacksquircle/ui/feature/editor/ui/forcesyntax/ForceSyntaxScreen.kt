@@ -23,7 +23,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,6 +38,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.indexOrNull
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
@@ -99,7 +100,14 @@ private fun ForceSyntaxScreen(
                 }
                 return@AlertDialog
             }
-            LazyColumn {
+
+            val selectedIndex = viewState.languages.indexOrNull {
+                it.scopeName == viewState.selectedLanguage
+            }
+            val lazyListState = rememberLazyListState(
+                initialFirstVisibleItemIndex = selectedIndex ?: 0
+            )
+            LazyColumn(state = lazyListState) {
                 items(viewState.languages) { value ->
                     val interactionSource = remember { MutableInteractionSource() }
                     Box(

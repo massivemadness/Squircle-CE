@@ -19,8 +19,6 @@ package com.blacksquircle.ui.feature.editor.ui.forcesyntax
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.editor.domain.model.GrammarModel
-import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
-import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorSettings
 
 @Immutable
 internal data class ForceSyntaxViewState(
