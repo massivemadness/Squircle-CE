@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.editor.data.model
 
 internal object FileAssociation {
 
-    private val associations = HashMap<String, String>(300)
+    private val associations = HashMap<String, String>(280)
 
     init {
         associations[".bat"] = LanguageScope.BAT
@@ -253,7 +253,6 @@ internal object FileAssociation {
         associations[".ditamap"] = LanguageScope.XML
         associations[".dtd"] = LanguageScope.XML
         associations[".ent"] = LanguageScope.XML
-        associations[".mod"] = LanguageScope.XML
         associations[".dtml"] = LanguageScope.XML
         associations[".fsproj"] = LanguageScope.XML
         associations[".fxml"] = LanguageScope.XML
@@ -300,9 +299,6 @@ internal object FileAssociation {
         associations[".eyaml"] = LanguageScope.YAML
         associations[".eyml"] = LanguageScope.YAML
         associations[".cff"] = LanguageScope.YAML
-        associations[".yaml-tmlanguage"] = LanguageScope.YAML
-        associations[".yaml-tmpreferences"] = LanguageScope.YAML
-        associations[".yaml-tmtheme"] = LanguageScope.YAML
     }
 
     fun guessLanguage(extension: String): String? {

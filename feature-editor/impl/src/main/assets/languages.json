@@ -42,7 +42,7 @@
     "languageConfiguration": "languages/dart/language-configuration.json"
   },
   {
-    "name": "docker",
+    "name": "dockerfile",
     "scopeName": "source.dockerfile",
     "grammar": "languages/docker/syntaxes/docker.tmLanguage.json",
     "languageConfiguration": "languages/docker/language-configuration.json"
@@ -145,7 +145,7 @@
     "languageConfiguration": "languages/lua/language-configuration.json"
   },
   {
-    "name": "make",
+    "name": "makefile",
     "scopeName": "source.makefile",
     "grammar": "languages/make/syntaxes/make.tmLanguage.json",
     "languageConfiguration": "languages/make/language-configuration.json"
@@ -170,23 +170,20 @@
       "meta.embedded.block.ruby": "ruby",
       "meta.embedded.block.php": "php",
       "meta.embedded.block.sql": "sql",
-      "meta.embedded.block.vs_net": "vs_net",
       "meta.embedded.block.xml": "xml",
       "meta.embedded.block.xsl": "xsl",
       "meta.embedded.block.yaml": "yaml",
-      "meta.embedded.block.dosbatch": "dosbatch",
       "meta.embedded.block.clojure": "clojure",
       "meta.embedded.block.coffee": "coffee",
       "meta.embedded.block.c": "c",
       "meta.embedded.block.cpp": "cpp",
-      "meta.embedded.block.diff": "diff",
       "meta.embedded.block.dockerfile": "dockerfile",
       "meta.embedded.block.go": "go",
       "meta.embedded.block.groovy": "groovy",
       "meta.embedded.block.pug": "jade",
       "meta.embedded.block.javascript": "javascript",
       "meta.embedded.block.json": "json",
-      "meta.embedded.block.jsonc": "jsonc",
+      "meta.embedded.block.jsonc": "json",
       "meta.embedded.block.latex": "latex",
       "meta.embedded.block.less": "less",
       "meta.embedded.block.objc": "objc",
@@ -198,7 +195,7 @@
       "meta.embedded.block.scala": "scala",
       "meta.embedded.block.shellscript": "shellscript",
       "meta.embedded.block.typescript": "typescript",
-      "meta.embedded.block.typescriptreact": "typescriptreact",
+      "meta.embedded.block.typescriptreact": "typescript",
       "meta.embedded.block.csharp": "csharp",
       "meta.embedded.block.fsharp": "fsharp"
     }
@@ -243,7 +240,7 @@
     "languageConfiguration": "languages/rust/language-configuration.json"
   },
   {
-    "name": "shell",
+    "name": "shellscript",
     "scopeName": "source.shell",
     "grammar": "languages/shell/syntaxes/shell.tmLanguage.json",
     "languageConfiguration": "languages/shell/language-configuration.json"
