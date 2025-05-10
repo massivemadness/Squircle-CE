@@ -62,8 +62,13 @@ internal class LanguageInteractorImpl(
             if (GrammarRegistry.getInstance().findGrammar(language) != null) {
                 return@withContext
             }
+
             val grammarDefinition = GrammarMapper.toDefinition(grammar)
             GrammarRegistry.getInstance().loadGrammar(grammarDefinition)
+
+            grammar.embeddedLanguages.forEach { (scope, _) ->
+                registerGrammar(scope)
+            }
         }
     }
 
