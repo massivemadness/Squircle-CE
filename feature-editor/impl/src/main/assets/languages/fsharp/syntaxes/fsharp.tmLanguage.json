@@ -88,13 +88,13 @@
 					"begin": "(\\()",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "punctuation.parenthesis.open.fsharp"
 						}
 					},
 					"end": "(\\))",
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "punctuation.parenthesis.close.fsharp"
 						}
 					},
 					"patterns": [
@@ -113,7 +113,7 @@
 							"name": "variable.fsharp"
 						},
 						"3": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					}
 				},
@@ -161,13 +161,13 @@
 					"begin": "(\\()",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "punctuation.parenthesis.open.fsharp"
 						}
 					},
 					"end": "(\\))",
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "punctuation.parenthesis.close.fsharp"
 						}
 					},
 					"patterns": [
@@ -185,10 +185,10 @@
 					"begin": "(:)\\s*(\\()\\s*(static member|member)",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
-							"name": "keyword.symbol.fsharp"
+							"name": "punctuation.parenthesis.open.fsharp"
 						},
 						"3": {
 							"name": "keyword.fsharp"
@@ -197,7 +197,7 @@
 					"end": "(\\))",
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "punctuation.parenthesis.close.fsharp"
 						}
 					},
 					"patterns": [
@@ -205,13 +205,13 @@
 							"begin": "(\\()",
 							"beginCaptures": {
 								"1": {
-									"name": "keyword.symbol.fsharp"
+									"name": "punctuation.parenthesis.open.fsharp"
 								}
 							},
 							"end": "(\\))",
 							"endCaptures": {
 								"1": {
-									"name": "keyword.symbol.fsharp"
+									"name": "punctuation.parenthesis.close.fsharp"
 								}
 							},
 							"patterns": [
@@ -241,7 +241,7 @@
 					"match": "\\b(private|to|public|internal|function|yield!|yield|class|exception|match|delegate|of|new|in|as|if|then|else|elif|for|begin|end|inherit|do|let\\!|return\\!|return|interface|with|abstract|enum|member|try|finally|and|when|or|use|use\\!|struct|while|mutable|assert|base|done|downcast|downto|extern|fixed|global|lazy|upcast|not)(?!')\\b"
 				},
 				{
-					"name": "keyword.symbol.fsharp",
+					"name": "keyword.operator.fsharp",
 					"match": ":"
 				},
 				{
@@ -260,12 +260,12 @@
 					"end": "(>)",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operatorl.fsharp"
 						}
 					},
 					"patterns": [
@@ -290,12 +290,12 @@
 					"end": "(\\))",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "punctuation.parenthesis.open.fsharp"
 						}
 					},
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "punctuation.parenthesis.close.fsharp"
 						}
 					},
 					"patterns": [
@@ -326,7 +326,7 @@
 					"comments": "Prevent captures of `|>` as a keyword when defining custom operator like `<|>`",
 					"captures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					}
 				},
@@ -353,7 +353,7 @@
 					"match": "[[:alpha:]0-9'`^_ ]+(:)",
 					"captures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					}
 				},
@@ -379,7 +379,7 @@
 					"match": "[[:alpha:]0-9'`^_ ]+(=)([[:alpha:]0-9'`^_ ]+)",
 					"captures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
 							"name": "variable.parameter.fsharp"
@@ -404,7 +404,7 @@
 							"match": "[[:alpha:]0-9'`^_ ]+(=)([[:alpha:]0-9'`^_ ]+)",
 							"captures": {
 								"1": {
-									"name": "keyword.symbol.fsharp"
+									"name": "keyword.operator.fsharp"
 								},
 								"2": {
 									"name": "variable.parameter.fsharp"
@@ -436,12 +436,12 @@
 					"end": "(\\))",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "punctuation.parenthesis.open.fsharp"
 						}
 					},
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "punctuation.parenthesis.close.fsharp"
 						}
 					},
 					"patterns": [
@@ -476,7 +476,7 @@
 					},
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.arrow.fsharp"
+							"name": "keyword.operator.arrow.fsharp"
 						}
 					},
 					"patterns": [
@@ -488,12 +488,12 @@
 							"end": "\\s*(?=(->))",
 							"beginCaptures": {
 								"1": {
-									"name": "keyword.symbol.fsharp"
+									"name": "punctuation.parenthesis.open.fsharp"
 								}
 							},
 							"endCaptures": {
 								"1": {
-									"name": "keyword.symbol.arrow.fsharp"
+									"name": "keyword.operator.arrow.fsharp"
 								}
 							},
 							"patterns": [
@@ -648,7 +648,7 @@
 					"name": "support.function.attribute.fsharp"
 				},
 				"5": {
-					"name": "keyword.symbol.fsharp"
+					"name": "keyword.operator.fsharp"
 				}
 			},
 			"endCaptures": {
@@ -667,13 +667,13 @@
 					"match": "(\\?{0,1})([[:alpha:]0-9'`^._ ]+)\\s*(:)((?!with\\b)\\b([\\w0-9'`^._ ]+)){0,1}",
 					"captures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
 							"name": "variable.parameter.fsharp"
 						},
 						"3": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"4": {
 							"name": "entity.name.type.fsharp"
@@ -707,10 +707,10 @@
 					"begin": "(:)\\s*(\\()\\s*(static member|member)",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"3": {
 							"name": "keyword.fsharp"
@@ -719,7 +719,7 @@
 					"end": "(\\))\\s*((?=,)|(?=\\=))",
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"patterns": [
@@ -743,16 +743,16 @@
 					"begin": "(:)\\s*(\\()",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"end": "(\\)\\s*(([?[:alpha:]0-9'`^._ ]*)))",
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
 							"name": "entity.name.type.fsharp"
@@ -768,7 +768,7 @@
 					"begin": "(:)\\s*(\\^[[:alpha:]0-9'._]+)\\s*(when)",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
 							"name": "entity.name.type.fsharp"
@@ -780,7 +780,7 @@
 					"end": "(?=:)",
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"patterns": [
@@ -798,7 +798,7 @@
 							}
 						},
 						{
-							"name": "keyword.symbol.fsharp",
+							"name": "keyword.operator.fsharp",
 							"match": "(\\(|\\))"
 						}
 					]
@@ -807,7 +807,7 @@
 					"match": "(:)\\s*([?[:alpha:]0-9'`^._ ]+)",
 					"captures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
 							"name": "entity.name.type.fsharp"
@@ -818,10 +818,10 @@
 					"match": "(->)\\s*(\\()?\\s*([?[:alpha:]0-9'`^._ ]+)*",
 					"captures": {
 						"1": {
-							"name": "keyword.symbol.arrow.fsharp"
+							"name": "keyword.operator.arrow.fsharp"
 						},
 						"2": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"3": {
 							"name": "entity.name.type.fsharp"
@@ -832,16 +832,16 @@
 					"begin": "(\\*)\\s*(\\()",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"end": "(\\)\\s*(([?[:alpha:]0-9'`^._ ]+))+)",
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
 							"name": "entity.name.type.fsharp"
@@ -857,7 +857,7 @@
 					"begin": "(\\*)(\\s*([?[:alpha:]0-9'`^._ ]+))*",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
 							"name": "entity.name.type.fsharp"
@@ -866,7 +866,7 @@
 					"end": "(?==)|(?=\\))",
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"patterns": [
@@ -882,12 +882,12 @@
 					"endComment": "The group (?<!:) prevent us from stopping on :> when using SRTP synthax",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"patterns": [
@@ -957,7 +957,7 @@
 							"name": "keyword.fsharp"
 						},
 						"3": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"patterns": [
@@ -977,7 +977,7 @@
 					},
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"patterns": [
@@ -997,7 +997,7 @@
 					},
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"patterns": [
@@ -1042,12 +1042,12 @@
 							"name": "keyword.fsharp"
 						},
 						"2": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"patterns": [
@@ -1071,7 +1071,7 @@
 					},
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"patterns": [
@@ -1085,7 +1085,7 @@
 									"name": "variable.parameter.fsharp"
 								},
 								"2": {
-									"name": "keyword.symbol.fsharp"
+									"name": "keyword.operator.fsharp"
 								},
 								"3": {
 									"name": "entity.name.type.fsharp"
@@ -1125,11 +1125,11 @@
 					"match": "\\b(match|yield|yield!|with|if|then|else|elif|for|in|return!|return|try|finally|while|do)(?!')\\b"
 				},
 				{
-					"name": "keyword.symbol.arrow.fsharp",
+					"name": "keyword.operator.arrow.fsharp",
 					"match": "(\\->|\\<\\-)"
 				},
 				{
-					"name": "keyword.symbol.fsharp",
+					"name": "keyword.operator.fsharp",
 					"match": "(&&&|\\|\\|\\||\\^\\^\\^|~~~|~\\+|~\\-|<<<|>>>|\\|>|:>|:\\?>|:|\\[|\\]|\\;|<>|=|@|\\|\\||&&|&|%|{|}|\\||_|\\.\\.|\\,|\\+|\\-|\\*|\\/|\\^|\\!|\\>|\\>\\=|\\>\\>|\\<|\\<\\=|\\(|\\)|\\<\\<)"
 				}
 			]
@@ -1156,7 +1156,7 @@
 					},
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"patterns": [
@@ -1216,7 +1216,7 @@
 							"name": "entity.name.type.namespace.fsharp"
 						},
 						"3": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"4": {
 							"name": "entity.name.section.fsharp"
@@ -1332,14 +1332,14 @@
 		"variables": {
 			"patterns": [
 				{
-					"name": "keyword.symbol.fsharp",
+					"name": "keyword.operator.fsharp",
 					"match": "\\(\\)"
 				},
 				{
 					"match": "(\\?{0,1})(``[[:alpha:]0-9'`^:,._ ]+``|(?!private|struct\\b)\\b[\\w[:alpha:]0-9'`<>^._ ]+)",
 					"captures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
 							"name": "variable.parameter.fsharp"
@@ -1355,18 +1355,18 @@
 					"end": "(>)",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.arrow.fsharp"
+							"name": "keyword.operator.arrow.fsharp"
 						},
 						"2": {
 							"name": "entity.name.type.fsharp"
 						},
 						"3": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"patterns": [
@@ -1387,7 +1387,7 @@
 					"match": "\\s*(->)\\s*(?!with|get|set\\b)\\b([\\w0-9'`^._]+)",
 					"captures": {
 						"1": {
-							"name": "keyword.symbol.arrow.fsharp"
+							"name": "keyword.operator.arrow.fsharp"
 						},
 						"2": {
 							"name": "entity.name.type.fsharp"
@@ -1402,16 +1402,16 @@
 					"end": "(>)",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
 							"name": "variable.parameter.fsharp"
 						},
 						"3": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"4": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"5": {
 							"name": "entity.name.type.fsharp"
@@ -1419,7 +1419,7 @@
 					},
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"patterns": [
@@ -1451,10 +1451,10 @@
 					"begin": "(:)\\s*(\\()\\s*(static member|member)",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"3": {
 							"name": "keyword.fsharp"
@@ -1463,7 +1463,7 @@
 					"end": "(\\))\\s*((?=,)|(?=\\=))",
 					"endCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"patterns": [
@@ -1471,13 +1471,13 @@
 							"begin": "(\\()",
 							"beginCaptures": {
 								"1": {
-									"name": "keyword.symbol.fsharp"
+									"name": "punctuation.parenthesis.open.fsharp"
 								}
 							},
 							"end": "(\\))",
 							"endCaptures": {
 								"1": {
-									"name": "keyword.symbol.fsharp"
+									"name": "punctuation.parenthesis.close.fsharp"
 								}
 							},
 							"patterns": [
@@ -1515,20 +1515,20 @@
 					"match": "\\b(and|when|or)\\b"
 				},
 				{
-					"name": "keyword.symbol.fsharp",
+					"name": "keyword.operator.fsharp",
 					"match": "(\\(|\\))"
 				},
 				{
 					"match": "(\\?{0,1})([[:alpha:]0-9'`^._]+|``[[:alpha:]0-9'`^:,._ ]+``)\\s*(:{0,1})(\\s*([?[:alpha:]0-9'`<>._ ]+)){0,1}",
 					"captures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"2": {
 							"name": "variable.parameter.fsharp"
 						},
 						"3": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"4": {
 							"name": "entity.name.type.fsharp"
@@ -1587,10 +1587,10 @@
 							"name": "variable.parameter.fsharp"
 						},
 						"6": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						},
 						"7": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"patterns": [
@@ -1613,12 +1613,12 @@
 							"end": "((?<!:)>)",
 							"beginCaptures": {
 								"1": {
-									"name": "keyword.symbol.fsharp"
+									"name": "keyword.operator.fsharp"
 								}
 							},
 							"endCaptures": {
 								"1": {
-									"name": "keyword.symbol.fsharp"
+									"name": "keyword.operator.fsharp"
 								}
 							},
 							"patterns": [
@@ -1639,12 +1639,12 @@
 									"end": "(\\))",
 									"beginCaptures": {
 										"1": {
-											"name": "keyword.symbol.fsharp"
+											"name": "punctuation.parenthesis.open.fsharp"
 										}
 									},
 									"endCaptures": {
 										"1": {
-											"name": "keyword.symbol.fsharp"
+											"name": "punctuation.parenthesis.close.fsharp"
 										}
 									},
 									"patterns": [
@@ -1688,12 +1688,12 @@
 							"end": "\\s*(?=(=)|[\\n=]|(\\(\\))|(as))",
 							"beginCaptures": {
 								"1": {
-									"name": "keyword.symbol.fsharp"
+									"name": "keyword.operator.fsharp"
 								}
 							},
 							"endCaptures": {
 								"1": {
-									"name": "keyword.symbol.fsharp"
+									"name": "keyword.operator.fsharp"
 								}
 							},
 							"patterns": [
@@ -1715,7 +1715,7 @@
 					"begin": "(\\{)",
 					"beginCaptures": {
 						"1": {
-							"name": "keyword.symbol.fsharp"
+							"name": "keyword.operator.fsharp"
 						}
 					},
 					"end": "(?<=\\})",
@@ -1730,13 +1730,13 @@
 									"name": "keyword.fsharp"
 								},
 								"4": {
-									"name": "keyword.symbol.fsharp"
+									"name": "keyword.operator.fsharp"
 								}
 							},
 							"end": "$|(;|\\})",
 							"endCaptures": {
 								"1": {
-									"name": "keyword.symbol.fsharp"
+									"name": "keyword.operator.fsharp"
 								}
 							},
 							"patterns": [
