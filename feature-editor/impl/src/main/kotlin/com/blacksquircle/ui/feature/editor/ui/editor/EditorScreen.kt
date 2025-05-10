@@ -116,9 +116,8 @@ internal fun EditorScreen(
         onOpenFileClicked = viewModel::onOpenFileClicked,
         onSaveFileClicked = viewModel::onSaveFileClicked,
         onSaveFileAsClicked = viewModel::onSaveFileAsClicked,
-        onRefreshFileClicked = viewModel::onRefreshFileClicked,
+        onReloadFileClicked = viewModel::onReloadFileClicked,
         onReadOnlyClicked = viewModel::onReadOnlyClicked,
-        onCloseFileClicked = viewModel::onCloseFileClicked,
         onContentChanged = viewModel::onContentChanged,
         onShortcutPressed = viewModel::onShortcutPressed,
         onCutClicked = viewModel::onCutClicked,
@@ -226,10 +225,10 @@ internal fun EditorScreen(
         viewModel.onColorSelected(color)
     }
     NavResultEffect(KEY_PULL) {
-        viewModel.onRefreshFileClicked()
+        viewModel.onReloadFileClicked()
     }
     NavResultEffect(KEY_CHECKOUT) {
-        viewModel.onRefreshFileClicked()
+        viewModel.onReloadFileClicked()
     }
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
@@ -268,9 +267,8 @@ private fun EditorScreen(
     onOpenFileClicked: () -> Unit = {},
     onSaveFileClicked: () -> Unit = {},
     onSaveFileAsClicked: () -> Unit = {},
-    onRefreshFileClicked: () -> Unit = {},
+    onReloadFileClicked: () -> Unit = {},
     onReadOnlyClicked: () -> Unit = {},
-    onCloseFileClicked: () -> Unit = {},
     onContentChanged: () -> Unit = {},
     onShortcutPressed: (Boolean, Boolean, Boolean, Int) -> Unit = { _, _, _, _ -> },
     onCutClicked: () -> Unit = {},
@@ -319,7 +317,7 @@ private fun EditorScreen(
                 onOpenFileClicked = onOpenFileClicked,
                 onSaveFileClicked = onSaveFileClicked,
                 onSaveFileAsClicked = onSaveFileAsClicked,
-                onRefreshFileClicked = onRefreshFileClicked,
+                onReloadFileClicked = onReloadFileClicked,
                 onCutClicked = onCutClicked,
                 onCopyClicked = onCopyClicked,
                 onPasteClicked = onPasteClicked,

@@ -195,7 +195,7 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    fun onRefreshFileClicked() {
+    fun onReloadFileClicked() {
         viewModelScope.launch {
             if (selectedPosition !in documents.indices) {
                 return@launch

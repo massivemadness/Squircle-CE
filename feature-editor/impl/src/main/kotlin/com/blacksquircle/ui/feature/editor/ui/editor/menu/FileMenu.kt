@@ -34,7 +34,7 @@ internal fun FileMenu(
     onOpenFileClicked: () -> Unit = {},
     onSaveFileClicked: () -> Unit = {},
     onSaveFileAsClicked: () -> Unit = {},
-    onRefreshFileClicked: () -> Unit = {},
+    onReloadFileClicked: () -> Unit = {},
 ) {
     PopupMenu(
         expanded = expanded,
@@ -64,8 +64,8 @@ internal fun FileMenu(
         )
         PopupMenuItem(
             title = stringResource(R.string.editor_menu_file_reload),
-            iconResId = UiR.drawable.ic_reload,
-            onClick = onRefreshFileClicked,
+            iconResId = UiR.drawable.ic_refresh,
+            onClick = onReloadFileClicked,
         )
     }
 }
