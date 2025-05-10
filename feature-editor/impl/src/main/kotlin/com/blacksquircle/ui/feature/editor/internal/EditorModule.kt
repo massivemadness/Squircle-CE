@@ -30,6 +30,7 @@ import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import dagger.Module
 import dagger.Provides
+import kotlinx.serialization.json.Json
 
 @Module
 internal object EditorModule {
@@ -38,10 +39,12 @@ internal object EditorModule {
     @EditorScope
     fun provideLanguageInteractor(
         dispatcherProvider: DispatcherProvider,
+        jsonParser: Json,
         context: Context,
     ): LanguageInteractor {
         return LanguageInteractorImpl(
             dispatcherProvider = dispatcherProvider,
+            jsonParser = jsonParser,
             context = context,
         )
     }

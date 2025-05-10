@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.domain.interactor
+package com.blacksquircle.ui.feature.editor.domain.model
 
-internal interface LanguageInteractor {
-    suspend fun loadGrammars()
-    suspend fun registerGrammar(language: String)
-}
+internal data class GrammarModel(
+    val name: String,
+    val scopeName: String,
+    val grammar: String,
+    val languageConfiguration: String,
+    val embeddedLanguages: Map<String, String>,
+)

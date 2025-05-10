@@ -18,16 +18,25 @@ package com.blacksquircle.ui.feature.editor.data.interactor
 
 import android.content.Context
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
+import com.blacksquircle.ui.feature.editor.data.mapper.GrammarMapper
+import com.blacksquircle.ui.feature.editor.data.model.GrammarData
 import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
+import com.blacksquircle.ui.feature.editor.domain.model.GrammarModel
 import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry
 import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
 
 internal class LanguageInteractorImpl(
     private val dispatcherProvider: DispatcherProvider,
-    context: Context,
+    private val jsonParser: Json,
+    private val context: Context,
 ) : LanguageInteractor {
+
+    private var grammars = emptyList<GrammarModel>()
 
     init {
         FileProviderRegistry.getInstance().addFileProvider(
@@ -35,9 +44,26 @@ internal class LanguageInteractorImpl(
         )
     }
 
+    @OptIn(ExperimentalSerializationApi::class)
     override suspend fun loadGrammars() {
         withContext(dispatcherProvider.io()) {
-            GrammarRegistry.getInstance().loadGrammars(ASSET_FILE)
+            val languagesFile = context.assets.open(ASSET_FILE)
+            grammars = jsonParser.decodeFromStream<List<GrammarData>>(languagesFile)
+                .map(GrammarMapper::toModel)
+        }
+    }
+
+    override suspend fun registerGrammar(language: String) {
+        withContext(dispatcherProvider.io()) {
+            val grammar = grammars.find { it.scopeName == language }
+            if (grammar == null) {
+                return@withContext
+            }
+            if (GrammarRegistry.getInstance().findGrammar(language) != null) {
+                return@withContext
+            }
+            val grammarDefinition = GrammarMapper.toDefinition(grammar)
+            GrammarRegistry.getInstance().loadGrammar(grammarDefinition)
         }
     }
 
