@@ -28,14 +28,16 @@ class GrammarMapperTest {
     fun `When mapping GrammarData Then return GrammarModel`() {
         // Given
         val grammarData = GrammarData(
-            name = "HTML",
+            name = "html",
+            displayName = "HTML",
             scopeName = "text.html.basic",
             grammar = "/storage/emulated/0/grammar.json",
             languageConfiguration = "/storage/emulated/0/config.json",
             embeddedLanguages = mapOf("source.js" to "JavaScript"),
         )
         val expected = GrammarModel(
-            name = "HTML",
+            name = "html",
+            displayName = "HTML",
             scopeName = "text.html.basic",
             grammar = "/storage/emulated/0/grammar.json",
             languageConfiguration = "/storage/emulated/0/config.json",
