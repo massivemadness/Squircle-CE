@@ -27,12 +27,16 @@ internal class FileIconProviderImpl : FileIconProvider {
     override fun fileIcon(fileModel: FileModel): Int {
         val language = FileAssociation.guessLanguage(fileModel.extension)
         return when (language) {
+            LanguageScope.BAT -> UiR.drawable.ic_file_document
             LanguageScope.C -> UiR.drawable.ic_language_c
+            LanguageScope.CLOJURE -> UiR.drawable.ic_file_code
             LanguageScope.CPP -> UiR.drawable.ic_language_cpp
             LanguageScope.CSHARP -> UiR.drawable.ic_language_csharp
             LanguageScope.CSS -> UiR.drawable.ic_language_css
+            LanguageScope.DART -> UiR.drawable.ic_file_code
             LanguageScope.DOCKER -> UiR.drawable.ic_language_docker
             LanguageScope.FORTRAN -> UiR.drawable.ic_language_fortran
+            LanguageScope.FSHARP -> UiR.drawable.ic_file_code
             LanguageScope.GO -> UiR.drawable.ic_language_go
             LanguageScope.GROOVY -> UiR.drawable.ic_file_code
             LanguageScope.HTML -> UiR.drawable.ic_language_html
@@ -47,6 +51,7 @@ internal class FileIconProviderImpl : FileIconProvider {
             LanguageScope.LUA -> UiR.drawable.ic_language_lua
             LanguageScope.MAKE -> UiR.drawable.ic_file_code
             LanguageScope.MARKDOWN -> UiR.drawable.ic_language_markdown
+            LanguageScope.PERL -> UiR.drawable.ic_file_code
             LanguageScope.PHP -> UiR.drawable.ic_language_php
             LanguageScope.PYTHON -> UiR.drawable.ic_language_python
             LanguageScope.RUBY -> UiR.drawable.ic_language_ruby

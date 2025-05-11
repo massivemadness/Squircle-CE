@@ -25,7 +25,7 @@ data object EditorScreen
 data class CloseFileDialog(val fileUuid: String, val fileName: String)
 
 @Serializable
-data class ForceSyntaxDialog(val languageName: String)
+data class ForceSyntaxDialog(val language: String)
 
 @Serializable
 data class GoToLineDialog(val lineCount: Int)

@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.domain.interactor
+package com.blacksquircle.ui.feature.editor.ui.forcesyntax
 
+import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.editor.domain.model.GrammarModel
 
-internal interface LanguageInteractor {
-    suspend fun loadGrammars(): List<GrammarModel>
-    suspend fun registerGrammar(language: String)
-}
+@Immutable
+internal data class ForceSyntaxViewState(
+    val languages: List<GrammarModel> = emptyList(),
+    val selectedLanguage: String = "",
+    val isLoading: Boolean = true,
+) : ViewState

@@ -31,10 +31,14 @@ internal data class DocumentState(
     val errorState: ErrorState? = null,
     val searchState: SearchState? = null,
 ) {
-    private val _canUndo = mutableStateOf(content?.canUndo() ?: false)
+    private val _canUndo = mutableStateOf(false)
     val canUndo: State<Boolean> = _canUndo
-    private val _canRedo = mutableStateOf(content?.canRedo() ?: false)
+    private val _canRedo = mutableStateOf(false)
     val canRedo: State<Boolean> = _canRedo
+
+    init {
+        syncState()
+    }
 
     fun syncState() {
         _canUndo.value = content?.canUndo() ?: false

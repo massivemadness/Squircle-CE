@@ -29,6 +29,7 @@ internal object GrammarMapper {
     fun toModel(grammarData: GrammarData): GrammarModel {
         return GrammarModel(
             name = grammarData.name.orEmpty(),
+            displayName = grammarData.displayName.orEmpty(),
             scopeName = grammarData.scopeName.orEmpty(),
             grammar = grammarData.grammar.orEmpty(),
             languageConfiguration = grammarData.languageConfiguration.orEmpty(),

@@ -67,6 +67,7 @@
     <string name="editor_goto_line_dialog_button_go_to">Go to</string>
 
     <string name="editor_force_syntax_dialog_title">Syntax Highlighting</string>
+    <string name="editor_force_syntax_dialog_plain_text">Plain Text</string>
 
     <string name="editor_color_picker_dialog_title">Color Picker</string>
     <string name="editor_color_picker_dialog_button_insert">Insert</string>

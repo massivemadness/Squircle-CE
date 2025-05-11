@@ -621,8 +621,8 @@ internal class EditorViewModel @Inject constructor(
                     return@launch
                 }
 
-                val document = documents[selectedPosition].document
-                    .copy(language = language)
+                val document = documents[selectedPosition].document.copy(language = language)
+                languageInteractor.registerGrammar(document.language)
 
                 documents = documents.mapSelected { state ->
                     state.copy(document = document)

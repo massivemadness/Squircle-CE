@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.editor.domain.model
 
 internal data class GrammarModel(
     val name: String,
+    val displayName: String,
     val scopeName: String,
     val grammar: String,
     val languageConfiguration: String,
