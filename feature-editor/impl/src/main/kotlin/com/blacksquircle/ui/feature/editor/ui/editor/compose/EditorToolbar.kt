@@ -114,14 +114,14 @@ internal fun EditorToolbar(
             IconButton(
                 iconResId = UiR.drawable.ic_undo,
                 onClick = onUndoClicked,
-                enabled = currentDocument?.canUndo?.value ?: false,
+                enabled = currentDocument?.canUndo ?: false,
                 debounce = false,
                 contentDescription = stringResource(R.string.editor_menu_edit_undo)
             )
             IconButton(
                 iconResId = UiR.drawable.ic_redo,
                 onClick = onRedoClicked,
-                enabled = currentDocument?.canRedo?.value ?: false,
+                enabled = currentDocument?.canRedo ?: false,
                 debounce = false,
                 contentDescription = stringResource(R.string.editor_menu_edit_redo)
             )

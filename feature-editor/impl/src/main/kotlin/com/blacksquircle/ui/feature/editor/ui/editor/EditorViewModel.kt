@@ -200,14 +200,18 @@ internal class EditorViewModel @Inject constructor(
             if (selectedPosition !in documents.indices) {
                 return@launch
             }
+
             val document = documents[selectedPosition].document
-            if (document.modified) {
-                documents = documents.mapSelected { state ->
-                    state.copy(document = document.copy(modified = false))
-                }
-                _viewState.update {
-                    it.copy(documents = documents)
-                }
+            documents = documents.mapSelected { state ->
+                state.copy(
+                    document = document.copy(modified = false),
+                    content = null,
+                    canUndo = false,
+                    canRedo = false,
+                )
+            }
+            _viewState.update {
+                it.copy(documents = documents)
             }
             documentRepository.refreshDocument(document)
             loadDocument(document, fromUser = false)
@@ -238,23 +242,38 @@ internal class EditorViewModel @Inject constructor(
                 }
 
                 val documentState = documents[selectedPosition]
+                val content = documentState.content ?: return@launch
                 val document = documentState.document
 
-                if (document.modified) {
-                    documentState.syncState()
+                val canUndo = content.canUndo()
+                val canRedo = content.canRedo()
+
+                val needsUpdate =
+                    !document.modified ||
+                        documentState.canUndo != canUndo ||
+                        documentState.canRedo != canRedo
+
+                if (!needsUpdate) return@launch
+
+                val updatedDocument = if (!document.modified) {
+                    document.copy(modified = true)
                 } else {
-                    val updatedDocument = document.copy(modified = true)
+                    document
+                }
 
-                    documents = documents.mapSelected { state ->
-                        state.copy(document = updatedDocument)
-                    }
-                    _viewState.update {
-                        it.copy(documents = documents)
-                    }
+                documents = documents.mapSelected { state ->
+                    state.copy(
+                        document = updatedDocument,
+                        canUndo = canUndo,
+                        canRedo = canRedo,
+                    )
+                }
+                _viewState.update {
+                    it.copy(documents = documents)
+                }
 
+                if (!document.modified) {
                     documentRepository.changeModified(updatedDocument, true)
-
-                    documents[selectedPosition].syncState()
                 }
             } catch (e: CancellationException) {
                 throw e
@@ -390,8 +409,27 @@ internal class EditorViewModel @Inject constructor(
         }
 
         val documentState = documents[selectedPosition]
-        documentState.content?.undo()
-        documentState.syncState()
+        val content = documentState.content ?: return
+        content.undo()
+
+        val canUndo = content.canUndo()
+        val canRedo = content.canRedo()
+
+        val needsUpdate =
+            documentState.canUndo != canUndo ||
+                documentState.canRedo != canRedo
+
+        if (!needsUpdate) return
+
+        documents = documents.mapSelected { state ->
+            state.copy(
+                canUndo = canUndo,
+                canRedo = canRedo,
+            )
+        }
+        _viewState.update {
+            it.copy(documents = documents)
+        }
     }
 
     fun onRedoClicked() {
@@ -400,8 +438,27 @@ internal class EditorViewModel @Inject constructor(
         }
 
         val documentState = documents[selectedPosition]
-        documentState.content?.redo()
-        documentState.syncState()
+        val content = documentState.content ?: return
+        content.redo()
+
+        val canUndo = content.canUndo()
+        val canRedo = content.canRedo()
+
+        val needsUpdate =
+            documentState.canUndo != canUndo ||
+                documentState.canRedo != canRedo
+
+        if (!needsUpdate) return
+
+        documents = documents.mapSelected { state ->
+            state.copy(
+                canUndo = canUndo,
+                canRedo = canRedo,
+            )
+        }
+        _viewState.update {
+            it.copy(documents = documents)
+        }
     }
 
     fun onToggleFindClicked() {
@@ -1123,6 +1180,8 @@ internal class EditorViewModel @Inject constructor(
                         state.copy(
                             document = updatedDocument,
                             content = null,
+                            canUndo = false,
+                            canRedo = false,
                         )
                     } else {
                         state
@@ -1153,6 +1212,8 @@ internal class EditorViewModel @Inject constructor(
                 documents = documents.mapSelected {
                     it.copy(
                         content = content,
+                        canUndo = content.canUndo(),
+                        canRedo = content.canRedo(),
                         errorState = null,
                     )
                 }
@@ -1173,6 +1234,8 @@ internal class EditorViewModel @Inject constructor(
                 documents = documents.mapSelected {
                     it.copy(
                         content = null,
+                        canUndo = false,
+                        canRedo = false,
                         errorState = errorState(e),
                     )
                 }
