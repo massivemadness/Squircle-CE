@@ -26,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -53,7 +54,7 @@ import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
 import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
-import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.compose.keybindingResource
+import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.compose.Combination
 import com.blacksquircle.ui.ds.R as UiR
 
 internal const val KEY_SAVE = "KEY_SAVE"
@@ -183,13 +184,11 @@ private fun ShortcutsScreen(
                             Shortcut.FORCE_SYNTAX -> stringResource(R.string.shortcuts_force_syntax_title)
                             Shortcut.INSERT_COLOR -> stringResource(R.string.shortcuts_insert_color_title)
                         },
-                        subtitle = keybindingResource(
-                            ctrl = keybinding.isCtrl,
-                            shift = keybinding.isShift,
-                            alt = keybinding.isAlt,
-                            key = keybinding.key,
-                        ),
                         onClick = { onKeyClicked(keybinding) },
+                        verticalAlignment = Alignment.CenterVertically,
+                        trailingContent = {
+                            Combination(keybinding)
+                        }
                     )
                 }
                 if (keyGroup != KeyGroup.TOOLS) {
