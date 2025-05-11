@@ -84,8 +84,6 @@ fun Preference(
                     } else {
                         SquircleTheme.colors.colorTextAndIconDisabled
                     },
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 3,
                 )
             }
             if (bottomContent != null) {
