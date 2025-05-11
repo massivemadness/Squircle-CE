@@ -41,6 +41,7 @@ import com.blacksquircle.ui.ds.preference.ListSelection
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
+import com.blacksquircle.ui.feature.editor.data.model.LanguageScope
 import com.blacksquircle.ui.feature.editor.domain.model.GrammarModel
 import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.editor.ARG_LANGUAGE
@@ -58,10 +59,10 @@ internal fun ForceSyntaxScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ForceSyntaxScreen(
         viewState = viewState,
-        onLanguageSelected = { grammar ->
+        onLanguageSelected = { scopeName ->
             sendNavigationResult(
                 key = KEY_SELECT_LANGUAGE,
-                result = bundleOf(ARG_LANGUAGE to grammar.scopeName)
+                result = bundleOf(ARG_LANGUAGE to scopeName)
             )
             navController.popBackStack()
         },
@@ -74,7 +75,7 @@ internal fun ForceSyntaxScreen(
 @Composable
 private fun ForceSyntaxScreen(
     viewState: ForceSyntaxViewState,
-    onLanguageSelected: (GrammarModel) -> Unit = {},
+    onLanguageSelected: (String) -> Unit = {},
     onCancelClicked: () -> Unit = {}
 ) {
     AlertDialog(
@@ -101,11 +102,21 @@ private fun ForceSyntaxScreen(
                 initialFirstVisibleItemIndex = selectedIndex ?: 0
             )
             LazyColumn(state = lazyListState) {
-                items(viewState.languages) { value ->
+                item(key = LanguageScope.TEXT) {
+                    ListSelection(
+                        title = stringResource(R.string.editor_force_syntax_dialog_plain_text),
+                        selected = LanguageScope.TEXT == viewState.selectedLanguage,
+                        onClick = { onLanguageSelected(LanguageScope.TEXT) },
+                    )
+                }
+                items(
+                    items = viewState.languages,
+                    key = GrammarModel::scopeName,
+                ) { value ->
                     ListSelection(
                         title = value.displayName,
                         selected = value.scopeName == viewState.selectedLanguage,
-                        onClick = { onLanguageSelected(value) },
+                        onClick = { onLanguageSelected(value.scopeName) },
                     )
                 }
             }

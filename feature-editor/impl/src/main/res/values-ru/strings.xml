@@ -50,6 +50,7 @@
     <string name="editor_goto_line_dialog_input_label">Линия:</string>
     <string name="editor_goto_line_dialog_button_go_to">Перейти</string>
     <string name="editor_force_syntax_dialog_title">Подсветка синтаксиса</string>
+    <string name="editor_force_syntax_dialog_plain_text">Текст (без подсветки)</string>
     <string name="editor_color_picker_dialog_title">Выберите цвет</string>
     <string name="editor_color_picker_dialog_button_insert">Вставить</string>
     <string name="editor_close_tab_dialog_message">Вы уверены что хотите закрыть этот файл? Все несохраненные изменения будут сброшены</string>
