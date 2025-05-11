@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="git_fetch_dialog_title">获取</string>
+    <string name="git_fetch_dialog_message">正在从远程存储库获取更新…</string>
+    <string name="git_pull_dialog_title">拉取</string>
+    <string name="git_pull_dialog_message">正在从远程存储库拉取更改…</string>
+    <string name="git_commit_dialog_title">提交</string>
+    <string name="git_commit_dialog_message">将您的更改提交到本地存储库…</string>
+    <string name="git_commit_dialog_input_label">提交信息</string>
+    <string name="git_commit_dialog_selection_label">未提交的更改</string>
+    <string name="git_commit_dialog_selection_empty">没有变化</string>
+    <string name="git_commit_dialog_checkbox_amend">修正</string>
+    <string name="git_commit_dialog_button_commit">提交</string>
+    <string name="git_push_dialog_title">推送</string>
+    <string name="git_push_dialog_message">正在将更改推送到远程存储库…</string>
+    <string name="git_push_dialog_message_branch">此分支在远程仓库中不存在。是否推送它以创建新的远程分支？</string>
+    <string name="git_push_dialog_message_commits">您即将推送 %1$d 个提交至 %2$s。是否继续？</string>
+    <string name="git_push_dialog_message_empty">没有要推送的提交</string>
+    <string name="git_push_dialog_checkbox_force">强制</string>
+    <string name="git_push_dialog_button_push">推送</string>
+    <string name="git_checkout_dialog_title">检出</string>
+    <string name="git_checkout_dialog_message">正在检出分支…</string>
+    <string name="git_checkout_dialog_selection_label">分支</string>
+    <string name="git_checkout_dialog_input_label">分支名</string>
+    <string name="git_checkout_dialog_input_help">您的分支将基于 %1$s</string>
+    <string name="git_checkout_dialog_checkbox_new">新分支</string>
+    <string name="git_checkout_dialog_button_create">创建</string>
+    <string name="git_checkout_dialog_button_checkout">检出</string>
+    <string name="git_toast_fetch_complete">获取完成</string>
+    <string name="git_toast_pull_complete">拉取完成</string>
+    <string name="git_toast_commit_created">提交已创建</string>
+    <string name="git_toast_push_complete">推送完成</string>
+    <string name="git_toast_checked_out">已检出 %1$s</string>
+    <string name="git_change_added">已添加</string>
+    <string name="git_change_modified">已修改</string>
+    <string name="git_change_deleted">已删除</string>
+</resources>

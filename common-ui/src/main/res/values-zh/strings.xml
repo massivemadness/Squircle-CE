@@ -21,8 +21,10 @@
     <string name="common_delete">删除</string>
     <string name="common_continue">继续</string>
     <string name="common_select">选择</string>
+    <string name="common_selected">已选择</string>
     <string name="common_yes">退出</string>
     <string name="common_no">取消</string>
+    <string name="common_menu">菜单</string>
     <string name="common_grant_access">授予访问权限</string>
     <string name="common_access_denied_dialog_title">没有存储空间访问权限</string>
     <string name="common_access_denied_dialog_message">为了能正常编写代码，必须授予存储权限</string>
