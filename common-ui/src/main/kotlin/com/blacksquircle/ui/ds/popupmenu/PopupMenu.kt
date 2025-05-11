@@ -65,7 +65,9 @@ fun PopupMenuItem(
     title: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     iconResId: Int? = null,
+    submenu: Boolean = false,
     trailing: @Composable (() -> Unit)? = null,
 ) {
     DropdownMenuItem(
@@ -74,21 +76,42 @@ fun PopupMenuItem(
                 Icon(
                     painter = painterResource(iconResId),
                     contentDescription = null,
-                    tint = SquircleTheme.colors.colorTextAndIconSecondary,
+                    tint = if (enabled) {
+                        SquircleTheme.colors.colorTextAndIconSecondary
+                    } else {
+                        SquircleTheme.colors.colorTextAndIconDisabled
+                    },
                 )
                 Spacer(Modifier.width(16.dp))
             }
             Text(
                 text = title,
-                color = SquircleTheme.colors.colorTextAndIconPrimary,
+                color = if (enabled) {
+                    SquircleTheme.colors.colorTextAndIconPrimary
+                } else {
+                    SquircleTheme.colors.colorTextAndIconDisabled
+                },
                 style = SquircleTheme.typography.text16Regular,
                 modifier = Modifier.weight(1f)
             )
-            if (trailing != null) {
+            if (trailing != null || submenu) {
                 Spacer(Modifier.width(16.dp))
-                trailing()
+                if (submenu) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_menu_right),
+                        contentDescription = null,
+                        tint = if (enabled) {
+                            SquircleTheme.colors.colorTextAndIconSecondary
+                        } else {
+                            SquircleTheme.colors.colorTextAndIconDisabled
+                        },
+                    )
+                } else {
+                    trailing?.invoke()
+                }
             }
         },
+        enabled = enabled,
         onClick = onClick,
         modifier = modifier
             .defaultMinSize(

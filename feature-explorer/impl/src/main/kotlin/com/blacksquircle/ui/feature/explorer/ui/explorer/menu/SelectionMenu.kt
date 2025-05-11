@@ -45,12 +45,11 @@ internal fun SelectionMenu(
         verticalOffset = (-56).dp,
         modifier = modifier,
     ) {
-        if (filesystemType == FilesystemType.LOCAL) {
-            PopupMenuItem(
-                title = stringResource(android.R.string.cut),
-                onClick = onCutClicked,
-            )
-        }
+        PopupMenuItem(
+            title = stringResource(android.R.string.cut),
+            onClick = onCutClicked,
+            enabled = filesystemType == FilesystemType.LOCAL,
+        )
         if (count == 1) {
             if (filesystemType != FilesystemType.SERVER) {
                 PopupMenuItem(
@@ -71,11 +70,10 @@ internal fun SelectionMenu(
                 onClick = onCopyPathClicked,
             )
         }
-        if (filesystemType == FilesystemType.LOCAL) {
-            PopupMenuItem(
-                title = stringResource(R.string.explorer_menu_selection_compress),
-                onClick = onCompressClicked,
-            )
-        }
+        PopupMenuItem(
+            title = stringResource(R.string.explorer_menu_selection_compress),
+            onClick = onCompressClicked,
+            enabled = filesystemType == FilesystemType.LOCAL,
+        )
     }
 }
