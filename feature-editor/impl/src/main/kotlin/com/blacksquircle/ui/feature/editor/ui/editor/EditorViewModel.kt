@@ -1145,6 +1145,23 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    private fun onFileDeleted(fileModel: FileModel) {
+        viewModelScope.launch {
+            try {
+                val existingIndex = documents.indexOf { it.document.fileUri == fileModel.fileUri }
+                if (existingIndex != -1) {
+                    val documentState = documents[existingIndex]
+                    onCloseClicked(documentState.document, fromUser = false)
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
+
     private fun loadDocument(document: DocumentModel, fromUser: Boolean) {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
@@ -1284,6 +1301,7 @@ internal class EditorViewModel @Inject constructor(
                     when (event) {
                         is EditorApiEvent.OpenFile -> onFileOpened(event.fileModel)
                         is EditorApiEvent.OpenFileUri -> onFileOpened(event.fileUri)
+                        is EditorApiEvent.DeleteFile -> onFileDeleted(event.fileModel)
                     }
                 }
             } catch (e: CancellationException) {

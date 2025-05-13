@@ -668,7 +668,10 @@ internal class ExplorerViewModel @Inject constructor(
                     is TaskStatus.Done -> {
                         onTaskFinished()
 
-                        fileNodes.forEach(cache::removeNode)
+                        fileNodes.forEach { removedNode ->
+                            cache.removeNode(removedNode)
+                            editorInteractor.deleteFile(removedNode.file)
+                        }
                         updateNodeList()
                     }
                     else -> Unit

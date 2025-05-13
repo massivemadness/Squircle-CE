@@ -36,4 +36,8 @@ internal class EditorInteractorImpl : EditorInteractor {
     override suspend fun openFileUri(fileUri: Uri) {
         _eventBus.send(EditorApiEvent.OpenFileUri(fileUri))
     }
+
+    override suspend fun deleteFile(fileModel: FileModel) {
+        _eventBus.send(EditorApiEvent.DeleteFile(fileModel))
+    }
 }
