@@ -44,13 +44,13 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew :app:assembleGmsRelease --no-configuration-cache
+        run: ./gradlew :app:bundleGmsRelease --no-configuration-cache
 
       - name: Upload APK (Google Play)
         uses: actions/upload-artifact@v4
         with:
           name: Google Play App (Release)
-          path: ./app/build/outputs/apk/gms/release/app-gms-release.apk
+          path: ./app/build/outputs/bundle/gmsRelease/app-gms-release.aab
 
       - name: Upload APK to Play Store
         uses: r0adkll/upload-google-play@v1
@@ -58,7 +58,7 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: com.blacksquircle.ui
           track: production
-          releaseFiles: ./app/build/outputs/apk/gms/release/app-gms-release.apk
+          releaseFiles: ./app/build/outputs/bundle/gmsRelease/app-gms-release.aab
           mappingFile: ./app/build/outputs/mapping/gmsRelease/mapping.txt
 
       - name: Delete Keystore
