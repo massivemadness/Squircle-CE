@@ -14,8 +14,18 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
+    <string name="common_error_occurred">Un error ocurrió</string>
+    <string name="common_no_result">Sin resultado</string>
+    <string name="common_save">Guardado</string>
+    <string name="common_delete">Borrar</string>
+    <string name="common_continue">Continuar</string>
+    <string name="common_select">Seleccionar</string>
+    <string name="common_selected">Seleccionado</string>
     <string name="common_yes">Aceptar</string>
     <string name="common_no">Rechazar</string>
+    <string name="common_menu">Menú</string>
+    <string name="common_grant_access">Gran acceso</string>
+    <string name="common_access_denied_dialog_title">Acceso denegado</string>
+    <string name="common_access_denied_dialog_message">La aplicación requiere acceso a la carpeta de trabajo con archivos</string>
 </resources>
