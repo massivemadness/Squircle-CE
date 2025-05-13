@@ -16,7 +16,7 @@
   -->
 <resources>
     <string name="git_fetch_dialog_title">Fetch</string>
-    <string name="git_fetch_dialog_message">Проверка обновлений в удаленном репозитории…</string>
+    <string name="git_fetch_dialog_message">Загрузка обновлений из удаленного репозитория…</string>
     <string name="git_pull_dialog_title">Pull</string>
     <string name="git_pull_dialog_message">Получение изменений из удаленного репозитория…</string>
     <string name="git_commit_dialog_title">Commit</string>
