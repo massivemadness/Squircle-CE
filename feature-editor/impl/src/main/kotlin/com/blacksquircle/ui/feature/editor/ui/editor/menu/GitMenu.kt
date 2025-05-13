@@ -64,7 +64,7 @@ internal fun GitMenu(
         )
         PopupMenuItem(
             title = stringResource(R.string.editor_menu_git_checkout),
-            iconResId = UiR.drawable.ic_folder_data,
+            iconResId = UiR.drawable.ic_source_branch,
             onClick = onCheckoutClicked,
         )
     }
