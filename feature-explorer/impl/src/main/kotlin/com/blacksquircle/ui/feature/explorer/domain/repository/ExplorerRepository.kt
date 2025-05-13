@@ -37,5 +37,5 @@ internal interface ExplorerRepository {
     fun moveFiles(source: List<FileModel>, dest: FileModel): String
     fun compressFiles(source: List<FileModel>, dest: FileModel, fileName: String): String
     fun extractFiles(source: FileModel, dest: FileModel): String
-    fun cloneRepository(parent: FileModel, url: String, submodules: Boolean): String
+    fun cloneRepository(parent: FileModel, url: String): String
 }

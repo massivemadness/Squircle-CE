@@ -69,6 +69,13 @@ internal class EditorHeaderViewModel @Inject constructor(
         }
     }
 
+    fun onStickyScrollChanged(stickyScroll: Boolean) {
+        viewModelScope.launch {
+            settingsManager.stickyScroll = stickyScroll
+            _viewState.value = updateViewState()
+        }
+    }
+
     fun onCodeCompletionChanged(codeCompletion: Boolean) {
         viewModelScope.launch {
             settingsManager.codeCompletion = codeCompletion
@@ -164,6 +171,7 @@ internal class EditorHeaderViewModel @Inject constructor(
         return EditorHeaderViewState(
             fontSize = settingsManager.fontSize,
             wordWrap = settingsManager.wordWrap,
+            stickyScroll = settingsManager.stickyScroll,
             codeCompletion = settingsManager.codeCompletion,
             pinchZoom = settingsManager.pinchZoom,
             lineNumbers = settingsManager.lineNumbers,

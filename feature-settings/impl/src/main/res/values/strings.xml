@@ -55,6 +55,8 @@
     <string name="settings_category_editor">Editor</string>
     <string name="settings_word_wrap_title">Word Wrap</string>
     <string name="settings_word_wrap_subtitle">Enable word wrap to fit screen width</string>
+    <string name="settings_sticky_scroll_title">Sticky Scroll</string>
+    <string name="settings_sticky_scroll_subtitle">Stick code headers to the top while scrolling</string>
     <string name="settings_code_completion_title">Code Completion</string>
     <string name="settings_code_completion_subtitle">Show autocomplete suggestions</string>
     <string name="settings_pinch_zoom_title">Pinch Zoom</string>
@@ -138,6 +140,11 @@
     <string name="settings_git_user_subtitle">User data that will appear in your Git commits</string>
     <string name="settings_git_user_input_name_label">Name</string>
     <string name="settings_git_user_input_email_label">Email</string>
+    <string name="settings_category_repository">Repository</string>
+    <string name="settings_submodules_title">Submodules</string>
+    <string name="settings_submodules_subtitle">Include submodules when cloning a repository</string>
+    <string name="settings_recursive_submodules_title">Recursive submodules</string>
+    <string name="settings_recursive_submodules_subtitle">Fetch submodules and their dependencies recursively</string>
 
     <string name="settings_category_about">About</string>
     <string name="settings_about_subtitle">Squircle CE is an open source project published under the Apache 2.0 license\n\nVersion: %1$s (%2$d)</string>

@@ -49,7 +49,6 @@
     <string name="explorer_clone_dialog_title">Клонировать…</string>
     <string name="explorer_clone_dialog_input_label">Введите URL-адрес</string>
     <string name="explorer_clone_dialog_input_error">Некорректный URL</string>
-    <string name="explorer_clone_dialog_checkbox_submodules">Submodules</string>
     <string name="explorer_clone_dialog_button_clone">Клонировать</string>
     <string name="explorer_multidelete_dialog_title">Множественное удаление</string>
     <string name="explorer_multidelete_dialog_message">Вы уверены что хотите удалить выделенные файлы?</string>

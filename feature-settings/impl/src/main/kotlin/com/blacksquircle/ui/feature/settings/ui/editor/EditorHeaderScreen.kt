@@ -63,6 +63,7 @@ internal fun EditorHeaderScreen(
         onFontSizeChanged = viewModel::onFontSizeChanged,
         onFontTypeClicked = viewModel::onFontTypeClicked,
         onWordWrapChanged = viewModel::onWordWrapChanged,
+        onStickyScrollChanged = viewModel::onStickyScrollChanged,
         onCodeCompletionChanged = viewModel::onCodeCompletionChanged,
         onPinchZoomChanged = viewModel::onPinchZoomChanged,
         onLineNumbersChanged = viewModel::onLineNumbersChanged,
@@ -97,6 +98,7 @@ private fun EditorHeaderScreen(
     onFontSizeChanged: (Int) -> Unit = {},
     onFontTypeClicked: () -> Unit = {},
     onWordWrapChanged: (Boolean) -> Unit = {},
+    onStickyScrollChanged: (Boolean) -> Unit = {},
     onCodeCompletionChanged: (Boolean) -> Unit = {},
     onPinchZoomChanged: (Boolean) -> Unit = {},
     onLineNumbersChanged: (Boolean) -> Unit = {},
@@ -154,6 +156,13 @@ private fun EditorHeaderScreen(
                 subtitle = stringResource(R.string.settings_word_wrap_subtitle),
                 checked = viewState.wordWrap,
                 onCheckedChange = onWordWrapChanged,
+            )
+            SwitchPreference(
+                title = stringResource(R.string.settings_sticky_scroll_title),
+                subtitle = stringResource(R.string.settings_sticky_scroll_subtitle),
+                enabled = !viewState.wordWrap,
+                checked = viewState.stickyScroll,
+                onCheckedChange = onStickyScrollChanged,
             )
             SwitchPreference(
                 title = stringResource(R.string.settings_code_completion_title),
@@ -252,7 +261,8 @@ private fun EditorHeaderScreenPreview() {
         EditorHeaderScreen(
             viewState = EditorHeaderViewState(
                 fontSize = 14,
-                wordWrap = true,
+                wordWrap = false,
+                stickyScroll = false,
                 codeCompletion = true,
                 pinchZoom = true,
                 lineNumbers = true,

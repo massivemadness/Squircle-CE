@@ -57,7 +57,6 @@
     <string name="explorer_clone_dialog_title">Clone…</string>
     <string name="explorer_clone_dialog_input_label">Enter git url</string>
     <string name="explorer_clone_dialog_input_error">Invalid URL</string>
-    <string name="explorer_clone_dialog_checkbox_submodules">Submodules</string>
     <string name="explorer_clone_dialog_button_clone">Clone</string>
 
     <string name="explorer_multidelete_dialog_title">Multi-delete</string>

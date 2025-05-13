@@ -38,6 +38,7 @@ class SettingsManager(private val context: Context) {
 
         // Editor
         const val KEY_WORD_WRAP = "word_wrap"
+        const val KEY_STICKY_SCROLL = "sticky_scroll"
         const val KEY_CODE_COMPLETION = "code_completion"
         const val KEY_PINCH_ZOOM = "pinch_zoom"
         const val KEY_LINE_NUMBERS = "line_numbers"
@@ -84,6 +85,8 @@ class SettingsManager(private val context: Context) {
         const val KEY_GIT_CREDENTIALS_PASSWORD = "git_credentials_password"
         const val KEY_GIT_USER_EMAIL = "git_user_email"
         const val KEY_GIT_USER_NAME = "git_user_name"
+        const val KEY_GIT_SUBMODULES = "git_submodules"
+        const val KEY_GIT_RECURSIVE_SUBMODULES = "git_recursive_submodules"
     }
 
     private val fileName: String
@@ -113,12 +116,14 @@ class SettingsManager(private val context: Context) {
         set(value) = sharedPreferences.edit().putString(KEY_FONT_TYPE, value).apply()
 
     var wordWrap: Boolean
-        get() = sharedPreferences.getBoolean(KEY_WORD_WRAP, true)
+        get() = sharedPreferences.getBoolean(KEY_WORD_WRAP, false)
         set(value) = sharedPreferences.edit().putBoolean(KEY_WORD_WRAP, value).apply()
+    var stickyScroll: Boolean
+        get() = sharedPreferences.getBoolean(KEY_STICKY_SCROLL, false)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_STICKY_SCROLL, value).apply()
     var codeCompletion: Boolean
         get() = sharedPreferences.getBoolean(KEY_CODE_COMPLETION, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_CODE_COMPLETION, value).apply()
-
     var pinchZoom: Boolean
         get() = sharedPreferences.getBoolean(KEY_PINCH_ZOOM, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_PINCH_ZOOM, value).apply()
@@ -213,6 +218,12 @@ class SettingsManager(private val context: Context) {
     var gitUserName: String
         get() = sharedPreferences.getString(KEY_GIT_USER_NAME, "") ?: ""
         set(value) = sharedPreferences.edit().putString(KEY_GIT_USER_NAME, value).apply()
+    var gitSubmodules: Boolean
+        get() = sharedPreferences.getBoolean(KEY_GIT_SUBMODULES, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_GIT_SUBMODULES, value).apply()
+    var gitRecursiveSubmodules: Boolean
+        get() = sharedPreferences.getBoolean(KEY_GIT_RECURSIVE_SUBMODULES, false)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_GIT_RECURSIVE_SUBMODULES, value).apply()
 
     private val listeners = HashMap<String, OnChangedListener>()
     private val callback = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->

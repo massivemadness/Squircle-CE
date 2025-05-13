@@ -85,6 +85,7 @@ internal fun CodeEditor(
         update = { editor ->
             editor.setTextSize(settings.fontSize)
             editor.isWordwrap = settings.wordWrap
+            editor.props.stickyScroll = settings.stickyScroll
             editor.isScalable = settings.pinchZoom
             editor.isLineNumberEnabled = settings.lineNumbers
             editor.isHighlightCurrentLine = settings.highlightCurrentLine

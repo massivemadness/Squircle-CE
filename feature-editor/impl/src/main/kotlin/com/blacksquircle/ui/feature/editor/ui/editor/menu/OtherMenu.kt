@@ -16,13 +16,10 @@
 
 package com.blacksquircle.ui.feature.editor.ui.editor.menu
 
-import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.feature.editor.R
@@ -55,28 +52,15 @@ internal fun OtherMenu(
             title = stringResource(R.string.editor_menu_tools),
             iconResId = UiR.drawable.ic_wrench,
             onClick = onToolsClicked,
-            trailing = {
-                Icon(
-                    painter = painterResource(UiR.drawable.ic_menu_right),
-                    contentDescription = null,
-                    tint = SquircleTheme.colors.colorTextAndIconSecondary,
-                )
-            }
+            submenu = true,
         )
-        if (showGit) {
-            PopupMenuItem(
-                title = stringResource(R.string.editor_menu_git),
-                iconResId = UiR.drawable.ic_git,
-                onClick = onGitClicked,
-                trailing = {
-                    Icon(
-                        painter = painterResource(UiR.drawable.ic_menu_right),
-                        contentDescription = null,
-                        tint = SquircleTheme.colors.colorTextAndIconSecondary,
-                    )
-                }
-            )
-        }
+        PopupMenuItem(
+            title = stringResource(R.string.editor_menu_git),
+            iconResId = UiR.drawable.ic_git,
+            onClick = onGitClicked,
+            enabled = showGit,
+            submenu = true,
+        )
         PopupMenuItem(
             title = stringResource(R.string.editor_menu_settings),
             iconResId = UiR.drawable.ic_settings,

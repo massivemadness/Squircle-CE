@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.mvi.ViewState
 internal data class EditorHeaderViewState(
     val fontSize: Int,
     val wordWrap: Boolean,
+    val stickyScroll: Boolean,
     val codeCompletion: Boolean,
     val pinchZoom: Boolean,
     val lineNumbers: Boolean,

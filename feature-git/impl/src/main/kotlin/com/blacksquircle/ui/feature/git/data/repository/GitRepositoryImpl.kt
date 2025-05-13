@@ -28,6 +28,7 @@ import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.ListBranchCommand
 import org.eclipse.jgit.api.errors.DetachedHeadException
 import org.eclipse.jgit.lib.Repository
+import org.eclipse.jgit.lib.SubmoduleConfig.FetchRecurseSubmodulesMode
 import org.eclipse.jgit.revwalk.RevWalk
 import org.eclipse.jgit.transport.RemoteRefUpdate
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
@@ -130,6 +131,13 @@ internal class GitRepositoryImpl(
                 git.fetch()
                     .setRemote(GIT_ORIGIN)
                     .setCredentialsProvider(credentialsProvider)
+                    .setRecurseSubmodules(
+                        if (settingsManager.gitRecursiveSubmodules) {
+                            FetchRecurseSubmodulesMode.YES
+                        } else {
+                            FetchRecurseSubmodulesMode.ON_DEMAND
+                        }
+                    )
                     .setCheckFetchedObjects(true)
                     .setRemoveDeletedRefs(true)
                     .call()

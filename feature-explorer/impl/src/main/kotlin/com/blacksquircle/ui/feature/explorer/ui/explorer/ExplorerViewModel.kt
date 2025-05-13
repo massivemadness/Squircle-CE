@@ -602,11 +602,11 @@ internal class ExplorerViewModel @Inject constructor(
         }
     }
 
-    fun cloneRepository(url: String, submodules: Boolean) {
+    fun cloneRepository(url: String) {
         viewModelScope.launch {
             val parentNode = taskBuffer.firstOrNull() ?: return@launch
 
-            val taskId = explorerRepository.cloneRepository(parentNode.file, url, submodules)
+            val taskId = explorerRepository.cloneRepository(parentNode.file, url)
             val screen = TaskDialog(taskId)
             _viewEvent.send(ViewEvent.Navigation(screen))
 

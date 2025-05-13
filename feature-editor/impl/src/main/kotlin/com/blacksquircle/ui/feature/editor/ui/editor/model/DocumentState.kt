@@ -17,9 +17,7 @@
 package com.blacksquircle.ui.feature.editor.ui.editor.model
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import io.github.rosemoe.sora.text.Content
@@ -28,20 +26,8 @@ import io.github.rosemoe.sora.text.Content
 internal data class DocumentState(
     val document: DocumentModel,
     val content: Content? = null,
+    val canUndo: Boolean = false,
+    val canRedo: Boolean = false,
     val errorState: ErrorState? = null,
     val searchState: SearchState? = null,
-) {
-    private val _canUndo = mutableStateOf(false)
-    val canUndo: State<Boolean> = _canUndo
-    private val _canRedo = mutableStateOf(false)
-    val canRedo: State<Boolean> = _canRedo
-
-    init {
-        syncState()
-    }
-
-    fun syncState() {
-        _canUndo.value = content?.canUndo() ?: false
-        _canRedo.value = content?.canRedo() ?: false
-    }
-}
+)

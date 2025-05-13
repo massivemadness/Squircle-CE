@@ -16,28 +16,21 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.clone
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.PreviewBackground
-import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.isValidUrl
-import com.blacksquircle.ui.feature.explorer.ui.explorer.ARG_SUBMODULES
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ARG_USER_INPUT
 import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_CLONE_REPO
 import com.blacksquircle.ui.ds.R as UiR
@@ -45,13 +38,10 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 internal fun CloneRepoScreen(navController: NavController) {
     CloneRepoScreen(
-        onConfirmClicked = { submodules, url ->
+        onConfirmClicked = { url ->
             sendNavigationResult(
                 key = KEY_CLONE_REPO,
-                result = bundleOf(
-                    ARG_USER_INPUT to url,
-                    ARG_SUBMODULES to submodules,
-                )
+                result = bundleOf(ARG_USER_INPUT to url)
             )
             navController.popBackStack()
         },
@@ -63,41 +53,32 @@ internal fun CloneRepoScreen(navController: NavController) {
 
 @Composable
 private fun CloneRepoScreen(
-    onConfirmClicked: (Boolean, String) -> Unit = { _, _ -> },
+    onConfirmClicked: (String) -> Unit = {},
     onCancelClicked: () -> Unit = {}
 ) {
     var url by rememberSaveable { mutableStateOf("") }
-    var submodules by rememberSaveable { mutableStateOf(false) }
     var isError by rememberSaveable { mutableStateOf(false) }
 
     AlertDialog(
         title = stringResource(R.string.explorer_clone_dialog_title),
         content = {
-            Column {
-                TextField(
-                    inputText = url,
-                    onInputChanged = { value ->
-                        url = value
-                        isError = false
-                    },
-                    labelText = stringResource(R.string.explorer_clone_dialog_input_label),
-                    errorText = stringResource(R.string.explorer_clone_dialog_input_error),
-                    placeholderText = stringResource(UiR.string.common_https),
-                    error = isError,
-                )
-                Spacer(Modifier.height(8.dp))
-                CheckBox(
-                    title = stringResource(R.string.explorer_clone_dialog_checkbox_submodules),
-                    checked = submodules,
-                    onClick = { submodules = !submodules },
-                )
-            }
+            TextField(
+                inputText = url,
+                onInputChanged = { value ->
+                    url = value
+                    isError = false
+                },
+                labelText = stringResource(R.string.explorer_clone_dialog_input_label),
+                errorText = stringResource(R.string.explorer_clone_dialog_input_error),
+                placeholderText = stringResource(UiR.string.common_https),
+                error = isError,
+            )
         },
         confirmButton = stringResource(R.string.explorer_clone_dialog_button_clone),
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = {
             if (url.isValidUrl()) {
-                onConfirmClicked(submodules, url)
+                onConfirmClicked(url)
             } else {
                 isError = true
             }

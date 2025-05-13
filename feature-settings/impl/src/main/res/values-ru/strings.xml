@@ -47,6 +47,8 @@
     <string name="settings_category_editor">Редактор</string>
     <string name="settings_word_wrap_title">Перенос слов</string>
     <string name="settings_word_wrap_subtitle">Включите перенос слов для отображения текста по ширине экрана</string>
+    <string name="settings_sticky_scroll_title">Закрепление строк кода</string>
+    <string name="settings_sticky_scroll_subtitle">Закреплять заголовки кода вверху редактора при прокрутке</string>
     <string name="settings_code_completion_title">Автодополнение кода</string>
     <string name="settings_code_completion_subtitle">Показывать варианты автодополнения</string>
     <string name="settings_pinch_zoom_title">Увеличение жестом</string>
@@ -121,6 +123,11 @@
     <string name="settings_git_user_subtitle">Данные пользователя, которые будут отображаться в ваших Git коммитах</string>
     <string name="settings_git_user_input_name_label">Имя</string>
     <string name="settings_git_user_input_email_label">Эл. почта</string>
+    <string name="settings_category_repository">Репозиторий</string>
+    <string name="settings_submodules_title">Сабмодули</string>
+    <string name="settings_submodules_subtitle">Включать сабмодули при клонировании репозитория</string>
+    <string name="settings_recursive_submodules_title">Рекурсивные сабмодули</string>
+    <string name="settings_recursive_submodules_subtitle">Загружать сабмодули и их зависимости рекурсивно</string>
     <string name="settings_category_about">О программе</string>
     <string name="settings_about_subtitle">Squircle CE это проект с открытым исходным кодом, опубликованный под лицензией Apache 2.0\n\nВерсия: %1$s (%2$d)</string>
     <string name="settings_privacy_policy_title">Политика конфиденциальности</string>

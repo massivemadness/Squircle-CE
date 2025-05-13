@@ -29,6 +29,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -42,12 +43,13 @@ fun Preference(
     subtitle: String? = null,
     enabled: Boolean = true,
     onClick: () -> Unit = {},
+    verticalAlignment: Alignment.Vertical = Alignment.Top,
     leadingContent: @Composable (RowScope.() -> Unit)? = null,
     trailingContent: @Composable (RowScope.() -> Unit)? = null,
     bottomContent: @Composable (ColumnScope.() -> Unit)? = null,
 ) {
     Row(
-        verticalAlignment = Alignment.Top,
+        verticalAlignment = verticalAlignment,
         modifier = modifier
             .fillMaxWidth()
             .debounceClickable(
@@ -63,23 +65,25 @@ fun Preference(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
+                style = SquircleTheme.typography.text16Regular,
                 color = if (enabled) {
                     SquircleTheme.colors.colorTextAndIconPrimary
                 } else {
                     SquircleTheme.colors.colorTextAndIconDisabled
                 },
-                style = SquircleTheme.typography.text16Regular,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
             )
             if (subtitle != null) {
                 Spacer(Modifier.height(4.dp))
                 Text(
                     text = subtitle,
+                    style = SquircleTheme.typography.text14Regular,
                     color = if (enabled) {
                         SquircleTheme.colors.colorTextAndIconSecondary
                     } else {
                         SquircleTheme.colors.colorTextAndIconDisabled
                     },
-                    style = SquircleTheme.typography.text14Regular,
                 )
             }
             if (bottomContent != null) {
@@ -101,7 +105,6 @@ private fun PreferenceEnabledPreview() {
             title = "Squircle CE",
             subtitle = "About application",
             enabled = true,
-            onClick = {},
         )
     }
 }
@@ -114,7 +117,6 @@ private fun PreferenceDisabledPreview() {
             title = "Squircle CE",
             subtitle = "About application",
             enabled = false,
-            onClick = {},
         )
     }
 }
