@@ -1325,6 +1325,7 @@ internal class EditorViewModel @Inject constructor(
         fontSize = settingsManager.fontSize.toFloat(),
         fontType = fontsInteractor.loadFont(settingsManager.fontType),
         wordWrap = settingsManager.wordWrap,
+        stickyScroll = settingsManager.stickyScroll,
         codeCompletion = settingsManager.codeCompletion,
         pinchZoom = settingsManager.pinchZoom,
         lineNumbers = settingsManager.lineNumbers,

@@ -47,6 +47,8 @@
     <string name="settings_category_editor">Editor</string>
     <string name="settings_word_wrap_title">Word Wrap</string>
     <string name="settings_word_wrap_subtitle">Enable word wrap to fit screen width</string>
+    <string name="settings_sticky_scroll_title">Sticky Scroll</string>
+    <string name="settings_sticky_scroll_subtitle">Stick code headers to the top while scrolling</string>
     <string name="settings_code_completion_title">Code Completion</string>
     <string name="settings_code_completion_subtitle">Show autocomplete suggestions</string>
     <string name="settings_pinch_zoom_title">Pinch Zoom</string>

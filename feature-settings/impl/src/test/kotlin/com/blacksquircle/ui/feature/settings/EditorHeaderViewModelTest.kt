@@ -67,6 +67,7 @@ class EditorHeaderViewModelTest {
         val viewState = EditorHeaderViewState(
             fontSize = 14,
             wordWrap = true,
+            stickyScroll = false,
             codeCompletion = true,
             pinchZoom = true,
             lineNumbers = true,
@@ -134,6 +135,20 @@ class EditorHeaderViewModelTest {
         // Then
         assertEquals(false, viewModel.viewState.value.wordWrap)
         verify(exactly = 1) { settingsManager.wordWrap = false }
+    }
+
+    @Test
+    fun `When sticky scroll changed Then update view state`() = runTest {
+        // Given
+        every { settingsManager.stickyScroll } returns true andThen false
+
+        // When
+        val viewModel = createViewModel()
+        viewModel.onStickyScrollChanged(false)
+
+        // Then
+        assertEquals(false, viewModel.viewState.value.stickyScroll)
+        verify(exactly = 1) { settingsManager.stickyScroll = false }
     }
 
     @Test

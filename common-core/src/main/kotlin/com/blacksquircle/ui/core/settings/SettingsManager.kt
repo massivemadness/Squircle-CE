@@ -38,6 +38,7 @@ class SettingsManager(private val context: Context) {
 
         // Editor
         const val KEY_WORD_WRAP = "word_wrap"
+        const val KEY_STICKY_SCROLL = "sticky_scroll"
         const val KEY_CODE_COMPLETION = "code_completion"
         const val KEY_PINCH_ZOOM = "pinch_zoom"
         const val KEY_LINE_NUMBERS = "line_numbers"
@@ -117,6 +118,9 @@ class SettingsManager(private val context: Context) {
     var wordWrap: Boolean
         get() = sharedPreferences.getBoolean(KEY_WORD_WRAP, false)
         set(value) = sharedPreferences.edit().putBoolean(KEY_WORD_WRAP, value).apply()
+    var stickyScroll: Boolean
+        get() = sharedPreferences.getBoolean(KEY_STICKY_SCROLL, false)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_STICKY_SCROLL, value).apply()
     var codeCompletion: Boolean
         get() = sharedPreferences.getBoolean(KEY_CODE_COMPLETION, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_CODE_COMPLETION, value).apply()

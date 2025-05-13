@@ -47,6 +47,8 @@
     <string name="settings_category_editor">Редактор</string>
     <string name="settings_word_wrap_title">Перенос слов</string>
     <string name="settings_word_wrap_subtitle">Включите перенос слов для отображения текста по ширине экрана</string>
+    <string name="settings_sticky_scroll_title">Закрепление строк кода</string>
+    <string name="settings_sticky_scroll_subtitle">Закреплять заголовки кода вверху редактора при прокрутке</string>
     <string name="settings_code_completion_title">Автодополнение кода</string>
     <string name="settings_code_completion_subtitle">Показывать варианты автодополнения</string>
     <string name="settings_pinch_zoom_title">Увеличение жестом</string>

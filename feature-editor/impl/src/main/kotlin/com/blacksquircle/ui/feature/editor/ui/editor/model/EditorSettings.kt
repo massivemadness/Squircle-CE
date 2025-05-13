@@ -26,6 +26,7 @@ internal data class EditorSettings(
     val fontSize: Float = 14f,
     val fontType: Typeface = TypefaceProvider.DEFAULT,
     val wordWrap: Boolean = false,
+    val stickyScroll: Boolean = false,
     val codeCompletion: Boolean = true,
     val pinchZoom: Boolean = true,
     val lineNumbers: Boolean = true,
