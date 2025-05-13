@@ -16,6 +16,8 @@
 
 package com.blacksquircle.ui.ds.preference
 
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -46,6 +48,8 @@ fun TextFieldPreference(
     onDismissClicked: () -> Unit = {},
     dialogShown: Boolean = false,
     dialogTitle: String? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
     var showDialog by rememberSaveable { mutableStateOf(dialogShown) }
     Preference(
@@ -68,6 +72,8 @@ fun TextFieldPreference(
                     textFieldStyle = TextFieldStyleDefaults.Default.copy(
                         textStyle = inputTextStyle,
                     ),
+                    keyboardOptions = keyboardOptions,
+                    keyboardActions = keyboardActions,
                 )
             },
             confirmButton = confirmButton,

@@ -41,7 +41,6 @@ import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.preference.SwitchPreference
-import com.blacksquircle.ui.ds.preference.TextFieldPreference
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
@@ -161,11 +160,6 @@ private fun GitHeaderScreen(
                 enabled = viewState.submodules,
                 checked = viewState.recursiveSubmodules,
                 onCheckedChange = onRecursiveSubmodulesChanged,
-            )
-            TextFieldPreference(
-                title = stringResource(R.string.settings_history_depth_title),
-                subtitle = stringResource(R.string.settings_history_depth_subtitle),
-                onConfirmClicked = { } // TODO
             )
         }
     }

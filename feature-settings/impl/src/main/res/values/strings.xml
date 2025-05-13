@@ -143,8 +143,6 @@
     <string name="settings_submodules_subtitle">Include submodules when cloning a repository</string>
     <string name="settings_recursive_submodules_title">Recursive submodules</string>
     <string name="settings_recursive_submodules_subtitle">Fetch submodules and their dependencies recursively</string>
-    <string name="settings_history_depth_title">History depth</string>
-    <string name="settings_history_depth_subtitle">Number of commits to fetch during clone</string>
 
     <string name="settings_category_about">About</string>
     <string name="settings_about_subtitle">Squircle CE is an open source project published under the Apache 2.0 license\n\nVersion: %1$s (%2$d)</string>
