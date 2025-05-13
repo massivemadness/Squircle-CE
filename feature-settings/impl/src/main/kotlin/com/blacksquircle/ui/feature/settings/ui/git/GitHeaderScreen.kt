@@ -37,8 +37,11 @@ import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.preference.Preference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
+import com.blacksquircle.ui.ds.preference.SwitchPreference
+import com.blacksquircle.ui.ds.preference.TextFieldPreference
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
@@ -61,6 +64,8 @@ internal fun GitHeaderScreen(
         onBackClicked = viewModel::onBackClicked,
         onCredentialsChanged = viewModel::onCredentialsChanged,
         onUserChanged = viewModel::onUserChanged,
+        onSubmodulesChanged = viewModel::onSubmodulesChanged,
+        onRecursiveSubmodulesChanged = viewModel::onRecursiveSubmodulesChanged,
     )
 
     val context = LocalContext.current
@@ -80,7 +85,9 @@ private fun GitHeaderScreen(
     viewState: GitHeaderViewState,
     onBackClicked: () -> Unit = {},
     onCredentialsChanged: (String, String) -> Unit = { _, _ -> },
-    onUserChanged: (String, String) -> Unit = { _, _ -> }
+    onUserChanged: (String, String) -> Unit = { _, _ -> },
+    onSubmodulesChanged: (Boolean) -> Unit = {},
+    onRecursiveSubmodulesChanged: (Boolean) -> Unit = {},
 ) {
     ScaffoldSuite(
         topBar = {
@@ -136,6 +143,30 @@ private fun GitHeaderScreen(
                 subtitle = stringResource(R.string.settings_git_user_subtitle),
                 onClick = { userDialogShown = true },
             )
+
+            HorizontalDivider()
+
+            PreferenceGroup(
+                title = stringResource(R.string.settings_category_repository)
+            )
+            SwitchPreference(
+                title = stringResource(R.string.settings_submodules_title),
+                subtitle = stringResource(R.string.settings_submodules_subtitle),
+                checked = viewState.submodules,
+                onCheckedChange = onSubmodulesChanged,
+            )
+            SwitchPreference(
+                title = stringResource(R.string.settings_recursive_submodules_title),
+                subtitle = stringResource(R.string.settings_recursive_submodules_subtitle),
+                enabled = viewState.submodules,
+                checked = viewState.recursiveSubmodules,
+                onCheckedChange = onRecursiveSubmodulesChanged,
+            )
+            TextFieldPreference(
+                title = stringResource(R.string.settings_history_depth_title),
+                subtitle = stringResource(R.string.settings_history_depth_subtitle),
+                onConfirmClicked = { } // TODO
+            )
         }
     }
 }
@@ -149,7 +180,9 @@ private fun GitHeaderScreenPreview() {
                 credentialsUsername = "",
                 credentialsPassword = "",
                 userEmail = "",
-                userName = ""
+                userName = "",
+                submodules = false,
+                recursiveSubmodules = false,
             )
         )
     }

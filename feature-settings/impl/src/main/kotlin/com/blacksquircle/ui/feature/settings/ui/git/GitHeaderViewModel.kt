@@ -63,12 +63,26 @@ internal class GitHeaderViewModel @Inject constructor(
         }
     }
 
+    fun onSubmodulesChanged(submodules: Boolean) {
+        viewModelScope.launch {
+            settingsManager.gitSubmodules = submodules
+            _viewState.value = updateViewState()
+        }
+    }
+
+    fun onRecursiveSubmodulesChanged(recursiveSubmodules: Boolean) {
+        settingsManager.gitRecursiveSubmodules = recursiveSubmodules
+        _viewState.value = updateViewState()
+    }
+
     private fun updateViewState(): GitHeaderViewState {
         return GitHeaderViewState(
             credentialsUsername = settingsManager.gitCredentialsUsername,
             credentialsPassword = settingsManager.gitCredentialsPassword,
             userEmail = settingsManager.gitUserEmail,
-            userName = settingsManager.gitUserName
+            userName = settingsManager.gitUserName,
+            submodules = settingsManager.gitSubmodules,
+            recursiveSubmodules = settingsManager.gitRecursiveSubmodules,
         )
     }
 

@@ -75,7 +75,6 @@ internal const val KEY_RENAME_FILE = "KEY_RENAME_FILE"
 internal const val KEY_DELETE_FILE = "KEY_DELETE_FILE"
 
 internal const val ARG_USER_INPUT = "ARG_USER_INPUT"
-internal const val ARG_SUBMODULES = "ARG_SUBMODULES"
 
 @Composable
 internal fun ExplorerScreen(
@@ -164,8 +163,7 @@ internal fun ExplorerScreen(
     }
     NavResultEffect(KEY_CLONE_REPO) { bundle ->
         val url = bundle.getString(ARG_USER_INPUT).orEmpty()
-        val submodules = bundle.getBoolean(ARG_SUBMODULES)
-        viewModel.cloneRepository(url, submodules)
+        viewModel.cloneRepository(url)
     }
     NavResultEffect(KEY_RENAME_FILE) { bundle ->
         val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()

@@ -49,7 +49,6 @@
     <string name="explorer_clone_dialog_title">克隆…</string>
     <string name="explorer_clone_dialog_input_label">输入 git 网址</string>
     <string name="explorer_clone_dialog_input_error">网址无效</string>
-    <string name="explorer_clone_dialog_checkbox_submodules">子模块</string>
     <string name="explorer_clone_dialog_button_clone">克隆</string>
     <string name="explorer_multidelete_dialog_title">删除所选文件</string>
     <string name="explorer_multidelete_dialog_message">确定要删除选定的文件吗？</string>

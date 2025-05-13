@@ -24,5 +24,7 @@ internal data class GitHeaderViewState(
     val credentialsUsername: String,
     val credentialsPassword: String,
     val userEmail: String,
-    val userName: String
+    val userName: String,
+    val submodules: Boolean,
+    val recursiveSubmodules: Boolean,
 ) : ViewState

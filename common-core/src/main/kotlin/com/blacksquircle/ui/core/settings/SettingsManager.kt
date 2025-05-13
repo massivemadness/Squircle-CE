@@ -84,6 +84,8 @@ class SettingsManager(private val context: Context) {
         const val KEY_GIT_CREDENTIALS_PASSWORD = "git_credentials_password"
         const val KEY_GIT_USER_EMAIL = "git_user_email"
         const val KEY_GIT_USER_NAME = "git_user_name"
+        const val KEY_GIT_SUBMODULES = "git_submodules"
+        const val KEY_GIT_RECURSIVE_SUBMODULES = "git_recursive_submodules"
     }
 
     private val fileName: String
@@ -213,6 +215,12 @@ class SettingsManager(private val context: Context) {
     var gitUserName: String
         get() = sharedPreferences.getString(KEY_GIT_USER_NAME, "") ?: ""
         set(value) = sharedPreferences.edit().putString(KEY_GIT_USER_NAME, value).apply()
+    var gitSubmodules: Boolean
+        get() = sharedPreferences.getBoolean(KEY_GIT_SUBMODULES, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_GIT_SUBMODULES, value).apply()
+    var gitRecursiveSubmodules: Boolean
+        get() = sharedPreferences.getBoolean(KEY_GIT_RECURSIVE_SUBMODULES, false)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_GIT_RECURSIVE_SUBMODULES, value).apply()
 
     private val listeners = HashMap<String, OnChangedListener>()
     private val callback = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->

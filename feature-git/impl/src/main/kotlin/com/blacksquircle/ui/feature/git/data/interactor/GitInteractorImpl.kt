@@ -50,11 +50,7 @@ internal class GitInteractorImpl(
         return repository
     }
 
-    override suspend fun cloneRepository(
-        fileModel: FileModel,
-        url: String,
-        submodules: Boolean,
-    ): Flow<String> {
+    override suspend fun cloneRepository(fileModel: FileModel, url: String): Flow<String> {
         return callbackFlow {
             if (fileModel.filesystemUuid != LocalFilesystem.LOCAL_UUID) {
                 throw UnsupportedFilesystemException()
@@ -81,7 +77,7 @@ internal class GitInteractorImpl(
             Git.cloneRepository()
                 .setURI(url)
                 .setDirectory(file)
-                .setCloneSubmodules(submodules)
+                .setCloneSubmodules(settingsManager.gitSubmodules)
                 .setCredentialsProvider(credentialsProvider)
                 .setProgressMonitor(object : ProgressMonitor {
                     override fun start(totalTasks: Int) = Unit
