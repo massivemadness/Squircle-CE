@@ -115,12 +115,11 @@ class SettingsManager(private val context: Context) {
         set(value) = sharedPreferences.edit().putString(KEY_FONT_TYPE, value).apply()
 
     var wordWrap: Boolean
-        get() = sharedPreferences.getBoolean(KEY_WORD_WRAP, true)
+        get() = sharedPreferences.getBoolean(KEY_WORD_WRAP, false)
         set(value) = sharedPreferences.edit().putBoolean(KEY_WORD_WRAP, value).apply()
     var codeCompletion: Boolean
         get() = sharedPreferences.getBoolean(KEY_CODE_COMPLETION, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_CODE_COMPLETION, value).apply()
-
     var pinchZoom: Boolean
         get() = sharedPreferences.getBoolean(KEY_PINCH_ZOOM, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_PINCH_ZOOM, value).apply()
