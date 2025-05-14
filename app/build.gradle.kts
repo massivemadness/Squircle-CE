@@ -37,7 +37,9 @@ android {
     }
     packaging {
         resources {
-            excludes += "META-INF/versions/9/OSGI-INF/**"
+            excludes += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
+            excludes += "META-INF/versions/11/OSGI-INF/MANIFEST.MF"
+            excludes += "META-INF/versions/15/OSGI-INF/MANIFEST.MF"
         }
     }
     buildFeatures {
