@@ -52,7 +52,7 @@ internal fun SplashScreen() {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
-            .pointerInput(Unit) { /* no-op*/ },
+            .pointerInput(Unit) { /* no-op */ },
     ) {
         Icon(
             painter = painterResource(UiR.drawable.ic_splash_screen),

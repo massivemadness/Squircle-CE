@@ -1,0 +1,12 @@
+- Added: File icons in the explorer
+- Added: Read-only toggle in extended keyboard
+- Added: Total line count in “Go to Line” dialog
+- Added: «Sticky Scroll» in Settings > Editor
+- Added: «Recursive Submodules» in Settings > Git
+- Added: Support for Batchfile, Dart, F#, Clojure, and Perl
+- Fixed: Deleted files now close automatically in the editor
+- Improved file extension detection for better syntax highlighting
+- Auto-closing pairs now skip closing character if it matches the next character
+- «Word Wrap» is now disabled by default
+- Faster startup and lower memory usage
+- Bugfixes and minor improvements
