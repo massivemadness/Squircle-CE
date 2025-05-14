@@ -41,7 +41,7 @@
     <string name="git_checkout_dialog_checkbox_new">Новая ветка</string>
     <string name="git_checkout_dialog_button_create">Создать</string>
     <string name="git_checkout_dialog_button_checkout">Checkout</string>
-    <string name="git_toast_fetch_complete">Проверка завершена</string>
+    <string name="git_toast_fetch_complete">Загрузка завершена</string>
     <string name="git_toast_pull_complete">Получение завершено</string>
     <string name="git_toast_commit_created">Коммит создан</string>
     <string name="git_toast_push_complete">Отправка завершена</string>
