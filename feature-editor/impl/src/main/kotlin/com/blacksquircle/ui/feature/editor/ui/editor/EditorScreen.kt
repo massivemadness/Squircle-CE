@@ -341,6 +341,7 @@ private fun EditorScreen(
         bottomBar = {
             if (viewState.showExtendedKeyboard) {
                 ExtendedKeyboard(
+                    currentDocument = viewState.currentDocument,
                     preset = viewState.settings.keyboardPreset,
                     showExtraKeys = viewState.showExtraKeys,
                     readOnly = viewState.settings.readOnly,

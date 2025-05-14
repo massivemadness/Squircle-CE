@@ -24,8 +24,6 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import com.blacksquircle.ui.core.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.extensions.PermissionException
-import com.blacksquircle.ui.core.extensions.extractFilePath
-import com.blacksquircle.ui.core.extensions.isPrimaryStorageUri
 import com.blacksquircle.ui.core.extensions.isStorageAccessGranted
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
@@ -222,26 +220,10 @@ internal class DocumentRepositoryImpl(
                     } catch (e: SecurityException) {
                         Timber.e(e, e.message)
                     }
-
-                    if (context.isPrimaryStorageUri(fileUri)) {
-                        val filePath = context.extractFilePath(fileUri)
-                        if (filePath != null) {
-                            FileModel(
-                                fileUri = LocalFilesystem.LOCAL_SCHEME + filePath,
-                                filesystemUuid = LocalFilesystem.LOCAL_UUID,
-                            )
-                        } else {
-                            FileModel(
-                                fileUri = fileUri.toString(),
-                                filesystemUuid = SAFFilesystem.SAF_UUID,
-                            )
-                        }
-                    } else {
-                        FileModel(
-                            fileUri = fileUri.toString(),
-                            filesystemUuid = SAFFilesystem.SAF_UUID,
-                        )
-                    }
+                    FileModel(
+                        fileUri = fileUri.toString(),
+                        filesystemUuid = SAFFilesystem.SAF_UUID,
+                    )
                 }
 
                 fileUri.scheme == ContentResolver.SCHEME_CONTENT -> {

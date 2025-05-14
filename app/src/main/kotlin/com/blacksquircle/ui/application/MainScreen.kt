@@ -20,6 +20,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.fadeOut
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -63,12 +66,6 @@ internal fun MainScreen(
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     val colors = toComposeColors(viewState.colorScheme)
-    if (viewState.isLoading) {
-        SquircleTheme(darkTheme = true) {
-            SplashScreen()
-        }
-        return
-    }
 
     val navController = rememberNavController()
     val inAppUpdate = rememberInAppUpdate()
@@ -136,5 +133,15 @@ internal fun MainScreen(
 
     LaunchedEffect(viewState.fullscreenMode) {
         activity?.window?.fullscreenMode(viewState.fullscreenMode)
+    }
+
+    AnimatedVisibility(
+        visible = viewState.isLoading,
+        enter = EnterTransition.None,
+        exit = fadeOut(),
+    ) {
+        SquircleTheme(darkTheme = true) {
+            SplashScreen()
+        }
     }
 }

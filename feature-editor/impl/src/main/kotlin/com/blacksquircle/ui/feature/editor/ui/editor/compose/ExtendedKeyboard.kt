@@ -46,6 +46,7 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.modifier.debounceClickable
 import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
 import com.blacksquircle.ui.ds.R as UiR
 
 private const val TypeIcon = "type_icon"
@@ -60,6 +61,7 @@ private const val ItemKey = "key_"
 
 @Composable
 internal fun ExtendedKeyboard(
+    currentDocument: DocumentState?,
     preset: List<Char>,
     showExtraKeys: Boolean,
     readOnly: Boolean,
@@ -134,6 +136,7 @@ internal fun ExtendedKeyboard(
                     iconResId = UiR.drawable.ic_undo,
                     text = stringResource(R.string.editor_menu_edit_undo),
                     debounce = false,
+                    enabled = currentDocument?.canUndo ?: false,
                     onClick = onUndoClicked,
                     modifier = Modifier.animateItem(),
                 )
@@ -146,6 +149,7 @@ internal fun ExtendedKeyboard(
                     iconResId = UiR.drawable.ic_redo,
                     text = stringResource(R.string.editor_menu_edit_redo),
                     debounce = false,
+                    enabled = currentDocument?.canRedo ?: false,
                     onClick = onRedoClicked,
                     modifier = Modifier.animateItem(),
                 )
@@ -182,6 +186,7 @@ private fun ExtraKey(
     modifier: Modifier = Modifier,
     iconResId: Int? = null,
     debounce: Boolean = false,
+    enabled: Boolean = true,
 ) {
     val hapticFeedback = LocalHapticFeedback.current
     Box(
@@ -191,6 +196,7 @@ private fun ExtraKey(
             .clip(RoundedCornerShape(8.dp))
             .background(SquircleTheme.colors.colorBackgroundTertiary)
             .debounceClickable(
+                enabled = enabled,
                 debounce = debounce,
                 onClick = {
                     hapticFeedback.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -202,13 +208,21 @@ private fun ExtraKey(
             Icon(
                 painter = painterResource(iconResId),
                 contentDescription = text,
-                tint = SquircleTheme.colors.colorTextAndIconSecondary,
+                tint = if (enabled) {
+                    SquircleTheme.colors.colorTextAndIconSecondary
+                } else {
+                    SquircleTheme.colors.colorTextAndIconDisabled
+                },
                 modifier = modifier.size(20.dp),
             )
         } else {
             Text(
                 text = text,
-                color = SquircleTheme.colors.colorTextAndIconSecondary,
+                color = if (enabled) {
+                    SquircleTheme.colors.colorTextAndIconSecondary
+                } else {
+                    SquircleTheme.colors.colorTextAndIconDisabled
+                },
                 style = if (text.length > 1) {
                     SquircleTheme.typography.text14Medium
                 } else {
@@ -227,6 +241,7 @@ private fun ExtraKey(
 private fun ExtendedKeyboardPreview() {
     PreviewBackground {
         ExtendedKeyboard(
+            currentDocument = null,
             preset = "{}();,.=|&![]<>+-/*?:_".map { it },
             showExtraKeys = true,
             readOnly = false,

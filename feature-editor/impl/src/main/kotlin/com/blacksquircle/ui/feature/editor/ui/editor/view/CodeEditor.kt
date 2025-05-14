@@ -61,7 +61,7 @@ internal class CodeEditor @JvmOverloads constructor(
 
         isHorizontalScrollBarEnabled = false
         isVerticalScrollBarEnabled = true
-        verticalExtraSpaceFactor = 0.75f
+        verticalExtraSpaceFactor = 0.7f
 
         props.drawSideBlockLine = false
         props.enableRoundTextBackground = false
