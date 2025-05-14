@@ -34,6 +34,12 @@ object CircularProgressSizeDefaults {
             strokeWidth = 2.dp,
         )
 
+    val S: CircularProgressSize
+        get() = CircularProgressSize(
+            circleSize = 28.dp,
+            strokeWidth = 3.dp,
+        )
+
     val M: CircularProgressSize
         get() = CircularProgressSize(
             circleSize = 40.dp,

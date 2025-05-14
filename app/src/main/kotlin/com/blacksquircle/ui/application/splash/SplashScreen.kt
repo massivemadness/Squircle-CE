@@ -37,6 +37,7 @@ import com.blacksquircle.ui.R
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.progress.CircularProgress
+import com.blacksquircle.ui.ds.progress.CircularProgressSizeDefaults
 import com.blacksquircle.ui.ds.progress.CircularProgressStyleDefaults
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -65,6 +66,7 @@ internal fun SplashScreen() {
 
             CircularProgress(
                 circularProgressStyle = CircularProgressStyleDefaults.Monochrome,
+                circularProgressSize = CircularProgressSizeDefaults.S,
             )
 
             Text(

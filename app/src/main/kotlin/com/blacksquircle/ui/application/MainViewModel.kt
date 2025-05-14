@@ -28,6 +28,7 @@ import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -79,10 +80,17 @@ internal class MainViewModel @Inject constructor(
             try {
                 val colorScheme = themeInteractor.loadTheme(settingsManager.editorTheme)
                 _viewState.update {
-                    it.copy(
-                        colorScheme = colorScheme,
-                        isLoading = false
-                    )
+                    it.copy(colorScheme = colorScheme)
+                }
+
+                /**
+                 * Wait until new theme applied.
+                 * Remove when pausable composition is enabled by default?
+                 */
+                delay(800)
+
+                _viewState.update {
+                    it.copy(isLoading = false)
                 }
             } catch (e: CancellationException) {
                 throw e
