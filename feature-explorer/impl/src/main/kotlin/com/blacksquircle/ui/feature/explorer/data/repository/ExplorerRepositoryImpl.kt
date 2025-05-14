@@ -82,7 +82,7 @@ internal class ExplorerRepositoryImpl(
 
     override suspend fun createWorkspace(fileUri: Uri) {
         withContext(dispatcherProvider.io()) {
-            val absolutePath = context.extractFilePath(fileUri)
+            val absolutePath = fileUri.extractFilePath()
                 ?: throw FileNotFoundException(fileUri.toString())
             createWorkspace(absolutePath)
         }
