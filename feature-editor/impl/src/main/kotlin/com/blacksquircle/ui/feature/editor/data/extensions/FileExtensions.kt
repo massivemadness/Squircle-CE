@@ -37,23 +37,17 @@ internal fun Context.openUriAsDocument(fileUri: Uri): FileModel {
     }
     return contentResolver.query(
         /* uri = */ fileUri,
-        /* projection = */ arrayOf(Document.COLUMN_DISPLAY_NAME, Document.COLUMN_MIME_TYPE),
+        /* projection = */ arrayOf(Document.COLUMN_DISPLAY_NAME),
         /* selection = */ null,
         /* selectionArgs = */ null,
         /* sortOrder = */ null,
     )?.use { cursor ->
         val columnName = cursor.getColumnIndexOrThrow(Document.COLUMN_DISPLAY_NAME)
-        val columnMimeType = cursor.getColumnIndexOrThrow(Document.COLUMN_MIME_TYPE)
-
         if (cursor.moveToFirst()) {
-            val documentName = cursor.getString(columnName)
-            val documentDirectory = cursor.getString(columnMimeType) == Document.MIME_TYPE_DIR
-
             FileModel(
                 fileUri = fileUri.toString(),
                 filesystemUuid = SAFFilesystem.SAF_UUID,
-                name = documentName,
-                isDirectory = documentDirectory
+                name = cursor.getString(columnName),
             )
         } else {
             throw FileNotFoundException(fileUri.toString())
