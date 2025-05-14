@@ -79,7 +79,7 @@ class CloseFileTest {
         viewModel.onCloseFileClicked()
 
         // Then
-        val expected = ViewEvent.Navigation(CloseFileDialog(selected.uuid, selected.name))
+        val expected = ViewEvent.Navigation(CloseFileDialog(selected.uuid, selected.displayName))
         assertEquals(expected, viewModel.viewEvent.first())
     }
 

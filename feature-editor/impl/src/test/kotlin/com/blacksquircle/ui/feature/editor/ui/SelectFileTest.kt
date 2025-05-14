@@ -86,9 +86,9 @@ class SelectFileTest {
             createDocument(uuid = "3", fileName = "third.txt", position = 2),
         )
         val selected = documentList[0]
-        val selectedContent = Content(selected.name)
+        val selectedContent = Content(selected.displayName)
         val expected = documentList[1]
-        val expectedContent = Content(expected.name)
+        val expectedContent = Content(expected.displayName)
 
         every { settingsManager.selectedUuid } returns selected.uuid
         every { settingsManager.autoSaveFiles } returns false
@@ -124,9 +124,9 @@ class SelectFileTest {
             createDocument(uuid = "3", fileName = "third.txt", position = 2),
         )
         val selected = documentList[0]
-        val selectedContent = Content(selected.name)
+        val selectedContent = Content(selected.displayName)
         val expected = documentList[1]
-        val expectedContent = Content(expected.name)
+        val expectedContent = Content(expected.displayName)
 
         every { settingsManager.selectedUuid } returns selected.uuid
         every { settingsManager.autoSaveFiles } returns true
