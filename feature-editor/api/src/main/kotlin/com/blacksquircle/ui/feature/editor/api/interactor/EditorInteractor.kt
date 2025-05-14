@@ -27,4 +27,5 @@ interface EditorInteractor {
 
     suspend fun openFile(fileModel: FileModel)
     suspend fun openFileUri(fileUri: Uri)
+    suspend fun deleteFile(fileModel: FileModel)
 }
