@@ -24,14 +24,6 @@ import java.io.File
 
 private const val PRIMARY = "primary:"
 
-fun Context.isPrimaryStorageUri(fileUri: Uri): Boolean {
-    if (DocumentsContract.isDocumentUri(this, fileUri)) {
-        val docId = DocumentsContract.getDocumentId(fileUri)
-        return docId.startsWith(PRIMARY)
-    }
-    return false
-}
-
 fun Context.extractFilePath(fileUri: Uri): String? {
     val docId = if (DocumentsContract.isTreeUri(fileUri)) {
         DocumentsContract.getTreeDocumentId(fileUri)
