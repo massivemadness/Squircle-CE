@@ -42,6 +42,11 @@
     <string name="editor_menu_tools">Tools</string>
     <string name="editor_menu_tools_force_syntax">Force Syntax</string>
     <string name="editor_menu_tools_insert_color">Insert Color</string>
+    <string name="editor_menu_git_fetch">Fetch</string>
+    <string name="editor_menu_git_pull">Pull</string>
+    <string name="editor_menu_git_commit">Commit</string>
+    <string name="editor_menu_git_push">Push</string>
+    <string name="editor_menu_git_checkout">Checkout</string>
     <string name="editor_menu_settings">Settings</string>
     <string name="editor_empty_view_title">No open files</string>
     <string name="editor_toast_file_saved">Saved</string>
