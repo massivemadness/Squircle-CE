@@ -21,14 +21,16 @@ import java.io.File
 data class FileModel(
     val fileUri: String,
     val filesystemUuid: String,
-    val scheme: String = fileUri.substringBefore("://"),
-    val path: String = fileUri.substringAfterLast("://").ifEmpty(File::separator),
-    val name: String = path.substringAfterLast(File.separatorChar),
+    val name: String = fileUri.substringAfterLast(File.separatorChar),
     val size: Long = 0L,
     val lastModified: Long = 0L,
     val isDirectory: Boolean = false,
     @Permission val permission: Int = Permission.EMPTY,
 ) {
+    val scheme: String
+        get() = fileUri.substringBefore("://")
+    val path: String
+        get() = fileUri.substringAfterLast("://").ifEmpty(File::separator)
     val extension: String
         get() = "." + name.substringAfterLast('.')
     val type: FileType

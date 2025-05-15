@@ -130,6 +130,7 @@ internal class ExplorerRepositoryImpl(
             val filesystem = currentFilesystem()
             val fileModel = parent.copy(
                 fileUri = parent.fileUri + File.separator + fileName,
+                name = fileName,
                 isDirectory = isFolder,
             )
 
@@ -217,6 +218,7 @@ internal class ExplorerRepositoryImpl(
             val filesystem = currentFilesystem()
             val child = dest.copy(
                 fileUri = dest.fileUri + File.separator + fileName,
+                name = fileName,
                 isDirectory = false,
             )
 
