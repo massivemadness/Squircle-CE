@@ -16,15 +16,13 @@
 
 package com.blacksquircle.ui.feature.editor.domain.model
 
-import android.content.ContentResolver
-import android.net.Uri
 import java.io.File
 
 internal data class DocumentModel(
     val uuid: String,
     val fileUri: String,
     val filesystemUuid: String,
-    val gitRepository: String?,
+    val displayName: String,
     val language: String,
     val modified: Boolean,
     val position: Int,
@@ -32,20 +30,12 @@ internal data class DocumentModel(
     val scrollY: Int,
     val selectionStart: Int,
     val selectionEnd: Int,
+    val gitRepository: String?,
 ) {
     val scheme: String
         get() = fileUri.substringBefore("://")
     val path: String
         get() = fileUri.substringAfterLast("://").ifEmpty(File::separator)
-    val name: String
-        get() = when {
-            scheme == ContentResolver.SCHEME_CONTENT -> {
-                Uri.decode(path).substringAfterLast(File.separator)
-            }
-            else -> {
-                path.substringAfterLast(File.separator)
-            }
-        }
     val extension: String
-        get() = "." + name.substringAfterLast(".")
+        get() = "." + displayName.substringAfterLast('.')
 }

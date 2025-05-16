@@ -168,7 +168,7 @@ internal class EditorViewModel @Inject constructor(
                 return@launch
             }
             val document = documents[selectedPosition].document
-            _viewEvent.send(EditorViewEvent.SaveAsFileContract(document.name))
+            _viewEvent.send(EditorViewEvent.SaveAsFileContract(document.displayName))
         }
     }
 
@@ -884,7 +884,7 @@ internal class EditorViewModel @Inject constructor(
                 if (document.modified && fromUser) {
                     val screen = CloseFileDialog(
                         fileUuid = document.uuid,
-                        fileName = document.name,
+                        fileName = document.displayName,
                     )
                     _viewEvent.send(ViewEvent.Navigation(screen))
                     return@launch

@@ -18,6 +18,7 @@ package com.blacksquircle.ui.core.database.utils
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import java.io.File
 
 object Migrations {
 
@@ -35,6 +36,33 @@ object Migrations {
     val MIGRATION_2_3 = object : Migration(2, 3) {
         override fun migrate(db: SupportSQLiteDatabase) {
             db.execSQL("ALTER TABLE `${Tables.DOCUMENTS}` ADD COLUMN `git_repository` TEXT")
+        }
+    }
+
+    val MIGRATION_3_4 = object : Migration(3, 4) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL("ALTER TABLE `${Tables.DOCUMENTS}` ADD COLUMN `display_name` TEXT NOT NULL DEFAULT ''")
+
+            val updates = mutableListOf<Pair<String, String>>()
+
+            db.query("SELECT uuid, file_uri FROM `${Tables.DOCUMENTS}`").use { cursor ->
+                val idIndex = cursor.getColumnIndex("uuid")
+                val uriIndex = cursor.getColumnIndex("file_uri")
+                while (cursor.moveToNext()) {
+                    val uuid = cursor.getString(idIndex)
+                    val fileUri = cursor.getString(uriIndex)
+                    val displayName = fileUri.substringAfterLast(File.separatorChar)
+                    updates.add(uuid to displayName)
+                }
+            }
+
+            val statement = db.compileStatement("UPDATE `${Tables.DOCUMENTS}` SET `display_name` = ? WHERE uuid = ?")
+            for ((uuid, displayName) in updates) {
+                statement.bindString(1, displayName)
+                statement.bindString(2, uuid)
+                statement.execute()
+                statement.clearBindings()
+            }
         }
     }
 }

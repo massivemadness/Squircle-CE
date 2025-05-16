@@ -20,6 +20,7 @@ import com.blacksquircle.ui.core.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.feature.editor.data.model.LanguageScope
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
+import java.io.File
 
 internal fun createDocument(
     uuid: String,
@@ -31,6 +32,7 @@ internal fun createDocument(
         uuid = uuid,
         fileUri = "file:///storage/emulated/0/$fileName",
         filesystemUuid = LocalFilesystem.LOCAL_UUID,
+        displayName = fileName.substringAfterLast(File.separatorChar),
         language = LanguageScope.TEXT,
         modified = modified,
         position = position,
@@ -52,6 +54,7 @@ internal fun createDocumentEntity(
         uuid = uuid,
         fileUri = "file:///storage/emulated/0/$fileName",
         filesystemUuid = LocalFilesystem.LOCAL_UUID,
+        displayName = fileName.substringAfterLast(File.separatorChar),
         language = LanguageScope.TEXT,
         modified = modified,
         position = position,

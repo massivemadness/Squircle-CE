@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.data.utils
+package com.blacksquircle.ui.feature.editor.data.extensions
 
 import android.os.Parcel
 import android.os.Parcelable

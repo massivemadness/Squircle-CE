@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.data.utils
+package com.blacksquircle.ui.feature.editor.data.extensions
 
 import java.nio.charset.Charset
 
