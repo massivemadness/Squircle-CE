@@ -18,7 +18,10 @@ package com.blacksquircle.ui.feature.terminal.ui
 
 import android.graphics.Typeface
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -45,10 +49,21 @@ import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.terminal.R
 import com.blacksquircle.ui.feature.terminal.internal.TerminalComponent
+import com.blacksquircle.ui.feature.terminal.ui.extrakeys.ExtraKeysConstants
+import com.blacksquircle.ui.feature.terminal.ui.extrakeys.ExtraKeysInfo
+import com.blacksquircle.ui.feature.terminal.ui.extrakeys.ExtraKeysView
 import com.blacksquircle.ui.feature.terminal.ui.model.TerminalCommand
 import com.blacksquircle.ui.feature.terminal.ui.view.TerminalViewClientImpl
 import com.termux.view.TerminalView
 import com.blacksquircle.ui.ds.R as UiR
+
+/** Height of termux's ViewPager multiplied by 2 */
+private val EXTRA_KEYS_HEIGHT = 75.dp
+private const val EXTRA_KEYS_STYLE = "default"
+private const val EXTRA_KEYS_PROPERTIES = "[" +
+    "['ESC','/',{key: '-', popup: '|'},'HOME','UP','END','PGUP'], " +
+    "['TAB','CTRL','ALT','LEFT','DOWN','RIGHT','PGDN']" +
+    "]"
 
 @Composable
 internal fun TerminalScreen(
@@ -91,6 +106,17 @@ private fun TerminalScreen(
     val textSize = with(LocalDensity.current) { 12.sp.toPx() }
     val backgroundColor = SquircleTheme.colors.colorBackgroundPrimary.toArgb()
     val foregroundColor = SquircleTheme.colors.colorTextAndIconPrimary.toArgb()
+
+    val extraKeysView = remember {
+        ExtraKeysView(context, null).apply {
+            val extraKeysInfo = ExtraKeysInfo(
+                EXTRA_KEYS_PROPERTIES,
+                EXTRA_KEYS_STYLE,
+                ExtraKeysConstants.CONTROL_CHARS_ALIASES
+            )
+            reload(extraKeysInfo, EXTRA_KEYS_HEIGHT.value)
+        }
+    }
     val terminalView = remember {
         TerminalView(context, null).apply {
             isFocusable = true
@@ -102,6 +128,7 @@ private fun TerminalScreen(
 
             val viewClient = TerminalViewClientImpl(
                 terminalView = this,
+                extraKeysView = extraKeysView,
                 backgroundColor = backgroundColor,
                 foregroundColor = foregroundColor,
             )
@@ -115,6 +142,15 @@ private fun TerminalScreen(
                 title = stringResource(R.string.terminal_toolbar_title),
                 navigationIcon = UiR.drawable.ic_back,
                 onNavigationClicked = onBackClicked,
+            )
+        },
+        bottomBar = {
+            AndroidView(
+                factory = { extraKeysView },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(EXTRA_KEYS_HEIGHT)
+                    .navigationBarsPadding()
             )
         },
         modifier = Modifier.imePadding()

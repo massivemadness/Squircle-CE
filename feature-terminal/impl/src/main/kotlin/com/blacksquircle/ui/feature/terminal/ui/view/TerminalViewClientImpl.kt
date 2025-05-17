@@ -20,6 +20,9 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.core.view.isInvisible
 import com.blacksquircle.ui.core.extensions.showSoftInput
+import com.blacksquircle.ui.feature.terminal.ui.extrakeys.ExtraKeysView
+import com.blacksquircle.ui.feature.terminal.ui.extrakeys.SpecialButton
+import com.blacksquircle.ui.feature.terminal.ui.extrakeys.TerminalExtraKeys
 import com.termux.terminal.TerminalSession
 import com.termux.terminal.TextStyle
 import com.termux.view.TerminalView
@@ -29,6 +32,7 @@ import java.lang.Exception
 
 internal class TerminalViewClientImpl(
     private val terminalView: TerminalView,
+    private val extraKeysView: ExtraKeysView,
     private val backgroundColor: Int,
     private val foregroundColor: Int,
 ) : TerminalViewClient {
@@ -37,6 +41,7 @@ internal class TerminalViewClientImpl(
         if (terminalView.mEmulator == null) {
             terminalView.isInvisible = true
         }
+        extraKeysView.extraKeysViewClient = TerminalExtraKeys(terminalView)
     }
 
     override fun onScale(scale: Float): Float {
@@ -81,19 +86,19 @@ internal class TerminalViewClientImpl(
     }
 
     override fun readControlKey(): Boolean {
-        return false
+        return extraKeysView.readSpecialButton(SpecialButton.CTRL, true) ?: false
     }
 
     override fun readAltKey(): Boolean {
-        return false
+        return extraKeysView.readSpecialButton(SpecialButton.ALT, true) ?: false
     }
 
     override fun readShiftKey(): Boolean {
-        return false
+        return extraKeysView.readSpecialButton(SpecialButton.SHIFT, true) ?: false
     }
 
     override fun readFnKey(): Boolean {
-        return false
+        return extraKeysView.readSpecialButton(SpecialButton.FN, true) ?: false
     }
 
     override fun onCodePoint(
