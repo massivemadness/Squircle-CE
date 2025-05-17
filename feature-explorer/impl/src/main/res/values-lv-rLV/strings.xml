@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="explorer_menu_sort_show_hidden">Rādīt slēptās datnes</string>
+    <string name="explorer_menu_sort_compact_packages">Saspiest pakotnes</string>
+    <string name="explorer_menu_sort_by_name">Kārtot pēc nosaukuma</string>
+    <string name="explorer_menu_sort_by_size">Kārtot pēc izmēra</string>
+    <string name="explorer_menu_sort_by_date">Kārtot pēc datuma</string>
+    <string name="explorer_menu_selection_delete">Dzēst</string>
+    <string name="explorer_menu_selection_open_with">Atvērt ar</string>
+    <string name="explorer_menu_selection_rename">Pārdēvēt</string>
+    <string name="explorer_menu_selection_properties">Parametri</string>
+    <string name="explorer_menu_selection_copy_path">Kopēt mapes ceļu</string>
+    <string name="explorer_menu_selection_compress">Saspiest</string>
+    <string name="explorer_menu_selection_refresh">Atsvaidzināt</string>
+    <string name="explorer_menu_selection_clone">Izveidot tiešu kopiju</string>
+    <string name="explorer_menu_selection_create">Izveidot</string>
+    <string name="explorer_create_dialog_title">Izveidot…</string>
+    <string name="explorer_create_dialog_input_label">Ievadiet datnes nosaukumu</string>
+    <string name="explorer_create_dialog_input_error">Nederīgs datnes nosaukums</string>
+    <string name="explorer_create_dialog_checkbox_folder">Mape</string>
+    <string name="explorer_create_dialog_button_create">Izveidot</string>
+    <string name="explorer_rename_dialog_title">Pārdēvēt…</string>
+    <string name="explorer_rename_dialog_input_label">Ievadiet datnes nosaukumu</string>
+    <string name="explorer_rename_dialog_input_error">Nederīgs datnes nosaukums</string>
+    <string name="explorer_rename_dialog_button_rename">Pārdēvēt</string>
+    <string name="explorer_compress_dialog_title">Arhīva nosaukums</string>
+    <string name="explorer_compress_dialog_input_label">Ievadiet arhīva nosaukumu</string>
+    <string name="explorer_compress_dialog_input_error">Nederīgs arhīva nosaukums</string>
+    <string name="explorer_compress_dialog_button_compress">Saspiest</string>
+    <string name="explorer_auth_dialog_title">Autorizācija</string>
+    <string name="explorer_auth_dialog_input_password_label">Ievadiet paroli</string>
+    <string name="explorer_auth_dialog_input_passphrase_label">Ievadiet frāzveida paroli</string>
+    <string name="explorer_auth_dialog_button_authenticate">Autorizēties</string>
+    <string name="explorer_clone_dialog_title">Izveidot tiešu kopiju…</string>
+    <string name="explorer_clone_dialog_input_label">Ievadiet Git URL</string>
+    <string name="explorer_clone_dialog_input_error">Nederīga URL saite</string>
+    <string name="explorer_clone_dialog_button_clone">Izveidot tiešu kopiju</string>
+    <string name="explorer_multidelete_dialog_title">Dzēst atlasītās datnes</string>
+    <string name="explorer_multidelete_dialog_message">Vai tiešām vēlaties dzēst atlasītās datnes?</string>
+    <string name="explorer_delete_dialog_message">Vai tiešām vēlaties dzēst šo datni?</string>
+    <string name="explorer_delete_dialog_button_delete">Dzēst</string>
+    <string name="explorer_properties_dialog_title">Datnes parametri</string>
+    <string name="explorer_properties_dialog_name">Datnes nosaukums:</string>
+    <string name="explorer_properties_dialog_path">Datnes mape:</string>
+    <string name="explorer_properties_dialog_date">Pēdējās izmaiņas:</string>
+    <string name="explorer_properties_dialog_date_format">yyyy.MM.dd HH:mm:ss</string>
+    <string name="explorer_properties_dialog_size">Datnes izmērs:</string>
+    <string name="explorer_task_dialog_title_creating">Izveido…</string>
+    <string name="explorer_task_dialog_title_renaming">Pārdēvē…</string>
+    <string name="explorer_task_dialog_title_deleting">Dzēš…</string>
+    <string name="explorer_task_dialog_title_copying">Kopē…</string>
+    <string name="explorer_task_dialog_title_compressing">Saspiež…</string>
+    <string name="explorer_task_dialog_title_extracting">Atpako…</string>
+    <string name="explorer_task_dialog_title_cloning">Izveido tiešu kopiju…</string>
+    <string name="explorer_task_dialog_message_creating">Izveido…%1$s</string>
+    <string name="explorer_task_dialog_message_renaming">Pārdēvē…%1$s</string>
+    <string name="explorer_task_dialog_message_deleting">Dzēš…%1$s</string>
+    <string name="explorer_task_dialog_message_copying">Kopē…%1$s</string>
+    <string name="explorer_task_dialog_message_compressing">Saspiež…%1$s</string>
+    <string name="explorer_task_dialog_message_extracting">Atpako…%1$s</string>
+    <string name="explorer_task_dialog_message_cloning">Izveido tiešu kopiju…%1$s</string>
+    <string name="explorer_task_dialog_progress_time">Pagājušais laiks: %1$s</string>
+    <string name="explorer_task_dialog_button_background">Palaist fonā</string>
+    <string name="explorer_task_service_channel_name">Datņu pārvaldnieks</string>
+    <string name="explorer_task_service_channel_description">Skatīt un pārvaldīt datnes darbības</string>
+    <string name="explorer_task_service_message">Notiek fona darbības</string>
+    <string name="explorer_storage_permission_dialog_title">Piekļuve krātuvei</string>
+    <string name="explorer_storage_permission_dialog_message">Squircle CE ir nepieciešama pilna piekļuve jūsu datnēm, lai tā darbotos pareizi\n\nLūdzu, piešķiriet atbilstošo atļauju sistēmas iestatījumos</string>
+    <string name="explorer_notification_permission_dialog_title">Paziņojumi</string>
+    <string name="explorer_notification_permission_dialog_message">Squircle CE nepieciešama piekļuve paziņojumiem, lai darbotos fonā\n\nLūdzu, piešķiriet atbilstošo atļauju sistēmas iestatījumos</string>
+    <string name="explorer_workspace_add_dialog_title">Pievienot darbvidi</string>
+    <string name="explorer_workspace_delete_dialog_message">Vai tiešām vēlaties dzēst šo darbvidi?</string>
+    <string name="explorer_workspace_local_dialog_input_label">Ievadiet mapes ceļu</string>
+    <string name="explorer_workspace_local_storage_title">Vietējā mape</string>
+    <string name="explorer_workspace_local_storage_description">Atvērt mapi, izmantojot absolūto mapes ceļu</string>
+    <string name="explorer_workspace_internal_storage_title">Iekšējā krātuve</string>
+    <string name="explorer_workspace_internal_storage_description">Atvērt mapi, izmantojot sistēmas lietotni</string>
+    <string name="explorer_workspace_remote_server_title">Attālais serveris</string>
+    <string name="explorer_workspace_remote_server_description">Izveidot savienojumu ar serveri, izmantojot adresi un lietotāja akreditācijas datus</string>
+    <string name="explorer_workspace_button_add">Pievienot</string>
+    <string name="explorer_toast_select_folder_to_paste">Atlasiet mapi, ko ielīmēt</string>
+    <string name="explorer_toast_file_cannot_be_opened">Datni nevar atvērt</string>
+    <string name="explorer_toast_file_already_exists">Datne jau pastāv</string>
+    <string name="explorer_toast_file_not_found">Datne nav atrasta</string>
+    <string name="explorer_toast_unsupported_archive">Neatbalstīts arhīvs</string>
+    <string name="explorer_toast_invalid_archive">Nederīgs arhīvs</string>
+    <string name="explorer_toast_split_archive">Arhīvs ir sadalīts</string>
+    <string name="explorer_toast_encrypted_archive">Arhīvs ir šifrēts</string>
+    <string name="explorer_toast_operation_cancelled">Darbība atcelta</string>
+    <string name="explorer_toast_operation_not_supported">Darbība netiek atbalstīta</string>
+    <string name="explorer_toast_same_directory_required">Datnēm jābūt vienā, tajā pašā mapē</string>
+    <string name="explorer_toast_done">Pabeigts</string>
+    <string name="explorer_error_view_title_auth">Nepieciešams autorizēties</string>
+    <string name="explorer_error_view_button_authenticate">Autorizēties</string>
+    <string name="explorer_error_view_message_password">Ievadiet paroli, lai izveidotu savienojumu ar serveri</string>
+    <string name="explorer_error_view_message_passphrase">Ievadiet frāzveida paroli, lai izveidotu savienojumu ar serveri</string>
+</resources>

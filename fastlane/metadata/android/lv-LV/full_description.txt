@@ -1,0 +1,39 @@
+<b>Squircle CE</b> — ātrs un viegls koda redaktors un datņu pārvaldnieks, kas atbalsta vairāk nekā 30 programmēšanas valodas, ar attālinātu datņu piekļuvi, izmantojot SFTP/FTP(S), un Git integrāciju. Neatkarīgi no tā, vai esat students, hobija līmeņa vai profesionāls izstrādātājs, Squircle CE ļauj jums rakstīt un rediģēt kodu jebkur un jebkurā laikā — tieši jūsu tālrunī vai planšetē.
+
+Šeit ir uzskaitītas dažas funkcijas no visa plašā funkcionāla, kas palīdz kodēt daudz efektīvāk:
+
+<b>• Plašs programmēšanas valodu atbalsts</b>
+Kodē vairāk nekā 30 programmēšanas valodās: Java, Kotlin, Python, C/C++, HTML, JavaScript, TypeScript, PHP, Rust, Go un citās.
+
+<b>• Sintakses izcelšana</b>
+Skaidra un krāsaina sintakses izcelšana palīdz ātri saprast un orientēties kodā.
+
+<b>• Koda pabeigšana</b>
+Paātrina kodēšanu ar viediem ieteikumiem mainīgajiem, funkcijām un atslēgvārdiem, pamatojoties uz koda saturu.
+
+<b>• Git integrācija</b>
+Koda versiju kontrole tieši redaktorā. Viegli apstiprināt, nosūtīt, vilkt izmaiņas repozitorija zaros un pārvaldīt tos.
+
+<b>• Datņu pārvaldnieks</b>
+Iespēja strādāt ar failiem gan savā ierīcē, gan attālos serveros, izmantojot SFTP/FTP(S) - jums vairs nav nepieciešama cita datņu pārvaldības lietotne.
+
+<b>• Vairāku sesiju rediģēšana</b>
+Nekad nezaudēsiet savu darbu — visas izmaiņas tiek saglabātas automātiski, lai jūs varētu turpināt darbu tieši no tās vietas, kur pārtraucāt.
+
+<b>• Neierobežota atsaukšana/atkārtošana</b>
+Viegli labojot kļūdas ar neierobežotu darbību vēsturi — pat pēc lietotnes aizvēršanas un atvēršanas.
+
+<b>• Iekavu izcelšana</b>
+Ātri izprast un orientēties koda struktūrā, automātiski izceļot atbilstošās iekavas (), [] un {}.
+
+<b>• Koda automātiskā formatēšana</b>
+Iespēja rakstīt skaidrāk uztveramu kodu, jo redaktors automātiski ievieto atkāpes un aizver iekavas, cirtainās figūriekavas un kvadrātveida iekavas.
+
+<b>• Uzlaboti rediģēšanas rīki</b>
+Viegli atlasīt, dzēst vai dublēt rindas, izmantojot ērtos rediģēšanas rīkus.
+
+<b>• Krāsu shēmas</b>
+Iespēja atlasīt kādu no dažādiem krāsu motīviem, kas atbilst jūsu programmēšanas aurai.
+
+<b>• Atvērts pirmkods</b>
+Izpētiet un sniedziet savu artavu: <u>https://github.com/massivemadness/Squircle-CE</u>
