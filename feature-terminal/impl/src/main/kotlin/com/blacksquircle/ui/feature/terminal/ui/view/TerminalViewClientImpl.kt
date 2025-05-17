@@ -16,18 +16,26 @@
 
 package com.blacksquircle.ui.feature.terminal.ui.view
 
+import android.content.Context
 import android.view.KeyEvent
 import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
 import com.termux.terminal.TerminalSession
+import com.termux.view.TerminalView
 import com.termux.view.TerminalViewClient
+import timber.log.Timber
+import java.lang.Exception
 
-internal class TerminalViewClient : TerminalViewClient {
+internal class TerminalViewClientImpl(private val terminalView: TerminalView) : TerminalViewClient {
 
     override fun onScale(scale: Float): Float {
         return scale
     }
 
-    override fun onSingleTapUp(e: MotionEvent?) {
+    override fun onSingleTapUp(e: MotionEvent) {
+        terminalView.requestFocus()
+        val imm = terminalView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.showSoftInput(terminalView, InputMethodManager.SHOW_IMPLICIT)
     }
 
     override fun shouldBackButtonBeMappedToEscape(): Boolean {
@@ -90,27 +98,29 @@ internal class TerminalViewClient : TerminalViewClient {
     }
 
     override fun onEmulatorSet() {
+        terminalView.setTerminalCursorBlinkerState(true, true)
     }
 
     override fun logError(tag: String?, message: String?) {
+        Timber.tag(tag.toString()).e(message)
     }
-
     override fun logWarn(tag: String?, message: String?) {
+        Timber.tag(tag.toString()).w(message)
     }
-
     override fun logInfo(tag: String?, message: String?) {
+        Timber.tag(tag.toString()).i(message)
     }
-
     override fun logDebug(tag: String?, message: String?) {
+        Timber.tag(tag.toString()).d(message)
     }
     override fun logVerbose(tag: String?, message: String?) {
+        Timber.tag(tag.toString()).v(message)
     }
-    override fun logStackTraceWithMessage(
-        tag: String?,
-        message: String?,
-        e: Exception?
-    ) {
+    override fun logStackTraceWithMessage(tag: String?, message: String?, e: Exception?) {
+        logError(tag, message)
+        e?.printStackTrace()
     }
     override fun logStackTrace(tag: String?, e: Exception?) {
+        e?.printStackTrace()
     }
 }

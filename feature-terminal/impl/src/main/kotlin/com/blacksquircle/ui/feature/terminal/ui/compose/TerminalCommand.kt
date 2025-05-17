@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.domain
+package com.blacksquircle.ui.feature.terminal.ui.compose
 
-internal interface TerminalRepository {
-    fun createSession()
-    fun closeSession()
+internal sealed class TerminalCommand {
+    data object Redraw : TerminalCommand()
 }

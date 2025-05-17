@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.data
+package com.blacksquircle.ui.feature.terminal.domain.model
 
-import com.blacksquircle.ui.feature.terminal.domain.TerminalRepository
+import com.termux.terminal.TerminalSession
 
-internal class TerminalRepositoryImpl : TerminalRepository {
-
-    override fun createSession() {
-    }
-
-    override fun closeSession() {
-    }
-}
+data class SessionModel(
+    val sessionId: String,
+    val session: TerminalSession,
+)

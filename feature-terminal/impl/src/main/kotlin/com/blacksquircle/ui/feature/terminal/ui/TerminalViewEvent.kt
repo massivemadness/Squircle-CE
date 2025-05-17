@@ -14,24 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.internal
+package com.blacksquircle.ui.feature.terminal.ui
 
-import android.content.Context
-import com.blacksquircle.ui.feature.terminal.data.SessionRepositoryImpl
-import com.blacksquircle.ui.feature.terminal.domain.repository.SessionRepository
-import dagger.Module
-import dagger.Provides
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.feature.terminal.ui.compose.TerminalCommand
 
-@Module
-internal object TerminalModule {
-
-    @Provides
-    @TerminalScope
-    fun provideSessionRepository(
-        context: Context,
-    ): SessionRepository {
-        return SessionRepositoryImpl(
-            context = context,
-        )
-    }
+internal sealed class TerminalViewEvent : ViewEvent {
+    data class Command(val command: TerminalCommand) : TerminalViewEvent()
 }

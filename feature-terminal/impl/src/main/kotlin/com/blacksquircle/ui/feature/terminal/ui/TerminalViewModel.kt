@@ -18,18 +18,75 @@ package com.blacksquircle.ui.feature.terminal.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.blacksquircle.ui.feature.terminal.domain.TerminalRepository
+import androidx.lifecycle.viewModelScope
+import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.feature.terminal.domain.repository.SessionRepository
+import com.blacksquircle.ui.feature.terminal.ui.compose.TerminalCommand
+import com.blacksquircle.ui.feature.terminal.ui.view.TerminalSessionClientImpl
+import com.termux.terminal.TerminalSessionClient
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
 internal class TerminalViewModel @Inject constructor(
-    private val terminalRepository: TerminalRepository,
+    private val sessionRepository: SessionRepository,
 ) : ViewModel() {
 
-    fun onCreateSessionClicked() {
+    private val _viewState = MutableStateFlow(TerminalViewState())
+    val viewState: StateFlow<TerminalViewState> = _viewState.asStateFlow()
+
+    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
+    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
+
+    private val sessionClient: TerminalSessionClient
+        get() = TerminalSessionClientImpl(
+            redraw = {
+                viewModelScope.launch {
+                    val command = TerminalCommand.Redraw
+                    val event = TerminalViewEvent.Command(command)
+                    _viewEvent.send(event)
+                }
+            }
+        )
+
+    init {
+        loadSessions()
     }
 
-    fun onCloseSessionClicked() {
+    fun onCreateSessionClicked() {
+        sessionRepository.createSession(sessionClient)
+    }
+
+    fun onCloseSessionClicked(sessionId: String) {
+        sessionRepository.closeSession(sessionId)
+    }
+
+    fun onCloseAllSessionsClicked() {
+        sessionRepository.closeAllSessions()
+    }
+
+    private fun loadSessions() {
+        viewModelScope.launch {
+            sessionRepository.sessions.collect { sessions ->
+                if (sessions.isEmpty()) {
+                    sessionRepository.createSession(sessionClient)
+                    return@collect
+                }
+                _viewState.update {
+                    it.copy(
+                        sessions = sessions,
+                        selectedSession = sessions[0].sessionId,
+                    )
+                }
+            }
+        }
     }
 
     class Factory : ViewModelProvider.Factory {

@@ -14,24 +14,17 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.internal
+package com.blacksquircle.ui.feature.terminal.domain.repository
 
-import android.content.Context
-import com.blacksquircle.ui.feature.terminal.data.SessionRepositoryImpl
-import com.blacksquircle.ui.feature.terminal.domain.repository.SessionRepository
-import dagger.Module
-import dagger.Provides
+import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
+import com.termux.terminal.TerminalSessionClient
+import kotlinx.coroutines.flow.Flow
 
-@Module
-internal object TerminalModule {
+internal interface SessionRepository {
 
-    @Provides
-    @TerminalScope
-    fun provideSessionRepository(
-        context: Context,
-    ): SessionRepository {
-        return SessionRepositoryImpl(
-            context = context,
-        )
-    }
+    val sessions: Flow<List<SessionModel>>
+
+    fun createSession(client: TerminalSessionClient): String
+    fun closeSession(sessionId: String)
+    fun closeAllSessions()
 }

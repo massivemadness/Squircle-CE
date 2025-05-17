@@ -16,28 +16,29 @@
 
 package com.blacksquircle.ui.feature.terminal.ui
 
-import android.graphics.Typeface
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.terminal.R
 import com.blacksquircle.ui.feature.terminal.internal.TerminalComponent
-import com.blacksquircle.ui.feature.terminal.ui.view.TerminalSessionClient
-import com.blacksquircle.ui.feature.terminal.ui.view.TerminalViewClient
-import com.termux.terminal.TerminalEmulator
-import com.termux.terminal.TerminalSession
-import com.termux.view.TerminalView
+import com.blacksquircle.ui.feature.terminal.ui.compose.Terminal
+import com.blacksquircle.ui.feature.terminal.ui.compose.TerminalController
+import com.blacksquircle.ui.feature.terminal.ui.compose.rememberTerminalController
+import kotlinx.coroutines.launch
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -48,7 +49,13 @@ internal fun TerminalScreen(
         TerminalViewModel.Factory().also(component::inject)
     }
 ) {
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+    val terminalController = rememberTerminalController()
+    val scope = rememberCoroutineScope()
+
     TerminalScreen(
+        viewState = viewState,
+        terminalController = terminalController,
         onSessionClicked = {},
         onCreateSessionClicked = viewModel::onCreateSessionClicked,
         onCloseSessionClicked = viewModel::onCloseSessionClicked,
@@ -56,13 +63,31 @@ internal fun TerminalScreen(
             navController.popBackStack()
         }
     )
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.viewEvent.collect { event ->
+            when (event) {
+                is ViewEvent.Toast -> context.showToast(text = event.message)
+                is ViewEvent.Navigation -> navController.navigate(event.screen)
+                is ViewEvent.PopBackStack -> navController.popBackStack()
+                is TerminalViewEvent.Command -> {
+                    scope.launch {
+                        terminalController.send(event.command)
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Composable
 private fun TerminalScreen(
+    viewState: TerminalViewState,
+    terminalController: TerminalController,
     onSessionClicked: () -> Unit = {},
     onCreateSessionClicked: () -> Unit = {},
-    onCloseSessionClicked: () -> Unit = {},
+    onCloseSessionClicked: (String) -> Unit = {},
     onBackClicked: () -> Unit = {},
 ) {
     ScaffoldSuite(
@@ -75,31 +100,12 @@ private fun TerminalScreen(
         },
         modifier = Modifier.imePadding()
     ) { contentPadding ->
-        val textSize = with(LocalDensity.current) { 14.sp.toPx() }
-        AndroidView(
-            factory = { context ->
-                TerminalView(context, null).apply {
-                    setTextSize(textSize.toInt())
-                    setTypeface(Typeface.MONOSPACE)
-
-                    val sessionClient = TerminalSessionClient()
-                    val viewClient = TerminalViewClient()
-                    setTerminalViewClient(viewClient)
-
-                    val terminalSession = TerminalSession(
-                        "",
-                        "",
-                        emptyArray(),
-                        emptyArray(),
-                        TerminalEmulator.DEFAULT_TERMINAL_TRANSCRIPT_ROWS,
-                        sessionClient,
-                    )
-
-                    attachSession(terminalSession)
-                }
-            },
-            modifier = Modifier.fillMaxSize(),
-        )
+        if (viewState.sessions.isNotEmpty()) {
+            Terminal(
+                session = viewState.sessions.first(),
+                controller = terminalController,
+            )
+        }
     }
 }
 
@@ -107,6 +113,12 @@ private fun TerminalScreen(
 @Composable
 private fun TerminalScreenPreview() {
     PreviewBackground {
-        TerminalScreen()
+        TerminalScreen(
+            viewState = TerminalViewState(
+                sessions = emptyList(),
+                selectedSession = null,
+            ),
+            terminalController = rememberTerminalController(),
+        )
     }
 }

@@ -22,15 +22,15 @@ import com.termux.terminal.TerminalSessionClient
 import timber.log.Timber
 import java.lang.Exception
 
-internal class TerminalSessionClient : TerminalSessionClient {
+internal class TerminalSessionClientImpl(
+    private val redraw: () -> Unit = {},
+) : TerminalSessionClient {
 
-    override fun onTextChanged(changedSession: TerminalSession) {
-    }
-
-    override fun onTitleChanged(changedSession: TerminalSession) {
-    }
+    override fun onTextChanged(changedSession: TerminalSession) = redraw()
+    override fun onTitleChanged(changedSession: TerminalSession) = redraw()
 
     override fun onSessionFinished(finishedSession: TerminalSession) {
+        Timber.e("TerminalSessionClient: onSessionFinished")
     }
 
     override fun onCopyTextToClipboard(
@@ -45,11 +45,8 @@ internal class TerminalSessionClient : TerminalSessionClient {
     override fun onBell(session: TerminalSession) {
     }
 
-    override fun onColorsChanged(session: TerminalSession) {
-    }
-
-    override fun onTerminalCursorStateChange(state: Boolean) {
-    }
+    override fun onColorsChanged(session: TerminalSession) = redraw()
+    override fun onTerminalCursorStateChange(state: Boolean) = redraw()
 
     override fun setTerminalShellPid(
         session: TerminalSession,
@@ -76,11 +73,7 @@ internal class TerminalSessionClient : TerminalSessionClient {
     override fun logVerbose(tag: String?, message: String?) {
         Timber.tag(tag.toString()).v(message)
     }
-    override fun logStackTraceWithMessage(
-        tag: String?,
-        message: String?,
-        e: Exception?
-    ) {
+    override fun logStackTraceWithMessage(tag: String?, message: String?, e: Exception?) {
         logError(tag, message)
         e?.printStackTrace()
     }

@@ -14,24 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.internal
+package com.blacksquircle.ui.feature.terminal.ui
 
-import android.content.Context
-import com.blacksquircle.ui.feature.terminal.data.SessionRepositoryImpl
-import com.blacksquircle.ui.feature.terminal.domain.repository.SessionRepository
-import dagger.Module
-import dagger.Provides
+import androidx.compose.runtime.Immutable
+import com.blacksquircle.ui.core.mvi.ViewState
+import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 
-@Module
-internal object TerminalModule {
-
-    @Provides
-    @TerminalScope
-    fun provideSessionRepository(
-        context: Context,
-    ): SessionRepository {
-        return SessionRepositoryImpl(
-            context = context,
-        )
-    }
-}
+@Immutable
+internal data class TerminalViewState(
+    val sessions: List<SessionModel> = emptyList(),
+    val selectedSession: String? = null,
+) : ViewState
