@@ -16,9 +16,12 @@
 
 package com.blacksquircle.ui.feature.terminal.domain.model
 
+import com.blacksquircle.ui.feature.terminal.ui.compose.TerminalCommand
 import com.termux.terminal.TerminalSession
+import kotlinx.coroutines.flow.SharedFlow
 
-data class SessionModel(
+internal data class SessionModel(
     val sessionId: String,
     val session: TerminalSession,
+    val commands: SharedFlow<TerminalCommand>,
 )

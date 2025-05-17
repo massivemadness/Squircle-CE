@@ -17,14 +17,13 @@
 package com.blacksquircle.ui.feature.terminal.domain.repository
 
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
-import com.termux.terminal.TerminalSessionClient
 import kotlinx.coroutines.flow.Flow
 
 internal interface SessionRepository {
 
-    val sessions: Flow<List<SessionModel>>
+    val sessionFlow: Flow<List<SessionModel>>
 
-    fun createSession(client: TerminalSessionClient): String
+    fun createSession(): String
     fun closeSession(sessionId: String)
     fun closeAllSessions()
 }

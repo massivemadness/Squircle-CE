@@ -33,19 +33,18 @@ import com.termux.view.TerminalView
 @Composable
 internal fun Terminal(
     session: SessionModel,
-    controller: TerminalController,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val textSize = with(LocalDensity.current) { 12.sp.toPx() }
     val terminalView = remember {
         TerminalView(context, null).apply {
-            setTextSize(textSize.toInt())
-            setTypeface(Typeface.MONOSPACE)
-
             isFocusable = true
             isFocusableInTouchMode = true
             requestFocus()
+
+            setTextSize(textSize.toInt())
+            setTypeface(Typeface.MONOSPACE)
 
             val viewClient = TerminalViewClientImpl(this)
             setTerminalViewClient(viewClient)
@@ -63,9 +62,9 @@ internal fun Terminal(
     }
 
     LaunchedEffect(Unit) {
-        controller.commands.collect { command ->
+        session.commands.collect { command ->
             when (command) {
-                is TerminalCommand.Redraw -> terminalView.onScreenUpdated()
+                is TerminalCommand.Update -> terminalView.onScreenUpdated()
             }
         }
     }

@@ -34,8 +34,9 @@ internal class TerminalViewClientImpl(private val terminalView: TerminalView) : 
 
     override fun onSingleTapUp(e: MotionEvent) {
         terminalView.requestFocus()
-        val imm = terminalView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-        imm?.showSoftInput(terminalView, InputMethodManager.SHOW_IMPLICIT)
+        val inputMethodManager = terminalView.context
+            .getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        inputMethodManager?.showSoftInput(terminalView, InputMethodManager.SHOW_IMPLICIT)
     }
 
     override fun shouldBackButtonBeMappedToEscape(): Boolean {

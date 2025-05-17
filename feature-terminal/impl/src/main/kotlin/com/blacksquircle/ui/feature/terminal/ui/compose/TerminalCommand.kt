@@ -17,5 +17,5 @@
 package com.blacksquircle.ui.feature.terminal.ui.compose
 
 internal sealed class TerminalCommand {
-    data object Redraw : TerminalCommand()
+    data object Update : TerminalCommand()
 }

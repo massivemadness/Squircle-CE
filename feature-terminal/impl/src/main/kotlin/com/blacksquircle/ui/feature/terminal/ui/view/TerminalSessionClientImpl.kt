@@ -16,18 +16,24 @@
 
 package com.blacksquircle.ui.feature.terminal.ui.view
 
+import com.blacksquircle.ui.feature.terminal.ui.compose.TerminalCommand
 import com.termux.terminal.TerminalEmulator
 import com.termux.terminal.TerminalSession
 import com.termux.terminal.TerminalSessionClient
+import kotlinx.coroutines.flow.MutableSharedFlow
 import timber.log.Timber
 import java.lang.Exception
 
 internal class TerminalSessionClientImpl(
-    private val redraw: () -> Unit = {},
+    private val commands: MutableSharedFlow<TerminalCommand>,
 ) : TerminalSessionClient {
 
-    override fun onTextChanged(changedSession: TerminalSession) = redraw()
-    override fun onTitleChanged(changedSession: TerminalSession) = redraw()
+    override fun onTextChanged(changedSession: TerminalSession) {
+        commands.tryEmit(TerminalCommand.Update)
+    }
+    override fun onTitleChanged(changedSession: TerminalSession) {
+        commands.tryEmit(TerminalCommand.Update)
+    }
 
     override fun onSessionFinished(finishedSession: TerminalSession) {
         Timber.e("TerminalSessionClient: onSessionFinished")
@@ -45,8 +51,12 @@ internal class TerminalSessionClientImpl(
     override fun onBell(session: TerminalSession) {
     }
 
-    override fun onColorsChanged(session: TerminalSession) = redraw()
-    override fun onTerminalCursorStateChange(state: Boolean) = redraw()
+    override fun onColorsChanged(session: TerminalSession) {
+        commands.tryEmit(TerminalCommand.Update)
+    }
+    override fun onTerminalCursorStateChange(state: Boolean) {
+        commands.tryEmit(TerminalCommand.Update)
+    }
 
     override fun setTerminalShellPid(
         session: TerminalSession,

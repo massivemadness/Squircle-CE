@@ -17,10 +17,10 @@
 package com.blacksquircle.ui.feature.terminal.ui
 
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -36,9 +36,6 @@ import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.terminal.R
 import com.blacksquircle.ui.feature.terminal.internal.TerminalComponent
 import com.blacksquircle.ui.feature.terminal.ui.compose.Terminal
-import com.blacksquircle.ui.feature.terminal.ui.compose.TerminalController
-import com.blacksquircle.ui.feature.terminal.ui.compose.rememberTerminalController
-import kotlinx.coroutines.launch
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -50,12 +47,8 @@ internal fun TerminalScreen(
     }
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
-    val terminalController = rememberTerminalController()
-    val scope = rememberCoroutineScope()
-
     TerminalScreen(
         viewState = viewState,
-        terminalController = terminalController,
         onSessionClicked = {},
         onCreateSessionClicked = viewModel::onCreateSessionClicked,
         onCloseSessionClicked = viewModel::onCloseSessionClicked,
@@ -71,11 +64,6 @@ internal fun TerminalScreen(
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
-                is TerminalViewEvent.Command -> {
-                    scope.launch {
-                        terminalController.send(event.command)
-                    }
-                }
             }
         }
     }
@@ -84,7 +72,6 @@ internal fun TerminalScreen(
 @Composable
 private fun TerminalScreen(
     viewState: TerminalViewState,
-    terminalController: TerminalController,
     onSessionClicked: () -> Unit = {},
     onCreateSessionClicked: () -> Unit = {},
     onCloseSessionClicked: (String) -> Unit = {},
@@ -103,7 +90,7 @@ private fun TerminalScreen(
         if (viewState.sessions.isNotEmpty()) {
             Terminal(
                 session = viewState.sessions.first(),
-                controller = terminalController,
+                modifier = Modifier.padding(contentPadding)
             )
         }
     }
@@ -118,7 +105,6 @@ private fun TerminalScreenPreview() {
                 sessions = emptyList(),
                 selectedSession = null,
             ),
-            terminalController = rememberTerminalController(),
         )
     }
 }

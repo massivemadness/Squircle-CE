@@ -21,9 +21,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.terminal.domain.repository.SessionRepository
-import com.blacksquircle.ui.feature.terminal.ui.compose.TerminalCommand
-import com.blacksquircle.ui.feature.terminal.ui.view.TerminalSessionClientImpl
-import com.termux.terminal.TerminalSessionClient
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,23 +42,14 @@ internal class TerminalViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    private val sessionClient: TerminalSessionClient
-        get() = TerminalSessionClientImpl(
-            redraw = {
-                viewModelScope.launch {
-                    val command = TerminalCommand.Redraw
-                    val event = TerminalViewEvent.Command(command)
-                    _viewEvent.send(event)
-                }
-            }
-        )
+    private var selectedSession: String? = null
 
     init {
         loadSessions()
     }
 
     fun onCreateSessionClicked() {
-        sessionRepository.createSession(sessionClient)
+        sessionRepository.createSession()
     }
 
     fun onCloseSessionClicked(sessionId: String) {
@@ -74,15 +62,18 @@ internal class TerminalViewModel @Inject constructor(
 
     private fun loadSessions() {
         viewModelScope.launch {
-            sessionRepository.sessions.collect { sessions ->
+            sessionRepository.sessionFlow.collect { sessions ->
                 if (sessions.isEmpty()) {
-                    sessionRepository.createSession(sessionClient)
+                    sessionRepository.createSession()
                     return@collect
+                }
+                if (sessions.none { it.sessionId == selectedSession }) {
+                    selectedSession = sessions.first().sessionId
                 }
                 _viewState.update {
                     it.copy(
                         sessions = sessions,
-                        selectedSession = sessions[0].sessionId,
+                        selectedSession = selectedSession,
                     )
                 }
             }
