@@ -147,6 +147,7 @@ internal fun EditorScreen(
         onCommitClicked = viewModel::onCommitClicked,
         onPushClicked = viewModel::onPushClicked,
         onCheckoutClicked = viewModel::onCheckoutClicked,
+        onTerminalClicked = viewModel::onTerminalClicked,
         onSettingsClicked = viewModel::onSettingsClicked,
         onDocumentClicked = viewModel::onDocumentClicked,
         onDocumentMoved = viewModel::onDocumentMoved,
@@ -298,6 +299,7 @@ private fun EditorScreen(
     onCommitClicked: () -> Unit = {},
     onPushClicked: () -> Unit = {},
     onCheckoutClicked: () -> Unit = {},
+    onTerminalClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
     onDocumentClicked: (DocumentModel) -> Unit = {},
     onDocumentMoved: (from: Int, to: Int) -> Unit = { _, _ -> },
@@ -335,6 +337,7 @@ private fun EditorScreen(
                 onCommitClicked = onCommitClicked,
                 onPushClicked = onPushClicked,
                 onCheckoutClicked = onCheckoutClicked,
+                onTerminalClicked = onTerminalClicked,
                 onSettingsClicked = onSettingsClicked,
             )
         },

@@ -89,6 +89,8 @@ dependencies {
     implementation(project(":feature-settings:impl"))
     implementation(project(":feature-shortcuts:api"))
     implementation(project(":feature-shortcuts:impl"))
+    implementation(project(":feature-terminal:api"))
+    implementation(project(":feature-terminal:impl"))
     implementation(project(":feature-themes:api"))
     implementation(project(":feature-themes:impl"))
     baselineProfile(project(":benchmark"))

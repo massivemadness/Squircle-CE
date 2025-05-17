@@ -53,6 +53,7 @@ import com.blacksquircle.ui.feature.git.ui.gitGraph
 import com.blacksquircle.ui.feature.servers.ui.serversGraph
 import com.blacksquircle.ui.feature.settings.ui.settingsGraph
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcutsGraph
+import com.blacksquircle.ui.feature.terminal.terminalGraph
 import com.blacksquircle.ui.feature.themes.ui.themesGraph
 import com.blacksquircle.ui.internal.di.AppComponent
 
@@ -89,6 +90,7 @@ internal fun MainScreen(
                     serversGraph(navController)
                     settingsGraph(navController)
                     shortcutsGraph(navController)
+                    terminalGraph(navController)
                     themesGraph(navController)
                 }
             }

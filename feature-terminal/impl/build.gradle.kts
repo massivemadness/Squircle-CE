@@ -24,13 +24,10 @@ plugins {
 }
 
 android {
-    namespace = "com.blacksquircle.ui.feature.editor"
+    namespace = "com.blacksquircle.ui.feature.terminal"
 
     buildFeatures {
         compose = true
-    }
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
     }
 }
 
@@ -47,34 +44,22 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.calvin.reorderable)
     implementation(libs.google.dagger)
+    implementation(libs.google.guava.empty)
     implementation(libs.jakewharton.timber)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
     testImplementation(libs.kotlinx.coroutines.test)
     implementation(libs.kotlinx.serialization)
-    implementation(libs.sora.editor)
-    implementation(libs.sora.textmate)
-
-    coreLibraryDesugaring(libs.android.tools.desugaring)
-    ksp(libs.google.dagger.compiler)
+    implementation(libs.termux.terminal)
 
     implementation(project(":common-core"))
     implementation(project(":common-ui"))
     testImplementation(project(":common-test"))
 
-    implementation(project(":feature-editor:api"))
-    implementation(project(":feature-explorer:api"))
-    implementation(project(":feature-explorer:impl"))
-    implementation(project(":feature-fonts:api"))
-    implementation(project(":feature-git:api"))
-    implementation(project(":feature-settings:api"))
-    implementation(project(":feature-shortcuts:api"))
     implementation(project(":feature-terminal:api"))
-    implementation(project(":feature-themes:api"))
-    implementation(project(":filesystems:filesystem-local"))
-    implementation(project(":filesystems:filesystem-saf"))
+
+    ksp(libs.google.dagger.compiler)
 
     testImplementation(libs.test.junit)
     testImplementation(libs.test.mockk)

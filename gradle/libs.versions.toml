@@ -11,6 +11,7 @@ core = "1.16.0"
 coroutines = "1.10.2"
 dagger = "2.56.2"
 ftpclient = "3.11.1"
+guava-empty = "9999.0-empty-to-avoid-conflict-with-guava"
 icu4j = "77.1"
 jgit = "6.2.0.202206071550-r"
 jsch = "2.27.0"
@@ -31,6 +32,7 @@ serialization = "1.8.1"
 sora = "0.23.5"
 splashscreen = "1.2.0-beta02"
 superuser = "5.0.4"
+terminal = "0.119.0-beta.1"
 test-benchmark = "1.3.4"
 test-runner = "1.6.2"
 timber = "5.0.1"
@@ -81,6 +83,7 @@ eclipse-jgit = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "jg
 google-appupdate = { module = "com.google.android.play:app-update-ktx", version.ref = "appupdate" }
 google-dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 google-dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
+google-guava-empty = { module = "com.google.guava:listenablefuture", version.ref = "guava-empty" }
 ibm-icu4j = { module = "com.ibm.icu:icu4j", version.ref = "icu4j" }
 jakewharton-timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
@@ -95,6 +98,7 @@ scottyab-rootbeer = { module = "com.scottyab:rootbeer-lib", version.ref = "rootb
 skydoves-colorpicker-compose = { module = "com.github.skydoves:colorpicker-compose", version.ref = "colorpicker" }
 sora-editor = { module = "io.github.Rosemoe.sora-editor:editor", version.ref = "sora" }
 sora-textmate = { module = "io.github.Rosemoe.sora-editor:language-textmate", version.ref = "sora" }
+termux-terminal = { module = "com.github.Termux:Termux-app", version.ref = "terminal" }
 
 test-junit = { module = "junit:junit", version.ref = "junit" }
 test-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
