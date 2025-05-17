@@ -16,26 +16,38 @@
 
 package com.blacksquircle.ui.feature.terminal.ui
 
+import android.graphics.Typeface
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.blacksquircle.ui.core.extensions.copyText
 import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.core.extensions.primaryClipText
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.terminal.R
 import com.blacksquircle.ui.feature.terminal.internal.TerminalComponent
-import com.blacksquircle.ui.feature.terminal.ui.compose.Terminal
+import com.blacksquircle.ui.feature.terminal.ui.model.TerminalCommand
+import com.blacksquircle.ui.feature.terminal.ui.view.TerminalViewClientImpl
+import com.termux.view.TerminalView
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -52,9 +64,7 @@ internal fun TerminalScreen(
         onSessionClicked = {},
         onCreateSessionClicked = viewModel::onCreateSessionClicked,
         onCloseSessionClicked = viewModel::onCloseSessionClicked,
-        onBackClicked = {
-            navController.popBackStack()
-        }
+        onBackClicked = { navController.popBackStack() }
     )
 
     val context = LocalContext.current
@@ -77,6 +87,28 @@ private fun TerminalScreen(
     onCloseSessionClicked: (String) -> Unit = {},
     onBackClicked: () -> Unit = {},
 ) {
+    val context = LocalContext.current
+    val textSize = with(LocalDensity.current) { 12.sp.toPx() }
+    val backgroundColor = SquircleTheme.colors.colorBackgroundPrimary.toArgb()
+    val foregroundColor = SquircleTheme.colors.colorTextAndIconPrimary.toArgb()
+    val terminalView = remember {
+        TerminalView(context, null).apply {
+            isFocusable = true
+            isFocusableInTouchMode = true
+            requestFocus()
+
+            setTextSize(textSize.toInt())
+            setTypeface(Typeface.MONOSPACE)
+
+            val viewClient = TerminalViewClientImpl(
+                terminalView = this,
+                backgroundColor = backgroundColor,
+                foregroundColor = foregroundColor,
+            )
+            setTerminalViewClient(viewClient)
+        }
+    }
+
     ScaffoldSuite(
         topBar = {
             Toolbar(
@@ -87,11 +119,34 @@ private fun TerminalScreen(
         },
         modifier = Modifier.imePadding()
     ) { contentPadding ->
-        if (viewState.sessions.isNotEmpty()) {
-            Terminal(
-                session = viewState.sessions.first(),
-                modifier = Modifier.padding(contentPadding)
-            )
+        val session = viewState.currentSession
+            ?: return@ScaffoldSuite
+
+        AndroidView(
+            factory = { terminalView },
+            update = { terminalView.onScreenUpdated() },
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding),
+        )
+
+        LaunchedEffect(session.sessionId) {
+            terminalView.attachSession(session.session)
+
+            session.commands.collect { command ->
+                when (command) {
+                    is TerminalCommand.Update -> {
+                        terminalView.onScreenUpdated()
+                    }
+                    is TerminalCommand.Copy -> {
+                        context.copyText(command.text)
+                    }
+                    is TerminalCommand.Paste -> {
+                        val text = context.primaryClipText()
+                        terminalView.mEmulator?.paste(text)
+                    }
+                }
+            }
         }
     }
 }

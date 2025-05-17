@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.terminal.data.manager
 
 import android.content.Context
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
-import com.blacksquircle.ui.feature.terminal.ui.compose.TerminalCommand
+import com.blacksquircle.ui.feature.terminal.ui.model.TerminalCommand
 import com.blacksquircle.ui.feature.terminal.ui.view.TerminalSessionClientImpl
 import com.termux.terminal.TerminalEmulator
 import com.termux.terminal.TerminalSession

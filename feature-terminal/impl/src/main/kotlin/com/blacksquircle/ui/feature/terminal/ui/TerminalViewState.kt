@@ -24,4 +24,8 @@ import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 internal data class TerminalViewState(
     val sessions: List<SessionModel> = emptyList(),
     val selectedSession: String? = null,
-) : ViewState
+) : ViewState {
+
+    val currentSession: SessionModel?
+        get() = sessions.find { it.sessionId == selectedSession }
+}

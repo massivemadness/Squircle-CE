@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.terminal.ui.view
 
-import com.blacksquircle.ui.feature.terminal.ui.compose.TerminalCommand
+import com.blacksquircle.ui.feature.terminal.ui.model.TerminalCommand
 import com.termux.terminal.TerminalEmulator
 import com.termux.terminal.TerminalSession
 import com.termux.terminal.TerminalSessionClient

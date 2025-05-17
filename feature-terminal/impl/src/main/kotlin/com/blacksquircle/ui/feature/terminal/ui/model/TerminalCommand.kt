@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.ui.compose
+package com.blacksquircle.ui.feature.terminal.ui.model
 
 internal sealed class TerminalCommand {
     data object Update : TerminalCommand()

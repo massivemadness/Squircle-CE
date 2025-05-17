@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.terminal.ui.view
 
 import android.view.KeyEvent
 import android.view.MotionEvent
+import androidx.core.view.isInvisible
 import com.blacksquircle.ui.core.extensions.showSoftInput
 import com.termux.terminal.TerminalSession
 import com.termux.terminal.TextStyle
@@ -31,6 +32,12 @@ internal class TerminalViewClientImpl(
     private val backgroundColor: Int,
     private val foregroundColor: Int,
 ) : TerminalViewClient {
+
+    init {
+        if (terminalView.mEmulator == null) {
+            terminalView.isInvisible = true
+        }
+    }
 
     override fun onScale(scale: Float): Float {
         val fontSize = scale.coerceIn(MIN_TEXT_SIZE, MAX_TEXT_SIZE)
@@ -107,6 +114,7 @@ internal class TerminalViewClientImpl(
             terminalView.setTerminalCursorBlinkerRate(600)
             terminalView.setTerminalCursorBlinkerState(true, true)
         }
+        terminalView.isInvisible = false
     }
 
     override fun logError(tag: String?, message: String?) {
