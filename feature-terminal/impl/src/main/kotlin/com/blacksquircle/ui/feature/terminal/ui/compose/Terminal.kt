@@ -27,6 +27,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.blacksquircle.ui.core.extensions.copyText
+import com.blacksquircle.ui.core.extensions.primaryClipText
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 import com.blacksquircle.ui.feature.terminal.ui.view.TerminalViewClientImpl
@@ -73,7 +75,16 @@ internal fun Terminal(
     LaunchedEffect(Unit) {
         session.commands.collect { command ->
             when (command) {
-                is TerminalCommand.Update -> terminalView.onScreenUpdated()
+                is TerminalCommand.Update -> {
+                    terminalView.onScreenUpdated()
+                }
+                is TerminalCommand.Copy -> {
+                    context.copyText(command.text)
+                }
+                is TerminalCommand.Paste -> {
+                    val text = context.primaryClipText()
+                    terminalView.mEmulator?.paste(text)
+                }
             }
         }
     }

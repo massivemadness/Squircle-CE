@@ -16,9 +16,14 @@
 
 package com.blacksquircle.ui.core.extensions
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.content.getSystemService
 
 fun Context.showToast(
     @StringRes textRes: Int = -1,
@@ -30,4 +35,24 @@ fun Context.showToast(
     } else {
         Toast.makeText(this, text, duration).show()
     }
+}
+
+fun Context.copyText(text: String) {
+    val clipboardManager = getSystemService<ClipboardManager>()
+    val clipData = ClipData.newPlainText("Text", text)
+    clipboardManager?.setPrimaryClip(clipData)
+}
+
+fun Context.primaryClipText(): String {
+    val clipboardManager = getSystemService<ClipboardManager>()
+    val clip = clipboardManager?.primaryClip
+    if (clip != null && clip.itemCount > 0) {
+        return clip.getItemAt(0).text.toString()
+    }
+    return ""
+}
+
+fun View.showSoftInput() {
+    val inputMethodManager = context?.getSystemService<InputMethodManager>()
+    inputMethodManager?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
 }

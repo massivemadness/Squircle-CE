@@ -16,10 +16,9 @@
 
 package com.blacksquircle.ui.feature.terminal.ui.view
 
-import android.content.Context
 import android.view.KeyEvent
 import android.view.MotionEvent
-import android.view.inputmethod.InputMethodManager
+import com.blacksquircle.ui.core.extensions.showSoftInput
 import com.termux.terminal.TerminalSession
 import com.termux.terminal.TextStyle
 import com.termux.view.TerminalView
@@ -41,9 +40,7 @@ internal class TerminalViewClientImpl(
 
     override fun onSingleTapUp(e: MotionEvent) {
         terminalView.requestFocus()
-        val inputMethodManager = terminalView.context
-            .getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-        inputMethodManager?.showSoftInput(terminalView, InputMethodManager.SHOW_IMPLICIT)
+        terminalView.showSoftInput()
     }
 
     override fun shouldBackButtonBeMappedToEscape(): Boolean {
@@ -62,14 +59,9 @@ internal class TerminalViewClientImpl(
         return true
     }
 
-    override fun copyModeChanged(copyMode: Boolean) {
-    }
+    override fun copyModeChanged(copyMode: Boolean) = Unit
 
-    override fun onKeyDown(
-        keyCode: Int,
-        e: KeyEvent?,
-        session: TerminalSession?
-    ): Boolean {
+    override fun onKeyDown(keyCode: Int, e: KeyEvent?, session: TerminalSession?): Boolean {
         return false
     }
 

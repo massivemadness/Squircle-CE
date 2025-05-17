@@ -35,21 +35,17 @@ internal class TerminalSessionClientImpl(
         commands.tryEmit(TerminalCommand.Update)
     }
 
-    override fun onSessionFinished(finishedSession: TerminalSession) {
-        Timber.e("TerminalSessionClient: onSessionFinished")
-    }
+    override fun onSessionFinished(finishedSession: TerminalSession) = Unit
 
-    override fun onCopyTextToClipboard(
-        session: TerminalSession,
-        text: String?
-    ) {
+    override fun onCopyTextToClipboard(session: TerminalSession, text: String) {
+        commands.tryEmit(TerminalCommand.Copy(text))
     }
 
     override fun onPasteTextFromClipboard(session: TerminalSession?) {
+        commands.tryEmit(TerminalCommand.Paste)
     }
 
-    override fun onBell(session: TerminalSession) {
-    }
+    override fun onBell(session: TerminalSession) = Unit
 
     override fun onColorsChanged(session: TerminalSession) {
         commands.tryEmit(TerminalCommand.Update)
@@ -58,11 +54,7 @@ internal class TerminalSessionClientImpl(
         commands.tryEmit(TerminalCommand.Update)
     }
 
-    override fun setTerminalShellPid(
-        session: TerminalSession,
-        pid: Int
-    ) {
-    }
+    override fun setTerminalShellPid(session: TerminalSession, pid: Int) = Unit
 
     override fun getTerminalCursorStyle(): Int {
         return TerminalEmulator.DEFAULT_TERMINAL_CURSOR_STYLE
