@@ -34,7 +34,9 @@ internal class TerminalViewClientImpl(
 ) : TerminalViewClient {
 
     override fun onScale(scale: Float): Float {
-        return scale
+        val fontSize = scale.coerceIn(MIN_TEXT_SIZE, MAX_TEXT_SIZE)
+        terminalView.setTextSize(fontSize.toInt())
+        return fontSize
     }
 
     override fun onSingleTapUp(e: MotionEvent) {
@@ -142,5 +144,10 @@ internal class TerminalViewClientImpl(
 
     override fun logStackTrace(tag: String?, e: Exception?) {
         e?.printStackTrace()
+    }
+
+    companion object {
+        private const val MIN_TEXT_SIZE = 16f
+        private const val MAX_TEXT_SIZE = 48f
     }
 }
