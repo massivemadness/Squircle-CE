@@ -21,12 +21,17 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import com.termux.terminal.TerminalSession
+import com.termux.terminal.TextStyle
 import com.termux.view.TerminalView
 import com.termux.view.TerminalViewClient
 import timber.log.Timber
 import java.lang.Exception
 
-internal class TerminalViewClientImpl(private val terminalView: TerminalView) : TerminalViewClient {
+internal class TerminalViewClientImpl(
+    private val terminalView: TerminalView,
+    private val backgroundColor: Int,
+    private val foregroundColor: Int,
+) : TerminalViewClient {
 
     override fun onScale(scale: Float): Float {
         return scale
@@ -99,28 +104,42 @@ internal class TerminalViewClientImpl(private val terminalView: TerminalView) : 
     }
 
     override fun onEmulatorSet() {
-        terminalView.setTerminalCursorBlinkerState(true, true)
+        if (terminalView.mEmulator != null) {
+            terminalView.mEmulator.mColors.apply {
+                mCurrentColors[TextStyle.COLOR_INDEX_BACKGROUND] = backgroundColor
+                mCurrentColors[TextStyle.COLOR_INDEX_FOREGROUND] = foregroundColor
+                mCurrentColors[TextStyle.COLOR_INDEX_CURSOR] = foregroundColor
+            }
+            terminalView.setTerminalCursorBlinkerRate(600)
+            terminalView.setTerminalCursorBlinkerState(true, true)
+        }
     }
 
     override fun logError(tag: String?, message: String?) {
         Timber.tag(tag.toString()).e(message)
     }
+
     override fun logWarn(tag: String?, message: String?) {
         Timber.tag(tag.toString()).w(message)
     }
+
     override fun logInfo(tag: String?, message: String?) {
         Timber.tag(tag.toString()).i(message)
     }
+
     override fun logDebug(tag: String?, message: String?) {
         Timber.tag(tag.toString()).d(message)
     }
+
     override fun logVerbose(tag: String?, message: String?) {
         Timber.tag(tag.toString()).v(message)
     }
+
     override fun logStackTraceWithMessage(tag: String?, message: String?, e: Exception?) {
         logError(tag, message)
         e?.printStackTrace()
     }
+
     override fun logStackTrace(tag: String?, e: Exception?) {
         e?.printStackTrace()
     }

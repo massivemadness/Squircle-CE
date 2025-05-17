@@ -22,10 +22,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 import com.blacksquircle.ui.feature.terminal.ui.view.TerminalViewClientImpl
 import com.termux.view.TerminalView
@@ -37,6 +39,9 @@ internal fun Terminal(
 ) {
     val context = LocalContext.current
     val textSize = with(LocalDensity.current) { 12.sp.toPx() }
+    val backgroundColor = SquircleTheme.colors.colorBackgroundPrimary.toArgb()
+    val foregroundColor = SquircleTheme.colors.colorTextAndIconPrimary.toArgb()
+
     val terminalView = remember {
         TerminalView(context, null).apply {
             isFocusable = true
@@ -46,7 +51,11 @@ internal fun Terminal(
             setTextSize(textSize.toInt())
             setTypeface(Typeface.MONOSPACE)
 
-            val viewClient = TerminalViewClientImpl(this)
+            val viewClient = TerminalViewClientImpl(
+                terminalView = this,
+                backgroundColor = backgroundColor,
+                foregroundColor = foregroundColor
+            )
             setTerminalViewClient(viewClient)
         }
     }
