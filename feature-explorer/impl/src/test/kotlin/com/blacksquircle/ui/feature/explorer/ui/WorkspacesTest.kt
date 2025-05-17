@@ -131,7 +131,7 @@ class WorkspacesTest {
     }
 
     @Test
-    fun `When workspace changed Then reset buffer`() = runTest {
+    fun `When workspace changed with different filesystemUuid Then reset buffer`() = runTest {
         // Given
         val viewModel = createViewModel()
         val fileNode = createFileNode(name = "untitled.txt")
@@ -140,13 +140,41 @@ class WorkspacesTest {
         viewModel.onFileSelected(fileNode)
         assertEquals(listOf(fileNode), viewModel.viewState.value.selectedNodes)
 
-        viewModel.onDeleteClicked()
-        assertEquals(TaskType.DELETE, viewModel.viewState.value.taskType)
+        viewModel.onCopyClicked()
+        assertEquals(TaskType.COPY, viewModel.viewState.value.taskType)
 
-        viewModel.onWorkspaceClicked(workspaces[1])
+        val workspace2 = createWorkspace(
+            uuid = "different workspace",
+            filesystemUuid = "different filesystem",
+        )
+        viewModel.onWorkspaceClicked(workspace2)
 
         // Then
         assertEquals(TaskType.CREATE, viewModel.viewState.value.taskType)
+        assertEquals(emptyList<FileNode>(), viewModel.viewState.value.selectedNodes)
+    }
+
+    @Test
+    fun `When workspace changed with same filesystemUuid Then do not reset buffer`() = runTest {
+        // Given
+        val viewModel = createViewModel()
+        val fileNode = createFileNode(name = "untitled.txt")
+
+        // When
+        viewModel.onFileSelected(fileNode)
+        assertEquals(listOf(fileNode), viewModel.viewState.value.selectedNodes)
+
+        viewModel.onCopyClicked()
+        assertEquals(TaskType.COPY, viewModel.viewState.value.taskType)
+
+        val workspace2 = createWorkspace(
+            uuid = "different workspace",
+            filesystemUuid = selectedWorkspace.defaultLocation.filesystemUuid,
+        )
+        viewModel.onWorkspaceClicked(workspace2)
+
+        // Then
+        assertEquals(TaskType.COPY, viewModel.viewState.value.taskType)
         assertEquals(emptyList<FileNode>(), viewModel.viewState.value.selectedNodes)
     }
 

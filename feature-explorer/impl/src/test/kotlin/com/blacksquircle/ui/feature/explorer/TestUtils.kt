@@ -50,7 +50,8 @@ internal fun defaultWorkspaces(): List<WorkspaceModel> {
 }
 
 internal fun createWorkspace(
-    uuid: String = LocalFilesystem.LOCAL_UUID,
+    uuid: String,
+    filesystemUuid: String = LocalFilesystem.LOCAL_UUID,
 ): WorkspaceModel {
     return WorkspaceModel(
         uuid = uuid,
@@ -58,7 +59,7 @@ internal fun createWorkspace(
         filesystemType = FilesystemType.LOCAL,
         defaultLocation = FileModel(
             fileUri = "file:///storage/emulated/0/",
-            filesystemUuid = uuid,
+            filesystemUuid = filesystemUuid,
         ),
     )
 }

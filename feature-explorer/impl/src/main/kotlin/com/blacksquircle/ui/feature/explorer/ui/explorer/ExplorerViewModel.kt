@@ -147,11 +147,16 @@ internal class ExplorerViewModel @Inject constructor(
                     return@launch
                 }
 
+                val currentFilesystem = selectedWorkspace?.defaultLocation?.filesystemUuid
+                val selectedFilesystem = workspace.defaultLocation.filesystemUuid
+                if (currentFilesystem != selectedFilesystem) {
+                    resetBuffer()
+                }
+
                 settingsManager.workspace = workspace.uuid
                 selectedWorkspace = workspace
 
                 cache.clear()
-                resetBuffer()
 
                 val rootNode = FileNode(
                     file = workspace.defaultLocation,
