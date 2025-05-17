@@ -106,6 +106,8 @@ private fun TerminalScreen(
     val textSize = with(LocalDensity.current) { 12.sp.toPx() }
     val backgroundColor = SquircleTheme.colors.colorBackgroundPrimary.toArgb()
     val foregroundColor = SquircleTheme.colors.colorTextAndIconPrimary.toArgb()
+    val activeBackgroundColor = SquircleTheme.colors.colorBackgroundTertiary.toArgb()
+    val activeForegroundColor = SquircleTheme.colors.colorPrimary.toArgb()
 
     val extraKeysView = remember {
         ExtraKeysView(context, null).apply {
@@ -114,6 +116,10 @@ private fun TerminalScreen(
                 EXTRA_KEYS_STYLE,
                 ExtraKeysConstants.CONTROL_CHARS_ALIASES
             )
+            buttonBackgroundColor = backgroundColor
+            buttonTextColor = foregroundColor
+            buttonActiveBackgroundColor = activeBackgroundColor
+            buttonActiveTextColor = activeForegroundColor
             reload(extraKeysInfo, EXTRA_KEYS_HEIGHT.value)
         }
     }
