@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal
+package com.blacksquircle.ui.feature.terminal.data
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
-import com.blacksquircle.ui.feature.terminal.api.TerminalScreen
-import com.blacksquircle.ui.feature.terminal.ui.TerminalScreen
+import com.blacksquircle.ui.feature.terminal.domain.TerminalRepository
 
-fun NavGraphBuilder.terminalGraph(navController: NavHostController) {
-    composable<TerminalScreen> {
-        TerminalScreen(navController)
+internal class TerminalRepositoryImpl : TerminalRepository {
+
+    override fun createSession() {
+    }
+
+    override fun closeSession() {
     }
 }

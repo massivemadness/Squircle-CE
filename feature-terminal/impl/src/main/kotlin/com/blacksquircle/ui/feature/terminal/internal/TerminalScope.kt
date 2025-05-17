@@ -14,16 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal
+package com.blacksquircle.ui.feature.terminal.internal
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
-import com.blacksquircle.ui.feature.terminal.api.TerminalScreen
-import com.blacksquircle.ui.feature.terminal.ui.TerminalScreen
+import javax.inject.Scope
 
-fun NavGraphBuilder.terminalGraph(navController: NavHostController) {
-    composable<TerminalScreen> {
-        TerminalScreen(navController)
-    }
-}
+@Scope
+internal annotation class TerminalScope
