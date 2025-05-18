@@ -127,7 +127,7 @@
     <string name="settings_submodules_title">子模块</string>
     <string name="settings_submodules_subtitle">克隆存储库时包含子模块</string>
     <string name="settings_recursive_submodules_title">递归子模块</string>
-    <string name="settings_recursive_submodules_subtitle">递归获取子模块及其依赖项</string>
+    <string name="settings_recursive_submodules_subtitle">递归获取子模块</string>
     <string name="settings_category_about">关于</string>
     <string name="settings_about_subtitle">Squircle CE 是依据 Apache 2.0 许可协议发布的开源项目\n\n当前版本: %1$s (%2$d)</string>
     <string name="settings_privacy_policy_title">查看“隐私政策”</string>
