@@ -905,7 +905,6 @@ internal class EditorViewModel @Inject constructor(
                         removedPosition + 1 < documents.size -> removedPosition
                         else -> -1
                     }
-
                     removedPosition < selectedPosition -> selectedPosition - 1
                     removedPosition > selectedPosition -> selectedPosition
                     else -> -1

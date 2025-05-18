@@ -204,9 +204,7 @@ private fun TerminalScreen(
             AndroidView(
                 factory = { terminalView },
                 update = { terminalView.onScreenUpdated() },
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(contentPadding),
+                modifier = Modifier.fillMaxSize()
             )
 
             LaunchedEffect(currentSession.sessionId) {
