@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.settings
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderViewState
@@ -26,7 +25,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -60,18 +58,6 @@ class CodeHeaderViewModelTest {
             tabWidth = 8,
         )
         assertEquals(viewState, viewModel.viewState.value)
-    }
-
-    @Test
-    fun `When back pressed Then send popBackStack event`() = runTest {
-        // Given
-        val viewModel = createViewModel()
-
-        // When
-        viewModel.onBackClicked()
-
-        // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
     }
 
     @Test

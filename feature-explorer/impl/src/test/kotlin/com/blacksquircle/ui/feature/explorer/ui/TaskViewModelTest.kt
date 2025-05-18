@@ -132,18 +132,6 @@ class TaskViewModelTest {
     }
 
     @Test
-    fun `When back pressed Then send popBackStack event`() = runTest {
-        // Given
-        val viewModel = createViewModel()
-
-        // When
-        viewModel.onBackClicked()
-
-        // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
-    }
-
-    @Test
     fun `When run in background clicked Then send StartService event`() = runTest {
         // Given
         val viewModel = createViewModel()

@@ -90,7 +90,7 @@ internal fun FontsScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     FontsScreen(
         viewState = viewState,
-        onBackClicked = viewModel::onBackClicked,
+        onBackClicked = navController::popBackStack,
         onQueryChanged = viewModel::onQueryChanged,
         onClearQueryClicked = viewModel::onClearQueryClicked,
         onSelectClicked = viewModel::onSelectClicked,

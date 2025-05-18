@@ -85,18 +85,6 @@ class EditorHeaderViewModelTest {
     }
 
     @Test
-    fun `When back pressed Then send popBackStack event`() = runTest {
-        // Given
-        val viewModel = createViewModel()
-
-        // When
-        viewModel.onBackClicked()
-
-        // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
-    }
-
-    @Test
     fun `When font size changed Then update view state`() = runTest {
         // Given
         every { settingsManager.fontSize } returns 14 andThen 16

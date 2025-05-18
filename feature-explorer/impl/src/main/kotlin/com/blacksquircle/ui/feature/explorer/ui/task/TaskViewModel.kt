@@ -60,12 +60,6 @@ internal class TaskViewModel @AssistedInject constructor(
             )
         }
 
-    fun onBackClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
-    }
-
     fun onRunInBackgroundClicked() {
         viewModelScope.launch {
             _viewEvent.send(ExplorerViewEvent.StartService)

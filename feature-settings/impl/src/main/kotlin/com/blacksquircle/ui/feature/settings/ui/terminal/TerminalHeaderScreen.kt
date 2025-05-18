@@ -49,11 +49,9 @@ internal fun TerminalHeaderScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     TerminalHeaderScreen(
         viewState = viewState,
+        onBackClicked = navController::popBackStack,
         onCursorBlinkingChanged = viewModel::onCursorBlinkingChanged,
         onKeepScreenOnChanged = viewModel::onKeepScreenOnChanged,
-        onBackClicked = {
-            navController.popBackStack()
-        }
     )
 }
 

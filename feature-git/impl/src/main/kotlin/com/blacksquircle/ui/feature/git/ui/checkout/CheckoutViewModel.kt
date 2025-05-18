@@ -55,12 +55,6 @@ internal class CheckoutViewModel @AssistedInject constructor(
         loadBranches()
     }
 
-    fun onBackClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
-    }
-
     fun onBranchSelected(branchName: String) {
         currentBranch = branchName
         _viewState.update {

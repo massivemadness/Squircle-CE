@@ -67,7 +67,7 @@ internal fun CheckoutScreen(
         onBranchSelected = viewModel::onBranchSelected,
         onBranchNameChanged = viewModel::onBranchNameChanged,
         onNewBranchClicked = viewModel::onNewBranchClicked,
-        onBackClicked = viewModel::onBackClicked
+        onBackClicked = navController::popBackStack,
     )
 
     val context = LocalContext.current

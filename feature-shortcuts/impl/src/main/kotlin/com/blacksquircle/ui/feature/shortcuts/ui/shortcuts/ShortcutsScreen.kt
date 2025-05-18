@@ -73,7 +73,7 @@ internal fun ShortcutsScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ShortcutsScreen(
         viewState = viewState,
-        onBackClicked = viewModel::onBackClicked,
+        onBackClicked = navController::popBackStack,
         onRestoreClicked = viewModel::onRestoreClicked,
         onKeyClicked = viewModel::onKeyClicked,
     )

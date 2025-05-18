@@ -51,18 +51,6 @@ class CloudViewModelTest {
     private val serverRepository = mockk<ServerRepository>(relaxed = true)
 
     @Test
-    fun `When back pressed Then send popBackStack event`() = runTest {
-        // Given
-        val viewModel = createViewModel()
-
-        // When
-        viewModel.onBackClicked()
-
-        // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
-    }
-
-    @Test
     fun `When server clicked Then send navigation event`() = runTest {
         // Given
         val viewModel = createViewModel()

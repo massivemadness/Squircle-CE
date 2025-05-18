@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.settings
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewEvent
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewModel
@@ -73,18 +72,6 @@ class FilesHeaderViewModelTest {
             sortMode = "sort_by_name",
         )
         assertEquals(viewState, viewModel.viewState.value)
-    }
-
-    @Test
-    fun `When back pressed Then send popBackStack event`() = runTest {
-        // Given
-        val viewModel = createViewModel()
-
-        // When
-        viewModel.onBackClicked()
-
-        // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
     }
 
     @Test

@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.git
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.git.domain.exception.GitException
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
@@ -28,7 +27,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -44,18 +42,6 @@ class PushViewModelTest {
 
     private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val gitRepository = mockk<GitRepository>(relaxed = true)
-
-    @Test
-    fun `When back pressed Then send popBackStack event`() = runTest {
-        // Given
-        val viewModel = createViewModel()
-
-        // When
-        viewModel.onBackClicked()
-
-        // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
-    }
 
     @Test
     fun `When screen opens Then load branch and commits`() = runTest {

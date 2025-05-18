@@ -53,12 +53,6 @@ internal class ShortcutsViewModel @Inject constructor(
         loadShortcuts()
     }
 
-    fun onBackClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
-    }
-
     fun onRestoreClicked() {
         viewModelScope.launch {
             try {
