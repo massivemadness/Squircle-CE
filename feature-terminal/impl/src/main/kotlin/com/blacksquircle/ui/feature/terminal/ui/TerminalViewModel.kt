@@ -50,6 +50,10 @@ internal class TerminalViewModel @Inject constructor(
         loadSessions()
     }
 
+    fun onSessionClicked(sessionId: String) {
+        // TODO
+    }
+
     fun onCreateSessionClicked() {
         sessionRepository.createSession()
     }

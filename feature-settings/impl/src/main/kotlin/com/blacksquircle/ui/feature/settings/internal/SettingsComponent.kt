@@ -19,7 +19,6 @@ package com.blacksquircle.ui.feature.settings.internal
 import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
-import com.blacksquircle.ui.feature.settings.ui.about.AboutHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.application.AppHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderViewModel
@@ -36,7 +35,6 @@ import dagger.Component
 )
 internal interface SettingsComponent {
 
-    fun inject(factory: AboutHeaderViewModel.Factory)
     fun inject(factory: AppHeaderViewModel.Factory)
     fun inject(factory: CodeHeaderViewModel.Factory)
     fun inject(factory: EditorHeaderViewModel.Factory)

@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -50,8 +51,11 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
+import com.blacksquircle.ui.ds.tabs.TabItem
+import com.blacksquircle.ui.ds.tabs.TabLayout
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.terminal.R
+import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 import com.blacksquircle.ui.feature.terminal.internal.TerminalComponent
 import com.blacksquircle.ui.feature.terminal.ui.extrakeys.ExtraKeysConstants
 import com.blacksquircle.ui.feature.terminal.ui.extrakeys.ExtraKeysInfo
@@ -80,10 +84,10 @@ internal fun TerminalScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     TerminalScreen(
         viewState = viewState,
-        onSessionClicked = {},
+        onSessionClicked = viewModel::onSessionClicked,
         onCreateSessionClicked = viewModel::onCreateSessionClicked,
         onCloseSessionClicked = viewModel::onCloseSessionClicked,
-        onBackClicked = { navController.popBackStack() }
+        onBackClicked = navController::popBackStack,
     )
 
     val activity = LocalActivity.current
@@ -111,7 +115,7 @@ internal fun TerminalScreen(
 @Composable
 private fun TerminalScreen(
     viewState: TerminalViewState,
-    onSessionClicked: () -> Unit = {},
+    onSessionClicked: (String) -> Unit = {},
     onCreateSessionClicked: () -> Unit = {},
     onCloseSessionClicked: (String) -> Unit = {},
     onBackClicked: () -> Unit = {},
@@ -181,8 +185,21 @@ private fun TerminalScreen(
                 .fillMaxSize()
                 .padding(contentPadding)
         ) {
-            val session = viewState.currentSession
+            val currentSession = viewState.currentSession
                 ?: return@ScaffoldSuite
+
+            TabLayout {
+                items(
+                    items = viewState.sessions,
+                    key = SessionModel::sessionId,
+                ) { sessionModel ->
+                    TabItem(
+                        title = sessionModel.sessionId.take(10),
+                        selected = sessionModel.sessionId == currentSession.sessionId,
+                        onClick = { onSessionClicked(sessionModel.sessionId) }
+                    )
+                }
+            }
 
             AndroidView(
                 factory = { terminalView },
@@ -192,10 +209,10 @@ private fun TerminalScreen(
                     .padding(contentPadding),
             )
 
-            LaunchedEffect(session.sessionId) {
-                terminalView.attachSession(session.session)
+            LaunchedEffect(currentSession.sessionId) {
+                terminalView.attachSession(currentSession.session)
 
-                session.commands.collect { command ->
+                currentSession.commands.collect { command ->
                     when (command) {
                         is TerminalCommand.Update -> {
                             terminalView.onScreenUpdated()
