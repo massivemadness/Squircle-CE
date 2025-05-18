@@ -116,6 +116,11 @@
     <string name="settings_sort_by_name">Сорт. по имени</string>
     <string name="settings_sort_by_size">Сорт. по размеру</string>
     <string name="settings_sort_by_date">Сорт. по дате</string>
+    <string name="settings_category_behavior">Поведение</string>
+    <string name="settings_terminal_cursor_blinking_title">Мигание курсора</string>
+    <string name="settings_terminal_cursor_blinking_subtitle">Переключатель мигания курсора в терминале</string>
+    <string name="settings_terminal_keep_screen_on_title">Не выключать экран</string>
+    <string name="settings_terminal_keep_screen_on_subtitle">Предотвращать переход устройства в спящий режим</string>
     <string name="settings_category_account">Аккаунт</string>
     <string name="settings_git_credentials_title">Учетные данные</string>
     <string name="settings_git_credentials_subtitle">Учетные данные для доступа к удалённым репозиториям</string>

@@ -80,6 +80,10 @@ class SettingsManager(private val context: Context) {
         const val KEY_FOLDERS_ON_TOP = "folders_on_top"
         const val KEY_SORT_MODE = "sort_mode"
 
+        // Terminal
+        const val KEY_TERMINAL_CURSOR_BLINKING = "terminal_cursor_blinking"
+        const val KEY_TERMINAL_KEEP_SCREEN_ON = "terminal_keep_screen_on"
+
         // Git
         const val KEY_GIT_CREDENTIALS_USERNAME = "git_credentials_username"
         const val KEY_GIT_CREDENTIALS_PASSWORD = "git_credentials_password"
@@ -206,6 +210,14 @@ class SettingsManager(private val context: Context) {
     var workspace: String
         get() = sharedPreferences.getString(KEY_WORKSPACE, "local") ?: "local"
         set(value) = sharedPreferences.edit().putString(KEY_WORKSPACE, value).apply()
+
+    var cursorBlinking: Boolean
+        get() = sharedPreferences.getBoolean(KEY_TERMINAL_CURSOR_BLINKING, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_TERMINAL_CURSOR_BLINKING, value).apply()
+    var keepScreenOn: Boolean
+        get() = sharedPreferences.getBoolean(KEY_TERMINAL_KEEP_SCREEN_ON, true)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_TERMINAL_KEEP_SCREEN_ON, value).apply()
+
     var gitCredentialsUsername: String
         get() = sharedPreferences.getString(KEY_GIT_CREDENTIALS_USERNAME, "") ?: ""
         set(value) = sharedPreferences.edit().putString(KEY_GIT_CREDENTIALS_USERNAME, value).apply()

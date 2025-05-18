@@ -35,6 +35,7 @@ internal class TerminalViewClientImpl(
     private val extraKeysView: ExtraKeysView,
     private val backgroundColor: Int,
     private val foregroundColor: Int,
+    private val cursorBlinking: Boolean,
 ) : TerminalViewClient {
 
     init {
@@ -117,7 +118,7 @@ internal class TerminalViewClientImpl(
                 mCurrentColors[TextStyle.COLOR_INDEX_CURSOR] = foregroundColor
             }
             terminalView.setTerminalCursorBlinkerRate(600)
-            terminalView.setTerminalCursorBlinkerState(true, true)
+            terminalView.setTerminalCursorBlinkerState(cursorBlinking, true)
         }
         terminalView.isInvisible = false
     }

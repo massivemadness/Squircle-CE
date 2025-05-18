@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.ui
+package com.blacksquircle.ui.feature.settings.ui.terminal
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 
 @Immutable
-internal data class TerminalViewState(
-    val sessions: List<SessionModel> = emptyList(),
-    val selectedSession: String? = null,
-    val cursorBlinking: Boolean = false,
-    val keepScreenOn: Boolean = false,
-) : ViewState {
-
-    val currentSession: SessionModel?
-        get() = sessions.find { it.sessionId == selectedSession }
-}
+internal data class TerminalHeaderViewState(
+    val cursorBlinking: Boolean,
+    val keepScreenOn: Boolean,
+) : ViewState

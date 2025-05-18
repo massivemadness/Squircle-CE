@@ -26,6 +26,7 @@ import com.blacksquircle.ui.feature.settings.api.navigation.EditorHeaderScreen
 import com.blacksquircle.ui.feature.settings.api.navigation.FilesHeaderScreen
 import com.blacksquircle.ui.feature.settings.api.navigation.GitHeaderScreen
 import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.TerminalHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.about.AboutHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.application.AppHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderScreen
@@ -33,6 +34,7 @@ import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.git.GitHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.header.HeaderListScreen
+import com.blacksquircle.ui.feature.settings.ui.terminal.TerminalHeaderScreen
 
 fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
     composable<HeaderListScreen> {
@@ -49,6 +51,9 @@ fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
     }
     composable<FilesHeaderScreen> {
         FilesHeaderScreen(navController)
+    }
+    composable<TerminalHeaderScreen> {
+        TerminalHeaderScreen(navController)
     }
     composable<GitHeaderScreen> {
         GitHeaderScreen(navController)

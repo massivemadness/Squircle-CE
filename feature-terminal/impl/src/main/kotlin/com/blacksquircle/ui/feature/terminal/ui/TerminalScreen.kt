@@ -17,6 +17,8 @@
 package com.blacksquircle.ui.feature.terminal.ui
 
 import android.graphics.Typeface
+import android.view.WindowManager
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,6 +26,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -57,7 +60,7 @@ import com.blacksquircle.ui.feature.terminal.ui.view.TerminalViewClientImpl
 import com.termux.view.TerminalView
 import com.blacksquircle.ui.ds.R as UiR
 
-/** Height of termux's ViewPager multiplied by 2 */
+/** Height of Termux's single row multiplied by 2 */
 private val EXTRA_KEYS_HEIGHT = 75.dp
 private const val EXTRA_KEYS_STYLE = "default"
 private const val EXTRA_KEYS_PROPERTIES = "[" +
@@ -81,6 +84,16 @@ internal fun TerminalScreen(
         onCloseSessionClicked = viewModel::onCloseSessionClicked,
         onBackClicked = { navController.popBackStack() }
     )
+
+    val activity = LocalActivity.current
+    DisposableEffect(viewState.keepScreenOn) {
+        if (viewState.keepScreenOn) {
+            activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+        onDispose {
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
 
     val context = LocalContext.current
     LaunchedEffect(Unit) {
@@ -137,6 +150,7 @@ private fun TerminalScreen(
                 extraKeysView = extraKeysView,
                 backgroundColor = backgroundColor,
                 foregroundColor = foregroundColor,
+                cursorBlinking = viewState.cursorBlinking,
             )
             setTerminalViewClient(viewClient)
         }
