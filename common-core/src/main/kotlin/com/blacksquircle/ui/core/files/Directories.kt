@@ -65,4 +65,13 @@ object Directories {
         }
         return directory
     }
+
+    /** /data/data/com.blacksquircle.ui/terminal */
+    fun terminalDir(context: Context): File {
+        val directory = File(context.dataDir, "terminal")
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+        return directory
+    }
 }

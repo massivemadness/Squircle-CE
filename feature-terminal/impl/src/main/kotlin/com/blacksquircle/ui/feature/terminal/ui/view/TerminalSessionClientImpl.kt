@@ -16,49 +16,27 @@
 
 package com.blacksquircle.ui.feature.terminal.ui.view
 
-import com.blacksquircle.ui.feature.terminal.ui.model.TerminalCommand
 import com.termux.terminal.TerminalEmulator
 import com.termux.terminal.TerminalSession
 import com.termux.terminal.TerminalSessionClient
-import kotlinx.coroutines.flow.MutableSharedFlow
 import timber.log.Timber
-import java.lang.Exception
 
 internal class TerminalSessionClientImpl(
-    private val commands: MutableSharedFlow<TerminalCommand>,
+    private val onUpdate: () -> Unit,
+    private val onCopy: (String) -> Unit,
+    private val onPaste: () -> Unit,
 ) : TerminalSessionClient {
 
-    override fun onTextChanged(changedSession: TerminalSession) {
-        commands.tryEmit(TerminalCommand.Update)
-    }
-    override fun onTitleChanged(changedSession: TerminalSession) {
-        commands.tryEmit(TerminalCommand.Update)
-    }
-
+    override fun onTextChanged(changedSession: TerminalSession) = onUpdate()
+    override fun onTitleChanged(changedSession: TerminalSession) = onUpdate()
     override fun onSessionFinished(finishedSession: TerminalSession) = Unit
-
-    override fun onCopyTextToClipboard(session: TerminalSession, text: String) {
-        commands.tryEmit(TerminalCommand.Copy(text))
-    }
-
-    override fun onPasteTextFromClipboard(session: TerminalSession?) {
-        commands.tryEmit(TerminalCommand.Paste)
-    }
-
+    override fun onCopyTextToClipboard(session: TerminalSession, text: String) = onCopy(text)
+    override fun onPasteTextFromClipboard(session: TerminalSession?) = onPaste()
     override fun onBell(session: TerminalSession) = Unit
-
-    override fun onColorsChanged(session: TerminalSession) {
-        commands.tryEmit(TerminalCommand.Update)
-    }
-    override fun onTerminalCursorStateChange(state: Boolean) {
-        commands.tryEmit(TerminalCommand.Update)
-    }
-
+    override fun onColorsChanged(session: TerminalSession) = onUpdate()
+    override fun onTerminalCursorStateChange(state: Boolean) = onUpdate()
     override fun setTerminalShellPid(session: TerminalSession, pid: Int) = Unit
-
-    override fun getTerminalCursorStyle(): Int {
-        return TerminalEmulator.DEFAULT_TERMINAL_CURSOR_STYLE
-    }
+    override fun getTerminalCursorStyle(): Int = TerminalEmulator.DEFAULT_TERMINAL_CURSOR_STYLE
 
     override fun logError(tag: String?, message: String?) {
         Timber.tag(tag.toString()).e(message)
