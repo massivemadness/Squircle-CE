@@ -61,7 +61,7 @@ import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.editor.compose.CodeEditor
-import com.blacksquircle.ui.feature.editor.ui.editor.compose.DocumentNavigation
+import com.blacksquircle.ui.feature.editor.ui.editor.compose.DocumentTabLayout
 import com.blacksquircle.ui.feature.editor.ui.editor.compose.EditorToolbar
 import com.blacksquircle.ui.feature.editor.ui.editor.compose.ErrorStatus
 import com.blacksquircle.ui.feature.editor.ui.editor.compose.ExtendedKeyboard
@@ -372,7 +372,7 @@ private fun EditorScreen(
                 .fillMaxSize()
                 .padding(contentPadding)
         ) {
-            DocumentNavigation(
+            DocumentTabLayout(
                 tabs = viewState.documents,
                 selectedIndex = viewState.selectedDocument,
                 onDocumentClicked = { onDocumentClicked(it.document) },

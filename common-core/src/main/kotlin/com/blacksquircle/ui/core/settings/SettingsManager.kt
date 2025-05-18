@@ -215,7 +215,7 @@ class SettingsManager(private val context: Context) {
         get() = sharedPreferences.getBoolean(KEY_TERMINAL_CURSOR_BLINKING, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_TERMINAL_CURSOR_BLINKING, value).apply()
     var keepScreenOn: Boolean
-        get() = sharedPreferences.getBoolean(KEY_TERMINAL_KEEP_SCREEN_ON, true)
+        get() = sharedPreferences.getBoolean(KEY_TERMINAL_KEEP_SCREEN_ON, false)
         set(value) = sharedPreferences.edit().putBoolean(KEY_TERMINAL_KEEP_SCREEN_ON, value).apply()
 
     var gitCredentialsUsername: String

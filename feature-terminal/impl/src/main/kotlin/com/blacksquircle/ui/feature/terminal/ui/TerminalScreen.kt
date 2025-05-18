@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.terminal.ui
 import android.graphics.Typeface
 import android.view.WindowManager
 import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -175,31 +176,37 @@ private fun TerminalScreen(
         },
         modifier = Modifier.imePadding()
     ) { contentPadding ->
-        val session = viewState.currentSession
-            ?: return@ScaffoldSuite
-
-        AndroidView(
-            factory = { terminalView },
-            update = { terminalView.onScreenUpdated() },
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(contentPadding),
-        )
+                .padding(contentPadding)
+        ) {
+            val session = viewState.currentSession
+                ?: return@ScaffoldSuite
 
-        LaunchedEffect(session.sessionId) {
-            terminalView.attachSession(session.session)
+            AndroidView(
+                factory = { terminalView },
+                update = { terminalView.onScreenUpdated() },
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding),
+            )
 
-            session.commands.collect { command ->
-                when (command) {
-                    is TerminalCommand.Update -> {
-                        terminalView.onScreenUpdated()
-                    }
-                    is TerminalCommand.Copy -> {
-                        context.copyText(command.text)
-                    }
-                    is TerminalCommand.Paste -> {
-                        val text = context.primaryClipText()
-                        terminalView.mEmulator?.paste(text)
+            LaunchedEffect(session.sessionId) {
+                terminalView.attachSession(session.session)
+
+                session.commands.collect { command ->
+                    when (command) {
+                        is TerminalCommand.Update -> {
+                            terminalView.onScreenUpdated()
+                        }
+                        is TerminalCommand.Copy -> {
+                            context.copyText(command.text)
+                        }
+                        is TerminalCommand.Paste -> {
+                            val text = context.primaryClipText()
+                            terminalView.mEmulator?.paste(text)
+                        }
                     }
                 }
             }
