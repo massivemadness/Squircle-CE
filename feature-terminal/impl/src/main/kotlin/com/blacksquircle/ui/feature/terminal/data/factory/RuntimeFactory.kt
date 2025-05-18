@@ -27,6 +27,6 @@ internal class RuntimeFactory(
 ) {
 
     fun create(): TerminalRuntime {
-        return AndroidRuntime(context)
+        return AndroidRuntime
     }
 }

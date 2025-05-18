@@ -22,54 +22,37 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.util.fastForEach
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.CleanupEffect
-import com.blacksquircle.ui.core.extensions.daggerViewModel
-import com.blacksquircle.ui.core.extensions.showToast
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.preference.PreferenceHeader
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
+import com.blacksquircle.ui.feature.servers.api.navigation.CloudScreen
 import com.blacksquircle.ui.feature.settings.R
+import com.blacksquircle.ui.feature.settings.api.navigation.AboutHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.AppHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.CodeStyleHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.EditorHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.FilesHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.GitHeaderScreen
 import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
-import com.blacksquircle.ui.feature.settings.ui.header.model.PreferenceHeader
+import com.blacksquircle.ui.feature.shortcuts.api.navigation.ShortcutsScreen
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun HeaderListScreen(
-    navController: NavController,
-    viewModel: HeaderListViewModel = daggerViewModel { context ->
-        val component = SettingsComponent.buildOrGet(context)
-        HeaderListViewModel.Factory().also(component::inject)
-    }
-) {
-    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+internal fun HeaderListScreen(navController: NavController) {
     HeaderListScreen(
-        viewState = viewState,
-        onBackClicked = viewModel::onBackClicked,
-        onHeaderClicked = viewModel::onHeaderClicked
+        onHeaderClicked = { screen ->
+            navController.navigate(screen)
+        },
+        onBackClicked = {
+            navController.popBackStack()
+        },
     )
-
-    val context = LocalContext.current
-    LaunchedEffect(Unit) {
-        viewModel.viewEvent.collect { event ->
-            when (event) {
-                is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
-            }
-        }
-    }
-
     CleanupEffect {
         SettingsComponent.release()
     }
@@ -77,9 +60,8 @@ internal fun HeaderListScreen(
 
 @Composable
 private fun HeaderListScreen(
-    viewState: HeaderListViewState,
     onBackClicked: () -> Unit = {},
-    onHeaderClicked: (PreferenceHeader) -> Unit = {},
+    onHeaderClicked: (Any) -> Unit = {},
 ) {
     ScaffoldSuite(
         topBar = {
@@ -96,13 +78,51 @@ private fun HeaderListScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(contentPadding),
         ) {
-            viewState.headers.fastForEach { header ->
-                PreferenceHeader(
-                    title = stringResource(header.title),
-                    subtitle = stringResource(header.subtitle),
-                    onClick = { onHeaderClicked(header) },
-                )
-            }
+            PreferenceHeader(
+                title = stringResource(R.string.settings_header_application_title),
+                subtitle = stringResource(R.string.settings_header_application_subtitle),
+                onClick = { onHeaderClicked(AppHeaderScreen) },
+            )
+            PreferenceHeader(
+                title = stringResource(R.string.settings_header_editor_title),
+                subtitle = stringResource(R.string.settings_header_editor_subtitle),
+                onClick = { onHeaderClicked(EditorHeaderScreen) },
+            )
+            PreferenceHeader(
+                title = stringResource(R.string.settings_header_codestyle_title),
+                subtitle = stringResource(R.string.settings_header_codestyle_subtitle),
+                onClick = { onHeaderClicked(CodeStyleHeaderScreen) },
+            )
+            PreferenceHeader(
+                title = stringResource(R.string.settings_header_files_title),
+                subtitle = stringResource(R.string.settings_header_files_subtitle),
+                onClick = { onHeaderClicked(FilesHeaderScreen) },
+            )
+            PreferenceHeader(
+                title = stringResource(R.string.settings_header_terminal_title),
+                subtitle = stringResource(R.string.settings_header_terminal_subtitle),
+                onClick = { /*onHeaderClicked(TerminalHeaderScreen)*/ },
+            )
+            PreferenceHeader(
+                title = stringResource(R.string.settings_header_keybindings_title),
+                subtitle = stringResource(R.string.settings_header_keybindings_subtitle),
+                onClick = { onHeaderClicked(ShortcutsScreen) },
+            )
+            PreferenceHeader(
+                title = stringResource(R.string.settings_header_cloud_title),
+                subtitle = stringResource(R.string.settings_header_cloud_subtitle),
+                onClick = { onHeaderClicked(CloudScreen) },
+            )
+            PreferenceHeader(
+                title = stringResource(R.string.settings_header_git_title),
+                subtitle = stringResource(R.string.settings_header_git_subtitle),
+                onClick = { onHeaderClicked(GitHeaderScreen) },
+            )
+            PreferenceHeader(
+                title = stringResource(R.string.settings_header_about_title),
+                subtitle = stringResource(R.string.settings_header_about_subtitle),
+                onClick = { onHeaderClicked(AboutHeaderScreen) },
+            )
         }
     }
 }
@@ -111,8 +131,6 @@ private fun HeaderListScreen(
 @Composable
 private fun HeaderListScreenPreview() {
     PreviewBackground {
-        HeaderListScreen(
-            viewState = HeaderListViewState(),
-        )
+        HeaderListScreen()
     }
 }

@@ -24,6 +24,8 @@
     <string name="settings_header_codestyle_subtitle">Настройте стиль кода</string>
     <string name="settings_header_files_title">Файлы</string>
     <string name="settings_header_files_subtitle">Настройте способ обработки файлов</string>
+    <string name="settings_header_terminal_title">Терминал</string>
+    <string name="settings_header_terminal_subtitle">Настройте терминал</string>
     <string name="settings_header_keybindings_title">Сочетания клавиш</string>
     <string name="settings_header_keybindings_subtitle">Настройте сочетания клавиш</string>
     <string name="settings_header_cloud_title">Облачное хранение</string>
