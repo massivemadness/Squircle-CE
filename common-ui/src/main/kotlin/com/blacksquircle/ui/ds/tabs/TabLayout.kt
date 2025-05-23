@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.ds.tabs
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
@@ -35,17 +35,26 @@ fun TabLayout(
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
     divider: Boolean = true,
+    leadingContent: @Composable (() -> Unit)? = null,
+    trailingContent: @Composable (() -> Unit)? = null,
     content: LazyListScope.() -> Unit,
 ) {
     Box(modifier) {
-        LazyRow(
-            state = state,
-            content = content,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(36.dp)
-                .zIndex(1f),
-        )
+        Row(Modifier.zIndex(1f)) {
+            if (leadingContent != null) {
+                leadingContent()
+            }
+            LazyRow(
+                state = state,
+                content = content,
+                modifier = Modifier
+                    .weight(1f)
+                    .height(36.dp)
+            )
+            if (trailingContent != null) {
+                trailingContent()
+            }
+        }
         if (divider) {
             HorizontalDivider(Modifier.align(Alignment.BottomCenter))
         }

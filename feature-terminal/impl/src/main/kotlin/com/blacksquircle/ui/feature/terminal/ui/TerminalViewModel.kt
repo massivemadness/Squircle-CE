@@ -51,7 +51,10 @@ internal class TerminalViewModel @Inject constructor(
     }
 
     fun onSessionClicked(sessionId: String) {
-        // TODO
+        selectedSession = sessionId
+        _viewState.update {
+            it.copy(selectedSession = selectedSession)
+        }
     }
 
     fun onCreateSessionClicked() {

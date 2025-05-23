@@ -20,6 +20,7 @@ import android.graphics.Typeface
 import android.view.WindowManager
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -50,6 +51,9 @@ import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.button.IconButton
+import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
+import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.tabs.TabItem
 import com.blacksquircle.ui.ds.tabs.TabLayout
@@ -188,7 +192,16 @@ private fun TerminalScreen(
             val currentSession = viewState.currentSession
                 ?: return@ScaffoldSuite
 
-            TabLayout {
+            TabLayout(
+                trailingContent = {
+                    IconButton(
+                        iconResId = UiR.drawable.ic_plus,
+                        onClick = onCreateSessionClicked,
+                        contentDescription = stringResource(R.string.terminal_menu_session_new),
+                        iconButtonSize = IconButtonSizeDefaults.XS,
+                    )
+                }
+            ) {
                 items(
                     items = viewState.sessions,
                     key = SessionModel::sessionId,
@@ -196,7 +209,18 @@ private fun TerminalScreen(
                     TabItem(
                         title = sessionModel.sessionId.take(10),
                         selected = sessionModel.sessionId == currentSession.sessionId,
-                        onClick = { onSessionClicked(sessionModel.sessionId) }
+                        paddingValues = PaddingValues(start = 12.dp),
+                        onClick = { onSessionClicked(sessionModel.sessionId) },
+                        trailingContent = {
+                            IconButton(
+                                iconResId = UiR.drawable.ic_close,
+                                iconButtonStyle = IconButtonStyleDefaults.Secondary,
+                                onClick = { onCloseSessionClicked(sessionModel.sessionId) },
+                                contentDescription = stringResource(R.string.terminal_menu_session_close),
+                                iconButtonSize = IconButtonSizeDefaults.XXS,
+                                modifier = Modifier.padding(horizontal = 8.dp)
+                            )
+                        },
                     )
                 }
             }
