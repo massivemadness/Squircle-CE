@@ -204,11 +204,15 @@ private fun TerminalScreen(
             ) {
                 items(
                     items = viewState.sessions,
-                    key = SessionModel::sessionId,
+                    key = SessionModel::id,
                 ) { sessionModel ->
                     TabItem(
-                        title = sessionModel.sessionId.take(10),
-                        selected = sessionModel.sessionId == currentSession.sessionId,
+                        title = if (sessionModel.ordinal > 0) {
+                            sessionModel.name + " (${sessionModel.ordinal})"
+                        } else {
+                            sessionModel.name
+                        },
+                        selected = sessionModel.id == currentSession.id,
                         paddingValues = PaddingValues(start = 12.dp),
                         onClick = { onSessionClicked(sessionModel) },
                         trailingContent = {
@@ -231,7 +235,7 @@ private fun TerminalScreen(
                 modifier = Modifier.fillMaxSize()
             )
 
-            LaunchedEffect(currentSession.sessionId) {
+            LaunchedEffect(currentSession.id) {
                 terminalView.attachSession(currentSession.session)
 
                 currentSession.commands.collect { command ->

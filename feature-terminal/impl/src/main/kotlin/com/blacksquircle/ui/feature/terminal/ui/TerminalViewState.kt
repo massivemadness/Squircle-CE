@@ -29,5 +29,5 @@ internal data class TerminalViewState(
 ) : ViewState {
 
     val currentSession: SessionModel?
-        get() = sessions.find { it.sessionId == selectedSession }
+        get() = sessions.find { it.id == selectedSession }
 }

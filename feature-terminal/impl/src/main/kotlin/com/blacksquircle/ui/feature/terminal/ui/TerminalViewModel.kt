@@ -51,7 +51,7 @@ internal class TerminalViewModel @Inject constructor(
     }
 
     fun onSessionClicked(sessionModel: SessionModel) {
-        selectedSession = sessionModel.sessionId
+        selectedSession = sessionModel.id
         _viewState.update {
             it.copy(selectedSession = selectedSession)
         }
@@ -68,7 +68,7 @@ internal class TerminalViewModel @Inject constructor(
     }
 
     fun onCloseSessionClicked(sessionModel: SessionModel) {
-        sessionManager.closeSession(sessionModel.sessionId)
+        sessionManager.closeSession(sessionModel.id)
         _viewState.update {
             it.copy(
                 sessions = sessionManager.sessions(),
@@ -85,7 +85,7 @@ internal class TerminalViewModel @Inject constructor(
             sessions = sessionManager.sessions()
         }
 
-        selectedSession = sessions.first().sessionId
+        selectedSession = sessions.first().id
 
         _viewState.update {
             it.copy(

@@ -21,7 +21,9 @@ import com.termux.terminal.TerminalSession
 import kotlinx.coroutines.flow.SharedFlow
 
 internal data class SessionModel(
-    val sessionId: String,
+    val id: String,
+    val name: String,
+    val ordinal: Int,
     val session: TerminalSession,
     val commands: SharedFlow<TerminalCommand>,
 )

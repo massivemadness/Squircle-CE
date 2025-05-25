@@ -24,13 +24,15 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicInteger
 
 internal class SessionManager(private val runtimeFactory: RuntimeFactory) {
 
     private val sessions = ConcurrentHashMap<String, SessionModel>()
+    private val counter = AtomicInteger(0)
 
     fun sessions(): List<SessionModel> {
-        return sessions.values.toList()
+        return sessions.values.sortedBy(SessionModel::ordinal)
     }
 
     fun createSession(): String {
@@ -43,7 +45,9 @@ internal class SessionManager(private val runtimeFactory: RuntimeFactory) {
             onPaste = { commands.tryEmit(TerminalCommand.Paste) }
         )
         sessions[sessionId] = SessionModel(
-            sessionId = sessionId,
+            id = sessionId,
+            name = DEFAULT_NAME,
+            ordinal = counter.getAndIncrement(),
             session = runtime.create(client),
             commands = commands.asSharedFlow(),
         )
@@ -56,5 +60,9 @@ internal class SessionManager(private val runtimeFactory: RuntimeFactory) {
             terminalSession.finishIfRunning()
         }
         sessions.remove(sessionId)
+    }
+
+    companion object {
+        private const val DEFAULT_NAME = "Local"
     }
 }
