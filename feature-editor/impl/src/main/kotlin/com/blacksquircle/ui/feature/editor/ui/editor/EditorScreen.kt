@@ -25,6 +25,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.DrawerValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -97,11 +99,13 @@ internal fun EditorScreen(
     val scope = rememberCoroutineScope()
     val editorController = rememberEditorController()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val tabsState = rememberLazyListState()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     EditorScreen(
         viewState = viewState,
         drawerState = drawerState,
+        tabsState = tabsState,
         editorController = editorController,
         onDrawerClicked = {
             scope.launch {
@@ -191,6 +195,9 @@ internal fun EditorScreen(
                         activity?.finish()
                     }
                 }
+                is EditorViewEvent.ScrollToEnd -> {
+                    tabsState.animateScrollToItem(viewState.documents.size)
+                }
                 is EditorViewEvent.CreateFileContract -> {
                     newFileContract.launch(defaultFileName)
                 }
@@ -263,6 +270,7 @@ private fun EditorScreen(
     viewState: EditorViewState,
     editorController: EditorController,
     drawerState: DrawerState,
+    tabsState: LazyListState,
     onDrawerClicked: () -> Unit = {},
     onNewFileClicked: () -> Unit = {},
     onOpenFileClicked: () -> Unit = {},
@@ -375,6 +383,7 @@ private fun EditorScreen(
             DocumentTabLayout(
                 tabs = viewState.documents,
                 selectedIndex = viewState.selectedDocument,
+                state = tabsState,
                 onDocumentClicked = { onDocumentClicked(it.document) },
                 onDocumentMoved = onDocumentMoved,
                 onCloseClicked = { onCloseClicked(it.document) },
@@ -480,7 +489,8 @@ private fun EditorScreenPreview() {
                 isLoading = true,
             ),
             editorController = rememberEditorController(),
-            drawerState = rememberDrawerState(DrawerValue.Closed)
+            drawerState = rememberDrawerState(DrawerValue.Closed),
+            tabsState = rememberLazyListState(),
         )
     }
 }

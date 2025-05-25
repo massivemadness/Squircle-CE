@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.editor
+package com.blacksquircle.ui.feature.terminal.ui
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorCommand
 
-internal sealed class EditorViewEvent : ViewEvent {
-
-    data object ScrollToEnd : EditorViewEvent()
-
-    data object CreateFileContract : EditorViewEvent()
-    data object OpenFileContract : EditorViewEvent()
-    data class SaveAsFileContract(val fileName: String) : EditorViewEvent()
-
-    data class Command(val command: EditorCommand) : EditorViewEvent()
+internal sealed class TerminalViewEvent : ViewEvent {
+    data object ScrollToEnd : TerminalViewEvent()
 }

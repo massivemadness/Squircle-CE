@@ -27,7 +27,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -86,8 +88,11 @@ internal fun TerminalScreen(
     }
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+    val tabsState = rememberLazyListState()
+
     TerminalScreen(
         viewState = viewState,
+        tabsState = tabsState,
         onSessionClicked = viewModel::onSessionClicked,
         onCreateSessionClicked = viewModel::onCreateSessionClicked,
         onCloseSessionClicked = viewModel::onCloseSessionClicked,
@@ -111,6 +116,9 @@ internal fun TerminalScreen(
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
+                is TerminalViewEvent.ScrollToEnd -> {
+                    tabsState.animateScrollToItem(viewState.sessions.size)
+                }
             }
         }
     }
@@ -119,6 +127,7 @@ internal fun TerminalScreen(
 @Composable
 private fun TerminalScreen(
     viewState: TerminalViewState,
+    tabsState: LazyListState,
     onSessionClicked: (SessionModel) -> Unit = {},
     onCreateSessionClicked: () -> Unit = {},
     onCloseSessionClicked: (SessionModel) -> Unit = {},
@@ -193,6 +202,7 @@ private fun TerminalScreen(
                 ?: return@ScaffoldSuite
 
             TabLayout(
+                state = tabsState,
                 trailingContent = {
                     IconButton(
                         iconResId = UiR.drawable.ic_plus,
@@ -266,6 +276,7 @@ private fun TerminalScreenPreview() {
                 sessions = emptyList(),
                 selectedSession = null,
             ),
+            tabsState = rememberLazyListState()
         )
     }
 }

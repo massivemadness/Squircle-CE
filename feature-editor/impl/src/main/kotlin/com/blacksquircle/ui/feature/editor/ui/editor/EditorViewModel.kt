@@ -1229,6 +1229,10 @@ internal class EditorViewModel @Inject constructor(
                     )
                 }
 
+                if (existingIndex == -1) {
+                    _viewEvent.send(EditorViewEvent.ScrollToEnd)
+                }
+
                 val content = documentRepository.loadDocument(document)
                 languageInteractor.registerGrammar(document.language)
                 ensureActive()

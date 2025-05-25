@@ -62,6 +62,10 @@ internal class TerminalViewModel @Inject constructor(
         selectedSession = sessionManager.createSession()
         sessions = sessionManager.sessions()
         updateViewState()
+
+        viewModelScope.launch {
+            _viewEvent.send(TerminalViewEvent.ScrollToEnd)
+        }
     }
 
     @Suppress("KotlinConstantConditions")
@@ -74,7 +78,6 @@ internal class TerminalViewModel @Inject constructor(
                 removedPosition + 1 < sessions.size -> removedPosition
                 else -> -1
             }
-
             removedPosition < selectedPosition -> selectedPosition - 1
             removedPosition > selectedPosition -> selectedPosition
             else -> -1

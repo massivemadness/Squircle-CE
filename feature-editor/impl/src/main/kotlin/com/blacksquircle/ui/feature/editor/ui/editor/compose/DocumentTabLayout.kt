@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.editor.ui.editor.compose
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
@@ -37,6 +38,7 @@ private const val IdleAlpha = 1.0f
 internal fun DocumentTabLayout(
     tabs: List<DocumentState>,
     modifier: Modifier = Modifier,
+    state: LazyListState = rememberLazyListState(),
     onDocumentClicked: (DocumentState) -> Unit = {},
     onDocumentMoved: (from: Int, to: Int) -> Unit = { _, _ -> },
     onCloseClicked: (DocumentState) -> Unit = {},
@@ -44,15 +46,14 @@ internal fun DocumentTabLayout(
     onCloseAllClicked: () -> Unit = {},
     selectedIndex: Int = -1,
 ) {
-    val lazyListState = rememberLazyListState()
     val reorderHapticFeedback = rememberReorderHapticFeedback()
-    val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
+    val reorderableLazyListState = rememberReorderableLazyListState(state) { from, to ->
         onDocumentMoved(from.index, to.index)
         reorderHapticFeedback.perform(ReorderHapticFeedbackType.MOVE)
     }
 
     TabLayout(
-        state = lazyListState,
+        state = state,
         modifier = modifier,
     ) {
         itemsIndexed(
