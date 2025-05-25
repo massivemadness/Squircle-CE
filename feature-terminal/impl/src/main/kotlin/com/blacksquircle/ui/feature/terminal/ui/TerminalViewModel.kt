@@ -18,6 +18,8 @@ package com.blacksquircle.ui.feature.terminal.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.terminal.data.manager.SessionManager
@@ -29,6 +31,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -52,26 +55,49 @@ internal class TerminalViewModel @Inject constructor(
 
     fun onSessionClicked(sessionModel: SessionModel) {
         selectedSession = sessionModel.id
-        _viewState.update {
-            it.copy(selectedSession = selectedSession)
-        }
+        updateViewState()
     }
 
     fun onCreateSessionClicked() {
         selectedSession = sessionManager.createSession()
-        _viewState.update {
-            it.copy(
-                sessions = sessionManager.sessions(),
-                selectedSession = selectedSession,
-            )
+        sessions = sessionManager.sessions()
+        updateViewState()
+    }
+
+    @Suppress("KotlinConstantConditions")
+    fun onCloseSessionClicked(sessionModel: SessionModel) {
+        val selectedPosition = sessions.indexOf { it.id == selectedSession }
+        val removedPosition = sessions.indexOf { it.id == sessionModel.id }
+        val currentPosition = when {
+            removedPosition == selectedPosition -> when {
+                removedPosition - 1 > -1 -> removedPosition - 1
+                removedPosition + 1 < sessions.size -> removedPosition
+                else -> -1
+            }
+
+            removedPosition < selectedPosition -> selectedPosition - 1
+            removedPosition > selectedPosition -> selectedPosition
+            else -> -1
+        }
+
+        sessions = sessions.filter { it.id != sessionModel.id }
+        selectedSession = sessions.getOrNull(currentPosition)?.id
+
+        sessionManager.closeSession(sessionModel.id)
+
+        if (sessions.isEmpty()) {
+            viewModelScope.launch {
+                _viewEvent.send(ViewEvent.PopBackStack)
+            }
+        } else {
+            updateViewState()
         }
     }
 
-    fun onCloseSessionClicked(sessionModel: SessionModel) {
-        sessionManager.closeSession(sessionModel.id)
+    private fun updateViewState() {
         _viewState.update {
             it.copy(
-                sessions = sessionManager.sessions(),
+                sessions = sessions,
                 selectedSession = selectedSession,
             )
         }
