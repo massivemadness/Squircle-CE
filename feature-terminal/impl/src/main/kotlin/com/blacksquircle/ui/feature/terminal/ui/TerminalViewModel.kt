@@ -18,10 +18,10 @@ package com.blacksquircle.ui.feature.terminal.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.terminal.domain.repository.SessionRepository
+import com.blacksquircle.ui.feature.terminal.data.manager.SessionManager
+import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,13 +29,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
 internal class TerminalViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
-    private val sessionRepository: SessionRepository,
+    private val sessionManager: SessionManager,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(TerminalViewState())
@@ -44,46 +43,57 @@ internal class TerminalViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
+    private var sessions = emptyList<SessionModel>()
     private var selectedSession: String? = null
 
     init {
         loadSessions()
     }
 
-    fun onSessionClicked(sessionId: String) {
-        selectedSession = sessionId
+    fun onSessionClicked(sessionModel: SessionModel) {
+        selectedSession = sessionModel.sessionId
         _viewState.update {
             it.copy(selectedSession = selectedSession)
         }
     }
 
     fun onCreateSessionClicked() {
-        sessionRepository.createSession()
+        selectedSession = sessionManager.createSession()
+        _viewState.update {
+            it.copy(
+                sessions = sessionManager.sessions(),
+                selectedSession = selectedSession,
+            )
+        }
     }
 
-    fun onCloseSessionClicked(sessionId: String) {
-        sessionRepository.closeSession(sessionId)
+    fun onCloseSessionClicked(sessionModel: SessionModel) {
+        sessionManager.closeSession(sessionModel.sessionId)
+        _viewState.update {
+            it.copy(
+                sessions = sessionManager.sessions(),
+                selectedSession = selectedSession,
+            )
+        }
     }
 
     private fun loadSessions() {
-        viewModelScope.launch {
-            sessionRepository.sessionFlow.collect { sessions ->
-                if (sessions.isEmpty()) {
-                    sessionRepository.createSession()
-                    return@collect
-                }
-                if (sessions.none { it.sessionId == selectedSession }) {
-                    selectedSession = sessions.first().sessionId
-                }
-                _viewState.update {
-                    it.copy(
-                        sessions = sessions,
-                        selectedSession = selectedSession,
-                        cursorBlinking = settingsManager.cursorBlinking,
-                        keepScreenOn = settingsManager.keepScreenOn,
-                    )
-                }
-            }
+        sessions = sessionManager.sessions()
+
+        if (sessions.isEmpty()) {
+            sessionManager.createSession()
+            sessions = sessionManager.sessions()
+        }
+
+        selectedSession = sessions.first().sessionId
+
+        _viewState.update {
+            it.copy(
+                sessions = sessions,
+                selectedSession = selectedSession,
+                cursorBlinking = settingsManager.cursorBlinking,
+                keepScreenOn = settingsManager.keepScreenOn,
+            )
         }
     }
 

@@ -119,9 +119,9 @@ internal fun TerminalScreen(
 @Composable
 private fun TerminalScreen(
     viewState: TerminalViewState,
-    onSessionClicked: (String) -> Unit = {},
+    onSessionClicked: (SessionModel) -> Unit = {},
     onCreateSessionClicked: () -> Unit = {},
-    onCloseSessionClicked: (String) -> Unit = {},
+    onCloseSessionClicked: (SessionModel) -> Unit = {},
     onBackClicked: () -> Unit = {},
 ) {
     val context = LocalContext.current
@@ -210,12 +210,12 @@ private fun TerminalScreen(
                         title = sessionModel.sessionId.take(10),
                         selected = sessionModel.sessionId == currentSession.sessionId,
                         paddingValues = PaddingValues(start = 12.dp),
-                        onClick = { onSessionClicked(sessionModel.sessionId) },
+                        onClick = { onSessionClicked(sessionModel) },
                         trailingContent = {
                             IconButton(
                                 iconResId = UiR.drawable.ic_close,
                                 iconButtonStyle = IconButtonStyleDefaults.Secondary,
-                                onClick = { onCloseSessionClicked(sessionModel.sessionId) },
+                                onClick = { onCloseSessionClicked(sessionModel) },
                                 contentDescription = stringResource(R.string.terminal_menu_session_close),
                                 iconButtonSize = IconButtonSizeDefaults.XXS,
                                 modifier = Modifier.padding(horizontal = 8.dp)

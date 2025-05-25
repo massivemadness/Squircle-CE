@@ -20,23 +20,11 @@ import android.content.Context
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.terminal.data.factory.RuntimeFactory
 import com.blacksquircle.ui.feature.terminal.data.manager.SessionManager
-import com.blacksquircle.ui.feature.terminal.data.repository.SessionRepositoryImpl
-import com.blacksquircle.ui.feature.terminal.domain.repository.SessionRepository
 import dagger.Module
 import dagger.Provides
 
 @Module
 internal object TerminalModule {
-
-    @Provides
-    @TerminalScope
-    fun provideSessionRepository(
-        sessionManager: SessionManager,
-    ): SessionRepository {
-        return SessionRepositoryImpl(
-            sessionManager = sessionManager,
-        )
-    }
 
     @Provides
     @TerminalScope
