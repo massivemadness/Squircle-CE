@@ -41,11 +41,6 @@ internal class SessionRepositoryImpl(
         updateSessionList()
     }
 
-    override fun closeAllSessions() {
-        sessionManager.closeAllSessions()
-        updateSessionList()
-    }
-
     private fun updateSessionList() {
         _sessionFlow.value = sessionManager.sessions()
     }

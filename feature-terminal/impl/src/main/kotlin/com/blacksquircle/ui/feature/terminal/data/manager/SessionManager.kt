@@ -51,14 +51,10 @@ internal class SessionManager(private val runtimeFactory: RuntimeFactory) {
     }
 
     fun closeSession(sessionId: String) {
-        sessions[sessionId]?.session?.finishIfRunning()
-        sessions.remove(sessionId)
-    }
-
-    fun closeAllSessions() {
-        sessions.forEach { (_, session) ->
-            session.session.finishIfRunning()
+        val terminalSession = sessions[sessionId]?.session ?: return
+        if (terminalSession.pid > 0) {
+            terminalSession.finishIfRunning()
         }
-        sessions.clear()
+        sessions.remove(sessionId)
     }
 }

@@ -65,10 +65,6 @@ internal class TerminalViewModel @Inject constructor(
         sessionRepository.closeSession(sessionId)
     }
 
-    fun onCloseAllSessionsClicked() {
-        sessionRepository.closeAllSessions()
-    }
-
     private fun loadSessions() {
         viewModelScope.launch {
             sessionRepository.sessionFlow.collect { sessions ->

@@ -25,5 +25,4 @@ internal interface SessionRepository {
 
     fun createSession(): String
     fun closeSession(sessionId: String)
-    fun closeAllSessions()
 }

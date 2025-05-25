@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.terminal.ui.model
 
 internal sealed class TerminalCommand {
     data object Update : TerminalCommand()
-
     data class Copy(val text: String) : TerminalCommand()
     data object Paste : TerminalCommand()
 }
