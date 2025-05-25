@@ -60,6 +60,10 @@ internal class SessionManager(private val runtimeFactory: RuntimeFactory) {
             terminalSession.finishIfRunning()
         }
         sessions.remove(sessionId)
+
+        if (sessions.isEmpty()) {
+            counter.set(0)
+        }
     }
 
     companion object {
