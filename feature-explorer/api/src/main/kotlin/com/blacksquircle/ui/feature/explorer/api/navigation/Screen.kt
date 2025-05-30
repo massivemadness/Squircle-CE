@@ -66,3 +66,6 @@ data class DeleteWorkspaceDialog(val uuid: String, val name: String)
 
 @Serializable
 data object LocalWorkspaceDialog
+
+@Serializable
+data object TerminalWorkspaceDialog

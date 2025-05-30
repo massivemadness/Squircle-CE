@@ -86,12 +86,17 @@
     <string name="explorer_workspace_add_dialog_title">Add Workspace</string>
     <string name="explorer_workspace_delete_dialog_message">Are you sure you want to delete this workspace?</string>
     <string name="explorer_workspace_local_dialog_input_label">Enter directory path</string>
+    <string name="explorer_workspace_terminal_dialog_title">Attention</string>
+    <string name="explorer_workspace_terminal_dialog_message">Content of this folder will be deleted if you uninstall the app or clear app data</string>
     <string name="explorer_workspace_local_storage_title">Local Directory</string>
     <string name="explorer_workspace_local_storage_description">Open a folder using absolute path</string>
     <string name="explorer_workspace_internal_storage_title">Internal Storage</string>
     <string name="explorer_workspace_internal_storage_description">Open a folder using system app</string>
     <string name="explorer_workspace_remote_server_title">Remote Server</string>
     <string name="explorer_workspace_remote_server_description">Connect to a remote server with address and user credentials</string>
+    <string name="explorer_workspace_terminal_home_title">Terminal Home</string>
+    <string name="explorer_workspace_terminal_home_description">Open terminal home directory</string>
+    <string name="explorer_workspace_button_terminal">Terminal</string>
     <string name="explorer_workspace_button_add">Add</string>
     <string name="explorer_toast_select_folder_to_paste">Select folder to paste</string>
     <string name="explorer_toast_file_cannot_be_opened">File cannot be opened</string>
