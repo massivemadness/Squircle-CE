@@ -50,12 +50,12 @@ import com.blacksquircle.ui.feature.explorer.data.node.findNodeByKey
 import com.blacksquircle.ui.feature.explorer.data.node.findParentKey
 import com.blacksquircle.ui.feature.explorer.data.node.removeNode
 import com.blacksquircle.ui.feature.explorer.data.node.updateNode
-import com.blacksquircle.ui.feature.explorer.data.utils.LOCAL_WORKSPACE_ID
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
@@ -72,8 +72,6 @@ import com.blacksquircle.ui.filesystem.base.exception.SplitArchiveException
 import com.blacksquircle.ui.filesystem.base.exception.UnsupportedArchiveException
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileType
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
-import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -191,19 +189,16 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onDeleteWorkspaceClicked(workspace: WorkspaceModel) {
         viewModelScope.launch {
-            when (workspace.filesystemType) {
-                FilesystemType.LOCAL -> {
-                    if (workspace.uuid != LOCAL_WORKSPACE_ID) {
-                        val screen = DeleteWorkspaceDialog(workspace.uuid, workspace.name)
-                        _viewEvent.send(ViewEvent.Navigation(screen))
-                    }
+            when (workspace.workspaceType) {
+                WorkspaceType.CUSTOM -> {
+                    val screen = DeleteWorkspaceDialog(workspace.uuid, workspace.name)
+                    _viewEvent.send(ViewEvent.Navigation(screen))
                 }
-                FilesystemType.ROOT,
-                FilesystemType.TERMINAL -> Unit
-                FilesystemType.SERVER -> {
+                WorkspaceType.SERVER -> {
                     val screen = ServerDialog(workspace.uuid)
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 }
+                else -> Unit
             }
         }
     }
@@ -567,7 +562,7 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val terminalWorkspace = workspaces.find { workspace ->
-                    workspace.filesystemType == FilesystemType.TERMINAL
+                    workspace.workspaceType == WorkspaceType.TERMINAL
                 }
                 if (terminalWorkspace != null) {
                     onWorkspaceClicked(terminalWorkspace)

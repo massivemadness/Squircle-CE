@@ -21,8 +21,8 @@ import android.os.Environment
 import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 
@@ -34,7 +34,7 @@ internal fun Context.createLocalWorkspace(): WorkspaceModel {
     return WorkspaceModel(
         uuid = LOCAL_WORKSPACE_ID,
         name = getString(R.string.explorer_workspace_button_local),
-        filesystemType = FilesystemType.LOCAL,
+        workspaceType = WorkspaceType.LOCAL,
         defaultLocation = FileModel(
             fileUri = LocalFilesystem.LOCAL_SCHEME +
                 Environment.getExternalStorageDirectory().absolutePath,
@@ -48,7 +48,7 @@ internal fun Context.createRootWorkspace(): WorkspaceModel {
     return WorkspaceModel(
         uuid = ROOT_WORKSPACE_ID,
         name = getString(R.string.explorer_workspace_button_root),
-        filesystemType = FilesystemType.ROOT,
+        workspaceType = WorkspaceType.ROOT,
         defaultLocation = FileModel(
             fileUri = RootFilesystem.ROOT_SCHEME,
             filesystemUuid = RootFilesystem.ROOT_UUID,
@@ -61,7 +61,7 @@ internal fun Context.createTerminalWorkspace(): WorkspaceModel {
     return WorkspaceModel(
         uuid = TERMINAL_WORKSPACE_ID,
         name = getString(R.string.explorer_workspace_button_terminal),
-        filesystemType = FilesystemType.TERMINAL,
+        workspaceType = WorkspaceType.TERMINAL,
         defaultLocation = FileModel(
             fileUri = LocalFilesystem.LOCAL_SCHEME +
                 Directories.terminalDir(this).absolutePath,

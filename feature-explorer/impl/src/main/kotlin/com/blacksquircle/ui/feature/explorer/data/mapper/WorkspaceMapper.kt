@@ -18,8 +18,8 @@ package com.blacksquircle.ui.feature.explorer.data.mapper
 
 import com.blacksquircle.ui.core.database.entity.workspace.WorkspaceEntity
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import java.io.File
 
@@ -29,7 +29,7 @@ internal object WorkspaceMapper {
         return WorkspaceModel(
             uuid = workspaceEntity.uuid,
             name = workspaceEntity.name,
-            filesystemType = FilesystemType.of(workspaceEntity.type),
+            workspaceType = WorkspaceType.of(workspaceEntity.type),
             defaultLocation = FileModel(
                 fileUri = workspaceEntity.fileUri,
                 filesystemUuid = workspaceEntity.filesystemUuid,
@@ -45,7 +45,7 @@ internal object WorkspaceMapper {
         return WorkspaceModel(
             uuid = serverConfig.uuid,
             name = serverConfig.name,
-            filesystemType = FilesystemType.SERVER,
+            workspaceType = WorkspaceType.SERVER,
             defaultLocation = FileModel(
                 fileUri = fileUri,
                 filesystemUuid = serverConfig.uuid,
@@ -58,7 +58,7 @@ internal object WorkspaceMapper {
         return WorkspaceEntity(
             uuid = workspace.uuid,
             name = workspace.name,
-            type = workspace.filesystemType.value,
+            type = workspace.workspaceType.value,
             fileUri = workspace.defaultLocation.fileUri,
             filesystemUuid = workspace.defaultLocation.filesystemUuid,
         )

@@ -44,15 +44,15 @@ import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SelectionMenu
 import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SortingMenu
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ExplorerToolbar(
-    filesystemType: FilesystemType,
+    workspaceType: WorkspaceType,
     searchQuery: String,
     selectedNodes: List<FileNode>,
     showHidden: Boolean,
@@ -141,7 +141,7 @@ internal fun ExplorerToolbar(
             }
 
             if (selectionMode) {
-                if (filesystemType.isLocal()) {
+                if (workspaceType.isLocal()) {
                     IconButton(
                         iconResId = UiR.drawable.ic_copy,
                         onClick = onCopyClicked,
@@ -163,7 +163,7 @@ internal fun ExplorerToolbar(
                     if (selectionMode) {
                         SelectionMenu(
                             count = selectedNodes.size,
-                            filesystemType = filesystemType,
+                            workspaceType = workspaceType,
                             expanded = menuExpanded,
                             onDismiss = { menuExpanded = false },
                             onCutClicked = { menuExpanded = false; onCutClicked() },
@@ -207,7 +207,7 @@ internal fun ExplorerToolbar(
 private fun ExplorerToolbarPreview() {
     PreviewBackground {
         ExplorerToolbar(
-            filesystemType = FilesystemType.LOCAL,
+            workspaceType = WorkspaceType.LOCAL,
             searchQuery = "",
             selectedNodes = emptyList(),
             showHidden = true,

@@ -36,13 +36,13 @@ import com.blacksquircle.ui.feature.explorer.data.utils.createTerminalWorkspace
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.scottyab.rootbeer.RootBeer
@@ -106,7 +106,7 @@ internal class ExplorerRepositoryImpl(
             val workspace = WorkspaceModel(
                 uuid = UUID.randomUUID().toString(),
                 name = defaultLocation.name,
-                filesystemType = FilesystemType.LOCAL,
+                workspaceType = WorkspaceType.CUSTOM,
                 defaultLocation = defaultLocation,
             )
             val workspaceEntity = WorkspaceMapper.toEntity(workspace)
@@ -116,9 +116,6 @@ internal class ExplorerRepositoryImpl(
 
     override suspend fun deleteWorkspace(uuid: String) {
         withContext(dispatcherProvider.io()) {
-            if (uuid == LocalFilesystem.LOCAL_UUID) {
-                return@withContext
-            }
             workspaceDao.delete(uuid)
         }
     }

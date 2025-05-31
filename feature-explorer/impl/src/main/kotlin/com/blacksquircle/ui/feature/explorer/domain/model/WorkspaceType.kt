@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.filesystem.base.model
+package com.blacksquircle.ui.feature.explorer.domain.model
 
-enum class FilesystemType(val value: String) {
+enum class WorkspaceType(val value: String) {
     LOCAL("local"),
     ROOT("root"),
     TERMINAL("terminal"),
+    CUSTOM("custom"),
     SERVER("server");
 
-    fun isLocal(): Boolean = this == LOCAL || this == TERMINAL
+    fun isLocal(): Boolean = this == LOCAL || this == TERMINAL || this == CUSTOM
 
     companion object {
 
-        fun of(value: String): FilesystemType {
+        fun of(value: String): WorkspaceType {
             return entries.find { it.value == value } ?: LOCAL
         }
     }

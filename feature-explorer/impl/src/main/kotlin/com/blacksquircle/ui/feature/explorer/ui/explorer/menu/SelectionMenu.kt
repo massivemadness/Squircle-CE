@@ -23,12 +23,12 @@ import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 
 @Composable
 internal fun SelectionMenu(
     count: Int,
-    filesystemType: FilesystemType,
+    workspaceType: WorkspaceType,
     expanded: Boolean,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
@@ -48,10 +48,10 @@ internal fun SelectionMenu(
         PopupMenuItem(
             title = stringResource(android.R.string.cut),
             onClick = onCutClicked,
-            enabled = filesystemType.isLocal(),
+            enabled = workspaceType.isLocal(),
         )
         if (count == 1) {
-            if (filesystemType != FilesystemType.SERVER) {
+            if (workspaceType != WorkspaceType.SERVER) {
                 PopupMenuItem(
                     title = stringResource(R.string.explorer_menu_selection_open_with),
                     onClick = onOpenWithClicked,
@@ -73,7 +73,7 @@ internal fun SelectionMenu(
         PopupMenuItem(
             title = stringResource(R.string.explorer_menu_selection_compress),
             onClick = onCompressClicked,
-            enabled = filesystemType.isLocal(),
+            enabled = workspaceType.isLocal(),
         )
     }
 }

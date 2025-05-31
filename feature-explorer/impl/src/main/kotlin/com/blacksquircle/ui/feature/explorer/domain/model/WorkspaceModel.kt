@@ -17,11 +17,10 @@
 package com.blacksquircle.ui.feature.explorer.domain.model
 
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 
 internal data class WorkspaceModel(
     val uuid: String,
     val name: String,
-    val filesystemType: FilesystemType,
+    val workspaceType: WorkspaceType,
     val defaultLocation: FileModel,
 )

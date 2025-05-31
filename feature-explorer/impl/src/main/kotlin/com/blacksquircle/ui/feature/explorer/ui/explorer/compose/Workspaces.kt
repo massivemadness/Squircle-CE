@@ -32,7 +32,7 @@ import androidx.compose.ui.util.fastForEach
 import com.blacksquircle.ui.ds.navigationitem.NavigationItem
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -54,11 +54,12 @@ internal fun Workspaces(
     ) {
         workspaces.fastForEach { workspace ->
             NavigationItem(
-                iconResId = when (workspace.filesystemType) {
-                    FilesystemType.LOCAL -> UiR.drawable.ic_folder
-                    FilesystemType.ROOT -> UiR.drawable.ic_folder_pound
-                    FilesystemType.TERMINAL -> UiR.drawable.ic_console
-                    FilesystemType.SERVER -> UiR.drawable.ic_server_network
+                iconResId = when (workspace.workspaceType) {
+                    WorkspaceType.LOCAL -> UiR.drawable.ic_folder
+                    WorkspaceType.ROOT -> UiR.drawable.ic_folder_pound
+                    WorkspaceType.TERMINAL -> UiR.drawable.ic_console
+                    WorkspaceType.CUSTOM -> UiR.drawable.ic_folder
+                    WorkspaceType.SERVER -> UiR.drawable.ic_server_network
                 },
                 label = workspace.name,
                 selected = workspace == selectedWorkspace,
