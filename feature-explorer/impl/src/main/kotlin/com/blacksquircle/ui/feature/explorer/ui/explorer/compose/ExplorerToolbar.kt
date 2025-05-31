@@ -141,7 +141,7 @@ internal fun ExplorerToolbar(
             }
 
             if (selectionMode) {
-                if (filesystemType == FilesystemType.LOCAL) {
+                if (filesystemType.isLocal()) {
                     IconButton(
                         iconResId = UiR.drawable.ic_copy,
                         onClick = onCopyClicked,

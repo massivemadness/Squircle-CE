@@ -73,6 +73,7 @@ internal const val KEY_CREATE_FOLDER = "KEY_CREATE_FOLDER"
 internal const val KEY_CLONE_REPO = "KEY_CLONE_REPO"
 internal const val KEY_RENAME_FILE = "KEY_RENAME_FILE"
 internal const val KEY_DELETE_FILE = "KEY_DELETE_FILE"
+internal const val KEY_SHOW_TERMINAL = "KEY_SHOW_TERMINAL"
 
 internal const val ARG_USER_INPUT = "ARG_USER_INPUT"
 
@@ -175,6 +176,9 @@ internal fun ExplorerScreen(
     NavResultEffect(KEY_COMPRESS_FILE) { bundle ->
         val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
         viewModel.compressFiles(fileName)
+    }
+    NavResultEffect(KEY_SHOW_TERMINAL) {
+        viewModel.showTerminalWorkspace()
     }
 
     CleanupEffect {

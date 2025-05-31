@@ -50,6 +50,7 @@ import com.blacksquircle.ui.feature.explorer.data.node.findNodeByKey
 import com.blacksquircle.ui.feature.explorer.data.node.findParentKey
 import com.blacksquircle.ui.feature.explorer.data.node.removeNode
 import com.blacksquircle.ui.feature.explorer.data.node.updateNode
+import com.blacksquircle.ui.feature.explorer.data.utils.LOCAL_WORKSPACE_ID
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
@@ -192,12 +193,13 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             when (workspace.filesystemType) {
                 FilesystemType.LOCAL -> {
-                    if (workspace.uuid != LocalFilesystem.LOCAL_UUID) {
+                    if (workspace.uuid != LOCAL_WORKSPACE_ID) {
                         val screen = DeleteWorkspaceDialog(workspace.uuid, workspace.name)
                         _viewEvent.send(ViewEvent.Navigation(screen))
                     }
                 }
-                FilesystemType.ROOT -> Unit
+                FilesystemType.ROOT,
+                FilesystemType.TERMINAL -> Unit
                 FilesystemType.SERVER -> {
                     val screen = ServerDialog(workspace.uuid)
                     _viewEvent.send(ViewEvent.Navigation(screen))
@@ -560,6 +562,27 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     // endregion
+
+    fun showTerminalWorkspace() {
+        viewModelScope.launch {
+            try {
+                val terminalWorkspace = workspaces.find { workspace ->
+                    workspace.filesystemType == FilesystemType.TERMINAL
+                }
+                if (terminalWorkspace != null) {
+                    onWorkspaceClicked(terminalWorkspace)
+                } else {
+                    settingsManager.terminalWorkspace = true
+                    // TODO update workspaces flow
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Timber.e(e, e.message)
+                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
+            }
+        }
+    }
 
     fun createFile(fileName: String) {
         viewModelScope.launch {

@@ -16,24 +16,31 @@
 
 package com.blacksquircle.ui.feature.terminal.data.runtime
 
+import android.content.Context
 import android.os.Environment
+import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.feature.terminal.domain.runtime.TerminalRuntime
 import com.termux.terminal.TerminalEmulator
 import com.termux.terminal.TerminalSession
 import com.termux.terminal.TerminalSessionClient
 
-internal object AndroidRuntime : TerminalRuntime {
-
-    private const val ANDROID_SHELL = "/system/bin/sh"
+internal class AndroidRuntime(private val context: Context) : TerminalRuntime {
 
     override fun create(client: TerminalSessionClient): TerminalSession {
         return TerminalSession(
             /* shellPath = */ ANDROID_SHELL,
-            /* cwd = */ Environment.getExternalStorageDirectory().absolutePath,
+            /* cwd = */ Directories.terminalDir(context).absolutePath,
             /* args = */ emptyArray(),
-            /* env = */ emptyArray(),
+            /* env = */ arrayOf(
+                "HOME=${Directories.terminalDir(context).absolutePath}",
+                "EXTERNAL_STORAGE=${Environment.getExternalStorageDirectory().absolutePath}",
+            ),
             /* transcriptRows = */ TerminalEmulator.DEFAULT_TERMINAL_TRANSCRIPT_ROWS,
             /* client = */ client,
         )
+    }
+
+    companion object {
+        private const val ANDROID_SHELL = "/system/bin/sh"
     }
 }

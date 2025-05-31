@@ -16,6 +16,8 @@
 
 package com.blacksquircle.ui.feature.explorer
 
+import com.blacksquircle.ui.feature.explorer.data.utils.LOCAL_WORKSPACE_ID
+import com.blacksquircle.ui.feature.explorer.data.utils.ROOT_WORKSPACE_ID
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
@@ -27,7 +29,7 @@ import com.blacksquircle.ui.filesystem.root.RootFilesystem
 internal fun defaultWorkspaces(): List<WorkspaceModel> {
     return listOf(
         WorkspaceModel(
-            uuid = LocalFilesystem.LOCAL_UUID,
+            uuid = LOCAL_WORKSPACE_ID,
             name = "Local",
             filesystemType = FilesystemType.LOCAL,
             defaultLocation = FileModel(
@@ -37,7 +39,7 @@ internal fun defaultWorkspaces(): List<WorkspaceModel> {
             ),
         ),
         WorkspaceModel(
-            uuid = RootFilesystem.ROOT_UUID,
+            uuid = ROOT_WORKSPACE_ID,
             name = "Root",
             filesystemType = FilesystemType.ROOT,
             defaultLocation = FileModel(

@@ -48,7 +48,7 @@ internal fun SelectionMenu(
         PopupMenuItem(
             title = stringResource(android.R.string.cut),
             onClick = onCutClicked,
-            enabled = filesystemType == FilesystemType.LOCAL,
+            enabled = filesystemType.isLocal(),
         )
         if (count == 1) {
             if (filesystemType != FilesystemType.SERVER) {
@@ -73,7 +73,7 @@ internal fun SelectionMenu(
         PopupMenuItem(
             title = stringResource(R.string.explorer_menu_selection_compress),
             onClick = onCompressClicked,
-            enabled = filesystemType == FilesystemType.LOCAL,
+            enabled = filesystemType.isLocal(),
         )
     }
 }

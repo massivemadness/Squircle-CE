@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.explorer.data.utils
 
 import android.content.Context
 import android.os.Environment
+import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -25,9 +26,13 @@ import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 
+internal const val LOCAL_WORKSPACE_ID = "local_workspace"
+internal const val ROOT_WORKSPACE_ID = "root_workspace"
+internal const val TERMINAL_WORKSPACE_ID = "terminal_workspace"
+
 internal fun Context.createLocalWorkspace(): WorkspaceModel {
     return WorkspaceModel(
-        uuid = LocalFilesystem.LOCAL_UUID,
+        uuid = LOCAL_WORKSPACE_ID,
         name = getString(R.string.explorer_workspace_button_local),
         filesystemType = FilesystemType.LOCAL,
         defaultLocation = FileModel(
@@ -41,12 +46,26 @@ internal fun Context.createLocalWorkspace(): WorkspaceModel {
 
 internal fun Context.createRootWorkspace(): WorkspaceModel {
     return WorkspaceModel(
-        uuid = RootFilesystem.ROOT_UUID,
+        uuid = ROOT_WORKSPACE_ID,
         name = getString(R.string.explorer_workspace_button_root),
         filesystemType = FilesystemType.ROOT,
         defaultLocation = FileModel(
             fileUri = RootFilesystem.ROOT_SCHEME,
             filesystemUuid = RootFilesystem.ROOT_UUID,
+            isDirectory = true,
+        ),
+    )
+}
+
+internal fun Context.createTerminalWorkspace(): WorkspaceModel {
+    return WorkspaceModel(
+        uuid = TERMINAL_WORKSPACE_ID,
+        name = getString(R.string.explorer_workspace_button_terminal),
+        filesystemType = FilesystemType.TERMINAL,
+        defaultLocation = FileModel(
+            fileUri = LocalFilesystem.LOCAL_SCHEME +
+                Directories.terminalDir(this).absolutePath,
+            filesystemUuid = LocalFilesystem.LOCAL_UUID,
             isDirectory = true,
         ),
     )

@@ -81,6 +81,7 @@ class SettingsManager(private val context: Context) {
         const val KEY_SORT_MODE = "sort_mode"
 
         // Terminal
+        const val KEY_TERMINAL_WORKSPACE = "terminal_workspace"
         const val KEY_TERMINAL_CURSOR_BLINKING = "terminal_cursor_blinking"
         const val KEY_TERMINAL_KEEP_SCREEN_ON = "terminal_keep_screen_on"
 
@@ -151,7 +152,7 @@ class SettingsManager(private val context: Context) {
         set(value) = sharedPreferences.edit().putBoolean(KEY_READ_ONLY, value).apply()
 
     var selectedUuid: String
-        get() = sharedPreferences.getString(KEY_SELECTED_DOCUMENT_ID, "").orEmpty()
+        get() = sharedPreferences.getString(KEY_SELECTED_DOCUMENT_ID, "") ?: ""
         set(value) = sharedPreferences.edit().putString(KEY_SELECTED_DOCUMENT_ID, value).apply()
     var autoSaveFiles: Boolean
         get() = sharedPreferences.getBoolean(KEY_AUTO_SAVE_FILES, false)
@@ -211,6 +212,9 @@ class SettingsManager(private val context: Context) {
         get() = sharedPreferences.getString(KEY_WORKSPACE, "local") ?: "local"
         set(value) = sharedPreferences.edit().putString(KEY_WORKSPACE, value).apply()
 
+    var terminalWorkspace: Boolean
+        get() = sharedPreferences.getBoolean(KEY_TERMINAL_WORKSPACE, false)
+        set(value) = sharedPreferences.edit().putBoolean(KEY_TERMINAL_WORKSPACE, value).apply()
     var cursorBlinking: Boolean
         get() = sharedPreferences.getBoolean(KEY_TERMINAL_CURSOR_BLINKING, true)
         set(value) = sharedPreferences.edit().putBoolean(KEY_TERMINAL_CURSOR_BLINKING, value).apply()

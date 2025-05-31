@@ -27,8 +27,12 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.mapper.WorkspaceMapper
+import com.blacksquircle.ui.feature.explorer.data.utils.LOCAL_WORKSPACE_ID
+import com.blacksquircle.ui.feature.explorer.data.utils.ROOT_WORKSPACE_ID
+import com.blacksquircle.ui.feature.explorer.data.utils.TERMINAL_WORKSPACE_ID
 import com.blacksquircle.ui.feature.explorer.data.utils.createLocalWorkspace
 import com.blacksquircle.ui.feature.explorer.data.utils.createRootWorkspace
+import com.blacksquircle.ui.feature.explorer.data.utils.createTerminalWorkspace
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
@@ -40,6 +44,7 @@ import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
+import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.scottyab.rootbeer.RootBeer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -72,6 +77,9 @@ internal class ExplorerRepositoryImpl(
                 add(context.createLocalWorkspace())
                 if (rootBeer.isRooted) {
                     add(context.createRootWorkspace())
+                }
+                if (settingsManager.terminalWorkspace) {
+                    add(context.createTerminalWorkspace())
                 }
             }
             val userWorkspaces = workspaces.map(WorkspaceMapper::toModel)
@@ -265,10 +273,14 @@ internal class ExplorerRepositoryImpl(
     }
 
     private suspend fun currentFilesystem(): Filesystem {
-        val workspaceId = settingsManager.workspace
-        val filesystemUuid = workspaceDao.load(workspaceId)
-            ?.filesystemUuid // user-defined folder
-            ?: workspaceId // if not found, it's a serverId
+        val filesystemUuid = when (val workspaceId = settingsManager.workspace) {
+            LOCAL_WORKSPACE_ID -> LocalFilesystem.LOCAL_UUID
+            ROOT_WORKSPACE_ID -> RootFilesystem.ROOT_UUID
+            TERMINAL_WORKSPACE_ID -> LocalFilesystem.LOCAL_UUID
+            else -> workspaceDao.load(workspaceId)
+                ?.filesystemUuid // user-created workspace
+                ?: workspaceId // if not found, it's a server
+        }
         return filesystemFactory.create(filesystemUuid)
     }
 }

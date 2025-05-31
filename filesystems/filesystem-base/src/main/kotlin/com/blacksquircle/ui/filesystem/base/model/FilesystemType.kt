@@ -19,7 +19,10 @@ package com.blacksquircle.ui.filesystem.base.model
 enum class FilesystemType(val value: String) {
     LOCAL("local"),
     ROOT("root"),
+    TERMINAL("terminal"),
     SERVER("server");
+
+    fun isLocal(): Boolean = this == LOCAL || this == TERMINAL
 
     companion object {
 

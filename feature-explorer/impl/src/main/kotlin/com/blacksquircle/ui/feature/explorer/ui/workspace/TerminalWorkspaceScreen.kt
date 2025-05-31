@@ -16,21 +16,24 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.workspace
 
+import android.os.Bundle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.navigation.NavController
+import com.blacksquircle.ui.core.effect.sendNavigationResult
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_SHOW_TERMINAL
 
 @Composable
 internal fun TerminalWorkspaceScreen(navController: NavController) {
     TerminalWorkspaceScreen(
         onConfirmClicked = {
-            navController.popBackStack()
+            sendNavigationResult(KEY_SHOW_TERMINAL, Bundle.EMPTY)
             navController.popBackStack()
         },
         onCancelClicked = {

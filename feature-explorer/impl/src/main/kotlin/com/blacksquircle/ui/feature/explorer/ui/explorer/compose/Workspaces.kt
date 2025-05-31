@@ -57,6 +57,7 @@ internal fun Workspaces(
                 iconResId = when (workspace.filesystemType) {
                     FilesystemType.LOCAL -> UiR.drawable.ic_folder
                     FilesystemType.ROOT -> UiR.drawable.ic_folder_pound
+                    FilesystemType.TERMINAL -> UiR.drawable.ic_console
                     FilesystemType.SERVER -> UiR.drawable.ic_server_network
                 },
                 label = workspace.name,
