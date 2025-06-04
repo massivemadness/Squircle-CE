@@ -20,5 +20,8 @@ import com.termux.terminal.TerminalSession
 import com.termux.terminal.TerminalSessionClient
 
 internal interface TerminalRuntime {
+
+    val name: String
+
     fun create(client: TerminalSessionClient): TerminalSession
 }
