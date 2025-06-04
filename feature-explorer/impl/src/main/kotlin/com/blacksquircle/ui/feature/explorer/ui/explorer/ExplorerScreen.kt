@@ -232,8 +232,7 @@ private fun ExplorerScreen(
             topBar = {
                 ExplorerToolbar(
                     workspaceType = viewState.selectedWorkspace
-                        ?.workspaceType
-                        ?: WorkspaceType.LOCAL,
+                        ?.type ?: WorkspaceType.LOCAL,
                     searchQuery = viewState.searchQuery,
                     selectedNodes = viewState.selectedNodes,
                     showHidden = viewState.showHidden,
@@ -314,7 +313,7 @@ private fun ExplorerScreenPreview() {
             WorkspaceModel(
                 uuid = LocalFilesystem.LOCAL_UUID,
                 name = "Local",
-                workspaceType = WorkspaceType.LOCAL,
+                type = WorkspaceType.LOCAL,
                 defaultLocation = FileModel(
                     fileUri = "file:///storage/emulated/0/",
                     filesystemUuid = LocalFilesystem.LOCAL_UUID,
@@ -323,7 +322,7 @@ private fun ExplorerScreenPreview() {
             WorkspaceModel(
                 uuid = RootFilesystem.ROOT_UUID,
                 name = "Root",
-                workspaceType = WorkspaceType.ROOT,
+                type = WorkspaceType.ROOT,
                 defaultLocation = FileModel(
                     fileUri = "sufile:///",
                     filesystemUuid = RootFilesystem.ROOT_UUID,

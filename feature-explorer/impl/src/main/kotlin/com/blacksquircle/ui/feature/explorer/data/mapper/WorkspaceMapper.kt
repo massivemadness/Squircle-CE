@@ -29,7 +29,7 @@ internal object WorkspaceMapper {
         return WorkspaceModel(
             uuid = workspaceEntity.uuid,
             name = workspaceEntity.name,
-            workspaceType = WorkspaceType.of(workspaceEntity.type),
+            type = WorkspaceType.of(workspaceEntity.type),
             defaultLocation = FileModel(
                 fileUri = workspaceEntity.fileUri,
                 filesystemUuid = workspaceEntity.filesystemUuid,
@@ -45,7 +45,7 @@ internal object WorkspaceMapper {
         return WorkspaceModel(
             uuid = serverConfig.uuid,
             name = serverConfig.name,
-            workspaceType = WorkspaceType.SERVER,
+            type = WorkspaceType.SERVER,
             defaultLocation = FileModel(
                 fileUri = fileUri,
                 filesystemUuid = serverConfig.uuid,
@@ -58,7 +58,7 @@ internal object WorkspaceMapper {
         return WorkspaceEntity(
             uuid = workspace.uuid,
             name = workspace.name,
-            type = workspace.workspaceType.value,
+            type = workspace.type.value,
             fileUri = workspace.defaultLocation.fileUri,
             filesystemUuid = workspace.defaultLocation.filesystemUuid,
         )

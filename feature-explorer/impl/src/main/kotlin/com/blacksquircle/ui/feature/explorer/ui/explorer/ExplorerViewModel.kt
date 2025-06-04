@@ -152,7 +152,7 @@ internal class ExplorerViewModel @Inject constructor(
                     resetBuffer()
                 }
 
-                settingsManager.workspace = workspace.uuid
+                explorerRepository.selectWorkspace(workspace)
                 selectedWorkspace = workspace
 
                 cache.clear()
@@ -189,7 +189,7 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onDeleteWorkspaceClicked(workspace: WorkspaceModel) {
         viewModelScope.launch {
-            when (workspace.workspaceType) {
+            when (workspace.type) {
                 WorkspaceType.CUSTOM -> {
                     val screen = DeleteWorkspaceDialog(workspace.uuid, workspace.name)
                     _viewEvent.send(ViewEvent.Navigation(screen))
@@ -562,7 +562,7 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val terminalWorkspace = workspaces.find { workspace ->
-                    workspace.workspaceType == WorkspaceType.TERMINAL
+                    workspace.type == WorkspaceType.TERMINAL
                 }
                 if (terminalWorkspace != null) {
                     onWorkspaceClicked(terminalWorkspace)
@@ -881,12 +881,9 @@ internal class ExplorerViewModel @Inject constructor(
                 explorerRepository.loadWorkspaces().collect { workspaces ->
                     this@ExplorerViewModel.workspaces = workspaces
 
-                    val workspace = workspaces
-                        .find { it.uuid == settingsManager.workspace }
-                        ?: workspaces.first()
-
+                    val workspace = explorerRepository.currentWorkspace
                     if (workspace.uuid != selectedWorkspace?.uuid) {
-                        settingsManager.workspace = workspace.uuid
+                        explorerRepository.selectWorkspace(workspace)
                         selectedWorkspace = workspace
 
                         cache.clear()

@@ -32,7 +32,7 @@ class WorkspaceMapperTest {
         val expected = WorkspaceModel(
             uuid = "12345",
             name = "Custom",
-            workspaceType = WorkspaceType.CUSTOM,
+            type = WorkspaceType.CUSTOM,
             defaultLocation = FileModel(
                 fileUri = "file:///storage/emulated/0/Documents",
                 filesystemUuid = LocalFilesystem.LOCAL_UUID,
@@ -48,7 +48,7 @@ class WorkspaceMapperTest {
         val workspaceModel = WorkspaceModel(
             uuid = "12345",
             name = "Custom",
-            workspaceType = WorkspaceType.CUSTOM,
+            type = WorkspaceType.CUSTOM,
             defaultLocation = FileModel(
                 fileUri = "file:///storage/emulated/0/Documents",
                 filesystemUuid = LocalFilesystem.LOCAL_UUID,
@@ -94,7 +94,7 @@ class WorkspaceMapperTest {
         val expected = WorkspaceModel(
             uuid = "12345",
             name = "Custom",
-            workspaceType = WorkspaceType.SERVER,
+            type = WorkspaceType.SERVER,
             defaultLocation = FileModel(
                 fileUri = "sftp:///Documents",
                 filesystemUuid = "12345",

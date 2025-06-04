@@ -34,7 +34,7 @@ internal fun Context.createLocalWorkspace(): WorkspaceModel {
     return WorkspaceModel(
         uuid = LOCAL_WORKSPACE_ID,
         name = getString(R.string.explorer_workspace_button_local),
-        workspaceType = WorkspaceType.LOCAL,
+        type = WorkspaceType.LOCAL,
         defaultLocation = FileModel(
             fileUri = LocalFilesystem.LOCAL_SCHEME +
                 Environment.getExternalStorageDirectory().absolutePath,
@@ -48,7 +48,7 @@ internal fun Context.createRootWorkspace(): WorkspaceModel {
     return WorkspaceModel(
         uuid = ROOT_WORKSPACE_ID,
         name = getString(R.string.explorer_workspace_button_root),
-        workspaceType = WorkspaceType.ROOT,
+        type = WorkspaceType.ROOT,
         defaultLocation = FileModel(
             fileUri = RootFilesystem.ROOT_SCHEME,
             filesystemUuid = RootFilesystem.ROOT_UUID,
@@ -61,7 +61,7 @@ internal fun Context.createTerminalWorkspace(): WorkspaceModel {
     return WorkspaceModel(
         uuid = TERMINAL_WORKSPACE_ID,
         name = getString(R.string.explorer_workspace_button_terminal),
-        workspaceType = WorkspaceType.TERMINAL,
+        type = WorkspaceType.TERMINAL,
         defaultLocation = FileModel(
             fileUri = LocalFilesystem.LOCAL_SCHEME +
                 Directories.terminalDir(this).absolutePath,

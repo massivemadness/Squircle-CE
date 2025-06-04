@@ -31,7 +31,7 @@ internal fun defaultWorkspaces(): List<WorkspaceModel> {
         WorkspaceModel(
             uuid = LOCAL_WORKSPACE_ID,
             name = "Local",
-            workspaceType = WorkspaceType.LOCAL,
+            type = WorkspaceType.LOCAL,
             defaultLocation = FileModel(
                 fileUri = "file:///storage/emulated/0/",
                 filesystemUuid = LocalFilesystem.LOCAL_UUID,
@@ -41,7 +41,7 @@ internal fun defaultWorkspaces(): List<WorkspaceModel> {
         WorkspaceModel(
             uuid = ROOT_WORKSPACE_ID,
             name = "Root",
-            workspaceType = WorkspaceType.ROOT,
+            type = WorkspaceType.ROOT,
             defaultLocation = FileModel(
                 fileUri = "sufile:///",
                 filesystemUuid = RootFilesystem.ROOT_UUID,
@@ -58,7 +58,7 @@ internal fun createWorkspace(
     return WorkspaceModel(
         uuid = uuid,
         name = "Filesystem",
-        workspaceType = WorkspaceType.LOCAL,
+        type = WorkspaceType.LOCAL,
         defaultLocation = FileModel(
             fileUri = "file:///storage/emulated/0/",
             filesystemUuid = filesystemUuid,

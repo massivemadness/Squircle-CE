@@ -54,7 +54,7 @@ internal fun Workspaces(
     ) {
         workspaces.fastForEach { workspace ->
             NavigationItem(
-                iconResId = when (workspace.workspaceType) {
+                iconResId = when (workspace.type) {
                     WorkspaceType.LOCAL -> UiR.drawable.ic_folder
                     WorkspaceType.ROOT -> UiR.drawable.ic_folder_pound
                     WorkspaceType.TERMINAL -> UiR.drawable.ic_console

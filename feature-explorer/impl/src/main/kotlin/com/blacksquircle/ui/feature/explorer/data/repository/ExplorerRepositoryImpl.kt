@@ -27,9 +27,6 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.mapper.WorkspaceMapper
-import com.blacksquircle.ui.feature.explorer.data.utils.LOCAL_WORKSPACE_ID
-import com.blacksquircle.ui.feature.explorer.data.utils.ROOT_WORKSPACE_ID
-import com.blacksquircle.ui.feature.explorer.data.utils.TERMINAL_WORKSPACE_ID
 import com.blacksquircle.ui.feature.explorer.data.utils.createLocalWorkspace
 import com.blacksquircle.ui.feature.explorer.data.utils.createRootWorkspace
 import com.blacksquircle.ui.feature.explorer.data.utils.createTerminalWorkspace
@@ -44,13 +41,13 @@ import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
-import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.scottyab.rootbeer.RootBeer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -67,6 +64,10 @@ internal class ExplorerRepositoryImpl(
     private val rootBeer: RootBeer,
     private val context: Context,
 ) : ExplorerRepository {
+
+    private var _currentWorkspace: WorkspaceModel? = null
+    override val currentWorkspace: WorkspaceModel
+        get() = _currentWorkspace ?: context.createLocalWorkspace()
 
     override suspend fun loadWorkspaces(): Flow<List<WorkspaceModel>> {
         return combine(
@@ -85,7 +86,16 @@ internal class ExplorerRepositoryImpl(
             val userWorkspaces = workspaces.map(WorkspaceMapper::toModel)
             val serverWorkspaces = servers.map(WorkspaceMapper::toModel)
             defaultWorkspaces + userWorkspaces + serverWorkspaces
+        }.onEach { workspaces ->
+            _currentWorkspace = workspaces
+                .find { it.uuid == settingsManager.workspace }
+                ?: workspaces.first()
         }
+    }
+
+    override suspend fun selectWorkspace(workspace: WorkspaceModel) {
+        settingsManager.workspace = workspace.uuid
+        _currentWorkspace = workspace
     }
 
     override suspend fun createWorkspace(fileUri: Uri) {
@@ -106,7 +116,7 @@ internal class ExplorerRepositoryImpl(
             val workspace = WorkspaceModel(
                 uuid = UUID.randomUUID().toString(),
                 name = defaultLocation.name,
-                workspaceType = WorkspaceType.CUSTOM,
+                type = WorkspaceType.CUSTOM,
                 defaultLocation = defaultLocation,
             )
             val workspaceEntity = WorkspaceMapper.toEntity(workspace)
@@ -270,14 +280,7 @@ internal class ExplorerRepositoryImpl(
     }
 
     private suspend fun currentFilesystem(): Filesystem {
-        val filesystemUuid = when (val workspaceId = settingsManager.workspace) {
-            LOCAL_WORKSPACE_ID -> LocalFilesystem.LOCAL_UUID
-            ROOT_WORKSPACE_ID -> RootFilesystem.ROOT_UUID
-            TERMINAL_WORKSPACE_ID -> LocalFilesystem.LOCAL_UUID
-            else -> workspaceDao.load(workspaceId)
-                ?.filesystemUuid // user-created workspace
-                ?: workspaceId // if not found, it's a server
-        }
+        val filesystemUuid = currentWorkspace.defaultLocation.filesystemUuid
         return filesystemFactory.create(filesystemUuid)
     }
 }

@@ -38,7 +38,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
@@ -71,13 +70,9 @@ class WorkspacesTest {
 
     @Before
     fun setup() {
+        every { explorerRepository.currentWorkspace } returns selectedWorkspace
         coEvery { explorerRepository.loadWorkspaces() } returns flowOf(workspaces)
         coEvery { explorerRepository.listFiles(any()) } returns emptyList()
-
-        every { settingsManager.workspace } returns selectedWorkspace.uuid
-        every { settingsManager.workspace = any() } answers {
-            every { settingsManager.workspace } returns firstArg()
-        }
 
         every { fileIconProvider.fileIcon(any()) } returns -1
     }
@@ -109,7 +104,7 @@ class WorkspacesTest {
         assertEquals(workspaces, viewModel.viewState.value.workspaces)
         assertEquals(selectedWorkspace, viewModel.viewState.value.selectedWorkspace)
 
-        verify(exactly = 0) { settingsManager.workspace = selectedWorkspace.uuid }
+        coVerify(exactly = 0) { explorerRepository.selectWorkspace(selectedWorkspace) }
         coVerify(exactly = 0) { explorerRepository.listFiles(selectedWorkspace.defaultLocation) }
     }
 
@@ -126,7 +121,7 @@ class WorkspacesTest {
         assertEquals(workspaces, viewModel.viewState.value.workspaces)
         assertEquals(nextSelected, viewModel.viewState.value.selectedWorkspace)
 
-        verify(exactly = 1) { settingsManager.workspace = nextSelected.uuid }
+        coVerify(exactly = 1) { explorerRepository.selectWorkspace(nextSelected) }
         coVerify(exactly = 1) { explorerRepository.listFiles(selectedWorkspace.defaultLocation) }
     }
 
@@ -204,8 +199,9 @@ class WorkspacesTest {
         val fallbackWorkspace = workspaces[0]
         val updatedWorkspaces = listOf(fallbackWorkspace)
 
+        every { explorerRepository.currentWorkspace } returns
+            selectedWorkspace andThen fallbackWorkspace
         coEvery { explorerRepository.loadWorkspaces() } returns workspacesFlow
-        every { settingsManager.workspace } returns selectedWorkspace.uuid
 
         val viewModel = createViewModel()
 
@@ -218,7 +214,7 @@ class WorkspacesTest {
         assertEquals(updatedWorkspaces, viewModel.viewState.value.workspaces)
         assertEquals(fallbackWorkspace, viewModel.viewState.value.selectedWorkspace)
         coVerify(exactly = 1) { explorerRepository.loadWorkspaces() }
-        verify(exactly = 1) { settingsManager.workspace = fallbackWorkspace.uuid }
+        coVerify(exactly = 1) { explorerRepository.selectWorkspace(fallbackWorkspace) }
     }
 
     private fun createViewModel(): ExplorerViewModel {

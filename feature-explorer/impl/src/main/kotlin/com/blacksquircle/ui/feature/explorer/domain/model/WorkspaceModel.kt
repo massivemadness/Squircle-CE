@@ -21,6 +21,6 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 internal data class WorkspaceModel(
     val uuid: String,
     val name: String,
-    val workspaceType: WorkspaceType,
+    val type: WorkspaceType,
     val defaultLocation: FileModel,
 )
