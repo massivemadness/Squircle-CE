@@ -27,21 +27,20 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.mapper.WorkspaceMapper
-import com.blacksquircle.ui.feature.explorer.data.utils.createLocalWorkspace
-import com.blacksquircle.ui.feature.explorer.data.utils.createRootWorkspace
-import com.blacksquircle.ui.feature.explorer.data.utils.createTerminalWorkspace
+import com.blacksquircle.ui.feature.explorer.data.workspace.DefaultWorkspaceSource
+import com.blacksquircle.ui.feature.explorer.data.workspace.ServerWorkspaceSource
+import com.blacksquircle.ui.feature.explorer.data.workspace.UserWorkspaceSource
+import com.blacksquircle.ui.feature.explorer.data.workspace.createLocalWorkspace
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
-import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
 import com.blacksquircle.ui.filesystem.base.exception.FileNotFoundException
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
-import com.scottyab.rootbeer.RootBeer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -58,10 +57,11 @@ internal class ExplorerRepositoryImpl(
     private val settingsManager: SettingsManager,
     private val taskManager: TaskManager,
     private val gitInteractor: GitInteractor,
-    private val serverInteractor: ServerInteractor,
     private val filesystemFactory: FilesystemFactory,
     private val workspaceDao: WorkspaceDao,
-    private val rootBeer: RootBeer,
+    private val defaultWorkspaceSource: DefaultWorkspaceSource,
+    private val userWorkspaceSource: UserWorkspaceSource,
+    private val serverWorkspaceSource: ServerWorkspaceSource,
     private val context: Context,
 ) : ExplorerRepository {
 
@@ -71,21 +71,11 @@ internal class ExplorerRepositoryImpl(
 
     override suspend fun loadWorkspaces(): Flow<List<WorkspaceModel>> {
         return combine(
-            workspaceDao.flowAll(),
-            serverInteractor.flowAll(),
-        ) { workspaces, servers ->
-            val defaultWorkspaces = buildList {
-                add(context.createLocalWorkspace())
-                if (rootBeer.isRooted) {
-                    add(context.createRootWorkspace())
-                }
-                if (settingsManager.terminalWorkspace) {
-                    add(context.createTerminalWorkspace())
-                }
-            }
-            val userWorkspaces = workspaces.map(WorkspaceMapper::toModel)
-            val serverWorkspaces = servers.map(WorkspaceMapper::toModel)
-            defaultWorkspaces + userWorkspaces + serverWorkspaces
+            defaultWorkspaceSource.workspaceFlow,
+            userWorkspaceSource.workspaceFlow,
+            serverWorkspaceSource.workspaceFlow,
+        ) { default, user, servers ->
+            default + user + servers
         }.onEach { workspaces ->
             _currentWorkspace = workspaces
                 .find { it.uuid == settingsManager.workspace }
@@ -128,6 +118,11 @@ internal class ExplorerRepositoryImpl(
         withContext(dispatcherProvider.io()) {
             workspaceDao.delete(uuid)
         }
+    }
+
+    override suspend fun showTerminalWorkspace() {
+        settingsManager.terminalWorkspace = true
+        defaultWorkspaceSource.update()
     }
 
     override suspend fun listFiles(parent: FileModel): List<FileModel> {

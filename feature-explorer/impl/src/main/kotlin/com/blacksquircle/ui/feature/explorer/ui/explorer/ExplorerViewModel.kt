@@ -567,8 +567,7 @@ internal class ExplorerViewModel @Inject constructor(
                 if (terminalWorkspace != null) {
                     onWorkspaceClicked(terminalWorkspace)
                 } else {
-                    settingsManager.terminalWorkspace = true
-                    // TODO update workspaces flow
+                    explorerRepository.showTerminalWorkspace()
                 }
             } catch (e: CancellationException) {
                 throw e

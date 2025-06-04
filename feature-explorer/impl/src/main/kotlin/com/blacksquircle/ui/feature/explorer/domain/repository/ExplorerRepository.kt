@@ -30,6 +30,7 @@ internal interface ExplorerRepository {
     suspend fun createWorkspace(fileUri: Uri)
     suspend fun createWorkspace(filePath: String)
     suspend fun deleteWorkspace(uuid: String)
+    suspend fun showTerminalWorkspace()
 
     suspend fun listFiles(parent: FileModel): List<FileModel>
 

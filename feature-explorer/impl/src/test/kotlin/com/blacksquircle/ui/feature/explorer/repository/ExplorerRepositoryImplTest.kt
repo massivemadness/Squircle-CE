@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.explorer.repository
 
 import android.content.Context
-import android.os.Environment
 import com.blacksquircle.ui.core.database.dao.workspace.WorkspaceDao
 import com.blacksquircle.ui.core.extensions.PermissionException
 import com.blacksquircle.ui.core.extensions.isStorageAccessGranted
@@ -28,17 +27,14 @@ import com.blacksquircle.ui.feature.explorer.createFolder
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskAction
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
+import com.blacksquircle.ui.feature.explorer.data.workspace.DefaultWorkspaceSource
+import com.blacksquircle.ui.feature.explorer.data.workspace.ServerWorkspaceSource
+import com.blacksquircle.ui.feature.explorer.data.workspace.UserWorkspaceSource
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
-import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
-import com.blacksquircle.ui.filesystem.base.model.AuthMethod
-import com.blacksquircle.ui.filesystem.base.model.ServerConfig
-import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
-import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.blacksquircle.ui.test.provider.TestDispatcherProvider
-import com.scottyab.rootbeer.RootBeer
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -47,13 +43,9 @@ import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
 import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertTrue
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import java.io.File
 
 class ExplorerRepositoryImplTest {
 
@@ -61,10 +53,11 @@ class ExplorerRepositoryImplTest {
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val taskManager = mockk<TaskManager>(relaxed = true)
     private val gitInteractor = mockk<GitInteractor>(relaxed = true)
-    private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
     private val filesystemFactory = mockk<FilesystemFactory>(relaxed = true)
     private val workspaceDao = mockk<WorkspaceDao>(relaxed = true)
-    private val rootBeer = mockk<RootBeer>(relaxed = true)
+    private val defaultWorkspaceSource = mockk<DefaultWorkspaceSource>(relaxed = true)
+    private val userWorkspaceSource = mockk<UserWorkspaceSource>(relaxed = true)
+    private val serverWorkspaceSource = mockk<ServerWorkspaceSource>(relaxed = true)
     private val context = mockk<Context>(relaxed = true)
 
     private val filesystem = mockk<Filesystem>(relaxed = true)
@@ -74,10 +67,11 @@ class ExplorerRepositoryImplTest {
         settingsManager = settingsManager,
         taskManager = taskManager,
         gitInteractor = gitInteractor,
-        serverInteractor = serverInteractor,
         filesystemFactory = filesystemFactory,
         workspaceDao = workspaceDao,
-        rootBeer = rootBeer,
+        defaultWorkspaceSource = defaultWorkspaceSource,
+        userWorkspaceSource = userWorkspaceSource,
+        serverWorkspaceSource = serverWorkspaceSource,
         context = context
     )
 
@@ -87,75 +81,14 @@ class ExplorerRepositoryImplTest {
     }
 
     @Test
-    fun `When loading workspaces without root Then return local workspace`() = runTest {
-        // Given
-        mockkStatic(Environment::class)
-        every { Environment.getExternalStorageDirectory() } returns mockk<File>().apply {
-            every { absolutePath } returns ""
-        }
-        coEvery { serverInteractor.flowAll() } returns flowOf(emptyList())
-        coEvery { workspaceDao.flowAll() } returns flowOf(emptyList())
-        coEvery { rootBeer.isRooted } returns false
-
+    fun `When loading workspaces Then load from multiple sources`() = runTest {
         // When
-        val workspaces = explorerRepository.loadWorkspaces().first()
+        explorerRepository.loadWorkspaces()
 
         // Then
-        assertTrue(workspaces.size == 1)
-        assertEquals(workspaces[0].uuid, LocalFilesystem.LOCAL_UUID)
-    }
-
-    @Test
-    fun `When loading workspaces with root Then return local and root workspaces`() = runTest {
-        // Given
-        mockkStatic(Environment::class)
-        every { Environment.getExternalStorageDirectory() } returns mockk<File>().apply {
-            every { absolutePath } returns ""
-        }
-        coEvery { serverInteractor.flowAll() } returns flowOf(emptyList())
-        coEvery { workspaceDao.flowAll() } returns flowOf(emptyList())
-        coEvery { rootBeer.isRooted } returns true
-
-        // When
-        val workspaces = explorerRepository.loadWorkspaces().first()
-
-        // Then
-        assertTrue(workspaces.size == 2)
-        assertEquals(workspaces[0].uuid, LocalFilesystem.LOCAL_UUID)
-        assertEquals(workspaces[1].uuid, RootFilesystem.ROOT_UUID)
-    }
-
-    @Test
-    fun `When loading workspaces with servers Then return all workspaces`() = runTest {
-        // Given
-        mockkStatic(Environment::class)
-        every { Environment.getExternalStorageDirectory() } returns mockk<File>().apply {
-            every { absolutePath } returns ""
-        }
-        val serverId = "12345"
-        val server = ServerConfig(
-            uuid = serverId,
-            scheme = ServerType.FTP,
-            name = "Test Server",
-            address = "192.168.1.1",
-            port = 21,
-            initialDir = "/",
-            authMethod = AuthMethod.PASSWORD,
-            username = "username",
-            password = "secret",
-            keyId = null,
-            passphrase = null,
-        )
-        coEvery { serverInteractor.flowAll() } returns flowOf(listOf(server))
-        coEvery { workspaceDao.flowAll() } returns flowOf(emptyList())
-
-        // When
-        val workspaces = explorerRepository.loadWorkspaces().first()
-
-        // Then
-        assertTrue(workspaces.size == 2)
-        assertEquals(workspaces[0].uuid, LocalFilesystem.LOCAL_UUID)
-        assertEquals(workspaces[1].uuid, serverId)
+        verify(exactly = 1) { defaultWorkspaceSource.workspaceFlow }
+        verify(exactly = 1) { userWorkspaceSource.workspaceFlow }
+        verify(exactly = 1) { serverWorkspaceSource.workspaceFlow }
     }
 
     @Test(expected = PermissionException::class)
