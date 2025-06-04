@@ -21,57 +21,65 @@ import java.io.File
 
 object Directories {
 
-    /** /data/data/com.blacksquircle.ui/files */
-    fun filesDir(context: Context): File {
-        val directory = File(context.dataDir, "files")
+    // region CACHE
+
+    /** /data/data/com.blacksquircle.ui/cache/documents */
+    fun documentsDir(context: Context): File {
+        val directory = File(context.cacheDir, "documents")
         if (!directory.exists()) {
             directory.mkdirs()
         }
         return directory
     }
 
-    /** /data/data/com.blacksquircle.ui/fonts */
+    /** /data/data/com.blacksquircle.ui/cache/ftp */
+    fun ftpDir(context: Context): File {
+        val directory = File(context.cacheDir, "ftp")
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+        return directory
+    }
+
+    // endregion
+
+    // region FILES
+
+    /** /data/data/com.blacksquircle.ui/files/fonts */
     fun fontsDir(context: Context): File {
-        val directory = File(context.dataDir, "fonts")
+        val directory = File(context.filesDir, "fonts")
         if (!directory.exists()) {
             directory.mkdirs()
         }
         return directory
     }
 
-    /** /data/data/com.blacksquircle.ui/themes */
+    /** /data/data/com.blacksquircle.ui/files/themes */
     fun themesDir(context: Context): File {
-        val directory = File(context.dataDir, "themes")
+        val directory = File(context.filesDir, "themes")
         if (!directory.exists()) {
             directory.mkdirs()
         }
         return directory
     }
 
-    /** /data/data/com.blacksquircle.ui/cache */
-    fun cacheDir(context: Context): File {
-        val directory = File(context.dataDir, "cache")
-        if (!directory.exists()) {
-            directory.mkdirs()
-        }
-        return directory
-    }
-
-    /** /data/data/com.blacksquircle.ui/keys */
+    /** /data/data/com.blacksquircle.ui/files/keys */
     fun keysDir(context: Context): File {
-        val directory = File(context.dataDir, "keys")
+        val directory = File(context.filesDir, "keys")
         if (!directory.exists()) {
             directory.mkdirs()
         }
         return directory
     }
 
-    /** /data/data/com.blacksquircle.ui/terminal */
+    /** /data/data/com.blacksquircle.ui/files/home */
     fun terminalDir(context: Context): File {
-        val directory = File(context.dataDir, "terminal")
+        val directory = File(context.filesDir, "home")
         if (!directory.exists()) {
             directory.mkdirs()
         }
         return directory
     }
+
+    // endregion
 }

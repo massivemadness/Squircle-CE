@@ -72,7 +72,7 @@ internal object EditorModule {
     @Provides
     @EditorScope
     fun provideCacheManager(context: Context): CacheManager {
-        return CacheManager(Directories.filesDir(context))
+        return CacheManager(Directories.documentsDir(context))
     }
 
     @Provides
