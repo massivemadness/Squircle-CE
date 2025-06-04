@@ -92,7 +92,7 @@ private fun WorkspaceItem(
         label = when (workspace.type) {
             WorkspaceType.LOCAL -> stringResource(R.string.explorer_workspace_button_local)
             WorkspaceType.ROOT -> stringResource(R.string.explorer_workspace_button_root)
-            WorkspaceType.TERMINAL -> stringResource(R.string.explorer_workspace_button_terminal)
+            WorkspaceType.TERMINAL -> stringResource(R.string.explorer_workspace_button_home)
             WorkspaceType.CUSTOM,
             WorkspaceType.SERVER -> workspace.name
         },

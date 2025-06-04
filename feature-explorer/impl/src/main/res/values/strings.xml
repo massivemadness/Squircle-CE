@@ -120,7 +120,7 @@
 
     <string name="explorer_workspace_button_local" translatable="false">Local</string>
     <string name="explorer_workspace_button_root" translatable="false">Root</string>
-    <string name="explorer_workspace_button_terminal">Terminal</string>
+    <string name="explorer_workspace_button_home" translatable="false">Home</string>
     <string name="explorer_workspace_button_add">Add</string>
 
     <string name="explorer_toast_select_folder_to_paste">Select folder to paste</string>

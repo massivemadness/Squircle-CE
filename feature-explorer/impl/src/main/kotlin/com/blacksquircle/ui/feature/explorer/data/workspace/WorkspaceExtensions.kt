@@ -60,7 +60,7 @@ internal fun Context.createRootWorkspace(): WorkspaceModel {
 internal fun Context.createTerminalWorkspace(): WorkspaceModel {
     return WorkspaceModel(
         uuid = TERMINAL_WORKSPACE_ID,
-        name = getString(R.string.explorer_workspace_button_terminal),
+        name = getString(R.string.explorer_workspace_button_home),
         type = WorkspaceType.TERMINAL,
         defaultLocation = FileModel(
             fileUri = LocalFilesystem.LOCAL_SCHEME +
