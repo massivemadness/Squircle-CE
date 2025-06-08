@@ -24,16 +24,18 @@ import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 
 @Composable
 internal fun SelectionMenu(
-    count: Int,
+    selection: List<FileNode>,
     workspaceType: WorkspaceType,
     expanded: Boolean,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     onCutClicked: () -> Unit = {},
     onOpenWithClicked: () -> Unit = {},
+    onOpenTerminalClicked: () -> Unit = {},
     onRenameClicked: () -> Unit = {},
     onPropertiesClicked: () -> Unit = {},
     onCopyPathClicked: () -> Unit = {},
@@ -50,12 +52,18 @@ internal fun SelectionMenu(
             onClick = onCutClicked,
             enabled = workspaceType.isLocal(),
         )
-        if (count == 1) {
+        if (selection.size == 1) {
             if (workspaceType != WorkspaceType.SERVER) {
                 PopupMenuItem(
                     title = stringResource(R.string.explorer_menu_selection_open_with),
                     onClick = onOpenWithClicked,
                 )
+                if (selection.first().isDirectory) {
+                    PopupMenuItem(
+                        title = stringResource(R.string.explorer_menu_selection_open_terminal),
+                        onClick = onOpenTerminalClicked,
+                    )
+                }
             }
             PopupMenuItem(
                 title = stringResource(R.string.explorer_menu_selection_rename),

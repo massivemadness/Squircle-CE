@@ -62,6 +62,7 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
+import com.blacksquircle.ui.feature.terminal.api.navigation.TerminalScreen
 import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.exception.EncryptedArchiveException
@@ -438,6 +439,17 @@ internal class ExplorerViewModel @Inject constructor(
             val source = fileNode ?: selectedNodes.firstOrNull()
             if (source != null) {
                 _viewEvent.send(ExplorerViewEvent.OpenFileWith(source.file))
+            }
+            resetBuffer()
+        }
+    }
+
+    fun onOpenTerminalClicked() {
+        viewModelScope.launch {
+            val target = selectedNodes.firstOrNull()
+            if (target != null) {
+                val screen = TerminalScreen(workingDir = target.file.path)
+                _viewEvent.send(ViewEvent.Navigation(screen))
             }
             resetBuffer()
         }

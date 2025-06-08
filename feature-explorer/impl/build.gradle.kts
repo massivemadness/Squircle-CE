@@ -62,6 +62,7 @@ dependencies {
     implementation(project(":feature-explorer:api"))
     implementation(project(":feature-git:api"))
     implementation(project(":feature-servers:api"))
+    implementation(project(":feature-terminal:api"))
     implementation(project(":filesystems:filesystem-local"))
     implementation(project(":filesystems:filesystem-root"))
     implementation(project(":filesystems:filesystem-saf"))

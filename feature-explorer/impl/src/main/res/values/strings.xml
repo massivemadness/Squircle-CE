@@ -25,6 +25,7 @@
 
     <string name="explorer_menu_selection_delete">Delete</string>
     <string name="explorer_menu_selection_open_with">Open with</string>
+    <string name="explorer_menu_selection_open_terminal">Open terminal</string>
     <string name="explorer_menu_selection_rename">Rename</string>
     <string name="explorer_menu_selection_properties">Properties</string>
     <string name="explorer_menu_selection_copy_path">Copy Path</string>
