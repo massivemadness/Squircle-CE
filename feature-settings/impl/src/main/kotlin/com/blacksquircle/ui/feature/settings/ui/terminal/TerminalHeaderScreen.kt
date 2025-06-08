@@ -83,17 +83,19 @@ private fun TerminalHeaderScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(contentPadding)
         ) {
-            PreferenceGroup(
-                title = stringResource(R.string.settings_category_environment),
-            )
-            ListPreference(
-                title = stringResource(R.string.settings_terminal_shell_title),
-                subtitle = stringResource(R.string.settings_terminal_shell_subtitle),
-                entries = viewState.terminalShells.fastMap(TerminalShell::name).toTypedArray(),
-                entryValues = viewState.terminalShells.fastMap { it.type.value }.toTypedArray(),
-                selectedValue = viewState.currentShell.value,
-                onValueSelected = onTerminalShellChanged,
-            )
+            if (viewState.terminalShells.size > 1) {
+                PreferenceGroup(
+                    title = stringResource(R.string.settings_category_environment),
+                )
+                ListPreference(
+                    title = stringResource(R.string.settings_terminal_shell_title),
+                    subtitle = stringResource(R.string.settings_terminal_shell_subtitle),
+                    entries = viewState.terminalShells.fastMap(TerminalShell::name).toTypedArray(),
+                    entryValues = viewState.terminalShells.fastMap { it.type.value }.toTypedArray(),
+                    selectedValue = viewState.currentShell.value,
+                    onValueSelected = onTerminalShellChanged,
+                )
+            }
             PreferenceGroup(
                 title = stringResource(R.string.settings_category_behavior)
             )

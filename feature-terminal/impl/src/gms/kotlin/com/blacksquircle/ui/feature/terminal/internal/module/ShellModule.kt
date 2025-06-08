@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.feature.terminal.internal.module
 
 import android.content.Context
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
 import com.blacksquircle.ui.feature.terminal.data.shell.AndroidShell
-import com.blacksquircle.ui.feature.terminal.domain.runtime.TerminalShell
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
