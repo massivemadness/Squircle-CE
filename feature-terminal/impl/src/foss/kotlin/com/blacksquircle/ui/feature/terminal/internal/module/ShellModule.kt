@@ -14,33 +14,28 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.internal
+package com.blacksquircle.ui.feature.terminal.internal.module
 
-import com.blacksquircle.ui.core.settings.SettingsManager
+import android.content.Context
 import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
-import com.blacksquircle.ui.feature.terminal.data.factory.ShellFactory
-import com.blacksquircle.ui.feature.terminal.data.manager.SessionManager
+import com.blacksquircle.ui.feature.terminal.data.shell.AlpineShell
+import com.blacksquircle.ui.feature.terminal.data.shell.AndroidShell
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 
 @Module
-internal object TerminalModule {
+internal object ShellModule {
 
+    @IntoSet
     @Provides
-    @TerminalScope
-    fun provideSessionManager(shellFactory: ShellFactory): SessionManager {
-        return SessionManager(shellFactory = shellFactory)
+    fun provideAndroidShell(context: Context): TerminalShell {
+        return AndroidShell(context)
     }
 
+    @IntoSet
     @Provides
-    @TerminalScope
-    fun provideShellFactory(
-        settingsManager: SettingsManager,
-        shellSet: @JvmSuppressWildcards Set<TerminalShell>,
-    ): ShellFactory {
-        return ShellFactory(
-            settingsManager = settingsManager,
-            shellSet = shellSet,
-        )
+    fun provideAlpineShell(context: Context): TerminalShell {
+        return AlpineShell(context)
     }
 }

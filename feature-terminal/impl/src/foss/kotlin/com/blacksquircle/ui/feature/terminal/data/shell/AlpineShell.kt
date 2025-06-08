@@ -14,13 +14,22 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.domain.runtime
+package com.blacksquircle.ui.feature.terminal.data.shell
 
+import android.content.Context
+import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.feature.terminal.api.model.ShellType
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
 
-internal interface TerminalShell {
-    val type: ShellType
-    val shellPath: String
-    val homeDir: String
-    val tmpDir: String
+internal class AlpineShell(private val context: Context) : TerminalShell {
+
+    override val name = "Alpine"
+    override val type = ShellType.ALPINE
+
+    override val shellPath: String
+        get() = "/bin/sh"
+    override val homeDir: String
+        get() = Directories.terminalDir(context).absolutePath
+    override val tmpDir: String
+        get() = "/data/local/tmp"
 }

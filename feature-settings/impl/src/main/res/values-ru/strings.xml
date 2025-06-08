@@ -116,6 +116,9 @@
     <string name="settings_sort_by_name">Сорт. по имени</string>
     <string name="settings_sort_by_size">Сорт. по размеру</string>
     <string name="settings_sort_by_date">Сорт. по дате</string>
+    <string name="settings_category_environment">Окружение</string>
+    <string name="settings_terminal_shell_title">Терминал</string>
+    <string name="settings_terminal_shell_subtitle">Выберите среду выполнения терминала</string>
     <string name="settings_category_behavior">Поведение</string>
     <string name="settings_terminal_cursor_blinking_title">Мигание курсора</string>
     <string name="settings_terminal_cursor_blinking_subtitle">Переключатель мигания курсора в терминале</string>

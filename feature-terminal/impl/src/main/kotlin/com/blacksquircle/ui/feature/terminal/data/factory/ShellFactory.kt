@@ -16,17 +16,17 @@
 
 package com.blacksquircle.ui.feature.terminal.data.factory
 
-import android.content.Context
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.terminal.data.runtime.AndroidShell
-import com.blacksquircle.ui.feature.terminal.domain.runtime.TerminalShell
+import com.blacksquircle.ui.feature.terminal.api.model.ShellType
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
 
 internal class ShellFactory(
     private val settingsManager: SettingsManager,
-    private val context: Context,
+    private val shellSet: Set<TerminalShell>,
 ) {
 
     fun create(): TerminalShell {
-        return AndroidShell(context)
+        val shellType = ShellType.of(settingsManager.terminalShell)
+        return shellSet.first { it.type == shellType }
     }
 }

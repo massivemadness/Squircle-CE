@@ -133,6 +133,9 @@
     <string name="settings_sort_by_size">Sort by Size</string>
     <string name="settings_sort_by_date">Sort by Date</string>
 
+    <string name="settings_category_environment">Environment</string>
+    <string name="settings_terminal_shell_title">Terminal</string>
+    <string name="settings_terminal_shell_subtitle">Select the runtime environment</string>
     <string name="settings_category_behavior">Behavior</string>
     <string name="settings_terminal_cursor_blinking_title">Cursor Blinking</string>
     <string name="settings_terminal_cursor_blinking_subtitle">Controls whether the terminal cursor blinks</string>

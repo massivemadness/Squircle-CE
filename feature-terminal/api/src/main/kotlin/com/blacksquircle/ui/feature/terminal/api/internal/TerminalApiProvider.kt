@@ -14,17 +14,8 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.terminal
+package com.blacksquircle.ui.feature.terminal.api.internal
 
-import androidx.compose.runtime.Immutable
-import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.terminal.api.model.ShellType
-import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
-
-@Immutable
-internal data class TerminalHeaderViewState(
-    val terminalShells: List<TerminalShell>,
-    val currentShell: ShellType,
-    val cursorBlinking: Boolean,
-    val keepScreenOn: Boolean,
-) : ViewState
+interface TerminalApiProvider {
+    fun provideTerminalApiDepsProvider(): TerminalApiDepsProvider
+}

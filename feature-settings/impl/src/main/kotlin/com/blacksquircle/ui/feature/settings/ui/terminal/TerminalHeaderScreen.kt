@@ -26,16 +26,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.util.fastMap
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.preference.ListPreference
 import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.preference.SwitchPreference
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
+import com.blacksquircle.ui.feature.terminal.api.model.ShellType
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -50,6 +54,7 @@ internal fun TerminalHeaderScreen(
     TerminalHeaderScreen(
         viewState = viewState,
         onBackClicked = navController::popBackStack,
+        onTerminalShellChanged = viewModel::onTerminalShellChanged,
         onCursorBlinkingChanged = viewModel::onCursorBlinkingChanged,
         onKeepScreenOnChanged = viewModel::onKeepScreenOnChanged,
     )
@@ -59,6 +64,7 @@ internal fun TerminalHeaderScreen(
 private fun TerminalHeaderScreen(
     viewState: TerminalHeaderViewState,
     onBackClicked: () -> Unit = {},
+    onTerminalShellChanged: (String) -> Unit = {},
     onCursorBlinkingChanged: (Boolean) -> Unit = {},
     onKeepScreenOnChanged: (Boolean) -> Unit = {},
 ) {
@@ -77,6 +83,17 @@ private fun TerminalHeaderScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(contentPadding)
         ) {
+            PreferenceGroup(
+                title = stringResource(R.string.settings_category_environment),
+            )
+            ListPreference(
+                title = stringResource(R.string.settings_terminal_shell_title),
+                subtitle = stringResource(R.string.settings_terminal_shell_subtitle),
+                entries = viewState.terminalShells.fastMap(TerminalShell::name).toTypedArray(),
+                entryValues = viewState.terminalShells.fastMap { it.type.value }.toTypedArray(),
+                selectedValue = viewState.currentShell.value,
+                onValueSelected = onTerminalShellChanged,
+            )
             PreferenceGroup(
                 title = stringResource(R.string.settings_category_behavior)
             )
@@ -102,6 +119,8 @@ private fun TerminalHeaderScreenPreview() {
     PreviewBackground {
         TerminalHeaderScreen(
             viewState = TerminalHeaderViewState(
+                terminalShells = emptyList(),
+                currentShell = ShellType.ANDROID,
                 cursorBlinking = true,
                 keepScreenOn = true,
             )
