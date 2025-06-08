@@ -33,7 +33,7 @@ internal const val TERMINAL_WORKSPACE_ID = "terminal_workspace"
 internal fun Context.createLocalWorkspace(): WorkspaceModel {
     return WorkspaceModel(
         uuid = LOCAL_WORKSPACE_ID,
-        name = getString(R.string.explorer_workspace_button_local),
+        name = getString(R.string.explorer_workspace_button_files),
         type = WorkspaceType.LOCAL,
         defaultLocation = FileModel(
             fileUri = LocalFilesystem.LOCAL_SCHEME +

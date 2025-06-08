@@ -118,9 +118,9 @@
     <string name="explorer_workspace_terminal_home_title">Terminal Home</string>
     <string name="explorer_workspace_terminal_home_description">Open terminal home directory</string>
 
-    <string name="explorer_workspace_button_local" translatable="false">Local</string>
-    <string name="explorer_workspace_button_root" translatable="false">Root</string>
-    <string name="explorer_workspace_button_home" translatable="false">Home</string>
+    <string name="explorer_workspace_button_files">Files</string>
+    <string name="explorer_workspace_button_root">Root</string>
+    <string name="explorer_workspace_button_home">Home</string>
     <string name="explorer_workspace_button_add">Add</string>
 
     <string name="explorer_toast_select_folder_to_paste">Select folder to paste</string>

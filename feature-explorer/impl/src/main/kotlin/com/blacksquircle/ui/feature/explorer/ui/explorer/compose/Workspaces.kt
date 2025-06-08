@@ -90,7 +90,7 @@ private fun WorkspaceItem(
             WorkspaceType.SERVER -> UiR.drawable.ic_server_network
         },
         label = when (workspace.type) {
-            WorkspaceType.LOCAL -> stringResource(R.string.explorer_workspace_button_local)
+            WorkspaceType.LOCAL -> stringResource(R.string.explorer_workspace_button_files)
             WorkspaceType.ROOT -> stringResource(R.string.explorer_workspace_button_root)
             WorkspaceType.TERMINAL -> stringResource(R.string.explorer_workspace_button_home)
             WorkspaceType.CUSTOM,

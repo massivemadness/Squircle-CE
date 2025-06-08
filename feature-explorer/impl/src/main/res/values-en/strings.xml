@@ -96,6 +96,9 @@
     <string name="explorer_workspace_remote_server_description">Connect to a remote server with address and user credentials</string>
     <string name="explorer_workspace_terminal_home_title">Terminal Home</string>
     <string name="explorer_workspace_terminal_home_description">Open terminal home directory</string>
+    <string name="explorer_workspace_button_files">Files</string>
+    <string name="explorer_workspace_button_root">Root</string>
+    <string name="explorer_workspace_button_home">Home</string>
     <string name="explorer_workspace_button_add">Add</string>
     <string name="explorer_toast_select_folder_to_paste">Select folder to paste</string>
     <string name="explorer_toast_file_cannot_be_opened">File cannot be opened</string>
