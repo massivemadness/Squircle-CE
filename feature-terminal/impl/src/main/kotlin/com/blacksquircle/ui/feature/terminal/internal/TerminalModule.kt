@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.terminal.internal
 
 import android.content.Context
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.terminal.data.factory.RuntimeFactory
+import com.blacksquircle.ui.feature.terminal.data.factory.ShellFactory
 import com.blacksquircle.ui.feature.terminal.data.manager.SessionManager
 import dagger.Module
 import dagger.Provides
@@ -28,8 +28,8 @@ internal object TerminalModule {
 
     @Provides
     @TerminalScope
-    fun provideSessionManager(runtimeFactory: RuntimeFactory): SessionManager {
-        return SessionManager(runtimeFactory)
+    fun provideSessionManager(shellFactory: ShellFactory): SessionManager {
+        return SessionManager(shellFactory = shellFactory)
     }
 
     @Provides
@@ -37,8 +37,8 @@ internal object TerminalModule {
     fun provideRuntimeFactory(
         settingsManager: SettingsManager,
         context: Context,
-    ): RuntimeFactory {
-        return RuntimeFactory(
+    ): ShellFactory {
+        return ShellFactory(
             settingsManager = settingsManager,
             context = context,
         )

@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.domain.runtime
+package com.blacksquircle.ui.feature.terminal.data.runtime
 
-import com.termux.terminal.TerminalSession
-import com.termux.terminal.TerminalSessionClient
+import android.content.Context
+import com.blacksquircle.ui.core.files.Directories
+import com.blacksquircle.ui.feature.terminal.api.model.ShellType
+import com.blacksquircle.ui.feature.terminal.domain.runtime.TerminalShell
 
-internal interface TerminalRuntime {
+internal class AndroidShell(private val context: Context) : TerminalShell {
 
-    val name: String
-
-    fun create(client: TerminalSessionClient): TerminalSession
+    override val type = ShellType.ANDROID
+    override val shellPath = "/system/bin/sh"
+    override val homeDir: String
+        get() = Directories.terminalDir(context).absolutePath
+    override val tmpDir = "/data/local/tmp"
 }

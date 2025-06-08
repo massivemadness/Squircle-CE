@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.data.factory
+package com.blacksquircle.ui.feature.terminal.api.model
 
-import android.content.Context
-import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.terminal.data.runtime.AndroidRuntime
-import com.blacksquircle.ui.feature.terminal.domain.runtime.TerminalRuntime
+enum class ShellType(val value: String) {
+    ANDROID("android"),
+    ALPINE("alpine");
 
-internal class RuntimeFactory(
-    private val settingsManager: SettingsManager,
-    private val context: Context,
-) {
+    companion object {
 
-    fun create(): TerminalRuntime {
-        return AndroidRuntime(context)
+        fun of(value: String): ShellType {
+            return entries.find { it.value == value } ?: ANDROID
+        }
     }
 }

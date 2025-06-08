@@ -16,17 +16,29 @@
 
 package com.blacksquircle.ui.feature.terminal.data.manager
 
-import com.blacksquircle.ui.feature.terminal.data.factory.RuntimeFactory
+import com.blacksquircle.ui.feature.terminal.data.factory.ShellFactory
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 import com.blacksquircle.ui.feature.terminal.ui.model.TerminalCommand
 import com.blacksquircle.ui.feature.terminal.ui.view.TerminalSessionClientImpl
+import com.termux.shared.shell.command.environment.ShellEnvironmentUtils.convertEnvironmentToEnviron
+import com.termux.shared.shell.command.environment.ShellEnvironmentUtils.putToEnvIfInSystemEnv
+import com.termux.shared.shell.command.environment.UnixShellEnvironment.ENV_COLORTERM
+import com.termux.shared.shell.command.environment.UnixShellEnvironment.ENV_HOME
+import com.termux.shared.shell.command.environment.UnixShellEnvironment.ENV_LANG
+import com.termux.shared.shell.command.environment.UnixShellEnvironment.ENV_PATH
+import com.termux.shared.shell.command.environment.UnixShellEnvironment.ENV_TERM
+import com.termux.shared.shell.command.environment.UnixShellEnvironment.ENV_TMPDIR
+import com.termux.terminal.TerminalEmulator
+import com.termux.terminal.TerminalSession
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
-internal class SessionManager(private val runtimeFactory: RuntimeFactory) {
+internal class SessionManager(
+    private val shellFactory: ShellFactory,
+) {
 
     private val sessions = ConcurrentHashMap<String, SessionModel>()
     private val counter = AtomicInteger(0)
@@ -36,7 +48,6 @@ internal class SessionManager(private val runtimeFactory: RuntimeFactory) {
     }
 
     fun createSession(): String {
-        val runtime = runtimeFactory.create()
         val sessionId = UUID.randomUUID().toString()
         val commands = MutableSharedFlow<TerminalCommand>(extraBufferCapacity = 64)
         val client = TerminalSessionClientImpl(
@@ -44,11 +55,48 @@ internal class SessionManager(private val runtimeFactory: RuntimeFactory) {
             onCopy = { text -> commands.tryEmit(TerminalCommand.Copy(text)) },
             onPaste = { commands.tryEmit(TerminalCommand.Paste) }
         )
+
+        val shell = shellFactory.create()
+        val environment = HashMap<String, String>()
+
+        environment[ENV_HOME] = shell.homeDir
+        environment[ENV_LANG] = DEFAULT_LANG
+        environment[ENV_PATH] = System.getenv(ENV_PATH).orEmpty()
+        environment[ENV_TMPDIR] = shell.tmpDir
+
+        environment[ENV_COLORTERM] = DEFAULT_COLOR
+        environment[ENV_TERM] = DEFAULT_TERM
+
+        putToEnvIfInSystemEnv(environment, "ANDROID_ASSETS")
+        putToEnvIfInSystemEnv(environment, "ANDROID_DATA")
+        putToEnvIfInSystemEnv(environment, "ANDROID_ROOT")
+        putToEnvIfInSystemEnv(environment, "ANDROID_STORAGE")
+
+        putToEnvIfInSystemEnv(environment, "EXTERNAL_STORAGE")
+        putToEnvIfInSystemEnv(environment, "ASEC_MOUNTPOINT")
+        putToEnvIfInSystemEnv(environment, "LOOP_MOUNTPOINT")
+
+        putToEnvIfInSystemEnv(environment, "ANDROID_RUNTIME_ROOT")
+        putToEnvIfInSystemEnv(environment, "ANDROID_ART_ROOT")
+        putToEnvIfInSystemEnv(environment, "ANDROID_I18N_ROOT")
+        putToEnvIfInSystemEnv(environment, "ANDROID_TZDATA_ROOT")
+
+        putToEnvIfInSystemEnv(environment, "BOOTCLASSPATH")
+        putToEnvIfInSystemEnv(environment, "DEX2OATBOOTCLASSPATH")
+        putToEnvIfInSystemEnv(environment, "SYSTEMSERVERCLASSPATH")
+
         sessions[sessionId] = SessionModel(
             id = sessionId,
             name = DEFAULT_NAME,
             ordinal = counter.getAndIncrement(),
-            session = runtime.create(client),
+            session = TerminalSession(
+                /* shellPath = */ shell.shellPath,
+                /* cwd = */ shell.homeDir,
+                /* args = */ emptyArray(),
+                /* env = */ convertEnvironmentToEnviron(environment).toTypedArray(),
+                /* transcriptRows = */ TerminalEmulator.DEFAULT_TERMINAL_TRANSCRIPT_ROWS,
+                /* client = */ client,
+            ),
             commands = commands.asSharedFlow(),
         )
         return sessionId
@@ -68,5 +116,8 @@ internal class SessionManager(private val runtimeFactory: RuntimeFactory) {
 
     companion object {
         private const val DEFAULT_NAME = "Local"
+        private const val DEFAULT_LANG = "en_US.UTF-8"
+        private const val DEFAULT_COLOR = "truecolor"
+        private const val DEFAULT_TERM = "xterm-256color"
     }
 }

@@ -51,7 +51,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     testImplementation(libs.kotlinx.coroutines.test)
     implementation(libs.kotlinx.serialization)
-    implementation(libs.termux.terminal)
+    implementation(libs.termux.shared)
 
     implementation(project(":common-core"))
     implementation(project(":common-ui"))

@@ -58,7 +58,7 @@ import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
-import com.blacksquircle.ui.feature.terminal.api.TerminalScreen
+import com.blacksquircle.ui.feature.terminal.api.navigation.TerminalScreen
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job

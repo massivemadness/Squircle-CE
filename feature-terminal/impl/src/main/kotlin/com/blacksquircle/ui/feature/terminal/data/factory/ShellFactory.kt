@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal
+package com.blacksquircle.ui.feature.terminal.data.factory
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
-import com.blacksquircle.ui.feature.terminal.api.navigation.TerminalScreen
-import com.blacksquircle.ui.feature.terminal.ui.TerminalScreen
+import android.content.Context
+import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.feature.terminal.data.runtime.AndroidShell
+import com.blacksquircle.ui.feature.terminal.domain.runtime.TerminalShell
 
-fun NavGraphBuilder.terminalGraph(navController: NavHostController) {
-    composable<TerminalScreen> {
-        TerminalScreen(navController)
+internal class ShellFactory(
+    private val settingsManager: SettingsManager,
+    private val context: Context,
+) {
+
+    fun create(): TerminalShell {
+        return AndroidShell(context)
     }
 }
