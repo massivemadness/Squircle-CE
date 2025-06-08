@@ -16,7 +16,17 @@
 
 package com.blacksquircle.ui.feature.terminal.api.navigation
 
+import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object TerminalScreen
+data class TerminalScreen(
+    val workingDir: String? = null,
+) {
+    val args: ShellArgs?
+        get() = if (workingDir != null) {
+            ShellArgs(workingDir = workingDir)
+        } else {
+            null
+        }
+}

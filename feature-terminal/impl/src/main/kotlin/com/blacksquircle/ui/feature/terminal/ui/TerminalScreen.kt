@@ -61,6 +61,7 @@ import com.blacksquircle.ui.ds.tabs.TabItem
 import com.blacksquircle.ui.ds.tabs.TabLayout
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.terminal.R
+import com.blacksquircle.ui.feature.terminal.api.navigation.TerminalScreen
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 import com.blacksquircle.ui.feature.terminal.internal.TerminalComponent
 import com.blacksquircle.ui.feature.terminal.ui.extrakeys.ExtraKeysConstants
@@ -81,10 +82,11 @@ private const val EXTRA_KEYS_PROPERTIES = "[" +
 
 @Composable
 internal fun TerminalScreen(
+    navArgs: TerminalScreen,
     navController: NavController,
     viewModel: TerminalViewModel = daggerViewModel { context ->
         val component = TerminalComponent.buildOrGet(context)
-        TerminalViewModel.Factory().also(component::inject)
+        TerminalViewModel.ParameterizedFactory(navArgs.args).also(component::inject)
     }
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()

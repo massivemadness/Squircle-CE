@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.terminal.data.manager
 
+import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
 import com.blacksquircle.ui.feature.terminal.data.factory.ShellFactory
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 import com.blacksquircle.ui.feature.terminal.ui.model.TerminalCommand
@@ -47,7 +48,7 @@ internal class SessionManager(
         return sessions.values.sortedBy(SessionModel::ordinal)
     }
 
-    fun createSession(): String {
+    fun createSession(args: ShellArgs? = null): String {
         val sessionId = UUID.randomUUID().toString()
         val commands = MutableSharedFlow<TerminalCommand>(extraBufferCapacity = 64)
         val client = TerminalSessionClientImpl(
@@ -91,7 +92,7 @@ internal class SessionManager(
             ordinal = counter.getAndIncrement(),
             session = TerminalSession(
                 /* shellPath = */ shell.shellPath,
-                /* cwd = */ shell.homeDir,
+                /* cwd = */ args?.workingDir ?: shell.homeDir,
                 /* args = */ emptyArray(),
                 /* env = */ convertEnvironmentToEnviron(environment).toTypedArray(),
                 /* transcriptRows = */ TerminalEmulator.DEFAULT_TERMINAL_TRANSCRIPT_ROWS,

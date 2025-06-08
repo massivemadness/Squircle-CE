@@ -830,7 +830,7 @@ internal class EditorViewModel @Inject constructor(
 
     fun onTerminalClicked() {
         viewModelScope.launch {
-            val screen = TerminalScreen
+            val screen = TerminalScreen()
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }

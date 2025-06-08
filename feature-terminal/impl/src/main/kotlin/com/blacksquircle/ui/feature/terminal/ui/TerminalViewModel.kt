@@ -22,8 +22,12 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
 import com.blacksquircle.ui.feature.terminal.data.manager.SessionManager
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,11 +37,11 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Provider
 
-internal class TerminalViewModel @Inject constructor(
+internal class TerminalViewModel @AssistedInject constructor(
     private val settingsManager: SettingsManager,
     private val sessionManager: SessionManager,
+    @Assisted private val pendingCommand: ShellArgs?,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(TerminalViewState())
@@ -109,12 +113,12 @@ internal class TerminalViewModel @Inject constructor(
     private fun loadSessions() {
         sessions = sessionManager.sessions()
 
-        if (sessions.isEmpty()) {
-            sessionManager.createSession()
+        if (sessions.isEmpty() || pendingCommand != null) {
+            sessionManager.createSession(pendingCommand)
             sessions = sessionManager.sessions()
         }
 
-        selectedSession = sessions.first().id
+        selectedSession = sessions.last().id
 
         _viewState.update {
             it.copy(
@@ -126,14 +130,19 @@ internal class TerminalViewModel @Inject constructor(
         }
     }
 
-    class Factory : ViewModelProvider.Factory {
+    class ParameterizedFactory(private val pendingCommand: ShellArgs?) : ViewModelProvider.Factory {
 
         @Inject
-        lateinit var viewModelProvider: Provider<TerminalViewModel>
+        lateinit var viewModelFactory: Factory
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return viewModelProvider.get() as T
+            return viewModelFactory.create(pendingCommand) as T
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(@Assisted pendingCommand: ShellArgs?): TerminalViewModel
     }
 }

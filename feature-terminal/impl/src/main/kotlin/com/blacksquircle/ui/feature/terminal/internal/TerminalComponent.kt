@@ -33,7 +33,7 @@ import dagger.Component
 )
 internal interface TerminalComponent {
 
-    fun inject(factory: TerminalViewModel.Factory)
+    fun inject(factory: TerminalViewModel.ParameterizedFactory)
 
     @Component.Factory
     interface Factory {
