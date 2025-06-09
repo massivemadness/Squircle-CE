@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.terminal.internal.api
 
-import com.blacksquircle.ui.feature.terminal.internal.module.ShellModule
+import com.blacksquircle.ui.feature.terminal.internal.ShellModule
 import dagger.Module
 
 @Module(includes = [ShellModule::class])

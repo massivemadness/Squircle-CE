@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.internal.module
+package com.blacksquircle.ui.feature.terminal.internal
 
 import android.content.Context
-import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
-import com.blacksquircle.ui.feature.terminal.data.shell.AlpineShell
-import com.blacksquircle.ui.feature.terminal.data.shell.AndroidShell
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
+import com.blacksquircle.ui.feature.terminal.data.shell.AlpineRuntime
+import com.blacksquircle.ui.feature.terminal.data.shell.AndroidRuntime
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
@@ -29,13 +29,13 @@ internal object ShellModule {
 
     @IntoSet
     @Provides
-    fun provideAndroidShell(context: Context): TerminalShell {
-        return AndroidShell(context)
+    fun provideAndroidShell(context: Context): TerminalRuntime {
+        return AndroidRuntime(context)
     }
 
     @IntoSet
     @Provides
-    fun provideAlpineShell(context: Context): TerminalShell {
-        return AlpineShell(context)
+    fun provideAlpineShell(context: Context): TerminalRuntime {
+        return AlpineRuntime(context)
     }
 }

@@ -16,14 +16,10 @@
 
 package com.blacksquircle.ui.feature.terminal.api.model
 
-enum class ShellType(val value: String) {
-    ANDROID("android"),
-    ALPINE("alpine");
-
-    companion object {
-
-        fun of(value: String): ShellType {
-            return entries.find { it.value == value } ?: ANDROID
-        }
-    }
+interface TerminalRuntime {
+    val name: String
+    val type: RuntimeType
+    val shellPath: String
+    val homeDir: String
+    val tmpDir: String
 }

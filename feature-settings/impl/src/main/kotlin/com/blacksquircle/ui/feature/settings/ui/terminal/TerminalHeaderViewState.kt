@@ -18,13 +18,13 @@ package com.blacksquircle.ui.feature.settings.ui.terminal
 
 import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.mvi.ViewState
-import com.blacksquircle.ui.feature.terminal.api.model.ShellType
-import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
+import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
 
 @Immutable
 internal data class TerminalHeaderViewState(
-    val terminalShells: List<TerminalShell>,
-    val currentShell: ShellType,
+    val terminalRuntimes: List<TerminalRuntime>,
+    val currentRuntime: RuntimeType,
     val cursorBlinking: Boolean,
     val keepScreenOn: Boolean,
 ) : ViewState

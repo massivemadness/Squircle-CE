@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.data.factory
+package com.blacksquircle.ui.feature.terminal.api.model
 
-import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.terminal.api.model.ShellType
-import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
+enum class RuntimeType(val value: String) {
+    ANDROID("android"),
+    ALPINE("alpine");
 
-internal class ShellFactory(
-    private val settingsManager: SettingsManager,
-    private val shellSet: Set<TerminalShell>,
-) {
+    companion object {
 
-    fun create(): TerminalShell {
-        val shellType = ShellType.of(settingsManager.terminalShell)
-        return shellSet.first { it.type == shellType }
+        fun of(value: String): RuntimeType {
+            return entries.find { it.value == value } ?: ANDROID
+        }
     }
 }

@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.terminal.data.manager
 
 import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
-import com.blacksquircle.ui.feature.terminal.data.factory.ShellFactory
+import com.blacksquircle.ui.feature.terminal.data.factory.RuntimeFactory
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 import com.blacksquircle.ui.feature.terminal.ui.model.TerminalCommand
 import com.blacksquircle.ui.feature.terminal.ui.view.TerminalSessionClientImpl
@@ -38,7 +38,7 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
 internal class SessionManager(
-    private val shellFactory: ShellFactory,
+    private val runtimeFactory: RuntimeFactory,
 ) {
 
     private val sessions = ConcurrentHashMap<String, SessionModel>()
@@ -57,13 +57,13 @@ internal class SessionManager(
             onPaste = { commands.tryEmit(TerminalCommand.Paste) }
         )
 
-        val shell = shellFactory.create()
+        val runtime = runtimeFactory.create()
         val environment = HashMap<String, String>()
 
-        environment[ENV_HOME] = shell.homeDir
+        environment[ENV_HOME] = runtime.homeDir
         environment[ENV_LANG] = DEFAULT_LANG
         environment[ENV_PATH] = System.getenv(ENV_PATH).orEmpty()
-        environment[ENV_TMPDIR] = shell.tmpDir
+        environment[ENV_TMPDIR] = runtime.tmpDir
 
         environment[ENV_COLORTERM] = DEFAULT_COLOR
         environment[ENV_TERM] = DEFAULT_TERM
@@ -91,8 +91,8 @@ internal class SessionManager(
             name = DEFAULT_NAME,
             ordinal = counter.getAndIncrement(),
             session = TerminalSession(
-                /* shellPath = */ shell.shellPath,
-                /* cwd = */ args?.workingDir ?: shell.homeDir,
+                /* shellPath = */ runtime.shellPath,
+                /* cwd = */ args?.workingDir ?: runtime.homeDir,
                 /* args = */ emptyArray(),
                 /* env = */ convertEnvironmentToEnviron(environment).toTypedArray(),
                 /* transcriptRows = */ TerminalEmulator.DEFAULT_TERMINAL_TRANSCRIPT_ROWS,

@@ -36,7 +36,7 @@ internal object ServersModule {
     @ServersScope
     fun provideServerFilesystemFactory(context: Context): ServerFactory {
         return ServerFactoryImpl(
-            cacheDir = Directories.ftpDir(context),
+            cacheDir = Directories.tmpDir(context),
             keysDir = Directories.keysDir(context),
         )
     }

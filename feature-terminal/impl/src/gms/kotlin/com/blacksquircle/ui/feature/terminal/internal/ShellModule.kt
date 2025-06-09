@@ -14,12 +14,21 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.api.model
+package com.blacksquircle.ui.feature.terminal.internal
 
-interface TerminalShell {
-    val name: String
-    val type: ShellType
-    val shellPath: String
-    val homeDir: String
-    val tmpDir: String
+import android.content.Context
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
+import com.blacksquircle.ui.feature.terminal.data.shell.AndroidShell
+import dagger.Module
+import dagger.Provides
+import dagger.multibindings.IntoSet
+
+@Module
+internal object ShellModule {
+
+    @IntoSet
+    @Provides
+    fun provideAndroidShell(context: Context): TerminalShell {
+        return AndroidShell(context)
+    }
 }

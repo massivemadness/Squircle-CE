@@ -18,13 +18,13 @@ package com.blacksquircle.ui.feature.terminal.data.shell
 
 import android.content.Context
 import com.blacksquircle.ui.core.files.Directories
-import com.blacksquircle.ui.feature.terminal.api.model.ShellType
-import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
+import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
 
-internal class AndroidShell(private val context: Context) : TerminalShell {
+internal class AndroidRuntime(private val context: Context) : TerminalRuntime {
 
     override val name = "Android"
-    override val type = ShellType.ANDROID
+    override val type = RuntimeType.ANDROID
 
     override val shellPath: String
         get() = "/system/bin/sh"

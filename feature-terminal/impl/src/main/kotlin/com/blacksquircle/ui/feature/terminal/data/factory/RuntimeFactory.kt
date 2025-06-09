@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.internal.module
+package com.blacksquircle.ui.feature.terminal.data.factory
 
-import android.content.Context
-import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
-import com.blacksquircle.ui.feature.terminal.data.shell.AndroidShell
-import dagger.Module
-import dagger.Provides
-import dagger.multibindings.IntoSet
+import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
 
-@Module
-internal object ShellModule {
+internal class RuntimeFactory(
+    private val settingsManager: SettingsManager,
+    private val runtimeSet: Set<TerminalRuntime>,
+) {
 
-    @IntoSet
-    @Provides
-    fun provideAndroidShell(context: Context): TerminalShell {
-        return AndroidShell(context)
+    fun create(): TerminalRuntime {
+        val runtimeType = RuntimeType.of(settingsManager.terminalShell)
+        return runtimeSet.first { it.type == runtimeType }
     }
 }

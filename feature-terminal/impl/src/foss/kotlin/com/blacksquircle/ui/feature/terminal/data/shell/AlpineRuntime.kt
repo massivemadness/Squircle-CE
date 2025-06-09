@@ -18,18 +18,18 @@ package com.blacksquircle.ui.feature.terminal.data.shell
 
 import android.content.Context
 import com.blacksquircle.ui.core.files.Directories
-import com.blacksquircle.ui.feature.terminal.api.model.ShellType
-import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
+import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
 
-internal class AlpineShell(private val context: Context) : TerminalShell {
+internal class AlpineRuntime(private val context: Context) : TerminalRuntime {
 
     override val name = "Alpine"
-    override val type = ShellType.ALPINE
+    override val type = RuntimeType.ALPINE
 
     override val shellPath: String
-        get() = "/bin/sh"
+        get() = Directories.alpineDir(context).absolutePath + "/bin/sh"
     override val homeDir: String
         get() = Directories.terminalDir(context).absolutePath
     override val tmpDir: String
-        get() = "/data/local/tmp"
+        get() = Directories.tmpDir(context).absolutePath
 }

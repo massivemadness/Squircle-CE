@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.feature.terminal.internal
 
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
-import com.blacksquircle.ui.feature.terminal.data.factory.ShellFactory
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
+import com.blacksquircle.ui.feature.terminal.data.factory.RuntimeFactory
 import com.blacksquircle.ui.feature.terminal.data.manager.SessionManager
 import dagger.Module
 import dagger.Provides
@@ -28,19 +28,19 @@ internal object TerminalModule {
 
     @Provides
     @TerminalScope
-    fun provideSessionManager(shellFactory: ShellFactory): SessionManager {
-        return SessionManager(shellFactory = shellFactory)
+    fun provideSessionManager(runtimeFactory: RuntimeFactory): SessionManager {
+        return SessionManager(runtimeFactory = runtimeFactory)
     }
 
     @Provides
     @TerminalScope
-    fun provideShellFactory(
+    fun provideRuntimeFactory(
         settingsManager: SettingsManager,
-        shellSet: @JvmSuppressWildcards Set<TerminalShell>,
-    ): ShellFactory {
-        return ShellFactory(
+        runtimeSet: @JvmSuppressWildcards Set<TerminalRuntime>,
+    ): RuntimeFactory {
+        return RuntimeFactory(
             settingsManager = settingsManager,
-            shellSet = shellSet,
+            runtimeSet = runtimeSet,
         )
     }
 }

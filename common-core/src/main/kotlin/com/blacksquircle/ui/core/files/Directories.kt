@@ -32,9 +32,9 @@ object Directories {
         return directory
     }
 
-    /** /data/data/com.blacksquircle.ui/cache/ftp */
-    fun ftpDir(context: Context): File {
-        val directory = File(context.cacheDir, "ftp")
+    /** /data/data/com.blacksquircle.ui/cache/tmp */
+    fun tmpDir(context: Context): File {
+        val directory = File(context.cacheDir, "tmp")
         if (!directory.exists()) {
             directory.mkdirs()
         }
@@ -75,6 +75,15 @@ object Directories {
     /** /data/data/com.blacksquircle.ui/files/home */
     fun terminalDir(context: Context): File {
         val directory = File(context.filesDir, "home")
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+        return directory
+    }
+
+    /** /data/data/com.blacksquircle.ui/files/alpine */
+    fun alpineDir(context: Context): File {
+        val directory = File(context.filesDir, "alpine")
         if (!directory.exists()) {
             directory.mkdirs()
         }
