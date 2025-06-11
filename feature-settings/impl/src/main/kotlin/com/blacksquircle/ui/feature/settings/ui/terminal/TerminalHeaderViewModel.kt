@@ -42,8 +42,8 @@ internal class TerminalHeaderViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    fun onTerminalShellChanged(shell: String) {
-        settingsManager.terminalShell = shell
+    fun onTerminalRuntimeChanged(runtime: String) {
+        settingsManager.terminalRuntime = runtime
         _viewState.value = updateViewState()
     }
 
@@ -60,7 +60,7 @@ internal class TerminalHeaderViewModel @Inject constructor(
     private fun updateViewState(): TerminalHeaderViewState {
         return TerminalHeaderViewState(
             terminalRuntimes = runtimeSet.toList(),
-            currentRuntime = RuntimeType.of(settingsManager.terminalShell),
+            currentRuntime = RuntimeType.of(settingsManager.terminalRuntime),
             cursorBlinking = settingsManager.cursorBlinking,
             keepScreenOn = settingsManager.keepScreenOn,
         )

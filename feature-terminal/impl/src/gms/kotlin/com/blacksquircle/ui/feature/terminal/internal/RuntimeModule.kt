@@ -14,10 +14,21 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.internal.api
+package com.blacksquircle.ui.feature.terminal.internal
 
-import com.blacksquircle.ui.feature.terminal.internal.RuntimeModule
+import android.content.Context
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
+import com.blacksquircle.ui.feature.terminal.data.runtime.AndroidRuntime
 import dagger.Module
+import dagger.Provides
+import dagger.multibindings.IntoSet
 
-@Module(includes = [RuntimeModule::class])
-object TerminalApiModule
+@Module
+internal object RuntimeModule {
+
+    @IntoSet
+    @Provides
+    fun provideAndroidRuntime(context: Context): TerminalRuntime {
+        return AndroidRuntime(context)
+    }
+}

@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.internal.api
+package com.blacksquircle.ui.feature.terminal.domain.manager
 
-import com.blacksquircle.ui.feature.terminal.internal.RuntimeModule
-import dagger.Module
+import com.blacksquircle.ui.feature.terminal.domain.model.RuntimeState
+import kotlinx.coroutines.flow.Flow
 
-@Module(includes = [RuntimeModule::class])
-object TerminalApiModule
+internal interface RuntimeManager {
+    fun createRuntime(): Flow<RuntimeState>
+}

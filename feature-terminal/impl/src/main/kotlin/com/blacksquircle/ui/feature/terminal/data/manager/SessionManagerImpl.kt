@@ -17,7 +17,8 @@
 package com.blacksquircle.ui.feature.terminal.data.manager
 
 import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
-import com.blacksquircle.ui.feature.terminal.data.factory.RuntimeFactory
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
+import com.blacksquircle.ui.feature.terminal.domain.manager.SessionManager
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 import com.blacksquircle.ui.feature.terminal.ui.model.TerminalCommand
 import com.blacksquircle.ui.feature.terminal.ui.view.TerminalSessionClientImpl
@@ -37,18 +38,16 @@ import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
-internal class SessionManager(
-    private val runtimeFactory: RuntimeFactory,
-) {
+internal class SessionManagerImpl : SessionManager {
 
     private val sessions = ConcurrentHashMap<String, SessionModel>()
     private val counter = AtomicInteger(0)
 
-    fun sessions(): List<SessionModel> {
+    override fun sessions(): List<SessionModel> {
         return sessions.values.sortedBy(SessionModel::ordinal)
     }
 
-    fun createSession(args: ShellArgs? = null): String {
+    override fun createSession(runtime: TerminalRuntime, args: ShellArgs?): String {
         val sessionId = UUID.randomUUID().toString()
         val commands = MutableSharedFlow<TerminalCommand>(extraBufferCapacity = 64)
         val client = TerminalSessionClientImpl(
@@ -56,8 +55,6 @@ internal class SessionManager(
             onCopy = { text -> commands.tryEmit(TerminalCommand.Copy(text)) },
             onPaste = { commands.tryEmit(TerminalCommand.Paste) }
         )
-
-        val runtime = runtimeFactory.create()
         val environment = HashMap<String, String>()
 
         environment[ENV_HOME] = runtime.homeDir
@@ -103,7 +100,7 @@ internal class SessionManager(
         return sessionId
     }
 
-    fun closeSession(sessionId: String) {
+    override fun closeSession(sessionId: String) {
         val terminalSession = sessions[sessionId]?.session ?: return
         if (terminalSession.pid > 0) {
             terminalSession.finishIfRunning()

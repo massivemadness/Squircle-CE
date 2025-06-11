@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.data.factory
+package com.blacksquircle.ui.feature.terminal.data.runtime
 
-import com.blacksquircle.ui.core.settings.SettingsManager
+import android.content.Context
+import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
 import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
 
-internal class RuntimeFactory(
-    private val settingsManager: SettingsManager,
-    private val runtimeSet: Set<TerminalRuntime>,
-) {
+internal class AlpineRuntime(private val context: Context) : TerminalRuntime {
 
-    fun create(): TerminalRuntime {
-        val runtimeType = RuntimeType.of(settingsManager.terminalShell)
-        return runtimeSet.first { it.type == runtimeType }
-    }
+    override val name = "Alpine"
+    override val type = RuntimeType.ALPINE
+
+    override val shellPath: String
+        get() = Directories.alpineDir(context).absolutePath + "/bin/sh"
+    override val homeDir: String
+        get() = Directories.terminalDir(context).absolutePath
+    override val tmpDir: String
+        get() = Directories.tmpDir(context).absolutePath
 }

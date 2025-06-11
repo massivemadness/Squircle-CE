@@ -19,4 +19,9 @@
 
     <string name="terminal_toolbar_title">Terminal</string>
 
+    <string name="terminal_menu_session_new">New Session</string>
+    <string name="terminal_menu_session_close">Close Session</string>
+
+    <string name="terminal_installer_message_installing">Installing… %d%%</string>
+
 </resources>

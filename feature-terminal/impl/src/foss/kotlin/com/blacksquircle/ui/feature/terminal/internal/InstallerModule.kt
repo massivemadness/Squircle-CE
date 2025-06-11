@@ -16,26 +16,19 @@
 
 package com.blacksquircle.ui.feature.terminal.internal
 
-import android.content.Context
-import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
-import com.blacksquircle.ui.feature.terminal.data.shell.AlpineRuntime
-import com.blacksquircle.ui.feature.terminal.data.shell.AndroidRuntime
+import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
+import com.blacksquircle.ui.feature.terminal.data.installer.AlpineInstaller
+import com.blacksquircle.ui.feature.terminal.domain.installer.RuntimeInstaller
+import com.blacksquircle.ui.feature.terminal.internal.multibindings.RuntimeKey
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
-import dagger.multibindings.IntoSet
+import dagger.multibindings.IntoMap
 
 @Module
-internal object ShellModule {
+internal interface InstallerModule {
 
-    @IntoSet
-    @Provides
-    fun provideAndroidShell(context: Context): TerminalRuntime {
-        return AndroidRuntime(context)
-    }
-
-    @IntoSet
-    @Provides
-    fun provideAlpineShell(context: Context): TerminalRuntime {
-        return AlpineRuntime(context)
-    }
+    @Binds
+    @IntoMap
+    @RuntimeKey(RuntimeType.ALPINE)
+    fun bindAlpineInstaller(installer: AlpineInstaller): RuntimeInstaller
 }

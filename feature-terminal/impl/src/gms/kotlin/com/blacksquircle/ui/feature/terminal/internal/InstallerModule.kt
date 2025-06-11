@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.internal.api
+package com.blacksquircle.ui.feature.terminal.internal
 
-import com.blacksquircle.ui.feature.terminal.internal.RuntimeModule
 import dagger.Module
 
-@Module(includes = [RuntimeModule::class])
-object TerminalApiModule
+@Module
+internal object InstallerModule

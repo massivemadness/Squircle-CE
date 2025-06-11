@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.data.shell
+package com.blacksquircle.ui.feature.terminal.data.runtime
 
 import android.content.Context
 import com.blacksquircle.ui.core.files.Directories

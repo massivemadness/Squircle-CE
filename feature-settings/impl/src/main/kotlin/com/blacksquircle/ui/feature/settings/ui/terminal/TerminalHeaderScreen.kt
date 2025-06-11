@@ -55,7 +55,7 @@ internal fun TerminalHeaderScreen(
     TerminalHeaderScreen(
         viewState = viewState,
         onBackClicked = navController::popBackStack,
-        onTerminalShellChanged = viewModel::onTerminalShellChanged,
+        onTerminalRuntimeChanged = viewModel::onTerminalRuntimeChanged,
         onCursorBlinkingChanged = viewModel::onCursorBlinkingChanged,
         onKeepScreenOnChanged = viewModel::onKeepScreenOnChanged,
     )
@@ -65,7 +65,7 @@ internal fun TerminalHeaderScreen(
 private fun TerminalHeaderScreen(
     viewState: TerminalHeaderViewState,
     onBackClicked: () -> Unit = {},
-    onTerminalShellChanged: (String) -> Unit = {},
+    onTerminalRuntimeChanged: (String) -> Unit = {},
     onCursorBlinkingChanged: (Boolean) -> Unit = {},
     onKeepScreenOnChanged: (Boolean) -> Unit = {},
 ) {
@@ -96,7 +96,7 @@ private fun TerminalHeaderScreen(
                     entryValues = viewState.terminalRuntimes
                         .fastMap { it.type.value }.toTypedArray(),
                     selectedValue = viewState.currentRuntime.value,
-                    onValueSelected = onTerminalShellChanged,
+                    onValueSelected = onTerminalRuntimeChanged,
                 )
                 HorizontalDivider()
             }

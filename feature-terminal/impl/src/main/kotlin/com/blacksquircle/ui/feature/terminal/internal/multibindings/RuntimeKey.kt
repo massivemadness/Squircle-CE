@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.internal.api
+package com.blacksquircle.ui.feature.terminal.internal.multibindings
 
-import com.blacksquircle.ui.feature.terminal.internal.RuntimeModule
-import dagger.Module
+import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
+import dagger.MapKey
 
-@Module(includes = [RuntimeModule::class])
-object TerminalApiModule
+@MapKey
+internal annotation class RuntimeKey(val value: RuntimeType)

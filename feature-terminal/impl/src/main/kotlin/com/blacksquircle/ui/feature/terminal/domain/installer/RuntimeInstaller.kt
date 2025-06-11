@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.internal
+package com.blacksquircle.ui.feature.terminal.domain.installer
 
-import android.content.Context
-import com.blacksquircle.ui.feature.terminal.api.model.TerminalShell
-import com.blacksquircle.ui.feature.terminal.data.shell.AndroidShell
-import dagger.Module
-import dagger.Provides
-import dagger.multibindings.IntoSet
+import kotlinx.coroutines.flow.Flow
 
-@Module
-internal object ShellModule {
+internal interface RuntimeInstaller {
 
-    @IntoSet
-    @Provides
-    fun provideAndroidShell(context: Context): TerminalShell {
-        return AndroidShell(context)
-    }
+    fun isInstalled(): Boolean
+
+    suspend fun install(): Flow<Float>
 }

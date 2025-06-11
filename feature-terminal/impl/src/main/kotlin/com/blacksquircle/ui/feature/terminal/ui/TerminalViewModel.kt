@@ -23,7 +23,10 @@ import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
-import com.blacksquircle.ui.feature.terminal.data.manager.SessionManager
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
+import com.blacksquircle.ui.feature.terminal.domain.manager.RuntimeManager
+import com.blacksquircle.ui.feature.terminal.domain.manager.SessionManager
+import com.blacksquircle.ui.feature.terminal.domain.model.RuntimeState
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -41,6 +44,7 @@ import javax.inject.Inject
 internal class TerminalViewModel @AssistedInject constructor(
     private val settingsManager: SettingsManager,
     private val sessionManager: SessionManager,
+    private val runtimeManager: RuntimeManager,
     @Assisted private val pendingCommand: ShellArgs?,
 ) : ViewModel() {
 
@@ -59,16 +63,28 @@ internal class TerminalViewModel @AssistedInject constructor(
 
     fun onSessionClicked(sessionModel: SessionModel) {
         selectedSession = sessionModel.id
-        updateViewState()
+        _viewState.update {
+            it.copy(selectedSession = selectedSession)
+        }
     }
 
     fun onCreateSessionClicked() {
-        selectedSession = sessionManager.createSession()
-        sessions = sessionManager.sessions()
-        updateViewState()
-
         viewModelScope.launch {
-            _viewEvent.send(TerminalViewEvent.ScrollToEnd)
+            createRuntime { runtime ->
+                selectedSession = sessionManager.createSession(runtime)
+                sessions = sessionManager.sessions()
+
+                _viewState.update {
+                    it.copy(
+                        sessions = sessions,
+                        selectedSession = selectedSession,
+                    )
+                }
+
+                viewModelScope.launch {
+                    _viewEvent.send(TerminalViewEvent.ScrollToEnd)
+                }
+            }
         }
     }
 
@@ -97,36 +113,68 @@ internal class TerminalViewModel @AssistedInject constructor(
                 _viewEvent.send(ViewEvent.PopBackStack)
             }
         } else {
-            updateViewState()
+            _viewState.update {
+                it.copy(
+                    sessions = sessions,
+                    selectedSession = selectedSession,
+                )
+            }
         }
     }
 
-    private fun updateViewState() {
-        _viewState.update {
-            it.copy(
-                sessions = sessions,
-                selectedSession = selectedSession,
-            )
+    private suspend fun createRuntime(onReady: (TerminalRuntime) -> Unit) {
+        runtimeManager.createRuntime().collect { state ->
+            when (state) {
+                is RuntimeState.Installing -> {
+                    _viewState.update {
+                        it.copy(
+                            isInstalling = true,
+                            installProgress = state.progress,
+                        )
+                    }
+                }
+                is RuntimeState.Ready -> {
+                    _viewState.update {
+                        it.copy(
+                            isInstalling = false,
+                            installProgress = 1f,
+                        )
+                    }
+                    onReady(state.runtime)
+                }
+                is RuntimeState.Failed -> {
+                    _viewState.update {
+                        it.copy(
+                            isInstalling = true,
+                            installError = state.error,
+                        )
+                    }
+                }
+            }
         }
     }
 
     private fun loadSessions() {
-        sessions = sessionManager.sessions()
-
-        if (sessions.isEmpty() || pendingCommand != null) {
-            sessionManager.createSession(pendingCommand)
+        viewModelScope.launch {
             sessions = sessionManager.sessions()
-        }
 
-        selectedSession = sessions.last().id
+            if (sessions.isEmpty() || pendingCommand != null) {
+                createRuntime { runtime ->
+                    sessionManager.createSession(runtime, pendingCommand)
+                    sessions = sessionManager.sessions()
+                }
+            }
 
-        _viewState.update {
-            it.copy(
-                sessions = sessions,
-                selectedSession = selectedSession,
-                cursorBlinking = settingsManager.cursorBlinking,
-                keepScreenOn = settingsManager.keepScreenOn,
-            )
+            selectedSession = sessions.last().id
+
+            _viewState.update {
+                it.copy(
+                    sessions = sessions,
+                    selectedSession = selectedSession,
+                    cursorBlinking = settingsManager.cursorBlinking,
+                    keepScreenOn = settingsManager.keepScreenOn,
+                )
+            }
         }
     }
 

@@ -64,6 +64,7 @@ import com.blacksquircle.ui.feature.terminal.R
 import com.blacksquircle.ui.feature.terminal.api.navigation.TerminalScreen
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 import com.blacksquircle.ui.feature.terminal.internal.TerminalComponent
+import com.blacksquircle.ui.feature.terminal.ui.compose.InstallationScreen
 import com.blacksquircle.ui.feature.terminal.ui.extrakeys.ExtraKeysConstants
 import com.blacksquircle.ui.feature.terminal.ui.extrakeys.ExtraKeysInfo
 import com.blacksquircle.ui.feature.terminal.ui.extrakeys.ExtraKeysView
@@ -185,13 +186,15 @@ private fun TerminalScreen(
             )
         },
         bottomBar = {
-            AndroidView(
-                factory = { extraKeysView },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(EXTRA_KEYS_HEIGHT)
-                    .navigationBarsPadding()
-            )
+            if (!viewState.isInstalling) {
+                AndroidView(
+                    factory = { extraKeysView },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(EXTRA_KEYS_HEIGHT)
+                        .navigationBarsPadding()
+                )
+            }
         },
         modifier = Modifier.imePadding()
     ) { contentPadding ->
@@ -200,6 +203,11 @@ private fun TerminalScreen(
                 .fillMaxSize()
                 .padding(contentPadding)
         ) {
+            if (viewState.isInstalling) {
+                InstallationScreen(viewState.installProgress)
+                return@ScaffoldSuite
+            }
+
             val currentSession = viewState.currentSession
                 ?: return@ScaffoldSuite
 

@@ -22,6 +22,9 @@ import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 
 @Immutable
 internal data class TerminalViewState(
+    val isInstalling: Boolean = false,
+    val installProgress: Float = 0f,
+    val installError: String? = null,
     val sessions: List<SessionModel> = emptyList(),
     val selectedSession: String? = null,
     val cursorBlinking: Boolean = false,

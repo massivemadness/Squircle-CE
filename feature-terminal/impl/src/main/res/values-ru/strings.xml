@@ -19,4 +19,9 @@
 
     <string name="terminal_toolbar_title">Терминал</string>
 
+    <string name="terminal_menu_session_new">Новая сессия</string>
+    <string name="terminal_menu_session_close">Завершить сессию</string>
+
+    <string name="terminal_installer_message_installing">Установка… %d%%</string>
+
 </resources>

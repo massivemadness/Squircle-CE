@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.data.shell
+package com.blacksquircle.ui.feature.terminal.domain.manager
 
-import android.content.Context
-import com.blacksquircle.ui.core.files.Directories
-import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
+import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
 import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
+import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 
-internal class AlpineRuntime(private val context: Context) : TerminalRuntime {
+internal interface SessionManager {
 
-    override val name = "Alpine"
-    override val type = RuntimeType.ALPINE
+    fun sessions(): List<SessionModel>
 
-    override val shellPath: String
-        get() = Directories.alpineDir(context).absolutePath + "/bin/sh"
-    override val homeDir: String
-        get() = Directories.terminalDir(context).absolutePath
-    override val tmpDir: String
-        get() = Directories.tmpDir(context).absolutePath
+    fun createSession(runtime: TerminalRuntime, args: ShellArgs? = null): String
+    fun closeSession(sessionId: String)
 }

@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.internal.api
+package com.blacksquircle.ui.feature.terminal.domain.model
 
-import com.blacksquircle.ui.feature.terminal.internal.RuntimeModule
-import dagger.Module
+import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
 
-@Module(includes = [RuntimeModule::class])
-object TerminalApiModule
+internal sealed class RuntimeState {
+    data class Installing(val progress: Float) : RuntimeState()
+    data class Ready(val runtime: TerminalRuntime) : RuntimeState()
+    data class Failed(val error: String) : RuntimeState()
+}
