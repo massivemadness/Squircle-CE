@@ -204,7 +204,10 @@ private fun TerminalScreen(
                 .padding(contentPadding)
         ) {
             if (viewState.isInstalling) {
-                InstallationScreen(viewState.installProgress)
+                InstallationScreen(
+                    installProgress = viewState.installProgress,
+                    installError = viewState.installError,
+                )
                 return@ScaffoldSuite
             }
 

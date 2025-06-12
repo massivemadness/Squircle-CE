@@ -130,6 +130,7 @@ internal class TerminalViewModel @AssistedInject constructor(
                         it.copy(
                             isInstalling = true,
                             installProgress = state.progress,
+                            installError = null,
                         )
                     }
                 }
@@ -138,6 +139,7 @@ internal class TerminalViewModel @AssistedInject constructor(
                         it.copy(
                             isInstalling = false,
                             installProgress = 1f,
+                            installError = null,
                         )
                     }
                     onReady(state.runtime)
@@ -146,6 +148,7 @@ internal class TerminalViewModel @AssistedInject constructor(
                     _viewState.update {
                         it.copy(
                             isInstalling = true,
+                            installProgress = 0f,
                             installError = state.error,
                         )
                     }
@@ -162,18 +165,17 @@ internal class TerminalViewModel @AssistedInject constructor(
                 createRuntime { runtime ->
                     sessionManager.createSession(runtime, pendingCommand)
                     sessions = sessionManager.sessions()
+                    selectedSession = sessions.last().id
+
+                    _viewState.update {
+                        it.copy(
+                            sessions = sessions,
+                            selectedSession = selectedSession,
+                            cursorBlinking = settingsManager.cursorBlinking,
+                            keepScreenOn = settingsManager.keepScreenOn,
+                        )
+                    }
                 }
-            }
-
-            selectedSession = sessions.last().id
-
-            _viewState.update {
-                it.copy(
-                    sessions = sessions,
-                    selectedSession = selectedSession,
-                    cursorBlinking = settingsManager.cursorBlinking,
-                    keepScreenOn = settingsManager.keepScreenOn,
-                )
             }
         }
     }

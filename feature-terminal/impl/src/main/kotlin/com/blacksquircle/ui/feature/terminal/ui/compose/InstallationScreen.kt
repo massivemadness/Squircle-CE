@@ -20,8 +20,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,24 +32,35 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastRoundToInt
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
+import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.terminal.R
+import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun InstallationScreen(
     installProgress: Float,
+    installError: String?,
     modifier: Modifier = Modifier,
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier.fillMaxSize()
     ) {
+        if (installError != null) {
+            EmptyView(
+                iconResId = UiR.drawable.ic_file_error,
+                title = stringResource(UiR.string.common_error_occurred),
+                subtitle = installError,
+            )
+            return@Box
+        }
         Column(
             verticalArrangement = Arrangement.spacedBy(18.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 56.dp)
+                .width(300.dp)
+                .padding(horizontal = 24.dp)
         ) {
             LinearProgress(progress = installProgress)
             Text(
@@ -68,6 +79,9 @@ internal fun InstallationScreen(
 @Composable
 private fun InstallationScreenPreview() {
     PreviewBackground {
-        InstallationScreen(0.5f)
+        InstallationScreen(
+            installProgress = 0.5f,
+            installError = null,
+        )
     }
 }
