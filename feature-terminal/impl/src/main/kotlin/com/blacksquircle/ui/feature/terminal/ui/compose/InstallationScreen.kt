@@ -62,7 +62,10 @@ internal fun InstallationScreen(
                 .width(300.dp)
                 .padding(horizontal = 24.dp)
         ) {
-            LinearProgress(progress = installProgress)
+            LinearProgress(
+                progress = installProgress,
+                indeterminate = installProgress <= 0,
+            )
             Text(
                 text = stringResource(
                     R.string.terminal_installer_message_installing,

@@ -26,6 +26,7 @@ mockk = "1.14.2"
 navigation = "2.9.0"
 profile-installer = "1.4.1"
 reorderable = "2.4.3"
+retrofit = "3.0.0"
 room = "2.7.1"
 rootbeer = "0.1.1"
 serialization = "1.8.1"
@@ -98,6 +99,8 @@ scottyab-rootbeer = { module = "com.scottyab:rootbeer-lib", version.ref = "rootb
 skydoves-colorpicker-compose = { module = "com.github.skydoves:colorpicker-compose", version.ref = "colorpicker" }
 sora-editor = { module = "io.github.Rosemoe.sora-editor:editor", version.ref = "sora" }
 sora-textmate = { module = "io.github.Rosemoe.sora-editor:language-textmate", version.ref = "sora" }
+squareup-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+squareup-retrofit-converter = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 termux-shared = { module = "com.github.Termux:Termux-app", version.ref = "terminal" }
 
 test-junit = { module = "junit:junit", version.ref = "junit" }

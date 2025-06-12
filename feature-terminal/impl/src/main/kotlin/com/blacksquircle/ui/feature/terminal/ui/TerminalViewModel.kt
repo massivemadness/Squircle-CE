@@ -160,12 +160,14 @@ internal class TerminalViewModel @AssistedInject constructor(
     private fun loadSessions() {
         viewModelScope.launch {
             sessions = sessionManager.sessions()
+            selectedSession = sessions.lastOrNull()?.id
 
             if (sessions.isEmpty() || pendingCommand != null) {
                 createRuntime { runtime ->
                     sessionManager.createSession(runtime, pendingCommand)
+
                     sessions = sessionManager.sessions()
-                    selectedSession = sessions.last().id
+                    selectedSession = sessions.lastOrNull()?.id
 
                     _viewState.update {
                         it.copy(
@@ -175,6 +177,15 @@ internal class TerminalViewModel @AssistedInject constructor(
                             keepScreenOn = settingsManager.keepScreenOn,
                         )
                     }
+                }
+            } else {
+                _viewState.update {
+                    it.copy(
+                        sessions = sessions,
+                        selectedSession = selectedSession,
+                        cursorBlinking = settingsManager.cursorBlinking,
+                        keepScreenOn = settingsManager.keepScreenOn,
+                    )
                 }
             }
         }

@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.extensions
+package com.blacksquircle.ui.feature.terminal.data.network
 
-inline fun <T> Collection<T>.indexOf(predicate: (T) -> Boolean): Int {
-    return indexOfFirst(predicate)
-}
+import okhttp3.ResponseBody
+import retrofit2.http.GET
+import retrofit2.http.Url
 
-inline fun <T> Collection<T>.indexOrNull(predicate: (T) -> Boolean): Int? {
-    val index = indexOfFirst(predicate)
-    return if (index > -1) index else null
+internal interface AlpineApi {
+
+    @GET
+    suspend fun downloadFile(@Url fileUrl: String): ResponseBody
 }

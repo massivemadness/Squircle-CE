@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     testImplementation(libs.kotlinx.coroutines.test)
     implementation(libs.kotlinx.serialization)
+    implementation(libs.squareup.retrofit)
     implementation(libs.termux.shared)
 
     implementation(project(":common-core"))

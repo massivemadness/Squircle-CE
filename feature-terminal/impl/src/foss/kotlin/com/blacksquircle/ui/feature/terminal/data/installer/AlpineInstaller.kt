@@ -17,44 +17,66 @@
 package com.blacksquircle.ui.feature.terminal.data.installer
 
 import android.content.Context
+import com.blacksquircle.ui.core.files.Directories
+import com.blacksquircle.ui.feature.terminal.data.extensions.unzipTar
+import com.blacksquircle.ui.feature.terminal.data.network.AlpineApi
 import com.blacksquircle.ui.feature.terminal.domain.installer.RuntimeInstaller
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
+import java.io.File
 
-internal class AlpineInstaller @Inject constructor(
-    // TODO inject retrofit
+internal class AlpineInstaller(
+    private val alpineApi: AlpineApi,
     private val context: Context,
 ) : RuntimeInstaller {
 
     override fun isInstalled(): Boolean {
-        return false
+        return false // TODO check binaries
     }
 
     override suspend fun install(): Flow<Float> {
         return flow {
-            emit(0f)
-            delay(500)
-            emit(0.1f)
-            delay(500)
-            emit(0.2f)
-            delay(500)
-            emit(0.3f)
-            delay(500)
-            emit(0.4f)
-            delay(500)
-            emit(0.5f)
-            delay(500)
-            emit(0.6f)
-            delay(500)
-            emit(0.7f)
-            delay(500)
-            emit(0.8f)
-            delay(500)
-            emit(0.9f)
-            delay(500)
-            emit(1f)
+            val alpineDir = Directories.alpineDir(context)
+            val tmpDir = Directories.tmpDir(context)
+
+            val outputFile = File(tmpDir, ARCHIVE_NAME)
+            if (outputFile.exists()) {
+                outputFile.deleteRecursively()
+            }
+
+            alpineApi.downloadFile(AlpineSource.DOWNLOAD_LINK).use { responseBody ->
+                val contentLength = responseBody.contentLength()
+                val inputStream = responseBody.byteStream()
+                val outputStream = outputFile.outputStream()
+
+                val buffer = ByteArray(8 * 1024) // 8 MB
+                var bytesRead: Int
+                var totalBytesRead = 0L
+
+                while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                    outputStream.write(buffer, 0, bytesRead)
+                    totalBytesRead += bytesRead
+
+                    if (contentLength > 0) {
+                        val progress = totalBytesRead.toFloat() / contentLength.toFloat()
+                        emit(progress)
+                    }
+                }
+
+                outputStream.flush()
+                outputStream.close()
+                inputStream.close()
+            }
+
+            outputFile.unzipTar(alpineDir)
+            outputFile.deleteRecursively()
+
+            // TODO proot
+            // TODO init-host.sh, init.sh
         }
+    }
+
+    companion object {
+        private const val ARCHIVE_NAME = "alpine.tar.gz"
     }
 }

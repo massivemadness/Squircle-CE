@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.core.extensions
+package com.blacksquircle.ui.feature.terminal.data.extensions
 
-inline fun <T> Collection<T>.indexOf(predicate: (T) -> Boolean): Int {
-    return indexOfFirst(predicate)
-}
+import timber.log.Timber
+import java.io.File
 
-inline fun <T> Collection<T>.indexOrNull(predicate: (T) -> Boolean): Int? {
-    val index = indexOfFirst(predicate)
-    return if (index > -1) index else null
+internal fun File.unzipTar(dest: File) {
+    runCatching {
+        this.setExecutable(true)
+    }.onFailure(Timber::e)
+
+    Runtime.getRuntime()
+        .exec("tar -xf ${this.absolutePath} -C ${dest.absolutePath}")
+        .waitFor()
 }

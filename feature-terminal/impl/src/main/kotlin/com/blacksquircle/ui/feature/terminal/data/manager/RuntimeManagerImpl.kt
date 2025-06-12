@@ -50,9 +50,13 @@ internal class RuntimeManagerImpl(
             return@flow
         }
 
+        emit(RuntimeState.Installing(0f))
+
         installer.install().collect { progress ->
             emit(RuntimeState.Installing(progress))
         }
+
+        emit(RuntimeState.Installing(1f))
 
         emit(RuntimeState.Ready(terminalRuntime))
     }.catch { e ->

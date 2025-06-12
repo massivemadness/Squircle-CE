@@ -25,6 +25,9 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import dagger.Module
 import dagger.Provides
 import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.Retrofit
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -55,5 +58,16 @@ object CoreModule {
         return Json {
             ignoreUnknownKeys = true
         }
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(json: Json): Retrofit {
+        return Retrofit.Builder()
+            .addConverterFactory(
+                json.asConverterFactory("application/json; charset=UTF8".toMediaType())
+            )
+            .baseUrl("http://blacksquircle.com")
+            .build()
     }
 }

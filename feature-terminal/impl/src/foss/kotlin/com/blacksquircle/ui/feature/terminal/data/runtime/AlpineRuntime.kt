@@ -27,7 +27,7 @@ internal class AlpineRuntime(private val context: Context) : TerminalRuntime {
     override val type = RuntimeType.ALPINE
 
     override val shellPath: String
-        get() = Directories.alpineDir(context).absolutePath + "/bin/sh"
+        get() = "/system/bin/sh"
     override val homeDir: String
         get() = Directories.terminalDir(context).absolutePath
     override val tmpDir: String

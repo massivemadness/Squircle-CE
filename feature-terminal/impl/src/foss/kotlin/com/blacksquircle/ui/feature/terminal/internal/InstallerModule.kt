@@ -16,19 +16,35 @@
 
 package com.blacksquircle.ui.feature.terminal.internal
 
+import android.content.Context
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
 import com.blacksquircle.ui.feature.terminal.data.installer.AlpineInstaller
+import com.blacksquircle.ui.feature.terminal.data.network.AlpineApi
 import com.blacksquircle.ui.feature.terminal.domain.installer.RuntimeInstaller
 import com.blacksquircle.ui.feature.terminal.internal.multibindings.RuntimeKey
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.multibindings.IntoMap
+import retrofit2.Retrofit
 
 @Module
-internal interface InstallerModule {
+internal object InstallerModule {
 
-    @Binds
+    @Provides
     @IntoMap
     @RuntimeKey(RuntimeType.ALPINE)
-    fun bindAlpineInstaller(installer: AlpineInstaller): RuntimeInstaller
+    fun provideAlpineInstaller(
+        alpineApi: AlpineApi,
+        context: Context,
+    ): RuntimeInstaller {
+        return AlpineInstaller(
+            alpineApi = alpineApi,
+            context = context,
+        )
+    }
+
+    @Provides
+    fun provideAlpineApi(retrofit: Retrofit): AlpineApi {
+        return retrofit.create(AlpineApi::class.java)
+    }
 }
