@@ -61,7 +61,6 @@ internal class SessionManagerImpl : SessionManager {
         environment[ENV_LANG] = DEFAULT_LANG
         environment[ENV_PATH] = System.getenv(ENV_PATH).orEmpty()
         environment[ENV_TMPDIR] = runtime.tmpDir
-
         environment[ENV_COLORTERM] = DEFAULT_COLOR
         environment[ENV_TERM] = DEFAULT_TERM
 
@@ -85,7 +84,7 @@ internal class SessionManagerImpl : SessionManager {
 
         sessions[sessionId] = SessionModel(
             id = sessionId,
-            name = DEFAULT_NAME,
+            name = runtime.name,
             ordinal = counter.getAndIncrement(),
             session = TerminalSession(
                 /* shellPath = */ runtime.shellPath,
@@ -113,7 +112,6 @@ internal class SessionManagerImpl : SessionManager {
     }
 
     companion object {
-        private const val DEFAULT_NAME = "Local"
         private const val DEFAULT_LANG = "en_US.UTF-8"
         private const val DEFAULT_COLOR = "truecolor"
         private const val DEFAULT_TERM = "xterm-256color"
