@@ -19,11 +19,10 @@ package com.blacksquircle.ui.feature.explorer.domain.model
 enum class WorkspaceType(val value: String) {
     LOCAL("local"),
     ROOT("root"),
-    TERMINAL("terminal"),
     CUSTOM("custom"),
     SERVER("server");
 
-    fun isLocal(): Boolean = this == LOCAL || this == TERMINAL || this == CUSTOM
+    fun isLocal(): Boolean = this == LOCAL || this == CUSTOM
 
     companion object {
 

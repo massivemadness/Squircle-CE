@@ -81,12 +81,10 @@ internal object ExplorerModule {
     @Provides
     @ExplorerScope
     fun provideDefaultWorkspaceSource(
-        settingsManager: SettingsManager,
         rootBeer: RootBeer,
         context: Context,
     ): DefaultWorkspaceSource {
         return DefaultWorkspaceSource(
-            settingsManager = settingsManager,
             rootBeer = rootBeer,
             context = context
         )

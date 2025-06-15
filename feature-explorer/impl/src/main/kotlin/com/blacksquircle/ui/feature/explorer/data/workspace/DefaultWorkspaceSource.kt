@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.explorer.data.workspace
 
 import android.content.Context
-import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.scottyab.rootbeer.RootBeer
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +24,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 internal class DefaultWorkspaceSource(
-    private val settingsManager: SettingsManager,
     private val rootBeer: RootBeer,
     private val context: Context,
 ) : WorkspaceSource {
@@ -33,18 +31,11 @@ internal class DefaultWorkspaceSource(
     private val _workspaceFlow = MutableStateFlow(initialValue())
     override val workspaceFlow: Flow<List<WorkspaceModel>> = _workspaceFlow.asStateFlow()
 
-    fun update() {
-        _workspaceFlow.value = initialValue()
-    }
-
     private fun initialValue(): List<WorkspaceModel> {
         return buildList {
             add(context.createLocalWorkspace())
             if (rootBeer.isRooted) {
                 add(context.createRootWorkspace())
-            }
-            if (settingsManager.terminalWorkspace) {
-                add(context.createTerminalWorkspace())
             }
         }
     }

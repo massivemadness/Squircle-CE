@@ -16,12 +16,11 @@
 
 package com.blacksquircle.ui.feature.terminal.data.runtime
 
-import android.content.Context
-import com.blacksquircle.ui.core.files.Directories
+import android.os.Environment
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
 import com.blacksquircle.ui.feature.terminal.api.runtime.TerminalRuntime
 
-internal class AndroidRuntime(private val context: Context) : TerminalRuntime {
+internal object AndroidRuntime : TerminalRuntime {
 
     override val name = "Android"
     override val type = RuntimeType.ANDROID
@@ -29,7 +28,7 @@ internal class AndroidRuntime(private val context: Context) : TerminalRuntime {
     override val shellPath: String
         get() = "/system/bin/sh"
     override val homeDir: String
-        get() = Directories.terminalDir(context).absolutePath
+        get() = Environment.getExternalStorageDirectory().absolutePath
     override val tmpDir: String
         get() = "/data/local/tmp"
 }

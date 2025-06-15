@@ -85,14 +85,12 @@ private fun WorkspaceItem(
         iconResId = when (workspace.type) {
             WorkspaceType.LOCAL -> UiR.drawable.ic_folder
             WorkspaceType.ROOT -> UiR.drawable.ic_folder_pound
-            WorkspaceType.TERMINAL -> UiR.drawable.ic_console
             WorkspaceType.CUSTOM -> UiR.drawable.ic_folder
             WorkspaceType.SERVER -> UiR.drawable.ic_server_network
         },
         label = when (workspace.type) {
             WorkspaceType.LOCAL -> stringResource(R.string.explorer_workspace_button_files)
             WorkspaceType.ROOT -> stringResource(R.string.explorer_workspace_button_root)
-            WorkspaceType.TERMINAL -> stringResource(R.string.explorer_workspace_button_home)
             WorkspaceType.CUSTOM,
             WorkspaceType.SERVER -> workspace.name
         },

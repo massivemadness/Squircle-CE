@@ -120,11 +120,6 @@ internal class ExplorerRepositoryImpl(
         }
     }
 
-    override suspend fun showTerminalWorkspace() {
-        settingsManager.terminalWorkspace = true
-        defaultWorkspaceSource.update()
-    }
-
     override suspend fun listFiles(parent: FileModel): List<FileModel> {
         return withContext(dispatcherProvider.io()) {
             if (!context.isStorageAccessGranted()) {

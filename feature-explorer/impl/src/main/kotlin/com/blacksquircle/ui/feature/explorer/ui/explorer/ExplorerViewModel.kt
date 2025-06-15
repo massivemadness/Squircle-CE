@@ -570,26 +570,6 @@ internal class ExplorerViewModel @Inject constructor(
 
     // endregion
 
-    fun showTerminalWorkspace() {
-        viewModelScope.launch {
-            try {
-                val terminalWorkspace = workspaces.find { workspace ->
-                    workspace.type == WorkspaceType.TERMINAL
-                }
-                if (terminalWorkspace != null) {
-                    onWorkspaceClicked(terminalWorkspace)
-                } else {
-                    explorerRepository.showTerminalWorkspace()
-                }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                Timber.e(e, e.message)
-                _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
-            }
-        }
-    }
-
     fun createFile(fileName: String) {
         viewModelScope.launch {
             val parentNode = taskBuffer.firstOrNull() ?: return@launch

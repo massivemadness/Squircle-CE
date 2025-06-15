@@ -18,17 +18,13 @@ package com.blacksquircle.ui.feature.explorer.workspace
 
 import android.content.Context
 import android.os.Environment
-import com.blacksquircle.ui.core.files.Directories
-import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.data.workspace.DefaultWorkspaceSource
 import com.blacksquircle.ui.feature.explorer.data.workspace.LOCAL_WORKSPACE_ID
 import com.blacksquircle.ui.feature.explorer.data.workspace.ROOT_WORKSPACE_ID
-import com.blacksquircle.ui.feature.explorer.data.workspace.TERMINAL_WORKSPACE_ID
 import com.scottyab.rootbeer.RootBeer
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
@@ -39,7 +35,6 @@ import java.io.File
 
 class DefaultWorkspaceSourceTest {
 
-    private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val rootBeer = mockk<RootBeer>(relaxed = true)
     private val context = mockk<Context>(relaxed = true)
 
@@ -50,12 +45,8 @@ class DefaultWorkspaceSourceTest {
         val mockkFile = mockk<File>().apply {
             every { absolutePath } returns ""
         }
-
         mockkStatic(Environment::class)
         every { Environment.getExternalStorageDirectory() } returns mockkFile
-
-        mockkObject(Directories)
-        every { Directories.terminalDir(context) } returns mockkFile
     }
 
     @Test
@@ -63,7 +54,6 @@ class DefaultWorkspaceSourceTest {
         // Given
         coEvery { rootBeer.isRooted } returns false
         defaultWorkspaceSource = DefaultWorkspaceSource(
-            settingsManager = settingsManager,
             rootBeer = rootBeer,
             context = context,
         )
@@ -81,7 +71,6 @@ class DefaultWorkspaceSourceTest {
         // Given
         coEvery { rootBeer.isRooted } returns true
         defaultWorkspaceSource = DefaultWorkspaceSource(
-            settingsManager = settingsManager,
             rootBeer = rootBeer,
             context = context,
         )
@@ -93,27 +82,5 @@ class DefaultWorkspaceSourceTest {
         assertEquals(2, workspaces.size)
         assertEquals(workspaces[0].uuid, LOCAL_WORKSPACE_ID)
         assertEquals(workspaces[1].uuid, ROOT_WORKSPACE_ID)
-    }
-
-    @Test
-    fun `When loading workspaces with root and terminal Then return all workspaces`() = runTest {
-        // Given
-        coEvery { rootBeer.isRooted } returns true
-        every { settingsManager.terminalWorkspace } returns true
-
-        defaultWorkspaceSource = DefaultWorkspaceSource(
-            settingsManager = settingsManager,
-            rootBeer = rootBeer,
-            context = context,
-        )
-
-        // When
-        val workspaces = defaultWorkspaceSource.workspaceFlow.first()
-
-        // Then
-        assertEquals(3, workspaces.size)
-        assertEquals(workspaces[0].uuid, LOCAL_WORKSPACE_ID)
-        assertEquals(workspaces[1].uuid, ROOT_WORKSPACE_ID)
-        assertEquals(workspaces[2].uuid, TERMINAL_WORKSPACE_ID)
     }
 }

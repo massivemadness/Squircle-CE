@@ -37,7 +37,6 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.TerminalWorkspaceDialog
 import com.blacksquircle.ui.feature.explorer.ui.auth.AuthScreen
 import com.blacksquircle.ui.feature.explorer.ui.clone.CloneRepoScreen
 import com.blacksquircle.ui.feature.explorer.ui.compress.CompressScreen
@@ -52,7 +51,6 @@ import com.blacksquircle.ui.feature.explorer.ui.task.TaskScreen
 import com.blacksquircle.ui.feature.explorer.ui.workspace.AddWorkspaceScreen
 import com.blacksquircle.ui.feature.explorer.ui.workspace.DeleteWorkspaceScreen
 import com.blacksquircle.ui.feature.explorer.ui.workspace.LocalWorkspaceScreen
-import com.blacksquircle.ui.feature.explorer.ui.workspace.TerminalWorkspaceScreen
 
 fun NavGraphBuilder.explorerGraph(navController: NavHostController) {
     composable<ExplorerScreen> {
@@ -102,9 +100,6 @@ fun NavGraphBuilder.explorerGraph(navController: NavHostController) {
     }
     dialog<LocalWorkspaceDialog> {
         LocalWorkspaceScreen(navController)
-    }
-    dialog<TerminalWorkspaceDialog> {
-        TerminalWorkspaceScreen(navController)
     }
 }
 

@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.terminal.internal.api
 
-import android.content.Context
 import com.blacksquircle.ui.feature.terminal.api.runtime.TerminalRuntime
 import com.blacksquircle.ui.feature.terminal.data.runtime.AndroidRuntime
 import dagger.Module
@@ -28,7 +27,7 @@ object TerminalApiModule {
 
     @IntoSet
     @Provides
-    fun provideAndroidRuntime(context: Context): TerminalRuntime {
-        return AndroidRuntime(context)
+    fun provideAndroidRuntime(): TerminalRuntime {
+        return AndroidRuntime
     }
 }

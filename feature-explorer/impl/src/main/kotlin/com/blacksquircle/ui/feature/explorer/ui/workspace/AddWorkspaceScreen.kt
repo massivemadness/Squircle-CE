@@ -33,7 +33,6 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.layout.ActionLayout
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.LocalWorkspaceDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.TerminalWorkspaceDialog
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
 import com.blacksquircle.ui.ds.R as UiR
@@ -65,10 +64,6 @@ internal fun AddWorkspaceScreen(
             navController.popBackStack()
             navController.navigate(ServerDialog(null))
         },
-        onTerminalHomeClicked = {
-            navController.popBackStack()
-            navController.navigate(TerminalWorkspaceDialog)
-        },
         onCancelClicked = {
             navController.popBackStack()
         },
@@ -91,7 +86,6 @@ private fun AddWorkspaceScreen(
     onLocalDirectoryClicked: () -> Unit = {},
     onInternalStorageClicked: () -> Unit = {},
     onRemoteServerClicked: () -> Unit = {},
-    onTerminalHomeClicked: () -> Unit = {},
     onCancelClicked: () -> Unit = {}
 ) {
     AlertDialog(
@@ -116,12 +110,6 @@ private fun AddWorkspaceScreen(
                     title = stringResource(R.string.explorer_workspace_remote_server_title),
                     subtitle = stringResource(R.string.explorer_workspace_remote_server_description),
                     onClick = onRemoteServerClicked,
-                )
-                ActionLayout(
-                    iconRes = UiR.drawable.ic_console,
-                    title = stringResource(R.string.explorer_workspace_terminal_home_title),
-                    subtitle = stringResource(R.string.explorer_workspace_terminal_home_description),
-                    onClick = onTerminalHomeClicked,
                 )
             }
         },
