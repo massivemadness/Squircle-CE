@@ -40,7 +40,7 @@ import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
-import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
+import com.blacksquircle.ui.feature.terminal.api.runtime.TerminalRuntime
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -84,22 +84,22 @@ private fun TerminalHeaderScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(contentPadding)
         ) {
-            if (viewState.terminalRuntimes.size > 1) {
-                PreferenceGroup(
-                    title = stringResource(R.string.settings_category_environment),
-                )
-                ListPreference(
-                    title = stringResource(R.string.settings_terminal_shell_title),
-                    subtitle = stringResource(R.string.settings_terminal_shell_subtitle),
-                    entries = viewState.terminalRuntimes
-                        .fastMap(TerminalRuntime::name).toTypedArray(),
-                    entryValues = viewState.terminalRuntimes
-                        .fastMap { it.type.value }.toTypedArray(),
-                    selectedValue = viewState.currentRuntime.value,
-                    onValueSelected = onTerminalRuntimeChanged,
-                )
-                HorizontalDivider()
-            }
+            PreferenceGroup(
+                title = stringResource(R.string.settings_category_environment),
+            )
+            ListPreference(
+                title = stringResource(R.string.settings_terminal_shell_title),
+                subtitle = stringResource(R.string.settings_terminal_shell_subtitle),
+                entries = viewState.terminalRuntimes
+                    .fastMap(TerminalRuntime::name).toTypedArray(),
+                entryValues = viewState.terminalRuntimes
+                    .fastMap { it.type.value }.toTypedArray(),
+                selectedValue = viewState.currentRuntime.value,
+                onValueSelected = onTerminalRuntimeChanged,
+            )
+
+            HorizontalDivider()
+
             PreferenceGroup(
                 title = stringResource(R.string.settings_category_behavior)
             )

@@ -17,8 +17,7 @@
 package com.blacksquircle.ui.feature.terminal.api.model
 
 enum class RuntimeType(val value: String) {
-    ANDROID("android"),
-    ALPINE("alpine");
+    ANDROID("android");
 
     companion object {
 

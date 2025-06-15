@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.data.extensions
+package com.blacksquircle.ui.feature.terminal.api.runtime
 
-import timber.log.Timber
-import java.io.File
+import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
 
-internal fun File.unzipTar(dest: File) {
-    runCatching {
-        this.setExecutable(true)
-    }.onFailure(Timber::e)
-
-    Runtime.getRuntime()
-        .exec("tar -xf ${this.absolutePath} -C ${dest.absolutePath}")
-        .waitFor()
+interface TerminalRuntime {
+    val name: String
+    val type: RuntimeType
+    val shellPath: String
+    val homeDir: String
+    val tmpDir: String
 }

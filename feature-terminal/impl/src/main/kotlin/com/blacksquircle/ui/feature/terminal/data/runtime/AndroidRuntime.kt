@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.terminal.data.runtime
 import android.content.Context
 import com.blacksquircle.ui.core.files.Directories
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
-import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
+import com.blacksquircle.ui.feature.terminal.api.runtime.TerminalRuntime
 
 internal class AndroidRuntime(private val context: Context) : TerminalRuntime {
 

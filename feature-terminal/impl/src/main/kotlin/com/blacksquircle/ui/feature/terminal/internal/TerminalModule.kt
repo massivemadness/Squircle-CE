@@ -18,17 +18,15 @@ package com.blacksquircle.ui.feature.terminal.internal
 
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
-import com.blacksquircle.ui.feature.terminal.api.model.TerminalRuntime
+import com.blacksquircle.ui.feature.terminal.api.runtime.TerminalRuntime
 import com.blacksquircle.ui.feature.terminal.data.manager.RuntimeManagerImpl
 import com.blacksquircle.ui.feature.terminal.data.manager.SessionManagerImpl
-import com.blacksquircle.ui.feature.terminal.domain.installer.RuntimeInstaller
 import com.blacksquircle.ui.feature.terminal.domain.manager.RuntimeManager
 import com.blacksquircle.ui.feature.terminal.domain.manager.SessionManager
 import dagger.Module
 import dagger.Provides
 
-@Module(includes = [InstallerModule::class])
+@Module
 internal object TerminalModule {
 
     @Provides
@@ -43,13 +41,12 @@ internal object TerminalModule {
         dispatcherProvider: DispatcherProvider,
         settingsManager: SettingsManager,
         runtimeSet: @JvmSuppressWildcards Set<TerminalRuntime>,
-        installerMap: @JvmSuppressWildcards Map<RuntimeType, RuntimeInstaller>,
     ): RuntimeManager {
         return RuntimeManagerImpl(
             dispatcherProvider = dispatcherProvider,
             settingsManager = settingsManager,
             runtimeSet = runtimeSet,
-            installerMap = installerMap,
+            installerMap = emptyMap(),
         )
     }
 }

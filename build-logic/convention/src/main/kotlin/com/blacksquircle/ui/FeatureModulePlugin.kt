@@ -56,15 +56,6 @@ class FeatureModulePlugin : Plugin<Project> {
                         }
                     }
                 }
-                flavorDimensions += listOf("platform_services")
-                productFlavors {
-                    create("gms") {
-                        dimension = "platform_services"
-                    }
-                    create("foss") {
-                        dimension = "platform_services"
-                    }
-                }
                 sourceSets {
                     named("main") {
                         java.srcDir("src/main/kotlin")
