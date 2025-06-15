@@ -16,8 +16,4 @@
 
 package com.blacksquircle.ui.feature.terminal.api.internal
 
-import com.blacksquircle.ui.feature.terminal.api.runtime.TerminalRuntime
-
-interface TerminalApiDepsProvider {
-    fun provideRuntimeSet(): Set<TerminalRuntime>
-}
+interface TerminalApiDepsProvider

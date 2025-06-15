@@ -40,7 +40,6 @@ import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
-import com.blacksquircle.ui.feature.terminal.api.runtime.TerminalRuntime
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -90,10 +89,10 @@ private fun TerminalHeaderScreen(
             ListPreference(
                 title = stringResource(R.string.settings_terminal_shell_title),
                 subtitle = stringResource(R.string.settings_terminal_shell_subtitle),
-                entries = viewState.terminalRuntimes
-                    .fastMap(TerminalRuntime::name).toTypedArray(),
-                entryValues = viewState.terminalRuntimes
-                    .fastMap { it.type.value }.toTypedArray(),
+                entries = RuntimeType.entries
+                    .fastMap(RuntimeType::title).toTypedArray(),
+                entryValues = RuntimeType.entries
+                    .fastMap(RuntimeType::value).toTypedArray(),
                 selectedValue = viewState.currentRuntime.value,
                 onValueSelected = onTerminalRuntimeChanged,
             )
@@ -125,7 +124,6 @@ private fun TerminalHeaderScreenPreview() {
     PreviewBackground {
         TerminalHeaderScreen(
             viewState = TerminalHeaderViewState(
-                terminalRuntimes = emptyList(),
                 currentRuntime = RuntimeType.ANDROID,
                 cursorBlinking = true,
                 keepScreenOn = true,

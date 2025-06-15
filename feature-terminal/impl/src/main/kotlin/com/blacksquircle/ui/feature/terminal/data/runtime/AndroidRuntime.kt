@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.terminal.data.runtime
 
 import android.os.Environment
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
-import com.blacksquircle.ui.feature.terminal.api.runtime.TerminalRuntime
+import com.blacksquircle.ui.feature.terminal.domain.runtime.TerminalRuntime
 
 internal object AndroidRuntime : TerminalRuntime {
 

@@ -16,18 +16,7 @@
 
 package com.blacksquircle.ui.feature.terminal.internal.api
 
-import com.blacksquircle.ui.feature.terminal.api.runtime.TerminalRuntime
-import com.blacksquircle.ui.feature.terminal.data.runtime.AndroidRuntime
 import dagger.Module
-import dagger.Provides
-import dagger.multibindings.IntoSet
 
 @Module
-object TerminalApiModule {
-
-    @IntoSet
-    @Provides
-    fun provideAndroidRuntime(): TerminalRuntime {
-        return AndroidRuntime
-    }
-}
+object TerminalApiModule

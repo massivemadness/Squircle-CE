@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.terminal.domain.model
 
-import com.blacksquircle.ui.feature.terminal.api.runtime.TerminalRuntime
+import com.blacksquircle.ui.feature.terminal.domain.runtime.TerminalRuntime
 
 internal sealed class RuntimeState {
     data class Installing(val progress: Float) : RuntimeState()

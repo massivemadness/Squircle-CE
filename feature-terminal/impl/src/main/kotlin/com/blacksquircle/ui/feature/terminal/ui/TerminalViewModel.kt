@@ -23,11 +23,11 @@ import com.blacksquircle.ui.core.extensions.indexOf
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
-import com.blacksquircle.ui.feature.terminal.api.runtime.TerminalRuntime
 import com.blacksquircle.ui.feature.terminal.domain.manager.RuntimeManager
 import com.blacksquircle.ui.feature.terminal.domain.manager.SessionManager
 import com.blacksquircle.ui.feature.terminal.domain.model.RuntimeState
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
+import com.blacksquircle.ui.feature.terminal.domain.runtime.TerminalRuntime
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

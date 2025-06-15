@@ -18,13 +18,15 @@ package com.blacksquircle.ui.feature.terminal.internal
 
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.terminal.api.runtime.TerminalRuntime
 import com.blacksquircle.ui.feature.terminal.data.manager.RuntimeManagerImpl
 import com.blacksquircle.ui.feature.terminal.data.manager.SessionManagerImpl
+import com.blacksquircle.ui.feature.terminal.data.runtime.AndroidRuntime
 import com.blacksquircle.ui.feature.terminal.domain.manager.RuntimeManager
 import com.blacksquircle.ui.feature.terminal.domain.manager.SessionManager
+import com.blacksquircle.ui.feature.terminal.domain.runtime.TerminalRuntime
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 
 @Module
 internal object TerminalModule {
@@ -48,5 +50,11 @@ internal object TerminalModule {
             runtimeSet = runtimeSet,
             installerMap = emptyMap(),
         )
+    }
+
+    @IntoSet
+    @Provides
+    fun provideAndroidRuntime(): TerminalRuntime {
+        return AndroidRuntime
     }
 }

@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
-import com.blacksquircle.ui.feature.terminal.api.runtime.TerminalRuntime
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +32,6 @@ import javax.inject.Provider
 
 internal class TerminalHeaderViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
-    private val runtimeSet: @JvmSuppressWildcards Set<TerminalRuntime>,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(updateViewState())
@@ -59,7 +57,6 @@ internal class TerminalHeaderViewModel @Inject constructor(
 
     private fun updateViewState(): TerminalHeaderViewState {
         return TerminalHeaderViewState(
-            terminalRuntimes = runtimeSet.toList(),
             currentRuntime = RuntimeType.of(settingsManager.terminalRuntime),
             cursorBlinking = settingsManager.cursorBlinking,
             keepScreenOn = settingsManager.keepScreenOn,

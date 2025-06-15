@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.feature.terminal.domain.manager
 
 import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
-import com.blacksquircle.ui.feature.terminal.api.runtime.TerminalRuntime
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
+import com.blacksquircle.ui.feature.terminal.domain.runtime.TerminalRuntime
 
 internal interface SessionManager {
 

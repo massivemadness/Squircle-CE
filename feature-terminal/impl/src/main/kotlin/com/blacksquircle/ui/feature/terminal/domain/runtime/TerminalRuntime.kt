@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.api.runtime
+package com.blacksquircle.ui.feature.terminal.domain.runtime
 
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
 
