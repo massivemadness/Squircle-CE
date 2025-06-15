@@ -25,15 +25,12 @@ import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.git.GitHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.terminal.TerminalHeaderViewModel
-import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiDepsProvider
-import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiProvider
 import dagger.Component
 
 @SettingsScope
 @Component(
     dependencies = [
         CoreApiDepsProvider::class,
-        TerminalApiDepsProvider::class,
     ]
 )
 internal interface SettingsComponent {
@@ -47,10 +44,7 @@ internal interface SettingsComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(
-            coreApiDepsProvider: CoreApiDepsProvider,
-            terminalApiDepsProvider: TerminalApiDepsProvider,
-        ): SettingsComponent
+        fun create(coreApiDepsProvider: CoreApiDepsProvider): SettingsComponent
     }
 
     companion object {
@@ -61,8 +55,6 @@ internal interface SettingsComponent {
             return component ?: DaggerSettingsComponent.factory().create(
                 coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
                     .provideCoreApiDepsProvider(),
-                terminalApiDepsProvider = (context.applicationContext as TerminalApiProvider)
-                    .provideTerminalApiDepsProvider(),
             ).also {
                 component = it
             }

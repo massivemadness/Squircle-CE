@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.terminal.domain.runtime
 
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
 
-interface TerminalRuntime {
+internal interface TerminalRuntime {
     val name: String
     val type: RuntimeType
     val shellPath: String
