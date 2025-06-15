@@ -48,7 +48,7 @@ internal class TerminalViewModel @AssistedInject constructor(
     @Assisted private val pendingCommand: ShellArgs?,
 ) : ViewModel() {
 
-    private val _viewState = MutableStateFlow(TerminalViewState())
+    private val _viewState = MutableStateFlow(initialViewState())
     val viewState: StateFlow<TerminalViewState> = _viewState.asStateFlow()
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
@@ -173,8 +173,6 @@ internal class TerminalViewModel @AssistedInject constructor(
                         it.copy(
                             sessions = sessions,
                             selectedSession = selectedSession,
-                            cursorBlinking = settingsManager.cursorBlinking,
-                            keepScreenOn = settingsManager.keepScreenOn,
                         )
                     }
                 }
@@ -183,12 +181,17 @@ internal class TerminalViewModel @AssistedInject constructor(
                     it.copy(
                         sessions = sessions,
                         selectedSession = selectedSession,
-                        cursorBlinking = settingsManager.cursorBlinking,
-                        keepScreenOn = settingsManager.keepScreenOn,
                     )
                 }
             }
         }
+    }
+
+    private fun initialViewState(): TerminalViewState {
+        return TerminalViewState(
+            cursorBlinking = settingsManager.cursorBlinking,
+            keepScreenOn = settingsManager.keepScreenOn,
+        )
     }
 
     class ParameterizedFactory(private val pendingCommand: ShellArgs?) : ViewModelProvider.Factory {
