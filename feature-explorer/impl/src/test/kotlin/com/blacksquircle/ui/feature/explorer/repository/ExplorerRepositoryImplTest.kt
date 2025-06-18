@@ -30,6 +30,7 @@ import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryI
 import com.blacksquircle.ui.feature.explorer.data.workspace.DefaultWorkspaceSource
 import com.blacksquircle.ui.feature.explorer.data.workspace.ServerWorkspaceSource
 import com.blacksquircle.ui.feature.explorer.data.workspace.UserWorkspaceSource
+import com.blacksquircle.ui.feature.explorer.defaultWorkspaces
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.filesystem.base.Filesystem
@@ -43,6 +44,8 @@ import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -61,6 +64,8 @@ class ExplorerRepositoryImplTest {
     private val context = mockk<Context>(relaxed = true)
 
     private val filesystem = mockk<Filesystem>(relaxed = true)
+    private val workspaces = defaultWorkspaces()
+    private val selectedWorkspace = workspaces[0]
 
     private val explorerRepository = ExplorerRepositoryImpl(
         dispatcherProvider = dispatcherProvider,
@@ -77,7 +82,9 @@ class ExplorerRepositoryImplTest {
 
     @Before
     fun setup() {
-        coEvery { workspaceDao.load(any()) } returns null
+        every { defaultWorkspaceSource.workspaceFlow } returns flowOf(workspaces)
+        every { userWorkspaceSource.workspaceFlow } returns emptyFlow()
+        every { serverWorkspaceSource.workspaceFlow } returns emptyFlow()
     }
 
     @Test
@@ -119,6 +126,8 @@ class ExplorerRepositoryImplTest {
         every { filesystem.listFiles(parent) } returns children
         coEvery { filesystemFactory.create(any()) } returns filesystem
 
+        explorerRepository.selectWorkspace(selectedWorkspace)
+
         // When
         val fileList = explorerRepository.listFiles(parent)
 
@@ -139,6 +148,8 @@ class ExplorerRepositoryImplTest {
 
         val taskActionSlot = slot<TaskAction>()
         every { taskManager.execute(TaskType.CREATE, capture(taskActionSlot)) } returns "12345"
+
+        explorerRepository.selectWorkspace(selectedWorkspace)
 
         // When
         explorerRepository.createFile(parent, child.name, child.isDirectory)
@@ -162,6 +173,8 @@ class ExplorerRepositoryImplTest {
 
         val taskActionSlot = slot<TaskAction>()
         every { taskManager.execute(TaskType.RENAME, capture(taskActionSlot)) } returns "12345"
+
+        explorerRepository.selectWorkspace(selectedWorkspace)
 
         // When
         explorerRepository.renameFile(source, fileName)
@@ -188,6 +201,8 @@ class ExplorerRepositoryImplTest {
 
         val taskActionSlot = slot<TaskAction>()
         every { taskManager.execute(TaskType.DELETE, capture(taskActionSlot)) } returns "12345"
+
+        explorerRepository.selectWorkspace(selectedWorkspace)
 
         // When
         explorerRepository.deleteFiles(source)
@@ -219,6 +234,8 @@ class ExplorerRepositoryImplTest {
         val taskActionSlot = slot<TaskAction>()
         every { taskManager.execute(TaskType.COPY, capture(taskActionSlot)) } returns "12345"
 
+        explorerRepository.selectWorkspace(selectedWorkspace)
+
         // When
         explorerRepository.copyFiles(source, dest)
         taskActionSlot.captured.invoke { /* no-op */ }
@@ -248,6 +265,8 @@ class ExplorerRepositoryImplTest {
 
         val taskActionSlot = slot<TaskAction>()
         every { taskManager.execute(TaskType.MOVE, capture(taskActionSlot)) } returns "12345"
+
+        explorerRepository.selectWorkspace(selectedWorkspace)
 
         // When
         explorerRepository.moveFiles(source, dest)
@@ -284,6 +303,8 @@ class ExplorerRepositoryImplTest {
         val taskActionSlot = slot<TaskAction>()
         every { taskManager.execute(TaskType.COMPRESS, capture(taskActionSlot)) } returns "12345"
 
+        explorerRepository.selectWorkspace(selectedWorkspace)
+
         // When
         explorerRepository.compressFiles(source, dest, archive.name)
         taskActionSlot.captured.invoke { /* no-op */ }
@@ -306,6 +327,8 @@ class ExplorerRepositoryImplTest {
 
         val taskActionSlot = slot<TaskAction>()
         every { taskManager.execute(TaskType.EXTRACT, capture(taskActionSlot)) } returns "12345"
+
+        explorerRepository.selectWorkspace(selectedWorkspace)
 
         // When
         explorerRepository.extractFiles(source, dest)
