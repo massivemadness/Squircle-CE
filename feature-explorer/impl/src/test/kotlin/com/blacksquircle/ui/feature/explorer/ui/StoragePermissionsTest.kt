@@ -72,6 +72,7 @@ class StoragePermissionsTest {
 
     @Before
     fun setup() {
+        every { explorerRepository.currentWorkspace } returns selectedWorkspace
         coEvery { explorerRepository.loadWorkspaces() } returns flowOf(workspaces)
         coEvery { explorerRepository.listFiles(any()) } returns emptyList()
 
