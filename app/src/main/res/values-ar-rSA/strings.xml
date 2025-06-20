@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="app_splash_loading">\"جارٍ التحميل…</string>
+    <string name="app_splash_loading">جارٍ التحميل…</string>
     <string name="app_update_dialog_title">يتوفر تحديث</string>
     <string name="app_update_dialog_message">يتوفر إصدار جديد من التطبيق. يمكنك تثبيته الآن، أو تحديثه لاحقاً من خلال متجر التطبيقات.</string>
     <string name="app_update_dialog_button_install">ثبّت</string>
