@@ -14,10 +14,25 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.api.internal
+package com.blacksquircle.ui.feature.terminal.data.interactor
 
+import android.content.Context
+import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
+import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
+import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
 
-interface TerminalApiDepsProvider {
-    fun provideTerminalInteractor(): TerminalInteractor
+internal class TerminalInteractorImpl(
+    private val settingsManager: SettingsManager,
+    private val context: Context,
+) : TerminalInteractor {
+
+    override fun isTermux(): Boolean {
+        val runtime = RuntimeType.of(settingsManager.terminalRuntime)
+        return runtime == RuntimeType.TERMUX
+    }
+
+    override fun openTermux(args: ShellArgs?) {
+        // TODO
+    }
 }

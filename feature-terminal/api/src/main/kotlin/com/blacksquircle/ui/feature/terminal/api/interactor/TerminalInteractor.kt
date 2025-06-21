@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.api.model
+package com.blacksquircle.ui.feature.terminal.api.interactor
 
-enum class RuntimeType(val title: String, val value: String) {
-    ANDROID("Android", "android"),
-    TERMUX("Termux", "termux");
+import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
 
-    companion object {
-
-        fun of(value: String): RuntimeType {
-            return entries.find { it.value == value } ?: ANDROID
-        }
-    }
+interface TerminalInteractor {
+    fun isTermux(): Boolean
+    fun openTermux(args: ShellArgs? = null)
 }

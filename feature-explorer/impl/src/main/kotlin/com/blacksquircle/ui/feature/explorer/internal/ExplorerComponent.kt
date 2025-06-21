@@ -33,6 +33,8 @@ import com.blacksquircle.ui.feature.git.api.internal.GitApiDepsProvider
 import com.blacksquircle.ui.feature.git.api.internal.GitApiProvider
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiDepsProvider
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiProvider
+import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiDepsProvider
+import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiProvider
 import dagger.Component
 
 @ExplorerScope
@@ -46,6 +48,7 @@ import dagger.Component
         EditorApiDepsProvider::class,
         GitApiDepsProvider::class,
         ServersApiDepsProvider::class,
+        TerminalApiDepsProvider::class,
     ]
 )
 internal interface ExplorerComponent {
@@ -65,6 +68,7 @@ internal interface ExplorerComponent {
             explorerApiDepsProvider: ExplorerApiDepsProvider,
             gitApiDepsProvider: GitApiDepsProvider,
             serversApiDepsProvider: ServersApiDepsProvider,
+            terminalApiDepsProvider: TerminalApiDepsProvider,
         ): ExplorerComponent
     }
 
@@ -84,6 +88,8 @@ internal interface ExplorerComponent {
                     .provideGitApiDepsProvider(),
                 serversApiDepsProvider = (context.applicationContext as ServersApiProvider)
                     .provideServersApiDepsProvider(),
+                terminalApiDepsProvider = (context.applicationContext as TerminalApiProvider)
+                    .provideTerminalApiDepsProvider(),
             ).also {
                 component = it
             }
