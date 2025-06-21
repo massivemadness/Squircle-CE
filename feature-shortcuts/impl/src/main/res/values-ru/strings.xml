@@ -42,5 +42,6 @@
     <string name="shortcuts_insert_color_title">Вставить цвет</string>
     <string name="shortcuts_none_set">Не назначено</string>
     <string name="shortcuts_assign_dialog_message">Нажмите новую клавишу (Ctrl или Alt обязателен)</string>
+    <string name="shortcuts_conflict_dialog_title">Внимание</string>
     <string name="shortcuts_conflict_dialog_message">На выбранную клавишу уже назначено действие. Вы хотите отвязать клавишу?</string>
 </resources>
