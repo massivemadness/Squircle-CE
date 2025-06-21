@@ -41,12 +41,6 @@ internal class GitHeaderViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    fun onBackClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
-    }
-
     fun onCredentialsChanged(username: String, password: String) {
         viewModelScope.launch {
             settingsManager.gitCredentialsUsername = username

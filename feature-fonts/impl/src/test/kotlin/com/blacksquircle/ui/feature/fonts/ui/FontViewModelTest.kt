@@ -18,7 +18,6 @@ package com.blacksquircle.ui.feature.fonts.ui
 
 import android.graphics.Typeface
 import android.net.Uri
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
@@ -53,18 +52,6 @@ class FontViewModelTest {
     private val fontsRepository = mockk<FontsRepository>(relaxed = true)
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val typeface = mockk<Typeface>()
-
-    @Test
-    fun `When back pressed Then send popBackStack event`() = runTest {
-        // Given
-        val viewModel = createViewModel()
-
-        // When
-        viewModel.onBackClicked()
-
-        // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
-    }
 
     @Test
     fun `When screen opens Then display loading state`() = runTest {

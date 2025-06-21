@@ -61,12 +61,6 @@ internal class ThemesViewModel @Inject constructor(
         loadThemes()
     }
 
-    fun onBackClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
-    }
-
     fun onQueryChanged(query: String) {
         _viewState.update {
             it.copy(searchQuery = query)

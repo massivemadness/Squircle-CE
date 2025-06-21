@@ -42,12 +42,6 @@ internal class FilesHeaderViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
-    fun onBackClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
-    }
-
     fun onStorageAccessClicked() {
         viewModelScope.launch {
             _viewEvent.send(FilesHeaderViewEvent.OpenStorageSettings)

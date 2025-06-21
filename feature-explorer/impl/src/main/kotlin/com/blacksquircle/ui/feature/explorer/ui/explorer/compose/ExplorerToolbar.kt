@@ -44,17 +44,17 @@ import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SelectionMenu
 import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SortingMenu
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ExplorerToolbar(
-    filesystemType: FilesystemType,
+    workspaceType: WorkspaceType,
     searchQuery: String,
-    selectedNodes: List<FileNode>,
+    selection: List<FileNode>,
     showHidden: Boolean,
     compactPackages: Boolean,
     sortMode: SortMode,
@@ -68,20 +68,21 @@ internal fun ExplorerToolbar(
     onDeleteClicked: () -> Unit = {},
     onCutClicked: () -> Unit = {},
     onOpenWithClicked: () -> Unit = {},
+    onOpenTerminalClicked: () -> Unit = {},
     onRenameClicked: () -> Unit = {},
     onPropertiesClicked: () -> Unit = {},
     onCopyPathClicked: () -> Unit = {},
     onCompressClicked: () -> Unit = {},
     onBackClicked: () -> Unit = {},
 ) {
-    val selectionMode = selectedNodes.isNotEmpty()
-    val rootSelected = selectedNodes.size == 1 && selectedNodes[0].isRoot
+    val selectionMode = selection.isNotEmpty()
+    val rootSelected = selection.size == 1 && selection[0].isRoot
 
     var searchMode by rememberSaveable { mutableStateOf(false) }
-    var menuExpanded by rememberSaveable { mutableStateOf(false) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
 
     Toolbar(
-        title = if (selectionMode) selectedNodes.size.toString() else null,
+        title = if (selectionMode) selection.size.toString() else null,
         navigationIcon = if (selectionMode) UiR.drawable.ic_back else null,
         onNavigationClicked = onBackClicked,
         navigationActions = {
@@ -141,7 +142,7 @@ internal fun ExplorerToolbar(
             }
 
             if (selectionMode) {
-                if (filesystemType == FilesystemType.LOCAL) {
+                if (workspaceType.isLocal()) {
                     IconButton(
                         iconResId = UiR.drawable.ic_copy,
                         onClick = onCopyClicked,
@@ -157,39 +158,40 @@ internal fun ExplorerToolbar(
 
             IconButton(
                 iconResId = UiR.drawable.ic_dots_vertical,
-                onClick = { menuExpanded = true },
+                onClick = { expanded = true },
                 contentDescription = stringResource(UiR.string.common_menu),
                 anchor = {
                     if (selectionMode) {
                         SelectionMenu(
-                            count = selectedNodes.size,
-                            filesystemType = filesystemType,
-                            expanded = menuExpanded,
-                            onDismiss = { menuExpanded = false },
-                            onCutClicked = { menuExpanded = false; onCutClicked() },
-                            onOpenWithClicked = { menuExpanded = false; onOpenWithClicked() },
-                            onRenameClicked = { menuExpanded = false; onRenameClicked() },
-                            onPropertiesClicked = { menuExpanded = false; onPropertiesClicked() },
-                            onCopyPathClicked = { menuExpanded = false; onCopyPathClicked() },
-                            onCompressClicked = { menuExpanded = false; onCompressClicked() },
+                            selection = selection,
+                            workspaceType = workspaceType,
+                            expanded = expanded,
+                            onDismiss = { expanded = false },
+                            onCutClicked = { expanded = false; onCutClicked() },
+                            onOpenWithClicked = { expanded = false; onOpenWithClicked() },
+                            onOpenTerminalClicked = { expanded = false; onOpenTerminalClicked() },
+                            onRenameClicked = { expanded = false; onRenameClicked() },
+                            onPropertiesClicked = { expanded = false; onPropertiesClicked() },
+                            onCopyPathClicked = { expanded = false; onCopyPathClicked() },
+                            onCompressClicked = { expanded = false; onCompressClicked() },
                         )
                     } else {
                         SortingMenu(
-                            expanded = menuExpanded,
-                            onDismiss = { menuExpanded = false },
+                            expanded = expanded,
+                            onDismiss = { expanded = false },
                             showHidden = showHidden,
                             compactPackages = compactPackages,
                             sortMode = sortMode,
                             onShowHiddenClicked = {
-                                menuExpanded = false
+                                expanded = false
                                 onShowHiddenClicked()
                             },
                             onCompactPackagesClicked = {
-                                menuExpanded = false
+                                expanded = false
                                 onCompactPackagesClicked()
                             },
                             onSortModeSelected = {
-                                menuExpanded = false
+                                expanded = false
                                 onSortModeSelected(it)
                             },
                         )
@@ -207,9 +209,9 @@ internal fun ExplorerToolbar(
 private fun ExplorerToolbarPreview() {
     PreviewBackground {
         ExplorerToolbar(
-            filesystemType = FilesystemType.LOCAL,
+            workspaceType = WorkspaceType.LOCAL,
             searchQuery = "",
-            selectedNodes = emptyList(),
+            selection = emptyList(),
             showHidden = true,
             compactPackages = true,
             sortMode = SortMode.SORT_BY_NAME,

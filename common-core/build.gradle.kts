@@ -56,6 +56,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     testImplementation(libs.kotlinx.coroutines.test)
     implementation(libs.kotlinx.serialization)
+    api(libs.squareup.retrofit)
+    implementation(libs.squareup.retrofit.converter)
 
     ksp(libs.androidx.room.compiler)
     ksp(libs.google.dagger.compiler)

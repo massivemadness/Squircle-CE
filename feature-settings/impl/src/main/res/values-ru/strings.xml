@@ -24,6 +24,8 @@
     <string name="settings_header_codestyle_subtitle">Настройте стиль кода</string>
     <string name="settings_header_files_title">Файлы</string>
     <string name="settings_header_files_subtitle">Настройте способ обработки файлов</string>
+    <string name="settings_header_terminal_title">Терминал</string>
+    <string name="settings_header_terminal_subtitle">Настройте терминал</string>
     <string name="settings_header_keybindings_title">Сочетания клавиш</string>
     <string name="settings_header_keybindings_subtitle">Настройте сочетания клавиш</string>
     <string name="settings_header_cloud_title">Облачное хранение</string>
@@ -114,6 +116,14 @@
     <string name="settings_sort_by_name">Сорт. по имени</string>
     <string name="settings_sort_by_size">Сорт. по размеру</string>
     <string name="settings_sort_by_date">Сорт. по дате</string>
+    <string name="settings_category_environment">Окружение</string>
+    <string name="settings_terminal_shell_title">Терминал</string>
+    <string name="settings_terminal_shell_subtitle">Выберите среду выполнения терминала</string>
+    <string name="settings_category_behavior">Поведение</string>
+    <string name="settings_terminal_cursor_blinking_title">Мигание курсора</string>
+    <string name="settings_terminal_cursor_blinking_subtitle">Переключатель мигания курсора в терминале</string>
+    <string name="settings_terminal_keep_screen_on_title">Не выключать экран</string>
+    <string name="settings_terminal_keep_screen_on_subtitle">Предотвращать переход устройства в спящий режим</string>
     <string name="settings_category_account">Аккаунт</string>
     <string name="settings_git_credentials_title">Учетные данные</string>
     <string name="settings_git_credentials_subtitle">Учетные данные для доступа к удалённым репозиториям</string>

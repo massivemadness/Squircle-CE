@@ -59,7 +59,7 @@ internal fun EditorHeaderScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     EditorHeaderScreen(
         viewState = viewState,
-        onBackClicked = viewModel::onBackClicked,
+        onBackClicked = navController::popBackStack,
         onFontSizeChanged = viewModel::onFontSizeChanged,
         onFontTypeClicked = viewModel::onFontTypeClicked,
         onWordWrapChanged = viewModel::onWordWrapChanged,

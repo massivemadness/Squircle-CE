@@ -40,6 +40,7 @@ class MigrationTest {
             Migrations.MIGRATION_1_2,
             Migrations.MIGRATION_2_3,
             Migrations.MIGRATION_3_4,
+            Migrations.MIGRATION_4_5,
         )
     }
 
@@ -156,6 +157,36 @@ class MigrationTest {
                 do {
                     val columnValue = cursor.getString(columnIndex)
                     assertEquals("Test.txt", columnValue)
+                } while (cursor.moveToNext())
+            }
+        }
+    }
+
+    @Test
+    fun migrate4To5() {
+        // Given
+        helper.createDatabase(TEST_DB, 4).apply {
+            val values = ContentValues().apply {
+                put("uuid", "12345")
+                put("name", "Documents")
+                put("type", "local")
+                put("file_uri", "file:///storage/emulated/0/Documents")
+                put("filesystem_uuid", "local")
+            }
+            insert(Tables.WORKSPACES, SQLiteDatabase.CONFLICT_REPLACE, values)
+            close()
+        }
+
+        // When
+        val db = helper.runMigrationsAndValidate(TEST_DB, 5, true, Migrations.MIGRATION_4_5)
+
+        // Then
+        db.query("SELECT * FROM `${Tables.WORKSPACES}`").use { cursor ->
+            if (cursor.moveToFirst()) {
+                val columnIndex = cursor.getColumnIndex("type")
+                do {
+                    val columnValue = cursor.getString(columnIndex)
+                    assertEquals("custom", columnValue)
                 } while (cursor.moveToNext())
             }
         }

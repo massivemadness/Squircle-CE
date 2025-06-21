@@ -65,6 +65,7 @@ internal fun EditorToolbar(
     onCommitClicked: () -> Unit = {},
     onPushClicked: () -> Unit = {},
     onCheckoutClicked: () -> Unit = {},
+    onTerminalClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
 ) {
     val focusManager = LocalFocusManager.current
@@ -138,6 +139,11 @@ internal fun EditorToolbar(
                         onFindClicked = { menuType = null; onFindClicked() },
                         onToolsClicked = { menuType = MenuType.TOOLS },
                         onGitClicked = { menuType = MenuType.GIT },
+                        onTerminalClicked = {
+                            focusManager.clearFocus(force = true)
+                            menuType = null
+                            onTerminalClicked()
+                        },
                         onSettingsClicked = {
                             focusManager.clearFocus(force = true)
                             menuType = null

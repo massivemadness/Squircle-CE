@@ -55,12 +55,14 @@ import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
+import com.blacksquircle.ui.feature.terminal.api.navigation.TerminalScreen
 import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
 import com.blacksquircle.ui.filesystem.base.exception.EncryptedArchiveException
@@ -71,8 +73,6 @@ import com.blacksquircle.ui.filesystem.base.exception.SplitArchiveException
 import com.blacksquircle.ui.filesystem.base.exception.UnsupportedArchiveException
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileType
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
-import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -147,11 +147,16 @@ internal class ExplorerViewModel @Inject constructor(
                     return@launch
                 }
 
-                settingsManager.workspace = workspace.uuid
+                val currentFilesystem = selectedWorkspace?.defaultLocation?.filesystemUuid
+                val selectedFilesystem = workspace.defaultLocation.filesystemUuid
+                if (currentFilesystem != selectedFilesystem) {
+                    resetBuffer()
+                }
+
+                explorerRepository.selectWorkspace(workspace)
                 selectedWorkspace = workspace
 
                 cache.clear()
-                resetBuffer()
 
                 val rootNode = FileNode(
                     file = workspace.defaultLocation,
@@ -185,18 +190,16 @@ internal class ExplorerViewModel @Inject constructor(
 
     fun onDeleteWorkspaceClicked(workspace: WorkspaceModel) {
         viewModelScope.launch {
-            when (workspace.filesystemType) {
-                FilesystemType.LOCAL -> {
-                    if (workspace.uuid != LocalFilesystem.LOCAL_UUID) {
-                        val screen = DeleteWorkspaceDialog(workspace.uuid, workspace.name)
-                        _viewEvent.send(ViewEvent.Navigation(screen))
-                    }
+            when (workspace.type) {
+                WorkspaceType.CUSTOM -> {
+                    val screen = DeleteWorkspaceDialog(workspace.uuid, workspace.name)
+                    _viewEvent.send(ViewEvent.Navigation(screen))
                 }
-                FilesystemType.ROOT -> Unit
-                FilesystemType.SERVER -> {
+                WorkspaceType.SERVER -> {
                     val screen = ServerDialog(workspace.uuid)
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 }
+                else -> Unit
             }
         }
     }
@@ -436,6 +439,17 @@ internal class ExplorerViewModel @Inject constructor(
             val source = fileNode ?: selectedNodes.firstOrNull()
             if (source != null) {
                 _viewEvent.send(ExplorerViewEvent.OpenFileWith(source.file))
+            }
+            resetBuffer()
+        }
+    }
+
+    fun onOpenTerminalClicked() {
+        viewModelScope.launch {
+            val target = selectedNodes.firstOrNull()
+            if (target != null) {
+                val screen = TerminalScreen(workingDir = target.file.path)
+                _viewEvent.send(ViewEvent.Navigation(screen))
             }
             resetBuffer()
         }
@@ -858,12 +872,9 @@ internal class ExplorerViewModel @Inject constructor(
                 explorerRepository.loadWorkspaces().collect { workspaces ->
                     this@ExplorerViewModel.workspaces = workspaces
 
-                    val workspace = workspaces
-                        .find { it.uuid == settingsManager.workspace }
-                        ?: workspaces.first()
-
+                    val workspace = explorerRepository.currentWorkspace
                     if (workspace.uuid != selectedWorkspace?.uuid) {
-                        settingsManager.workspace = workspace.uuid
+                        explorerRepository.selectWorkspace(workspace)
                         selectedWorkspace = workspace
 
                         cache.clear()

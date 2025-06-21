@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -32,7 +33,7 @@ import androidx.compose.ui.util.fastForEach
 import com.blacksquircle.ui.ds.navigationitem.NavigationItem
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -53,13 +54,8 @@ internal fun Workspaces(
             .systemBarsPadding()
     ) {
         workspaces.fastForEach { workspace ->
-            NavigationItem(
-                iconResId = when (workspace.filesystemType) {
-                    FilesystemType.LOCAL -> UiR.drawable.ic_folder
-                    FilesystemType.ROOT -> UiR.drawable.ic_folder_pound
-                    FilesystemType.SERVER -> UiR.drawable.ic_server_network
-                },
-                label = workspace.name,
+            WorkspaceItem(
+                workspace = workspace,
                 selected = workspace == selectedWorkspace,
                 onClick = { onWorkspaceClicked(workspace) },
                 onLongClick = {
@@ -74,4 +70,33 @@ internal fun Workspaces(
             onClick = onAddWorkspaceClicked,
         )
     }
+}
+
+@Composable
+@NonRestartableComposable
+private fun WorkspaceItem(
+    workspace: WorkspaceModel,
+    selected: Boolean,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    NavigationItem(
+        iconResId = when (workspace.type) {
+            WorkspaceType.LOCAL -> UiR.drawable.ic_folder
+            WorkspaceType.ROOT -> UiR.drawable.ic_folder_pound
+            WorkspaceType.CUSTOM -> UiR.drawable.ic_folder
+            WorkspaceType.SERVER -> UiR.drawable.ic_server_network
+        },
+        label = when (workspace.type) {
+            WorkspaceType.LOCAL -> stringResource(R.string.explorer_workspace_button_files)
+            WorkspaceType.ROOT -> stringResource(R.string.explorer_workspace_button_root)
+            WorkspaceType.CUSTOM,
+            WorkspaceType.SERVER -> workspace.name
+        },
+        selected = selected,
+        onClick = onClick,
+        onLongClick = onLongClick,
+        modifier = modifier,
+    )
 }

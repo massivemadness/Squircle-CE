@@ -21,13 +21,11 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorCommand
 
 internal sealed class EditorViewEvent : ViewEvent {
 
+    data object ScrollToEnd : EditorViewEvent()
+
     data object CreateFileContract : EditorViewEvent()
     data object OpenFileContract : EditorViewEvent()
-    data class SaveAsFileContract(
-        val fileName: String
-    ) : EditorViewEvent()
+    data class SaveAsFileContract(val fileName: String) : EditorViewEvent()
 
-    data class Command(
-        val command: EditorCommand
-    ) : EditorViewEvent()
+    data class Command(val command: EditorCommand) : EditorViewEvent()
 }

@@ -47,12 +47,6 @@ internal class CloudViewModel @Inject constructor(
         loadServers()
     }
 
-    fun onBackClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
-    }
-
     fun onServerClicked(serverConfig: ServerConfig) {
         viewModelScope.launch {
             val screen = ServerDialog(serverConfig.uuid)

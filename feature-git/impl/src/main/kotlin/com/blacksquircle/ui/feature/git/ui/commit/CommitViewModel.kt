@@ -61,12 +61,6 @@ internal class CommitViewModel @AssistedInject constructor(
         loadChanges()
     }
 
-    fun onBackClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
-    }
-
     fun onCommitMessageChanged(message: String) {
         commitMessage = message
         _viewState.update {

@@ -22,6 +22,7 @@
     <string name="explorer_menu_sort_by_date">Sort by Date</string>
     <string name="explorer_menu_selection_delete">Delete</string>
     <string name="explorer_menu_selection_open_with">Open with</string>
+    <string name="explorer_menu_selection_open_terminal">Open terminal</string>
     <string name="explorer_menu_selection_rename">Rename</string>
     <string name="explorer_menu_selection_properties">Properties</string>
     <string name="explorer_menu_selection_copy_path">Copy Path</string>
@@ -92,6 +93,8 @@
     <string name="explorer_workspace_internal_storage_description">Open a folder using system app</string>
     <string name="explorer_workspace_remote_server_title">Remote Server</string>
     <string name="explorer_workspace_remote_server_description">Connect to a remote server with address and user credentials</string>
+    <string name="explorer_workspace_button_files">Files</string>
+    <string name="explorer_workspace_button_root">Root</string>
     <string name="explorer_workspace_button_add">Add</string>
     <string name="explorer_toast_select_folder_to_paste">Select folder to paste</string>
     <string name="explorer_toast_file_cannot_be_opened">File cannot be opened</string>

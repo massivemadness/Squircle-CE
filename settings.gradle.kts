@@ -55,6 +55,8 @@ include(
     ":feature-settings:impl",
     ":feature-shortcuts:api",
     ":feature-shortcuts:impl",
+    ":feature-terminal:api",
+    ":feature-terminal:impl",
     ":feature-themes:api",
     ":feature-themes:impl",
 )

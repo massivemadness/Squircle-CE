@@ -32,6 +32,8 @@ import com.blacksquircle.ui.feature.servers.api.internal.ServersApiDepsProvider
 import com.blacksquircle.ui.feature.servers.internal.api.ServersApiModule
 import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiDepsProvider
 import com.blacksquircle.ui.feature.shortcuts.internal.api.ShortcutsApiModule
+import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiDepsProvider
+import com.blacksquircle.ui.feature.terminal.internal.api.TerminalApiModule
 import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiDepsProvider
 import com.blacksquircle.ui.feature.themes.internal.api.ThemesApiModule
 import dagger.BindsInstance
@@ -49,6 +51,7 @@ import javax.inject.Singleton
         GitApiModule::class,
         ServersApiModule::class,
         ShortcutsApiModule::class,
+        TerminalApiModule::class,
         ThemesApiModule::class,
     ],
 )
@@ -60,6 +63,7 @@ internal interface AppComponent :
     GitApiDepsProvider,
     ServersApiDepsProvider,
     ShortcutsApiDepsProvider,
+    TerminalApiDepsProvider,
     ThemesApiDepsProvider {
 
     fun inject(factory: MainViewModel.Factory)

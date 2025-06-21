@@ -19,13 +19,12 @@ package com.blacksquircle.ui.feature.settings.internal
 import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
-import com.blacksquircle.ui.feature.settings.ui.about.AboutHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.application.AppHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.git.GitHeaderViewModel
-import com.blacksquircle.ui.feature.settings.ui.header.HeaderListViewModel
+import com.blacksquircle.ui.feature.settings.ui.terminal.TerminalHeaderViewModel
 import dagger.Component
 
 @SettingsScope
@@ -36,13 +35,12 @@ import dagger.Component
 )
 internal interface SettingsComponent {
 
-    fun inject(factory: AboutHeaderViewModel.Factory)
     fun inject(factory: AppHeaderViewModel.Factory)
     fun inject(factory: CodeHeaderViewModel.Factory)
     fun inject(factory: EditorHeaderViewModel.Factory)
     fun inject(factory: FilesHeaderViewModel.Factory)
+    fun inject(factory: TerminalHeaderViewModel.Factory)
     fun inject(factory: GitHeaderViewModel.Factory)
-    fun inject(factory: HeaderListViewModel.Factory)
 
     @Component.Factory
     interface Factory {

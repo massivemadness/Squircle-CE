@@ -22,6 +22,7 @@ import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import kotlinx.serialization.json.Json
+import retrofit2.Retrofit
 
 interface CoreApiDepsProvider {
     fun provideContext(): Context
@@ -30,4 +31,5 @@ interface CoreApiDepsProvider {
     fun provideSettingsManager(): SettingsManager
     fun provideAppDatabase(): AppDatabase
     fun provideJsonParser(): Json
+    fun provideRetrofit(): Retrofit
 }

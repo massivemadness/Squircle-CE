@@ -66,7 +66,7 @@ internal fun CommitScreen(
         onCommitMessageChanged = viewModel::onCommitMessageChanged,
         onAmendClicked = viewModel::onAmendClicked,
         onCommitClicked = viewModel::onCommitClicked,
-        onBackClicked = viewModel::onBackClicked
+        onBackClicked = navController::popBackStack,
     )
 
     val context = LocalContext.current

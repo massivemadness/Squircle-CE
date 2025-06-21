@@ -55,6 +55,8 @@
     <string name="editor_menu_git_push">Push</string>
     <string name="editor_menu_git_checkout">Checkout</string>
 
+    <string name="editor_menu_terminal">Terminal</string>
+
     <string name="editor_menu_settings">Settings</string>
 
     <string name="editor_empty_view_title">No open files</string>
