@@ -17,10 +17,16 @@
 package com.blacksquircle.ui.feature.terminal.data.interactor
 
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
 import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
+import com.termux.shared.termux.TermuxConstants.*
+import com.termux.shared.termux.TermuxConstants.TERMUX_APP.*
+import com.termux.shared.termux.TermuxConstants.TERMUX_APP.RUN_COMMAND_SERVICE.*
+import timber.log.Timber
 
 internal class TerminalInteractorImpl(
     private val settingsManager: SettingsManager,
@@ -33,6 +39,24 @@ internal class TerminalInteractorImpl(
     }
 
     override fun openTermux(args: ShellArgs?) {
-        // TODO
+        runCatching {
+            val intent = Intent(ACTION_RUN_COMMAND).apply {
+                setClassName(TERMUX_PACKAGE_NAME, RUN_COMMAND_SERVICE_NAME)
+                
+                putExtra(EXTRA_COMMAND_PATH, TERMUX_PREFIX_DIR_PATH + TERMUX_SHELL)
+                putExtra(EXTRA_WORKDIR, args?.workingDir)
+                // https://github.com/termux/termux-app/commit/b94dc7eea93962f11b55cd9f5cb7aff715a1f4a6
+                putExtra(EXTRA_BACKGROUND, false)
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(intent)
+            } else {
+                context.startService(intent)
+            }
+        }.onFailure(Timber::e)
+    }
+
+    companion object {
+        private const val TERMUX_SHELL = "/bin/bash"
     }
 }
