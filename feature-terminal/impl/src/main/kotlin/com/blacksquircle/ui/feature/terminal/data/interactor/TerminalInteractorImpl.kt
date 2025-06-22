@@ -42,7 +42,7 @@ internal class TerminalInteractorImpl(
         runCatching {
             val intent = Intent(ACTION_RUN_COMMAND).apply {
                 setClassName(TERMUX_PACKAGE_NAME, RUN_COMMAND_SERVICE_NAME)
-                
+
                 putExtra(EXTRA_COMMAND_PATH, TERMUX_PREFIX_DIR_PATH + TERMUX_SHELL)
                 putExtra(EXTRA_WORKDIR, args?.workingDir)
                 // https://github.com/termux/termux-app/commit/b94dc7eea93962f11b55cd9f5cb7aff715a1f4a6

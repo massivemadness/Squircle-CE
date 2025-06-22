@@ -33,6 +33,7 @@ import com.blacksquircle.ui.ds.extensions.clearSemantics
 fun PreferenceGroup(
     title: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     Box(
         contentAlignment = Alignment.CenterStart,
@@ -43,7 +44,11 @@ fun PreferenceGroup(
     ) {
         Text(
             text = title,
-            color = SquircleTheme.colors.colorPrimary,
+            color = if (enabled) {
+                SquircleTheme.colors.colorPrimary
+            } else {
+                SquircleTheme.colors.colorTextAndIconDisabled
+            },
             style = SquircleTheme.typography.text14Medium,
             modifier = Modifier.padding(start = 16.dp)
         )

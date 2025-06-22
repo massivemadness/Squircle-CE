@@ -100,17 +100,19 @@ private fun TerminalHeaderScreen(
             HorizontalDivider()
 
             PreferenceGroup(
-                title = stringResource(R.string.settings_category_behavior)
+                title = stringResource(R.string.settings_category_behavior),
             )
             SwitchPreference(
                 title = stringResource(R.string.settings_terminal_cursor_blinking_title),
                 subtitle = stringResource(R.string.settings_terminal_cursor_blinking_subtitle),
+                enabled = viewState.currentRuntime != RuntimeType.TERMUX,
                 checked = viewState.cursorBlinking,
                 onCheckedChange = onCursorBlinkingChanged,
             )
             SwitchPreference(
                 title = stringResource(R.string.settings_terminal_keep_screen_on_title),
                 subtitle = stringResource(R.string.settings_terminal_keep_screen_on_subtitle),
+                enabled = viewState.currentRuntime != RuntimeType.TERMUX,
                 checked = viewState.keepScreenOn,
                 onCheckedChange = onKeepScreenOnChanged,
             )
