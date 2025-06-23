@@ -117,8 +117,12 @@
     <string name="settings_sort_by_size">Сорт. по размеру</string>
     <string name="settings_sort_by_date">Сорт. по дате</string>
     <string name="settings_category_environment">Окружение</string>
-    <string name="settings_terminal_shell_title">Терминал</string>
-    <string name="settings_terminal_shell_subtitle">Выберите среду выполнения терминала</string>
+    <string name="settings_terminal_runtime_title">Терминал</string>
+    <string name="settings_terminal_runtime_subtitle">Выберите среду выполнения терминала</string>
+    <string name="settings_terminal_exec_permission_title">Разрешение на выполнение</string>
+    <string name="settings_terminal_exec_permission_subtitle">Предоставьте разрешение на выполнение команд в Termux</string>
+    <string name="settings_terminal_allow_external_apps_title">Внешние приложения</string>
+    <string name="settings_terminal_allow_external_apps_subtitle">Откройте файл termux.properties и добавьте следующую строку, чтобы разрешить выполнение команд из внешних приложений:</string>
     <string name="settings_category_behavior">Поведение</string>
     <string name="settings_terminal_cursor_blinking_title">Мигание курсора</string>
     <string name="settings_terminal_cursor_blinking_subtitle">Переключатель мигания курсора в терминале</string>

@@ -50,6 +50,7 @@ internal fun TextFieldInput(
     inputPadding: PaddingValues,
     textStyle: TextStyle,
     textColor: Color,
+    disabledTextColor: Color,
     placeholderColor: Color,
     cursorColor: Color,
     handleColor: Color,
@@ -70,7 +71,9 @@ internal fun TextFieldInput(
             onValueChange = onInputChanged,
             enabled = enabled,
             readOnly = readOnly,
-            textStyle = textStyle.copy(color = textColor),
+            textStyle = textStyle.copy(
+                color = if (enabled) textColor else disabledTextColor,
+            ),
             cursorBrush = cursorBrush,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,

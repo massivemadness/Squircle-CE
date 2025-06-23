@@ -23,6 +23,11 @@ import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
 @Immutable
 internal data class TerminalHeaderViewState(
     val currentRuntime: RuntimeType,
+    val termuxPropsCopied: Boolean,
     val cursorBlinking: Boolean,
     val keepScreenOn: Boolean,
-) : ViewState
+) : ViewState {
+
+    val isTermux: Boolean
+        get() = currentRuntime == RuntimeType.TERMUX
+}
