@@ -24,6 +24,8 @@
     <string name="settings_header_codestyle_subtitle">配置代码缩进、符号配对等。</string>
     <string name="settings_header_files_title">文件</string>
     <string name="settings_header_files_subtitle">配置文件的处理方式。</string>
+    <string name="settings_header_terminal_title">终端</string>
+    <string name="settings_header_terminal_subtitle">配置终端</string>
     <string name="settings_header_keybindings_title">快捷键</string>
     <string name="settings_header_keybindings_subtitle">配置快捷键。</string>
     <string name="settings_header_cloud_title">云 &amp; 服务器</string>
@@ -114,6 +116,14 @@
     <string name="settings_sort_by_name">按名称排序</string>
     <string name="settings_sort_by_size">按大小排序</string>
     <string name="settings_sort_by_date">按日期排序</string>
+    <string name="settings_category_environment">环境</string>
+    <string name="settings_terminal_shell_title">终端</string>
+    <string name="settings_terminal_shell_subtitle">选择运行时环境</string>
+    <string name="settings_category_behavior">行为</string>
+    <string name="settings_terminal_cursor_blinking_title">光标闪烁</string>
+    <string name="settings_terminal_cursor_blinking_subtitle">控制终端光标是否闪烁</string>
+    <string name="settings_terminal_keep_screen_on_title">保持屏幕常亮</string>
+    <string name="settings_terminal_keep_screen_on_subtitle">防止设备在终端打开时进入睡眠状态</string>
     <string name="settings_category_account">账号</string>
     <string name="settings_git_credentials_title">Git 凭证</string>
     <string name="settings_git_credentials_subtitle">访问远程存储库的凭证</string>
