@@ -221,7 +221,8 @@
       "meta.embedded.block.typescript": "typescript",
       "meta.embedded.block.typescriptreact": "typescript",
       "meta.embedded.block.csharp": "csharp",
-      "meta.embedded.block.fsharp": "fsharp"
+      "meta.embedded.block.fsharp": "fsharp",
+      "meta.embedded.block.zig": "zig"
     }
   },
   {
@@ -323,5 +324,12 @@
     "scopeName": "source.yaml",
     "grammar": "languages/yaml/syntaxes/yaml.tmLanguage.json",
     "languageConfiguration": "languages/yaml/language-configuration.json"
+  },
+  {
+    "name": "zig",
+    "displayName": "ZIG",
+    "scopeName": "source.zig",
+    "grammar": "languages/zig/syntaxes/Zig.tmLanguage",
+    "languageConfiguration": "languages/zig/language-configuration.json"
   }
 ]
