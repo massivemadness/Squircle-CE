@@ -58,6 +58,7 @@ internal fun EditorToolbar(
     onUndoClicked: () -> Unit = {},
     onRedoClicked: () -> Unit = {},
     onFindClicked: () -> Unit = {},
+    onGoToLineClicked: () -> Unit = {},
     onForceSyntaxClicked: () -> Unit = {},
     onInsertColorClicked: () -> Unit = {},
     onFetchClicked: () -> Unit = {},
@@ -137,6 +138,7 @@ internal fun EditorToolbar(
                         expanded = menuType == MenuType.OTHER,
                         onDismiss = { menuType = null },
                         onFindClicked = { menuType = null; onFindClicked() },
+                        onGoToLineClicked = { menuType = null; onGoToLineClicked() },
                         onToolsClicked = { menuType = MenuType.TOOLS },
                         onGitClicked = { menuType = MenuType.GIT },
                         onTerminalClicked = {

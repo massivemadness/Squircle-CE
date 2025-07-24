@@ -643,7 +643,7 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
-    private fun onGoToLineClicked() {
+    fun onGoToLineClicked() {
         viewModelScope.launch {
             if (selectedPosition !in documents.indices) {
                 return@launch

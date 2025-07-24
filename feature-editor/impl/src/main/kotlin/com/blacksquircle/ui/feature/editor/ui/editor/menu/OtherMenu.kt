@@ -32,6 +32,7 @@ internal fun OtherMenu(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     onFindClicked: () -> Unit = {},
+    onGoToLineClicked: () -> Unit = {},
     onToolsClicked: () -> Unit = {},
     onGitClicked: () -> Unit = {},
     onTerminalClicked: () -> Unit = {},
@@ -48,6 +49,11 @@ internal fun OtherMenu(
             title = stringResource(R.string.editor_menu_find),
             iconResId = UiR.drawable.ic_file_find,
             onClick = onFindClicked,
+        )
+        PopupMenuItem(
+            title = stringResource(R.string.editor_goto_line_dialog_title),
+            iconResId = UiR.drawable.ic_go_to_line,
+            onClick = onGoToLineClicked,
         )
         PopupMenuItem(
             title = stringResource(R.string.editor_menu_tools),
