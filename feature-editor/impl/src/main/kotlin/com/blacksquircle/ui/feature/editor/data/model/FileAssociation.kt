@@ -300,6 +300,7 @@ internal object FileAssociation {
         associations[".eyml"] = LanguageScope.YAML
         associations[".cff"] = LanguageScope.YAML
         associations[".zig"] = LanguageScope.ZIG
+        associations[".zon"] = LanguageScope.ZIG
     }
 
     fun guessLanguage(extension: String): String? {
