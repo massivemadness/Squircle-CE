@@ -329,7 +329,7 @@
     "name": "zig",
     "displayName": "ZIG",
     "scopeName": "source.zig",
-    "grammar": "languages/zig/syntaxes/Zig.tmLanguage.json",
+    "grammar": "languages/zig/syntaxes/zig.tmLanguage.json",
     "languageConfiguration": "languages/zig/language-configuration.json"
   }
 ]

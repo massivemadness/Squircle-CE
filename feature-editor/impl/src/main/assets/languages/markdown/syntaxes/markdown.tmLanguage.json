@@ -66,7 +66,7 @@
 			"while": "(^|\\G)\\s*(>) ?"
 		},
 		"fenced_code_block_zig": {
-			"begin": "(^|\\G)(\\s*)(`{3,}|~{3,})\\s*(?i:(zig)((\\s+|:|,|\\{|\\?)[^`]*)?$)",
+			"begin": "(^|\\G)(\\s*)(`{3,}|~{3,})\\s*(?i:(zig|zon)((\\s+|:|,|\\{|\\?)[^`]*)?$)",
 			"name": "markup.fenced_code.block.markdown",
 			"end": "(^|\\G)(\\2|\\s{0,3})(\\3)\\s*$",
 			"beginCaptures": {
