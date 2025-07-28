@@ -66,6 +66,7 @@ internal class FileIconProviderImpl : FileIconProvider {
             LanguageScope.XML -> UiR.drawable.ic_language_xml
             LanguageScope.YAML -> UiR.drawable.ic_file_code
             LanguageScope.ZIG -> UiR.drawable.ic_file_code
+            LanguageScope.VUE -> UiR.drawable.ic_file_code
             else -> -1
         }
     }

@@ -222,7 +222,8 @@
       "meta.embedded.block.typescriptreact": "typescript",
       "meta.embedded.block.csharp": "csharp",
       "meta.embedded.block.fsharp": "fsharp",
-      "meta.embedded.block.zig": "zig"
+      "meta.embedded.block.zig": "zig",
+      "meta.embedded.block.vue": "vue"
     }
   },
   {
@@ -310,6 +311,13 @@
     "scopeName": "source.vb",
     "grammar": "languages/vb/syntaxes/visualbasic.tmLanguage.json",
     "languageConfiguration": "languages/vb/language-configuration.json"
+  },
+  {
+    "name": "vue",
+    "displayName": "Vue",
+    "scopeName": "source.vue",
+    "grammar": "languages/vue/syntaxes/vue.tmLanguage.json",
+    "languageConfiguration": "languages/vue/language-configuration.json"
   },
   {
     "name": "xml",
