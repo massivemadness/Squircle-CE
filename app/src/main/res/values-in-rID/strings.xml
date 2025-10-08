@@ -17,7 +17,7 @@
 <resources>
     <string name="app_splash_loading">Memuat…</string>
     <string name="app_update_dialog_title">Pembaruan tersedia</string>
-    <string name="app_update_dialog_message">Versi baru aplikasi telah tersedia. Anda dapat menginstal nya sekarang, atau mengupdate nya nanti melalui app store.</string>
-    <string name="app_update_dialog_button_install">Unduh</string>
+    <string name="app_update_dialog_message">Versi baru aplikasi telah tersedia. Anda dapat menginstal nya sekarang, atau memperbarui nya nanti melalui app store.</string>
+    <string name="app_update_dialog_button_install">Instal</string>
     <string name="app_update_dialog_button_later">Nanti</string>
 </resources>
