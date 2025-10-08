@@ -38,6 +38,6 @@
     <string name="servers_edit_dialog_auth_action_save_passphrase">Simpan Frasa Sandi</string>
     <string name="servers_edit_dialog_input_password_label">Kata sandi</string>
     <string name="servers_edit_dialog_input_passphrase_label">Frasa sandi</string>
-    <string name="servers_edit_dialog_input_keyfile_label">File kunci</string>
+    <string name="servers_edit_dialog_input_keyfile_label">Berkas Kunci</string>
     <string name="servers_edit_dialog_input_initialdir_label">Folder Rujukan</string>
 </resources>
