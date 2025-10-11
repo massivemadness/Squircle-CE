@@ -21,8 +21,10 @@
     <string name="common_delete">Deletar</string>
     <string name="common_continue">Continuar</string>
     <string name="common_select">Selecionar</string>
+    <string name="common_selected">Selecionado</string>
     <string name="common_yes">Sim</string>
     <string name="common_no">Não</string>
+    <string name="common_menu">Menu</string>
     <string name="common_grant_access">Permitir acesso</string>
     <string name="common_access_denied_dialog_title">Acesso negado</string>
     <string name="common_access_denied_dialog_message">O Squircle precisa de acesso ao armazenamento para trabalhar com arquivos</string>
