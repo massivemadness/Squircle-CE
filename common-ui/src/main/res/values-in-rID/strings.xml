@@ -27,5 +27,5 @@
     <string name="common_menu">Menu</string>
     <string name="common_grant_access">Izinkan Akses</string>
     <string name="common_access_denied_dialog_title">Akses Ditolak</string>
-    <string name="common_access_denied_dialog_message">Aplikasi memerlukan akses penyimpanan untuk bekerja dengan file</string>
+    <string name="common_access_denied_dialog_message">Aplikasi memerlukan akses penyimpanan untuk mengakses file</string>
 </resources>
