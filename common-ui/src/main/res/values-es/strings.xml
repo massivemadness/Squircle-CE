@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="common_error_occurred">Un error ocurrió</string>
+    <string name="common_error_occurred">Ocurrió un error</string>
     <string name="common_no_result">Sin resultado</string>
     <string name="common_save">Guardado</string>
     <string name="common_delete">Borrar</string>
