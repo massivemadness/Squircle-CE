@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="explorer_menu_sort_show_hidden">Mostra file nascosti</string>
+    <string name="explorer_menu_sort_compact_packages">Archivia pacchetti</string>
+    <string name="explorer_menu_sort_by_name">Ordina per Nome</string>
+    <string name="explorer_menu_sort_by_size">Ordina per Dimensione</string>
+    <string name="explorer_menu_sort_by_date">Ordina per Data</string>
+    <string name="explorer_menu_selection_delete">Elimina</string>
+    <string name="explorer_menu_selection_open_with">Apri con</string>
+    <string name="explorer_menu_selection_open_terminal">Apri terminale</string>
+    <string name="explorer_menu_selection_rename">Rinomina</string>
+    <string name="explorer_menu_selection_properties">Proprietà</string>
+    <string name="explorer_menu_selection_copy_path">Copia Percorso</string>
+    <string name="explorer_menu_selection_compress">Comprimi</string>
+    <string name="explorer_menu_selection_refresh">Aggiorna</string>
+    <string name="explorer_menu_selection_clone">Duplica</string>
+    <string name="explorer_menu_selection_create">Crea</string>
+    <string name="explorer_create_dialog_title">Crea…</string>
+    <string name="explorer_create_dialog_input_label">Inserisci nome file</string>
+    <string name="explorer_create_dialog_input_error">Nome file non valido</string>
+    <string name="explorer_create_dialog_checkbox_folder">Cartella</string>
+    <string name="explorer_create_dialog_button_create">Crea</string>
+    <string name="explorer_rename_dialog_title">Rinomina…</string>
+    <string name="explorer_rename_dialog_input_label">Inserisci nome file</string>
+    <string name="explorer_rename_dialog_input_error">Nome file non valido</string>
+    <string name="explorer_rename_dialog_button_rename">Rinomina</string>
+    <string name="explorer_compress_dialog_title">Nome archivio</string>
+    <string name="explorer_compress_dialog_input_label">Inserisci nome archivio</string>
+    <string name="explorer_compress_dialog_input_error">Nome archivio non valido</string>
+    <string name="explorer_compress_dialog_button_compress">Comprimi</string>
+    <string name="explorer_auth_dialog_title">Autentificazione</string>
+    <string name="explorer_auth_dialog_input_password_label">Inserisci password</string>
+    <string name="explorer_auth_dialog_input_passphrase_label">Inserisci passphrase</string>
+    <string name="explorer_auth_dialog_button_authenticate">Convalida</string>
+    <string name="explorer_clone_dialog_title">Duplica…</string>
+    <string name="explorer_clone_dialog_input_label">Inserisci indirizzo url git</string>
+    <string name="explorer_clone_dialog_input_error">Indirizzo URL non valido</string>
+    <string name="explorer_clone_dialog_button_clone">Duplica</string>
+    <string name="explorer_multidelete_dialog_title">Elimina più file</string>
+    <string name="explorer_multidelete_dialog_message">Sei sicuro di voler eliminare i file selezionati?</string>
+    <string name="explorer_delete_dialog_message">Sei sicuro di voler eliminare questo file?</string>
+    <string name="explorer_delete_dialog_button_delete">Elimina</string>
+    <string name="explorer_properties_dialog_title">Proprietà</string>
+    <string name="explorer_properties_dialog_name">Nome File:</string>
+    <string name="explorer_properties_dialog_path">Percorso File:</string>
+    <string name="explorer_properties_dialog_date">Ultima Modifica:</string>
+    <string name="explorer_properties_dialog_date_format">dd/MM/yyyy EEE HH:mm</string>
+    <string name="explorer_properties_dialog_size">Dimensioni File:</string>
+    <string name="explorer_task_dialog_title_creating">Creazione…</string>
+    <string name="explorer_task_dialog_title_renaming">Rinominazione in corso…</string>
+    <string name="explorer_task_dialog_title_deleting">Eliminazione in corso…</string>
+    <string name="explorer_task_dialog_title_copying">Copia in corso…</string>
+    <string name="explorer_task_dialog_title_compressing">Compressione in corso…</string>
+    <string name="explorer_task_dialog_title_extracting">Estrazione in corso…</string>
+    <string name="explorer_task_dialog_title_cloning">Duplicazione in corso…</string>
+    <string name="explorer_task_dialog_message_creating">Creazione…%1$s</string>
+    <string name="explorer_task_dialog_message_renaming">Rinominazione…%1$s</string>
+    <string name="explorer_task_dialog_message_deleting">Eliminazione…%1$s</string>
+    <string name="explorer_task_dialog_message_copying">Copia…%1$s</string>
+    <string name="explorer_task_dialog_message_compressing">Compressione…%1$s</string>
+    <string name="explorer_task_dialog_message_extracting">Estrazione…%1$s</string>
+    <string name="explorer_task_dialog_message_cloning">Duplicazione…%1$s</string>
+    <string name="explorer_task_dialog_progress_time">Tempo trascorso: %1$s</string>
+    <string name="explorer_task_dialog_button_background">Avvia in background</string>
+    <string name="explorer_task_service_channel_name">Esplora Risorse</string>
+    <string name="explorer_task_service_channel_description">Mostra e controlla operazioni sui file</string>
+    <string name="explorer_task_service_message">Sono in corso le operazioni in background</string>
+    <string name="explorer_storage_permission_dialog_title">Accesso Memoria Archivio</string>
+    <string name="explorer_storage_permission_dialog_message">Per funzionare correttamente Squircle CE necessita del completo accesso ai tuoi file\n\nAttiva i permessi nella prossima schermata delle impostazioni di sistema</string>
+    <string name="explorer_notification_permission_dialog_title">Notifiche</string>
+    <string name="explorer_notification_permission_dialog_message">Squircle CE necessita dell\'accesso alle notifiche per avviarsi in background\n\nAbilita i permessi nella prossima schermata delle impostazioni di sistema</string>
+    <string name="explorer_workspace_add_dialog_title">Aggiungi Spazio di lavoro</string>
+    <string name="explorer_workspace_delete_dialog_message">Sei sicuro di voler eliminare questo spazio di lavoro?</string>
+    <string name="explorer_workspace_local_dialog_input_label">Inserisci percorso cartella</string>
+    <string name="explorer_workspace_local_storage_title">Cartella Locale</string>
+    <string name="explorer_workspace_local_storage_description">Apri una cartella usando un percorso assoluto</string>
+    <string name="explorer_workspace_internal_storage_title">Memoria Interna</string>
+    <string name="explorer_workspace_internal_storage_description">Apri una cartella usando l\'app di sistema</string>
+    <string name="explorer_workspace_remote_server_title">Server Remoto</string>
+    <string name="explorer_workspace_remote_server_description">Connettiti ad un server remoto con indirizzo e credenziali utente</string>
+    <string name="explorer_workspace_button_files">File</string>
+    <string name="explorer_workspace_button_root">Root</string>
+    <string name="explorer_workspace_button_add">Aggiungi</string>
+    <string name="explorer_toast_select_folder_to_paste">Seleziona cartella in cui incollare</string>
+    <string name="explorer_toast_file_cannot_be_opened">Il file non può essere aperto</string>
+    <string name="explorer_toast_file_already_exists">Il file esiste già</string>
+    <string name="explorer_toast_file_not_found">File non trovato</string>
+    <string name="explorer_toast_unsupported_archive">Archivio non supportato</string>
+    <string name="explorer_toast_invalid_archive">Archivio non valido</string>
+    <string name="explorer_toast_split_archive">Archivio in più parti</string>
+    <string name="explorer_toast_encrypted_archive">L\'archivio è protetto</string>
+    <string name="explorer_toast_operation_cancelled">Operazione annullata</string>
+    <string name="explorer_toast_operation_not_supported">Operazione non supportata</string>
+    <string name="explorer_toast_same_directory_required">I file devono stare nella stessa cartella</string>
+    <string name="explorer_toast_done">Eseguito</string>
+    <string name="explorer_error_view_title_auth">Autentificazione Richiesta</string>
+    <string name="explorer_error_view_button_authenticate">Accedi</string>
+    <string name="explorer_error_view_message_password">Inserisci la password per connetterti al server remoto</string>
+    <string name="explorer_error_view_message_passphrase">Inserisci la passphrase per connetterti al server remoto</string>
+</resources>
