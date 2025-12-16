@@ -1,0 +1,39 @@
+<b>Squircle CE</b>è un editor di codice e file manager veloce e leggero che supporta oltre 30 linguaggi di programmazione, accesso remoto ai file tramite SFTP/FTP(S) e integrazione Git VCS. A prescindere che tu sia uno studente, un hobbysta o uno sviluppatore professionista, Squircle CE ti permette di scrivere, gestire e visionare il tuo codice sorgente ovunque e dovunque - anche su smartphone e tablet.
+
+Ecco alcune caratteristiche che aiuteranno a scrivere il tuo codice più efficientemente:
+
+<b>• Supporto Multilingue</b>
+Codifica in più di 30 linguaggi: Java, Kotlin, Python, C/C++, HTML, JavaScript, TypeScript, PHP, Rust, Go, e altro ancora.
+
+<b>• Evidenziazione Sintassi</b>
+L'evidenziazione colorata e pulita della sintassi ti aiuta a capire il tuo codice in un colpo d'occhio.
+
+<b>• Autocompletamento Codice</b>
+Velocizza la scrittura del codice con suggerimenti intelligenti per variabili, funzioni e parole chiavi basati sul contenuto dei tuoi file.
+
+<b>• Integrazione Git</b>
+Controlla la versione del tuo codice direttamente nell'editor. Utilizza i comandi Git commit, push e pull per gestire con facilità il tuo codice con altri collaboratori.
+
+<b>• Esplora Risorse</b>
+Controlla i file localmente o da remoto con il supporto SFTP/FTP(S) - non hai bisogno di altre app per la gestione dei file.
+
+<b>• Editing Multisessione</b>
+Non perdi mai il tuo lavoro - tutte le modifiche sono salvate automaticamente, così puoi giusto riprendere da dove avevi lasciato.
+
+<b>• Annulla/Ripristina illimitati</b>
+Correggi gli errori con facilità tramite le azioni illimitate di annulla e ripristina, anche dopo che riavvii l'app.
+
+<b>• Corrispondenza Parentesi</b>
+Comprendi velocemente la struttura del codice con l'evidenziazione automatica delle parentesi (), [] e {} corrispondenti.
+
+<b>• Stile Codice</b>
+Scrivi codice pulito con l'identificazione automatica e la chiusura intelligente delle parentesi.
+
+<b>• Strumenti Avanzati di Editing</b>
+Seleziona, elimina o duplica con facilità righe di codice tramite opzioni di editing dedicate.
+
+<b>• Schemi Colore</b>
+Scegli una varietà di temi che soddisfano il tuo ambiente di lavoro preferito.
+
+<b>• Apri Sorgente</b>
+Esplora e contribuisci: <u>https://github.com/massivemadness/Squircle-CE</u>
