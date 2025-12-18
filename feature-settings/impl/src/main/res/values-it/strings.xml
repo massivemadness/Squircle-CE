@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="settings_toolbar_title">Impostazioni</string>
+    <string name="settings_header_application_title">Applicazione</string>
+    <string name="settings_header_application_subtitle">Configura le impostazioni globali dell\'applicazione</string>
+    <string name="settings_header_editor_title">Editor</string>
+    <string name="settings_header_editor_subtitle">Configura l\'editor</string>
+    <string name="settings_header_codestyle_title">Stile Codice</string>
+    <string name="settings_header_codestyle_subtitle">Configura lo stile del codice</string>
+    <string name="settings_header_files_title">File</string>
+    <string name="settings_header_files_subtitle">Configura come devono essere gestiti i file</string>
+    <string name="settings_header_terminal_title">Terminale</string>
+    <string name="settings_header_terminal_subtitle">Configura il terminale</string>
+    <string name="settings_header_keybindings_title">Tasti di scelta rapida</string>
+    <string name="settings_header_keybindings_subtitle">Configura i tasti di scelta rapida per le scorciatoie</string>
+    <string name="settings_header_cloud_title">Server &amp; Cloud</string>
+    <string name="settings_header_cloud_subtitle">Configura i server e gli archivio cloud</string>
+    <string name="settings_header_git_subtitle">Configura il sistema di controllo versione</string>
+    <string name="settings_header_about_title">Informazioni</string>
+    <string name="settings_header_about_subtitle">Vedi informazioni su Squircle CE</string>
+    <string name="settings_category_look_and_feel">Aspetto e Funzionamento</string>
+    <string name="settings_color_scheme_title">Schema Colore</string>
+    <string name="settings_color_scheme_subtitle">Configura lo schema colore della sintassi evidenziata</string>
+    <string name="settings_fullscreen_title">Schermo intero</string>
+    <string name="settings_fullscreen_subtitle">Lancia l\'applicazione in modalità schermo intero</string>
+    <string name="settings_category_other">Altro</string>
+    <string name="settings_confirm_exit_title">Conferma di uscita dall\'app</string>
+    <string name="settings_confirm_exit_subtitle">Se premi indietro, Squircle CE ti chiederà una conferma per uscire</string>
+    <string name="settings_category_font">Font</string>
+    <string name="settings_font_size_title">Modifica dimensione font</string>
+    <string name="settings_font_size_subtitle">Specifica le dimensioni predefinite del font dell\'editor</string>
+    <string name="settings_font_type_title">Tipo font dell\'editor</string>
+    <string name="settings_font_type_subtitle">Specifica il tipo del font predefinito dell\'editor</string>
+    <string name="settings_category_editor">Editor</string>
+    <string name="settings_word_wrap_title">A Capo Automatico</string>
+    <string name="settings_word_wrap_subtitle">Abilita il ritorno a capo automatico del testo adattato alla larghezza su schermo</string>
+    <string name="settings_sticky_scroll_title">Scorrimento Permanente</string>
+    <string name="settings_sticky_scroll_subtitle">Mantiene il codice fissato in alto mentre scorri</string>
+    <string name="settings_code_completion_title">Contemplamento Codice</string>
+    <string name="settings_code_completion_subtitle">Mostra suggerimenti per autocompletamento</string>
+    <string name="settings_pinch_zoom_title">Ingrandisci o Ridimensiona</string>
+    <string name="settings_pinch_zoom_subtitle">Abilita gesti del zoom nell\'editor</string>
+    <string name="settings_line_numbers_title">Numeri Righe</string>
+    <string name="settings_line_numbers_subtitle">Mostra i numeri di ogni riga a sinistra del codice editor</string>
+    <string name="settings_highlight_line_title">Evidenzia il Rigo Corrente</string>
+    <string name="settings_highlight_line_subtitle">Evidenzia la riga in cui si trova attualmente il cursore</string>
+    <string name="settings_highlight_delimiters_title">Evidenzia i Delimitatori Corrispondenti</string>
+    <string name="settings_highlight_delimiters_subtitle">Evidenzia l\'elemento delimitato dalle parentesi corrispondenti in cui si trova il cursore</string>
+    <string name="settings_highlight_block_title">Evidenzia Blocchi di Codice</string>
+    <string name="settings_highlight_block_subtitle">Disegna linee verticali che contengono i blocchi di codice corrispondenti</string>
+    <string name="settings_invisible_chars_title">Mostra Caratteri Invisibili</string>
+    <string name="settings_invisible_chars_subtitle">Mostra i simboli di tabulazione, spazio e interruzione di linea</string>
+    <string name="settings_read_only_title">Sola Lettura</string>
+    <string name="settings_read_only_subtitle">Limita le modifiche dei file</string>
+    <string name="settings_category_tabs">Schede</string>
+    <string name="settings_auto_save_files_title">Auto salvataggio File</string>
+    <string name="settings_auto_save_files_subtitle">Salva automaticamente il file quando ti sposti tra le schede o chiudi l\'app</string>
+    <string name="settings_category_keyboard">Tastiera</string>
+    <string name="settings_extended_keyboard_title">Tastiera Estesa</string>
+    <string name="settings_extended_keyboard_subtitle">Mostra tasti aggiuntivi sopra la tastiera</string>
+    <string name="settings_keyboard_preset_title">Tastiera Preimpostata</string>
+    <string name="settings_keyboard_preset_subtitle">Scegli il layout preimpostato della tastiera estesa</string>
+    <string name="settings_keyboard_preset_input_label">Inserisci caratteri (senza spazio)</string>
+    <string name="settings_keyboard_preset_button_reset">Resetta</string>
+    <string name="settings_soft_keyboard_title">Tastiera Software</string>
+    <string name="settings_soft_keyboard_subtitle">Mostra sempre la tastiera software, anche se è connessa una tastiera hardware fisica</string>
+    <string name="settings_category_code_style">Stile Codice</string>
+    <string name="settings_auto_indent_title">Auto Identificazione</string>
+    <string name="settings_auto_indent_subtitle">Identifica automaticamente nuove righe che corrispondono al rigo precedente</string>
+    <string name="settings_auto_close_pairs_title">Chiudi Parentesi Automatico</string>
+    <string name="settings_auto_close_pairs_subtitle">Chiudi automaticamente le parentesi aperte quando digiti</string>
+    <string name="settings_category_tab_options">Opzioni Tabulazioni</string>
+    <string name="settings_use_spaces_not_tabs_title">Usa gli spazi invece delle tabulazioni</string>
+    <string name="settings_use_spaces_not_tabs_subtitle">Inserisci gli spazi invece delle tabulazioni quando usi l\'auto identificazione</string>
+    <string name="settings_tab_width_title">Larghezza Tabulazione</string>
+    <string name="settings_tab_width_subtitle">Specifica la larghezza delle tabulazioni visualizzate nell\'editor</string>
+    <string name="settings_category_permissions">Permessi</string>
+    <string name="settings_storage_access_title">Accesso Memoria Archiviazione</string>
+    <string name="settings_storage_access_subtitle">Apri le impostazioni per ottenere l\'accesso alla memoria di archiviazione del dispositivo</string>
+    <string name="settings_category_encoding">Codifica in corso</string>
+    <string name="settings_encoding_auto_detect_title">Rilevamento automatico della codifica</string>
+    <string name="settings_encoding_auto_detect_subtitle">Il rilevamento automatico della codifica è utile per il linguaggio multibyte</string>
+    <string name="settings_encoding_for_opening_title">Codifica i file aperti</string>
+    <string name="settings_encoding_for_opening_subtitle">Codifica da usare quando apri i file</string>
+    <string name="settings_encoding_for_saving_title">Codifica per il salvataggio dei file</string>
+    <string name="settings_encoding_for_saving_subtitle">Codifica da usare quando salvi i file</string>
+    <string name="settings_category_linebreaks">Interruzioni di riga</string>
+    <string name="settings_linebreaks_for_saving_files_title">Ritorna a capo quando salvi i file</string>
+    <string name="settings_linebreaks_for_saving_files_subtitle">Il tipo di interruzione da usare quando salvi i file</string>
+    <string name="settings_linebreak_lf">Unix e macOS (\\n)</string>
+    <string name="settings_linebreak_crlf">Windows (\\r\\n)</string>
+    <string name="settings_linebreak_cr">Mac OS Classico (\\r)</string>
+    <string name="settings_category_file_manager">Esplora Risorse</string>
+    <string name="settings_show_hidden_files_title">Mostra file nascosti</string>
+    <string name="settings_show_hidden_files_subtitle">Verranno elencati i file nascosti e le cartelle (che iniziano con un punto)</string>
+    <string name="settings_compact_packages_title">Comprimi i pacchetti intermedi</string>
+    <string name="settings_compact_packages_subtitle">Le cartelle consecutive verranno mostrate in un unico oggetto</string>
+    <string name="settings_folders_on_top_title">Cartelle in primo piano</string>
+    <string name="settings_folders_on_top_subtitle">Le cartelle saranno mostrate in primo piano</string>
+    <string name="settings_sort_mode_title">Modalità di Ordine</string>
+    <string name="settings_sort_by_name">Ordina per Nome</string>
+    <string name="settings_sort_by_size">Ordina per Dimensione</string>
+    <string name="settings_sort_by_date">Ordina per Data</string>
+    <string name="settings_category_environment">Ambiente</string>
+    <string name="settings_terminal_shell_title">Terminale</string>
+    <string name="settings_terminal_shell_subtitle">Seleziona l\'ambiente di runtime</string>
+    <string name="settings_category_behavior">Comportamento</string>
+    <string name="settings_terminal_cursor_blinking_title">Cursore Lampeggiante</string>
+    <string name="settings_terminal_cursor_blinking_subtitle">Controlla se il cursore del terminale lampeggia</string>
+    <string name="settings_terminal_keep_screen_on_title">Mantieni Schermo Acceso</string>
+    <string name="settings_terminal_keep_screen_on_subtitle">Impedisci al dispositivo di spegnersi quando il terminale è aperto</string>
+    <string name="settings_category_account">Account</string>
+    <string name="settings_git_credentials_title">Credenziali git</string>
+    <string name="settings_git_credentials_subtitle">Credenziali per l\'accesso remoto ai repository</string>
+    <string name="settings_git_credentials_input_username_label">Nome utente</string>
+    <string name="settings_git_credentials_input_password_label">Password</string>
+    <string name="settings_git_user_title">Utente git</string>
+    <string name="settings_git_user_subtitle">I dati dell\'utente che appariranno nelle tue azioni Git</string>
+    <string name="settings_git_user_input_name_label">Nome</string>
+    <string name="settings_git_user_input_email_label">Email</string>
+    <string name="settings_category_repository">Repository</string>
+    <string name="settings_submodules_title">Sottomoduli</string>
+    <string name="settings_submodules_subtitle">Includi i sottomoduli durante la duplicazione di un repository</string>
+    <string name="settings_recursive_submodules_title">Sottomoduli ricorrenti</string>
+    <string name="settings_recursive_submodules_subtitle">Preleva i sottomoduli con le loro dipendenze ricorrenti</string>
+    <string name="settings_category_about">Informazioni</string>
+    <string name="settings_about_subtitle">Squircle CE è un progetto open source pubblicato sotto la licenza Apache 2.0\n\nVersione: %1$s (%2$d)</string>
+    <string name="settings_privacy_policy_title">Policy Privacy</string>
+    <string name="settings_category_contribute">Contribuisci</string>
+    <string name="settings_translation_title">Piattaforma di Traduzione</string>
+    <string name="settings_translation_subtitle">Traduci questa app nella tua lingua</string>
+    <string name="settings_contribute_title">Contribuisci allo sviluppo</string>
+    <string name="settings_contribute_subtitle">Puoi creare una discussione su GitHub o tradurre questa app nella tua lingua nativa.\n\nGrazie!</string>
+</resources>
