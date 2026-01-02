@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -36,6 +37,7 @@ import javax.inject.Provider
 
 internal class TerminalHeaderViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
+    private val terminalInteractor: TerminalInteractor,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(updateViewState())
@@ -43,6 +45,20 @@ internal class TerminalHeaderViewModel @Inject constructor(
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
+
+    fun onResume() {
+        _viewState.update {
+            it.copy(
+                termuxInstalled = terminalInteractor.isTermuxInstalled(),
+                termuxCompatible = terminalInteractor.isTermuxCompatible(),
+                termuxPermission = terminalInteractor.isTermuxPermissionGranted(),
+            )
+        }
+    }
+
+    fun onPause() {
+        // no-op
+    }
 
     fun onTerminalRuntimeChanged(runtime: String) {
         settingsManager.terminalRuntime = runtime
@@ -76,6 +92,9 @@ internal class TerminalHeaderViewModel @Inject constructor(
     private fun updateViewState(): TerminalHeaderViewState {
         return TerminalHeaderViewState(
             currentRuntime = RuntimeType.of(settingsManager.terminalRuntime),
+            termuxInstalled = terminalInteractor.isTermuxInstalled(),
+            termuxCompatible = terminalInteractor.isTermuxCompatible(),
+            termuxPermission = terminalInteractor.isTermuxPermissionGranted(),
             termuxPropsCopied = false,
             cursorBlinking = settingsManager.cursorBlinking,
             keepScreenOn = settingsManager.keepScreenOn,

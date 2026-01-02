@@ -26,9 +26,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -44,7 +41,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.copyText
 import com.blacksquircle.ui.core.extensions.daggerViewModel
-import com.blacksquircle.ui.core.extensions.isPermissionGranted
 import com.blacksquircle.ui.core.extensions.openAppSettings
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.button.IconButton
@@ -65,7 +61,6 @@ import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
 import com.blacksquircle.ui.ds.R as UiR
 
-private const val TERMUX_PERMISSION = "com.termux.permission.RUN_COMMAND"
 private const val TERMUX_PROPERTIES = "allow-external-apps = true"
 
 @Composable
@@ -78,13 +73,8 @@ internal fun TerminalHeaderScreen(
 ) {
     val context = LocalContext.current
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
-    var canRunTermuxCommand by remember {
-        val initialValue = context.isPermissionGranted(TERMUX_PERMISSION)
-        mutableStateOf(initialValue)
-    }
     TerminalHeaderScreen(
         viewState = viewState,
-        canRunTermuxCommand = canRunTermuxCommand,
         onBackClicked = navController::popBackStack,
         onTerminalRuntimeChanged = viewModel::onTerminalRuntimeChanged,
         onTermuxPermissionClicked = context::openAppSettings,
@@ -97,15 +87,16 @@ internal fun TerminalHeaderScreen(
     )
 
     LifecycleResumeEffect(Unit) {
-        canRunTermuxCommand = context.isPermissionGranted(TERMUX_PERMISSION)
-        onPauseOrDispose { /* no-op */ }
+        viewModel.onResume()
+        onPauseOrDispose {
+            viewModel.onPause()
+        }
     }
 }
 
 @Composable
 private fun TerminalHeaderScreen(
     viewState: TerminalHeaderViewState,
-    canRunTermuxCommand: Boolean,
     onBackClicked: () -> Unit = {},
     onTerminalRuntimeChanged: (String) -> Unit = {},
     onTermuxPermissionClicked: () -> Unit = {},
@@ -156,7 +147,7 @@ private fun TerminalHeaderScreen(
                 onClick = onTermuxPermissionClicked,
                 trailingContent = {
                     CheckBox(
-                        checked = canRunTermuxCommand,
+                        checked = viewState.termuxPermission,
                         enabled = viewState.isTermux,
                         onClick = onTermuxPermissionClicked,
                     )
@@ -231,13 +222,7 @@ private fun TerminalHeaderScreen(
 private fun TerminalHeaderScreenPreview() {
     PreviewBackground {
         TerminalHeaderScreen(
-            viewState = TerminalHeaderViewState(
-                currentRuntime = RuntimeType.ANDROID,
-                termuxPropsCopied = false,
-                cursorBlinking = true,
-                keepScreenOn = true,
-            ),
-            canRunTermuxCommand = true,
+            viewState = TerminalHeaderViewState(),
         )
     }
 }

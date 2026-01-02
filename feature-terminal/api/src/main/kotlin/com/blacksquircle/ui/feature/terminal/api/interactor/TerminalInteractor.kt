@@ -19,6 +19,12 @@ package com.blacksquircle.ui.feature.terminal.api.interactor
 import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
 
 interface TerminalInteractor {
+
     fun isTermux(): Boolean
+
+    fun isTermuxInstalled(): Boolean
+    fun isTermuxCompatible(): Boolean
+    fun isTermuxPermissionGranted(): Boolean
+
     fun openTermux(args: ShellArgs? = null)
 }

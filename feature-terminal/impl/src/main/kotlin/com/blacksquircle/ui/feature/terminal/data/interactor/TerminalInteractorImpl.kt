@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.terminal.data.interactor
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import com.blacksquircle.ui.core.extensions.isPermissionGranted
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
@@ -36,6 +37,25 @@ internal class TerminalInteractorImpl(
     override fun isTermux(): Boolean {
         val runtime = RuntimeType.of(settingsManager.terminalRuntime)
         return runtime == RuntimeType.TERMUX
+    }
+
+    override fun isTermuxInstalled(): Boolean {
+        val intent = context.packageManager.getLaunchIntentForPackage(TERMUX_PACKAGE_NAME)
+            ?: return false
+        val activities = context.packageManager.queryIntentActivities(intent, 0)
+        return activities.isNotEmpty()
+    }
+
+    override fun isTermuxCompatible(): Boolean {
+        val intent = Intent(ACTION_RUN_COMMAND).apply {
+            setPackage(TERMUX_PACKAGE_NAME)
+        }
+        val services = context.packageManager.queryIntentServices(intent, 0)
+        return services.isNotEmpty()
+    }
+
+    override fun isTermuxPermissionGranted(): Boolean {
+        return context.isPermissionGranted(PERMISSION_RUN_COMMAND)
     }
 
     override fun openTermux(args: ShellArgs?) {
