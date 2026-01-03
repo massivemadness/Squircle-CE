@@ -117,8 +117,8 @@
     <string name="settings_sort_by_size">Ordina per Dimensione</string>
     <string name="settings_sort_by_date">Ordina per Data</string>
     <string name="settings_category_environment">Ambiente</string>
-    <string name="settings_terminal_shell_title">Terminale</string>
-    <string name="settings_terminal_shell_subtitle">Seleziona l\'ambiente di runtime</string>
+    <string name="settings_terminal_runtime_title">Terminale</string>
+    <string name="settings_terminal_runtime_subtitle">Seleziona l\'ambiente di runtime</string>
     <string name="settings_category_behavior">Comportamento</string>
     <string name="settings_terminal_cursor_blinking_title">Cursore Lampeggiante</string>
     <string name="settings_terminal_cursor_blinking_subtitle">Controlla se il cursore del terminale lampeggia</string>

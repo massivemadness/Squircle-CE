@@ -117,8 +117,8 @@
     <string name="settings_sort_by_size">按大小排序</string>
     <string name="settings_sort_by_date">按日期排序</string>
     <string name="settings_category_environment">环境</string>
-    <string name="settings_terminal_shell_title">终端</string>
-    <string name="settings_terminal_shell_subtitle">选择运行时环境</string>
+    <string name="settings_terminal_runtime_title">终端</string>
+    <string name="settings_terminal_runtime_subtitle">选择运行时环境</string>
     <string name="settings_category_behavior">行为</string>
     <string name="settings_terminal_cursor_blinking_title">光标闪烁</string>
     <string name="settings_terminal_cursor_blinking_subtitle">控制终端光标是否闪烁</string>
