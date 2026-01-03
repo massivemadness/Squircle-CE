@@ -42,5 +42,6 @@
     <string name="shortcuts_insert_color_title">插入颜色</string>
     <string name="shortcuts_none_set">无设定</string>
     <string name="shortcuts_assign_dialog_message">按下新的快捷键（必须包含 Ctrl 或 Alt）</string>
+    <string name="shortcuts_conflict_dialog_title">注意</string>
     <string name="shortcuts_conflict_dialog_message">该快捷键已被其他操作绑定，是否继续将绑定改为此操作？</string>
 </resources>

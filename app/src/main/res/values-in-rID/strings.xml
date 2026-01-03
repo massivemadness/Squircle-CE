@@ -15,9 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="app_splash_loading">…</string>
-    <string name="app_update_dialog_title">Une mise à jour est disponible</string>
-    <string name="app_update_dialog_message">Une nouvelle version de l\'application est disponible. Vous pouvez l\'installer maintenant ou la mettre à jour plus tard dans l\'App Store.</string>
-    <string name="app_update_dialog_button_install">Installer</string>
-    <string name="app_update_dialog_button_later">Plus tard</string>
+    <string name="app_splash_loading">Memuat…</string>
+    <string name="app_update_dialog_title">Pembaruan tersedia</string>
+    <string name="app_update_dialog_message">Versi baru aplikasi telah tersedia. Anda dapat menginstal nya sekarang, atau memperbarui nya nanti melalui app store.</string>
+    <string name="app_update_dialog_button_install">Instal</string>
+    <string name="app_update_dialog_button_later">Nanti</string>
 </resources>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="editor_menu_file">File</string>
+    <string name="editor_menu_file_new">Nuovo</string>
+    <string name="editor_menu_file_open">Apri</string>
+    <string name="editor_menu_file_save">Salva</string>
+    <string name="editor_menu_file_save_as">Salva con Nome</string>
+    <string name="editor_menu_file_reload">Ricarica</string>
+    <string name="editor_menu_file_close">Chiudi</string>
+    <string name="editor_menu_file_close_others">Chiudi gli altri File</string>
+    <string name="editor_menu_file_close_all">Chiudi Tutto</string>
+    <string name="editor_menu_file_read_only">Sola Lettura</string>
+    <string name="editor_menu_edit">Modifica</string>
+    <string name="editor_menu_edit_select_line">Seleziona Rigo</string>
+    <string name="editor_menu_edit_delete_line">Elimina Rigo</string>
+    <string name="editor_menu_edit_duplicate_line">Duplica Rigo</string>
+    <string name="editor_menu_edit_undo">Annulla Modifica</string>
+    <string name="editor_menu_edit_redo">Ripristina</string>
+    <string name="editor_menu_find">Trova</string>
+    <string name="editor_menu_find_regex">Espressione Regolare</string>
+    <string name="editor_menu_find_match_case">Corrispondenza Esatta</string>
+    <string name="editor_menu_find_words_only">Solo Parole</string>
+    <string name="editor_menu_find_prev">Precedente</string>
+    <string name="editor_menu_find_next">Successivo</string>
+    <string name="editor_menu_find_replace">Sostituisci</string>
+    <string name="editor_menu_find_replace_all">Sostituisci Tutto</string>
+    <string name="editor_menu_tools">Strumenti</string>
+    <string name="editor_menu_tools_force_syntax">Forza Sintassi</string>
+    <string name="editor_menu_tools_insert_color">Inserisci Colore</string>
+    <string name="editor_menu_git_fetch">Fetch</string>
+    <string name="editor_menu_git_pull">Pull</string>
+    <string name="editor_menu_git_commit">Commit</string>
+    <string name="editor_menu_git_push">Push</string>
+    <string name="editor_menu_git_checkout">Controlla</string>
+    <string name="editor_menu_terminal">Terminale</string>
+    <string name="editor_menu_settings">Opzioni</string>
+    <string name="editor_empty_view_title">Nessun file aperto</string>
+    <string name="editor_toast_file_saved">Salvato</string>
+    <string name="editor_toast_git_invalid_credentials">Configura le credenziali Git nelle impostazioni</string>
+    <string name="editor_goto_line_dialog_title">Vai al Rigo…</string>
+    <string name="editor_goto_line_dialog_input_label">Rigo:</string>
+    <string name="editor_goto_line_dialog_button_go_to">Vai a</string>
+    <string name="editor_force_syntax_dialog_title">Evidenzia Sintassi</string>
+    <string name="editor_force_syntax_dialog_plain_text">Testo Semplice</string>
+    <string name="editor_color_picker_dialog_title">Assegna Colore</string>
+    <string name="editor_color_picker_dialog_button_insert">Inserisci</string>
+    <string name="editor_close_tab_dialog_message">Sei sicuro di voler chiudere questo file? Tutte le modifiche non salvate saranno perdute</string>
+    <string name="editor_close_tab_dialog_button_close">Chiudi</string>
+    <string name="editor_exit_dialog_title">Esci</string>
+    <string name="editor_exit_dialog_message">Sei sicuro di voler uscire? Tutte le modifiche saranno salvate in un file cache</string>
+</resources>

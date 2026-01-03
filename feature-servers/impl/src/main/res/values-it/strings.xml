@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="servers_toolbar_title">Server &amp; Cloud</string>
+    <string name="servers_category_ftp_servers">Server FTP(S)</string>
+    <string name="servers_connection_checking">Controllo in corso…</string>
+    <string name="servers_connection_available">Disponibile, Ping %1$d ms</string>
+    <string name="servers_connection_unavailable">Non Disponibile, %1$s</string>
+    <string name="servers_add_dialog_title">Aggiungi Server</string>
+    <string name="servers_edit_dialog_title">Modifica Server</string>
+    <string name="servers_edit_dialog_scheme_ftp">FTP</string>
+    <string name="servers_edit_dialog_scheme_ftps">FTPS (FTP con protocollo TLS/SSL)</string>
+    <string name="servers_edit_dialog_scheme_ftpes">FTPES (Explicit FTPS)</string>
+    <string name="servers_edit_dialog_scheme_sftp">SFTP</string>
+    <string name="servers_edit_dialog_input_name_label">Nome Server</string>
+    <string name="servers_edit_dialog_input_address_label">Indirizzo Server</string>
+    <string name="servers_edit_dialog_input_port_label">Porta</string>
+    <string name="servers_edit_dialog_input_username_label">Nome Utente</string>
+    <string name="servers_edit_dialog_auth_method_password">Password Autentificazione</string>
+    <string name="servers_edit_dialog_auth_method_key">Autentificazione con Chiave Privata</string>
+    <string name="servers_edit_dialog_auth_action_ask_password">Chiedi password</string>
+    <string name="servers_edit_dialog_auth_action_ask_passphrase">Chiedi passphrase</string>
+    <string name="servers_edit_dialog_auth_action_save_password">Salva password</string>
+    <string name="servers_edit_dialog_auth_action_save_passphrase">Salva passphrase</string>
+    <string name="servers_edit_dialog_input_password_label">Password</string>
+    <string name="servers_edit_dialog_input_passphrase_label">Passphrase</string>
+    <string name="servers_edit_dialog_input_keyfile_label">File Chiave</string>
+    <string name="servers_edit_dialog_input_initialdir_label">Cartella Iniziale</string>
+</resources>

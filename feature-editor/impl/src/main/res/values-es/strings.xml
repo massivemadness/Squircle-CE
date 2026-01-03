@@ -14,8 +14,53 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
+    <string name="editor_menu_file">Archivo</string>
+    <string name="editor_menu_file_new">Nuevo</string>
+    <string name="editor_menu_file_open">Abierto</string>
+    <string name="editor_menu_file_save">Guardar</string>
+    <string name="editor_menu_file_save_as">Guardar en</string>
+    <string name="editor_menu_file_reload">Recargar</string>
+    <string name="editor_menu_file_close">Cerrar</string>
+    <string name="editor_menu_file_close_others">Cerrar otros</string>
+    <string name="editor_menu_file_close_all">Cerrar todos</string>
+    <string name="editor_menu_file_read_only">Leer únicamente</string>
+    <string name="editor_menu_edit">Editar</string>
+    <string name="editor_menu_edit_select_line">Seleccionar línea</string>
+    <string name="editor_menu_edit_delete_line">Eliminar línea</string>
+    <string name="editor_menu_edit_duplicate_line">Duplicar línea</string>
+    <string name="editor_menu_edit_undo">Deshacer</string>
+    <string name="editor_menu_edit_redo">Deshacer</string>
+    <string name="editor_menu_find">Encontrar</string>
+    <string name="editor_menu_find_regex">Deshacer</string>
+    <string name="editor_menu_find_match_case">Caso de partido</string>
+    <string name="editor_menu_find_words_only">Trabajos únicamente</string>
+    <string name="editor_menu_find_prev">Previo</string>
+    <string name="editor_menu_find_next">Siguiente</string>
+    <string name="editor_menu_find_replace">Reemplazar</string>
+    <string name="editor_menu_find_replace_all">Reemplazar todo</string>
+    <string name="editor_menu_tools">Herramientas</string>
+    <string name="editor_menu_tools_force_syntax">Forzar sintaxis</string>
+    <string name="editor_menu_tools_insert_color">Insertar color</string>
+    <string name="editor_menu_git_fetch">Obtener</string>
+    <string name="editor_menu_git_pull">Traer</string>
+    <string name="editor_menu_git_commit">Confirmar</string>
+    <string name="editor_menu_git_push">Poner</string>
+    <string name="editor_menu_git_checkout">Comprobar</string>
+    <string name="editor_menu_terminal">Terminal</string>
+    <string name="editor_menu_settings">Configuración</string>
+    <string name="editor_empty_view_title">Sin archivos abiertos</string>
+    <string name="editor_toast_file_saved">Guardado</string>
+    <string name="editor_toast_git_invalid_credentials">Es necesario configurar Git en ajustes</string>
+    <string name="editor_goto_line_dialog_title">Ir a la línea…</string>
+    <string name="editor_goto_line_dialog_input_label">Línea:</string>
+    <string name="editor_goto_line_dialog_button_go_to">Ir a</string>
+    <string name="editor_force_syntax_dialog_title">Remarcado de sintaxis</string>
+    <string name="editor_force_syntax_dialog_plain_text">Texto Plano</string>
+    <string name="editor_color_picker_dialog_title">Selector de Color</string>
+    <string name="editor_color_picker_dialog_button_insert">Agrega</string>
+    <string name="editor_close_tab_dialog_message">¿Estás seguro de que quieres cerrar este archivo? Los cambios sin guardar se descartarán  </string>
+    <string name="editor_close_tab_dialog_button_close">Cerrar</string>
     <string name="editor_exit_dialog_title">Salir</string>
     <string name="editor_exit_dialog_message">¿Seguro que quieres salir? Se guardarán todos los cambios en la caché</string>
 </resources>

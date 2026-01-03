@@ -15,9 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="app_splash_loading">…</string>
-    <string name="app_update_dialog_title">Une mise à jour est disponible</string>
-    <string name="app_update_dialog_message">Une nouvelle version de l\'application est disponible. Vous pouvez l\'installer maintenant ou la mettre à jour plus tard dans l\'App Store.</string>
-    <string name="app_update_dialog_button_install">Installer</string>
-    <string name="app_update_dialog_button_later">Plus tard</string>
+    <string name="fonts_toolbar_title">Font</string>
+    <string name="fonts_item_button_remove">Enyahkan</string>
+    <string name="fonts_toast_font_selected">Dipilih «%1$s»</string>
+    <string name="fonts_toast_font_removed">Font «%1$s» dienyahkan</string>
+    <string name="fonts_toast_font_added">Font baru tersedia</string>
 </resources>

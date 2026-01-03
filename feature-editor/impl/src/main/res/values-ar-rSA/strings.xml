@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="editor_menu_file">ملف</string>
+    <string name="editor_menu_file_new">جديد</string>
+    <string name="editor_menu_file_open">فتح</string>
+    <string name="editor_menu_file_save">احفظ</string>
+    <string name="editor_menu_file_save_as">حفظ كـ</string>
+    <string name="editor_menu_file_reload">تحديث</string>
+    <string name="editor_menu_file_close">إغلاق</string>
+    <string name="editor_menu_file_close_others">إغلاق الآخرين</string>
+    <string name="editor_menu_file_close_all">إغلاق الكل</string>
+    <string name="editor_menu_file_read_only">للقراءة فقط</string>
+    <string name="editor_menu_edit">تعديل</string>
+    <string name="editor_menu_edit_select_line">حدد السطر</string>
+    <string name="editor_menu_edit_delete_line">حذف السطر</string>
+    <string name="editor_menu_edit_duplicate_line">تكرار السطر</string>
+    <string name="editor_menu_edit_undo">تراجع</string>
+    <string name="editor_menu_edit_redo">إعادة</string>
+    <string name="editor_menu_find">بحث</string>
+    <string name="editor_menu_find_regex">التعبير النمطي</string>
+    <string name="editor_menu_find_match_case">حالة مطابقة</string>
+    <string name="editor_menu_find_words_only">الكلمات فقط</string>
+    <string name="editor_menu_find_prev">السابق</string>
+    <string name="editor_menu_find_next">التالي</string>
+    <string name="editor_menu_find_replace">استبدال</string>
+    <string name="editor_menu_find_replace_all">استبدال الكل</string>
+    <string name="editor_menu_tools">ادوات</string>
+    <string name="editor_menu_tools_force_syntax">فرض بناء الجملة</string>
+    <string name="editor_menu_tools_insert_color">إدراج اللون</string>
+    <string name="editor_menu_git_fetch">جلب</string>
+    <string name="editor_menu_git_pull">سحب</string>
+    <string name="editor_menu_git_commit">الالتزام</string>
+    <string name="editor_menu_git_push">دفع</string>
+    <string name="editor_menu_git_checkout">تبديل الفرع</string>
+    <string name="editor_menu_settings">الاعدادات</string>
+    <string name="editor_empty_view_title">لا يوجد ملفات مفتوحة</string>
+    <string name="editor_toast_file_saved">حفظ</string>
+    <string name="editor_toast_git_invalid_credentials">Git يتطلب تهيئة في الإعدادات</string>
+    <string name="editor_goto_line_dialog_title">الانتقال إلى السطر…</string>
+    <string name="editor_goto_line_dialog_input_label">السطر:</string>
+    <string name="editor_goto_line_dialog_button_go_to">اذهب إلى</string>
+    <string name="editor_force_syntax_dialog_title">تسليط الضوء على تركيب الجملة</string>
+    <string name="editor_force_syntax_dialog_plain_text">نص عادي</string>
+    <string name="editor_color_picker_dialog_title">انتقاء الألوان</string>
+    <string name="editor_color_picker_dialog_button_insert">إدراج</string>
+    <string name="editor_close_tab_dialog_message">هل أنت متأكد من أنك تريد إغلاق هذا الملف؟ سيتم تجاهل جميع التغييرات غير المحفوظة</string>
+    <string name="editor_close_tab_dialog_button_close">إغلاق</string>
+    <string name="editor_exit_dialog_title">خروج</string>
+    <string name="editor_exit_dialog_message">هل أنت متأكد من أنك تريد الخروج؟ سيتم حفظ جميع التغييرات في ذاكرة التخزين المؤقت</string>
+</resources>

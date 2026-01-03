@@ -15,9 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="app_splash_loading">…</string>
-    <string name="app_update_dialog_title">Une mise à jour est disponible</string>
-    <string name="app_update_dialog_message">Une nouvelle version de l\'application est disponible. Vous pouvez l\'installer maintenant ou la mettre à jour plus tard dans l\'App Store.</string>
-    <string name="app_update_dialog_button_install">Installer</string>
-    <string name="app_update_dialog_button_later">Plus tard</string>
+    <string name="app_splash_loading">Đang tải…</string>
+    <string name="app_update_dialog_title">Bản cập nhật mới</string>
+    <string name="app_update_dialog_message">Một phiên bản mới đang có sẵn. Bạn có thể cập nhật ngay bây giờ hoặc cập nhật sau trong chợ ứng dụng.</string>
+    <string name="app_update_dialog_button_install">Cài đặt</string>
+    <string name="app_update_dialog_button_later">Để sau</string>
 </resources>

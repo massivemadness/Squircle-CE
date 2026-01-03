@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="shortcuts_toolbar_title">Assegna tasti di scelta rapida</string>
+    <string name="shortcuts_menu_restore">Ripristina impostazioni predefinite</string>
+    <string name="shortcuts_category_file">Scorciatoie File</string>
+    <string name="shortcuts_category_editor">Scorciatoie Editor</string>
+    <string name="shortcuts_category_tools">Scorciatoie Strumenti</string>
+    <string name="shortcuts_new_file_title">Nuovo File</string>
+    <string name="shortcuts_open_file_title">Apri File</string>
+    <string name="shortcuts_save_file_title">Salva File</string>
+    <string name="shortcuts_save_file_as_title">Salva con Nome</string>
+    <string name="shortcuts_close_file_title">Chiudi File</string>
+    <string name="shortcuts_select_line_title">Seleziona Rigo</string>
+    <string name="shortcuts_delete_line_title">Elimina Rigo</string>
+    <string name="shortcuts_duplicate_line_title">Duplica Rigo</string>
+    <string name="shortcuts_toggle_case_title">Togli controllo Maiuscole</string>
+    <string name="shortcuts_previous_word_title">Parola Precedente</string>
+    <string name="shortcuts_next_word_title">Parola Successiva</string>
+    <string name="shortcuts_start_of_line_title">Inizio del Rigo</string>
+    <string name="shortcuts_end_of_line_title">Fine del Rigo</string>
+    <string name="shortcuts_undo_title">Annulla modifica</string>
+    <string name="shortcuts_redo_title">Annulla</string>
+    <string name="shortcuts_find_title">Trova</string>
+    <string name="shortcuts_replace_title">Sostituisci</string>
+    <string name="shortcuts_goto_line_title">Vai al Rigo</string>
+    <string name="shortcuts_force_syntax_title">Forza Sintassi</string>
+    <string name="shortcuts_insert_color_title">Inserisci Colore</string>
+    <string name="shortcuts_none_set">Nessun tasto assegnato</string>
+    <string name="shortcuts_assign_dialog_message">Premi il nuovo tasto assegnato (deve contenere Ctrl o Alt)</string>
+    <string name="shortcuts_conflict_dialog_title">Attenzione</string>
+    <string name="shortcuts_conflict_dialog_message">Questa scorciatoia è già stata assegnata per un\'altra azione. Vuoi rimuoverla per altre operazioni?</string>
+</resources>
