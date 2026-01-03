@@ -48,7 +48,7 @@ import com.blacksquircle.ui.core.contract.MimeType
 import com.blacksquircle.ui.core.contract.rememberCreateFileContract
 import com.blacksquircle.ui.core.contract.rememberOpenFileContract
 import com.blacksquircle.ui.core.effect.CleanupEffect
-import com.blacksquircle.ui.core.effect.NavResultEffect
+import com.blacksquircle.ui.core.effect.ResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -82,11 +82,6 @@ internal const val KEY_CLOSE_FILE = "KEY_CLOSE_FILE"
 internal const val KEY_SELECT_LANGUAGE = "KEY_SELECT_LANGUAGE"
 internal const val KEY_GOTO_LINE = "KEY_GOTO_LINE"
 internal const val KEY_INSERT_COLOR = "KEY_INSERT_COLOR"
-
-internal const val ARG_FILE_UUID = "ARG_FILE_UUID"
-internal const val ARG_LANGUAGE = "ARG_LANGUAGE"
-internal const val ARG_LINE_NUMBER = "ARG_LINE_NUMBER"
-internal const val ARG_COLOR = "ARG_COLOR"
 
 @Composable
 internal fun EditorScreen(
@@ -216,26 +211,22 @@ internal fun EditorScreen(
         }
     }
 
-    NavResultEffect(KEY_CLOSE_FILE) { bundle ->
-        val fileUuid = bundle.getString(ARG_FILE_UUID).orEmpty()
+    ResultEffect<String>(KEY_CLOSE_FILE) { fileUuid ->
         viewModel.onCloseModifiedClicked(fileUuid)
     }
-    NavResultEffect(KEY_SELECT_LANGUAGE) { bundle ->
-        val language = bundle.getString(ARG_LANGUAGE).orEmpty()
+    ResultEffect<String>(KEY_SELECT_LANGUAGE) { language ->
         viewModel.onLanguageChanged(language)
     }
-    NavResultEffect(KEY_GOTO_LINE) { bundle ->
-        val lineNumber = bundle.getInt(ARG_LINE_NUMBER)
+    ResultEffect<Int>(KEY_GOTO_LINE) { lineNumber ->
         viewModel.onLineSelected(lineNumber)
     }
-    NavResultEffect(KEY_INSERT_COLOR) { bundle ->
-        val color = bundle.getInt(ARG_COLOR)
+    ResultEffect<Int>(KEY_INSERT_COLOR) { color ->
         viewModel.onColorSelected(color)
     }
-    NavResultEffect(KEY_PULL) {
+    ResultEffect<Unit>(KEY_PULL) {
         viewModel.onReloadFileClicked()
     }
-    NavResultEffect(KEY_CHECKOUT) {
+    ResultEffect<Unit>(KEY_CHECKOUT) {
         viewModel.onReloadFileClicked()
     }
 

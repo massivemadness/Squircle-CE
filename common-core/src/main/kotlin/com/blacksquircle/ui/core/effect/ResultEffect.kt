@@ -16,48 +16,38 @@
 
 package com.blacksquircle.ui.core.effect
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 @Composable
-fun NavResultEffect(resultKey: String, onEvent: (Bundle) -> Unit) {
-    LaunchedEffect(resultKey) {
-        val channelFlow = NavigationBus.subscribe(resultKey)
-        channelFlow.collect { bundle ->
-            onEvent(bundle)
-        }
-    }
-    DisposableEffect(resultKey) {
-        onDispose {
-            NavigationBus.unsubscribe(resultKey)
+inline fun <reified T> ResultEffect(
+    resultKey: String = T::class.toString(),
+    crossinline onResult: suspend (T) -> Unit
+) {
+    LaunchedEffect(resultKey, ResultEventBus.channelMap[resultKey]) {
+        ResultEventBus.getResultFlow<T>(resultKey).collect { result ->
+            onResult(result as T)
         }
     }
 }
 
-fun sendNavigationResult(key: String, result: Bundle) {
-    NavigationBus.emit(key, result)
-}
+object ResultEventBus {
 
-private object NavigationBus {
+    val channelMap = mutableMapOf<String, Channel<Any?>>()
 
-    private val eventMap = mutableMapOf<String, Channel<Bundle>>()
-
-    fun emit(key: String, event: Bundle) {
-        eventMap[key]?.trySend(event)
-    }
-
-    fun subscribe(key: String): Flow<Bundle> {
-        return eventMap.getOrPut(key) {
+    inline fun <reified T> getResultFlow(resultKey: String = T::class.toString()): Flow<Any?> {
+        return channelMap.getOrPut(resultKey) {
             Channel(Channel.BUFFERED)
         }.receiveAsFlow()
     }
 
-    fun unsubscribe(key: String) {
-        eventMap.remove(key)
+    inline fun <reified T> sendResult(resultKey: String = T::class.toString(), result: T) {
+        if (!channelMap.contains(resultKey)) {
+            channelMap[resultKey] = Channel(Channel.BUFFERED)
+        }
+        channelMap[resultKey]?.trySend(result)
     }
 }

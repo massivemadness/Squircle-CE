@@ -38,7 +38,7 @@ import androidx.navigation.NavController
 import com.blacksquircle.ui.core.contract.PermissionResult
 import com.blacksquircle.ui.core.contract.rememberStorageContract
 import com.blacksquircle.ui.core.effect.CleanupEffect
-import com.blacksquircle.ui.core.effect.NavResultEffect
+import com.blacksquircle.ui.core.effect.ResultEffect
 import com.blacksquircle.ui.core.extensions.copyText
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
@@ -73,8 +73,6 @@ internal const val KEY_CREATE_FOLDER = "KEY_CREATE_FOLDER"
 internal const val KEY_CLONE_REPO = "KEY_CLONE_REPO"
 internal const val KEY_RENAME_FILE = "KEY_RENAME_FILE"
 internal const val KEY_DELETE_FILE = "KEY_DELETE_FILE"
-
-internal const val ARG_USER_INPUT = "ARG_USER_INPUT"
 
 @Composable
 internal fun ExplorerScreen(
@@ -150,31 +148,25 @@ internal fun ExplorerScreen(
         }
     }
 
-    NavResultEffect(KEY_AUTHENTICATION) { bundle ->
-        val credentials = bundle.getString(ARG_USER_INPUT).orEmpty()
+    ResultEffect<String>(KEY_AUTHENTICATION) { credentials ->
         viewModel.onCredentialsEntered(credentials)
     }
-    NavResultEffect(KEY_CREATE_FILE) { bundle ->
-        val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+    ResultEffect<String>(KEY_CREATE_FILE) { fileName ->
         viewModel.createFile(fileName)
     }
-    NavResultEffect(KEY_CREATE_FOLDER) { bundle ->
-        val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+    ResultEffect<String>(KEY_CREATE_FOLDER) { fileName ->
         viewModel.createFolder(fileName)
     }
-    NavResultEffect(KEY_CLONE_REPO) { bundle ->
-        val url = bundle.getString(ARG_USER_INPUT).orEmpty()
+    ResultEffect<String>(KEY_CLONE_REPO) { url ->
         viewModel.cloneRepository(url)
     }
-    NavResultEffect(KEY_RENAME_FILE) { bundle ->
-        val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+    ResultEffect<String>(KEY_RENAME_FILE) { fileName ->
         viewModel.renameFile(fileName)
     }
-    NavResultEffect(KEY_DELETE_FILE) {
+    ResultEffect<Unit>(KEY_DELETE_FILE) {
         viewModel.deleteFile()
     }
-    NavResultEffect(KEY_COMPRESS_FILE) { bundle ->
-        val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+    ResultEffect<String>(KEY_COMPRESS_FILE) { fileName ->
         viewModel.compressFiles(fileName)
     }
 

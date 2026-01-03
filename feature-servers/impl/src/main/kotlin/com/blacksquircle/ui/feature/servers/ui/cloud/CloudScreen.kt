@@ -31,7 +31,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.blacksquircle.ui.core.effect.NavResultEffect
+import com.blacksquircle.ui.core.effect.ResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -41,7 +41,6 @@ import com.blacksquircle.ui.ds.preference.PreferenceGroup
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.servers.R
-import com.blacksquircle.ui.feature.servers.api.navigation.CloudScreen
 import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
 import com.blacksquircle.ui.feature.servers.internal.ServersComponent
 import com.blacksquircle.ui.feature.servers.ui.cloud.compose.ConnectionStatus
@@ -81,10 +80,10 @@ internal fun CloudScreen(
         }
     }
 
-    NavResultEffect(KEY_SAVE) {
+    ResultEffect<Unit>(KEY_SAVE) {
         viewModel.loadServers()
     }
-    NavResultEffect(KEY_DELETE) {
+    ResultEffect<Unit>(KEY_DELETE) {
         viewModel.loadServers()
     }
 }

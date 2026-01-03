@@ -42,7 +42,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.blacksquircle.ui.core.effect.sendNavigationResult
+import com.blacksquircle.ui.core.effect.ResultEventBus
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -56,7 +56,6 @@ import com.blacksquircle.ui.feature.shortcuts.api.extensions.keyCodeToChar
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingDialog
-import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
 import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
 import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.compose.keybindingResource
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.KEY_SAVE
@@ -98,10 +97,7 @@ internal fun KeybindingScreen(
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
                 is KeybindingViewEvent.SendSaveResult -> {
-                    sendNavigationResult(
-                        key = KEY_SAVE,
-                        result = ShortcutMapper.toBundle(event.keybinding)
-                    )
+                    ResultEventBus.sendResult(KEY_SAVE, event.keybinding)
                     navController.popBackStack()
                 }
             }

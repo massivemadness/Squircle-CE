@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.servers.ui.server
 
-import android.os.Bundle
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,7 +33,7 @@ import androidx.navigation.NavController
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.MimeType
 import com.blacksquircle.ui.core.contract.rememberOpenFileContract
-import com.blacksquircle.ui.core.effect.sendNavigationResult
+import com.blacksquircle.ui.core.effect.ResultEventBus
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -102,11 +101,11 @@ internal fun ServerScreen(
                     navController.popBackStack()
                 }
                 is ServerViewEvent.SendSaveResult -> {
-                    sendNavigationResult(KEY_SAVE, Bundle.EMPTY)
+                    ResultEventBus.sendResult(KEY_SAVE, Unit)
                     navController.popBackStack()
                 }
                 is ServerViewEvent.SendDeleteResult -> {
-                    sendNavigationResult(KEY_DELETE, Bundle.EMPTY)
+                    ResultEventBus.sendResult(KEY_DELETE, Unit)
                     navController.popBackStack()
                 }
                 is ServerViewEvent.ChooseFile -> {

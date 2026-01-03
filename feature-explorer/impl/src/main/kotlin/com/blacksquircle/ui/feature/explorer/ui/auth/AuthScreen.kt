@@ -26,15 +26,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.core.os.bundleOf
 import androidx.navigation.NavController
-import com.blacksquircle.ui.core.effect.sendNavigationResult
+import com.blacksquircle.ui.core.effect.ResultEventBus
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
-import com.blacksquircle.ui.feature.explorer.ui.explorer.ARG_USER_INPUT
 import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_AUTHENTICATION
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 
@@ -46,10 +44,7 @@ internal fun AuthScreen(
     AuthScreen(
         authMethod = navArgs.authMethod,
         onConfirmClicked = { credentials ->
-            sendNavigationResult(
-                key = KEY_AUTHENTICATION,
-                result = bundleOf(ARG_USER_INPUT to credentials)
-            )
+            ResultEventBus.sendResult(KEY_AUTHENTICATION, credentials)
             navController.popBackStack()
         },
         onCancelClicked = {

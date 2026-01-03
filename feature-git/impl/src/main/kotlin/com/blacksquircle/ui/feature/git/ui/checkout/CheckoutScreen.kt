@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.git.ui.checkout
 
-import android.os.Bundle
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,7 +33,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.blacksquircle.ui.core.effect.sendNavigationResult
+import com.blacksquircle.ui.core.effect.ResultEventBus
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -85,7 +84,7 @@ internal fun CheckoutScreen(
                         )
                     )
 
-                    sendNavigationResult(KEY_CHECKOUT, Bundle.EMPTY)
+                    ResultEventBus.sendResult(KEY_CHECKOUT, Unit)
                     navController.popBackStack()
                 }
             }

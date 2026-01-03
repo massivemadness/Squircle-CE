@@ -37,7 +37,7 @@ import com.blacksquircle.ui.application.extensions.toComposeColors
 import com.blacksquircle.ui.application.splash.SplashScreen
 import com.blacksquircle.ui.application.update.KEY_INSTALL_UPDATE
 import com.blacksquircle.ui.application.update.rememberInAppUpdate
-import com.blacksquircle.ui.core.effect.NavResultEffect
+import com.blacksquircle.ui.core.effect.ResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.fullscreenMode
 import com.blacksquircle.ui.core.extensions.showToast
@@ -129,7 +129,7 @@ internal fun MainScreen(
         }
     }
 
-    NavResultEffect(KEY_INSTALL_UPDATE) {
+    ResultEffect<Unit>(KEY_INSTALL_UPDATE) {
         inAppUpdate.installUpdate()
     }
 
