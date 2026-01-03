@@ -5,7 +5,7 @@ charset = utf-8
 indent_size = 4
 indent_style = space
 insert_final_newline = false
-max_line_length = 100
+max_line_length = 120
 
 ktlint_standard_no-wildcard-imports = disabled
 ktlint_standard_trailing-comma-on-declaration-site = disabled
