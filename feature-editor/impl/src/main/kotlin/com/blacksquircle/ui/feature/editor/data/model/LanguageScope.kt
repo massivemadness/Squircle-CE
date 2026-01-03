@@ -55,4 +55,6 @@ internal object LanguageScope {
     const val VISUALBASIC = "source.vb"
     const val XML = "text.xml"
     const val YAML = "source.yaml"
+    const val ZIG = "source.zig"
+    const val VUE = "source.vue"
 }
