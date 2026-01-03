@@ -21,6 +21,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.blacksquircle.ui.core.database.entity.document.DocumentEntity
 import com.blacksquircle.ui.core.database.utils.Tables
 
@@ -74,6 +75,9 @@ interface DocumentDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(document: DocumentEntity): Long
+
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun update(document: DocumentEntity)
 
     @Transaction
     suspend fun closeDocument(uuid: String, index: Int) {

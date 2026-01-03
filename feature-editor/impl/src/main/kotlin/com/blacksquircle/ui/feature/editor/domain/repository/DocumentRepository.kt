@@ -29,6 +29,7 @@ internal interface DocumentRepository {
     suspend fun loadDocument(document: DocumentModel): Content
     suspend fun saveDocument(document: DocumentModel, content: Content)
     suspend fun cacheDocument(document: DocumentModel, content: Content)
+    suspend fun updateDocument(document: DocumentModel)
     suspend fun refreshDocument(document: DocumentModel)
 
     suspend fun reorderDocuments(from: DocumentModel, to: DocumentModel)

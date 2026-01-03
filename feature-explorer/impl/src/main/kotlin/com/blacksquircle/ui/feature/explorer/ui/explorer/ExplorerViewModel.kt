@@ -663,6 +663,8 @@ internal class ExplorerViewModel @Inject constructor(
                     is TaskStatus.Done -> {
                         onTaskFinished()
 
+                        editorInteractor.renameFile(fileNode.file, fileName)
+
                         val parentKey = cache.findParentKey(fileNode.key) ?: return@collect
                         val parentNode = cache.findNodeByKey(parentKey) ?: return@collect
                         loadFiles(parentNode)
