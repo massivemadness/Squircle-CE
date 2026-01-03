@@ -58,10 +58,9 @@ dependencies {
     implementation(libs.kotlinx.serialization)
     implementation(libs.sora.editor)
     implementation(libs.sora.textmate)
-
-    implementation(project(":common-core"))
-    implementation(project(":common-ui"))
-    testImplementation(project(":common-test"))
+    implementation(project(":core-common"))
+    implementation(project(":core-ui"))
+    testImplementation(project(":core-test"))
 
     implementation(project(":feature-fonts:api"))
     implementation(project(":feature-themes:api"))

@@ -38,9 +38,9 @@ dependencyResolutionManagement {
 include(":app", ":benchmark")
 
 include(
-    ":common-core",
-    ":common-test",
-    ":common-ui",
+    ":core-common",
+    ":core-test",
+    ":core-ui",
     ":feature-editor:api",
     ":feature-editor:impl",
     ":feature-explorer:api",

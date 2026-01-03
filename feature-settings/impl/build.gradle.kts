@@ -52,10 +52,9 @@ dependencies {
     implementation(libs.kotlinx.serialization)
 
     ksp(libs.google.dagger.compiler)
-
-    implementation(project(":common-core"))
-    implementation(project(":common-ui"))
-    testImplementation(project(":common-test"))
+    implementation(project(":core-common"))
+    implementation(project(":core-ui"))
+    testImplementation(project(":core-test"))
 
     implementation(project(":feature-fonts:api"))
     implementation(project(":feature-servers:api"))

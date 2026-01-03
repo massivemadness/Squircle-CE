@@ -70,10 +70,9 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     testImplementation(libs.kotlinx.coroutines.test)
     implementation(libs.kotlinx.serialization)
-
-    implementation(project(":common-core"))
-    implementation(project(":common-ui"))
-    testImplementation(project(":common-test"))
+    implementation(project(":core-common"))
+    implementation(project(":core-ui"))
+    testImplementation(project(":core-test"))
 
     implementation(project(":feature-editor:api"))
     implementation(project(":feature-editor:impl"))

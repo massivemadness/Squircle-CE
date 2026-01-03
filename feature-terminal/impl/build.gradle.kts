@@ -53,10 +53,9 @@ dependencies {
     implementation(libs.kotlinx.serialization)
     implementation(libs.squareup.retrofit)
     implementation(libs.termux.shared)
-
-    implementation(project(":common-core"))
-    implementation(project(":common-ui"))
-    testImplementation(project(":common-test"))
+    implementation(project(":core-common"))
+    implementation(project(":core-ui"))
+    testImplementation(project(":core-test"))
 
     implementation(project(":feature-terminal:api"))
 
