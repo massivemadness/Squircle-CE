@@ -16,8 +16,23 @@
 
 package com.blacksquircle.ui
 
+import org.gradle.api.JavaVersion
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 object BuildSettings {
-    const val MIN_SDK = 24
-    const val TARGET_SDK = 36
-    const val COMPILE_SDK = 36
+
+    object Versions {
+        const val MIN_SDK = 24
+        const val TARGET_SDK = 36
+        const val COMPILE_SDK = 36
+
+        val JAVA = JavaVersion.VERSION_17
+        val JVM_TARGET = JvmTarget.JVM_17
+    }
+
+    object R8 {
+        const val ANDROID_RULES = "proguard-android-optimize.txt"
+        const val PROGUARD_RULES = "proguard-rules.pro"
+        const val CONSUMER_RULES = "consumer-rules.pro"
+    }
 }

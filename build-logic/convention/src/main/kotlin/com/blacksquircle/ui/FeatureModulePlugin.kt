@@ -17,12 +17,10 @@
 package com.blacksquircle.ui
 
 import com.android.build.api.dsl.LibraryExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 class FeatureModulePlugin : Plugin<Project> {
@@ -35,22 +33,22 @@ class FeatureModulePlugin : Plugin<Project> {
             }
 
             configure<LibraryExtension> {
-                compileSdk = BuildSettings.COMPILE_SDK
+                compileSdk = BuildSettings.Versions.COMPILE_SDK
 
                 defaultConfig {
-                    minSdk = BuildSettings.MIN_SDK
+                    minSdk = BuildSettings.Versions.MIN_SDK
 
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-                    consumerProguardFiles("consumer-rules.pro")
+                    consumerProguardFiles(BuildSettings.R8.CONSUMER_RULES)
                 }
                 compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_17
-                    targetCompatibility = JavaVersion.VERSION_17
+                    sourceCompatibility = BuildSettings.Versions.JAVA
+                    targetCompatibility = BuildSettings.Versions.JAVA
                 }
                 tasks.withType<KotlinJvmCompile>().configureEach {
                     compilerOptions {
-                        jvmTarget.set(JvmTarget.JVM_17)
+                        jvmTarget.set(BuildSettings.Versions.JVM_TARGET)
                         if (System.getProperty("idea.active") == "true") {
                             freeCompilerArgs.add("-Xdebug")
                         }

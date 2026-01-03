@@ -17,12 +17,10 @@
 package com.blacksquircle.ui
 
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import java.util.Properties
 
@@ -36,11 +34,11 @@ class ApplicationModulePlugin : Plugin<Project> {
             }
 
             configure<BaseAppModuleExtension> {
-                compileSdk = BuildSettings.COMPILE_SDK
+                compileSdk = BuildSettings.Versions.COMPILE_SDK
 
                 defaultConfig {
-                    minSdk = BuildSettings.MIN_SDK
-                    targetSdk = BuildSettings.TARGET_SDK
+                    minSdk = BuildSettings.Versions.MIN_SDK
+                    targetSdk = BuildSettings.Versions.TARGET_SDK
 
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
@@ -72,14 +70,19 @@ class ApplicationModulePlugin : Plugin<Project> {
                 buildTypes {
                     release {
                         signingConfig = signingConfigs.getByName("release")
+
                         isMinifyEnabled = true
                         isShrinkResources = true
-                        proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+                        proguardFiles(
+                            getDefaultProguardFile(BuildSettings.R8.ANDROID_RULES),
+                            BuildSettings.R8.PROGUARD_RULES
+                        )
                     }
                 }
                 compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_17
-                    targetCompatibility = JavaVersion.VERSION_17
+                    sourceCompatibility = BuildSettings.Versions.JAVA
+                    targetCompatibility = BuildSettings.Versions.JAVA
                 }
                 bundle {
                     language {
@@ -88,7 +91,7 @@ class ApplicationModulePlugin : Plugin<Project> {
                 }
                 tasks.withType<KotlinJvmCompile>().configureEach {
                     compilerOptions {
-                        jvmTarget.set(JvmTarget.JVM_17)
+                        jvmTarget.set(BuildSettings.Versions.JVM_TARGET)
                         if (System.getProperty("idea.active") == "true") {
                             freeCompilerArgs.add("-Xdebug")
                         }
