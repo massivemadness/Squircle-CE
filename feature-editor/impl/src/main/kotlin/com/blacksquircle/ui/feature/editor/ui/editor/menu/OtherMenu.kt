@@ -34,6 +34,7 @@ internal fun OtherMenu(
     onFindClicked: () -> Unit = {},
     onToolsClicked: () -> Unit = {},
     onGitClicked: () -> Unit = {},
+    onTerminalClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
 ) {
     PopupMenu(
@@ -60,6 +61,11 @@ internal fun OtherMenu(
             onClick = onGitClicked,
             enabled = showGit,
             submenu = true,
+        )
+        PopupMenuItem(
+            title = stringResource(R.string.editor_menu_terminal),
+            iconResId = UiR.drawable.ic_console,
+            onClick = onTerminalClicked,
         )
         PopupMenuItem(
             title = stringResource(R.string.editor_menu_settings),

@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.themes.ui
 
 import android.graphics.Typeface
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
@@ -35,7 +34,6 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -63,18 +61,6 @@ class ThemesViewModelTest {
         mockkObject(TypefaceProvider)
         every { TypefaceProvider.DEFAULT } returns typeface
         coEvery { fontsInteractor.loadFont(any()) } returns typeface
-    }
-
-    @Test
-    fun `When back pressed Then send popBackStack event`() = runTest {
-        // Given
-        val viewModel = createViewModel()
-
-        // When
-        viewModel.onBackClicked()
-
-        // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
     }
 
     @Test

@@ -30,6 +30,7 @@ import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepositor
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
+import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
@@ -38,7 +39,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
@@ -64,6 +64,7 @@ class WorkspacesTest {
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
     private val explorerRepository = mockk<ExplorerRepository>(relaxed = true)
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
+    private val terminalInteractor = mockk<TerminalInteractor>(relaxed = true)
     private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
 
     private val workspaces = defaultWorkspaces()
@@ -71,13 +72,9 @@ class WorkspacesTest {
 
     @Before
     fun setup() {
+        every { explorerRepository.currentWorkspace } returns selectedWorkspace
         coEvery { explorerRepository.loadWorkspaces() } returns flowOf(workspaces)
         coEvery { explorerRepository.listFiles(any()) } returns emptyList()
-
-        every { settingsManager.workspace } returns selectedWorkspace.uuid
-        every { settingsManager.workspace = any() } answers {
-            every { settingsManager.workspace } returns firstArg()
-        }
 
         every { fileIconProvider.fileIcon(any()) } returns -1
     }
@@ -109,7 +106,7 @@ class WorkspacesTest {
         assertEquals(workspaces, viewModel.viewState.value.workspaces)
         assertEquals(selectedWorkspace, viewModel.viewState.value.selectedWorkspace)
 
-        verify(exactly = 0) { settingsManager.workspace = selectedWorkspace.uuid }
+        coVerify(exactly = 0) { explorerRepository.selectWorkspace(selectedWorkspace) }
         coVerify(exactly = 0) { explorerRepository.listFiles(selectedWorkspace.defaultLocation) }
     }
 
@@ -126,12 +123,12 @@ class WorkspacesTest {
         assertEquals(workspaces, viewModel.viewState.value.workspaces)
         assertEquals(nextSelected, viewModel.viewState.value.selectedWorkspace)
 
-        verify(exactly = 1) { settingsManager.workspace = nextSelected.uuid }
+        coVerify(exactly = 1) { explorerRepository.selectWorkspace(nextSelected) }
         coVerify(exactly = 1) { explorerRepository.listFiles(selectedWorkspace.defaultLocation) }
     }
 
     @Test
-    fun `When workspace changed Then reset buffer`() = runTest {
+    fun `When workspace changed with different filesystemUuid Then reset buffer`() = runTest {
         // Given
         val viewModel = createViewModel()
         val fileNode = createFileNode(name = "untitled.txt")
@@ -140,13 +137,41 @@ class WorkspacesTest {
         viewModel.onFileSelected(fileNode)
         assertEquals(listOf(fileNode), viewModel.viewState.value.selectedNodes)
 
-        viewModel.onDeleteClicked()
-        assertEquals(TaskType.DELETE, viewModel.viewState.value.taskType)
+        viewModel.onCopyClicked()
+        assertEquals(TaskType.COPY, viewModel.viewState.value.taskType)
 
-        viewModel.onWorkspaceClicked(workspaces[1])
+        val workspace2 = createWorkspace(
+            uuid = "different workspace",
+            filesystemUuid = "different filesystem",
+        )
+        viewModel.onWorkspaceClicked(workspace2)
 
         // Then
         assertEquals(TaskType.CREATE, viewModel.viewState.value.taskType)
+        assertEquals(emptyList<FileNode>(), viewModel.viewState.value.selectedNodes)
+    }
+
+    @Test
+    fun `When workspace changed with same filesystemUuid Then do not reset buffer`() = runTest {
+        // Given
+        val viewModel = createViewModel()
+        val fileNode = createFileNode(name = "untitled.txt")
+
+        // When
+        viewModel.onFileSelected(fileNode)
+        assertEquals(listOf(fileNode), viewModel.viewState.value.selectedNodes)
+
+        viewModel.onCopyClicked()
+        assertEquals(TaskType.COPY, viewModel.viewState.value.taskType)
+
+        val workspace2 = createWorkspace(
+            uuid = "different workspace",
+            filesystemUuid = selectedWorkspace.defaultLocation.filesystemUuid,
+        )
+        viewModel.onWorkspaceClicked(workspace2)
+
+        // Then
+        assertEquals(TaskType.COPY, viewModel.viewState.value.taskType)
         assertEquals(emptyList<FileNode>(), viewModel.viewState.value.selectedNodes)
     }
 
@@ -176,8 +201,9 @@ class WorkspacesTest {
         val fallbackWorkspace = workspaces[0]
         val updatedWorkspaces = listOf(fallbackWorkspace)
 
+        every { explorerRepository.currentWorkspace } returns
+            selectedWorkspace andThen fallbackWorkspace
         coEvery { explorerRepository.loadWorkspaces() } returns workspacesFlow
-        every { settingsManager.workspace } returns selectedWorkspace.uuid
 
         val viewModel = createViewModel()
 
@@ -190,7 +216,7 @@ class WorkspacesTest {
         assertEquals(updatedWorkspaces, viewModel.viewState.value.workspaces)
         assertEquals(fallbackWorkspace, viewModel.viewState.value.selectedWorkspace)
         coVerify(exactly = 1) { explorerRepository.loadWorkspaces() }
-        verify(exactly = 1) { settingsManager.workspace = fallbackWorkspace.uuid }
+        coVerify(exactly = 1) { explorerRepository.selectWorkspace(fallbackWorkspace) }
     }
 
     private fun createViewModel(): ExplorerViewModel {
@@ -202,6 +228,7 @@ class WorkspacesTest {
             editorInteractor = editorInteractor,
             explorerRepository = explorerRepository,
             serverInteractor = serverInteractor,
+            terminalInteractor = terminalInteractor,
             asyncNodeBuilder = asyncNodeBuilder,
         )
     }

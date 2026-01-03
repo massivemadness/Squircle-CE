@@ -18,20 +18,21 @@ package com.blacksquircle.ui.feature.editor.data.repository
 
 import android.content.ContentResolver
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.provider.DocumentsContract
-import android.provider.MediaStore
 import com.blacksquircle.ui.core.database.dao.document.DocumentDao
 import com.blacksquircle.ui.core.extensions.PermissionException
 import com.blacksquircle.ui.core.extensions.isStorageAccessGranted
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.feature.editor.data.extensions.charsetFor
+import com.blacksquircle.ui.feature.editor.data.extensions.openUriAsContent
+import com.blacksquircle.ui.feature.editor.data.extensions.openUriAsDocument
+import com.blacksquircle.ui.feature.editor.data.extensions.openUriAsFile
 import com.blacksquircle.ui.feature.editor.data.manager.CacheManager
 import com.blacksquircle.ui.feature.editor.data.mapper.DocumentMapper
 import com.blacksquircle.ui.feature.editor.data.model.FileAssociation
 import com.blacksquircle.ui.feature.editor.data.model.LanguageScope
-import com.blacksquircle.ui.feature.editor.data.utils.charsetFor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionEnd
@@ -45,7 +46,6 @@ import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.saf.SAFFilesystem
 import io.github.rosemoe.sora.text.Content
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.util.UUID
 
 internal class DocumentRepositoryImpl(
@@ -73,6 +73,7 @@ internal class DocumentRepositoryImpl(
                     uuid = UUID.randomUUID().toString(),
                     fileUri = fileModel.fileUri,
                     filesystemUuid = fileModel.filesystemUuid,
+                    displayName = fileModel.name,
                     language = FileAssociation.guessLanguage(fileModel.extension)
                         ?: LanguageScope.TEXT,
                     modified = false,
@@ -213,59 +214,16 @@ internal class DocumentRepositoryImpl(
         return withContext(dispatcherProvider.io()) {
             val fileModel = when {
                 DocumentsContract.isDocumentUri(context, fileUri) -> {
-                    try {
-                        val flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                        context.contentResolver.takePersistableUriPermission(fileUri, flags)
-                    } catch (e: SecurityException) {
-                        Timber.e(e, e.message)
-                    }
-                    FileModel(
-                        fileUri = fileUri.toString(),
-                        filesystemUuid = SAFFilesystem.SAF_UUID,
-                    )
+                    context.openUriAsDocument(fileUri)
                 }
-
                 fileUri.scheme == ContentResolver.SCHEME_CONTENT -> {
-                    val filePath = context.contentResolver.query(
-                        /* uri = */ fileUri,
-                        /* projection = */ arrayOf(MediaStore.Files.FileColumns.DATA),
-                        /* selection = */ null,
-                        /* selectionArgs = */ null,
-                        /* sortOrder = */ null
-                    )?.use { cursor ->
-                        if (cursor.moveToFirst()) {
-                            val columnIndex =
-                                cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA)
-                            if (columnIndex != -1) {
-                                return@use cursor.getString(columnIndex)
-                            }
-                        }
-                        return@use null
-                    }
-                    if (filePath == null) {
-                        FileModel(
-                            fileUri = fileUri.toString(),
-                            filesystemUuid = SAFFilesystem.SAF_UUID,
-                        )
-                    } else {
-                        FileModel(
-                            fileUri = LocalFilesystem.LOCAL_SCHEME + filePath,
-                            filesystemUuid = LocalFilesystem.LOCAL_UUID,
-                        )
-                    }
+                    context.openUriAsContent(fileUri)
                 }
-
                 fileUri.scheme == ContentResolver.SCHEME_FILE -> {
-                    FileModel(
-                        fileUri = fileUri.toString(),
-                        filesystemUuid = LocalFilesystem.LOCAL_UUID,
-                    )
+                    openUriAsFile(fileUri)
                 }
-
                 else -> throw IllegalArgumentException("File $fileUri not found")
             }
-
             openDocument(fileModel, position)
         }
     }

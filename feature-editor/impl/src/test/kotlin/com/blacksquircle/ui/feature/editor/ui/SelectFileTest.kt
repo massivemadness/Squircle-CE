@@ -31,6 +31,7 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.ErrorState
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
+import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
@@ -65,6 +66,7 @@ class SelectFileTest {
     private val fontsInteractor = mockk<FontsInteractor>(relaxed = true)
     private val gitInteractor = mockk<GitInteractor>(relaxed = true)
     private val shortcutsInteractor = mockk<ShortcutsInteractor>(relaxed = true)
+    private val terminalInteractor = mockk<TerminalInteractor>(relaxed = true)
     private val languageInteractor = mockk<LanguageInteractor>(relaxed = true)
 
     private val eventBus = MutableSharedFlow<EditorApiEvent>()
@@ -86,9 +88,9 @@ class SelectFileTest {
             createDocument(uuid = "3", fileName = "third.txt", position = 2),
         )
         val selected = documentList[0]
-        val selectedContent = Content(selected.name)
+        val selectedContent = Content(selected.displayName)
         val expected = documentList[1]
-        val expectedContent = Content(expected.name)
+        val expectedContent = Content(expected.displayName)
 
         every { settingsManager.selectedUuid } returns selected.uuid
         every { settingsManager.autoSaveFiles } returns false
@@ -124,9 +126,9 @@ class SelectFileTest {
             createDocument(uuid = "3", fileName = "third.txt", position = 2),
         )
         val selected = documentList[0]
-        val selectedContent = Content(selected.name)
+        val selectedContent = Content(selected.displayName)
         val expected = documentList[1]
-        val expectedContent = Content(expected.name)
+        val expectedContent = Content(expected.displayName)
 
         every { settingsManager.selectedUuid } returns selected.uuid
         every { settingsManager.autoSaveFiles } returns true
@@ -264,6 +266,7 @@ class SelectFileTest {
             fontsInteractor = fontsInteractor,
             gitInteractor = gitInteractor,
             shortcutsInteractor = shortcutsInteractor,
+            terminalInteractor = terminalInteractor,
             languageInteractor = languageInteractor,
         )
     }

@@ -60,7 +60,7 @@ internal fun PushScreen(
         viewState = viewState,
         onForceClicked = viewModel::onForceClicked,
         onPushClicked = viewModel::onPushClicked,
-        onBackClicked = viewModel::onBackClicked,
+        onBackClicked = navController::popBackStack,
     )
 
     val context = LocalContext.current

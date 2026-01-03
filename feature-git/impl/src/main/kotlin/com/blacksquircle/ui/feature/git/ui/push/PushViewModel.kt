@@ -56,12 +56,6 @@ internal class PushViewModel @AssistedInject constructor(
         loadCommits()
     }
 
-    fun onBackClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
-    }
-
     fun onForceClicked() {
         isForce = !isForce
         _viewState.update {

@@ -36,7 +36,7 @@ object ServersApiModule {
     @Singleton
     fun provideServerFilesystemFactory(context: Context): ServerFactory {
         return ServerFactoryImpl(
-            cacheDir = Directories.cacheDir(context),
+            cacheDir = Directories.tmpDir(context),
             keysDir = Directories.keysDir(context),
         )
     }

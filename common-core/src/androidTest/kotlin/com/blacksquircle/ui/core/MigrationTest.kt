@@ -39,6 +39,8 @@ class MigrationTest {
         private val ALL_MIGRATIONS = arrayOf(
             Migrations.MIGRATION_1_2,
             Migrations.MIGRATION_2_3,
+            Migrations.MIGRATION_3_4,
+            Migrations.MIGRATION_4_5,
         )
     }
 
@@ -68,7 +70,7 @@ class MigrationTest {
         // Given
         helper.createDatabase(TEST_DB, 1).apply {
             val values = ContentValues().apply {
-                put("file_uri", "file:///")
+                put("file_uri", "file:///storage/emulated/0/Documents/Test.txt")
                 put("filesystem_uuid", "local")
             }
             insert("tbl_paths", SQLiteDatabase.CONFLICT_REPLACE, values)
@@ -91,10 +93,11 @@ class MigrationTest {
 
     @Test
     fun migrate2To3() {
+        // Given
         helper.createDatabase(TEST_DB, 2).apply {
             val values = ContentValues().apply {
                 put("uuid", "12345")
-                put("file_uri", "file:///")
+                put("file_uri", "file:///storage/emulated/0/Documents/Test.txt")
                 put("filesystem_uuid", "local")
                 put("language", "text.plain")
                 put("modified", false)
@@ -118,6 +121,72 @@ class MigrationTest {
                 do {
                     val columnValue = cursor.getString(columnIndex)
                     assertNull(columnValue)
+                } while (cursor.moveToNext())
+            }
+        }
+    }
+
+    @Test
+    fun migrate3To4() {
+        // Given
+        helper.createDatabase(TEST_DB, 3).apply {
+            val values = ContentValues().apply {
+                put("uuid", "12345")
+                put("file_uri", "file:///storage/emulated/0/Documents/Test.txt")
+                put("filesystem_uuid", "local")
+                put("language", "text.plain")
+                put("modified", false)
+                put("position", 0)
+                put("scroll_x", 0)
+                put("scroll_y", 0)
+                put("selection_start", 0)
+                put("selection_end", 0)
+                putNull("git_repository")
+            }
+            insert(Tables.DOCUMENTS, SQLiteDatabase.CONFLICT_REPLACE, values)
+            close()
+        }
+
+        // When
+        val db = helper.runMigrationsAndValidate(TEST_DB, 4, true, Migrations.MIGRATION_3_4)
+
+        // Then
+        db.query("SELECT * FROM `${Tables.DOCUMENTS}`").use { cursor ->
+            if (cursor.moveToFirst()) {
+                val columnIndex = cursor.getColumnIndex("display_name")
+                do {
+                    val columnValue = cursor.getString(columnIndex)
+                    assertEquals("Test.txt", columnValue)
+                } while (cursor.moveToNext())
+            }
+        }
+    }
+
+    @Test
+    fun migrate4To5() {
+        // Given
+        helper.createDatabase(TEST_DB, 4).apply {
+            val values = ContentValues().apply {
+                put("uuid", "12345")
+                put("name", "Documents")
+                put("type", "local")
+                put("file_uri", "file:///storage/emulated/0/Documents")
+                put("filesystem_uuid", "local")
+            }
+            insert(Tables.WORKSPACES, SQLiteDatabase.CONFLICT_REPLACE, values)
+            close()
+        }
+
+        // When
+        val db = helper.runMigrationsAndValidate(TEST_DB, 5, true, Migrations.MIGRATION_4_5)
+
+        // Then
+        db.query("SELECT * FROM `${Tables.WORKSPACES}`").use { cursor ->
+            if (cursor.moveToFirst()) {
+                val columnIndex = cursor.getColumnIndex("type")
+                do {
+                    val columnValue = cursor.getString(columnIndex)
+                    assertEquals("custom", columnValue)
                 } while (cursor.moveToNext())
             }
         }

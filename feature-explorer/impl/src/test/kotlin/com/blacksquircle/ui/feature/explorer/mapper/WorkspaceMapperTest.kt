@@ -3,9 +3,9 @@ package com.blacksquircle.ui.feature.explorer.mapper
 import com.blacksquircle.ui.core.database.entity.workspace.WorkspaceEntity
 import com.blacksquircle.ui.feature.explorer.data.mapper.WorkspaceMapper
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
@@ -20,7 +20,7 @@ class WorkspaceMapperTest {
         val workspaceEntity = WorkspaceEntity(
             uuid = "12345",
             name = "Custom",
-            type = FilesystemType.LOCAL.value,
+            type = WorkspaceType.CUSTOM.value,
             fileUri = "file:///storage/emulated/0/Documents",
             filesystemUuid = LocalFilesystem.LOCAL_UUID,
         )
@@ -32,7 +32,7 @@ class WorkspaceMapperTest {
         val expected = WorkspaceModel(
             uuid = "12345",
             name = "Custom",
-            filesystemType = FilesystemType.LOCAL,
+            type = WorkspaceType.CUSTOM,
             defaultLocation = FileModel(
                 fileUri = "file:///storage/emulated/0/Documents",
                 filesystemUuid = LocalFilesystem.LOCAL_UUID,
@@ -48,7 +48,7 @@ class WorkspaceMapperTest {
         val workspaceModel = WorkspaceModel(
             uuid = "12345",
             name = "Custom",
-            filesystemType = FilesystemType.LOCAL,
+            type = WorkspaceType.CUSTOM,
             defaultLocation = FileModel(
                 fileUri = "file:///storage/emulated/0/Documents",
                 filesystemUuid = LocalFilesystem.LOCAL_UUID,
@@ -63,7 +63,7 @@ class WorkspaceMapperTest {
         val expected = WorkspaceEntity(
             uuid = "12345",
             name = "Custom",
-            type = FilesystemType.LOCAL.value,
+            type = WorkspaceType.CUSTOM.value,
             fileUri = "file:///storage/emulated/0/Documents",
             filesystemUuid = LocalFilesystem.LOCAL_UUID,
         )
@@ -94,7 +94,7 @@ class WorkspaceMapperTest {
         val expected = WorkspaceModel(
             uuid = "12345",
             name = "Custom",
-            filesystemType = FilesystemType.SERVER,
+            type = WorkspaceType.SERVER,
             defaultLocation = FileModel(
                 fileUri = "sftp:///Documents",
                 filesystemUuid = "12345",

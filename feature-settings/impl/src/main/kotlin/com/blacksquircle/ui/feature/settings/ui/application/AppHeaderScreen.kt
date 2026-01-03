@@ -55,7 +55,7 @@ internal fun AppHeaderScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     AppHeaderScreen(
         viewState = viewState,
-        onBackClicked = viewModel::onBackClicked,
+        onBackClicked = navController::popBackStack,
         onColorSchemeClicked = viewModel::onColorSchemeClicked,
         onFullscreenChanged = viewModel::onFullscreenChanged,
         onConfirmExitChanged = viewModel::onConfirmExitChanged,

@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.feature.editor.data.manager
 
 import androidx.annotation.VisibleForTesting
-import com.blacksquircle.ui.feature.editor.data.utils.readFile
-import com.blacksquircle.ui.feature.editor.data.utils.writeFile
+import com.blacksquircle.ui.feature.editor.data.extensions.readFile
+import com.blacksquircle.ui.feature.editor.data.extensions.writeFile
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import io.github.rosemoe.sora.text.Content
 import io.github.rosemoe.sora.text.UndoManager

@@ -60,7 +60,7 @@ internal fun GitHeaderScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     GitHeaderScreen(
         viewState = viewState,
-        onBackClicked = viewModel::onBackClicked,
+        onBackClicked = navController::popBackStack,
         onCredentialsChanged = viewModel::onCredentialsChanged,
         onUserChanged = viewModel::onUserChanged,
         onSubmodulesChanged = viewModel::onSubmodulesChanged,

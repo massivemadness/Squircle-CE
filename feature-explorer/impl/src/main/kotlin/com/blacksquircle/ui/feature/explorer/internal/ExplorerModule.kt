@@ -25,6 +25,9 @@ import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
+import com.blacksquircle.ui.feature.explorer.data.workspace.DefaultWorkspaceSource
+import com.blacksquircle.ui.feature.explorer.data.workspace.ServerWorkspaceSource
+import com.blacksquircle.ui.feature.explorer.data.workspace.UserWorkspaceSource
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
@@ -54,10 +57,11 @@ internal object ExplorerModule {
         settingsManager: SettingsManager,
         taskManager: TaskManager,
         gitInteractor: GitInteractor,
-        serverInteractor: ServerInteractor,
         filesystemFactory: FilesystemFactory,
         workspaceDao: WorkspaceDao,
-        rootBeer: RootBeer,
+        defaultWorkspaceSource: DefaultWorkspaceSource,
+        userWorkspaceSource: UserWorkspaceSource,
+        serverWorkspaceSource: ServerWorkspaceSource,
         context: Context,
     ): ExplorerRepository {
         return ExplorerRepositoryImpl(
@@ -65,12 +69,37 @@ internal object ExplorerModule {
             settingsManager = settingsManager,
             taskManager = taskManager,
             gitInteractor = gitInteractor,
-            serverInteractor = serverInteractor,
             filesystemFactory = filesystemFactory,
             workspaceDao = workspaceDao,
-            rootBeer = rootBeer,
+            defaultWorkspaceSource = defaultWorkspaceSource,
+            userWorkspaceSource = userWorkspaceSource,
+            serverWorkspaceSource = serverWorkspaceSource,
             context = context,
         )
+    }
+
+    @Provides
+    @ExplorerScope
+    fun provideDefaultWorkspaceSource(
+        rootBeer: RootBeer,
+        context: Context,
+    ): DefaultWorkspaceSource {
+        return DefaultWorkspaceSource(
+            rootBeer = rootBeer,
+            context = context
+        )
+    }
+
+    @Provides
+    @ExplorerScope
+    fun provideUserWorkspaceSource(workspaceDao: WorkspaceDao): UserWorkspaceSource {
+        return UserWorkspaceSource(workspaceDao)
+    }
+
+    @Provides
+    @ExplorerScope
+    fun provideServerWorkspaceSource(serverInteractor: ServerInteractor): ServerWorkspaceSource {
+        return ServerWorkspaceSource(serverInteractor)
     }
 
     @Provides

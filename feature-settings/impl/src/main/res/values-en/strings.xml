@@ -24,6 +24,8 @@
     <string name="settings_header_codestyle_subtitle">Configure the code style</string>
     <string name="settings_header_files_title">Files</string>
     <string name="settings_header_files_subtitle">Configure how files are handled</string>
+    <string name="settings_header_terminal_title">Terminal</string>
+    <string name="settings_header_terminal_subtitle">Configure the terminal</string>
     <string name="settings_header_keybindings_title">Keybindings</string>
     <string name="settings_header_keybindings_subtitle">Configure keybindings</string>
     <string name="settings_header_cloud_title">Cloud &amp; Servers</string>
@@ -114,6 +116,18 @@
     <string name="settings_sort_by_name">Sort by Name</string>
     <string name="settings_sort_by_size">Sort by Size</string>
     <string name="settings_sort_by_date">Sort by Date</string>
+    <string name="settings_category_environment">Environment</string>
+    <string name="settings_terminal_runtime_title">Terminal</string>
+    <string name="settings_terminal_runtime_subtitle">Select the runtime environment</string>
+    <string name="settings_terminal_exec_permission_title">Execution permission</string>
+    <string name="settings_terminal_exec_permission_subtitle">Grant permission to run commands in Termux</string>
+    <string name="settings_terminal_allow_external_apps_title">Allow external apps</string>
+    <string name="settings_terminal_allow_external_apps_subtitle">Open termux.properties file and add the following line to allow execution from external apps:</string>
+    <string name="settings_category_behavior">Behavior</string>
+    <string name="settings_terminal_cursor_blinking_title">Cursor Blinking</string>
+    <string name="settings_terminal_cursor_blinking_subtitle">Controls whether the terminal cursor blinks</string>
+    <string name="settings_terminal_keep_screen_on_title">Keep Screen On</string>
+    <string name="settings_terminal_keep_screen_on_subtitle">Prevent the device from sleeping while the terminal is open</string>
     <string name="settings_category_account">Account</string>
     <string name="settings_git_credentials_title">Git Credentials</string>
     <string name="settings_git_credentials_subtitle">Credentials for accessing remote repositories</string>

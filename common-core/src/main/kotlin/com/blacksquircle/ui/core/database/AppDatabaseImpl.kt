@@ -34,7 +34,7 @@ import com.blacksquircle.ui.core.database.entity.workspace.WorkspaceEntity
         ServerEntity::class,
         WorkspaceEntity::class,
     ],
-    version = 3,
+    version = 5,
 )
 abstract class AppDatabaseImpl : RoomDatabase(), AppDatabase {
 

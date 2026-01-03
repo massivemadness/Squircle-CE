@@ -83,7 +83,7 @@ internal fun ThemesScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ThemesScreen(
         viewState = viewState,
-        onBackClicked = viewModel::onBackClicked,
+        onBackClicked = navController::popBackStack,
         onQueryChanged = viewModel::onQueryChanged,
         onClearQueryClicked = viewModel::onClearQueryClicked,
         onSelectClicked = viewModel::onSelectClicked,

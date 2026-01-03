@@ -49,7 +49,7 @@ private fun ConflictKeyScreen(
     onReassignClicked: (Boolean) -> Unit = {},
 ) {
     AlertDialog(
-        title = stringResource(android.R.string.dialog_alert_title),
+        title = stringResource(R.string.shortcuts_conflict_dialog_title),
         content = {
             Text(
                 text = stringResource(R.string.shortcuts_conflict_dialog_message),

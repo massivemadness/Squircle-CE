@@ -32,6 +32,7 @@ import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepositor
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
+import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
@@ -64,6 +65,7 @@ class StoragePermissionsTest {
     private val explorerRepository = mockk<ExplorerRepository>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
+    private val terminalInteractor = mockk<TerminalInteractor>(relaxed = true)
     private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
 
     private val workspaces = defaultWorkspaces()
@@ -72,6 +74,7 @@ class StoragePermissionsTest {
 
     @Before
     fun setup() {
+        every { explorerRepository.currentWorkspace } returns selectedWorkspace
         coEvery { explorerRepository.loadWorkspaces() } returns flowOf(workspaces)
         coEvery { explorerRepository.listFiles(any()) } returns emptyList()
 
@@ -138,6 +141,7 @@ class StoragePermissionsTest {
             explorerRepository = explorerRepository,
             serverInteractor = serverInteractor,
             asyncNodeBuilder = asyncNodeBuilder,
+            terminalInteractor = terminalInteractor,
         )
     }
 }

@@ -55,7 +55,7 @@ internal fun CodeHeaderScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CodeHeaderScreen(
         viewState = viewState,
-        onBackClicked = viewModel::onBackClicked,
+        onBackClicked = navController::popBackStack,
         onAutoIndentChanged = viewModel::onAutoIndentChanged,
         onAutoClosePairsChanged = viewModel::onAutoClosePairsChanged,
         onUseSpacesChanged = viewModel::onUseSpacesChanged,

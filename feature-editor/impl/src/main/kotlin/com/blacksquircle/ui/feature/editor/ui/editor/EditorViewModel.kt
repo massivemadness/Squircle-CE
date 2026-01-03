@@ -58,6 +58,8 @@ import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
+import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
+import com.blacksquircle.ui.feature.terminal.api.navigation.TerminalScreen
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -83,6 +85,7 @@ internal class EditorViewModel @Inject constructor(
     private val fontsInteractor: FontsInteractor,
     private val gitInteractor: GitInteractor,
     private val shortcutsInteractor: ShortcutsInteractor,
+    private val terminalInteractor: TerminalInteractor,
     private val languageInteractor: LanguageInteractor,
 ) : ViewModel() {
 
@@ -168,7 +171,7 @@ internal class EditorViewModel @Inject constructor(
                 return@launch
             }
             val document = documents[selectedPosition].document
-            _viewEvent.send(EditorViewEvent.SaveAsFileContract(document.name))
+            _viewEvent.send(EditorViewEvent.SaveAsFileContract(document.displayName))
         }
     }
 
@@ -827,6 +830,17 @@ internal class EditorViewModel @Inject constructor(
         }
     }
 
+    fun onTerminalClicked() {
+        viewModelScope.launch {
+            if (terminalInteractor.isTermux()) {
+                terminalInteractor.openTermux()
+            } else {
+                val screen = TerminalScreen()
+                _viewEvent.send(ViewEvent.Navigation(screen))
+            }
+        }
+    }
+
     fun onDocumentClicked(document: DocumentModel) {
         loadDocument(document, fromUser = true)
     }
@@ -884,7 +898,7 @@ internal class EditorViewModel @Inject constructor(
                 if (document.modified && fromUser) {
                     val screen = CloseFileDialog(
                         fileUuid = document.uuid,
-                        fileName = document.name,
+                        fileName = document.displayName,
                     )
                     _viewEvent.send(ViewEvent.Navigation(screen))
                     return@launch
@@ -897,7 +911,6 @@ internal class EditorViewModel @Inject constructor(
                         removedPosition + 1 < documents.size -> removedPosition
                         else -> -1
                     }
-
                     removedPosition < selectedPosition -> selectedPosition - 1
                     removedPosition > selectedPosition -> selectedPosition
                     else -> -1
@@ -1220,6 +1233,10 @@ internal class EditorViewModel @Inject constructor(
                         selectedDocument = selectedPosition,
                         isLoading = true,
                     )
+                }
+
+                if (existingIndex == -1) {
+                    _viewEvent.send(EditorViewEvent.ScrollToEnd)
                 }
 
                 val content = documentRepository.loadDocument(document)

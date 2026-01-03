@@ -60,18 +60,6 @@ class AppHeaderViewModelTest {
     }
 
     @Test
-    fun `When back pressed Then send popBackStack event`() = runTest {
-        // Given
-        val viewModel = createViewModel()
-
-        // When
-        viewModel.onBackClicked()
-
-        // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
-    }
-
-    @Test
     fun `When color scheme clicked Then open themes screen`() = runTest {
         // Given
         val viewModel = createViewModel()

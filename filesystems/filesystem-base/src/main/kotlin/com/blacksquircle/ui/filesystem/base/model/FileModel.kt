@@ -21,6 +21,7 @@ import java.io.File
 data class FileModel(
     val fileUri: String,
     val filesystemUuid: String,
+    val name: String = fileUri.substringAfterLast(File.separatorChar),
     val size: Long = 0L,
     val lastModified: Long = 0L,
     val isDirectory: Boolean = false,
@@ -30,10 +31,8 @@ data class FileModel(
         get() = fileUri.substringBefore("://")
     val path: String
         get() = fileUri.substringAfterLast("://").ifEmpty(File::separator)
-    val name: String
-        get() = path.substringAfterLast(File.separator)
     val extension: String
-        get() = "." + name.substringAfterLast(".")
+        get() = "." + name.substringAfterLast('.')
     val type: FileType
         get() = when (extension) {
             in ARCHIVE -> FileType.ARCHIVE

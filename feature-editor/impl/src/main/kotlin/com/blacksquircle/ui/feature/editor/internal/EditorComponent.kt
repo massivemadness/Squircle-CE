@@ -31,6 +31,8 @@ import com.blacksquircle.ui.feature.git.api.internal.GitApiDepsProvider
 import com.blacksquircle.ui.feature.git.api.internal.GitApiProvider
 import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiDepsProvider
 import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiProvider
+import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiDepsProvider
+import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiProvider
 import dagger.Component
 
 @EditorScope
@@ -45,6 +47,7 @@ import dagger.Component
         FontsApiDepsProvider::class,
         GitApiDepsProvider::class,
         ShortcutsApiDepsProvider::class,
+        TerminalApiDepsProvider::class,
     ]
 )
 internal interface EditorComponent {
@@ -61,6 +64,7 @@ internal interface EditorComponent {
             fontsApiDepsProvider: FontsApiDepsProvider,
             gitApiDepsProvider: GitApiDepsProvider,
             shortcutsApiDepsProvider: ShortcutsApiDepsProvider,
+            terminalApiDepsProvider: TerminalApiDepsProvider,
         ): EditorComponent
     }
 
@@ -82,6 +86,8 @@ internal interface EditorComponent {
                     .provideGitApiDepsProvider(),
                 shortcutsApiDepsProvider = (context.applicationContext as ShortcutsApiProvider)
                     .provideShortcutsApiDepsProvider(),
+                terminalApiDepsProvider = (context.applicationContext as TerminalApiProvider)
+                    .provideTerminalApiDepsProvider(),
             ).also {
                 component = it
             }

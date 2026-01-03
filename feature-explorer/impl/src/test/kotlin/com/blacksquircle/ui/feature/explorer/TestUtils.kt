@@ -16,20 +16,22 @@
 
 package com.blacksquircle.ui.feature.explorer
 
+import com.blacksquircle.ui.feature.explorer.data.workspace.LOCAL_WORKSPACE_ID
+import com.blacksquircle.ui.feature.explorer.data.workspace.ROOT_WORKSPACE_ID
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 
 internal fun defaultWorkspaces(): List<WorkspaceModel> {
     return listOf(
         WorkspaceModel(
-            uuid = LocalFilesystem.LOCAL_UUID,
+            uuid = LOCAL_WORKSPACE_ID,
             name = "Local",
-            filesystemType = FilesystemType.LOCAL,
+            type = WorkspaceType.LOCAL,
             defaultLocation = FileModel(
                 fileUri = "file:///storage/emulated/0/",
                 filesystemUuid = LocalFilesystem.LOCAL_UUID,
@@ -37,9 +39,9 @@ internal fun defaultWorkspaces(): List<WorkspaceModel> {
             ),
         ),
         WorkspaceModel(
-            uuid = RootFilesystem.ROOT_UUID,
+            uuid = ROOT_WORKSPACE_ID,
             name = "Root",
-            filesystemType = FilesystemType.ROOT,
+            type = WorkspaceType.ROOT,
             defaultLocation = FileModel(
                 fileUri = "sufile:///",
                 filesystemUuid = RootFilesystem.ROOT_UUID,
@@ -50,15 +52,16 @@ internal fun defaultWorkspaces(): List<WorkspaceModel> {
 }
 
 internal fun createWorkspace(
-    uuid: String = LocalFilesystem.LOCAL_UUID,
+    uuid: String,
+    filesystemUuid: String = LocalFilesystem.LOCAL_UUID,
 ): WorkspaceModel {
     return WorkspaceModel(
         uuid = uuid,
         name = "Filesystem",
-        filesystemType = FilesystemType.LOCAL,
+        type = WorkspaceType.LOCAL,
         defaultLocation = FileModel(
             fileUri = "file:///storage/emulated/0/",
-            filesystemUuid = uuid,
+            filesystemUuid = filesystemUuid,
         ),
     )
 }

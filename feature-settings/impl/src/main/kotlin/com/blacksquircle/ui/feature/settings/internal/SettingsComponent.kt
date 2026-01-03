@@ -19,34 +19,38 @@ package com.blacksquircle.ui.feature.settings.internal
 import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
 import com.blacksquircle.ui.core.internal.CoreApiProvider
-import com.blacksquircle.ui.feature.settings.ui.about.AboutHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.application.AppHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.git.GitHeaderViewModel
-import com.blacksquircle.ui.feature.settings.ui.header.HeaderListViewModel
+import com.blacksquircle.ui.feature.settings.ui.terminal.TerminalHeaderViewModel
+import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiDepsProvider
+import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiProvider
 import dagger.Component
 
 @SettingsScope
 @Component(
     dependencies = [
         CoreApiDepsProvider::class,
+        TerminalApiDepsProvider::class,
     ]
 )
 internal interface SettingsComponent {
 
-    fun inject(factory: AboutHeaderViewModel.Factory)
     fun inject(factory: AppHeaderViewModel.Factory)
     fun inject(factory: CodeHeaderViewModel.Factory)
     fun inject(factory: EditorHeaderViewModel.Factory)
     fun inject(factory: FilesHeaderViewModel.Factory)
+    fun inject(factory: TerminalHeaderViewModel.Factory)
     fun inject(factory: GitHeaderViewModel.Factory)
-    fun inject(factory: HeaderListViewModel.Factory)
 
     @Component.Factory
     interface Factory {
-        fun create(coreApiDepsProvider: CoreApiDepsProvider): SettingsComponent
+        fun create(
+            coreApiDepsProvider: CoreApiDepsProvider,
+            terminalApiDepsProvider: TerminalApiDepsProvider,
+        ): SettingsComponent
     }
 
     companion object {
@@ -57,6 +61,8 @@ internal interface SettingsComponent {
             return component ?: DaggerSettingsComponent.factory().create(
                 coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
                     .provideCoreApiDepsProvider(),
+                terminalApiDepsProvider = (context.applicationContext as TerminalApiProvider)
+                    .provideTerminalApiDepsProvider(),
             ).also {
                 component = it
             }

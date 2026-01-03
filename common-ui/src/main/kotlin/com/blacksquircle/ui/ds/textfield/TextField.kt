@@ -118,6 +118,7 @@ fun TextField(
                     inputPadding = textFieldSize.inputPadding,
                     textStyle = textFieldStyle.textStyle,
                     textColor = textFieldStyle.textColor,
+                    disabledTextColor = textFieldStyle.disabledTextColor,
                     placeholderColor = textFieldStyle.placeholderColor,
                     cursorColor = textFieldStyle.cursorColor,
                     handleColor = textFieldStyle.handleColor,

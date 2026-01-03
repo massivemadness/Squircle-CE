@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.core.extensions
 
-import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import android.provider.DocumentsContract
@@ -24,17 +23,14 @@ import java.io.File
 
 private const val PRIMARY = "primary:"
 
-fun Context.extractFilePath(fileUri: Uri): String? {
-    val docId = if (DocumentsContract.isTreeUri(fileUri)) {
-        DocumentsContract.getTreeDocumentId(fileUri)
-    } else if (DocumentsContract.isDocumentUri(this, fileUri)) {
-        DocumentsContract.getDocumentId(fileUri)
-    } else {
+fun Uri.extractFilePath(): String? {
+    if (!DocumentsContract.isTreeUri(this)) {
         return null
     }
-    if (docId.startsWith(PRIMARY)) {
+    val documentId = DocumentsContract.getTreeDocumentId(this)
+    if (documentId.startsWith(PRIMARY)) {
         val basePath = Environment.getExternalStorageDirectory().absolutePath
-        val relativePath = docId.removePrefix(PRIMARY)
+        val relativePath = documentId.removePrefix(PRIMARY)
         return basePath + File.separator + relativePath
     }
     return null

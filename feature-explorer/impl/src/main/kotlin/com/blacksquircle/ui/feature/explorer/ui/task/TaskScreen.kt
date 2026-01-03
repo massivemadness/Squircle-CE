@@ -73,7 +73,7 @@ internal fun TaskScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     TaskScreen(
         viewState = viewState,
-        onBackClicked = viewModel::onBackClicked,
+        onBackClicked = navController::popBackStack,
         onCancelClicked = viewModel::onCancelClicked,
         onRunInBackgroundClicked = viewModel::onRunInBackgroundClicked,
     )

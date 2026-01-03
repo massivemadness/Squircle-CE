@@ -16,13 +16,10 @@
 
 package com.blacksquircle.ui.feature.explorer.data.utils
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.FileProvider
-import androidx.core.content.getSystemService
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.filesystem.base.model.FileModel
@@ -77,11 +74,4 @@ internal fun Long.formatSize(): String {
     val digitGroups = (log10(toDouble()) / log10(1024.0)).toInt()
     return DecimalFormat("#,##0.#")
         .format(this / 1024.0.pow(digitGroups.toDouble())) + " " + units[digitGroups]
-}
-
-internal fun String.clipText(context: Context?) =
-    clip(context, ClipData.newPlainText("Text", this))
-
-private fun clip(context: Context?, data: ClipData) {
-    context?.getSystemService<ClipboardManager>()?.setPrimaryClip(data)
 }

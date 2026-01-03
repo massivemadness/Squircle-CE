@@ -39,6 +39,7 @@ import com.blacksquircle.ui.core.contract.PermissionResult
 import com.blacksquircle.ui.core.contract.rememberStorageContract
 import com.blacksquircle.ui.core.effect.CleanupEffect
 import com.blacksquircle.ui.core.effect.NavResultEffect
+import com.blacksquircle.ui.core.extensions.copyText
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -48,11 +49,11 @@ import com.blacksquircle.ui.ds.divider.VerticalDivider
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
-import com.blacksquircle.ui.feature.explorer.data.utils.clipText
 import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ErrorStatus
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ExplorerActionBar
@@ -61,7 +62,6 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.FileExplorer
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.Workspaces
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.filesystem.base.model.FileModel
-import com.blacksquircle.ui.filesystem.base.model.FilesystemType
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.blacksquircle.ui.ds.R as UiR
@@ -105,6 +105,7 @@ internal fun ExplorerScreen(
         onDeleteClicked = viewModel::onDeleteClicked,
         onCutClicked = viewModel::onCutClicked,
         onOpenWithClicked = viewModel::onOpenWithClicked,
+        onOpenTerminalClicked = viewModel::onOpenTerminalClicked,
         onRenameClicked = viewModel::onRenameClicked,
         onPropertiesClicked = viewModel::onPropertiesClicked,
         onCopyPathClicked = viewModel::onCopyPathClicked,
@@ -143,7 +144,7 @@ internal fun ExplorerScreen(
                     context.openFileWith(event.fileModel)
                 }
                 is ExplorerViewEvent.CopyPath -> {
-                    event.fileModel.path.clipText(context)
+                    context.copyText(event.fileModel.path)
                 }
             }
         }
@@ -202,6 +203,7 @@ private fun ExplorerScreen(
     onDeleteClicked: () -> Unit = {},
     onCutClicked: () -> Unit = {},
     onOpenWithClicked: () -> Unit = {},
+    onOpenTerminalClicked: () -> Unit = {},
     onRenameClicked: () -> Unit = {},
     onPropertiesClicked: () -> Unit = {},
     onCopyPathClicked: () -> Unit = {},
@@ -227,10 +229,10 @@ private fun ExplorerScreen(
         ScaffoldSuite(
             topBar = {
                 ExplorerToolbar(
-                    filesystemType = viewState.selectedWorkspace
-                        ?.filesystemType ?: FilesystemType.LOCAL,
+                    workspaceType = viewState.selectedWorkspace
+                        ?.type ?: WorkspaceType.LOCAL,
                     searchQuery = viewState.searchQuery,
-                    selectedNodes = viewState.selectedNodes,
+                    selection = viewState.selectedNodes,
                     showHidden = viewState.showHidden,
                     compactPackages = viewState.compactPackages,
                     sortMode = viewState.sortMode,
@@ -243,6 +245,7 @@ private fun ExplorerScreen(
                     onDeleteClicked = onDeleteClicked,
                     onCutClicked = onCutClicked,
                     onOpenWithClicked = onOpenWithClicked,
+                    onOpenTerminalClicked = onOpenTerminalClicked,
                     onRenameClicked = onRenameClicked,
                     onPropertiesClicked = onPropertiesClicked,
                     onCopyPathClicked = onCopyPathClicked,
@@ -305,37 +308,30 @@ private fun ExplorerScreen(
 @Composable
 private fun ExplorerScreenPreview() {
     PreviewBackground {
+        val workspaces = listOf(
+            WorkspaceModel(
+                uuid = LocalFilesystem.LOCAL_UUID,
+                name = "Local",
+                type = WorkspaceType.LOCAL,
+                defaultLocation = FileModel(
+                    fileUri = "file:///storage/emulated/0/",
+                    filesystemUuid = LocalFilesystem.LOCAL_UUID,
+                ),
+            ),
+            WorkspaceModel(
+                uuid = RootFilesystem.ROOT_UUID,
+                name = "Root",
+                type = WorkspaceType.ROOT,
+                defaultLocation = FileModel(
+                    fileUri = "sufile:///",
+                    filesystemUuid = RootFilesystem.ROOT_UUID,
+                ),
+            )
+        )
         ExplorerScreen(
             viewState = ExplorerViewState(
-                workspaces = listOf(
-                    WorkspaceModel(
-                        uuid = LocalFilesystem.LOCAL_UUID,
-                        name = "Local",
-                        filesystemType = FilesystemType.LOCAL,
-                        defaultLocation = FileModel(
-                            fileUri = "file:///storage/emulated/0/",
-                            filesystemUuid = LocalFilesystem.LOCAL_UUID,
-                        ),
-                    ),
-                    WorkspaceModel(
-                        uuid = RootFilesystem.ROOT_UUID,
-                        name = "Root",
-                        filesystemType = FilesystemType.ROOT,
-                        defaultLocation = FileModel(
-                            fileUri = "sufile:///",
-                            filesystemUuid = RootFilesystem.ROOT_UUID,
-                        ),
-                    ),
-                ),
-                selectedWorkspace = WorkspaceModel(
-                    uuid = LocalFilesystem.LOCAL_UUID,
-                    name = "Local",
-                    filesystemType = FilesystemType.LOCAL,
-                    defaultLocation = FileModel(
-                        fileUri = "file:///storage/emulated/0/",
-                        filesystemUuid = LocalFilesystem.LOCAL_UUID,
-                    ),
-                ),
+                workspaces = workspaces,
+                selectedWorkspace = workspaces[0],
             )
         )
     }

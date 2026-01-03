@@ -25,6 +25,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.DrawerValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -61,7 +63,7 @@ import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.editor.compose.CodeEditor
-import com.blacksquircle.ui.feature.editor.ui.editor.compose.DocumentNavigation
+import com.blacksquircle.ui.feature.editor.ui.editor.compose.DocumentTabLayout
 import com.blacksquircle.ui.feature.editor.ui.editor.compose.EditorToolbar
 import com.blacksquircle.ui.feature.editor.ui.editor.compose.ErrorStatus
 import com.blacksquircle.ui.feature.editor.ui.editor.compose.ExtendedKeyboard
@@ -97,11 +99,13 @@ internal fun EditorScreen(
     val scope = rememberCoroutineScope()
     val editorController = rememberEditorController()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val tabsState = rememberLazyListState()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     EditorScreen(
         viewState = viewState,
         drawerState = drawerState,
+        tabsState = tabsState,
         editorController = editorController,
         onDrawerClicked = {
             scope.launch {
@@ -147,6 +151,7 @@ internal fun EditorScreen(
         onCommitClicked = viewModel::onCommitClicked,
         onPushClicked = viewModel::onPushClicked,
         onCheckoutClicked = viewModel::onCheckoutClicked,
+        onTerminalClicked = viewModel::onTerminalClicked,
         onSettingsClicked = viewModel::onSettingsClicked,
         onDocumentClicked = viewModel::onDocumentClicked,
         onDocumentMoved = viewModel::onDocumentMoved,
@@ -189,6 +194,9 @@ internal fun EditorScreen(
                     if (!navController.popBackStack()) {
                         activity?.finish()
                     }
+                }
+                is EditorViewEvent.ScrollToEnd -> {
+                    tabsState.animateScrollToItem(viewState.documents.size)
                 }
                 is EditorViewEvent.CreateFileContract -> {
                     newFileContract.launch(defaultFileName)
@@ -262,6 +270,7 @@ private fun EditorScreen(
     viewState: EditorViewState,
     editorController: EditorController,
     drawerState: DrawerState,
+    tabsState: LazyListState,
     onDrawerClicked: () -> Unit = {},
     onNewFileClicked: () -> Unit = {},
     onOpenFileClicked: () -> Unit = {},
@@ -298,6 +307,7 @@ private fun EditorScreen(
     onCommitClicked: () -> Unit = {},
     onPushClicked: () -> Unit = {},
     onCheckoutClicked: () -> Unit = {},
+    onTerminalClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
     onDocumentClicked: (DocumentModel) -> Unit = {},
     onDocumentMoved: (from: Int, to: Int) -> Unit = { _, _ -> },
@@ -335,6 +345,7 @@ private fun EditorScreen(
                 onCommitClicked = onCommitClicked,
                 onPushClicked = onPushClicked,
                 onCheckoutClicked = onCheckoutClicked,
+                onTerminalClicked = onTerminalClicked,
                 onSettingsClicked = onSettingsClicked,
             )
         },
@@ -369,9 +380,10 @@ private fun EditorScreen(
                 .fillMaxSize()
                 .padding(contentPadding)
         ) {
-            DocumentNavigation(
+            DocumentTabLayout(
                 tabs = viewState.documents,
                 selectedIndex = viewState.selectedDocument,
+                state = tabsState,
                 onDocumentClicked = { onDocumentClicked(it.document) },
                 onDocumentMoved = onDocumentMoved,
                 onCloseClicked = { onCloseClicked(it.document) },
@@ -461,6 +473,7 @@ private fun EditorScreenPreview() {
                             uuid = "123",
                             fileUri = "file://storage/emulated/0/Downloads/untitled.txt",
                             filesystemUuid = "local",
+                            displayName = "untitled.txt",
                             language = "plaintext",
                             modified = false,
                             position = 0,
@@ -476,7 +489,8 @@ private fun EditorScreenPreview() {
                 isLoading = true,
             ),
             editorController = rememberEditorController(),
-            drawerState = rememberDrawerState(DrawerValue.Closed)
+            drawerState = rememberDrawerState(DrawerValue.Closed),
+            tabsState = rememberLazyListState(),
         )
     }
 }

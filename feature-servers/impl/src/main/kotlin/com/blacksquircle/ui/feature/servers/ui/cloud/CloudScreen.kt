@@ -65,7 +65,7 @@ internal fun CloudScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     CloudScreen(
         viewState = viewState,
-        onBackClicked = viewModel::onBackClicked,
+        onBackClicked = navController::popBackStack,
         onServerClicked = viewModel::onServerClicked,
         onCreateClicked = viewModel::onCreateClicked,
     )

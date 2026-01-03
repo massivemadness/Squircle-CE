@@ -32,6 +32,8 @@ import com.blacksquircle.ui.feature.servers.api.internal.ServersApiDepsProvider
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiProvider
 import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiDepsProvider
 import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiProvider
+import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiDepsProvider
+import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiProvider
 import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiDepsProvider
 import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiProvider
 import com.blacksquircle.ui.internal.di.AppComponent
@@ -45,6 +47,7 @@ internal class SquircleApp : Application(),
     GitApiProvider,
     ServersApiProvider,
     ShortcutsApiProvider,
+    TerminalApiProvider,
     ThemesApiProvider {
 
     private val appComponent: AppComponent
@@ -71,6 +74,8 @@ internal class SquircleApp : Application(),
     override fun provideServersApiDepsProvider(): ServersApiDepsProvider = appComponent
 
     override fun provideShortcutsApiDepsProvider(): ShortcutsApiDepsProvider = appComponent
+
+    override fun provideTerminalApiDepsProvider(): TerminalApiDepsProvider = appComponent
 
     override fun provideThemesApiDepsProvider(): ThemesApiDepsProvider = appComponent
 

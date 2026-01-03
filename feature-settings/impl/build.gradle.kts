@@ -61,6 +61,7 @@ dependencies {
     implementation(project(":feature-servers:api"))
     implementation(project(":feature-settings:api"))
     implementation(project(":feature-shortcuts:api"))
+    implementation(project(":feature-terminal:api"))
     implementation(project(":feature-themes:api"))
 
     testImplementation(libs.test.junit)
