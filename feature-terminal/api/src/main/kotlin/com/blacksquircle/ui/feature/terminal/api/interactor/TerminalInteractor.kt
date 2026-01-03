@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.files
+package com.blacksquircle.ui.feature.terminal.api.interactor
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
 
-internal sealed class FilesHeaderViewEvent : ViewEvent {
-    data object OpenStorageSettings : FilesHeaderViewEvent()
+interface TerminalInteractor {
+
+    fun isTermux(): Boolean
+
+    fun isTermuxInstalled(): Boolean
+    fun isTermuxCompatible(): Boolean
+    fun isTermuxPermissionGranted(): Boolean
+
+    fun openTermux(args: ShellArgs? = null)
 }

@@ -58,6 +58,7 @@ import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
+import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.feature.terminal.api.navigation.TerminalScreen
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlinx.coroutines.CancellationException
@@ -84,6 +85,7 @@ internal class EditorViewModel @Inject constructor(
     private val fontsInteractor: FontsInteractor,
     private val gitInteractor: GitInteractor,
     private val shortcutsInteractor: ShortcutsInteractor,
+    private val terminalInteractor: TerminalInteractor,
     private val languageInteractor: LanguageInteractor,
 ) : ViewModel() {
 
@@ -830,8 +832,12 @@ internal class EditorViewModel @Inject constructor(
 
     fun onTerminalClicked() {
         viewModelScope.launch {
-            val screen = TerminalScreen()
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            if (terminalInteractor.isTermux()) {
+                terminalInteractor.openTermux()
+            } else {
+                val screen = TerminalScreen()
+                _viewEvent.send(ViewEvent.Navigation(screen))
+            }
         }
     }
 

@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.settings
 
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewEvent
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewState
 import com.blacksquircle.ui.filesystem.base.model.LineBreak
@@ -27,7 +26,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -72,18 +70,6 @@ class FilesHeaderViewModelTest {
             sortMode = "sort_by_name",
         )
         assertEquals(viewState, viewModel.viewState.value)
-    }
-
-    @Test
-    fun `When storage access clicked Then open storage settings`() = runTest {
-        // Given
-        val viewModel = createViewModel()
-
-        // When
-        viewModel.onStorageAccessClicked()
-
-        // Then
-        assertEquals(FilesHeaderViewEvent.OpenStorageSettings, viewModel.viewEvent.first())
     }
 
     @Test

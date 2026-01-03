@@ -62,6 +62,8 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
+import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
+import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
 import com.blacksquircle.ui.feature.terminal.api.navigation.TerminalScreen
 import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
 import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
@@ -95,6 +97,7 @@ internal class ExplorerViewModel @Inject constructor(
     private val editorInteractor: EditorInteractor,
     private val explorerRepository: ExplorerRepository,
     private val serverInteractor: ServerInteractor,
+    private val terminalInteractor: TerminalInteractor,
     private val asyncNodeBuilder: AsyncNodeBuilder,
 ) : ViewModel() {
 
@@ -448,8 +451,13 @@ internal class ExplorerViewModel @Inject constructor(
         viewModelScope.launch {
             val target = selectedNodes.firstOrNull()
             if (target != null) {
-                val screen = TerminalScreen(workingDir = target.file.path)
-                _viewEvent.send(ViewEvent.Navigation(screen))
+                if (terminalInteractor.isTermux()) {
+                    val args = ShellArgs(workingDir = target.file.path)
+                    terminalInteractor.openTermux(args)
+                } else {
+                    val screen = TerminalScreen(workingDir = target.file.path)
+                    _viewEvent.send(ViewEvent.Navigation(screen))
+                }
             }
             resetBuffer()
         }

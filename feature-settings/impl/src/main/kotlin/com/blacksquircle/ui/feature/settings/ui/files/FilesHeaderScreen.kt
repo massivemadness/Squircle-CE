@@ -55,6 +55,7 @@ internal fun FilesHeaderScreen(
         FilesHeaderViewModel.Factory().also(component::inject)
     }
 ) {
+    val context = LocalContext.current
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     FilesHeaderScreen(
         viewState = viewState,
@@ -63,21 +64,19 @@ internal fun FilesHeaderScreen(
         onEncodingForOpeningChanged = viewModel::onEncodingForOpeningChanged,
         onEncodingForSavingChanged = viewModel::onEncodingForSavingChanged,
         onLineBreaksForSavingChanged = viewModel::onLineBreakForSavingChanged,
-        onStorageAccessClicked = viewModel::onStorageAccessClicked,
+        onStorageAccessClicked = context::openStorageSettings,
         onShowHiddenChanged = viewModel::onShowHiddenChanged,
         onCompactPackagesChanged = viewModel::onCompactPackagesChanged,
         onFoldersOnTopChanged = viewModel::onFoldersOnTopChanged,
         onSortModeChanged = viewModel::onSortModeChanged,
     )
 
-    val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
                 is ViewEvent.Navigation -> navController.navigate(event.screen)
                 is ViewEvent.PopBackStack -> navController.popBackStack()
-                is FilesHeaderViewEvent.OpenStorageSettings -> context.openStorageSettings()
             }
         }
     }

@@ -16,7 +16,26 @@
 
 package com.blacksquircle.ui.feature.terminal.internal.api
 
+import android.content.Context
+import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
+import com.blacksquircle.ui.feature.terminal.data.interactor.TerminalInteractorImpl
 import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 @Module
-object TerminalApiModule
+object TerminalApiModule {
+
+    @Provides
+    @Singleton
+    fun provideTerminalInteractor(
+        settingsManager: SettingsManager,
+        context: Context,
+    ): TerminalInteractor {
+        return TerminalInteractorImpl(
+            settingsManager = settingsManager,
+            context = context
+        )
+    }
+}

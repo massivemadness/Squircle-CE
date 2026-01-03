@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.application
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,5 +32,10 @@ internal class MainActivity : ComponentActivity() {
         setContent {
             MainScreen(savedInstanceState)
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        this.intent = intent
     }
 }

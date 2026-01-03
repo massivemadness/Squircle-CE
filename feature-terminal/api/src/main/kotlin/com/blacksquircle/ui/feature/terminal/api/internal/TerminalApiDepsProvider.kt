@@ -16,4 +16,8 @@
 
 package com.blacksquircle.ui.feature.terminal.api.internal
 
-interface TerminalApiDepsProvider
+import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
+
+interface TerminalApiDepsProvider {
+    fun provideTerminalInteractor(): TerminalInteractor
+}
