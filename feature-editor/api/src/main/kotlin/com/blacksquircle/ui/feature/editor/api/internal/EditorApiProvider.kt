@@ -16,6 +16,12 @@
 
 package com.blacksquircle.ui.feature.editor.api.internal
 
+import android.content.Context
+
 interface EditorApiProvider {
-    fun provideEditorApiDepsProvider(): EditorApiDepsProvider
+    fun provideEditorApi(): EditorApi
+}
+
+fun Context.provideEditorApi(): EditorApi {
+    return (applicationContext as EditorApiProvider).provideEditorApi()
 }

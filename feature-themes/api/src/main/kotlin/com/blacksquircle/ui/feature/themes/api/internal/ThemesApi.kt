@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.git.api.internal
+package com.blacksquircle.ui.feature.themes.api.internal
 
-import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
+import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
 
-interface GitApiDepsProvider {
-    fun provideGitInteractor(): GitInteractor
+interface ThemesApi {
+    fun provideThemeInteractor(): ThemeInteractor
 }

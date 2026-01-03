@@ -16,6 +16,12 @@
 
 package com.blacksquircle.ui.feature.explorer.api.internal
 
+import android.content.Context
+
 interface ExplorerApiProvider {
-    fun provideExplorerApiDepsProvider(): ExplorerApiDepsProvider
+    fun provideExplorerApi(): ExplorerApi
+}
+
+fun Context.provideExplorerApi(): ExplorerApi {
+    return (applicationContext as ExplorerApiProvider).provideExplorerApi()
 }

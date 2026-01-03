@@ -16,6 +16,12 @@
 
 package com.blacksquircle.ui.feature.servers.api.internal
 
+import android.content.Context
+
 interface ServersApiProvider {
-    fun provideServersApiDepsProvider(): ServersApiDepsProvider
+    fun provideServersApi(): ServersApi
+}
+
+fun Context.provideServersApi(): ServersApi {
+    return (applicationContext as ServersApiProvider).provideServersApi()
 }

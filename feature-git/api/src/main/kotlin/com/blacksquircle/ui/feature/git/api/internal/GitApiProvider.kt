@@ -16,6 +16,12 @@
 
 package com.blacksquircle.ui.feature.git.api.internal
 
+import android.content.Context
+
 interface GitApiProvider {
-    fun provideGitApiDepsProvider(): GitApiDepsProvider
+    fun provideGitApi(): GitApi
+}
+
+fun Context.provideGitApi(): GitApi {
+    return (applicationContext as GitApiProvider).provideGitApi()
 }

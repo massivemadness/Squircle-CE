@@ -24,7 +24,7 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import kotlinx.serialization.json.Json
 import retrofit2.Retrofit
 
-interface CoreApiDepsProvider {
+interface CoreApi {
     fun provideContext(): Context
     fun provideDispatcherProvider(): DispatcherProvider
     fun provideStringProvider(): StringProvider

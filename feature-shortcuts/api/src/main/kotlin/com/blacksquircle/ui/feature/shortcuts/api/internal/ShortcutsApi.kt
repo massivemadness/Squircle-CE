@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.api.internal
+package com.blacksquircle.ui.feature.shortcuts.api.internal
 
-import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
+import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 
-interface FontsApiDepsProvider {
-    fun provideFontsInteractor(): FontsInteractor
+interface ShortcutsApi {
+    fun provideShortcutInteractor(): ShortcutsInteractor
 }

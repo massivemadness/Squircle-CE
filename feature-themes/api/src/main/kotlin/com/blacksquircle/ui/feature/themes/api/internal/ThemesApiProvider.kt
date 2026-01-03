@@ -16,6 +16,12 @@
 
 package com.blacksquircle.ui.feature.themes.api.internal
 
+import android.content.Context
+
 interface ThemesApiProvider {
-    fun provideThemesApiDepsProvider(): ThemesApiDepsProvider
+    fun provideThemesApi(): ThemesApi
+}
+
+fun Context.provideThemesApi(): ThemesApi {
+    return (applicationContext as ThemesApiProvider).provideThemesApi()
 }

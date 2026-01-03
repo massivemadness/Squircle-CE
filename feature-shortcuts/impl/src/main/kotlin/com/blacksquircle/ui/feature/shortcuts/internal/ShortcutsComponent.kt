@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.feature.shortcuts.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
-import com.blacksquircle.ui.core.internal.CoreApiProvider
+import com.blacksquircle.ui.core.internal.CoreApi
+import com.blacksquircle.ui.core.internal.provideCoreApi
 import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.KeybindingViewModel
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ShortcutsViewModel
 import dagger.Component
@@ -29,7 +29,7 @@ import dagger.Component
         ShortcutsModule::class,
     ],
     dependencies = [
-        CoreApiDepsProvider::class,
+        CoreApi::class,
     ]
 )
 internal interface ShortcutsComponent {
@@ -39,7 +39,7 @@ internal interface ShortcutsComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(coreApiDepsProvider: CoreApiDepsProvider): ShortcutsComponent
+        fun create(coreApi: CoreApi): ShortcutsComponent
     }
 
     companion object {
@@ -48,8 +48,7 @@ internal interface ShortcutsComponent {
 
         fun buildOrGet(context: Context): ShortcutsComponent {
             return component ?: DaggerShortcutsComponent.factory().create(
-                coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
-                    .provideCoreApiDepsProvider(),
+                coreApi = context.provideCoreApi(),
             ).also {
                 component = it
             }

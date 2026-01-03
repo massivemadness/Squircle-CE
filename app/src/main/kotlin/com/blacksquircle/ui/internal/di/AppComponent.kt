@@ -18,23 +18,23 @@ package com.blacksquircle.ui.internal.di
 
 import android.content.Context
 import com.blacksquircle.ui.application.MainViewModel
-import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
+import com.blacksquircle.ui.core.internal.CoreApi
 import com.blacksquircle.ui.core.internal.CoreModule
-import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider
+import com.blacksquircle.ui.feature.editor.api.internal.EditorApi
 import com.blacksquircle.ui.feature.editor.internal.api.EditorApiModule
-import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvider
+import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApi
 import com.blacksquircle.ui.feature.explorer.internal.api.ExplorerApiModule
-import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiDepsProvider
+import com.blacksquircle.ui.feature.fonts.api.internal.FontsApi
 import com.blacksquircle.ui.feature.fonts.internal.api.FontsApiModule
-import com.blacksquircle.ui.feature.git.api.internal.GitApiDepsProvider
+import com.blacksquircle.ui.feature.git.api.internal.GitApi
 import com.blacksquircle.ui.feature.git.internal.api.GitApiModule
-import com.blacksquircle.ui.feature.servers.api.internal.ServersApiDepsProvider
+import com.blacksquircle.ui.feature.servers.api.internal.ServersApi
 import com.blacksquircle.ui.feature.servers.internal.api.ServersApiModule
-import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiDepsProvider
+import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApi
 import com.blacksquircle.ui.feature.shortcuts.internal.api.ShortcutsApiModule
-import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiDepsProvider
+import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApi
 import com.blacksquircle.ui.feature.terminal.internal.api.TerminalApiModule
-import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiDepsProvider
+import com.blacksquircle.ui.feature.themes.api.internal.ThemesApi
 import com.blacksquircle.ui.feature.themes.internal.api.ThemesApiModule
 import dagger.BindsInstance
 import dagger.Component
@@ -56,15 +56,15 @@ import javax.inject.Singleton
     ],
 )
 internal interface AppComponent :
-    CoreApiDepsProvider,
-    EditorApiDepsProvider,
-    ExplorerApiDepsProvider,
-    FontsApiDepsProvider,
-    GitApiDepsProvider,
-    ServersApiDepsProvider,
-    ShortcutsApiDepsProvider,
-    TerminalApiDepsProvider,
-    ThemesApiDepsProvider {
+    CoreApi,
+    EditorApi,
+    ExplorerApi,
+    FontsApi,
+    GitApi,
+    ServersApi,
+    ShortcutsApi,
+    TerminalApi,
+    ThemesApi {
 
     fun inject(factory: MainViewModel.Factory)
 

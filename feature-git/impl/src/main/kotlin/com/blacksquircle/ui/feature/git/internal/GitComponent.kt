@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.feature.git.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
-import com.blacksquircle.ui.core.internal.CoreApiProvider
+import com.blacksquircle.ui.core.internal.CoreApi
+import com.blacksquircle.ui.core.internal.provideCoreApi
 import com.blacksquircle.ui.feature.git.ui.checkout.CheckoutViewModel
 import com.blacksquircle.ui.feature.git.ui.commit.CommitViewModel
 import com.blacksquircle.ui.feature.git.ui.fetch.FetchViewModel
@@ -32,7 +32,7 @@ import dagger.Component
         GitModule::class,
     ],
     dependencies = [
-        CoreApiDepsProvider::class,
+        CoreApi::class,
     ]
 )
 internal interface GitComponent {
@@ -45,7 +45,7 @@ internal interface GitComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(coreApiDepsProvider: CoreApiDepsProvider): GitComponent
+        fun create(coreApi: CoreApi): GitComponent
     }
 
     companion object {
@@ -54,8 +54,7 @@ internal interface GitComponent {
 
         fun buildOrGet(context: Context): GitComponent {
             return component ?: DaggerGitComponent.factory().create(
-                coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
-                    .provideCoreApiDepsProvider(),
+                coreApi = context.provideCoreApi(),
             ).also {
                 component = it
             }

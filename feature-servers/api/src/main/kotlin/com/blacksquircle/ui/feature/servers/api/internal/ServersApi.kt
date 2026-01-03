@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.api.internal
+package com.blacksquircle.ui.feature.servers.api.internal
 
-import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
+import com.blacksquircle.ui.feature.servers.api.factory.ServerFactory
+import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 
-interface TerminalApiDepsProvider {
-    fun provideTerminalInteractor(): TerminalInteractor
+interface ServersApi {
+    fun provideServerInteractor(): ServerInteractor
+    fun provideServerFilesystemFactory(): ServerFactory
 }

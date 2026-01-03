@@ -23,5 +23,7 @@ dependencies {
 
     implementation(libs.kotlinx.serialization)
 
+    compileOnly(libs.android.tools.platform)
+
     api(project(":filesystems:filesystem-base"))
 }

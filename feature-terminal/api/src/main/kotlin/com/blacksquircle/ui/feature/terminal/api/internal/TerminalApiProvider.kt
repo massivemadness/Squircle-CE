@@ -16,6 +16,12 @@
 
 package com.blacksquircle.ui.feature.terminal.api.internal
 
+import android.content.Context
+
 interface TerminalApiProvider {
-    fun provideTerminalApiDepsProvider(): TerminalApiDepsProvider
+    fun provideTerminalApi(): TerminalApi
+}
+
+fun Context.provideTerminalApi(): TerminalApi {
+    return (applicationContext as TerminalApiProvider).provideTerminalApi()
 }

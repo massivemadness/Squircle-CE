@@ -16,6 +16,12 @@
 
 package com.blacksquircle.ui.feature.shortcuts.api.internal
 
+import android.content.Context
+
 interface ShortcutsApiProvider {
-    fun provideShortcutsApiDepsProvider(): ShortcutsApiDepsProvider
+    fun provideShortcutsApi(): ShortcutsApi
+}
+
+fun Context.provideShortcutsApi(): ShortcutsApi {
+    return (applicationContext as ShortcutsApiProvider).provideShortcutsApi()
 }

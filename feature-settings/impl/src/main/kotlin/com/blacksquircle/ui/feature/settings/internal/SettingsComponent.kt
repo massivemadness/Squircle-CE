@@ -17,23 +17,23 @@
 package com.blacksquircle.ui.feature.settings.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
-import com.blacksquircle.ui.core.internal.CoreApiProvider
+import com.blacksquircle.ui.core.internal.CoreApi
+import com.blacksquircle.ui.core.internal.provideCoreApi
 import com.blacksquircle.ui.feature.settings.ui.application.AppHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.git.GitHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.terminal.TerminalHeaderViewModel
-import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiDepsProvider
-import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiProvider
+import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApi
+import com.blacksquircle.ui.feature.terminal.api.internal.provideTerminalApi
 import dagger.Component
 
 @SettingsScope
 @Component(
     dependencies = [
-        CoreApiDepsProvider::class,
-        TerminalApiDepsProvider::class,
+        CoreApi::class,
+        TerminalApi::class,
     ]
 )
 internal interface SettingsComponent {
@@ -48,8 +48,8 @@ internal interface SettingsComponent {
     @Component.Factory
     interface Factory {
         fun create(
-            coreApiDepsProvider: CoreApiDepsProvider,
-            terminalApiDepsProvider: TerminalApiDepsProvider,
+            coreApi: CoreApi,
+            terminalApi: TerminalApi,
         ): SettingsComponent
     }
 
@@ -59,10 +59,8 @@ internal interface SettingsComponent {
 
         fun buildOrGet(context: Context): SettingsComponent {
             return component ?: DaggerSettingsComponent.factory().create(
-                coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
-                    .provideCoreApiDepsProvider(),
-                terminalApiDepsProvider = (context.applicationContext as TerminalApiProvider)
-                    .provideTerminalApiDepsProvider(),
+                coreApi = context.provideCoreApi(),
+                terminalApi = context.provideTerminalApi(),
             ).also {
                 component = it
             }

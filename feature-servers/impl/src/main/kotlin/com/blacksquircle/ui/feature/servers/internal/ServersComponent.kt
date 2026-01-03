@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.feature.servers.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
-import com.blacksquircle.ui.core.internal.CoreApiProvider
+import com.blacksquircle.ui.core.internal.CoreApi
+import com.blacksquircle.ui.core.internal.provideCoreApi
 import com.blacksquircle.ui.feature.servers.ui.cloud.CloudViewModel
 import com.blacksquircle.ui.feature.servers.ui.server.ServerViewModel
 import dagger.Component
@@ -29,7 +29,7 @@ import dagger.Component
         ServersModule::class,
     ],
     dependencies = [
-        CoreApiDepsProvider::class,
+        CoreApi::class,
     ]
 )
 internal interface ServersComponent {
@@ -39,7 +39,7 @@ internal interface ServersComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(coreApiDepsProvider: CoreApiDepsProvider): ServersComponent
+        fun create(coreApi: CoreApi): ServersComponent
     }
 
     companion object {
@@ -48,8 +48,7 @@ internal interface ServersComponent {
 
         fun buildOrGet(context: Context): ServersComponent {
             return component ?: DaggerServersComponent.factory().create(
-                coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
-                    .provideCoreApiDepsProvider(),
+                coreApi = context.provideCoreApi(),
             ).also {
                 component = it
             }

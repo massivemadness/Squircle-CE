@@ -16,6 +16,12 @@
 
 package com.blacksquircle.ui.core.internal
 
+import android.content.Context
+
 interface CoreApiProvider {
-    fun provideCoreApiDepsProvider(): CoreApiDepsProvider
+    fun provideCoreApi(): CoreApi
+}
+
+fun Context.provideCoreApi(): CoreApi {
+    return (applicationContext as CoreApiProvider).provideCoreApi()
 }

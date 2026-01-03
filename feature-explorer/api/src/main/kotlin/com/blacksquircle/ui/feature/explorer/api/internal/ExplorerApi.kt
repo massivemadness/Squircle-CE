@@ -18,6 +18,6 @@ package com.blacksquircle.ui.feature.explorer.api.internal
 
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 
-interface ExplorerApiDepsProvider {
+interface ExplorerApi {
     fun provideFilesystemFactory(): FilesystemFactory
 }

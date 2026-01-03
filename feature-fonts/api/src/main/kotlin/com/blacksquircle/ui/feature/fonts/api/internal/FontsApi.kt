@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.api.internal
+package com.blacksquircle.ui.feature.fonts.api.internal
 
-import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
-import com.blacksquircle.ui.feature.editor.api.provider.FileIconProvider
+import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 
-interface EditorApiDepsProvider {
-    fun provideEditorInteractor(): EditorInteractor
-    fun provideFileIconProvider(): FileIconProvider
+interface FontsApi {
+    fun provideFontsInteractor(): FontsInteractor
 }

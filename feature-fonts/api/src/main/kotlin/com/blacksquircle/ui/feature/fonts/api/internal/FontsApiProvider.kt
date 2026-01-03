@@ -16,6 +16,12 @@
 
 package com.blacksquircle.ui.feature.fonts.api.internal
 
+import android.content.Context
+
 interface FontsApiProvider {
-    fun provideFontsApiDepsProvider(): FontsApiDepsProvider
+    fun provideFontsApi(): FontsApi
+}
+
+fun Context.provideFontsApi(): FontsApi {
+    return (applicationContext as FontsApiProvider).provideFontsApi()
 }

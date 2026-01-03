@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.feature.fonts.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
-import com.blacksquircle.ui.core.internal.CoreApiProvider
+import com.blacksquircle.ui.core.internal.CoreApi
+import com.blacksquircle.ui.core.internal.provideCoreApi
 import com.blacksquircle.ui.feature.fonts.ui.fonts.FontsViewModel
 import dagger.Component
 
@@ -28,7 +28,7 @@ import dagger.Component
         FontsModule::class,
     ],
     dependencies = [
-        CoreApiDepsProvider::class,
+        CoreApi::class,
     ]
 )
 internal interface FontsComponent {
@@ -37,7 +37,7 @@ internal interface FontsComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(coreApiDepsProvider: CoreApiDepsProvider): FontsComponent
+        fun create(coreApi: CoreApi): FontsComponent
     }
 
     companion object {
@@ -46,8 +46,7 @@ internal interface FontsComponent {
 
         fun buildOrGet(context: Context): FontsComponent {
             return component ?: DaggerFontsComponent.factory().create(
-                coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
-                    .provideCoreApiDepsProvider(),
+                coreApi = context.provideCoreApi(),
             ).also {
                 component = it
             }

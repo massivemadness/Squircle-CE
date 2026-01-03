@@ -21,4 +21,6 @@ plugins {
 
 dependencies {
     implementation(libs.kotlinx.serialization)
+
+    compileOnly(libs.android.tools.platform)
 }

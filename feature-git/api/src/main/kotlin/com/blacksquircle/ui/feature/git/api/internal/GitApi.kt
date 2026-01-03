@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.shortcuts.api.internal
+package com.blacksquircle.ui.feature.git.api.internal
 
-import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
+import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 
-interface ShortcutsApiDepsProvider {
-    fun provideShortcutInteractor(): ShortcutsInteractor
+interface GitApi {
+    fun provideGitInteractor(): GitInteractor
 }

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.api.internal
+package com.blacksquircle.ui.feature.terminal.api.internal
 
-import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
+import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 
-interface ThemesApiDepsProvider {
-    fun provideThemeInteractor(): ThemeInteractor
+interface TerminalApi {
+    fun provideTerminalInteractor(): TerminalInteractor
 }

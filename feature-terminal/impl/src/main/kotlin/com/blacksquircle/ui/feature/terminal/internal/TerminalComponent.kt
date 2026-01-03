@@ -17,8 +17,8 @@
 package com.blacksquircle.ui.feature.terminal.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
-import com.blacksquircle.ui.core.internal.CoreApiProvider
+import com.blacksquircle.ui.core.internal.CoreApi
+import com.blacksquircle.ui.core.internal.provideCoreApi
 import com.blacksquircle.ui.feature.terminal.ui.TerminalViewModel
 import dagger.Component
 
@@ -28,7 +28,7 @@ import dagger.Component
         TerminalModule::class,
     ],
     dependencies = [
-        CoreApiDepsProvider::class,
+        CoreApi::class,
     ]
 )
 internal interface TerminalComponent {
@@ -37,7 +37,7 @@ internal interface TerminalComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(coreApiDepsProvider: CoreApiDepsProvider): TerminalComponent
+        fun create(coreApi: CoreApi): TerminalComponent
     }
 
     companion object {
@@ -46,8 +46,7 @@ internal interface TerminalComponent {
 
         fun buildOrGet(context: Context): TerminalComponent {
             return component ?: DaggerTerminalComponent.factory().create(
-                coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
-                    .provideCoreApiDepsProvider(),
+                coreApi = context.provideCoreApi(),
             ).also {
                 component = it
             }

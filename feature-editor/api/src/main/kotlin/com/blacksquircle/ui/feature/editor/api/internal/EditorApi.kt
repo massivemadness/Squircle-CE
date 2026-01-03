@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.servers.api.internal
+package com.blacksquircle.ui.feature.editor.api.internal
 
-import com.blacksquircle.ui.feature.servers.api.factory.ServerFactory
-import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
+import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
+import com.blacksquircle.ui.feature.editor.api.provider.FileIconProvider
 
-interface ServersApiDepsProvider {
-    fun provideServerInteractor(): ServerInteractor
-    fun provideServerFilesystemFactory(): ServerFactory
+interface EditorApi {
+    fun provideEditorInteractor(): EditorInteractor
+    fun provideFileIconProvider(): FileIconProvider
 }
