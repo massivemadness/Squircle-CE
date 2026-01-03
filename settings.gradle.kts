@@ -39,6 +39,7 @@ include(":app", ":benchmark")
 
 include(
     ":core-common",
+    ":core-redux",
     ":core-test",
     ":core-ui",
     ":feature-editor:api",

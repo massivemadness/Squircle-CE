@@ -71,6 +71,7 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     implementation(libs.kotlinx.serialization)
     implementation(project(":core-common"))
+    implementation(project(":core-redux"))
     implementation(project(":core-ui"))
     testImplementation(project(":core-test"))
 
