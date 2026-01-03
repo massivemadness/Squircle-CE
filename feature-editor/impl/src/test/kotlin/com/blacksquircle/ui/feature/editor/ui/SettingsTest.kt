@@ -29,6 +29,7 @@ import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
+import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.every
@@ -57,6 +58,7 @@ class SettingsTest {
     private val fontsInteractor = mockk<FontsInteractor>(relaxed = true)
     private val gitInteractor = mockk<GitInteractor>(relaxed = true)
     private val shortcutsInteractor = mockk<ShortcutsInteractor>(relaxed = true)
+    private val terminalInteractor = mockk<TerminalInteractor>(relaxed = true)
     private val languageInteractor = mockk<LanguageInteractor>(relaxed = true)
 
     @Before
@@ -128,6 +130,7 @@ class SettingsTest {
             fontsInteractor = fontsInteractor,
             gitInteractor = gitInteractor,
             shortcutsInteractor = shortcutsInteractor,
+            terminalInteractor = terminalInteractor,
             languageInteractor = languageInteractor,
         )
     }
