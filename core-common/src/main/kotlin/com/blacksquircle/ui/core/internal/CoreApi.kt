@@ -30,6 +30,6 @@ interface CoreApi {
     fun provideStringProvider(): StringProvider
     fun provideSettingsManager(): SettingsManager
     fun provideAppDatabase(): AppDatabase
-    fun provideJsonParser(): Json
+    fun provideJson(): Json
     fun provideRetrofit(): Retrofit
 }

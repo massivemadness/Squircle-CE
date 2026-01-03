@@ -34,11 +34,11 @@ class TestModulePlugin : Plugin<Project> {
             }
 
             configure<TestExtension> {
-                compileSdk = BuildConst.COMPILE_SDK
+                compileSdk = BuildSettings.COMPILE_SDK
 
                 defaultConfig {
-                    minSdk = BuildConst.MIN_SDK
-                    targetSdk = BuildConst.TARGET_SDK
+                    minSdk = BuildSettings.MIN_SDK
+                    targetSdk = BuildSettings.TARGET_SDK
 
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }

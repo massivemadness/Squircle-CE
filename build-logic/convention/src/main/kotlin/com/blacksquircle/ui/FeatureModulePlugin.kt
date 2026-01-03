@@ -35,10 +35,10 @@ class FeatureModulePlugin : Plugin<Project> {
             }
 
             configure<LibraryExtension> {
-                compileSdk = BuildConst.COMPILE_SDK
+                compileSdk = BuildSettings.COMPILE_SDK
 
                 defaultConfig {
-                    minSdk = BuildConst.MIN_SDK
+                    minSdk = BuildSettings.MIN_SDK
 
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

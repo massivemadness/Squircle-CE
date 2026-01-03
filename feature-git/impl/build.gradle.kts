@@ -32,13 +32,6 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.tooling.preview)
-    implementation(libs.androidx.compose.ui)
-    debugImplementation(libs.androidx.compose.manifest)
-    debugImplementation(libs.androidx.compose.tooling)
     implementation(libs.androidx.core)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -52,6 +45,7 @@ dependencies {
     implementation(libs.kotlinx.serialization)
 
     ksp(libs.google.dagger.compiler)
+
     implementation(project(":core-common"))
     implementation(project(":core-ui"))
     testImplementation(project(":core-test"))

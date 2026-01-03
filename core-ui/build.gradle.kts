@@ -31,15 +31,16 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.tooling.preview)
-    implementation(libs.androidx.compose.ui)
-    debugImplementation(libs.androidx.compose.manifest)
-    debugImplementation(libs.androidx.compose.tooling)
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.skydoves.colorpicker.compose)
+
+    api(libs.androidx.activity.compose)
+    api(libs.androidx.compose.foundation)
+    api(libs.androidx.compose.material)
+    api(libs.androidx.compose.tooling.preview)
+    api(libs.androidx.compose.ui)
+    debugApi(libs.androidx.compose.manifest)
+    debugApi(libs.androidx.compose.tooling)
 }

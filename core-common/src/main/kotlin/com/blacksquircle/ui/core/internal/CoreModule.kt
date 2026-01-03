@@ -54,7 +54,7 @@ object CoreModule {
 
     @Provides
     @Singleton
-    fun provideJsonParser(): Json {
+    fun provideJson(): Json {
         return Json {
             ignoreUnknownKeys = true
         }
