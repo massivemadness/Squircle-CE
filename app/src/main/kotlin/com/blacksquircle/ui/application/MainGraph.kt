@@ -19,14 +19,15 @@ package com.blacksquircle.ui.application
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.dialog
+import androidx.navigation3.runtime.NavKey
 import com.blacksquircle.ui.application.update.UpdateScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object UpdateDialog
+data object UpdateRoute : NavKey
 
 fun NavGraphBuilder.mainGraph(navController: NavHostController) {
-    dialog<UpdateDialog> {
+    dialog<UpdateRoute> {
         UpdateScreen(navController)
     }
 }

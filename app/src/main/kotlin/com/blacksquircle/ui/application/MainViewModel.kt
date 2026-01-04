@@ -64,7 +64,7 @@ internal class MainViewModel @Inject constructor(
 
     fun onUpdateAvailable() {
         viewModelScope.launch {
-            _viewEvent.send(ViewEvent.Navigation(UpdateDialog))
+            _viewEvent.send(ViewEvent.Navigation(UpdateRoute))
         }
     }
 

@@ -16,13 +16,14 @@
 
 package com.blacksquircle.ui.feature.terminal.api.navigation
 
+import androidx.navigation3.runtime.NavKey
 import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class TerminalRoute(
     val workingDir: String? = null,
-) {
+) : NavKey {
     val args: ShellArgs?
         get() = if (workingDir != null) {
             ShellArgs(workingDir = workingDir)

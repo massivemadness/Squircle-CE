@@ -16,8 +16,9 @@
 
 package com.blacksquircle.ui.feature.explorer.api.navigation
 
+import androidx.navigation3.runtime.NavKey
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ServerAuthRoute(val authMethod: AuthMethod)
+data class ServerAuthRoute(val authMethod: AuthMethod) : NavKey

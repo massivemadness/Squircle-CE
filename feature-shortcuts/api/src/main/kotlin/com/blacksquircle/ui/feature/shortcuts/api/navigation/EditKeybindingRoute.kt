@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.shortcuts.api.navigation
 
+import androidx.navigation3.runtime.NavKey
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import kotlinx.serialization.Serializable
 
@@ -26,4 +27,4 @@ data class EditKeybindingRoute(
     val isShift: Boolean,
     val isAlt: Boolean,
     val keyCode: Int,
-)
+) : NavKey

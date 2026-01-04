@@ -20,6 +20,7 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.androidx.navigation.runtime)
     implementation(libs.kotlinx.serialization)
 
     compileOnly(libs.android.tools.platform)

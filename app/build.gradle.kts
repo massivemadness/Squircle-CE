@@ -61,6 +61,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation)
+    implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.profileinstaller)
 
     gmsImplementation(libs.google.appupdate)

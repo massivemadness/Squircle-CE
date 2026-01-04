@@ -16,7 +16,8 @@
 
 package com.blacksquircle.ui.feature.explorer.api.navigation
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DeleteFileRoute(val fileName: String, val fileCount: Int)
+data class DeleteFileRoute(val fileName: String, val fileCount: Int) : NavKey
