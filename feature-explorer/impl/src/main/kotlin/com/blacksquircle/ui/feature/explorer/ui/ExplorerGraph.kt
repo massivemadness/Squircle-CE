@@ -23,20 +23,20 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
 import com.blacksquircle.ui.ds.extensions.LocalNavController
-import com.blacksquircle.ui.feature.explorer.api.navigation.AddWorkspaceDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.CloneRepoDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.CompressDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.CreateDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteWorkspaceDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.ExplorerScreen
-import com.blacksquircle.ui.feature.explorer.api.navigation.LocalWorkspaceDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.NotificationDeniedDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
-import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.AddWorkspaceRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.CloneRepoRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.CompressFileRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFileRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteFileRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteWorkspaceRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.ExplorerRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.LocalWorkspaceRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.NotificationDeniedRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.RenameFileRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.ServerAuthRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.TaskRoute
 import com.blacksquircle.ui.feature.explorer.ui.auth.AuthScreen
 import com.blacksquircle.ui.feature.explorer.ui.clone.CloneRepoScreen
 import com.blacksquircle.ui.feature.explorer.ui.compress.CompressScreen
@@ -53,52 +53,52 @@ import com.blacksquircle.ui.feature.explorer.ui.workspace.DeleteWorkspaceScreen
 import com.blacksquircle.ui.feature.explorer.ui.workspace.LocalWorkspaceScreen
 
 fun NavGraphBuilder.explorerGraph(navController: NavHostController) {
-    composable<ExplorerScreen> {
+    composable<ExplorerRoute> {
         ExplorerScreen(navController)
     }
-    dialog<AuthDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<AuthDialog>()
+    dialog<ServerAuthRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<ServerAuthRoute>()
         AuthScreen(navArgs, navController)
     }
-    dialog<CreateDialog> {
+    dialog<CreateFileRoute> {
         CreateFileScreen(navController)
     }
-    dialog<CloneRepoDialog> {
+    dialog<CloneRepoRoute> {
         CloneRepoScreen(navController)
     }
-    dialog<RenameDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<RenameDialog>()
+    dialog<RenameFileRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<RenameFileRoute>()
         RenameScreen(navArgs, navController)
     }
-    dialog<DeleteDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<DeleteDialog>()
+    dialog<DeleteFileRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<DeleteFileRoute>()
         DeleteScreen(navArgs, navController)
     }
-    dialog<CompressDialog> {
+    dialog<CompressFileRoute> {
         CompressScreen(navController)
     }
-    dialog<TaskDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<TaskDialog>()
+    dialog<TaskRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<TaskRoute>()
         TaskScreen(navArgs, navController)
     }
-    dialog<PropertiesDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<PropertiesDialog>()
+    dialog<PropertiesRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<PropertiesRoute>()
         PropertiesScreen(navArgs, navController)
     }
-    dialog<StorageDeniedDialog> {
+    dialog<StorageDeniedRoute> {
         StorageDeniedScreen(navController)
     }
-    dialog<NotificationDeniedDialog> {
+    dialog<NotificationDeniedRoute> {
         NotificationDeniedScreen(navController)
     }
-    dialog<AddWorkspaceDialog> {
+    dialog<AddWorkspaceRoute> {
         AddWorkspaceScreen(navController)
     }
-    dialog<DeleteWorkspaceDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<DeleteWorkspaceDialog>()
+    dialog<DeleteWorkspaceRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<DeleteWorkspaceRoute>()
         DeleteWorkspaceScreen(navArgs, navController)
     }
-    dialog<LocalWorkspaceDialog> {
+    dialog<LocalWorkspaceRoute> {
         LocalWorkspaceScreen(navController)
     }
 }

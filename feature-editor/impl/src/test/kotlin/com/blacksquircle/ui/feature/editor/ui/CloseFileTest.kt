@@ -21,7 +21,7 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
-import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileRoute
 import com.blacksquircle.ui.feature.editor.createDocument
 import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
@@ -81,7 +81,7 @@ class CloseFileTest {
         viewModel.onCloseFileClicked()
 
         // Then
-        val expected = ViewEvent.Navigation(CloseFileDialog(selected.uuid, selected.displayName))
+        val expected = ViewEvent.Navigation(CloseFileRoute(selected.uuid, selected.displayName))
         assertEquals(expected, viewModel.viewEvent.first())
     }
 

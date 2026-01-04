@@ -55,7 +55,7 @@ import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.keyCodeToChar
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
-import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingDialog
+import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingRoute
 import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
 import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.compose.keybindingResource
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.KEY_SAVE
@@ -63,7 +63,7 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun KeybindingScreen(
-    navArgs: EditKeybindingDialog,
+    navArgs: EditKeybindingRoute,
     navController: NavController,
     viewModel: KeybindingViewModel = daggerViewModel { context ->
         val component = ShortcutsComponent.buildOrGet(context)

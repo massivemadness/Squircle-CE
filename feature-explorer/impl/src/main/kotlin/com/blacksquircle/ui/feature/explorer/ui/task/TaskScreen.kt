@@ -53,7 +53,7 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.TaskRoute
 import com.blacksquircle.ui.feature.explorer.data.utils.formatDate
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
@@ -63,7 +63,7 @@ import kotlinx.coroutines.isActive
 
 @Composable
 internal fun TaskScreen(
-    navArgs: TaskDialog,
+    navArgs: TaskRoute,
     navController: NavController,
     viewModel: TaskViewModel = daggerViewModel { context ->
         val component = ExplorerComponent.buildOrGet(context)

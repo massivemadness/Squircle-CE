@@ -40,13 +40,13 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.git.R
-import com.blacksquircle.ui.feature.git.api.navigation.PullDialog
-import com.blacksquircle.ui.feature.git.api.navigation.PullDialog.Companion.KEY_PULL
+import com.blacksquircle.ui.feature.git.api.navigation.PullRoute
+import com.blacksquircle.ui.feature.git.api.navigation.PullRoute.Companion.KEY_PULL
 import com.blacksquircle.ui.feature.git.internal.GitComponent
 
 @Composable
 internal fun PullScreen(
-    navArgs: PullDialog,
+    navArgs: PullRoute,
     navController: NavController,
     viewModel: PullViewModel = daggerViewModel { context ->
         val component = GitComponent.buildOrGet(context)

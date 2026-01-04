@@ -29,14 +29,14 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.api.navigation.RenameDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.RenameFileRoute
 import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_RENAME_FILE
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun RenameScreen(
-    navArgs: RenameDialog,
+    navArgs: RenameFileRoute,
     navController: NavController,
 ) {
     RenameScreen(

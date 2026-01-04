@@ -73,8 +73,8 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorController
 import com.blacksquircle.ui.feature.editor.ui.editor.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.editor.model.rememberEditorController
 import com.blacksquircle.ui.feature.explorer.ui.DrawerExplorer
-import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog.Companion.KEY_CHECKOUT
-import com.blacksquircle.ui.feature.git.api.navigation.PullDialog.Companion.KEY_PULL
+import com.blacksquircle.ui.feature.git.api.navigation.CheckoutRoute.Companion.KEY_CHECKOUT
+import com.blacksquircle.ui.feature.git.api.navigation.PullRoute.Companion.KEY_PULL
 import kotlinx.coroutines.launch
 import com.blacksquircle.ui.ds.R as UiR
 

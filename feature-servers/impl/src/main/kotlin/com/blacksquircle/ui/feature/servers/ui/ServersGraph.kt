@@ -21,17 +21,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
-import com.blacksquircle.ui.feature.servers.api.navigation.CloudScreen
-import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
-import com.blacksquircle.ui.feature.servers.ui.cloud.CloudScreen
-import com.blacksquircle.ui.feature.servers.ui.server.ServerScreen
+import com.blacksquircle.ui.feature.servers.api.navigation.ServerDetailsRoute
+import com.blacksquircle.ui.feature.servers.api.navigation.ServerListRoute
+import com.blacksquircle.ui.feature.servers.ui.details.ServerDetailsScreen
+import com.blacksquircle.ui.feature.servers.ui.list.ServerListScreen
 
 fun NavGraphBuilder.serversGraph(navController: NavHostController) {
-    composable<CloudScreen> {
-        CloudScreen(navController)
+    composable<ServerListRoute> {
+        ServerListScreen(navController)
     }
-    dialog<ServerDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<ServerDialog>()
-        ServerScreen(navArgs, navController)
+    dialog<ServerDetailsRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<ServerDetailsRoute>()
+        ServerDetailsScreen(navArgs, navController)
     }
 }

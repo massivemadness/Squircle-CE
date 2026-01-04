@@ -19,14 +19,14 @@ package com.blacksquircle.ui.feature.settings.ui
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.blacksquircle.ui.feature.settings.api.navigation.AboutHeaderScreen
-import com.blacksquircle.ui.feature.settings.api.navigation.AppHeaderScreen
-import com.blacksquircle.ui.feature.settings.api.navigation.CodeStyleHeaderScreen
-import com.blacksquircle.ui.feature.settings.api.navigation.EditorHeaderScreen
-import com.blacksquircle.ui.feature.settings.api.navigation.FilesHeaderScreen
-import com.blacksquircle.ui.feature.settings.api.navigation.GitHeaderScreen
-import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
-import com.blacksquircle.ui.feature.settings.api.navigation.TerminalHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.AboutHeaderRoute
+import com.blacksquircle.ui.feature.settings.api.navigation.ApplicationHeaderRoute
+import com.blacksquircle.ui.feature.settings.api.navigation.CodeStyleHeaderRoute
+import com.blacksquircle.ui.feature.settings.api.navigation.EditorHeaderRoute
+import com.blacksquircle.ui.feature.settings.api.navigation.FilesHeaderRoute
+import com.blacksquircle.ui.feature.settings.api.navigation.GitHeaderRoute
+import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListRoute
+import com.blacksquircle.ui.feature.settings.api.navigation.TerminalHeaderRoute
 import com.blacksquircle.ui.feature.settings.ui.about.AboutHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.application.AppHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderScreen
@@ -37,28 +37,28 @@ import com.blacksquircle.ui.feature.settings.ui.header.HeaderListScreen
 import com.blacksquircle.ui.feature.settings.ui.terminal.TerminalHeaderScreen
 
 fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
-    composable<HeaderListScreen> {
+    composable<HeaderListRoute> {
         HeaderListScreen(navController)
     }
-    composable<AppHeaderScreen> {
+    composable<ApplicationHeaderRoute> {
         AppHeaderScreen(navController)
     }
-    composable<EditorHeaderScreen> {
+    composable<EditorHeaderRoute> {
         EditorHeaderScreen(navController)
     }
-    composable<CodeStyleHeaderScreen> {
+    composable<CodeStyleHeaderRoute> {
         CodeHeaderScreen(navController)
     }
-    composable<FilesHeaderScreen> {
+    composable<FilesHeaderRoute> {
         FilesHeaderScreen(navController)
     }
-    composable<TerminalHeaderScreen> {
+    composable<TerminalHeaderRoute> {
         TerminalHeaderScreen(navController)
     }
-    composable<GitHeaderScreen> {
+    composable<GitHeaderRoute> {
         GitHeaderScreen(navController)
     }
-    composable<AboutHeaderScreen> {
+    composable<AboutHeaderRoute> {
         AboutHeaderScreen(navController)
     }
 }

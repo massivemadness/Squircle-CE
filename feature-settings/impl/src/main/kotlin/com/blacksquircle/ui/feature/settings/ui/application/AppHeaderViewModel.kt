@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.themes.api.navigation.ThemesScreen
+import com.blacksquircle.ui.feature.themes.api.navigation.ThemesRoute
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,7 +44,7 @@ internal class AppHeaderViewModel @Inject constructor(
 
     fun onColorSchemeClicked() {
         viewModelScope.launch {
-            val screen = ThemesScreen
+            val screen = ThemesRoute
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }

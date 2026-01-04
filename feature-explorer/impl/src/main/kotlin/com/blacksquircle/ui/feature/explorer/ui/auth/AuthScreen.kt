@@ -32,13 +32,13 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.api.navigation.AuthDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.ServerAuthRoute
 import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_AUTHENTICATION
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 
 @Composable
 internal fun AuthScreen(
-    navArgs: AuthDialog,
+    navArgs: ServerAuthRoute,
     navController: NavController,
 ) {
     AuthScreen(

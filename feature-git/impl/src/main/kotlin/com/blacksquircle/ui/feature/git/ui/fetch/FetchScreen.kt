@@ -39,12 +39,12 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.git.R
-import com.blacksquircle.ui.feature.git.api.navigation.FetchDialog
+import com.blacksquircle.ui.feature.git.api.navigation.FetchRoute
 import com.blacksquircle.ui.feature.git.internal.GitComponent
 
 @Composable
 internal fun FetchScreen(
-    navArgs: FetchDialog,
+    navArgs: FetchRoute,
     navController: NavController,
     viewModel: FetchViewModel = daggerViewModel { context ->
         val component = GitComponent.buildOrGet(context)

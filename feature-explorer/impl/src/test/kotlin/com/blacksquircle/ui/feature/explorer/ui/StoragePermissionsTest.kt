@@ -22,7 +22,7 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.provider.FileIconProvider
-import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedRoute
 import com.blacksquircle.ui.feature.explorer.createNode
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
@@ -114,7 +114,7 @@ class StoragePermissionsTest {
         viewModel.onPermissionDenied()
 
         // Then
-        val expected = ViewEvent.Navigation(StorageDeniedDialog)
+        val expected = ViewEvent.Navigation(StorageDeniedRoute)
         assertEquals(expected, viewModel.viewEvent.first())
     }
 

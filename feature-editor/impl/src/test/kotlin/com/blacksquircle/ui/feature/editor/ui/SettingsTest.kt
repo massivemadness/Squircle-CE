@@ -21,13 +21,13 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
-import com.blacksquircle.ui.feature.editor.api.navigation.ConfirmExitDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.ConfirmExitRoute
 import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
 import com.blacksquircle.ui.feature.editor.ui.editor.EditorViewModel
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
-import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListRoute
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
@@ -90,7 +90,7 @@ class SettingsTest {
         viewModel.onBackClicked()
 
         // Then
-        val expected = ViewEvent.Navigation(ConfirmExitDialog)
+        val expected = ViewEvent.Navigation(ConfirmExitRoute)
         assertEquals(expected, viewModel.viewEvent.first())
     }
 
@@ -103,7 +103,7 @@ class SettingsTest {
         viewModel.onSettingsClicked()
 
         // Then
-        val expected = ViewEvent.Navigation(HeaderListScreen)
+        val expected = ViewEvent.Navigation(HeaderListRoute)
         assertEquals(expected, viewModel.viewEvent.first())
     }
 

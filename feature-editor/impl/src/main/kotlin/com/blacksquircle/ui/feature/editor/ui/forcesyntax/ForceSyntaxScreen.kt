@@ -39,7 +39,7 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.preference.ListSelection
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxRoute
 import com.blacksquircle.ui.feature.editor.data.model.LanguageScope
 import com.blacksquircle.ui.feature.editor.domain.model.GrammarModel
 import com.blacksquircle.ui.feature.editor.internal.EditorComponent
@@ -47,7 +47,7 @@ import com.blacksquircle.ui.feature.editor.ui.editor.KEY_SELECT_LANGUAGE
 
 @Composable
 internal fun ForceSyntaxScreen(
-    navArgs: ForceSyntaxDialog,
+    navArgs: ForceSyntaxRoute,
     navController: NavController,
     viewModel: ForceSyntaxViewModel = daggerViewModel { context ->
         val component = EditorComponent.buildOrGet(context)

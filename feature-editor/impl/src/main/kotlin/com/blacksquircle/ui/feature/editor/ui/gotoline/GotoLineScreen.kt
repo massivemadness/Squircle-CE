@@ -36,14 +36,14 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineRoute
 import com.blacksquircle.ui.feature.editor.ui.editor.KEY_GOTO_LINE
 
 private const val DEFAULT_LINE = 0
 
 @Composable
 internal fun GoToLineScreen(
-    navArgs: GoToLineDialog,
+    navArgs: GoToLineRoute,
     navController: NavController
 ) {
     GotoLineScreen(

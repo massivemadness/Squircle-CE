@@ -19,7 +19,7 @@ package com.blacksquircle.ui.feature.terminal.internal
 import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApi
 import com.blacksquircle.ui.core.internal.provideCoreApi
-import com.blacksquircle.ui.feature.terminal.ui.TerminalViewModel
+import com.blacksquircle.ui.feature.terminal.ui.terminal.TerminalViewModel
 import dagger.Component
 
 @TerminalScope

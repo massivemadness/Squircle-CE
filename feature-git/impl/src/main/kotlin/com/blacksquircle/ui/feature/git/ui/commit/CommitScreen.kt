@@ -44,7 +44,7 @@ import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.git.R
-import com.blacksquircle.ui.feature.git.api.navigation.CommitDialog
+import com.blacksquircle.ui.feature.git.api.navigation.CommitRoute
 import com.blacksquircle.ui.feature.git.domain.model.ChangeType
 import com.blacksquircle.ui.feature.git.domain.model.GitChange
 import com.blacksquircle.ui.feature.git.internal.GitComponent
@@ -52,7 +52,7 @@ import com.blacksquircle.ui.feature.git.ui.commit.compose.ChangeList
 
 @Composable
 internal fun CommitScreen(
-    navArgs: CommitDialog,
+    navArgs: CommitRoute,
     navController: NavController,
     viewModel: CommitViewModel = daggerViewModel { context ->
         val component = GitComponent.buildOrGet(context)

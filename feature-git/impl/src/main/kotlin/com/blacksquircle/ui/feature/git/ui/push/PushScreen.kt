@@ -43,12 +43,12 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.git.R
-import com.blacksquircle.ui.feature.git.api.navigation.PushDialog
+import com.blacksquircle.ui.feature.git.api.navigation.PushRoute
 import com.blacksquircle.ui.feature.git.internal.GitComponent
 
 @Composable
 internal fun PushScreen(
-    navArgs: PushDialog,
+    navArgs: PushRoute,
     navController: NavController,
     viewModel: PushViewModel = daggerViewModel { context ->
         val component = GitComponent.buildOrGet(context)

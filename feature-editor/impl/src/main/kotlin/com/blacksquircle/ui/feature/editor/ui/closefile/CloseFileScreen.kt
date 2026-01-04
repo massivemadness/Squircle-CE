@@ -26,12 +26,12 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileRoute
 import com.blacksquircle.ui.feature.editor.ui.editor.KEY_CLOSE_FILE
 
 @Composable
 internal fun CloseFileScreen(
-    navArgs: CloseFileDialog,
+    navArgs: CloseFileRoute,
     navController: NavController,
 ) {
     CloseFileScreen(

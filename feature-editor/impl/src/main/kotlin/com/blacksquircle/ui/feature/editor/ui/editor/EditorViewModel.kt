@@ -30,11 +30,11 @@ import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.model.EditorApiEvent
-import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileDialog
-import com.blacksquircle.ui.feature.editor.api.navigation.ConfirmExitDialog
-import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
-import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineDialog
-import com.blacksquircle.ui.feature.editor.api.navigation.InsertColorDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileRoute
+import com.blacksquircle.ui.feature.editor.api.navigation.ConfirmExitRoute
+import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxRoute
+import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineRoute
+import com.blacksquircle.ui.feature.editor.api.navigation.InsertColorRoute
 import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
 import com.blacksquircle.ui.feature.editor.domain.model.DocumentModel
 import com.blacksquircle.ui.feature.editor.domain.repository.DocumentRepository
@@ -46,20 +46,20 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.ErrorState
 import com.blacksquircle.ui.feature.editor.ui.editor.model.SearchState
 import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionEnd
 import com.blacksquircle.ui.feature.editor.ui.editor.view.selectionStart
-import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedRoute
 import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
-import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog
-import com.blacksquircle.ui.feature.git.api.navigation.CommitDialog
-import com.blacksquircle.ui.feature.git.api.navigation.FetchDialog
-import com.blacksquircle.ui.feature.git.api.navigation.PullDialog
-import com.blacksquircle.ui.feature.git.api.navigation.PushDialog
-import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListScreen
+import com.blacksquircle.ui.feature.git.api.navigation.CheckoutRoute
+import com.blacksquircle.ui.feature.git.api.navigation.CommitRoute
+import com.blacksquircle.ui.feature.git.api.navigation.FetchRoute
+import com.blacksquircle.ui.feature.git.api.navigation.PullRoute
+import com.blacksquircle.ui.feature.git.api.navigation.PushRoute
+import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListRoute
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.forAction
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
-import com.blacksquircle.ui.feature.terminal.api.navigation.TerminalScreen
+import com.blacksquircle.ui.feature.terminal.api.navigation.TerminalRoute
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -108,7 +108,7 @@ internal class EditorViewModel @Inject constructor(
     fun onBackClicked() {
         viewModelScope.launch {
             if (settingsManager.confirmExit) {
-                val screen = ConfirmExitDialog
+                val screen = ConfirmExitRoute
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } else {
                 _viewEvent.send(ViewEvent.PopBackStack)
@@ -652,7 +652,7 @@ internal class EditorViewModel @Inject constructor(
                 return@launch
             }
             val content = documents[selectedPosition].content ?: return@launch
-            val screen = GoToLineDialog(content.lineCount)
+            val screen = GoToLineRoute(content.lineCount)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -670,7 +670,7 @@ internal class EditorViewModel @Inject constructor(
                 return@launch
             }
             val document = documents[selectedPosition].document
-            val screen = ForceSyntaxDialog(document.language)
+            val screen = ForceSyntaxRoute(document.language)
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -707,7 +707,7 @@ internal class EditorViewModel @Inject constructor(
             if (selectedPosition !in documents.indices) {
                 return@launch
             }
-            val screen = InsertColorDialog
+            val screen = InsertColorRoute
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -721,7 +721,7 @@ internal class EditorViewModel @Inject constructor(
 
     fun onSettingsClicked() {
         viewModelScope.launch {
-            val screen = HeaderListScreen
+            val screen = HeaderListRoute
             _viewEvent.send(ViewEvent.Navigation(screen))
         }
     }
@@ -734,7 +734,7 @@ internal class EditorViewModel @Inject constructor(
             try {
                 val document = documents[selectedPosition].document
                 val repository = gitInteractor.checkRepository(document.gitRepository)
-                val screen = FetchDialog(repository)
+                val screen = FetchRoute(repository)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: CancellationException) {
                 throw e
@@ -755,7 +755,7 @@ internal class EditorViewModel @Inject constructor(
             try {
                 val document = documents[selectedPosition].document
                 val repository = gitInteractor.checkRepository(document.gitRepository)
-                val screen = PullDialog(repository)
+                val screen = PullRoute(repository)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: CancellationException) {
                 throw e
@@ -776,7 +776,7 @@ internal class EditorViewModel @Inject constructor(
             try {
                 val document = documents[selectedPosition].document
                 val repository = gitInteractor.checkRepository(document.gitRepository)
-                val screen = CommitDialog(repository)
+                val screen = CommitRoute(repository)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: CancellationException) {
                 throw e
@@ -797,7 +797,7 @@ internal class EditorViewModel @Inject constructor(
             try {
                 val document = documents[selectedPosition].document
                 val repository = gitInteractor.checkRepository(document.gitRepository)
-                val screen = PushDialog(repository)
+                val screen = PushRoute(repository)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: CancellationException) {
                 throw e
@@ -818,7 +818,7 @@ internal class EditorViewModel @Inject constructor(
             try {
                 val document = documents[selectedPosition].document
                 val repository = gitInteractor.checkRepository(document.gitRepository)
-                val screen = CheckoutDialog(repository)
+                val screen = CheckoutRoute(repository)
                 _viewEvent.send(ViewEvent.Navigation(screen))
             } catch (e: CancellationException) {
                 throw e
@@ -836,7 +836,7 @@ internal class EditorViewModel @Inject constructor(
             if (terminalInteractor.isTermux()) {
                 terminalInteractor.openTermux()
             } else {
-                val screen = TerminalScreen()
+                val screen = TerminalRoute()
                 _viewEvent.send(ViewEvent.Navigation(screen))
             }
         }
@@ -897,7 +897,7 @@ internal class EditorViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (document.modified && fromUser) {
-                    val screen = CloseFileDialog(
+                    val screen = CloseFileRoute(
                         fileUuid = document.uuid,
                         fileName = document.displayName,
                     )
@@ -1043,7 +1043,7 @@ internal class EditorViewModel @Inject constructor(
         viewModelScope.launch {
             when (errorAction) {
                 ErrorAction.REQUEST_PERMISSIONS -> {
-                    val screen = StorageDeniedDialog
+                    val screen = StorageDeniedRoute
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 }
 

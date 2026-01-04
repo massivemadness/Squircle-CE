@@ -22,8 +22,8 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
-import com.blacksquircle.ui.feature.shortcuts.api.navigation.ConflictKeyDialog
-import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingDialog
+import com.blacksquircle.ui.feature.shortcuts.api.navigation.ConflictKeyRoute
+import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingRoute
 import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -71,7 +71,7 @@ internal class ShortcutsViewModel @Inject constructor(
 
     fun onKeyClicked(keybinding: Keybinding) {
         viewModelScope.launch {
-            val screen = EditKeybindingDialog(
+            val screen = EditKeybindingRoute(
                 shortcut = keybinding.shortcut,
                 isCtrl = keybinding.isCtrl,
                 isShift = keybinding.isShift,
@@ -96,7 +96,7 @@ internal class ShortcutsViewModel @Inject constructor(
                     pendingKey = keybinding
                     conflictKey = existingKey
 
-                    val screen = ConflictKeyDialog
+                    val screen = ConflictKeyRoute
                     _viewEvent.send(ViewEvent.Navigation(screen))
                 } else {
                     shortcutRepository.reassign(keybinding)

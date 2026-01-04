@@ -26,13 +26,13 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteWorkspaceDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteWorkspaceRoute
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun DeleteWorkspaceScreen(
-    navArgs: DeleteWorkspaceDialog,
+    navArgs: DeleteWorkspaceRoute,
     navController: NavController,
     viewModel: DeleteWorkspaceViewModel = daggerViewModel { context ->
         val component = ExplorerComponent.buildOrGet(context)

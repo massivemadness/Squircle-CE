@@ -31,17 +31,17 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.preference.PreferenceHeader
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.ds.toolbar.Toolbar
-import com.blacksquircle.ui.feature.servers.api.navigation.CloudScreen
+import com.blacksquircle.ui.feature.servers.api.navigation.ServerListRoute
 import com.blacksquircle.ui.feature.settings.R
-import com.blacksquircle.ui.feature.settings.api.navigation.AboutHeaderScreen
-import com.blacksquircle.ui.feature.settings.api.navigation.AppHeaderScreen
-import com.blacksquircle.ui.feature.settings.api.navigation.CodeStyleHeaderScreen
-import com.blacksquircle.ui.feature.settings.api.navigation.EditorHeaderScreen
-import com.blacksquircle.ui.feature.settings.api.navigation.FilesHeaderScreen
-import com.blacksquircle.ui.feature.settings.api.navigation.GitHeaderScreen
-import com.blacksquircle.ui.feature.settings.api.navigation.TerminalHeaderScreen
+import com.blacksquircle.ui.feature.settings.api.navigation.AboutHeaderRoute
+import com.blacksquircle.ui.feature.settings.api.navigation.ApplicationHeaderRoute
+import com.blacksquircle.ui.feature.settings.api.navigation.CodeStyleHeaderRoute
+import com.blacksquircle.ui.feature.settings.api.navigation.EditorHeaderRoute
+import com.blacksquircle.ui.feature.settings.api.navigation.FilesHeaderRoute
+import com.blacksquircle.ui.feature.settings.api.navigation.GitHeaderRoute
+import com.blacksquircle.ui.feature.settings.api.navigation.TerminalHeaderRoute
 import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
-import com.blacksquircle.ui.feature.shortcuts.api.navigation.ShortcutsScreen
+import com.blacksquircle.ui.feature.shortcuts.api.navigation.ShortcutsRoute
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -82,47 +82,47 @@ private fun HeaderListScreen(
             PreferenceHeader(
                 title = stringResource(R.string.settings_header_application_title),
                 subtitle = stringResource(R.string.settings_header_application_subtitle),
-                onClick = { onHeaderClicked(AppHeaderScreen) },
+                onClick = { onHeaderClicked(ApplicationHeaderRoute) },
             )
             PreferenceHeader(
                 title = stringResource(R.string.settings_header_editor_title),
                 subtitle = stringResource(R.string.settings_header_editor_subtitle),
-                onClick = { onHeaderClicked(EditorHeaderScreen) },
+                onClick = { onHeaderClicked(EditorHeaderRoute) },
             )
             PreferenceHeader(
                 title = stringResource(R.string.settings_header_codestyle_title),
                 subtitle = stringResource(R.string.settings_header_codestyle_subtitle),
-                onClick = { onHeaderClicked(CodeStyleHeaderScreen) },
+                onClick = { onHeaderClicked(CodeStyleHeaderRoute) },
             )
             PreferenceHeader(
                 title = stringResource(R.string.settings_header_files_title),
                 subtitle = stringResource(R.string.settings_header_files_subtitle),
-                onClick = { onHeaderClicked(FilesHeaderScreen) },
+                onClick = { onHeaderClicked(FilesHeaderRoute) },
             )
             PreferenceHeader(
                 title = stringResource(R.string.settings_header_terminal_title),
                 subtitle = stringResource(R.string.settings_header_terminal_subtitle),
-                onClick = { onHeaderClicked(TerminalHeaderScreen) },
+                onClick = { onHeaderClicked(TerminalHeaderRoute) },
             )
             PreferenceHeader(
                 title = stringResource(R.string.settings_header_keybindings_title),
                 subtitle = stringResource(R.string.settings_header_keybindings_subtitle),
-                onClick = { onHeaderClicked(ShortcutsScreen) },
+                onClick = { onHeaderClicked(ShortcutsRoute) },
             )
             PreferenceHeader(
                 title = stringResource(R.string.settings_header_cloud_title),
                 subtitle = stringResource(R.string.settings_header_cloud_subtitle),
-                onClick = { onHeaderClicked(CloudScreen) },
+                onClick = { onHeaderClicked(ServerListRoute) },
             )
             PreferenceHeader(
                 title = stringResource(R.string.settings_header_git_title),
                 subtitle = stringResource(R.string.settings_header_git_subtitle),
-                onClick = { onHeaderClicked(GitHeaderScreen) },
+                onClick = { onHeaderClicked(GitHeaderRoute) },
             )
             PreferenceHeader(
                 title = stringResource(R.string.settings_header_about_title),
                 subtitle = stringResource(R.string.settings_header_about_subtitle),
-                onClick = { onHeaderClicked(AboutHeaderScreen) },
+                onClick = { onHeaderClicked(AboutHeaderRoute) },
             )
         }
     }

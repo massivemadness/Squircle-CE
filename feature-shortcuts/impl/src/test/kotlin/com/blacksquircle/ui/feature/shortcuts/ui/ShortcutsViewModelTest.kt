@@ -21,7 +21,7 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.shortcuts.api.model.KeyGroup
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
-import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingDialog
+import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingRoute
 import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutRepository
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ShortcutsViewModel
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ShortcutsViewState
@@ -178,7 +178,7 @@ class ShortcutsViewModelTest {
         viewModel.onKeyClicked(keybinding)
 
         // Then
-        val destination = EditKeybindingDialog(
+        val destination = EditKeybindingRoute(
             shortcut = keybinding.shortcut,
             isCtrl = keybinding.isCtrl,
             isShift = keybinding.isShift,

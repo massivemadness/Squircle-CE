@@ -17,13 +17,13 @@
 package com.blacksquircle.ui.feature.servers.ui
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.servers.api.navigation.ServerDialog
+import com.blacksquircle.ui.feature.servers.api.navigation.ServerDetailsRoute
 import com.blacksquircle.ui.feature.servers.createServerConfig
 import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
 import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
-import com.blacksquircle.ui.feature.servers.ui.cloud.CloudViewModel
-import com.blacksquircle.ui.feature.servers.ui.cloud.CloudViewState
-import com.blacksquircle.ui.feature.servers.ui.cloud.model.ServerModel
+import com.blacksquircle.ui.feature.servers.ui.list.ServerListViewModel
+import com.blacksquircle.ui.feature.servers.ui.list.ServerListViewState
+import com.blacksquircle.ui.feature.servers.ui.list.model.ServerModel
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
@@ -55,7 +55,7 @@ class CloudViewModelTest {
         // Given
         val viewModel = createViewModel()
         val serverConfig = createServerConfig()
-        val screen = ServerDialog(serverConfig.uuid)
+        val screen = ServerDetailsRoute(serverConfig.uuid)
 
         // When
         viewModel.onServerClicked(serverConfig)
@@ -69,7 +69,7 @@ class CloudViewModelTest {
     fun `When create server clicked Then send navigation event`() = runTest {
         // Given
         val viewModel = createViewModel()
-        val screen = ServerDialog(null)
+        val screen = ServerDetailsRoute(null)
 
         // When
         viewModel.onCreateClicked()
@@ -94,7 +94,7 @@ class CloudViewModelTest {
         val viewModel = createViewModel() // init {}
 
         // Then
-        val viewState = CloudViewState(
+        val viewState = ServerListViewState(
             servers = listOf(
                 ServerModel(config = servers[0], status = ServerStatus.Checking),
                 ServerModel(config = servers[1], status = ServerStatus.Checking),
@@ -121,7 +121,7 @@ class CloudViewModelTest {
         advanceUntilIdle()
 
         // Then
-        val viewState = CloudViewState(
+        val viewState = ServerListViewState(
             servers = listOf(
                 ServerModel(
                     config = servers[0],
@@ -147,7 +147,7 @@ class CloudViewModelTest {
         advanceUntilIdle()
 
         // Then
-        val viewState = CloudViewState(
+        val viewState = ServerListViewState(
             servers = listOf(
                 ServerModel(
                     config = servers[0],
@@ -160,7 +160,7 @@ class CloudViewModelTest {
         coVerify(exactly = 1) { serverRepository.checkAvailability(servers[0]) }
     }
 
-    private fun createViewModel(): CloudViewModel {
-        return CloudViewModel(serverRepository)
+    private fun createViewModel(): ServerListViewModel {
+        return ServerListViewModel(serverRepository)
     }
 }

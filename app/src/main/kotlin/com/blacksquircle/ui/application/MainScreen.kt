@@ -45,7 +45,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.animation.NavigationTransition
 import com.blacksquircle.ui.ds.extensions.LocalNavController
-import com.blacksquircle.ui.feature.editor.api.navigation.EditorScreen
+import com.blacksquircle.ui.feature.editor.api.navigation.EditorRoute
 import com.blacksquircle.ui.feature.editor.ui.editorGraph
 import com.blacksquircle.ui.feature.explorer.ui.explorerGraph
 import com.blacksquircle.ui.feature.fonts.ui.fontsGraph
@@ -53,7 +53,7 @@ import com.blacksquircle.ui.feature.git.ui.gitGraph
 import com.blacksquircle.ui.feature.servers.ui.serversGraph
 import com.blacksquircle.ui.feature.settings.ui.settingsGraph
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcutsGraph
-import com.blacksquircle.ui.feature.terminal.terminalGraph
+import com.blacksquircle.ui.feature.terminal.ui.terminalGraph
 import com.blacksquircle.ui.feature.themes.ui.themesGraph
 import com.blacksquircle.ui.internal.di.AppComponent
 
@@ -76,7 +76,7 @@ internal fun MainScreen(
             CompositionLocalProvider(LocalNavController provides navController) {
                 NavHost(
                     navController = navController,
-                    startDestination = EditorScreen,
+                    startDestination = EditorRoute,
                     enterTransition = { NavigationTransition.EnterTransition },
                     exitTransition = { NavigationTransition.ExitTransition },
                     popEnterTransition = { NavigationTransition.PopEnterTransition },

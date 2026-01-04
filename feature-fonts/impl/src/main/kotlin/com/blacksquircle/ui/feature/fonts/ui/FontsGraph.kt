@@ -19,11 +19,11 @@ package com.blacksquircle.ui.feature.fonts.ui
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.blacksquircle.ui.feature.fonts.api.navigation.FontsScreen
+import com.blacksquircle.ui.feature.fonts.api.navigation.FontsRoute
 import com.blacksquircle.ui.feature.fonts.ui.fonts.FontsScreen
 
 fun NavGraphBuilder.fontsGraph(navController: NavHostController) {
-    composable<FontsScreen> {
+    composable<FontsRoute> {
         FontsScreen(navController)
     }
 }

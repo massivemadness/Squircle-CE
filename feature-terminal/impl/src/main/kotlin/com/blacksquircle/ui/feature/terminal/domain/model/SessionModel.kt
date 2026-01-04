@@ -16,7 +16,7 @@
 
 package com.blacksquircle.ui.feature.terminal.domain.model
 
-import com.blacksquircle.ui.feature.terminal.ui.model.TerminalCommand
+import com.blacksquircle.ui.feature.terminal.ui.terminal.model.TerminalCommand
 import com.termux.terminal.TerminalSession
 import kotlinx.coroutines.flow.SharedFlow
 

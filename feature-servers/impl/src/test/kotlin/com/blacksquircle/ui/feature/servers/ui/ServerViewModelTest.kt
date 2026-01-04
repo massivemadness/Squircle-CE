@@ -20,11 +20,11 @@ import android.net.Uri
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.servers.createServerConfig
 import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
-import com.blacksquircle.ui.feature.servers.ui.server.ServerViewEvent
-import com.blacksquircle.ui.feature.servers.ui.server.ServerViewModel
-import com.blacksquircle.ui.feature.servers.ui.server.ServerViewState
-import com.blacksquircle.ui.feature.servers.ui.server.compose.PassphraseAction
-import com.blacksquircle.ui.feature.servers.ui.server.compose.PasswordAction
+import com.blacksquircle.ui.feature.servers.ui.details.ServerDetailsViewEvent
+import com.blacksquircle.ui.feature.servers.ui.details.ServerDetailsViewModel
+import com.blacksquircle.ui.feature.servers.ui.details.ServerDetailsViewState
+import com.blacksquircle.ui.feature.servers.ui.details.compose.PassphraseAction
+import com.blacksquircle.ui.feature.servers.ui.details.compose.PasswordAction
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
@@ -61,7 +61,7 @@ class ServerViewModelTest {
     @Test
     fun `When screen opens Then display empty state`() = runTest {
         // Given
-        val viewState = ServerViewState(isEditMode = false)
+        val viewState = ServerDetailsViewState(isEditMode = false)
 
         // When
         val viewModel = createViewModel(serverId = null)
@@ -80,7 +80,7 @@ class ServerViewModelTest {
 
         // When
         val viewModel = createViewModel(serverId)
-        val viewState = ServerViewState.create(serverConfig)
+        val viewState = ServerDetailsViewState.create(serverConfig)
 
         // Then
         assertEquals(viewState, viewModel.viewState.value)
@@ -96,7 +96,7 @@ class ServerViewModelTest {
         viewModel.onSchemeChanged(ServerType.SFTP.value)
 
         // Then
-        val viewState = ServerViewState(scheme = ServerType.SFTP)
+        val viewState = ServerDetailsViewState(scheme = ServerType.SFTP)
         assertEquals(viewState, viewModel.viewState.value)
     }
 
@@ -111,7 +111,7 @@ class ServerViewModelTest {
         viewModel.onSchemeChanged(ServerType.FTP.value)
 
         // Then
-        val viewState = ServerViewState(
+        val viewState = ServerDetailsViewState(
             scheme = ServerType.FTP,
             authMethod = AuthMethod.PASSWORD,
         )
@@ -127,7 +127,7 @@ class ServerViewModelTest {
         viewModel.onNameChanged("server name")
 
         // Then
-        val viewState = ServerViewState(name = "server name")
+        val viewState = ServerDetailsViewState(name = "server name")
         assertEquals(viewState, viewModel.viewState.value)
     }
 
@@ -140,7 +140,7 @@ class ServerViewModelTest {
         viewModel.onAddressChanged("server address")
 
         // Then
-        val viewState = ServerViewState(address = "server address")
+        val viewState = ServerDetailsViewState(address = "server address")
         assertEquals(viewState, viewModel.viewState.value)
     }
 
@@ -153,7 +153,7 @@ class ServerViewModelTest {
         viewModel.onPortChanged("22")
 
         // Then
-        val viewState = ServerViewState(port = "22")
+        val viewState = ServerDetailsViewState(port = "22")
         assertEquals(viewState, viewModel.viewState.value)
     }
 
@@ -166,7 +166,7 @@ class ServerViewModelTest {
         viewModel.onUsernameChanged("username")
 
         // Then
-        val viewState = ServerViewState(username = "username")
+        val viewState = ServerDetailsViewState(username = "username")
         assertEquals(viewState, viewModel.viewState.value)
     }
 
@@ -179,7 +179,7 @@ class ServerViewModelTest {
         viewModel.onAuthMethodChanged(AuthMethod.KEY.value)
 
         // Then
-        val viewState = ServerViewState(authMethod = AuthMethod.KEY)
+        val viewState = ServerDetailsViewState(authMethod = AuthMethod.KEY)
         assertEquals(viewState, viewModel.viewState.value)
     }
 
@@ -192,7 +192,7 @@ class ServerViewModelTest {
         viewModel.onChooseFileClicked()
 
         // Then
-        val expected = ServerViewEvent.ChooseFile
+        val expected = ServerDetailsViewEvent.ChooseFile
         assertEquals(expected, viewModel.viewEvent.first())
     }
 
@@ -208,7 +208,7 @@ class ServerViewModelTest {
         viewModel.onKeyFileSelected(keyUri)
 
         // Then
-        val viewState = ServerViewState(keyId = keyId)
+        val viewState = ServerDetailsViewState(keyId = keyId)
         assertEquals(viewState, viewModel.viewState.value)
 
         coVerify(exactly = 1) { serverRepository.saveKeyFile(keyUri) }
@@ -223,7 +223,7 @@ class ServerViewModelTest {
         viewModel.onPasswordActionChanged(PasswordAction.SAVE_PASSWORD.value)
 
         // Then
-        val viewState = ServerViewState(passwordAction = PasswordAction.SAVE_PASSWORD)
+        val viewState = ServerDetailsViewState(passwordAction = PasswordAction.SAVE_PASSWORD)
         assertEquals(viewState, viewModel.viewState.value)
     }
 
@@ -236,7 +236,7 @@ class ServerViewModelTest {
         viewModel.onPassphraseActionChanged(PassphraseAction.SAVE_PASSPHRASE.value)
 
         // Then
-        val viewState = ServerViewState(passphraseAction = PassphraseAction.SAVE_PASSPHRASE)
+        val viewState = ServerDetailsViewState(passphraseAction = PassphraseAction.SAVE_PASSPHRASE)
         assertEquals(viewState, viewModel.viewState.value)
     }
 
@@ -249,7 +249,7 @@ class ServerViewModelTest {
         viewModel.onPasswordChanged("password")
 
         // Then
-        val viewState = ServerViewState(password = "password")
+        val viewState = ServerDetailsViewState(password = "password")
         assertEquals(viewState, viewModel.viewState.value)
     }
 
@@ -262,7 +262,7 @@ class ServerViewModelTest {
         viewModel.onPassphraseChanged("passphrase")
 
         // Then
-        val viewState = ServerViewState(passphrase = "passphrase")
+        val viewState = ServerDetailsViewState(passphrase = "passphrase")
         assertEquals(viewState, viewModel.viewState.value)
     }
 
@@ -275,7 +275,7 @@ class ServerViewModelTest {
         viewModel.onInitialDirChanged("/pub")
 
         // Then
-        val viewState = ServerViewState(initialDir = "/pub")
+        val viewState = ServerDetailsViewState(initialDir = "/pub")
         assertEquals(viewState, viewModel.viewState.value)
     }
 
@@ -292,8 +292,8 @@ class ServerViewModelTest {
         viewModel.onSaveClicked()
 
         // Then
-        val viewEvent = ServerViewEvent.SendSaveResult
-        val viewState = ServerViewState(
+        val viewEvent = ServerDetailsViewEvent.SendSaveResult
+        val viewState = ServerDetailsViewState(
             name = validName,
             address = validAddress,
         )
@@ -317,7 +317,7 @@ class ServerViewModelTest {
         viewModel.onSaveClicked()
 
         // Then
-        val viewState = ServerViewState(
+        val viewState = ServerDetailsViewState(
             name = invalidName,
             address = invalidAddress,
             invalidName = true,
@@ -355,8 +355,8 @@ class ServerViewModelTest {
         assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
     }
 
-    private fun createViewModel(serverId: String? = null): ServerViewModel {
-        return ServerViewModel(
+    private fun createViewModel(serverId: String? = null): ServerDetailsViewModel {
+        return ServerDetailsViewModel(
             serverRepository = serverRepository,
             serverId = serverId
         )

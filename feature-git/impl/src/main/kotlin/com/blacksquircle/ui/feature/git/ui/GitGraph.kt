@@ -20,11 +20,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
-import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog
-import com.blacksquircle.ui.feature.git.api.navigation.CommitDialog
-import com.blacksquircle.ui.feature.git.api.navigation.FetchDialog
-import com.blacksquircle.ui.feature.git.api.navigation.PullDialog
-import com.blacksquircle.ui.feature.git.api.navigation.PushDialog
+import com.blacksquircle.ui.feature.git.api.navigation.CheckoutRoute
+import com.blacksquircle.ui.feature.git.api.navigation.CommitRoute
+import com.blacksquircle.ui.feature.git.api.navigation.FetchRoute
+import com.blacksquircle.ui.feature.git.api.navigation.PullRoute
+import com.blacksquircle.ui.feature.git.api.navigation.PushRoute
 import com.blacksquircle.ui.feature.git.ui.checkout.CheckoutScreen
 import com.blacksquircle.ui.feature.git.ui.commit.CommitScreen
 import com.blacksquircle.ui.feature.git.ui.fetch.FetchScreen
@@ -32,24 +32,24 @@ import com.blacksquircle.ui.feature.git.ui.pull.PullScreen
 import com.blacksquircle.ui.feature.git.ui.push.PushScreen
 
 fun NavGraphBuilder.gitGraph(navController: NavHostController) {
-    dialog<FetchDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<FetchDialog>()
+    dialog<FetchRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<FetchRoute>()
         FetchScreen(navArgs, navController)
     }
-    dialog<PullDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<PullDialog>()
+    dialog<PullRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<PullRoute>()
         PullScreen(navArgs, navController)
     }
-    dialog<CommitDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<CommitDialog>()
+    dialog<CommitRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<CommitRoute>()
         CommitScreen(navArgs, navController)
     }
-    dialog<PushDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<PushDialog>()
+    dialog<PushRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<PushRoute>()
         PushScreen(navArgs, navController)
     }
-    dialog<CheckoutDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<CheckoutDialog>()
+    dialog<CheckoutRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<CheckoutRoute>()
         CheckoutScreen(navArgs, navController)
     }
 }

@@ -19,11 +19,11 @@ package com.blacksquircle.ui.feature.themes.ui
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.blacksquircle.ui.feature.themes.api.navigation.ThemesScreen
+import com.blacksquircle.ui.feature.themes.api.navigation.ThemesRoute
 import com.blacksquircle.ui.feature.themes.ui.themes.ThemesScreen
 
 fun NavGraphBuilder.themesGraph(navController: NavHostController) {
-    composable<ThemesScreen> {
+    composable<ThemesRoute> {
         ThemesScreen(navController)
     }
 }

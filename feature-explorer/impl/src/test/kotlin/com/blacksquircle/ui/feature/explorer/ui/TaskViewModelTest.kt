@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.feature.explorer.ui
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.explorer.api.navigation.NotificationDeniedDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.NotificationDeniedRoute
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.domain.model.Task
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
@@ -152,7 +152,7 @@ class TaskViewModelTest {
         viewModel.onPermissionDenied()
 
         // Then
-        val expected = ViewEvent.Navigation(NotificationDeniedDialog)
+        val expected = ViewEvent.Navigation(NotificationDeniedRoute)
         assertEquals(expected, viewModel.viewEvent.first())
     }
 

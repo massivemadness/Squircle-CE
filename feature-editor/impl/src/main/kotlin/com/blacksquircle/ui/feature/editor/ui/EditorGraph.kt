@@ -21,12 +21,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
-import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileDialog
-import com.blacksquircle.ui.feature.editor.api.navigation.ConfirmExitDialog
-import com.blacksquircle.ui.feature.editor.api.navigation.EditorScreen
-import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
-import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineDialog
-import com.blacksquircle.ui.feature.editor.api.navigation.InsertColorDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileRoute
+import com.blacksquircle.ui.feature.editor.api.navigation.ConfirmExitRoute
+import com.blacksquircle.ui.feature.editor.api.navigation.EditorRoute
+import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxRoute
+import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineRoute
+import com.blacksquircle.ui.feature.editor.api.navigation.InsertColorRoute
 import com.blacksquircle.ui.feature.editor.ui.closefile.CloseFileScreen
 import com.blacksquircle.ui.feature.editor.ui.confirmexit.ConfirmExitScreen
 import com.blacksquircle.ui.feature.editor.ui.editor.EditorScreen
@@ -35,25 +35,25 @@ import com.blacksquircle.ui.feature.editor.ui.gotoline.GoToLineScreen
 import com.blacksquircle.ui.feature.editor.ui.insertcolor.InsertColorScreen
 
 fun NavGraphBuilder.editorGraph(navController: NavHostController) {
-    composable<EditorScreen> {
+    composable<EditorRoute> {
         EditorScreen(navController)
     }
-    dialog<CloseFileDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<CloseFileDialog>()
+    dialog<CloseFileRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<CloseFileRoute>()
         CloseFileScreen(navArgs, navController)
     }
-    dialog<ForceSyntaxDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<ForceSyntaxDialog>()
+    dialog<ForceSyntaxRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<ForceSyntaxRoute>()
         ForceSyntaxScreen(navArgs, navController)
     }
-    dialog<GoToLineDialog> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<GoToLineDialog>()
+    dialog<GoToLineRoute> { backStackEntry ->
+        val navArgs = backStackEntry.toRoute<GoToLineRoute>()
         GoToLineScreen(navArgs, navController)
     }
-    dialog<InsertColorDialog> {
+    dialog<InsertColorRoute> {
         InsertColorScreen(navController)
     }
-    dialog<ConfirmExitDialog> {
+    dialog<ConfirmExitRoute> {
         ConfirmExitScreen(navController)
     }
 }

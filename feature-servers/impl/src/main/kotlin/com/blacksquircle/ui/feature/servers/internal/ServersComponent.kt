@@ -19,8 +19,8 @@ package com.blacksquircle.ui.feature.servers.internal
 import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApi
 import com.blacksquircle.ui.core.internal.provideCoreApi
-import com.blacksquircle.ui.feature.servers.ui.cloud.CloudViewModel
-import com.blacksquircle.ui.feature.servers.ui.server.ServerViewModel
+import com.blacksquircle.ui.feature.servers.ui.details.ServerDetailsViewModel
+import com.blacksquircle.ui.feature.servers.ui.list.ServerListViewModel
 import dagger.Component
 
 @ServersScope
@@ -34,8 +34,8 @@ import dagger.Component
 )
 internal interface ServersComponent {
 
-    fun inject(factory: CloudViewModel.Factory)
-    fun inject(factory: ServerViewModel.ParameterizedFactory)
+    fun inject(factory: ServerListViewModel.Factory)
+    fun inject(factory: ServerDetailsViewModel.ParameterizedFactory)
 
     @Component.Factory
     interface Factory {

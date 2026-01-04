@@ -45,14 +45,14 @@ import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.git.R
-import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog
-import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog.Companion.KEY_CHECKOUT
+import com.blacksquircle.ui.feature.git.api.navigation.CheckoutRoute
+import com.blacksquircle.ui.feature.git.api.navigation.CheckoutRoute.Companion.KEY_CHECKOUT
 import com.blacksquircle.ui.feature.git.internal.GitComponent
 import com.blacksquircle.ui.feature.git.ui.checkout.compose.BranchList
 
 @Composable
 internal fun CheckoutScreen(
-    navArgs: CheckoutDialog,
+    navArgs: CheckoutRoute,
     navController: NavController,
     viewModel: CheckoutViewModel = daggerViewModel { context ->
         val component = GitComponent.buildOrGet(context)

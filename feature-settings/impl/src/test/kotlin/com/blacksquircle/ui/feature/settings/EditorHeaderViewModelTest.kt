@@ -18,7 +18,7 @@ package com.blacksquircle.ui.feature.settings
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.fonts.api.navigation.FontsScreen
+import com.blacksquircle.ui.feature.fonts.api.navigation.FontsRoute
 import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderViewState
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
@@ -107,7 +107,7 @@ class EditorHeaderViewModelTest {
         viewModel.onFontTypeClicked()
 
         // Then
-        val expected = ViewEvent.Navigation(FontsScreen)
+        val expected = ViewEvent.Navigation(FontsRoute)
         assertEquals(expected, viewModel.viewEvent.first())
     }
 
