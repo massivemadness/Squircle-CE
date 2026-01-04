@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.feature.terminal.api.model.RuntimeType
+import com.blacksquircle.ui.navigation.api.Navigator
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -38,6 +39,7 @@ import javax.inject.Provider
 internal class TerminalHeaderViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
     private val terminalInteractor: TerminalInteractor,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(updateViewState())
@@ -45,6 +47,10 @@ internal class TerminalHeaderViewModel @Inject constructor(
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
+
+    fun onBackClicked() {
+        navigator.goBack()
+    }
 
     fun onResume() {
         _viewState.update {

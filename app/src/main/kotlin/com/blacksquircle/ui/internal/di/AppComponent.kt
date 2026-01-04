@@ -30,6 +30,7 @@ import com.blacksquircle.ui.feature.git.api.internal.GitApi
 import com.blacksquircle.ui.feature.git.internal.api.GitApiModule
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApi
 import com.blacksquircle.ui.feature.servers.internal.api.ServersApiModule
+import com.blacksquircle.ui.feature.settings.internal.api.SettingsApiModule
 import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApi
 import com.blacksquircle.ui.feature.shortcuts.internal.api.ShortcutsApiModule
 import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApi
@@ -51,6 +52,7 @@ import javax.inject.Singleton
         FontsApiModule::class,
         GitApiModule::class,
         ServersApiModule::class,
+        SettingsApiModule::class,
         ShortcutsApiModule::class,
         TerminalApiModule::class,
         ThemesApiModule::class,

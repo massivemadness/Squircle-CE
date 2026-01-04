@@ -32,7 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
-import androidx.navigation.NavController
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.divider.HorizontalDivider
 import com.blacksquircle.ui.ds.extensions.adaptiveIconPainterResource
@@ -45,6 +45,7 @@ import com.blacksquircle.ui.feature.settings.R
 import com.blacksquircle.ui.feature.settings.data.applicationName
 import com.blacksquircle.ui.feature.settings.data.versionCode
 import com.blacksquircle.ui.feature.settings.data.versionName
+import com.blacksquircle.ui.feature.settings.internal.SettingsComponent
 import com.blacksquircle.ui.ds.R as UiR
 
 private const val PRIVACY_POLICY_URL =
@@ -53,12 +54,15 @@ private const val TRANSLATION_PLATFORM_URL = "https://crowdin.com/project/squirc
 private const val CONTRIBUTE_PROJECT_URL = "https://github.com/massivemadness/Squircle-CE"
 
 @Composable
-internal fun AboutHeaderScreen(navController: NavController) {
+internal fun AboutHeaderScreen(
+    viewModel: AboutHeaderViewModel = daggerViewModel { context ->
+        val component = SettingsComponent.buildOrGet(context)
+        AboutHeaderViewModel.Factory().also(component::inject)
+    }
+) {
     val context = LocalContext.current
     AboutHeaderScreen(
-        onBackClicked = {
-            navController.popBackStack()
-        },
+        onBackClicked = viewModel::onBackClicked,
         onPrivacyClicked = {
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = PRIVACY_POLICY_URL.toUri()

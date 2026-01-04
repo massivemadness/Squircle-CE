@@ -46,7 +46,6 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun AppHeaderScreen(
-    navController: NavController,
     viewModel: AppHeaderViewModel = daggerViewModel { context ->
         val component = SettingsComponent.buildOrGet(context)
         AppHeaderViewModel.Factory().also(component::inject)
@@ -55,7 +54,7 @@ internal fun AppHeaderScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     AppHeaderScreen(
         viewState = viewState,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
         onColorSchemeClicked = viewModel::onColorSchemeClicked,
         onFullscreenChanged = viewModel::onFullscreenChanged,
         onConfirmExitChanged = viewModel::onConfirmExitChanged,
@@ -66,8 +65,6 @@ internal fun AppHeaderScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
             }
         }
     }

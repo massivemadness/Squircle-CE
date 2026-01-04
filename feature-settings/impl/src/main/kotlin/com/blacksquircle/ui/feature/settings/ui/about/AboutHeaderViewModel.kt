@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.application
+package com.blacksquircle.ui.feature.settings.ui.about
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.feature.settings.ui.application.AppHeaderViewState
 import com.blacksquircle.ui.feature.themes.api.navigation.ThemesRoute
 import com.blacksquircle.ui.navigation.api.Navigator
 import kotlinx.coroutines.channels.Channel
@@ -33,50 +34,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
-internal class AppHeaderViewModel @Inject constructor(
-    private val settingsManager: SettingsManager,
+internal class AboutHeaderViewModel @Inject constructor(
     private val navigator: Navigator,
 ) : ViewModel() {
-
-    private val _viewState = MutableStateFlow(updateViewState())
-    val viewState: StateFlow<AppHeaderViewState> = _viewState.asStateFlow()
-
-    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
-    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
     fun onBackClicked() {
         navigator.goBack()
     }
 
-    fun onColorSchemeClicked() {
-        navigator.navigate(ThemesRoute)
-    }
-
-    fun onFullscreenChanged(value: Boolean) {
-        viewModelScope.launch {
-            settingsManager.fullScreenMode = value
-            _viewState.value = updateViewState()
-        }
-    }
-
-    fun onConfirmExitChanged(value: Boolean) {
-        viewModelScope.launch {
-            settingsManager.confirmExit = value
-            _viewState.value = updateViewState()
-        }
-    }
-
-    private fun updateViewState(): AppHeaderViewState {
-        return AppHeaderViewState(
-            fullscreenMode = settingsManager.fullScreenMode,
-            confirmExit = settingsManager.confirmExit,
-        )
-    }
-
     class Factory : ViewModelProvider.Factory {
 
         @Inject
-        lateinit var viewModelProvider: Provider<AppHeaderViewModel>
+        lateinit var viewModelProvider: Provider<AboutHeaderViewModel>
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

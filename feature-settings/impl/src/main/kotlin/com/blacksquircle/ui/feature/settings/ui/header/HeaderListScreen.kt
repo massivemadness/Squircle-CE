@@ -45,7 +45,7 @@ import com.blacksquircle.ui.feature.shortcuts.api.navigation.ShortcutsRoute
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun HeaderListScreen(navController: NavController) {
+internal fun HeaderListScreen() {
     HeaderListScreen(
         onHeaderClicked = { screen ->
             navController.navigate(screen)

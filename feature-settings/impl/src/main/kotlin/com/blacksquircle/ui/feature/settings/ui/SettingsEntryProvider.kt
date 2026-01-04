@@ -16,9 +16,8 @@
 
 package com.blacksquircle.ui.feature.settings.ui
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.blacksquircle.ui.feature.settings.api.navigation.AboutHeaderRoute
 import com.blacksquircle.ui.feature.settings.api.navigation.ApplicationHeaderRoute
 import com.blacksquircle.ui.feature.settings.api.navigation.CodeStyleHeaderRoute
@@ -35,30 +34,34 @@ import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.git.GitHeaderScreen
 import com.blacksquircle.ui.feature.settings.ui.header.HeaderListScreen
 import com.blacksquircle.ui.feature.settings.ui.terminal.TerminalHeaderScreen
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 
-fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
-    composable<HeaderListRoute> {
-        HeaderListScreen(navController)
-    }
-    composable<ApplicationHeaderRoute> {
-        AppHeaderScreen(navController)
-    }
-    composable<EditorHeaderRoute> {
-        EditorHeaderScreen(navController)
-    }
-    composable<CodeStyleHeaderRoute> {
-        CodeHeaderScreen(navController)
-    }
-    composable<FilesHeaderRoute> {
-        FilesHeaderScreen(navController)
-    }
-    composable<TerminalHeaderRoute> {
-        TerminalHeaderScreen(navController)
-    }
-    composable<GitHeaderRoute> {
-        GitHeaderScreen(navController)
-    }
-    composable<AboutHeaderRoute> {
-        AboutHeaderScreen(navController)
+internal class SettingsEntryProvider : EntryProvider {
+
+    override fun EntryProviderScope<NavKey>.builder() {
+        entry<HeaderListRoute> {
+            HeaderListScreen()
+        }
+        entry<ApplicationHeaderRoute> {
+            AppHeaderScreen()
+        }
+        entry<EditorHeaderRoute> {
+            EditorHeaderScreen()
+        }
+        entry<CodeStyleHeaderRoute> {
+            CodeHeaderScreen()
+        }
+        entry<FilesHeaderRoute> {
+            FilesHeaderScreen()
+        }
+        entry<TerminalHeaderRoute> {
+            TerminalHeaderScreen()
+        }
+        entry<GitHeaderRoute> {
+            GitHeaderScreen()
+        }
+        entry<AboutHeaderRoute> {
+            AboutHeaderScreen()
+        }
     }
 }
