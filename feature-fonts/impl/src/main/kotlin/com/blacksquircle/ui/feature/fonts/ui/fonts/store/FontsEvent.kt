@@ -20,5 +20,4 @@ import com.blacksquircle.ui.redux.MVIEvent
 
 internal sealed interface FontsEvent : MVIEvent {
     data class Toast(val message: String) : FontsEvent
-    data object PopBackStack : FontsEvent
 }

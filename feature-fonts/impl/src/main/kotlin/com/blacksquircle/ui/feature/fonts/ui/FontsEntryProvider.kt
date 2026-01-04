@@ -16,14 +16,17 @@
 
 package com.blacksquircle.ui.feature.fonts.ui
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.blacksquircle.ui.feature.fonts.api.navigation.FontsRoute
 import com.blacksquircle.ui.feature.fonts.ui.fonts.FontsScreen
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 
-fun NavGraphBuilder.fontsGraph(navController: NavHostController) {
-    composable<FontsRoute> {
-        FontsScreen(navController)
+internal class FontsEntryProvider : EntryProvider {
+
+    override fun EntryProviderScope<NavKey>.builder() {
+        entry<FontsRoute> {
+            FontsScreen()
+        }
     }
 }

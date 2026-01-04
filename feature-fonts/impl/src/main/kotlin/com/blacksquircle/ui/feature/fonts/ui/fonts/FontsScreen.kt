@@ -54,7 +54,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.MimeType
 import com.blacksquircle.ui.core.contract.rememberOpenFileContract
@@ -82,7 +81,6 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun FontsScreen(
-    navController: NavController,
     viewModel: FontsViewModel = daggerViewModel { context ->
         val component = FontsComponent.buildOrGet(context)
         FontsViewModel.Factory().also(component::inject)
@@ -101,7 +99,7 @@ internal fun FontsScreen(
 
     FontsScreen(
         viewState = viewState,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = { viewModel.dispatch(FontsAction.OnBackClicked) },
         onQueryChanged = { viewModel.dispatch(FontsAction.QueryAction.OnQueryChanged(it)) },
         onClearQueryClicked = { viewModel.dispatch(FontsAction.QueryAction.OnClearQueryClicked) },
         onSelectClicked = { viewModel.dispatch(FontsAction.OnSelectClicked(it)) },
@@ -117,8 +115,9 @@ internal fun FontsScreen(
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                is FontsEvent.Toast -> context.showToast(text = event.message)
-                is FontsEvent.PopBackStack -> navController.popBackStack()
+                is FontsEvent.Toast -> {
+                    context.showToast(text = event.message)
+                }
             }
         }
     }

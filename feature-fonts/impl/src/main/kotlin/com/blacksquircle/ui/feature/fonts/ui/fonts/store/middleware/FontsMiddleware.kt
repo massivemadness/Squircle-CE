@@ -20,6 +20,7 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.fonts.ui.fonts.store.FontsAction
 import com.blacksquircle.ui.feature.fonts.ui.fonts.store.FontsState
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.redux.middleware.Middleware
 import jakarta.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -30,16 +31,19 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.onEach
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class FontsMiddleware @Inject constructor(
     private val fontsRepository: FontsRepository,
     private val settingsManager: SettingsManager,
+    private val navigator: Navigator,
 ) : Middleware<FontsState, FontsAction> {
 
     override fun bind(state: Flow<FontsState>, actions: Flow<FontsAction>): Flow<FontsAction> {
         return merge(
             onInit(actions),
+            onBackClicked(actions),
             onSelectClicked(actions),
             onRemoveClicked(actions),
             onImportFont(actions)
@@ -54,6 +58,13 @@ internal class FontsMiddleware @Inject constructor(
                 FontsAction.OnFontsLoaded(fonts, selectedFont)
             }.catch<FontsAction> {
                 emit(FontsAction.OnFontsFailed(it))
+            }
+    }
+
+    private fun onBackClicked(actions: Flow<FontsAction>): Flow<FontsAction> {
+        return actions.filterIsInstance<FontsAction.OnBackClicked>()
+            .onEach {
+                navigator.goBack()
             }
     }
 
