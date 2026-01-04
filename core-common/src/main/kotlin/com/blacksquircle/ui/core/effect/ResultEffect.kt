@@ -28,7 +28,7 @@ inline fun <reified T> ResultEffect(
     crossinline onResult: suspend (T) -> Unit
 ) {
     LaunchedEffect(resultKey, ResultEventBus.channelMap[resultKey]) {
-        ResultEventBus.getResultFlow<T>(resultKey)?.collect { result ->
+        ResultEventBus.getResultFlow<T>(resultKey).collect { result ->
             onResult(result as T)
         }
     }
@@ -38,8 +38,10 @@ object ResultEventBus {
 
     val channelMap = mutableMapOf<String, Channel<Any?>>()
 
-    inline fun <reified T> getResultFlow(resultKey: String = T::class.toString()): Flow<Any?>? {
-        return channelMap[resultKey]?.receiveAsFlow()
+    inline fun <reified T> getResultFlow(resultKey: String = T::class.toString()): Flow<Any?> {
+        return channelMap.getOrPut(resultKey) {
+            Channel(Channel.BUFFERED)
+        }.receiveAsFlow()
     }
 
     inline fun <reified T> sendResult(resultKey: String = T::class.toString(), result: T) {
