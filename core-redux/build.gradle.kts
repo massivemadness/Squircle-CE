@@ -14,10 +14,20 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.ui.fonts
+plugins {
+    id("com.blacksquircle.feature")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+}
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
+android {
+    namespace = "com.blacksquircle.ui.redux"
+}
 
-internal sealed class FontsViewEvent : ViewEvent {
-    data object ChooseFont : FontsViewEvent()
+dependencies {
+
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    implementation(libs.kotlinx.coroutines.core)
 }

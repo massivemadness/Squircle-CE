@@ -14,17 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.ui.fonts
+package com.blacksquircle.ui.feature.fonts.ui.fonts.store
 
-import androidx.compose.runtime.Immutable
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
-import com.blacksquircle.ui.redux.mapper.ViewState
+import com.blacksquircle.ui.redux.MVIEvent
 
-@Immutable
-internal data class FontsViewState(
-    val searchQuery: String = "",
-    val fonts: List<FontModel> = emptyList(),
-    val selectedUuid: String = "",
-    val isLoading: Boolean = true,
-    val isEmpty: Boolean = false,
-) : ViewState
+internal sealed interface FontsEvent : MVIEvent {
+    data class Toast(val message: String) : FontsEvent
+    data object PopBackStack : FontsEvent
+}

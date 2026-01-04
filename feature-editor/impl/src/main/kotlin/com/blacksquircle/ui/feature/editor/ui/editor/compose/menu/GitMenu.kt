@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.editor.menu
+package com.blacksquircle.ui.feature.editor.ui.editor.compose.menu
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,51 +26,46 @@ import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun OtherMenu(
-    showGit: Boolean,
+internal fun GitMenu(
     expanded: Boolean,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
-    onFindClicked: () -> Unit = {},
-    onToolsClicked: () -> Unit = {},
-    onGitClicked: () -> Unit = {},
-    onTerminalClicked: () -> Unit = {},
-    onSettingsClicked: () -> Unit = {},
+    onFetchClicked: () -> Unit = {},
+    onPullClicked: () -> Unit = {},
+    onCommitClicked: () -> Unit = {},
+    onPushClicked: () -> Unit = {},
+    onCheckoutClicked: () -> Unit = {},
 ) {
     PopupMenu(
         expanded = expanded,
         onDismiss = onDismiss,
         verticalOffset = (-56).dp,
-        horizontalOffset = 200.dp,
         modifier = modifier,
     ) {
         PopupMenuItem(
-            title = stringResource(R.string.editor_menu_find),
-            iconResId = UiR.drawable.ic_file_find,
-            onClick = onFindClicked,
+            title = stringResource(R.string.editor_menu_git_fetch),
+            iconResId = UiR.drawable.ic_autorenew,
+            onClick = onFetchClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.editor_menu_tools),
-            iconResId = UiR.drawable.ic_wrench,
-            onClick = onToolsClicked,
-            submenu = true,
+            title = stringResource(R.string.editor_menu_git_pull),
+            iconResId = UiR.drawable.ic_tray_arrow_down,
+            onClick = onPullClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.editor_menu_git),
-            iconResId = UiR.drawable.ic_git,
-            onClick = onGitClicked,
-            enabled = showGit,
-            submenu = true,
+            title = stringResource(R.string.editor_menu_git_commit),
+            iconResId = UiR.drawable.ic_source_commit,
+            onClick = onCommitClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.editor_menu_terminal),
-            iconResId = UiR.drawable.ic_console,
-            onClick = onTerminalClicked,
+            title = stringResource(R.string.editor_menu_git_push),
+            iconResId = UiR.drawable.ic_tray_arrow_up,
+            onClick = onPushClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.editor_menu_settings),
-            iconResId = UiR.drawable.ic_settings,
-            onClick = onSettingsClicked,
+            title = stringResource(R.string.editor_menu_git_checkout),
+            iconResId = UiR.drawable.ic_source_branch,
+            onClick = onCheckoutClicked,
         )
     }
 }

@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.ui.fonts
+package com.blacksquircle.ui.redux.store
 
-import androidx.compose.runtime.Immutable
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
-import com.blacksquircle.ui.redux.mapper.ViewState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
-@Immutable
-internal data class FontsViewState(
-    val searchQuery: String = "",
-    val fonts: List<FontModel> = emptyList(),
-    val selectedUuid: String = "",
-    val isLoading: Boolean = true,
-    val isEmpty: Boolean = false,
-) : ViewState
+interface Store<out State, in Action, out Event> {
+
+    val state: StateFlow<State>
+
+    val events: Flow<Event>
+
+    fun wire(scope: CoroutineScope)
+
+    fun dispatch(action: Action)
+}

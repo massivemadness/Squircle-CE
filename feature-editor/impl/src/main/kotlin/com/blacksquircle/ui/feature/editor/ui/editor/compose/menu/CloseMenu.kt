@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.editor.menu
+package com.blacksquircle.ui.feature.editor.ui.editor.compose.menu
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,31 +23,33 @@ import androidx.compose.ui.unit.dp
 import com.blacksquircle.ui.ds.popupmenu.PopupMenu
 import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun ToolsMenu(
+internal fun CloseMenu(
     expanded: Boolean,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
-    onForceSyntaxClicked: () -> Unit = {},
-    onInsertColorClicked: () -> Unit = {},
+    onCloseClicked: () -> Unit = {},
+    onCloseOthersClicked: () -> Unit = {},
+    onCloseAllClicked: () -> Unit = {},
 ) {
     PopupMenu(
         expanded = expanded,
         onDismiss = onDismiss,
-        verticalOffset = (-56).dp,
+        verticalOffset = (-36).dp,
         modifier = modifier,
     ) {
         PopupMenuItem(
-            title = stringResource(R.string.editor_menu_tools_force_syntax),
-            iconResId = UiR.drawable.ic_marker,
-            onClick = onForceSyntaxClicked,
+            title = stringResource(R.string.editor_menu_file_close),
+            onClick = onCloseClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.editor_menu_tools_insert_color),
-            iconResId = UiR.drawable.ic_palette,
-            onClick = onInsertColorClicked,
+            title = stringResource(R.string.editor_menu_file_close_others),
+            onClick = onCloseOthersClicked,
+        )
+        PopupMenuItem(
+            title = stringResource(R.string.editor_menu_file_close_all),
+            onClick = onCloseAllClicked,
         )
     }
 }

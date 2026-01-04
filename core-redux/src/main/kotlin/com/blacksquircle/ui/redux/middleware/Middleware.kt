@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.ui.fonts
+package com.blacksquircle.ui.redux.middleware
 
-import androidx.compose.runtime.Immutable
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
-import com.blacksquircle.ui.redux.mapper.ViewState
+import com.blacksquircle.ui.redux.MVIAction
+import com.blacksquircle.ui.redux.MVIState
+import kotlinx.coroutines.flow.Flow
 
-@Immutable
-internal data class FontsViewState(
-    val searchQuery: String = "",
-    val fonts: List<FontModel> = emptyList(),
-    val selectedUuid: String = "",
-    val isLoading: Boolean = true,
-    val isEmpty: Boolean = false,
-) : ViewState
+interface Middleware<S : MVIState, A : MVIAction> {
+    fun bind(state: Flow<S>, actions: Flow<A>): Flow<A>
+}

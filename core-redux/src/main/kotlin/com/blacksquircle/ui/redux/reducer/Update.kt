@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.ui.fonts
+package com.blacksquircle.ui.redux.reducer
 
-import androidx.compose.runtime.Immutable
-import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
-import com.blacksquircle.ui.redux.mapper.ViewState
+import com.blacksquircle.ui.redux.MVIAction
+import com.blacksquircle.ui.redux.MVIEvent
+import com.blacksquircle.ui.redux.MVIState
 
-@Immutable
-internal data class FontsViewState(
-    val searchQuery: String = "",
-    val fonts: List<FontModel> = emptyList(),
-    val selectedUuid: String = "",
-    val isLoading: Boolean = true,
-    val isEmpty: Boolean = false,
-) : ViewState
+data class Update<S : MVIState, A : MVIAction, E : MVIEvent>(
+    val state: S? = null,
+    val actions: List<A> = emptyList(),
+    val events: List<E> = emptyList()
+) {
+
+    fun merge(other: Update<S, A, E>): Update<S, A, E> = Update(
+        state = other.state ?: state,
+        actions = actions + other.actions,
+        events = events + other.events
+    )
+}
