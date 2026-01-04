@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.shortcuts.ui
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.scene.DialogSceneStrategy
 import com.blacksquircle.ui.feature.shortcuts.api.navigation.ConflictKeyRoute
 import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingRoute
 import com.blacksquircle.ui.feature.shortcuts.api.navigation.ShortcutsRoute
@@ -32,10 +33,10 @@ internal class ShortcutsEntryProvider : EntryProvider {
         entry<ShortcutsRoute> {
             ShortcutsScreen()
         }
-        entry<EditKeybindingRoute> { navArgs ->
+        entry<EditKeybindingRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             KeybindingScreen(navArgs)
         }
-        entry<ConflictKeyRoute> {
+        entry<ConflictKeyRoute>(metadata = DialogSceneStrategy.dialog()) {
             ConflictKeyScreen()
         }
     }

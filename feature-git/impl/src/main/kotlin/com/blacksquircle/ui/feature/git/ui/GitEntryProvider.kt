@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.git.ui
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.scene.DialogSceneStrategy
 import com.blacksquircle.ui.feature.git.api.navigation.CheckoutRoute
 import com.blacksquircle.ui.feature.git.api.navigation.CommitRoute
 import com.blacksquircle.ui.feature.git.api.navigation.FetchRoute
@@ -33,19 +34,19 @@ import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 internal class GitEntryProvider : EntryProvider {
 
     override fun EntryProviderScope<NavKey>.builder() {
-        entry<FetchRoute> { navArgs ->
+        entry<FetchRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             FetchScreen(navArgs)
         }
-        entry<PullRoute> { navArgs ->
+        entry<PullRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             PullScreen(navArgs)
         }
-        entry<CommitRoute> { navArgs ->
+        entry<CommitRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             CommitScreen(navArgs)
         }
-        entry<PushRoute> { navArgs ->
+        entry<PushRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             PushScreen(navArgs)
         }
-        entry<CheckoutRoute> { navArgs ->
+        entry<CheckoutRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             CheckoutScreen(navArgs)
         }
     }

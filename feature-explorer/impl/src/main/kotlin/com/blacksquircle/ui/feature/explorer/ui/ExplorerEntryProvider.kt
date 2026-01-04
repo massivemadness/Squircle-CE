@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.explorer.ui
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.scene.DialogSceneStrategy
 import com.blacksquircle.ui.feature.explorer.api.navigation.AddWorkspaceRoute
 import com.blacksquircle.ui.feature.explorer.api.navigation.CloneRepoRoute
 import com.blacksquircle.ui.feature.explorer.api.navigation.CompressFileRoute
@@ -54,43 +55,43 @@ internal class ExplorerEntryProvider : EntryProvider {
         entry<ExplorerRoute> {
             ExplorerScreen()
         }
-        entry<ServerAuthRoute> { navArgs ->
+        entry<ServerAuthRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             ServerAuthScreen(navArgs)
         }
-        entry<CreateFileRoute> {
+        entry<CreateFileRoute>(metadata = DialogSceneStrategy.dialog()) {
             CreateFileScreen()
         }
-        entry<CloneRepoRoute> {
+        entry<CloneRepoRoute>(metadata = DialogSceneStrategy.dialog()) {
             CloneRepoScreen()
         }
-        entry<RenameFileRoute> { navArgs ->
+        entry<RenameFileRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             RenameFileScreen(navArgs)
         }
-        entry<DeleteFileRoute> { navArgs ->
+        entry<DeleteFileRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             DeleteFileScreen(navArgs)
         }
-        entry<CompressFileRoute> {
+        entry<CompressFileRoute>(metadata = DialogSceneStrategy.dialog()) {
             CompressFileScreen()
         }
-        entry<TaskRoute> { navArgs ->
+        entry<TaskRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             TaskScreen(navArgs)
         }
-        entry<PropertiesRoute> { navArgs ->
+        entry<PropertiesRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             PropertiesScreen(navArgs)
         }
-        entry<StorageDeniedRoute> {
+        entry<StorageDeniedRoute>(metadata = DialogSceneStrategy.dialog()) {
             StorageDeniedScreen()
         }
-        entry<NotificationDeniedRoute> {
+        entry<NotificationDeniedRoute>(metadata = DialogSceneStrategy.dialog()) {
             NotificationDeniedScreen()
         }
-        entry<AddWorkspaceRoute> {
+        entry<AddWorkspaceRoute>(metadata = DialogSceneStrategy.dialog()) {
             AddWorkspaceScreen()
         }
-        entry<DeleteWorkspaceRoute> { navArgs ->
+        entry<DeleteWorkspaceRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             DeleteWorkspaceScreen(navArgs)
         }
-        entry<LocalWorkspaceRoute> {
+        entry<LocalWorkspaceRoute>(metadata = DialogSceneStrategy.dialog()) {
             LocalWorkspaceScreen()
         }
     }

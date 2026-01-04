@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.editor.ui
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.scene.DialogSceneStrategy
 import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileRoute
 import com.blacksquircle.ui.feature.editor.api.navigation.ConfirmExitRoute
 import com.blacksquircle.ui.feature.editor.api.navigation.EditorRoute
@@ -38,19 +39,19 @@ internal class EditorEntryProvider : EntryProvider {
         entry<EditorRoute> {
             EditorScreen()
         }
-        entry<CloseFileRoute> { navArgs ->
+        entry<CloseFileRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             CloseFileScreen(navArgs)
         }
-        entry<ForceSyntaxRoute> { navArgs ->
+        entry<ForceSyntaxRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             ForceSyntaxScreen(navArgs)
         }
-        entry<GoToLineRoute> { navArgs ->
+        entry<GoToLineRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             GoToLineScreen(navArgs)
         }
-        entry<InsertColorRoute> {
+        entry<InsertColorRoute>(metadata = DialogSceneStrategy.dialog()) {
             InsertColorScreen()
         }
-        entry<ConfirmExitRoute> {
+        entry<ConfirmExitRoute>(metadata = DialogSceneStrategy.dialog()) {
             ConfirmExitScreen()
         }
     }

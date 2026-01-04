@@ -38,7 +38,10 @@ internal fun ConfirmExitScreen(
 ) {
     val activity = LocalActivity.current
     ConfirmExitScreen(
-        onConfirmClicked = { activity?.finish() },
+        onConfirmClicked = {
+            viewModel.onExitClicked()
+            activity?.finish()
+        },
         onCancelClicked = viewModel::onExitClicked
     )
 }

@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.servers.ui
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.scene.DialogSceneStrategy
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDetailsRoute
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerListRoute
 import com.blacksquircle.ui.feature.servers.ui.details.ServerDetailsScreen
@@ -30,7 +31,7 @@ internal class ServersEntryProvider : EntryProvider {
         entry<ServerListRoute> {
             ServerListScreen()
         }
-        entry<ServerDetailsRoute> { navArgs ->
+        entry<ServerDetailsRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
             ServerDetailsScreen(navArgs)
         }
     }

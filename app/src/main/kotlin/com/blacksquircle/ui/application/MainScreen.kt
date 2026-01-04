@@ -70,7 +70,6 @@ internal fun MainScreen(
 
     SquircleTheme(colors = colors) {
         Surface(color = SquircleTheme.colors.colorBackgroundPrimary) {
-
             val dialogStrategy = remember { DialogSceneStrategy<NavKey>() }
 
             NavDisplay(
