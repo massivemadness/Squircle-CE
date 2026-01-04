@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.terminal.ui
+package com.blacksquircle.ui.feature.themes.ui
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
-import com.blacksquircle.ui.feature.terminal.api.navigation.TerminalRoute
-import com.blacksquircle.ui.feature.terminal.ui.terminal.TerminalScreen
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import com.blacksquircle.ui.feature.themes.api.navigation.ThemesRoute
+import com.blacksquircle.ui.feature.themes.ui.themes.ThemesScreen
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 
-fun NavGraphBuilder.terminalGraph(navController: NavHostController) {
-    composable<TerminalRoute> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<TerminalRoute>()
-        TerminalScreen(navArgs, navController)
+internal class ThemesEntryProvider : EntryProvider {
+
+    override fun EntryProviderScope<NavKey>.builder() {
+        entry<ThemesRoute> {
+            ThemesScreen()
+        }
     }
 }
