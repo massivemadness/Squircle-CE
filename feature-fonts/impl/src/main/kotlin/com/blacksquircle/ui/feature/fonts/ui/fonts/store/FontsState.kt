@@ -14,9 +14,14 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.redux
+package com.blacksquircle.ui.feature.fonts.ui.fonts.store
 
-interface MVIEffect {
-    override fun equals(other: Any?): Boolean
-    override fun hashCode(): Int
-}
+import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
+import com.blacksquircle.ui.redux.MVIState
+
+internal data class FontsState(
+    val searchQuery: String = "",
+    val fonts: List<FontModel> = emptyList(),
+    val selectedUuid: String = "",
+    val isLoading: Boolean = true,
+) : MVIState

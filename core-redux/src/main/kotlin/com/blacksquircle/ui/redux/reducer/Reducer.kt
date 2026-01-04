@@ -17,30 +17,30 @@
 package com.blacksquircle.ui.redux.reducer
 
 import com.blacksquircle.ui.redux.MVIAction
-import com.blacksquircle.ui.redux.MVIEffect
+import com.blacksquircle.ui.redux.MVIEvent
 import com.blacksquircle.ui.redux.MVIState
 
-abstract class Reducer<S : MVIState, A : MVIAction, E : MVIEffect> {
+abstract class Reducer<S : MVIState, A : MVIAction, E : MVIEvent> {
 
     protected lateinit var state: S
         private set
 
     private val actions = mutableListOf<A>()
-    private val effects = mutableListOf<E>()
+    private val events = mutableListOf<E>()
 
     abstract fun reduce(action: A)
 
-    internal fun reduce(state: S, action: A): Update<S, A, E> {
+    fun reduce(state: S, action: A): Update<S, A, E> {
         this.state = state
         actions.clear()
-        effects.clear()
+        events.clear()
 
         reduce(action)
 
         return Update(
             state = this.state,
             actions = this.actions,
-            effects = this.effects,
+            events = this.events,
         )
     }
 
@@ -52,13 +52,13 @@ abstract class Reducer<S : MVIState, A : MVIAction, E : MVIEffect> {
         actions += action
     }
 
-    protected fun effect(effect: E) {
-        effects += effect
+    protected fun event(event: E) {
+        events += event
     }
 
     internal fun build(): Update<S, A, E> = Update(
         state = state,
         actions = actions.toList(),
-        effects = effects.toList()
+        events = events.toList()
     )
 }

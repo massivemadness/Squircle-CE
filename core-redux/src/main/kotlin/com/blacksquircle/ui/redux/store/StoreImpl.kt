@@ -17,7 +17,7 @@
 package com.blacksquircle.ui.redux.store
 
 import com.blacksquircle.ui.redux.MVIAction
-import com.blacksquircle.ui.redux.MVIEffect
+import com.blacksquircle.ui.redux.MVIEvent
 import com.blacksquircle.ui.redux.MVIState
 import com.blacksquircle.ui.redux.middleware.Middleware
 import com.blacksquircle.ui.redux.reducer.Reducer
@@ -30,7 +30,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEffect>(
+internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEvent>(
     initialState: S,
     private val initialAction: A? = null,
     private val reducer: Reducer<S, A, E>,
@@ -42,15 +42,15 @@ internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEffect>(
     private val _state = MutableStateFlow(initialState)
     override val state: StateFlow<S> = _state
 
-    private val _effects = Channel<E>(Channel.UNLIMITED)
-    override val effects: Flow<E> = _effects.receiveAsFlow()
+    private val _events = Channel<E>(Channel.UNLIMITED)
+    override val events: Flow<E> = _events.receiveAsFlow()
 
     override fun wire(scope: CoroutineScope) {
         scope.launch {
             actions.collect { action ->
                 val update = reducer.reduce(_state.value, action)
                 update.state?.let { _state.value = it }
-                update.effects.forEach { _effects.send(it) }
+                update.events.forEach { _events.send(it) }
                 update.actions.forEach { actions.emit(it) }
             }
         }

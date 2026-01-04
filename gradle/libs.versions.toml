@@ -37,6 +37,7 @@ terminal = "0.119.0-beta.3"
 test-benchmark = "1.4.1"
 test-runner = "1.7.0"
 timber = "5.0.1"
+turbine = "1.2.1"
 zip4j = "2.11.5"
 
 [plugins]
@@ -108,3 +109,4 @@ test-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 test-junit-ext = { module = "androidx.test.ext:junit", version.ref = "junit-ext" }
 test-runner = { module = "androidx.test:runner", version.ref = "test-runner" }
 test-macrobenchmark = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "test-benchmark" }
+test-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }

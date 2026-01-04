@@ -19,18 +19,18 @@ package com.blacksquircle.ui.redux.lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.redux.MVIAction
-import com.blacksquircle.ui.redux.MVIEffect
+import com.blacksquircle.ui.redux.MVIEvent
 import com.blacksquircle.ui.redux.MVIState
 import com.blacksquircle.ui.redux.store.Store
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
-abstract class StoreViewModel<S : MVIState, A : MVIAction, E : MVIEffect>(
+abstract class StoreViewModel<S : MVIState, A : MVIAction, E : MVIEvent>(
     private val store: Store<S, A, E>,
 ) : ViewModel() {
 
     val state: StateFlow<S> = store.state
-    val effects: Flow<E> = store.effects
+    val events: Flow<E> = store.events
 
     init {
         store.wire(viewModelScope)

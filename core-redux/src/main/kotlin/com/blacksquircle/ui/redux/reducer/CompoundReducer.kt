@@ -17,10 +17,10 @@
 package com.blacksquircle.ui.redux.reducer
 
 import com.blacksquircle.ui.redux.MVIAction
-import com.blacksquircle.ui.redux.MVIEffect
+import com.blacksquircle.ui.redux.MVIEvent
 import com.blacksquircle.ui.redux.MVIState
 
-class CompoundReducer<S : MVIState, A : MVIAction, E : MVIEffect>(
+class CompoundReducer<S : MVIState, A : MVIAction, E : MVIEvent>(
     private val reducers: List<Reducer<S, A, E>>
 ) : Reducer<S, A, E>() {
 
@@ -31,6 +31,6 @@ class CompoundReducer<S : MVIState, A : MVIAction, E : MVIEffect>(
             update.merge(acc)
         }
         update.state?.let { state { it } }
-        update.effects.forEach { effect(it) }
+        update.events.forEach { event(it) }
     }
 }

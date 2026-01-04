@@ -20,11 +20,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
-interface Store<out State, in Action, out Effect> {
+interface Store<out State, in Action, out Event> {
 
     val state: StateFlow<State>
 
-    val effects: Flow<Effect>
+    val events: Flow<Event>
 
     fun wire(scope: CoroutineScope)
 

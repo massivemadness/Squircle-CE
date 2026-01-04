@@ -17,12 +17,12 @@
 package com.blacksquircle.ui.redux.store
 
 import com.blacksquircle.ui.redux.MVIAction
-import com.blacksquircle.ui.redux.MVIEffect
+import com.blacksquircle.ui.redux.MVIEvent
 import com.blacksquircle.ui.redux.MVIState
 import com.blacksquircle.ui.redux.middleware.Middleware
 import com.blacksquircle.ui.redux.reducer.Reducer
 
-fun <S : MVIState, A : MVIAction, E : MVIEffect> produceStore(
+fun <S : MVIState, A : MVIAction, E : MVIEvent> produceStore(
     initialState: S,
     initialAction: A? = null,
     reducer: Reducer<S, A, E>,

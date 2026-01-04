@@ -61,7 +61,6 @@ import com.blacksquircle.ui.core.contract.rememberOpenFileContract
 import com.blacksquircle.ui.core.effect.CleanupEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.FloatingButton
@@ -77,6 +76,8 @@ import com.blacksquircle.ui.feature.fonts.R
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
 import com.blacksquircle.ui.feature.fonts.internal.FontsComponent
 import com.blacksquircle.ui.feature.fonts.ui.fonts.compose.FontOverview
+import com.blacksquircle.ui.feature.fonts.ui.fonts.store.FontsAction
+import com.blacksquircle.ui.feature.fonts.ui.fonts.store.FontsEvent
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -88,32 +89,36 @@ internal fun FontsScreen(
     }
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
-    FontsScreen(
-        viewState = viewState,
-        onBackClicked = navController::popBackStack,
-        onQueryChanged = viewModel::onQueryChanged,
-        onClearQueryClicked = viewModel::onClearQueryClicked,
-        onSelectClicked = viewModel::onSelectClicked,
-        onRemoveClicked = viewModel::onRemoveClicked,
-        onImportClicked = viewModel::onImportClicked,
-    )
-
     val openFileContract = rememberOpenFileContract { result ->
         when (result) {
-            is ContractResult.Success -> viewModel.onFontLoaded(result.uri)
+            is ContractResult.Success -> {
+                viewModel.dispatch(FontsAction.OnImportFont(result.uri))
+            }
+
             is ContractResult.Canceled -> Unit
         }
     }
 
+    FontsScreen(
+        viewState = viewState,
+        onBackClicked = navController::popBackStack,
+        onQueryChanged = { viewModel.dispatch(FontsAction.QueryAction.OnQueryChanged(it)) },
+        onClearQueryClicked = { viewModel.dispatch(FontsAction.QueryAction.OnClearQueryClicked) },
+        onSelectClicked = { viewModel.dispatch(FontsAction.OnSelectClicked(it)) },
+        onRemoveClicked = { viewModel.dispatch(FontsAction.OnRemoveClicked(it)) },
+        onImportClicked = {
+            openFileContract.launch(
+                arrayOf(MimeType.OCTET_STREAM, MimeType.X_FONT, MimeType.FONT)
+            )
+        }
+    )
+
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        viewModel.viewEvent.collect { event ->
+        viewModel.events.collect { event ->
             when (event) {
-                is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
-                is FontsViewEvent.ChooseFont -> openFileContract.launch(
-                    arrayOf(MimeType.OCTET_STREAM, MimeType.X_FONT, MimeType.FONT)
-                )
+                is FontsEvent.Toast -> context.showToast(text = event.message)
+                is FontsEvent.PopBackStack -> navController.popBackStack()
             }
         }
     }
@@ -170,7 +175,12 @@ private fun FontsScreen(
                                     iconResId = UiR.drawable.ic_close,
                                     iconButtonStyle = IconButtonStyleDefaults.Secondary,
                                     iconButtonSize = IconButtonSizeDefaults.S,
-                                    onClick = { onClearQueryClicked(); searchMode = false },
+                                    onClick = {
+                                        if (viewState.searchQuery.isNotEmpty()) {
+                                            onClearQueryClicked()
+                                        }
+                                        searchMode = false
+                                    },
                                 )
                             },
                             modifier = Modifier
@@ -182,7 +192,9 @@ private fun FontsScreen(
                             focusRequester.requestFocus()
                         }
                         BackHandler {
-                            onClearQueryClicked()
+                            if (viewState.searchQuery.isNotEmpty()) {
+                                onClearQueryClicked()
+                            }
                             searchMode = false
                         }
                     } else {
@@ -241,14 +253,15 @@ private fun FontsScreen(
                 ) { font ->
                     FontOverview(
                         fontModel = font,
-                        isSelected = font.uuid == viewState.selectedFont,
+                        isSelected = font.uuid == viewState.selectedUuid,
                         onSelectClicked = { onSelectClicked(font) },
                         onRemoveClicked = { onRemoveClicked(font) },
                         modifier = Modifier.animateItem(),
                     )
                 }
             }
-            if (viewState.fonts.isEmpty()) {
+
+            if (viewState.isEmpty) {
                 EmptyView(
                     iconResId = UiR.drawable.ic_file_find,
                     title = stringResource(UiR.string.common_no_result),

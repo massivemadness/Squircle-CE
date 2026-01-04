@@ -46,6 +46,7 @@ dependencies {
     ksp(libs.google.dagger.compiler)
 
     implementation(project(":core-common"))
+    implementation(project(":core-redux"))
     implementation(project(":core-ui"))
     testImplementation(project(":core-test"))
 
@@ -53,6 +54,7 @@ dependencies {
 
     testImplementation(libs.test.junit)
     testImplementation(libs.test.mockk)
+    testImplementation(libs.test.turbine)
     androidTestImplementation(libs.test.junit.ext)
     androidTestImplementation(libs.test.runner)
 }

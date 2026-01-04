@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.ui.fonts
+package com.blacksquircle.ui.feature.fonts.ui.fonts.store
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
+import com.blacksquircle.ui.redux.MVIEvent
 
-internal sealed class FontsViewEvent : ViewEvent {
-    data object ChooseFont : FontsViewEvent()
+internal sealed interface FontsEvent : MVIEvent {
+    data class Toast(val message: String) : FontsEvent
+    data object PopBackStack : FontsEvent
 }
