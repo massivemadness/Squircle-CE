@@ -21,6 +21,7 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorCommand
 
 internal sealed class EditorViewEvent : ViewEvent {
 
+    data object Finish : EditorViewEvent()
     data object ScrollToEnd : EditorViewEvent()
 
     data object CreateFileContract : EditorViewEvent()

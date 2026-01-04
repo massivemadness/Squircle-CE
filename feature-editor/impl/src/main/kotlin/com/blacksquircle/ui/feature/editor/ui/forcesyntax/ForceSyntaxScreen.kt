@@ -30,7 +30,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.ResultEventBus
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.indexOrNull
@@ -48,7 +47,6 @@ import com.blacksquircle.ui.feature.editor.ui.editor.KEY_SELECT_LANGUAGE
 @Composable
 internal fun ForceSyntaxScreen(
     navArgs: ForceSyntaxRoute,
-    navController: NavController,
     viewModel: ForceSyntaxViewModel = daggerViewModel { context ->
         val component = EditorComponent.buildOrGet(context)
         ForceSyntaxViewModel.ParameterizedFactory(navArgs.language).also(component::inject)
@@ -59,11 +57,9 @@ internal fun ForceSyntaxScreen(
         viewState = viewState,
         onLanguageSelected = { scopeName ->
             ResultEventBus.sendResult(KEY_SELECT_LANGUAGE, scopeName)
-            navController.popBackStack()
+            viewModel.onLanguageSelected()
         },
-        onCancelClicked = {
-            navController.popBackStack()
-        },
+        onCancelClicked = viewModel::onCancelClicked,
     )
 }
 

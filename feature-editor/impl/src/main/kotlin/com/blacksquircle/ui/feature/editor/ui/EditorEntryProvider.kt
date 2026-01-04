@@ -16,11 +16,8 @@
 
 package com.blacksquircle.ui.feature.editor.ui
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.dialog
-import androidx.navigation.toRoute
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileRoute
 import com.blacksquircle.ui.feature.editor.api.navigation.ConfirmExitRoute
 import com.blacksquircle.ui.feature.editor.api.navigation.EditorRoute
@@ -33,27 +30,28 @@ import com.blacksquircle.ui.feature.editor.ui.editor.EditorScreen
 import com.blacksquircle.ui.feature.editor.ui.forcesyntax.ForceSyntaxScreen
 import com.blacksquircle.ui.feature.editor.ui.gotoline.GoToLineScreen
 import com.blacksquircle.ui.feature.editor.ui.insertcolor.InsertColorScreen
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 
-fun NavGraphBuilder.editorGraph(navController: NavHostController) {
-    composable<EditorRoute> {
-        EditorScreen(navController)
-    }
-    dialog<CloseFileRoute> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<CloseFileRoute>()
-        CloseFileScreen(navArgs, navController)
-    }
-    dialog<ForceSyntaxRoute> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<ForceSyntaxRoute>()
-        ForceSyntaxScreen(navArgs, navController)
-    }
-    dialog<GoToLineRoute> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<GoToLineRoute>()
-        GoToLineScreen(navArgs, navController)
-    }
-    dialog<InsertColorRoute> {
-        InsertColorScreen(navController)
-    }
-    dialog<ConfirmExitRoute> {
-        ConfirmExitScreen(navController)
+internal class EditorEntryProvider : EntryProvider {
+
+    override fun EntryProviderScope<NavKey>.builder() {
+        entry<EditorRoute> {
+            EditorScreen()
+        }
+        entry<CloseFileRoute> { navArgs ->
+            CloseFileScreen(navArgs)
+        }
+        entry<ForceSyntaxRoute> { navArgs ->
+            ForceSyntaxScreen(navArgs)
+        }
+        entry<GoToLineRoute> { navArgs ->
+            GoToLineScreen(navArgs)
+        }
+        entry<InsertColorRoute> {
+            InsertColorScreen()
+        }
+        entry<ConfirmExitRoute> {
+            ConfirmExitScreen()
+        }
     }
 }

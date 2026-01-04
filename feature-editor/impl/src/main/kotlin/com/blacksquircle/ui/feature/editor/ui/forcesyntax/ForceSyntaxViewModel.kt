@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.editor.domain.interactor.LanguageInteractor
+import com.blacksquircle.ui.navigation.api.Navigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -38,6 +39,7 @@ import javax.inject.Inject
 
 internal class ForceSyntaxViewModel @AssistedInject constructor(
     private val languageInteractor: LanguageInteractor,
+    private val navigator: Navigator,
     @Assisted private val selectedLanguage: String,
 ) : ViewModel() {
 
@@ -49,6 +51,14 @@ internal class ForceSyntaxViewModel @AssistedInject constructor(
 
     init {
         loadLanguages()
+    }
+
+    fun onLanguageSelected() {
+        navigator.goBack()
+    }
+
+    fun onCancelClicked() {
+        navigator.goBack()
     }
 
     private fun loadLanguages() {

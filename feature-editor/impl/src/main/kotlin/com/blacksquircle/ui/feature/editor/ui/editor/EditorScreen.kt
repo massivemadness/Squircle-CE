@@ -42,7 +42,6 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.MimeType
 import com.blacksquircle.ui.core.contract.rememberCreateFileContract
@@ -85,7 +84,6 @@ internal const val KEY_INSERT_COLOR = "KEY_INSERT_COLOR"
 
 @Composable
 internal fun EditorScreen(
-    navController: NavController,
     viewModel: EditorViewModel = daggerViewModel { context ->
         val component = EditorComponent.buildOrGet(context)
         EditorViewModel.Factory().also(component::inject)
@@ -183,12 +181,11 @@ internal fun EditorScreen(
     LaunchedEffect(Unit) {
         viewModel.viewEvent.collect { event ->
             when (event) {
-                is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> {
-                    if (!navController.popBackStack()) {
-                        activity?.finish()
-                    }
+                is ViewEvent.Toast -> {
+                    context.showToast(text = event.message)
+                }
+                is EditorViewEvent.Finish -> {
+                    activity?.finish()
                 }
                 is EditorViewEvent.ScrollToEnd -> {
                     tabsState.animateScrollToItem(viewState.documents.size)
