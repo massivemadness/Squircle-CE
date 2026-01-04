@@ -16,22 +16,22 @@
 
 package com.blacksquircle.ui.feature.servers.ui
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.dialog
-import androidx.navigation.toRoute
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDetailsRoute
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerListRoute
 import com.blacksquircle.ui.feature.servers.ui.details.ServerDetailsScreen
 import com.blacksquircle.ui.feature.servers.ui.list.ServerListScreen
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 
-fun NavGraphBuilder.serversGraph(navController: NavHostController) {
-    composable<ServerListRoute> {
-        ServerListScreen(navController)
-    }
-    dialog<ServerDetailsRoute> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<ServerDetailsRoute>()
-        ServerDetailsScreen(navArgs, navController)
+internal class ServersEntryProvider : EntryProvider {
+
+    override fun EntryProviderScope<NavKey>.builder() {
+        entry<ServerListRoute> {
+            ServerListScreen()
+        }
+        entry<ServerDetailsRoute> { navArgs ->
+            ServerDetailsScreen(navArgs)
+        }
     }
 }

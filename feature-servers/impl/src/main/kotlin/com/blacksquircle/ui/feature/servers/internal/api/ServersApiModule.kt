@@ -25,8 +25,11 @@ import com.blacksquircle.ui.feature.servers.api.factory.ServerFactory
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.feature.servers.data.factory.ServerFactoryImpl
 import com.blacksquircle.ui.feature.servers.data.interactor.ServerInteractorImpl
+import com.blacksquircle.ui.feature.servers.ui.ServersEntryProvider
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 import javax.inject.Singleton
 
 @Module
@@ -56,5 +59,11 @@ object ServersApiModule {
     @Provides
     fun provideServerDao(appDatabase: AppDatabase): ServerDao {
         return appDatabase.serverDao()
+    }
+
+    @IntoSet
+    @Provides
+    fun provideServersEntryProvider(): EntryProvider {
+        return ServersEntryProvider()
     }
 }

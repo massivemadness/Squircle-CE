@@ -26,6 +26,7 @@ import com.blacksquircle.ui.feature.servers.ui.details.compose.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.details.compose.PasswordAction
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerType
+import com.blacksquircle.ui.navigation.api.Navigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -42,8 +43,9 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class ServerDetailsViewModel @AssistedInject constructor(
-    private val serverRepository: ServerRepository,
     @Assisted private val serverId: String?,
+    private val serverRepository: ServerRepository,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(ServerDetailsViewState(isEditMode = isEditMode))
@@ -176,6 +178,7 @@ internal class ServerDetailsViewModel @AssistedInject constructor(
                     val serverConfig = viewState.value.toConfig(serverId)
                     serverRepository.upsertServer(serverConfig)
                     _viewEvent.send(ServerDetailsViewEvent.SendSaveResult)
+                    navigator.goBack()
                 } catch (e: CancellationException) {
                     throw e
                 } catch (e: Exception) {
@@ -192,6 +195,7 @@ internal class ServerDetailsViewModel @AssistedInject constructor(
                 val serverConfig = viewState.value.toConfig(serverId)
                 serverRepository.deleteServer(serverConfig)
                 _viewEvent.send(ServerDetailsViewEvent.SendDeleteResult)
+                navigator.goBack()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -202,9 +206,7 @@ internal class ServerDetailsViewModel @AssistedInject constructor(
     }
 
     fun onCancelClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
+        navigator.goBack()
     }
 
     private fun loadServer() {

@@ -29,13 +29,11 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.MimeType
 import com.blacksquircle.ui.core.contract.rememberOpenFileContract
 import com.blacksquircle.ui.core.effect.ResultEventBus
 import com.blacksquircle.ui.core.extensions.daggerViewModel
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.servers.R
@@ -61,7 +59,6 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 internal fun ServerDetailsScreen(
     navArgs: ServerDetailsRoute,
-    navController: NavController,
     viewModel: ServerDetailsViewModel = daggerViewModel { context ->
         val component = ServersComponent.buildOrGet(context)
         ServerDetailsViewModel.ParameterizedFactory(navArgs.serverId).also(component::inject)
@@ -97,16 +94,11 @@ internal fun ServerDetailsScreen(
     LaunchedEffect(Unit) {
         viewModel.viewEvent.collect { event ->
             when (event) {
-                is ViewEvent.PopBackStack -> {
-                    navController.popBackStack()
-                }
                 is ServerDetailsViewEvent.SendSaveResult -> {
                     ResultEventBus.sendResult(KEY_SAVE, Unit)
-                    navController.popBackStack()
                 }
                 is ServerDetailsViewEvent.SendDeleteResult -> {
                     ResultEventBus.sendResult(KEY_DELETE, Unit)
-                    navController.popBackStack()
                 }
                 is ServerDetailsViewEvent.ChooseFile -> {
                     openFileContract.launch(arrayOf(MimeType.OCTET_STREAM, MimeType.PEM))
