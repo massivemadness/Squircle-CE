@@ -20,7 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
-interface Store<out State, in Intent, out Effect> {
+interface Store<out State, in Action, out Effect> {
 
     val state: StateFlow<State>
 
@@ -28,5 +28,5 @@ interface Store<out State, in Intent, out Effect> {
 
     fun wire(scope: CoroutineScope)
 
-    fun dispatch(intent: Intent)
+    fun dispatch(action: Action)
 }

@@ -14,9 +14,21 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.redux
+package com.blacksquircle.ui.redux.reducer
 
-interface MVIIntent {
-    override fun equals(other: Any?): Boolean
-    override fun hashCode(): Int
+import com.blacksquircle.ui.redux.MVIAction
+import com.blacksquircle.ui.redux.MVIEffect
+import com.blacksquircle.ui.redux.MVIState
+
+data class Update<S : MVIState, A : MVIAction, E : MVIEffect>(
+    val state: S? = null,
+    val actions: List<A> = emptyList(),
+    val effects: List<E> = emptyList()
+) {
+
+    fun merge(other: Update<S, A, E>): Update<S, A, E> = Update(
+        state = other.state ?: state,
+        actions = actions + other.actions,
+        effects = effects + other.effects
+    )
 }

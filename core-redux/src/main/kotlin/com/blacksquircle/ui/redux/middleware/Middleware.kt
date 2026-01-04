@@ -16,28 +16,10 @@
 
 package com.blacksquircle.ui.redux.middleware
 
-import com.blacksquircle.ui.redux.MVIEffect
-import com.blacksquircle.ui.redux.MVIIntent
+import com.blacksquircle.ui.redux.MVIAction
 import com.blacksquircle.ui.redux.MVIState
-import com.blacksquircle.ui.redux.internal.Next
-import com.blacksquircle.ui.redux.internal.NextBuilder
+import kotlinx.coroutines.flow.Flow
 
-abstract class Middleware<S : MVIState, I : MVIIntent, E : MVIEffect> {
-
-    private val builder = NextBuilder<S, I, E>()
-
-    protected val state: S
-        get() = builder.state
-
-    internal suspend fun handle(state: S, intent: I): Next<S, I, E> {
-        builder.bind(state)
-        handle(intent)
-        return builder.build()
-    }
-
-    abstract suspend fun handle(intent: I)
-
-    // protected fun state(block: S.() -> S) = builder.state(block)
-    protected fun intent(intent: I) = builder.intent(intent)
-    protected fun effect(effect: E) = builder.effect(effect)
+interface Middleware<S : MVIState, A : MVIAction> {
+    fun bind(state: Flow<S>, actions: Flow<A>): Flow<A>
 }

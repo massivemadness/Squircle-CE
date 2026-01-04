@@ -16,29 +16,28 @@
 
 package com.blacksquircle.ui.redux.store
 
+import com.blacksquircle.ui.redux.MVIAction
 import com.blacksquircle.ui.redux.MVIEffect
-import com.blacksquircle.ui.redux.MVIIntent
 import com.blacksquircle.ui.redux.MVIState
-import com.blacksquircle.ui.redux.internal.Next
 import com.blacksquircle.ui.redux.middleware.Middleware
 import com.blacksquircle.ui.redux.reducer.Reducer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-internal class StoreImpl<S : MVIState, I : MVIIntent, E : MVIEffect>(
+internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEffect>(
     initialState: S,
-    initialIntent: I? = null,
-    private val reducer: Reducer<S, I, E>,
-    private val middlewares: List<Middleware<S, I, E>>,
-): Store<S, I, E> {
+    private val initialAction: A? = null,
+    private val reducer: Reducer<S, A, E>,
+    private val middlewares: List<Middleware<S, A>>,
+) : Store<S, A, E> {
 
-    private val intents = Channel<I>(Channel.UNLIMITED)
+    private val actions = MutableSharedFlow<A>(extraBufferCapacity = 64)
 
     private val _state = MutableStateFlow(initialState)
     override val state: StateFlow<S> = _state
@@ -46,35 +45,32 @@ internal class StoreImpl<S : MVIState, I : MVIIntent, E : MVIEffect>(
     private val _effects = Channel<E>(Channel.UNLIMITED)
     override val effects: Flow<E> = _effects.receiveAsFlow()
 
-    init {
-        initialIntent?.let { intent ->
-            intents.trySend(intent)
-        }
-    }
-
     override fun wire(scope: CoroutineScope) {
         scope.launch {
-            intents.consumeAsFlow().collect { intent ->
-                val next = reducer.reduce(_state.value, intent)
-                update(next)
+            actions.collect { action ->
+                val update = reducer.reduce(_state.value, action)
+                update.state?.let { _state.value = it }
+                update.effects.forEach { _effects.send(it) }
+                update.actions.forEach { actions.emit(it) }
+            }
+        }
 
-                middlewares.forEach { middleware ->
-                    launch {
-                        val next = middleware.handle(_state.value, intent)
-                        update(next)
-                    }
+        middlewares.forEach { middleware ->
+            scope.launch {
+                middleware.bind(state, actions).collect { action ->
+                    actions.emit(action)
                 }
+            }
+        }
+
+        scope.launch {
+            initialAction?.let { action ->
+                actions.emit(action)
             }
         }
     }
 
-    override fun dispatch(intent: I) {
-        intents.trySend(intent)
-    }
-
-    private suspend fun update(next: Next<S, I, E>) {
-        next.state?.let { _state.value = it }
-        next.effects.forEach { _effects.send(it) }
-        next.intents.forEach { intents.send(it) }
+    override fun dispatch(action: A) {
+        actions.tryEmit(action)
     }
 }

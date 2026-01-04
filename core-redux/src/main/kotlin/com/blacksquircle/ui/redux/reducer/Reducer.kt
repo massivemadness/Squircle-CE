@@ -16,28 +16,49 @@
 
 package com.blacksquircle.ui.redux.reducer
 
+import com.blacksquircle.ui.redux.MVIAction
 import com.blacksquircle.ui.redux.MVIEffect
-import com.blacksquircle.ui.redux.MVIIntent
 import com.blacksquircle.ui.redux.MVIState
-import com.blacksquircle.ui.redux.internal.Next
-import com.blacksquircle.ui.redux.internal.NextBuilder
 
-abstract class Reducer<S : MVIState, I : MVIIntent, E : MVIEffect> {
+abstract class Reducer<S : MVIState, A : MVIAction, E : MVIEffect> {
 
-    private val builder = NextBuilder<S, I, E>()
+    protected lateinit var state: S
+        private set
 
-    protected val state: S
-        get() = builder.state
+    private val actions = mutableListOf<A>()
+    private val effects = mutableListOf<E>()
 
-    internal fun reduce(state: S, intent: I): Next<S, I, E> {
-        builder.bind(state)
-        reduce(intent)
-        return builder.build()
+    abstract fun reduce(action: A)
+
+    internal fun reduce(state: S, action: A): Update<S, A, E> {
+        this.state = state
+        actions.clear()
+        effects.clear()
+
+        reduce(action)
+
+        return Update(
+            state = this.state,
+            actions = this.actions,
+            effects = this.effects,
+        )
     }
 
-    abstract fun reduce(intent: I)
+    protected fun state(block: S.() -> S) {
+        state = state.block()
+    }
 
-    protected fun state(block: S.() -> S) = builder.state(block)
-    // protected fun intent(intent: I) = builder.intent(intent)
-    protected fun effect(effect: E) = builder.effect(effect)
+    protected fun action(action: A) {
+        actions += action
+    }
+
+    protected fun effect(effect: E) {
+        effects += effect
+    }
+
+    internal fun build(): Update<S, A, E> = Update(
+        state = state,
+        actions = actions.toList(),
+        effects = effects.toList()
+    )
 }

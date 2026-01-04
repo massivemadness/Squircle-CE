@@ -16,21 +16,21 @@
 
 package com.blacksquircle.ui.redux.store
 
+import com.blacksquircle.ui.redux.MVIAction
 import com.blacksquircle.ui.redux.MVIEffect
-import com.blacksquircle.ui.redux.MVIIntent
 import com.blacksquircle.ui.redux.MVIState
 import com.blacksquircle.ui.redux.middleware.Middleware
 import com.blacksquircle.ui.redux.reducer.Reducer
 
-fun <S : MVIState, I : MVIIntent, E : MVIEffect> produceStore(
+fun <S : MVIState, A : MVIAction, E : MVIEffect> produceStore(
     initialState: S,
-    initialIntent: I? = null,
-    reducer: Reducer<S, I, E>,
-    middlewares: List<Middleware<S, I, E>>,
-): Store<S, I, E> {
+    initialAction: A? = null,
+    reducer: Reducer<S, A, E>,
+    middlewares: List<Middleware<S, A>>,
+): Store<S, A, E> {
     return StoreImpl(
         initialState = initialState,
-        initialIntent = initialIntent,
+        initialAction = initialAction,
         reducer = reducer,
         middlewares = middlewares
     )

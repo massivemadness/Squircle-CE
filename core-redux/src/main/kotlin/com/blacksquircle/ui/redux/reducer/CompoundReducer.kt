@@ -16,22 +16,21 @@
 
 package com.blacksquircle.ui.redux.reducer
 
+import com.blacksquircle.ui.redux.MVIAction
 import com.blacksquircle.ui.redux.MVIEffect
-import com.blacksquircle.ui.redux.MVIIntent
 import com.blacksquircle.ui.redux.MVIState
-import com.blacksquircle.ui.redux.internal.Next
 
-class CompoundReducer<S : MVIState, I : MVIIntent, E : MVIEffect>(
-    private val reducers: List<Reducer<S, I, E>>
-) : Reducer<S, I, E>() {
+class CompoundReducer<S : MVIState, A : MVIAction, E : MVIEffect>(
+    private val reducers: List<Reducer<S, A, E>>
+) : Reducer<S, A, E>() {
 
-    override fun reduce(intent: I) {
-        val next = reducers.fold(Next<S, I, E>()) { acc, reducer ->
-            val reduce = reducer.reduce(state, intent)
-            reduce.state?.let { state { it } }
-            reduce.merge(acc)
+    override fun reduce(action: A) {
+        val update = reducers.fold(Update<S, A, E>()) { acc, reducer ->
+            val update = reducer.reduce(state, action)
+            update.state?.let { state { it } }
+            update.merge(acc)
         }
-        next.state?.let { state { it } }
-        next.effects.forEach { effect(it) }
+        update.state?.let { state { it } }
+        update.effects.forEach { effect(it) }
     }
 }

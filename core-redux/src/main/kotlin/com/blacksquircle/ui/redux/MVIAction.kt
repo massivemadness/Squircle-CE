@@ -14,22 +14,9 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.redux.internal
+package com.blacksquircle.ui.redux
 
-import com.blacksquircle.ui.redux.MVIEffect
-import com.blacksquircle.ui.redux.MVIIntent
-import com.blacksquircle.ui.redux.MVIState
-
-data class Next<S : MVIState, I : MVIIntent, E : MVIEffect>(
-    val state: S? = null,
-    val intents: List<I> = emptyList(),
-    val effects: List<E> = emptyList()
-) {
-
-    fun merge(other: Next<S, I, E>): Next<S, I, E> = Next(
-        state = other.state ?: state,
-        intents = intents + other.intents,
-        effects = effects + other.effects
-    )
+interface MVIAction {
+    override fun equals(other: Any?): Boolean
+    override fun hashCode(): Int
 }
-
