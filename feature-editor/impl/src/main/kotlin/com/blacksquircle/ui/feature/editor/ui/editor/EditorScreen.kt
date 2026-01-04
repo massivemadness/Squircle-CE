@@ -71,7 +71,7 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorController
 import com.blacksquircle.ui.feature.editor.ui.editor.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.editor.model.rememberEditorController
-import com.blacksquircle.ui.feature.explorer.ui.DrawerExplorer
+import com.blacksquircle.ui.feature.explorer.ui.explorer.DrawerExplorer
 import com.blacksquircle.ui.feature.git.api.navigation.CheckoutRoute.Companion.KEY_CHECKOUT
 import com.blacksquircle.ui.feature.git.api.navigation.PullRoute.Companion.KEY_PULL
 import kotlinx.coroutines.launch

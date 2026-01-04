@@ -23,7 +23,15 @@ import com.blacksquircle.ui.feature.editor.api.internal.EditorApi
 import com.blacksquircle.ui.feature.editor.api.internal.provideEditorApi
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApi
 import com.blacksquircle.ui.feature.explorer.api.internal.provideExplorerApi
+import com.blacksquircle.ui.feature.explorer.ui.auth.ServerAuthViewModel
+import com.blacksquircle.ui.feature.explorer.ui.clone.CloneRepoViewModel
+import com.blacksquircle.ui.feature.explorer.ui.compress.CompressFileViewModel
+import com.blacksquircle.ui.feature.explorer.ui.create.CreateFileViewModel
+import com.blacksquircle.ui.feature.explorer.ui.delete.DeleteFileViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.permissions.PermissionViewModel
+import com.blacksquircle.ui.feature.explorer.ui.properties.PropertiesViewModel
+import com.blacksquircle.ui.feature.explorer.ui.rename.RenameFileViewModel
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskService
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskViewModel
 import com.blacksquircle.ui.feature.explorer.ui.workspace.AddWorkspaceViewModel
@@ -56,6 +64,14 @@ internal interface ExplorerComponent {
     fun inject(service: TaskService)
     fun inject(factory: TaskViewModel.ParameterizedFactory)
     fun inject(factory: ExplorerViewModel.Factory)
+    fun inject(factory: ServerAuthViewModel.Factory)
+    fun inject(factory: CreateFileViewModel.Factory)
+    fun inject(factory: RenameFileViewModel.Factory)
+    fun inject(factory: DeleteFileViewModel.Factory)
+    fun inject(factory: PropertiesViewModel.Factory)
+    fun inject(factory: CloneRepoViewModel.Factory)
+    fun inject(factory: CompressFileViewModel.Factory)
+    fun inject(factory: PermissionViewModel.Factory)
     fun inject(factory: AddWorkspaceViewModel.Factory)
     fun inject(factory: DeleteWorkspaceViewModel.Factory)
     fun inject(factory: LocalWorkspaceViewModel.Factory)

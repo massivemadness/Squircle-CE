@@ -26,35 +26,37 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.ResultEventBus
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.ServerAuthRoute
+import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_AUTHENTICATION
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 
 @Composable
-internal fun AuthScreen(
+internal fun ServerAuthScreen(
     navArgs: ServerAuthRoute,
-    navController: NavController,
+    viewModel: ServerAuthViewModel = daggerViewModel { context ->
+        val component = ExplorerComponent.buildOrGet(context)
+        ServerAuthViewModel.Factory().also(component::inject)
+    }
 ) {
-    AuthScreen(
+    ServerAuthScreen(
         authMethod = navArgs.authMethod,
         onConfirmClicked = { credentials ->
             ResultEventBus.sendResult(KEY_AUTHENTICATION, credentials)
-            navController.popBackStack()
+            viewModel.onBackClicked()
         },
-        onCancelClicked = {
-            navController.popBackStack()
-        },
+        onCancelClicked = viewModel::onBackClicked,
     )
 }
 
 @Composable
-private fun AuthScreen(
+private fun ServerAuthScreen(
     authMethod: AuthMethod,
     onConfirmClicked: (String) -> Unit = {},
     onCancelClicked: () -> Unit = {}
@@ -93,9 +95,9 @@ private fun AuthScreen(
 
 @PreviewLightDark
 @Composable
-private fun AuthScreenPreview() {
+private fun ServerAuthScreenPreview() {
     PreviewBackground {
-        AuthScreen(
+        ServerAuthScreen(
             authMethod = AuthMethod.PASSWORD,
         )
     }

@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.contract.PermissionResult
 import com.blacksquircle.ui.core.contract.rememberNotificationContract
 import com.blacksquircle.ui.core.extensions.daggerViewModel
@@ -64,7 +63,6 @@ import kotlinx.coroutines.isActive
 @Composable
 internal fun TaskScreen(
     navArgs: TaskRoute,
-    navController: NavController,
     viewModel: TaskViewModel = daggerViewModel { context ->
         val component = ExplorerComponent.buildOrGet(context)
         TaskViewModel.ParameterizedFactory(navArgs.taskId).also(component::inject)
@@ -73,7 +71,7 @@ internal fun TaskScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     TaskScreen(
         viewState = viewState,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
         onCancelClicked = viewModel::onCancelClicked,
         onRunInBackgroundClicked = viewModel::onRunInBackgroundClicked,
     )
@@ -91,8 +89,6 @@ internal fun TaskScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
                 is ExplorerViewEvent.StartService -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         val notificationManager = context.getSystemService<NotificationManager>()
@@ -108,7 +104,7 @@ internal fun TaskScreen(
                     }
                     ContextCompat.startForegroundService(context, intent)
 
-                    navController.popBackStack() // close dialog
+                    viewModel.onBackClicked()
                 }
             }
         }

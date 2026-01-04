@@ -20,35 +20,38 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.ResultEventBus
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteFileRoute
+import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
+import com.blacksquircle.ui.feature.explorer.ui.create.CreateFileViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_DELETE_FILE
 
 @Composable
-internal fun DeleteScreen(
+internal fun DeleteFileScreen(
     navArgs: DeleteFileRoute,
-    navController: NavController,
+    viewModel: DeleteFileViewModel = daggerViewModel { context ->
+        val component = ExplorerComponent.buildOrGet(context)
+        DeleteFileViewModel.Factory().also(component::inject)
+    }
 ) {
-    DeleteScreen(
+    DeleteFileScreen(
         fileName = navArgs.fileName,
         fileCount = navArgs.fileCount,
         onConfirmClicked = {
             ResultEventBus.sendResult(KEY_DELETE_FILE, Unit)
-            navController.popBackStack()
+            viewModel.onBackClicked()
         },
-        onCancelClicked = {
-            navController.popBackStack()
-        }
+        onCancelClicked = viewModel::onBackClicked,
     )
 }
 
 @Composable
-private fun DeleteScreen(
+private fun DeleteFileScreen(
     fileName: String,
     fileCount: Int,
     onConfirmClicked: () -> Unit = {},
@@ -83,9 +86,9 @@ private fun DeleteScreen(
 
 @PreviewLightDark
 @Composable
-private fun DeleteScreenPreview() {
+private fun DeleteFileScreenPreview() {
     PreviewBackground {
-        DeleteScreen(
+        DeleteFileScreen(
             fileName = "untitled.txt",
             fileCount = 1,
         )

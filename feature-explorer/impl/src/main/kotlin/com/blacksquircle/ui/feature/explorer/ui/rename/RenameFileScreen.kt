@@ -23,36 +23,38 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.ResultEventBus
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.RenameFileRoute
+import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_RENAME_FILE
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun RenameScreen(
+internal fun RenameFileScreen(
     navArgs: RenameFileRoute,
-    navController: NavController,
+    viewModel: RenameFileViewModel = daggerViewModel { context ->
+        val component = ExplorerComponent.buildOrGet(context)
+        RenameFileViewModel.Factory().also(component::inject)
+    }
 ) {
-    RenameScreen(
+    RenameFileScreen(
         currentFileName = navArgs.fileName,
         onConfirmClicked = { fileName ->
             ResultEventBus.sendResult(KEY_RENAME_FILE, fileName)
-            navController.popBackStack()
+            viewModel.onBackClicked()
         },
-        onCancelClicked = {
-            navController.popBackStack()
-        }
+        onCancelClicked = viewModel::onBackClicked,
     )
 }
 
 @Composable
-private fun RenameScreen(
+private fun RenameFileScreen(
     currentFileName: String,
     onConfirmClicked: (String) -> Unit = {},
     onCancelClicked: () -> Unit = {}
@@ -91,9 +93,9 @@ private fun RenameScreen(
 
 @PreviewLightDark
 @Composable
-private fun RenameScreenPreview() {
+private fun RenameFileScreenPreview() {
     PreviewBackground {
-        RenameScreen(
+        RenameFileScreen(
             currentFileName = "untitled"
         )
     }

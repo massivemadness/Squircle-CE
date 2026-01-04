@@ -22,7 +22,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.rememberOpenFolderContract
 import com.blacksquircle.ui.core.extensions.daggerViewModel
@@ -32,14 +31,11 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.layout.ActionLayout
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.api.navigation.LocalWorkspaceRoute
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
-import com.blacksquircle.ui.feature.servers.api.navigation.ServerDetailsRoute
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun AddWorkspaceScreen(
-    navController: NavController,
     viewModel: AddWorkspaceViewModel = daggerViewModel { context ->
         val component = ExplorerComponent.buildOrGet(context)
         AddWorkspaceViewModel.Factory().also(component::inject)
@@ -53,20 +49,10 @@ internal fun AddWorkspaceScreen(
     }
 
     AddWorkspaceScreen(
-        onLocalDirectoryClicked = {
-            navController.popBackStack()
-            navController.navigate(LocalWorkspaceRoute)
-        },
-        onInternalStorageClicked = {
-            openFolderContract.launch(null)
-        },
-        onRemoteServerClicked = {
-            navController.popBackStack()
-            navController.navigate(ServerDetailsRoute(null))
-        },
-        onCancelClicked = {
-            navController.popBackStack()
-        },
+        onLocalDirectoryClicked = viewModel::onLocalDirectoryClicked,
+        onInternalStorageClicked = { openFolderContract.launch(null) },
+        onRemoteServerClicked = viewModel::onRemoteServerClicked,
+        onCancelClicked = viewModel::onBackClicked,
     )
 
     val context = LocalContext.current
@@ -74,8 +60,6 @@ internal fun AddWorkspaceScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
             }
         }
     }

@@ -23,31 +23,35 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.ResultEventBus
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_COMPRESS_FILE
 import com.blacksquircle.ui.filesystem.base.utils.isValidFileName
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun CompressScreen(navController: NavController) {
-    CompressScreen(
+internal fun CompressFileScreen(
+    viewModel: CompressFileViewModel = daggerViewModel { context ->
+        val component = ExplorerComponent.buildOrGet(context)
+        CompressFileViewModel.Factory().also(component::inject)
+    }
+) {
+    CompressFileScreen(
         onConfirmClicked = { fileName ->
             ResultEventBus.sendResult(KEY_COMPRESS_FILE, fileName)
-            navController.popBackStack()
+            viewModel.onBackClicked()
         },
-        onCancelClicked = {
-            navController.popBackStack()
-        }
+        onCancelClicked = viewModel::onBackClicked,
     )
 }
 
 @Composable
-private fun CompressScreen(
+private fun CompressFileScreen(
     onConfirmClicked: (String) -> Unit = {},
     onCancelClicked: () -> Unit = {}
 ) {
@@ -85,8 +89,8 @@ private fun CompressScreen(
 
 @PreviewLightDark
 @Composable
-private fun CompressScreenPreview() {
+private fun CompressFileScreenPreview() {
     PreviewBackground {
-        CompressScreen()
+        CompressFileScreen()
     }
 }

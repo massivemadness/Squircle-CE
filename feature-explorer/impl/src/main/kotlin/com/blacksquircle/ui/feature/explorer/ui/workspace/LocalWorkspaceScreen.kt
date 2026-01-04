@@ -26,7 +26,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -38,19 +37,14 @@ import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 
 @Composable
 internal fun LocalWorkspaceScreen(
-    navController: NavController,
     viewModel: LocalWorkspaceViewModel = daggerViewModel { context ->
         val component = ExplorerComponent.buildOrGet(context)
         LocalWorkspaceViewModel.Factory().also(component::inject)
     }
 ) {
     LocalWorkspaceScreen(
-        onConfirmClicked = { filePath ->
-            viewModel.onConfirmClicked(filePath)
-        },
-        onCancelClicked = {
-            navController.popBackStack()
-        }
+        onConfirmClicked = viewModel::onConfirmClicked,
+        onCancelClicked = viewModel::onBackClicked,
     )
 
     val context = LocalContext.current
@@ -58,8 +52,6 @@ internal fun LocalWorkspaceScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
             }
         }
     }
