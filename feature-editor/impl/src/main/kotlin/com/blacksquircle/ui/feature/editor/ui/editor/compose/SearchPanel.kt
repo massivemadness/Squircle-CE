@@ -48,7 +48,7 @@ import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
 import com.blacksquircle.ui.ds.button.TextButton
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.ui.editor.menu.FindMenu
+import com.blacksquircle.ui.feature.editor.ui.editor.compose.menu.FindMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.model.SearchState
 import com.blacksquircle.ui.ds.R as UiR
 

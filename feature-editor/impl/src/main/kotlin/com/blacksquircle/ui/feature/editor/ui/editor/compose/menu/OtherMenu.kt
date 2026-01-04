@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.editor.ui.editor.menu
+package com.blacksquircle.ui.feature.editor.ui.editor.compose.menu
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,46 +26,51 @@ import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun FileMenu(
+internal fun OtherMenu(
+    showGit: Boolean,
     expanded: Boolean,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
-    onNewFileClicked: () -> Unit = {},
-    onOpenFileClicked: () -> Unit = {},
-    onSaveFileClicked: () -> Unit = {},
-    onSaveFileAsClicked: () -> Unit = {},
-    onReloadFileClicked: () -> Unit = {},
+    onFindClicked: () -> Unit = {},
+    onToolsClicked: () -> Unit = {},
+    onGitClicked: () -> Unit = {},
+    onTerminalClicked: () -> Unit = {},
+    onSettingsClicked: () -> Unit = {},
 ) {
     PopupMenu(
         expanded = expanded,
         onDismiss = onDismiss,
         verticalOffset = (-56).dp,
+        horizontalOffset = 200.dp,
         modifier = modifier,
     ) {
         PopupMenuItem(
-            title = stringResource(R.string.editor_menu_file_new),
-            iconResId = UiR.drawable.ic_plus,
-            onClick = onNewFileClicked,
+            title = stringResource(R.string.editor_menu_find),
+            iconResId = UiR.drawable.ic_file_find,
+            onClick = onFindClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.editor_menu_file_open),
-            iconResId = UiR.drawable.ic_folder_open,
-            onClick = onOpenFileClicked,
+            title = stringResource(R.string.editor_menu_tools),
+            iconResId = UiR.drawable.ic_wrench,
+            onClick = onToolsClicked,
+            submenu = true,
         )
         PopupMenuItem(
-            title = stringResource(R.string.editor_menu_file_save),
-            iconResId = UiR.drawable.ic_save,
-            onClick = onSaveFileClicked,
+            title = stringResource(R.string.editor_menu_git),
+            iconResId = UiR.drawable.ic_git,
+            onClick = onGitClicked,
+            enabled = showGit,
+            submenu = true,
         )
         PopupMenuItem(
-            title = stringResource(R.string.editor_menu_file_save_as),
-            iconResId = UiR.drawable.ic_save_as,
-            onClick = onSaveFileAsClicked,
+            title = stringResource(R.string.editor_menu_terminal),
+            iconResId = UiR.drawable.ic_console,
+            onClick = onTerminalClicked,
         )
         PopupMenuItem(
-            title = stringResource(R.string.editor_menu_file_reload),
-            iconResId = UiR.drawable.ic_refresh,
-            onClick = onReloadFileClicked,
+            title = stringResource(R.string.editor_menu_settings),
+            iconResId = UiR.drawable.ic_settings,
+            onClick = onSettingsClicked,
         )
     }
 }

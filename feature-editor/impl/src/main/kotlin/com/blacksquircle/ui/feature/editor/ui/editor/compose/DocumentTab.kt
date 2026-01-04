@@ -36,7 +36,7 @@ import com.blacksquircle.ui.ds.button.IconButtonSizeDefaults
 import com.blacksquircle.ui.ds.button.IconButtonStyleDefaults
 import com.blacksquircle.ui.ds.tabs.TabItem
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.ui.editor.menu.CloseMenu
+import com.blacksquircle.ui.feature.editor.ui.editor.compose.menu.CloseMenu
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
