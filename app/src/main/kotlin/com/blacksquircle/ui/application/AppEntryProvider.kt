@@ -16,8 +16,16 @@
 
 package com.blacksquircle.ui.application
 
+import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
-import kotlinx.serialization.Serializable
+import com.blacksquircle.ui.application.update.UpdateScreen
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 
-@Serializable
-data object UpdateRoute : NavKey
+internal class AppEntryProvider : EntryProvider {
+
+    override fun EntryProviderScope<NavKey>.builder() {
+        entry<UpdateRoute> {
+            UpdateScreen()
+        }
+    }
+}

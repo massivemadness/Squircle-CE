@@ -31,7 +31,6 @@ import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.isValidUrl
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
-import com.blacksquircle.ui.feature.explorer.ui.auth.ServerAuthViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_CLONE_REPO
 import com.blacksquircle.ui.ds.R as UiR
 

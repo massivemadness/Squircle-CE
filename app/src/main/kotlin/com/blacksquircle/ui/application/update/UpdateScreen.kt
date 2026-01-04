@@ -21,25 +21,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.window.DialogProperties
-import androidx.navigation.NavController
 import com.blacksquircle.ui.R
 import com.blacksquircle.ui.core.effect.ResultEventBus
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
+import com.blacksquircle.ui.internal.AppComponent
 
 internal const val KEY_INSTALL_UPDATE = "KEY_UPDATE"
 
 @Composable
-internal fun UpdateScreen(navController: NavController) {
+internal fun UpdateScreen(
+    viewModel: UpdateViewModel = daggerViewModel { context ->
+        val component = AppComponent.buildOrGet(context)
+        UpdateViewModel.Factory().also(component::inject)
+    }
+) {
     UpdateScreen(
         onConfirmClicked = {
             ResultEventBus.sendResult(KEY_INSTALL_UPDATE, Unit)
-            navController.popBackStack()
+            viewModel.onCloseClicked()
         },
-        onCancelClicked = {
-            navController.popBackStack()
-        },
+        onCancelClicked = viewModel::onCloseClicked,
     )
 }
 

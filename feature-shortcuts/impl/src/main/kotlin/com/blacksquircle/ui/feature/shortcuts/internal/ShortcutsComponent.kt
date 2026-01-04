@@ -22,6 +22,8 @@ import com.blacksquircle.ui.core.internal.provideCoreApi
 import com.blacksquircle.ui.feature.shortcuts.ui.conflict.ConflictKeyViewModel
 import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.KeybindingViewModel
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ShortcutsViewModel
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @ShortcutsScope
@@ -31,6 +33,7 @@ import dagger.Component
     ],
     dependencies = [
         CoreApi::class,
+        NavigationApi::class,
     ]
 )
 internal interface ShortcutsComponent {
@@ -41,7 +44,10 @@ internal interface ShortcutsComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(coreApi: CoreApi): ShortcutsComponent
+        fun create(
+            coreApi: CoreApi,
+            navigationApi: NavigationApi,
+        ): ShortcutsComponent
     }
 
     companion object {
@@ -51,6 +57,7 @@ internal interface ShortcutsComponent {
         fun buildOrGet(context: Context): ShortcutsComponent {
             return component ?: DaggerShortcutsComponent.factory().create(
                 coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
             ).also {
                 component = it
             }

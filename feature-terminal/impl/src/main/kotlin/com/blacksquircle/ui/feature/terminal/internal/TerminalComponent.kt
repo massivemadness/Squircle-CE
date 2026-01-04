@@ -20,6 +20,8 @@ import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApi
 import com.blacksquircle.ui.core.internal.provideCoreApi
 import com.blacksquircle.ui.feature.terminal.ui.terminal.TerminalViewModel
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @TerminalScope
@@ -29,6 +31,7 @@ import dagger.Component
     ],
     dependencies = [
         CoreApi::class,
+        NavigationApi::class,
     ]
 )
 internal interface TerminalComponent {
@@ -37,7 +40,10 @@ internal interface TerminalComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(coreApi: CoreApi): TerminalComponent
+        fun create(
+            coreApi: CoreApi,
+            navigationApi: NavigationApi,
+        ): TerminalComponent
     }
 
     companion object {
@@ -47,6 +53,7 @@ internal interface TerminalComponent {
         fun buildOrGet(context: Context): TerminalComponent {
             return component ?: DaggerTerminalComponent.factory().create(
                 coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
             ).also {
                 component = it
             }

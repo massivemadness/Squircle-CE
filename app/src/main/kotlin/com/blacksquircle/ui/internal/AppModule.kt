@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.internal.di
+package com.blacksquircle.ui.internal
 
 import android.content.Context
+import com.blacksquircle.ui.application.AppEntryProvider
 import com.blacksquircle.ui.core.navigation.impl.NavigatorImpl
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.provider.resources.StringProvider
@@ -24,8 +25,10 @@ import com.blacksquircle.ui.feature.editor.api.navigation.EditorRoute
 import com.blacksquircle.ui.internal.provider.coroutine.DispatcherProviderImpl
 import com.blacksquircle.ui.internal.provider.resources.StringProviderImpl
 import com.blacksquircle.ui.navigation.api.Navigator
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 import javax.inject.Singleton
 
 @Module
@@ -35,6 +38,12 @@ internal object AppModule {
     @Singleton
     fun provideNavigator(): Navigator {
         return NavigatorImpl(startRoute = EditorRoute)
+    }
+
+    @IntoSet
+    @Provides
+    fun provideAppEntryProvider(): EntryProvider {
+        return AppEntryProvider()
     }
 
     @Provides

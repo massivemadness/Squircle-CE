@@ -20,6 +20,8 @@ import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApi
 import com.blacksquircle.ui.core.internal.provideCoreApi
 import com.blacksquircle.ui.feature.fonts.ui.fonts.FontsViewModel
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @FontsScope
@@ -29,6 +31,7 @@ import dagger.Component
     ],
     dependencies = [
         CoreApi::class,
+        NavigationApi::class,
     ]
 )
 internal interface FontsComponent {
@@ -37,7 +40,10 @@ internal interface FontsComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(coreApi: CoreApi): FontsComponent
+        fun create(
+            coreApi: CoreApi,
+            navigationApi: NavigationApi,
+        ): FontsComponent
     }
 
     companion object {
@@ -47,6 +53,7 @@ internal interface FontsComponent {
         fun buildOrGet(context: Context): FontsComponent {
             return component ?: DaggerFontsComponent.factory().create(
                 coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
             ).also {
                 component = it
             }

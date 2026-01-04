@@ -24,6 +24,8 @@ import com.blacksquircle.ui.feature.fonts.api.internal.provideFontsApi
 import com.blacksquircle.ui.feature.themes.api.internal.ThemesApi
 import com.blacksquircle.ui.feature.themes.api.internal.provideThemesApi
 import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewModel
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @ThemesScope
@@ -33,6 +35,7 @@ import dagger.Component
     ],
     dependencies = [
         CoreApi::class,
+        NavigationApi::class,
         FontsApi::class,
         ThemesApi::class,
     ]
@@ -45,6 +48,7 @@ internal interface ThemesComponent {
     interface Factory {
         fun create(
             coreApi: CoreApi,
+            navigationApi: NavigationApi,
             fontsApi: FontsApi,
             themesApi: ThemesApi,
         ): ThemesComponent
@@ -57,6 +61,7 @@ internal interface ThemesComponent {
         fun buildOrGet(context: Context): ThemesComponent {
             return component ?: DaggerThemesComponent.factory().create(
                 coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
                 fontsApi = context.provideFontsApi(),
                 themesApi = context.provideThemesApi(),
             ).also {

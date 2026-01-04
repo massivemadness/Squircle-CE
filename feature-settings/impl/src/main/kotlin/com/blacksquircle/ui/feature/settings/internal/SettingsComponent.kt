@@ -25,20 +25,25 @@ import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.git.GitHeaderViewModel
+import com.blacksquircle.ui.feature.settings.ui.header.HeaderListViewModel
 import com.blacksquircle.ui.feature.settings.ui.terminal.TerminalHeaderViewModel
 import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApi
 import com.blacksquircle.ui.feature.terminal.api.internal.provideTerminalApi
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @SettingsScope
 @Component(
     dependencies = [
         CoreApi::class,
+        NavigationApi::class,
         TerminalApi::class,
     ]
 )
 internal interface SettingsComponent {
 
+    fun inject(factory: HeaderListViewModel.Factory)
     fun inject(factory: AppHeaderViewModel.Factory)
     fun inject(factory: CodeHeaderViewModel.Factory)
     fun inject(factory: EditorHeaderViewModel.Factory)
@@ -51,6 +56,7 @@ internal interface SettingsComponent {
     interface Factory {
         fun create(
             coreApi: CoreApi,
+            navigationApi: NavigationApi,
             terminalApi: TerminalApi,
         ): SettingsComponent
     }
@@ -62,6 +68,7 @@ internal interface SettingsComponent {
         fun buildOrGet(context: Context): SettingsComponent {
             return component ?: DaggerSettingsComponent.factory().create(
                 coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
                 terminalApi = context.provideTerminalApi(),
             ).also {
                 component = it

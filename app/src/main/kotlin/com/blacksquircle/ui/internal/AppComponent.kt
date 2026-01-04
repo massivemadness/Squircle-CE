@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.internal.di
+package com.blacksquircle.ui.internal
 
 import android.content.Context
+import com.blacksquircle.ui.application.MainActivity
 import com.blacksquircle.ui.application.MainViewModel
+import com.blacksquircle.ui.application.update.UpdateViewModel
 import com.blacksquircle.ui.core.internal.CoreApi
 import com.blacksquircle.ui.core.internal.CoreModule
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApi
@@ -70,7 +72,9 @@ internal interface AppComponent :
     TerminalApi,
     ThemesApi {
 
+    fun inject(activity: MainActivity)
     fun inject(factory: MainViewModel.Factory)
+    fun inject(factory: UpdateViewModel.Factory)
 
     @Component.Factory
     interface Factory {

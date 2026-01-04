@@ -21,6 +21,8 @@ import com.blacksquircle.ui.core.internal.CoreApi
 import com.blacksquircle.ui.core.internal.provideCoreApi
 import com.blacksquircle.ui.feature.servers.ui.details.ServerDetailsViewModel
 import com.blacksquircle.ui.feature.servers.ui.list.ServerListViewModel
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @ServersScope
@@ -30,6 +32,7 @@ import dagger.Component
     ],
     dependencies = [
         CoreApi::class,
+        NavigationApi::class,
     ]
 )
 internal interface ServersComponent {
@@ -39,7 +42,10 @@ internal interface ServersComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(coreApi: CoreApi): ServersComponent
+        fun create(
+            coreApi: CoreApi,
+            navigationApi: NavigationApi,
+        ): ServersComponent
     }
 
     companion object {
@@ -49,6 +55,7 @@ internal interface ServersComponent {
         fun buildOrGet(context: Context): ServersComponent {
             return component ?: DaggerServersComponent.factory().create(
                 coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
             ).also {
                 component = it
             }

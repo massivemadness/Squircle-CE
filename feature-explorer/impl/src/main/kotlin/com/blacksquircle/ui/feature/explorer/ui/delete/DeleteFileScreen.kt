@@ -28,7 +28,6 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteFileRoute
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
-import com.blacksquircle.ui.feature.explorer.ui.create.CreateFileViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_DELETE_FILE
 
 @Composable

@@ -43,6 +43,8 @@ import com.blacksquircle.ui.feature.servers.api.internal.ServersApi
 import com.blacksquircle.ui.feature.servers.api.internal.provideServersApi
 import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApi
 import com.blacksquircle.ui.feature.terminal.api.internal.provideTerminalApi
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @ExplorerScope
@@ -52,6 +54,7 @@ import dagger.Component
     ],
     dependencies = [
         CoreApi::class,
+        NavigationApi::class,
         ExplorerApi::class,
         EditorApi::class,
         GitApi::class,
@@ -80,6 +83,7 @@ internal interface ExplorerComponent {
     interface Factory {
         fun create(
             coreApi: CoreApi,
+            navigationApi: NavigationApi,
             editorApi: EditorApi,
             explorerApi: ExplorerApi,
             gitApi: GitApi,
@@ -95,6 +99,7 @@ internal interface ExplorerComponent {
         fun buildOrGet(context: Context): ExplorerComponent {
             return component ?: DaggerExplorerComponent.factory().create(
                 coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
                 editorApi = context.provideEditorApi(),
                 explorerApi = context.provideExplorerApi(),
                 gitApi = context.provideGitApi(),

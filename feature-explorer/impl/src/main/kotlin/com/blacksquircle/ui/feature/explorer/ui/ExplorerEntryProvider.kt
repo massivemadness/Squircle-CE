@@ -41,6 +41,7 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerScreen
 import com.blacksquircle.ui.feature.explorer.ui.permissions.NotificationDeniedScreen
 import com.blacksquircle.ui.feature.explorer.ui.permissions.StorageDeniedScreen
 import com.blacksquircle.ui.feature.explorer.ui.properties.PropertiesScreen
+import com.blacksquircle.ui.feature.explorer.ui.rename.RenameFileScreen
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskScreen
 import com.blacksquircle.ui.feature.explorer.ui.workspace.AddWorkspaceScreen
 import com.blacksquircle.ui.feature.explorer.ui.workspace.DeleteWorkspaceScreen
@@ -63,7 +64,7 @@ internal class ExplorerEntryProvider : EntryProvider {
             CloneRepoScreen()
         }
         entry<RenameFileRoute> { navArgs ->
-            RenameScreen(navArgs)
+            RenameFileScreen(navArgs)
         }
         entry<DeleteFileRoute> { navArgs ->
             DeleteFileScreen(navArgs)

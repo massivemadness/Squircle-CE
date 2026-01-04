@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.about
+package com.blacksquircle.ui.feature.settings.ui.header
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation3.runtime.NavKey
 import com.blacksquircle.ui.navigation.api.Navigator
 import javax.inject.Inject
 import javax.inject.Provider
 
-internal class AboutHeaderViewModel @Inject constructor(
+internal class HeaderListViewModel @Inject constructor(
     private val navigator: Navigator,
 ) : ViewModel() {
 
@@ -30,10 +31,14 @@ internal class AboutHeaderViewModel @Inject constructor(
         navigator.goBack()
     }
 
+    fun onHeaderClicked(screen: NavKey) {
+        navigator.navigate(screen)
+    }
+
     class Factory : ViewModelProvider.Factory {
 
         @Inject
-        lateinit var viewModelProvider: Provider<AboutHeaderViewModel>
+        lateinit var viewModelProvider: Provider<HeaderListViewModel>
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

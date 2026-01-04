@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.settings.ui.about
+package com.blacksquircle.ui.application.update
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -22,18 +22,18 @@ import com.blacksquircle.ui.navigation.api.Navigator
 import javax.inject.Inject
 import javax.inject.Provider
 
-internal class AboutHeaderViewModel @Inject constructor(
+internal class UpdateViewModel @Inject constructor(
     private val navigator: Navigator,
 ) : ViewModel() {
 
-    fun onBackClicked() {
+    fun onCloseClicked() {
         navigator.goBack()
     }
 
     class Factory : ViewModelProvider.Factory {
 
         @Inject
-        lateinit var viewModelProvider: Provider<AboutHeaderViewModel>
+        lateinit var viewModelProvider: Provider<UpdateViewModel>
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
