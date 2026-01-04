@@ -14,41 +14,24 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.redux.internal
+package com.blacksquircle.ui.redux.reducer
 
 import com.blacksquircle.ui.redux.MVIEffect
 import com.blacksquircle.ui.redux.MVIIntent
 import com.blacksquircle.ui.redux.MVIState
+import com.blacksquircle.ui.redux.internal.Next
 
-class NextBuilder<S : MVIState, I : MVIIntent, E : MVIEffect> {
+class CompoundReducer<S : MVIState, I : MVIIntent, E : MVIEffect>(
+    private val reducers: List<Reducer<S, I, E>>
+) : Reducer<S, I, E>() {
 
-    internal lateinit var state: S
-        private set
-
-    private val intents = mutableListOf<I>()
-    private val effects = mutableListOf<E>()
-
-    internal fun bind(state: S) {
-        this.state = state
-        intents.clear()
-        effects.clear()
+    override fun reduce(intent: I) {
+        val next = reducers.fold(Next<S, I, E>()) { acc, reducer ->
+            val reduce = reducer.reduce(state, intent)
+            reduce.state?.let { state { it } }
+            reduce.merge(acc)
+        }
+        next.state?.let { state { it } }
+        next.effects.forEach { effect(it) }
     }
-
-    fun state(block: S.() -> S) {
-        state = state.block()
-    }
-
-    fun intent(intent: I) {
-        intents += intent
-    }
-
-    fun effect(effect: E) {
-        effects += effect
-    }
-
-    internal fun build(): Next<S, I, E> = Next(
-        state = state,
-        intents = intents.toList(),
-        effects = effects.toList()
-    )
 }

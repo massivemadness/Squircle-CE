@@ -55,12 +55,12 @@ internal class StoreImpl<S : MVIState, I : MVIIntent, E : MVIEffect>(
     override fun wire(scope: CoroutineScope) {
         scope.launch {
             intents.consumeAsFlow().collect { intent ->
-                val next = reducer.bind(_state.value, intent)
+                val next = reducer.reduce(_state.value, intent)
                 update(next)
 
                 middlewares.forEach { middleware ->
                     launch {
-                        val next = middleware.bind(_state.value, intent)
+                        val next = middleware.handle(_state.value, intent)
                         update(next)
                     }
                 }

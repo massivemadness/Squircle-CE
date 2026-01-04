@@ -26,7 +26,10 @@ abstract class Reducer<S : MVIState, I : MVIIntent, E : MVIEffect> {
 
     private val builder = NextBuilder<S, I, E>()
 
-    internal fun bind(state: S, intent: I): Next<S, I, E> {
+    protected val state: S
+        get() = builder.state
+
+    internal fun reduce(state: S, intent: I): Next<S, I, E> {
         builder.bind(state)
         reduce(intent)
         return builder.build()

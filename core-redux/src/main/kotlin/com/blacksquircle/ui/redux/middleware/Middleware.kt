@@ -26,13 +26,16 @@ abstract class Middleware<S : MVIState, I : MVIIntent, E : MVIEffect> {
 
     private val builder = NextBuilder<S, I, E>()
 
-    internal suspend fun bind(state: S, intent: I): Next<S, I, E> {
+    protected val state: S
+        get() = builder.state
+
+    internal suspend fun handle(state: S, intent: I): Next<S, I, E> {
         builder.bind(state)
-        handle(state, intent)
+        handle(intent)
         return builder.build()
     }
 
-    abstract suspend fun handle(state: S, intent: I)
+    abstract suspend fun handle(intent: I)
 
     // protected fun state(block: S.() -> S) = builder.state(block)
     protected fun intent(intent: I) = builder.intent(intent)
