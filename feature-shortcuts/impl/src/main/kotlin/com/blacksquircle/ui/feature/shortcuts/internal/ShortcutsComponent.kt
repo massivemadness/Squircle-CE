@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.shortcuts.internal
 import android.content.Context
 import com.blacksquircle.ui.core.internal.CoreApi
 import com.blacksquircle.ui.core.internal.provideCoreApi
+import com.blacksquircle.ui.feature.shortcuts.ui.conflict.ConflictKeyViewModel
 import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.KeybindingViewModel
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ShortcutsViewModel
 import dagger.Component
@@ -36,6 +37,7 @@ internal interface ShortcutsComponent {
 
     fun inject(factory: ShortcutsViewModel.Factory)
     fun inject(factory: KeybindingViewModel.ParameterizedFactory)
+    fun inject(factory: ConflictKeyViewModel.Factory)
 
     @Component.Factory
     interface Factory {

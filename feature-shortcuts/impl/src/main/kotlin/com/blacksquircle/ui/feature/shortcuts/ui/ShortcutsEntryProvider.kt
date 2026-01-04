@@ -16,27 +16,27 @@
 
 package com.blacksquircle.ui.feature.shortcuts.ui
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.dialog
-import androidx.navigation.toRoute
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.blacksquircle.ui.feature.shortcuts.api.navigation.ConflictKeyRoute
 import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingRoute
 import com.blacksquircle.ui.feature.shortcuts.api.navigation.ShortcutsRoute
 import com.blacksquircle.ui.feature.shortcuts.ui.conflict.ConflictKeyScreen
 import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.KeybindingScreen
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ShortcutsScreen
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 
-fun NavGraphBuilder.shortcutsGraph(navController: NavHostController) {
-    composable<ShortcutsRoute> {
-        ShortcutsScreen(navController)
-    }
-    dialog<EditKeybindingRoute> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<EditKeybindingRoute>()
-        KeybindingScreen(navArgs, navController)
-    }
-    dialog<ConflictKeyRoute> {
-        ConflictKeyScreen(navController)
+internal class ShortcutsEntryProvider : EntryProvider {
+
+    override fun EntryProviderScope<NavKey>.builder() {
+        entry<ShortcutsRoute> {
+            ShortcutsScreen()
+        }
+        entry<EditKeybindingRoute> { navArgs ->
+            KeybindingScreen(navArgs)
+        }
+        entry<ConflictKeyRoute> {
+            ConflictKeyScreen()
+        }
     }
 }

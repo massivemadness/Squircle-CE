@@ -25,6 +25,7 @@ import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.navigation.ConflictKeyRoute
 import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingRoute
 import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutRepository
+import com.blacksquircle.ui.navigation.api.Navigator
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -37,6 +38,7 @@ import com.blacksquircle.ui.ds.R as UiR
 internal class ShortcutsViewModel @Inject constructor(
     private val stringProvider: StringProvider,
     private val shortcutRepository: ShortcutRepository,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(ShortcutsViewState())
@@ -51,6 +53,10 @@ internal class ShortcutsViewModel @Inject constructor(
 
     init {
         loadShortcuts()
+    }
+
+    fun onBackClicked() {
+        navigator.goBack()
     }
 
     fun onRestoreClicked() {
@@ -78,7 +84,7 @@ internal class ShortcutsViewModel @Inject constructor(
                 isAlt = keybinding.isAlt,
                 keyCode = keybinding.key.code,
             )
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(screen)
         }
     }
 
@@ -95,9 +101,7 @@ internal class ShortcutsViewModel @Inject constructor(
                 if (existingKey != null) {
                     pendingKey = keybinding
                     conflictKey = existingKey
-
-                    val screen = ConflictKeyRoute
-                    _viewEvent.send(ViewEvent.Navigation(screen))
+                    navigator.navigate(ConflictKeyRoute)
                 } else {
                     shortcutRepository.reassign(keybinding)
                     loadShortcuts()
