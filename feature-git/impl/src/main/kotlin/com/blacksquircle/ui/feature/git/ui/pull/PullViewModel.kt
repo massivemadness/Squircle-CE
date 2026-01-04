@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
+import com.blacksquircle.ui.navigation.api.Navigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -37,8 +38,9 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class PullViewModel @AssistedInject constructor(
-    private val gitRepository: GitRepository,
     @Assisted private val repository: String,
+    private val gitRepository: GitRepository,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(PullViewState())
@@ -52,9 +54,7 @@ internal class PullViewModel @AssistedInject constructor(
     }
 
     fun onBackClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
+        navigator.goBack()
     }
 
     private fun pull() {
@@ -67,6 +67,7 @@ internal class PullViewModel @AssistedInject constructor(
                 gitRepository.pull(repository)
 
                 _viewEvent.send(PullViewEvent.PullComplete)
+                navigator.goBack()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {

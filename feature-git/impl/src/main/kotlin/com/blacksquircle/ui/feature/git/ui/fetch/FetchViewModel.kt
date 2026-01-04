@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
+import com.blacksquircle.ui.navigation.api.Navigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -39,9 +40,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class FetchViewModel @AssistedInject constructor(
+    @Assisted private val repository: String,
     private val stringProvider: StringProvider,
     private val gitRepository: GitRepository,
-    @Assisted private val repository: String,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(FetchViewState())
@@ -72,7 +74,7 @@ internal class FetchViewModel @AssistedInject constructor(
                 val message = stringProvider.getString(R.string.git_toast_fetch_complete)
                 _viewEvent.send(ViewEvent.Toast(message))
 
-                _viewEvent.send(ViewEvent.PopBackStack)
+                navigator.goBack()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {

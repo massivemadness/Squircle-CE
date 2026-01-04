@@ -16,10 +16,8 @@
 
 package com.blacksquircle.ui.feature.git.ui
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.dialog
-import androidx.navigation.toRoute
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.blacksquircle.ui.feature.git.api.navigation.CheckoutRoute
 import com.blacksquircle.ui.feature.git.api.navigation.CommitRoute
 import com.blacksquircle.ui.feature.git.api.navigation.FetchRoute
@@ -30,26 +28,25 @@ import com.blacksquircle.ui.feature.git.ui.commit.CommitScreen
 import com.blacksquircle.ui.feature.git.ui.fetch.FetchScreen
 import com.blacksquircle.ui.feature.git.ui.pull.PullScreen
 import com.blacksquircle.ui.feature.git.ui.push.PushScreen
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 
-fun NavGraphBuilder.gitGraph(navController: NavHostController) {
-    dialog<FetchRoute> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<FetchRoute>()
-        FetchScreen(navArgs, navController)
-    }
-    dialog<PullRoute> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<PullRoute>()
-        PullScreen(navArgs, navController)
-    }
-    dialog<CommitRoute> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<CommitRoute>()
-        CommitScreen(navArgs, navController)
-    }
-    dialog<PushRoute> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<PushRoute>()
-        PushScreen(navArgs, navController)
-    }
-    dialog<CheckoutRoute> { backStackEntry ->
-        val navArgs = backStackEntry.toRoute<CheckoutRoute>()
-        CheckoutScreen(navArgs, navController)
+internal class GitEntryProvider : EntryProvider {
+
+    override fun EntryProviderScope<NavKey>.builder() {
+        entry<FetchRoute> { navArgs ->
+            FetchScreen(navArgs)
+        }
+        entry<PullRoute> { navArgs ->
+            PullScreen(navArgs)
+        }
+        entry<CommitRoute> { navArgs ->
+            CommitScreen(navArgs)
+        }
+        entry<PushRoute> { navArgs ->
+            PushScreen(navArgs)
+        }
+        entry<CheckoutRoute> { navArgs ->
+            CheckoutScreen(navArgs)
+        }
     }
 }

@@ -35,18 +35,17 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.navigation.ui)
     implementation(libs.eclipse.jgit)
     implementation(libs.google.dagger)
     implementation(libs.jakewharton.timber)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
     testImplementation(libs.kotlinx.coroutines.test)
-    implementation(libs.kotlinx.serialization)
 
     ksp(libs.google.dagger.compiler)
 
     implementation(project(":core-common"))
+    implementation(project(":core-navigation:api"))
     implementation(project(":core-ui"))
     testImplementation(project(":core-test"))
 

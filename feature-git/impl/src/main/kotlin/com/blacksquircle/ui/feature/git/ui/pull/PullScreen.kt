@@ -30,7 +30,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.ResultEventBus
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
@@ -47,7 +46,6 @@ import com.blacksquircle.ui.feature.git.internal.GitComponent
 @Composable
 internal fun PullScreen(
     navArgs: PullRoute,
-    navController: NavController,
     viewModel: PullViewModel = daggerViewModel { context ->
         val component = GitComponent.buildOrGet(context)
         PullViewModel.ParameterizedFactory(navArgs.repository).also(component::inject)
@@ -63,14 +61,12 @@ internal fun PullScreen(
     LaunchedEffect(Unit) {
         viewModel.viewEvent.collect { event ->
             when (event) {
-                is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
+                is ViewEvent.Toast -> {
+                    context.showToast(text = event.message)
+                }
                 is PullViewEvent.PullComplete -> {
                     context.showToast(R.string.git_toast_pull_complete)
-
                     ResultEventBus.sendResult(KEY_PULL, Unit)
-                    navController.popBackStack()
                 }
             }
         }
