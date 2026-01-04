@@ -37,10 +37,13 @@ import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiProvider
 import com.blacksquircle.ui.feature.themes.api.internal.ThemesApi
 import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiProvider
 import com.blacksquircle.ui.internal.di.AppComponent
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.NavigationApiProvider
 import timber.log.Timber
 
 internal class SquircleApp : Application(),
     CoreApiProvider,
+    NavigationApiProvider,
     EditorApiProvider,
     ExplorerApiProvider,
     FontsApiProvider,
@@ -62,6 +65,8 @@ internal class SquircleApp : Application(),
     // region DAGGER
 
     override fun provideCoreApi(): CoreApi = appComponent
+
+    override fun provideNavigationApi(): NavigationApi = appComponent
 
     override fun provideEditorApi(): EditorApi = appComponent
 

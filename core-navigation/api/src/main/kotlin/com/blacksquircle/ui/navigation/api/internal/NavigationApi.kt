@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-plugins {
-    id("com.blacksquircle.kotlin")
-    alias(libs.plugins.kotlin.serialization)
-}
+package com.blacksquircle.ui.navigation.api.internal
 
-dependencies {
-    implementation(project(":core-navigation:api"))
+import com.blacksquircle.ui.navigation.api.Navigator
+
+interface NavigationApi {
+    fun provideNavigator(): Navigator
 }

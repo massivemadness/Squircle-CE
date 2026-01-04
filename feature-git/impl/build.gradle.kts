@@ -35,7 +35,7 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.ui)
     implementation(libs.eclipse.jgit)
     implementation(libs.google.dagger)
     implementation(libs.jakewharton.timber)

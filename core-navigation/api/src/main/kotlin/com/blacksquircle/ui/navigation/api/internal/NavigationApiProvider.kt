@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-plugins {
-    id("com.blacksquircle.kotlin")
-    alias(libs.plugins.kotlin.serialization)
+package com.blacksquircle.ui.navigation.api.internal
+
+import android.content.Context
+
+interface NavigationApiProvider {
+    fun provideNavigationApi(): NavigationApi
 }
 
-dependencies {
-    implementation(project(":core-navigation:api"))
+fun Context.provideNavigationApi(): NavigationApi {
+    return (applicationContext as NavigationApiProvider).provideNavigationApi()
 }

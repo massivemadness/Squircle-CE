@@ -17,16 +17,25 @@
 package com.blacksquircle.ui.internal.di
 
 import android.content.Context
+import com.blacksquircle.ui.core.navigation.impl.NavigatorImpl
 import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.provider.resources.StringProvider
+import com.blacksquircle.ui.feature.editor.api.navigation.EditorRoute
 import com.blacksquircle.ui.internal.provider.coroutine.DispatcherProviderImpl
 import com.blacksquircle.ui.internal.provider.resources.StringProviderImpl
+import com.blacksquircle.ui.navigation.api.Navigator
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
 internal object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideNavigator(): Navigator {
+        return NavigatorImpl(startRoute = EditorRoute)
+    }
 
     @Provides
     @Singleton

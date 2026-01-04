@@ -36,6 +36,7 @@ import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApi
 import com.blacksquircle.ui.feature.terminal.internal.api.TerminalApiModule
 import com.blacksquircle.ui.feature.themes.api.internal.ThemesApi
 import com.blacksquircle.ui.feature.themes.internal.api.ThemesApiModule
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -57,6 +58,7 @@ import javax.inject.Singleton
 )
 internal interface AppComponent :
     CoreApi,
+    NavigationApi,
     EditorApi,
     ExplorerApi,
     FontsApi,

@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-plugins {
-    id("com.blacksquircle.kotlin")
-    alias(libs.plugins.kotlin.serialization)
-}
+package com.blacksquircle.ui.navigation.api
 
-dependencies {
-    implementation(project(":core-navigation:api"))
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
+
+interface Navigator {
+
+    val backStack: NavBackStack<NavKey>
+
+    fun replaceWith(route: NavKey)
+
+    fun navigate(route: NavKey)
+
+    fun goBack()
 }
