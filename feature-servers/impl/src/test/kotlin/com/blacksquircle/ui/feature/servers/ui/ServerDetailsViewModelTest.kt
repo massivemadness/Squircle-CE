@@ -17,7 +17,6 @@
 package com.blacksquircle.ui.feature.servers.ui
 
 import android.net.Uri
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.servers.createServerConfig
 import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import com.blacksquircle.ui.feature.servers.ui.details.ServerDetailsViewEvent
@@ -27,6 +26,7 @@ import com.blacksquircle.ui.feature.servers.ui.details.compose.PassphraseAction
 import com.blacksquircle.ui.feature.servers.ui.details.compose.PasswordAction
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.ServerType
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
@@ -34,6 +34,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.verify
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -42,7 +43,7 @@ import org.junit.Rule
 import org.junit.Test
 import java.util.UUID
 
-class ServerViewModelTest {
+class ServerDetailsViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -51,6 +52,7 @@ class ServerViewModelTest {
     val timberConsoleRule = TimberConsoleRule()
 
     private val serverRepository = mockk<ServerRepository>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Before
     fun setup() {
@@ -352,13 +354,14 @@ class ServerViewModelTest {
         viewModel.onCancelClicked()
 
         // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
+        verify(exactly = 1) { navigator.goBack() }
     }
 
     private fun createViewModel(serverId: String? = null): ServerDetailsViewModel {
         return ServerDetailsViewModel(
+            serverId = serverId,
             serverRepository = serverRepository,
-            serverId = serverId
+            navigator = navigator,
         )
     }
 }

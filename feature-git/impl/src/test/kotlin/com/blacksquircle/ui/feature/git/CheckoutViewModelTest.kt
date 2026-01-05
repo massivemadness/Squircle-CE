@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.git
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import com.blacksquircle.ui.feature.git.ui.checkout.CheckoutViewModel
 import com.blacksquircle.ui.feature.git.ui.checkout.CheckoutViewState
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
@@ -38,6 +39,7 @@ class CheckoutViewModelTest {
     val timberConsoleRule = TimberConsoleRule()
 
     private val gitRepository = mockk<GitRepository>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Test
     fun `When screen opens Then load branches`() = runTest {
@@ -160,8 +162,9 @@ class CheckoutViewModelTest {
 
     private fun createViewModel(): CheckoutViewModel {
         return CheckoutViewModel(
-            gitRepository = gitRepository,
             repository = REPOSITORY,
+            gitRepository = gitRepository,
+            navigator = navigator
         )
     }
 

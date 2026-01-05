@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.servers.ui
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.servers.api.navigation.ServerDetailsRoute
 import com.blacksquircle.ui.feature.servers.createServerConfig
 import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
@@ -24,14 +23,15 @@ import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import com.blacksquircle.ui.feature.servers.ui.list.ServerListViewModel
 import com.blacksquircle.ui.feature.servers.ui.list.ServerListViewState
 import com.blacksquircle.ui.feature.servers.ui.list.model.ServerModel
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -40,7 +40,7 @@ import org.junit.Test
 import java.net.UnknownHostException
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class CloudViewModelTest {
+class ServerListViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -49,6 +49,7 @@ class CloudViewModelTest {
     val timberConsoleRule = TimberConsoleRule()
 
     private val serverRepository = mockk<ServerRepository>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Test
     fun `When server clicked Then send navigation event`() = runTest {
@@ -61,8 +62,7 @@ class CloudViewModelTest {
         viewModel.onServerClicked(serverConfig)
 
         // Then
-        val expected = ViewEvent.Navigation(screen)
-        assertEquals(expected, viewModel.viewEvent.first())
+        verify(exactly = 1) { navigator.navigate(screen) }
     }
 
     @Test
@@ -75,8 +75,7 @@ class CloudViewModelTest {
         viewModel.onCreateClicked()
 
         // Then
-        val expected = ViewEvent.Navigation(screen)
-        assertEquals(expected, viewModel.viewEvent.first())
+        verify(exactly = 1) { navigator.navigate(screen) }
     }
 
     @Test
@@ -161,6 +160,9 @@ class CloudViewModelTest {
     }
 
     private fun createViewModel(): ServerListViewModel {
-        return ServerListViewModel(serverRepository)
+        return ServerListViewModel(
+            serverRepository = serverRepository,
+            navigator = navigator
+        )
     }
 }

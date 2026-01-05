@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.shortcuts.ui
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.shortcuts.api.model.KeyGroup
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
@@ -25,12 +24,13 @@ import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingRoute
 import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutRepository
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ShortcutsViewModel
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ShortcutsViewState
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.flow.first
+import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -46,6 +46,7 @@ class ShortcutsViewModelTest {
 
     private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val shortcutRepository = mockk<ShortcutRepository>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Test
     fun `When screen opens Then display shortcuts`() = runTest {
@@ -185,14 +186,14 @@ class ShortcutsViewModelTest {
             isAlt = keybinding.isAlt,
             keyCode = keybinding.key.code,
         )
-        val expected = ViewEvent.Navigation(destination)
-        assertEquals(expected, viewModel.viewEvent.first())
+        verify(exactly = 1) { navigator.navigate(destination) }
     }
 
     private fun createViewModel(): ShortcutsViewModel {
         return ShortcutsViewModel(
             stringProvider = stringProvider,
             shortcutRepository = shortcutRepository,
+            navigator = navigator
         )
     }
 }

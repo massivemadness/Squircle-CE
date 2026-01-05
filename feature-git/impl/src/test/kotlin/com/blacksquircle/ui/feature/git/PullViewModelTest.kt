@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.git
 import com.blacksquircle.ui.feature.git.domain.exception.GitException
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import com.blacksquircle.ui.feature.git.ui.pull.PullViewModel
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
@@ -38,6 +39,7 @@ class PullViewModelTest {
     val timberConsoleRule = TimberConsoleRule()
 
     private val gitRepository = mockk<GitRepository>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Test
     fun `When screen opens Then pull updates from remote`() = runTest {
@@ -63,8 +65,9 @@ class PullViewModelTest {
 
     private fun createViewModel(): PullViewModel {
         return PullViewModel(
-            gitRepository = gitRepository,
             repository = REPOSITORY,
+            gitRepository = gitRepository,
+            navigator = navigator
         )
     }
 
