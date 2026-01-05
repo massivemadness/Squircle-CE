@@ -24,9 +24,9 @@ import com.blacksquircle.ui.redux.store.produceStore
 import javax.inject.Inject
 
 internal class ThemesStore @Inject constructor(
-    themesReducer: ThemesReducer,
-    themesMiddleware: ThemesMiddleware,
-    themesSearchMiddleware: ThemesSearchMiddleware,
+    private val themesReducer: ThemesReducer,
+    private val themesMiddleware: ThemesMiddleware,
+    private val themesSearchMiddleware: ThemesSearchMiddleware,
 ) : Store<ThemesState, ThemesAction, ThemesEvent> by produceStore(
         initialState = ThemesState(),
         initialAction = ThemesAction.Init,

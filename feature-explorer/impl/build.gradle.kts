@@ -34,6 +34,7 @@ dependencies {
 
     implementation(project(":core-common"))
     implementation(project(":core-navigation:api"))
+    implementation(project(":core-redux"))
     implementation(project(":core-ui"))
 
     implementation(project(":feature-editor:api"))

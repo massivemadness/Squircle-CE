@@ -24,9 +24,9 @@ import com.blacksquircle.ui.redux.store.produceStore
 import javax.inject.Inject
 
 internal class FontsStore @Inject constructor(
-    fontsReducer: FontsReducer,
-    fontsMiddleware: FontsMiddleware,
-    fontsSearchMiddleware: FontsSearchMiddleware,
+    private val fontsReducer: FontsReducer,
+    private val fontsMiddleware: FontsMiddleware,
+    private val fontsSearchMiddleware: FontsSearchMiddleware,
 ) : Store<FontsState, FontsAction, FontsEvent> by produceStore(
         initialState = FontsState(),
         initialAction = FontsAction.Init,
