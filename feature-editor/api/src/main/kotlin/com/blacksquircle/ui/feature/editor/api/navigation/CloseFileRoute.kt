@@ -16,7 +16,8 @@
 
 package com.blacksquircle.ui.feature.editor.api.navigation
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CloseFileRoute(val fileUuid: String, val fileName: String)
+data class CloseFileRoute(val fileUuid: String, val fileName: String) : NavKey

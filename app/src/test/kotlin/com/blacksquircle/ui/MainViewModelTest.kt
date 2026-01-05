@@ -26,6 +26,7 @@ import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FULLSCRE
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
 import com.blacksquircle.ui.feature.themes.api.model.ColorScheme
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
@@ -50,6 +51,7 @@ class MainViewModelTest {
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
     private val themeInteractor = mockk<ThemeInteractor>(relaxed = true)
     private val editorInteractor = mockk<EditorInteractor>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     private val colorScheme = mockk<ColorScheme>(relaxed = true)
 
@@ -122,6 +124,7 @@ class MainViewModelTest {
             settingsManager = settingsManager,
             themeInteractor = themeInteractor,
             editorInteractor = editorInteractor,
+            navigator = navigator
         )
     }
 }

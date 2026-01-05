@@ -16,7 +16,8 @@
 
 package com.blacksquircle.ui.feature.git.api.navigation
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CommitRoute(val repository: String)
+data class CommitRoute(val repository: String) : NavKey

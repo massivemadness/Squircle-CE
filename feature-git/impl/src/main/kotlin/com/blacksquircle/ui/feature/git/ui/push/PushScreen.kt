@@ -32,7 +32,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -49,7 +48,6 @@ import com.blacksquircle.ui.feature.git.internal.GitComponent
 @Composable
 internal fun PushScreen(
     navArgs: PushRoute,
-    navController: NavController,
     viewModel: PushViewModel = daggerViewModel { context ->
         val component = GitComponent.buildOrGet(context)
         PushViewModel.ParameterizedFactory(navArgs.repository).also(component::inject)
@@ -60,7 +58,7 @@ internal fun PushScreen(
         viewState = viewState,
         onForceClicked = viewModel::onForceClicked,
         onPushClicked = viewModel::onPushClicked,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
     )
 
     val context = LocalContext.current
@@ -68,8 +66,6 @@ internal fun PushScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
             }
         }
     }
@@ -152,7 +148,6 @@ private fun PushScreen(
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
-        onDismiss = onBackClicked,
         confirmButton = stringResource(R.string.git_push_dialog_button_push),
         confirmButtonEnabled = viewState.isPushButtonEnabled,
         onConfirmClicked = onPushClicked

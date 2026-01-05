@@ -24,6 +24,8 @@ internal sealed interface FontsAction : MVIAction {
 
     data object OnInit : FontsAction
 
+    data object OnBackClicked : FontsAction
+
     sealed interface QueryAction : FontsAction {
         data class OnQueryChanged(val query: String) : QueryAction
         data object OnClearQueryClicked : QueryAction

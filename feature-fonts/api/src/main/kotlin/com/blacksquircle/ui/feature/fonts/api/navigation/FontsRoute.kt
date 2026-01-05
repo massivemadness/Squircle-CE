@@ -16,7 +16,8 @@
 
 package com.blacksquircle.ui.feature.fonts.api.navigation
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object FontsRoute
+data object FontsRoute : NavKey

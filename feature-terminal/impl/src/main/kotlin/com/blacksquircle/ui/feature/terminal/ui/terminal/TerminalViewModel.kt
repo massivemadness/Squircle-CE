@@ -28,6 +28,7 @@ import com.blacksquircle.ui.feature.terminal.domain.manager.SessionManager
 import com.blacksquircle.ui.feature.terminal.domain.model.RuntimeState
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 import com.blacksquircle.ui.feature.terminal.domain.runtime.TerminalRuntime
+import com.blacksquircle.ui.navigation.api.Navigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -45,6 +46,7 @@ internal class TerminalViewModel @AssistedInject constructor(
     private val settingsManager: SettingsManager,
     private val sessionManager: SessionManager,
     private val runtimeManager: RuntimeManager,
+    private val navigator: Navigator,
     @Assisted private val pendingCommand: ShellArgs?,
 ) : ViewModel() {
 
@@ -59,6 +61,10 @@ internal class TerminalViewModel @AssistedInject constructor(
 
     init {
         loadSessions()
+    }
+
+    fun onBackClicked() {
+        navigator.goBack()
     }
 
     fun onSessionClicked(sessionModel: SessionModel) {
@@ -109,9 +115,7 @@ internal class TerminalViewModel @AssistedInject constructor(
         sessionManager.closeSession(sessionModel.id)
 
         if (sessions.isEmpty()) {
-            viewModelScope.launch {
-                _viewEvent.send(ViewEvent.PopBackStack)
-            }
+            navigator.goBack()
         } else {
             _viewState.update {
                 it.copy(

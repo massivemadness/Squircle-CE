@@ -61,6 +61,7 @@ import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.feature.terminal.api.navigation.TerminalRoute
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.navigation.api.Navigator
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -88,6 +89,7 @@ internal class EditorViewModel @Inject constructor(
     private val shortcutsInteractor: ShortcutsInteractor,
     private val terminalInteractor: TerminalInteractor,
     private val languageInteractor: LanguageInteractor,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(EditorViewState())
@@ -107,11 +109,18 @@ internal class EditorViewModel @Inject constructor(
 
     fun onBackClicked() {
         viewModelScope.launch {
-            if (settingsManager.confirmExit) {
-                val screen = ConfirmExitRoute
-                _viewEvent.send(ViewEvent.Navigation(screen))
-            } else {
-                _viewEvent.send(ViewEvent.PopBackStack)
+            when {
+                settingsManager.confirmExit -> {
+                    navigator.navigate(ConfirmExitRoute)
+                }
+
+                navigator.backStack.size == 1 -> {
+                    _viewEvent.send(EditorViewEvent.Finish)
+                }
+
+                else -> {
+                    navigator.goBack()
+                }
             }
         }
     }
@@ -647,14 +656,12 @@ internal class EditorViewModel @Inject constructor(
     }
 
     private fun onGoToLineClicked() {
-        viewModelScope.launch {
-            if (selectedPosition !in documents.indices) {
-                return@launch
-            }
-            val content = documents[selectedPosition].content ?: return@launch
-            val screen = GoToLineRoute(content.lineCount)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+        if (selectedPosition !in documents.indices) {
+            return
         }
+        val content = documents[selectedPosition].content ?: return
+        val screen = GoToLineRoute(content.lineCount)
+        navigator.navigate(screen)
     }
 
     fun onLineSelected(lineNumber: Int) {
@@ -665,14 +672,12 @@ internal class EditorViewModel @Inject constructor(
     }
 
     fun onForceSyntaxClicked() {
-        viewModelScope.launch {
-            if (selectedPosition !in documents.indices) {
-                return@launch
-            }
-            val document = documents[selectedPosition].document
-            val screen = ForceSyntaxRoute(document.language)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+        if (selectedPosition !in documents.indices) {
+            return
         }
+        val document = documents[selectedPosition].document
+        val screen = ForceSyntaxRoute(document.language)
+        navigator.navigate(screen)
     }
 
     fun onLanguageChanged(language: String) {
@@ -703,13 +708,10 @@ internal class EditorViewModel @Inject constructor(
     }
 
     fun onInsertColorClicked() {
-        viewModelScope.launch {
-            if (selectedPosition !in documents.indices) {
-                return@launch
-            }
-            val screen = InsertColorRoute
-            _viewEvent.send(ViewEvent.Navigation(screen))
+        if (selectedPosition !in documents.indices) {
+            return
         }
+        navigator.navigate(InsertColorRoute)
     }
 
     fun onColorSelected(color: Int) {
@@ -720,10 +722,7 @@ internal class EditorViewModel @Inject constructor(
     }
 
     fun onSettingsClicked() {
-        viewModelScope.launch {
-            val screen = HeaderListRoute
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
+        navigator.navigate(HeaderListRoute)
     }
 
     fun onFetchClicked() {
@@ -735,7 +734,7 @@ internal class EditorViewModel @Inject constructor(
                 val document = documents[selectedPosition].document
                 val repository = gitInteractor.checkRepository(document.gitRepository)
                 val screen = FetchRoute(repository)
-                _viewEvent.send(ViewEvent.Navigation(screen))
+                navigator.navigate(screen)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -756,7 +755,7 @@ internal class EditorViewModel @Inject constructor(
                 val document = documents[selectedPosition].document
                 val repository = gitInteractor.checkRepository(document.gitRepository)
                 val screen = PullRoute(repository)
-                _viewEvent.send(ViewEvent.Navigation(screen))
+                navigator.navigate(screen)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -777,7 +776,7 @@ internal class EditorViewModel @Inject constructor(
                 val document = documents[selectedPosition].document
                 val repository = gitInteractor.checkRepository(document.gitRepository)
                 val screen = CommitRoute(repository)
-                _viewEvent.send(ViewEvent.Navigation(screen))
+                navigator.navigate(screen)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -798,7 +797,7 @@ internal class EditorViewModel @Inject constructor(
                 val document = documents[selectedPosition].document
                 val repository = gitInteractor.checkRepository(document.gitRepository)
                 val screen = PushRoute(repository)
-                _viewEvent.send(ViewEvent.Navigation(screen))
+                navigator.navigate(screen)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -819,7 +818,7 @@ internal class EditorViewModel @Inject constructor(
                 val document = documents[selectedPosition].document
                 val repository = gitInteractor.checkRepository(document.gitRepository)
                 val screen = CheckoutRoute(repository)
-                _viewEvent.send(ViewEvent.Navigation(screen))
+                navigator.navigate(screen)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -837,7 +836,7 @@ internal class EditorViewModel @Inject constructor(
                 terminalInteractor.openTermux()
             } else {
                 val screen = TerminalRoute()
-                _viewEvent.send(ViewEvent.Navigation(screen))
+                navigator.navigate(screen)
             }
         }
     }
@@ -901,7 +900,7 @@ internal class EditorViewModel @Inject constructor(
                         fileUuid = document.uuid,
                         fileName = document.displayName,
                     )
-                    _viewEvent.send(ViewEvent.Navigation(screen))
+                    navigator.navigate(screen)
                     return@launch
                 }
                 /** Calculate new position */
@@ -912,6 +911,7 @@ internal class EditorViewModel @Inject constructor(
                         removedPosition + 1 < documents.size -> removedPosition
                         else -> -1
                     }
+
                     removedPosition < selectedPosition -> selectedPosition - 1
                     removedPosition > selectedPosition -> selectedPosition
                     else -> -1
@@ -1043,8 +1043,7 @@ internal class EditorViewModel @Inject constructor(
         viewModelScope.launch {
             when (errorAction) {
                 ErrorAction.REQUEST_PERMISSIONS -> {
-                    val screen = StorageDeniedRoute
-                    _viewEvent.send(ViewEvent.Navigation(screen))
+                    navigator.navigate(StorageDeniedRoute)
                 }
 
                 ErrorAction.CLOSE_DOCUMENT -> onCloseFileClicked()
@@ -1355,12 +1354,15 @@ internal class EditorViewModel @Inject constructor(
                         is EditorApiEvent.OpenFile -> {
                             onFileOpened(event.fileModel)
                         }
+
                         is EditorApiEvent.OpenFileUri -> {
                             onFileOpened(event.fileUri)
                         }
+
                         is EditorApiEvent.RenameFile -> {
                             onFileRenamed(event.fileModel, event.newName)
                         }
+
                         is EditorApiEvent.DeleteFile -> {
                             onFileDeleted(event.fileModel)
                         }

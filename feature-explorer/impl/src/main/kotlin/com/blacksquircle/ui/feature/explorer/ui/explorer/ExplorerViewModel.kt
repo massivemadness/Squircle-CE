@@ -75,6 +75,7 @@ import com.blacksquircle.ui.filesystem.base.exception.SplitArchiveException
 import com.blacksquircle.ui.filesystem.base.exception.UnsupportedArchiveException
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.filesystem.base.model.FileType
+import com.blacksquircle.ui.navigation.api.Navigator
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -99,6 +100,7 @@ internal class ExplorerViewModel @Inject constructor(
     private val serverInteractor: ServerInteractor,
     private val terminalInteractor: TerminalInteractor,
     private val asyncNodeBuilder: AsyncNodeBuilder,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(ExplorerViewState())
@@ -185,25 +187,22 @@ internal class ExplorerViewModel @Inject constructor(
     }
 
     fun onAddWorkspaceClicked() {
-        viewModelScope.launch {
-            val screen = AddWorkspaceRoute
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
+        navigator.navigate(AddWorkspaceRoute)
     }
 
     fun onDeleteWorkspaceClicked(workspace: WorkspaceModel) {
-        viewModelScope.launch {
-            when (workspace.type) {
-                WorkspaceType.CUSTOM -> {
-                    val screen = DeleteWorkspaceRoute(workspace.uuid, workspace.name)
-                    _viewEvent.send(ViewEvent.Navigation(screen))
-                }
-                WorkspaceType.SERVER -> {
-                    val screen = ServerDetailsRoute(workspace.uuid)
-                    _viewEvent.send(ViewEvent.Navigation(screen))
-                }
-                else -> Unit
+        when (workspace.type) {
+            WorkspaceType.CUSTOM -> {
+                val screen = DeleteWorkspaceRoute(workspace.uuid, workspace.name)
+                navigator.navigate(screen)
             }
+
+            WorkspaceType.SERVER -> {
+                val screen = ServerDetailsRoute(workspace.uuid)
+                navigator.navigate(screen)
+            }
+
+            else -> Unit
         }
     }
 
@@ -286,6 +285,7 @@ internal class ExplorerViewModel @Inject constructor(
                         editorInteractor.openFile(fileNode.file)
                         _viewEvent.send(ViewEvent.PopBackStack)
                     }
+
                     else -> onOpenWithClicked(fileNode)
                 }
             }
@@ -336,8 +336,7 @@ internal class ExplorerViewModel @Inject constructor(
                 )
             }
 
-            val screen = CreateFileRoute
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(CreateFileRoute)
         }
     }
 
@@ -355,8 +354,7 @@ internal class ExplorerViewModel @Inject constructor(
                 )
             }
 
-            val screen = CloneRepoRoute
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(CloneRepoRoute)
         }
     }
 
@@ -375,7 +373,7 @@ internal class ExplorerViewModel @Inject constructor(
             }
 
             val screen = RenameFileRoute(fileNode.file.name)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(screen)
         }
     }
 
@@ -393,7 +391,7 @@ internal class ExplorerViewModel @Inject constructor(
 
             val fileName = taskBuffer.first().file.name
             val screen = DeleteFileRoute(fileName, taskBuffer.size)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(screen)
         }
     }
 
@@ -456,7 +454,7 @@ internal class ExplorerViewModel @Inject constructor(
                     terminalInteractor.openTermux(args)
                 } else {
                     val screen = TerminalRoute(workingDir = target.file.path)
-                    _viewEvent.send(ViewEvent.Navigation(screen))
+                    navigator.navigate(screen)
                 }
             }
             resetBuffer()
@@ -473,7 +471,7 @@ internal class ExplorerViewModel @Inject constructor(
                 lastModified = fileNode.file.lastModified,
                 permission = fileNode.file.permission,
             )
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(screen)
             resetBuffer()
         }
     }
@@ -505,8 +503,7 @@ internal class ExplorerViewModel @Inject constructor(
                 )
             }
 
-            val screen = CompressFileRoute
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(CompressFileRoute)
         }
     }
 
@@ -530,24 +527,24 @@ internal class ExplorerViewModel @Inject constructor(
                 ErrorAction.REQUEST_PERMISSIONS -> {
                     _viewEvent.send(ExplorerViewEvent.RequestPermission)
                 }
+
                 ErrorAction.ENTER_PASSWORD -> {
                     val screen = ServerAuthRoute(AuthMethod.PASSWORD)
-                    _viewEvent.send(ViewEvent.Navigation(screen))
+                    navigator.navigate(screen)
                 }
+
                 ErrorAction.ENTER_PASSPHRASE -> {
                     val screen = ServerAuthRoute(AuthMethod.KEY)
-                    _viewEvent.send(ViewEvent.Navigation(screen))
+                    navigator.navigate(screen)
                 }
+
                 ErrorAction.UNDEFINED -> Unit
             }
         }
     }
 
     fun onPermissionDenied() {
-        viewModelScope.launch {
-            val screen = StorageDeniedRoute
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
+        navigator.navigate(StorageDeniedRoute)
     }
 
     fun onPermissionGranted() {
@@ -584,7 +581,7 @@ internal class ExplorerViewModel @Inject constructor(
 
             val taskId = explorerRepository.createFile(parentNode.file, fileName, isFolder = false)
             val screen = TaskRoute(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(screen)
 
             resetBuffer()
 
@@ -595,6 +592,7 @@ internal class ExplorerViewModel @Inject constructor(
                         loadFiles(parentNode)
                         onTaskFinished()
                     }
+
                     else -> Unit
                 }
             }
@@ -607,7 +605,7 @@ internal class ExplorerViewModel @Inject constructor(
 
             val taskId = explorerRepository.createFile(parentNode.file, fileName, isFolder = true)
             val screen = TaskRoute(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(screen)
 
             resetBuffer()
 
@@ -618,6 +616,7 @@ internal class ExplorerViewModel @Inject constructor(
                         loadFiles(parentNode)
                         onTaskFinished()
                     }
+
                     else -> Unit
                 }
             }
@@ -630,7 +629,7 @@ internal class ExplorerViewModel @Inject constructor(
 
             val taskId = explorerRepository.cloneRepository(parentNode.file, url)
             val screen = TaskRoute(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(screen)
 
             resetBuffer()
 
@@ -641,6 +640,7 @@ internal class ExplorerViewModel @Inject constructor(
                         loadFiles(parentNode)
                         onTaskFinished()
                     }
+
                     else -> Unit
                 }
             }
@@ -653,7 +653,7 @@ internal class ExplorerViewModel @Inject constructor(
 
             val taskId = explorerRepository.renameFile(fileNode.file, fileName)
             val screen = TaskRoute(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(screen)
 
             resetBuffer()
 
@@ -669,6 +669,7 @@ internal class ExplorerViewModel @Inject constructor(
                         val parentNode = cache.findNodeByKey(parentKey) ?: return@collect
                         loadFiles(parentNode)
                     }
+
                     else -> Unit
                 }
             }
@@ -682,7 +683,7 @@ internal class ExplorerViewModel @Inject constructor(
 
             val taskId = explorerRepository.deleteFiles(fileModels)
             val screen = TaskRoute(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(screen)
 
             resetBuffer()
 
@@ -698,6 +699,7 @@ internal class ExplorerViewModel @Inject constructor(
                         }
                         updateNodeList()
                     }
+
                     else -> Unit
                 }
             }
@@ -713,7 +715,7 @@ internal class ExplorerViewModel @Inject constructor(
 
             val taskId = explorerRepository.compressFiles(fileModels, parentNode.file, fileName)
             val screen = TaskRoute(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(screen)
 
             resetBuffer()
 
@@ -724,6 +726,7 @@ internal class ExplorerViewModel @Inject constructor(
                         onTaskFinished()
                         loadFiles(parentNode)
                     }
+
                     else -> Unit
                 }
             }
@@ -738,7 +741,7 @@ internal class ExplorerViewModel @Inject constructor(
 
             val taskId = explorerRepository.moveFiles(fileModels, parentNode.file)
             val screen = TaskRoute(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(screen)
 
             resetBuffer()
 
@@ -751,6 +754,7 @@ internal class ExplorerViewModel @Inject constructor(
                         fileNodes.forEach(cache::removeNode)
                         loadFiles(parentNode)
                     }
+
                     else -> Unit
                 }
             }
@@ -764,7 +768,7 @@ internal class ExplorerViewModel @Inject constructor(
 
             val taskId = explorerRepository.copyFiles(fileModels, parentNode.file)
             val screen = TaskRoute(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(screen)
 
             resetBuffer()
 
@@ -775,6 +779,7 @@ internal class ExplorerViewModel @Inject constructor(
                         onTaskFinished()
                         loadFiles(parentNode)
                     }
+
                     else -> Unit
                 }
             }
@@ -788,7 +793,7 @@ internal class ExplorerViewModel @Inject constructor(
 
             val taskId = explorerRepository.extractFiles(fileNode.file, parentNode.file)
             val screen = TaskRoute(taskId)
-            _viewEvent.send(ViewEvent.Navigation(screen))
+            navigator.navigate(screen)
 
             resetBuffer()
 
@@ -799,6 +804,7 @@ internal class ExplorerViewModel @Inject constructor(
                         onTaskFinished()
                         loadFiles(parentNode)
                     }
+
                     else -> Unit
                 }
             }
@@ -1009,6 +1015,7 @@ internal class ExplorerViewModel @Inject constructor(
                 subtitle = when (e.authMethod) {
                     AuthMethod.PASSWORD ->
                         stringProvider.getString(R.string.explorer_error_view_message_password)
+
                     AuthMethod.KEY ->
                         stringProvider.getString(R.string.explorer_error_view_message_passphrase)
                 },
@@ -1024,6 +1031,7 @@ internal class ExplorerViewModel @Inject constructor(
                 subtitle = when (e.authMethod) {
                     AuthMethod.PASSWORD ->
                         stringProvider.getString(R.string.explorer_error_view_message_password)
+
                     AuthMethod.KEY ->
                         stringProvider.getString(R.string.explorer_error_view_message_passphrase)
                 },
@@ -1053,35 +1061,43 @@ internal class ExplorerViewModel @Inject constructor(
                 val message = stringProvider.getString(R.string.explorer_toast_file_not_found)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
+
             is FileAlreadyExistsException -> {
                 val message = stringProvider.getString(R.string.explorer_toast_file_already_exists)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
+
             is UnsupportedArchiveException -> {
                 val message = stringProvider.getString(R.string.explorer_toast_unsupported_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
+
             is EncryptedArchiveException -> {
                 val message = stringProvider.getString(R.string.explorer_toast_encrypted_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
+
             is SplitArchiveException -> {
                 val message = stringProvider.getString(R.string.explorer_toast_split_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
+
             is InvalidArchiveException -> {
                 val message = stringProvider.getString(R.string.explorer_toast_invalid_archive)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
+
             is UnsupportedOperationException -> {
                 val message =
                     stringProvider.getString(R.string.explorer_toast_operation_not_supported)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
+
             is CancellationException -> {
                 val message = stringProvider.getString(R.string.explorer_toast_operation_cancelled)
                 _viewEvent.send(ViewEvent.Toast(message))
             }
+
             else -> {
                 _viewEvent.send(ViewEvent.Toast(e.message.toString()))
             }

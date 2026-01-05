@@ -24,16 +24,18 @@ import com.blacksquircle.ui.feature.fonts.domain.repository.FontsRepository
 import com.blacksquircle.ui.feature.fonts.ui.fonts.store.FontsAction
 import com.blacksquircle.ui.feature.fonts.ui.fonts.store.FontsState
 import com.blacksquircle.ui.feature.fonts.ui.fonts.store.middleware.FontsMiddleware
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
@@ -47,10 +49,12 @@ class FontsMiddlewareTest {
 
     private val fontsRepository = mockk<FontsRepository>(relaxed = true)
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     private val fontsMiddleware = FontsMiddleware(
         fontsRepository = fontsRepository,
         settingsManager = settingsManager,
+        navigator = navigator
     )
 
     private val state = MutableStateFlow(FontsState())
@@ -69,14 +73,26 @@ class FontsMiddlewareTest {
         coEvery { fontsRepository.loadFonts("") } returns fonts
         every { settingsManager.fontType } returns selectedUuid
 
-        // When
         fontsMiddleware.bind(state, actions).test {
             // When
             actions.emit(FontsAction.OnInit)
 
             // Then
-            Assert.assertEquals(FontsAction.OnFontsLoaded(fonts, selectedUuid), awaitItem())
+            assertEquals(FontsAction.OnFontsLoaded(fonts, selectedUuid), awaitItem())
             coVerify(exactly = 1) { fontsRepository.loadFonts("") }
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `When back clicked Then return to previous screen`() = runTest {
+        fontsMiddleware.bind(state, actions).test {
+            // When
+            actions.emit(FontsAction.OnBackClicked)
+
+            // Then
+            verify(exactly = 1) { navigator.goBack() }
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -92,7 +108,7 @@ class FontsMiddlewareTest {
             actions.emit(FontsAction.OnSelectClicked(fontModel))
 
             // Then
-            Assert.assertEquals(FontsAction.OnFontSelected(fontModel), awaitItem())
+            assertEquals(FontsAction.OnFontSelected(fontModel), awaitItem())
             coVerify(exactly = 1) { fontsRepository.selectFont(fontModel) }
 
             cancelAndIgnoreRemainingEvents()
@@ -110,7 +126,7 @@ class FontsMiddlewareTest {
             actions.emit(FontsAction.OnRemoveClicked(fontModel))
 
             // Then
-            Assert.assertEquals(FontsAction.OnFontRemoved(fontModel, "1"), awaitItem())
+            assertEquals(FontsAction.OnFontRemoved(fontModel, "1"), awaitItem())
             coVerify(exactly = 1) { fontsRepository.removeFont(fontModel) }
 
             cancelAndIgnoreRemainingEvents()
@@ -127,8 +143,8 @@ class FontsMiddlewareTest {
             actions.emit(FontsAction.OnImportFont(fontUri))
 
             // Then
-            Assert.assertEquals(FontsAction.OnFontImported, awaitItem())
-            Assert.assertEquals(FontsAction.OnInit, awaitItem())
+            assertEquals(FontsAction.OnFontImported, awaitItem())
+            assertEquals(FontsAction.OnInit, awaitItem())
             coVerify(exactly = 1) { fontsRepository.importFont(fontUri) }
 
             cancelAndIgnoreRemainingEvents()

@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.editor.ui
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
@@ -31,10 +30,10 @@ import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.*
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -58,6 +57,7 @@ class CloseFileTest {
     private val shortcutsInteractor = mockk<ShortcutsInteractor>(relaxed = true)
     private val terminalInteractor = mockk<TerminalInteractor>(relaxed = true)
     private val languageInteractor = mockk<LanguageInteractor>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Before
     fun setup() {
@@ -81,8 +81,8 @@ class CloseFileTest {
         viewModel.onCloseFileClicked()
 
         // Then
-        val expected = ViewEvent.Navigation(CloseFileRoute(selected.uuid, selected.displayName))
-        assertEquals(expected, viewModel.viewEvent.first())
+        val route = CloseFileRoute(selected.uuid, selected.displayName)
+        verify(exactly = 1) { navigator.navigate(route) }
     }
 
     @Test
@@ -343,6 +343,7 @@ class CloseFileTest {
             shortcutsInteractor = shortcutsInteractor,
             terminalInteractor = terminalInteractor,
             languageInteractor = languageInteractor,
+            navigator = navigator
         )
     }
 }

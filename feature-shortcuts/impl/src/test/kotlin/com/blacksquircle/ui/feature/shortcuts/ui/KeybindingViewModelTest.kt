@@ -16,16 +16,16 @@
 
 package com.blacksquircle.ui.feature.shortcuts.ui
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
-import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.KeybindingViewEvent
 import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.KeybindingViewModel
 import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.KeybindingViewState
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
+import io.mockk.mockk
+import io.mockk.verify
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -37,6 +37,8 @@ class KeybindingViewModelTest {
 
     @get:Rule
     val timberConsoleRule = TimberConsoleRule()
+
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     private val keybinding = Keybinding(
         shortcut = Shortcut.CUT,
@@ -184,7 +186,7 @@ class KeybindingViewModelTest {
     }
 
     @Test
-    fun `When save clicked Then send result to previous screen`() = runTest {
+    fun `When save clicked Then return previous screen`() = runTest {
         // Given
         val ctrl = true
         val shift = true
@@ -197,14 +199,7 @@ class KeybindingViewModelTest {
         viewModel.onSaveClicked()
 
         // Then
-        val keybinding = Keybinding(
-            shortcut = keybinding.shortcut,
-            isCtrl = ctrl,
-            isShift = shift,
-            isAlt = alt,
-            key = key,
-        )
-        assertEquals(KeybindingViewEvent.SendSaveResult(keybinding), viewModel.viewEvent.first())
+        verify(exactly = 1) { navigator.goBack() }
     }
 
     @Test
@@ -216,10 +211,13 @@ class KeybindingViewModelTest {
         viewModel.onCancelClicked()
 
         // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
+        verify(exactly = 1) { navigator.goBack() }
     }
 
     private fun createViewModel(): KeybindingViewModel {
-        return KeybindingViewModel(keybinding)
+        return KeybindingViewModel(
+            keybinding = keybinding,
+            navigator = navigator
+        )
     }
 }

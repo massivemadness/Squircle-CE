@@ -45,7 +45,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.copyText
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.primaryClipText
@@ -84,7 +83,6 @@ private const val EXTRA_KEYS_PROPERTIES = "[" +
 @Composable
 internal fun TerminalScreen(
     navArgs: TerminalRoute,
-    navController: NavController,
     viewModel: TerminalViewModel = daggerViewModel { context ->
         val component = TerminalComponent.buildOrGet(context)
         TerminalViewModel.ParameterizedFactory(navArgs.args).also(component::inject)
@@ -99,7 +97,7 @@ internal fun TerminalScreen(
         onSessionClicked = viewModel::onSessionClicked,
         onCreateSessionClicked = viewModel::onCreateSessionClicked,
         onCloseSessionClicked = viewModel::onCloseSessionClicked,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
     )
 
     val activity = LocalActivity.current
@@ -116,9 +114,9 @@ internal fun TerminalScreen(
     LaunchedEffect(Unit) {
         viewModel.viewEvent.collect { event ->
             when (event) {
-                is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
+                is ViewEvent.Toast -> {
+                    context.showToast(text = event.message)
+                }
                 is TerminalViewEvent.ScrollToEnd -> {
                     tabsState.animateScrollToItem(viewState.sessions.size)
                 }

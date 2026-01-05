@@ -20,6 +20,7 @@ import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.files.FilesHeaderViewState
 import com.blacksquircle.ui.filesystem.base.model.LineBreak
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.every
@@ -40,6 +41,7 @@ class FilesHeaderViewModelTest {
     val timberConsoleRule = TimberConsoleRule()
 
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Test
     fun `When screen opens Then read settings`() = runTest {
@@ -188,6 +190,9 @@ class FilesHeaderViewModelTest {
     }
 
     private fun createViewModel(): FilesHeaderViewModel {
-        return FilesHeaderViewModel(settingsManager)
+        return FilesHeaderViewModel(
+            settingsManager = settingsManager,
+            navigator = navigator
+        )
     }
 }

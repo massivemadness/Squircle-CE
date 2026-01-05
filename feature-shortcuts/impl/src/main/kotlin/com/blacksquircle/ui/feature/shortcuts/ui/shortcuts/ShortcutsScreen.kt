@@ -33,7 +33,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.ResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
@@ -56,12 +55,11 @@ import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.compose.Combination
 import com.blacksquircle.ui.ds.R as UiR
 
-internal const val KEY_SAVE = "KEY_SAVE"
-internal const val KEY_RESOLVE = "KEY_RESOLVE"
+internal const val KEY_SAVE = "KEY_SHORTCUT_SAVE"
+internal const val KEY_RESOLVE = "KEY_SHORTCUT_RESOLVE"
 
 @Composable
 internal fun ShortcutsScreen(
-    navController: NavController,
     viewModel: ShortcutsViewModel = daggerViewModel { context ->
         val component = ShortcutsComponent.buildOrGet(context)
         ShortcutsViewModel.Factory().also(component::inject)
@@ -70,7 +68,7 @@ internal fun ShortcutsScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ShortcutsScreen(
         viewState = viewState,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
         onRestoreClicked = viewModel::onRestoreClicked,
         onKeyClicked = viewModel::onKeyClicked,
     )
@@ -80,8 +78,6 @@ internal fun ShortcutsScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
             }
         }
     }

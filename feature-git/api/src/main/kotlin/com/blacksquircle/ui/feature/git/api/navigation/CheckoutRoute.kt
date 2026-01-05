@@ -16,12 +16,13 @@
 
 package com.blacksquircle.ui.feature.git.api.navigation
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CheckoutRoute(val repository: String) {
+data class CheckoutRoute(val repository: String) : NavKey {
 
     companion object {
-        const val KEY_CHECKOUT = "KEY_CHECKOUT"
+        const val KEY_CHECKOUT = "KEY_CHECKOUT_BRANCH"
     }
 }

@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
+import com.blacksquircle.ui.navigation.api.Navigator
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +33,8 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 internal class CodeHeaderViewModel @Inject constructor(
-    private val settingsManager: SettingsManager
+    private val settingsManager: SettingsManager,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(updateViewState())
@@ -40,6 +42,10 @@ internal class CodeHeaderViewModel @Inject constructor(
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
+
+    fun onBackClicked() {
+        navigator.goBack()
+    }
 
     fun onAutoIndentChanged(autoIndent: Boolean) {
         viewModelScope.launch {

@@ -33,7 +33,6 @@ dependencies {
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.navigation.compose)
     implementation(libs.skydoves.colorpicker.compose)
 
     api(libs.androidx.activity.compose)

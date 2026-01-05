@@ -24,6 +24,8 @@ import com.blacksquircle.ui.feature.git.ui.commit.CommitViewModel
 import com.blacksquircle.ui.feature.git.ui.fetch.FetchViewModel
 import com.blacksquircle.ui.feature.git.ui.pull.PullViewModel
 import com.blacksquircle.ui.feature.git.ui.push.PushViewModel
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @GitScope
@@ -33,6 +35,7 @@ import dagger.Component
     ],
     dependencies = [
         CoreApi::class,
+        NavigationApi::class,
     ]
 )
 internal interface GitComponent {
@@ -45,7 +48,10 @@ internal interface GitComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(coreApi: CoreApi): GitComponent
+        fun create(
+            coreApi: CoreApi,
+            navigationApi: NavigationApi,
+        ): GitComponent
     }
 
     companion object {
@@ -55,6 +61,7 @@ internal interface GitComponent {
         fun buildOrGet(context: Context): GitComponent {
             return component ?: DaggerGitComponent.factory().create(
                 coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
             ).also {
                 component = it
             }

@@ -31,7 +31,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -50,7 +49,6 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun EditorHeaderScreen(
-    navController: NavController,
     viewModel: EditorHeaderViewModel = daggerViewModel { context ->
         val component = SettingsComponent.buildOrGet(context)
         EditorHeaderViewModel.Factory().also(component::inject)
@@ -59,7 +57,7 @@ internal fun EditorHeaderScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     EditorHeaderScreen(
         viewState = viewState,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
         onFontSizeChanged = viewModel::onFontSizeChanged,
         onFontTypeClicked = viewModel::onFontTypeClicked,
         onWordWrapChanged = viewModel::onWordWrapChanged,
@@ -84,8 +82,6 @@ internal fun EditorHeaderScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
             }
         }
     }

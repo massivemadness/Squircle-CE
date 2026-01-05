@@ -21,8 +21,9 @@ plugins {
 
 dependencies {
 
+    implementation(project(":core-navigation:api"))
+
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.serialization)
 
     compileOnly(libs.android.tools.platform)
 

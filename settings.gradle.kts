@@ -39,6 +39,8 @@ include(":app", ":benchmark")
 
 include(
     ":core-common",
+    ":core-navigation:api",
+    ":core-navigation:impl",
     ":core-redux",
     ":core-test",
     ":core-ui",

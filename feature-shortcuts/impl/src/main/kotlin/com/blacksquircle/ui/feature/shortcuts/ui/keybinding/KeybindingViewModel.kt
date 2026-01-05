@@ -18,9 +18,9 @@ package com.blacksquircle.ui.feature.shortcuts.ui.keybinding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
+import com.blacksquircle.ui.navigation.api.Navigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -31,11 +31,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class KeybindingViewModel @AssistedInject constructor(
     @Assisted private val keybinding: Keybinding,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(initialViewState())
@@ -83,23 +83,11 @@ internal class KeybindingViewModel @AssistedInject constructor(
     }
 
     fun onSaveClicked() {
-        viewModelScope.launch {
-            val viewState = viewState.value
-            val keybinding = Keybinding(
-                shortcut = viewState.shortcut,
-                isCtrl = viewState.isCtrl,
-                isShift = viewState.isShift,
-                isAlt = viewState.isAlt,
-                key = viewState.key,
-            )
-            _viewEvent.send(KeybindingViewEvent.SendSaveResult(keybinding))
-        }
+        navigator.goBack()
     }
 
     fun onCancelClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
+        navigator.goBack()
     }
 
     private fun initialViewState(): KeybindingViewState {

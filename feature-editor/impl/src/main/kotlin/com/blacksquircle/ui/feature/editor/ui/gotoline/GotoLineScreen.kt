@@ -30,13 +30,14 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.ResultEventBus
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.navigation.GoToLineRoute
+import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.editor.KEY_GOTO_LINE
 
 private const val DEFAULT_LINE = 0
@@ -44,17 +45,18 @@ private const val DEFAULT_LINE = 0
 @Composable
 internal fun GoToLineScreen(
     navArgs: GoToLineRoute,
-    navController: NavController
+    viewModel: GoToLineViewModel = daggerViewModel { context ->
+        val component = EditorComponent.buildOrGet(context)
+        GoToLineViewModel.Factory().also(component::inject)
+    }
 ) {
     GotoLineScreen(
         lineCount = navArgs.lineCount,
         onConfirmClicked = { lineNumber ->
             ResultEventBus.sendResult(KEY_GOTO_LINE, lineNumber)
-            navController.popBackStack()
+            viewModel.onGoToClicked()
         },
-        onCancelClicked = {
-            navController.popBackStack()
-        }
+        onCancelClicked = viewModel::onCancelClicked
     )
 }
 
@@ -91,7 +93,6 @@ private fun GotoLineScreen(
             onConfirmClicked(intValue - 1)
         },
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

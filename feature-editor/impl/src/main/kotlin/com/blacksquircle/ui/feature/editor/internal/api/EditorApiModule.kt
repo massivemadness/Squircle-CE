@@ -20,8 +20,11 @@ import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.provider.FileIconProvider
 import com.blacksquircle.ui.feature.editor.data.interactor.EditorInteractorImpl
 import com.blacksquircle.ui.feature.editor.data.provider.FileIconProviderImpl
+import com.blacksquircle.ui.feature.editor.ui.EditorEntryProvider
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 import javax.inject.Singleton
 
 @Module
@@ -37,5 +40,11 @@ object EditorApiModule {
     @Singleton
     fun provideFileIconProvider(): FileIconProvider {
         return FileIconProviderImpl()
+    }
+
+    @IntoSet
+    @Provides
+    fun provideEditorEntryProvider(): EntryProvider {
+        return EditorEntryProvider()
     }
 }

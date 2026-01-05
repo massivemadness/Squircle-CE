@@ -20,29 +20,31 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.ResultEventBus
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.editor.R
 import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileRoute
+import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.editor.KEY_CLOSE_FILE
 
 @Composable
 internal fun CloseFileScreen(
     navArgs: CloseFileRoute,
-    navController: NavController,
+    viewModel: CloseFileViewModel = daggerViewModel { context ->
+        val component = EditorComponent.buildOrGet(context)
+        CloseFileViewModel.Factory().also(component::inject)
+    }
 ) {
     CloseFileScreen(
         fileName = navArgs.fileName,
         onConfirmClicked = {
             ResultEventBus.sendResult(KEY_CLOSE_FILE, navArgs.fileUuid)
-            navController.popBackStack()
+            viewModel.onCloseClicked()
         },
-        onCancelClicked = {
-            navController.popBackStack()
-        }
+        onCancelClicked = viewModel::onCancelClicked
     )
 }
 
@@ -65,7 +67,6 @@ private fun CloseFileScreen(
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = onConfirmClicked,
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

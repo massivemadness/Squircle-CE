@@ -23,7 +23,7 @@ ksp = "2.3.0"
 ktlint = "1.0.0"
 lifecycle = "2.10.0"
 mockk = "1.14.7"
-navigation = "2.9.6"
+navigation = "1.0.0"
 profile-installer = "1.4.1"
 reorderable = "3.0.0"
 retrofit = "3.0.0"
@@ -73,7 +73,9 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+androidx-lifecycle-viewmodel-navigation = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycle" }
+androidx-navigation-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation" }
+androidx-navigation-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation" }
 androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profile-installer" }
 androidx-room = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "room" }

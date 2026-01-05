@@ -19,8 +19,11 @@ package com.blacksquircle.ui.feature.git.internal.api
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.git.data.interactor.GitInteractorImpl
+import com.blacksquircle.ui.feature.git.ui.GitEntryProvider
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 import javax.inject.Singleton
 
 @Module
@@ -32,5 +35,11 @@ object GitApiModule {
         return GitInteractorImpl(
             settingsManager = settingsManager,
         )
+    }
+
+    @IntoSet
+    @Provides
+    fun provideGitEntryProvider(): EntryProvider {
+        return GitEntryProvider()
     }
 }

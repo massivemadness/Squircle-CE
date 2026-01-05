@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.editor.ui
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
@@ -30,13 +29,13 @@ import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.settings.api.navigation.HeaderListRoute
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -60,6 +59,7 @@ class SettingsTest {
     private val shortcutsInteractor = mockk<ShortcutsInteractor>(relaxed = true)
     private val terminalInteractor = mockk<TerminalInteractor>(relaxed = true)
     private val languageInteractor = mockk<LanguageInteractor>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Before
     fun setup() {
@@ -77,7 +77,7 @@ class SettingsTest {
         viewModel.onBackClicked()
 
         // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
+        verify(exactly = 1) { navigator.goBack() }
     }
 
     @Test
@@ -90,8 +90,7 @@ class SettingsTest {
         viewModel.onBackClicked()
 
         // Then
-        val expected = ViewEvent.Navigation(ConfirmExitRoute)
-        assertEquals(expected, viewModel.viewEvent.first())
+        verify(exactly = 1) { navigator.navigate(ConfirmExitRoute) }
     }
 
     @Test
@@ -103,8 +102,7 @@ class SettingsTest {
         viewModel.onSettingsClicked()
 
         // Then
-        val expected = ViewEvent.Navigation(HeaderListRoute)
-        assertEquals(expected, viewModel.viewEvent.first())
+        verify(exactly = 1) { navigator.navigate(HeaderListRoute) }
     }
 
     @Test
@@ -132,6 +130,7 @@ class SettingsTest {
             shortcutsInteractor = shortcutsInteractor,
             terminalInteractor = terminalInteractor,
             languageInteractor = languageInteractor,
+            navigator = navigator
         )
     }
 }

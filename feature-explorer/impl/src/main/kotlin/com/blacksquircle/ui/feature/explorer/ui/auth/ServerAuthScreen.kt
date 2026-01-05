@@ -1,0 +1,103 @@
+/*
+ * Copyright Squircle CE contributors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.blacksquircle.ui.feature.explorer.ui.auth
+
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import com.blacksquircle.ui.core.effect.ResultEventBus
+import com.blacksquircle.ui.core.extensions.daggerViewModel
+import com.blacksquircle.ui.ds.PreviewBackground
+import com.blacksquircle.ui.ds.dialog.AlertDialog
+import com.blacksquircle.ui.ds.textfield.TextField
+import com.blacksquircle.ui.feature.explorer.R
+import com.blacksquircle.ui.feature.explorer.api.navigation.ServerAuthRoute
+import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
+import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_SERVER_AUTHENTICATE
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
+
+@Composable
+internal fun ServerAuthScreen(
+    navArgs: ServerAuthRoute,
+    viewModel: ServerAuthViewModel = daggerViewModel { context ->
+        val component = ExplorerComponent.buildOrGet(context)
+        ServerAuthViewModel.Factory().also(component::inject)
+    }
+) {
+    ServerAuthScreen(
+        authMethod = navArgs.authMethod,
+        onConfirmClicked = { credentials ->
+            ResultEventBus.sendResult(KEY_SERVER_AUTHENTICATE, credentials)
+            viewModel.onBackClicked()
+        },
+        onCancelClicked = viewModel::onBackClicked,
+    )
+}
+
+@Composable
+private fun ServerAuthScreen(
+    authMethod: AuthMethod,
+    onConfirmClicked: (String) -> Unit = {},
+    onCancelClicked: () -> Unit = {}
+) {
+    var credentials by rememberSaveable {
+        mutableStateOf("")
+    }
+    AlertDialog(
+        title = stringResource(R.string.explorer_auth_dialog_title),
+        content = {
+            TextField(
+                inputText = credentials,
+                onInputChanged = { credentials = it },
+                labelText = when (authMethod) {
+                    AuthMethod.PASSWORD -> {
+                        stringResource(R.string.explorer_auth_dialog_input_password_label)
+                    }
+                    AuthMethod.KEY -> {
+                        stringResource(R.string.explorer_auth_dialog_input_passphrase_label)
+                    }
+                },
+                keyboardOptions = KeyboardOptions(
+                    autoCorrectEnabled = false,
+                    keyboardType = KeyboardType.Password,
+                ),
+                visualTransformation = PasswordVisualTransformation(),
+            )
+        },
+        confirmButton = stringResource(R.string.explorer_auth_dialog_button_authenticate),
+        dismissButton = stringResource(android.R.string.cancel),
+        onConfirmClicked = { onConfirmClicked(credentials) },
+        onDismissClicked = onCancelClicked,
+    )
+}
+
+@PreviewLightDark
+@Composable
+private fun ServerAuthScreenPreview() {
+    PreviewBackground {
+        ServerAuthScreen(
+            authMethod = AuthMethod.PASSWORD,
+        )
+    }
+}

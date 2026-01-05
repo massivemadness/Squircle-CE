@@ -20,6 +20,7 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.git.domain.exception.GitException
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import com.blacksquircle.ui.feature.git.ui.fetch.FetchViewModel
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
@@ -40,6 +41,7 @@ class FetchViewModelTest {
 
     private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val gitRepository = mockk<GitRepository>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Test
     fun `When screen opens Then fetch updates from remote`() = runTest {
@@ -65,9 +67,10 @@ class FetchViewModelTest {
 
     private fun createViewModel(): FetchViewModel {
         return FetchViewModel(
+            repository = REPOSITORY,
             stringProvider = stringProvider,
             gitRepository = gitRepository,
-            repository = REPOSITORY,
+            navigator = navigator
         )
     }
 

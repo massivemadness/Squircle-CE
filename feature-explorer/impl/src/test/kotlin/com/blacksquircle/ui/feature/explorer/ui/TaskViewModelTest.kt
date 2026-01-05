@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.explorer.ui
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.explorer.api.navigation.NotificationDeniedRoute
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.domain.model.Task
@@ -25,6 +24,7 @@ import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskViewModel
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskViewState
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.every
@@ -56,6 +56,8 @@ class TaskViewModelTest {
 
     private val taskManager = mockk<TaskManager>(relaxed = true)
     private val taskMonitor = MutableStateFlow(task)
+
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Before
     fun setup() {
@@ -114,7 +116,7 @@ class TaskViewModelTest {
         }
 
         // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
+        verify(exactly = 1) { navigator.goBack() }
     }
 
     @Test
@@ -128,7 +130,7 @@ class TaskViewModelTest {
         }
 
         // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
+        verify(exactly = 1) { navigator.goBack() }
     }
 
     @Test
@@ -152,8 +154,7 @@ class TaskViewModelTest {
         viewModel.onPermissionDenied()
 
         // Then
-        val expected = ViewEvent.Navigation(NotificationDeniedRoute)
-        assertEquals(expected, viewModel.viewEvent.first())
+        verify(exactly = 1) { navigator.navigate(NotificationDeniedRoute) }
     }
 
     @Test
@@ -183,11 +184,15 @@ class TaskViewModelTest {
         viewModel.onCancelClicked()
 
         // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
         verify(exactly = 1) { taskManager.cancel(task.id) }
+        verify(exactly = 1) { navigator.goBack() }
     }
 
     private fun createViewModel(): TaskViewModel {
-        return TaskViewModel(taskManager, task.id)
+        return TaskViewModel(
+            taskId = task.id,
+            taskManager = taskManager,
+            navigator = navigator
+        )
     }
 }

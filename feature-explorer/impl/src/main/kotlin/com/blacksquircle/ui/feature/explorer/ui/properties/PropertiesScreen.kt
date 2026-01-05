@@ -26,7 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.checkbox.CheckBox
 import com.blacksquircle.ui.ds.dialog.AlertDialog
@@ -35,6 +35,7 @@ import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.PropertiesRoute
 import com.blacksquircle.ui.feature.explorer.data.utils.formatDate
 import com.blacksquircle.ui.feature.explorer.data.utils.formatSize
+import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.filesystem.base.model.Permission
 import com.blacksquircle.ui.filesystem.base.utils.hasFlag
 import com.blacksquircle.ui.filesystem.base.utils.plusFlag
@@ -42,7 +43,10 @@ import com.blacksquircle.ui.filesystem.base.utils.plusFlag
 @Composable
 internal fun PropertiesScreen(
     navArgs: PropertiesRoute,
-    navController: NavController,
+    viewModel: PropertiesViewModel = daggerViewModel { context ->
+        val component = ExplorerComponent.buildOrGet(context)
+        PropertiesViewModel.Factory().also(component::inject)
+    }
 ) {
     PropertiesScreen(
         fileName = navArgs.fileName,
@@ -50,9 +54,7 @@ internal fun PropertiesScreen(
         fileSize = navArgs.fileSize,
         lastModified = navArgs.lastModified,
         permission = navArgs.permission,
-        onCancelClicked = {
-            navController.popBackStack()
-        }
+        onCancelClicked = viewModel::onBackClicked,
     )
 }
 
@@ -121,7 +123,6 @@ private fun PropertiesScreen(
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

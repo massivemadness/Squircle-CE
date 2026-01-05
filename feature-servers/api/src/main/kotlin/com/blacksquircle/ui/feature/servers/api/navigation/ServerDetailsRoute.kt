@@ -16,7 +16,8 @@
 
 package com.blacksquircle.ui.feature.servers.api.navigation
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ServerDetailsRoute(val serverId: String?)
+data class ServerDetailsRoute(val serverId: String?) : NavKey

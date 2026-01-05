@@ -25,6 +25,7 @@ import com.blacksquircle.ui.feature.servers.domain.model.ServerStatus
 import com.blacksquircle.ui.feature.servers.domain.repository.ServerRepository
 import com.blacksquircle.ui.feature.servers.ui.list.model.ServerModel
 import com.blacksquircle.ui.filesystem.base.model.ServerConfig
+import com.blacksquircle.ui.navigation.api.Navigator
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -35,6 +36,7 @@ import kotlin.coroutines.cancellation.CancellationException
 
 internal class ServerListViewModel @Inject constructor(
     private val serverRepository: ServerRepository,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(ServerListViewState())
@@ -47,18 +49,18 @@ internal class ServerListViewModel @Inject constructor(
         loadServers()
     }
 
+    fun onBackClicked() {
+        navigator.goBack()
+    }
+
     fun onServerClicked(serverConfig: ServerConfig) {
-        viewModelScope.launch {
-            val screen = ServerDetailsRoute(serverConfig.uuid)
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
+        val screen = ServerDetailsRoute(serverId = serverConfig.uuid)
+        navigator.navigate(screen)
     }
 
     fun onCreateClicked() {
-        viewModelScope.launch {
-            val screen = ServerDetailsRoute(null)
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
+        val screen = ServerDetailsRoute(serverId = null)
+        navigator.navigate(screen)
     }
 
     fun loadServers() {

@@ -38,7 +38,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.DialogProperties
 import androidx.core.graphics.toColorInt
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.extensions.toHexString
@@ -52,7 +51,6 @@ import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 @Composable
 fun ColorPickerDialog(
     title: String,
-    onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     confirmButton: String? = null,
     dismissButton: String? = null,
@@ -61,7 +59,6 @@ fun ColorPickerDialog(
     initialColor: Color = Color.White,
     onColorSelected: (Color) -> Unit = {},
     onDismissClicked: () -> Unit = {},
-    properties: DialogProperties = DialogProperties(),
 ) {
     val controller = rememberColorPickerController()
     var textColor by remember {
@@ -131,7 +128,6 @@ fun ColorPickerDialog(
                 )
             }
         },
-        onDismiss = onDismiss,
         modifier = modifier,
         verticalScroll = true,
         horizontalPadding = true,
@@ -139,7 +135,6 @@ fun ColorPickerDialog(
         dismissButton = dismissButton,
         onConfirmClicked = { onColorSelected(controller.selectedColor.value) },
         onDismissClicked = onDismissClicked,
-        properties = properties,
     )
 }
 
@@ -151,7 +146,6 @@ private fun ColorPickerDialogPreview() {
             title = "Color Picker",
             confirmButton = "Select",
             dismissButton = "Cancel",
-            onDismiss = {},
         )
     }
 }

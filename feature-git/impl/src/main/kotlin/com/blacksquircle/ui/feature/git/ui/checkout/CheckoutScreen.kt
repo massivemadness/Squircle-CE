@@ -32,7 +32,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.ResultEventBus
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
@@ -53,7 +52,6 @@ import com.blacksquircle.ui.feature.git.ui.checkout.compose.BranchList
 @Composable
 internal fun CheckoutScreen(
     navArgs: CheckoutRoute,
-    navController: NavController,
     viewModel: CheckoutViewModel = daggerViewModel { context ->
         val component = GitComponent.buildOrGet(context)
         CheckoutViewModel.ParameterizedFactory(navArgs.repository).also(component::inject)
@@ -66,7 +64,7 @@ internal fun CheckoutScreen(
         onBranchSelected = viewModel::onBranchSelected,
         onBranchNameChanged = viewModel::onBranchNameChanged,
         onNewBranchClicked = viewModel::onNewBranchClicked,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
     )
 
     val context = LocalContext.current
@@ -74,8 +72,6 @@ internal fun CheckoutScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
                 is CheckoutViewEvent.CheckoutComplete -> {
                     context.showToast(
                         text = context.getString(
@@ -83,9 +79,7 @@ internal fun CheckoutScreen(
                             event.branchName
                         )
                     )
-
                     ResultEventBus.sendResult(KEY_CHECKOUT, Unit)
-                    navController.popBackStack()
                 }
             }
         }
@@ -175,7 +169,6 @@ private fun CheckoutScreen(
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
-        onDismiss = onBackClicked,
         confirmButton = if (viewState.isNewBranch) {
             stringResource(R.string.git_checkout_dialog_button_create)
         } else {

@@ -31,6 +31,7 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
@@ -63,6 +64,7 @@ class SelectFilesTest {
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
     private val terminalInteractor = mockk<TerminalInteractor>(relaxed = true)
     private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     private val workspaces = defaultWorkspaces()
     private val selectedWorkspace = workspaces[0]
@@ -221,6 +223,7 @@ class SelectFilesTest {
             serverInteractor = serverInteractor,
             terminalInteractor = terminalInteractor,
             asyncNodeBuilder = asyncNodeBuilder,
+            navigator = navigator
         )
     }
 }

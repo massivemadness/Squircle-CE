@@ -16,7 +16,8 @@
 
 package com.blacksquircle.ui.feature.themes.api.navigation
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object ThemesRoute
+data object ThemesRoute : NavKey

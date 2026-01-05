@@ -32,6 +32,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
@@ -80,6 +81,7 @@ internal fun GitCredentialsScreen(
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onDismissClicked,
         onDismiss = onDismissClicked,
+        properties = DialogProperties(),
     )
 }
 

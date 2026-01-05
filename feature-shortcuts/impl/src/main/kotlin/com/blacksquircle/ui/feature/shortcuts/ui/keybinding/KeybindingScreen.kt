@@ -41,7 +41,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.ResultEventBus
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
@@ -64,7 +63,6 @@ import com.blacksquircle.ui.ds.R as UiR
 @Composable
 internal fun KeybindingScreen(
     navArgs: EditKeybindingRoute,
-    navController: NavController,
     viewModel: KeybindingViewModel = daggerViewModel { context ->
         val component = ShortcutsComponent.buildOrGet(context)
         val keybinding = Keybinding(
@@ -85,7 +83,17 @@ internal fun KeybindingScreen(
         onCtrlClicked = viewModel::onCtrlClicked,
         onShiftClicked = viewModel::onShiftClicked,
         onAltClicked = viewModel::onAltClicked,
-        onSaveClicked = viewModel::onSaveClicked,
+        onSaveClicked = {
+            val keybinding = Keybinding(
+                shortcut = viewState.shortcut,
+                isCtrl = viewState.isCtrl,
+                isShift = viewState.isShift,
+                isAlt = viewState.isAlt,
+                key = viewState.key,
+            )
+            ResultEventBus.sendResult(KEY_SAVE, keybinding)
+            viewModel.onSaveClicked()
+        },
         onCancelClicked = viewModel::onCancelClicked,
     )
 
@@ -93,12 +101,8 @@ internal fun KeybindingScreen(
     LaunchedEffect(Unit) {
         viewModel.viewEvent.collect { event ->
             when (event) {
-                is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
-                is KeybindingViewEvent.SendSaveResult -> {
-                    ResultEventBus.sendResult(KEY_SAVE, event.keybinding)
-                    navController.popBackStack()
+                is ViewEvent.Toast -> {
+                    context.showToast(text = event.message)
                 }
             }
         }
@@ -257,7 +261,6 @@ private fun KeybindingScreen(
         onConfirmClicked = onSaveClicked,
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

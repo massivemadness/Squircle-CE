@@ -28,6 +28,7 @@ import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.github.rosemoe.sora.text.Content
@@ -59,6 +60,7 @@ class UndoRedoTest {
     private val shortcutsInteractor = mockk<ShortcutsInteractor>(relaxed = true)
     private val terminalInteractor = mockk<TerminalInteractor>(relaxed = true)
     private val languageInteractor = mockk<LanguageInteractor>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Before
     fun setup() {
@@ -238,6 +240,7 @@ class UndoRedoTest {
             shortcutsInteractor = shortcutsInteractor,
             terminalInteractor = terminalInteractor,
             languageInteractor = languageInteractor,
+            navigator = navigator
         )
     }
 }

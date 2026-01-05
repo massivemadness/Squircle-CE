@@ -38,7 +38,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastMap
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.copyText
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.openAppSettings
@@ -65,7 +64,6 @@ private const val TERMUX_PROPERTIES = "allow-external-apps = true"
 
 @Composable
 internal fun TerminalHeaderScreen(
-    navController: NavController,
     viewModel: TerminalHeaderViewModel = daggerViewModel { context ->
         val component = SettingsComponent.buildOrGet(context)
         TerminalHeaderViewModel.Factory().also(component::inject)
@@ -75,7 +73,7 @@ internal fun TerminalHeaderScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     TerminalHeaderScreen(
         viewState = viewState,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
         onTerminalRuntimeChanged = viewModel::onTerminalRuntimeChanged,
         onTermuxPermissionClicked = context::openAppSettings,
         onTermuxCopyPropsClicked = {

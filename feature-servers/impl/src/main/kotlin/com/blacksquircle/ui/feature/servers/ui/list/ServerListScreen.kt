@@ -30,7 +30,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.effect.ResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
@@ -50,12 +49,11 @@ import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.ds.R as UiR
 
-internal const val KEY_SAVE = "KEY_SAVE"
-internal const val KEY_DELETE = "KEY_DELETE"
+internal const val KEY_SAVE = "KEY_SERVER_SAVE"
+internal const val KEY_DELETE = "KEY_SERVER_DELETE"
 
 @Composable
 internal fun ServerListScreen(
-    navController: NavController,
     viewModel: ServerListViewModel = daggerViewModel { context ->
         val component = ServersComponent.buildOrGet(context)
         ServerListViewModel.Factory().also(component::inject)
@@ -64,7 +62,7 @@ internal fun ServerListScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ServerListScreen(
         viewState = viewState,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
         onServerClicked = viewModel::onServerClicked,
         onCreateClicked = viewModel::onCreateClicked,
     )
@@ -74,8 +72,6 @@ internal fun ServerListScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
             }
         }
     }

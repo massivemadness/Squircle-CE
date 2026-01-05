@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.settings
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.codestyle.CodeHeaderViewState
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.every
@@ -38,6 +39,7 @@ class CodeHeaderViewModelTest {
     val timberConsoleRule = TimberConsoleRule()
 
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Test
     fun `When screen opens Then read settings`() = runTest {
@@ -117,6 +119,9 @@ class CodeHeaderViewModelTest {
     }
 
     private fun createViewModel(): CodeHeaderViewModel {
-        return CodeHeaderViewModel(settingsManager)
+        return CodeHeaderViewModel(
+            settingsManager = settingsManager,
+            navigator = navigator
+        )
     }
 }

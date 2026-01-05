@@ -25,8 +25,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.navigation.NavController
+import androidx.navigation3.runtime.NavKey
 import com.blacksquircle.ui.core.effect.CleanupEffect
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.preference.PreferenceHeader
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
@@ -45,14 +46,15 @@ import com.blacksquircle.ui.feature.shortcuts.api.navigation.ShortcutsRoute
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun HeaderListScreen(navController: NavController) {
+internal fun HeaderListScreen(
+    viewModel: HeaderListViewModel = daggerViewModel { context ->
+        val component = SettingsComponent.buildOrGet(context)
+        HeaderListViewModel.Factory().also(component::inject)
+    }
+) {
     HeaderListScreen(
-        onHeaderClicked = { screen ->
-            navController.navigate(screen)
-        },
-        onBackClicked = {
-            navController.popBackStack()
-        },
+        onHeaderClicked = viewModel::onHeaderClicked,
+        onBackClicked = viewModel::onBackClicked,
     )
     CleanupEffect {
         SettingsComponent.release()
@@ -62,7 +64,7 @@ internal fun HeaderListScreen(navController: NavController) {
 @Composable
 private fun HeaderListScreen(
     onBackClicked: () -> Unit = {},
-    onHeaderClicked: (Any) -> Unit = {},
+    onHeaderClicked: (NavKey) -> Unit = {},
 ) {
     ScaffoldSuite(
         topBar = {

@@ -60,7 +60,8 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation)
+    implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.profileinstaller)
 
     gmsImplementation(libs.google.appupdate)
@@ -71,6 +72,8 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     implementation(libs.kotlinx.serialization)
     implementation(project(":core-common"))
+    implementation(project(":core-navigation:api"))
+    implementation(project(":core-navigation:impl"))
     implementation(project(":core-redux"))
     implementation(project(":core-ui"))
     testImplementation(project(":core-test"))

@@ -21,8 +21,12 @@ import com.blacksquircle.ui.core.internal.CoreApi
 import com.blacksquircle.ui.core.internal.provideCoreApi
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApi
 import com.blacksquircle.ui.feature.editor.api.internal.provideEditorApi
+import com.blacksquircle.ui.feature.editor.ui.closefile.CloseFileViewModel
+import com.blacksquircle.ui.feature.editor.ui.confirmexit.ConfirmExitViewModel
 import com.blacksquircle.ui.feature.editor.ui.editor.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.forcesyntax.ForceSyntaxViewModel
+import com.blacksquircle.ui.feature.editor.ui.gotoline.GoToLineViewModel
+import com.blacksquircle.ui.feature.editor.ui.insertcolor.InsertColorViewModel
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApi
 import com.blacksquircle.ui.feature.explorer.api.internal.provideExplorerApi
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApi
@@ -33,6 +37,8 @@ import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApi
 import com.blacksquircle.ui.feature.shortcuts.api.internal.provideShortcutsApi
 import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApi
 import com.blacksquircle.ui.feature.terminal.api.internal.provideTerminalApi
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @EditorScope
@@ -42,6 +48,7 @@ import dagger.Component
     ],
     dependencies = [
         CoreApi::class,
+        NavigationApi::class,
         EditorApi::class,
         ExplorerApi::class,
         FontsApi::class,
@@ -53,12 +60,17 @@ import dagger.Component
 internal interface EditorComponent {
 
     fun inject(factory: EditorViewModel.Factory)
+    fun inject(factory: CloseFileViewModel.Factory)
     fun inject(factory: ForceSyntaxViewModel.ParameterizedFactory)
+    fun inject(factory: GoToLineViewModel.Factory)
+    fun inject(factory: InsertColorViewModel.Factory)
+    fun inject(factory: ConfirmExitViewModel.Factory)
 
     @Component.Factory
     interface Factory {
         fun create(
             coreApi: CoreApi,
+            navigationApi: NavigationApi,
             editorApi: EditorApi,
             explorerApi: ExplorerApi,
             fontsApi: FontsApi,
@@ -75,6 +87,7 @@ internal interface EditorComponent {
         fun buildOrGet(context: Context): EditorComponent {
             return component ?: DaggerEditorComponent.factory().create(
                 coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
                 editorApi = context.provideEditorApi(),
                 explorerApi = context.provideExplorerApi(),
                 fontsApi = context.provideFontsApi(),
