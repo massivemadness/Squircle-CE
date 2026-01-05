@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.themes.ui.themes
+package com.blacksquircle.ui.feature.themes.ui.themes.store
 
 import android.graphics.Typeface
-import androidx.compose.runtime.Immutable
 import com.blacksquircle.ui.core.provider.typeface.TypefaceProvider
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
-import com.blacksquircle.ui.redux.mapper.ViewState
+import com.blacksquircle.ui.redux.MVIState
 
-@Immutable
-internal data class ThemesViewState(
+internal data class ThemesState(
     val searchQuery: String = "",
     val themes: List<ThemeModel> = emptyList(),
     val selectedUuid: String = "",
     val typeface: Typeface = TypefaceProvider.DEFAULT,
     val isLoading: Boolean = true,
-    val isEmpty: Boolean = false,
-) : ViewState
+) : MVIState

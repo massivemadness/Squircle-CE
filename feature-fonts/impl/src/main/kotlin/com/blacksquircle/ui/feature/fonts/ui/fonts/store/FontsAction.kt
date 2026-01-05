@@ -32,7 +32,7 @@ internal sealed interface FontsAction : MVIAction {
     }
 
     data class OnFontsLoaded(val fonts: List<FontModel>, val selectedUuid: String) : FontsAction
-    data class OnFontsFailed(val error: Throwable) : FontsAction
+    data class OnError(val error: Throwable) : FontsAction
 
     data class OnSelectClicked(val font: FontModel) : FontsAction
     data class OnFontSelected(val font: FontModel) : FontsAction

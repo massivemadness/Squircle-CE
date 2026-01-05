@@ -53,7 +53,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.core.effect.CleanupEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.button.IconButton
@@ -69,6 +68,8 @@ import com.blacksquircle.ui.feature.themes.data.model.EditorTheme
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.internal.ThemesComponent
 import com.blacksquircle.ui.feature.themes.ui.themes.compose.ThemeOverview
+import com.blacksquircle.ui.feature.themes.ui.themes.store.ThemesAction
+import com.blacksquircle.ui.feature.themes.ui.themes.store.ThemesEvent
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -81,18 +82,18 @@ internal fun ThemesScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ThemesScreen(
         viewState = viewState,
-        onBackClicked = viewModel::onBackClicked,
-        onQueryChanged = viewModel::onQueryChanged,
-        onClearQueryClicked = viewModel::onClearQueryClicked,
-        onSelectClicked = viewModel::onSelectClicked,
-        onRemoveClicked = viewModel::onRemoveClicked,
+        onBackClicked = { viewModel.dispatch(ThemesAction.OnBackClicked) },
+        onQueryChanged = { viewModel.dispatch(ThemesAction.QueryAction.OnQueryChanged(it)) },
+        onClearQueryClicked = { viewModel.dispatch(ThemesAction.QueryAction.OnClearQueryClicked) },
+        onSelectClicked = { viewModel.dispatch(ThemesAction.OnSelectClicked(it)) },
+        onRemoveClicked = { viewModel.dispatch(ThemesAction.OnRemoveClicked(it)) },
     )
 
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        viewModel.viewEvent.collect { event ->
+        viewModel.events.collect { event ->
             when (event) {
-                is ViewEvent.Toast -> {
+                is ThemesEvent.Toast -> {
                     context.showToast(text = event.message)
                 }
             }
@@ -142,7 +143,12 @@ private fun ThemesScreen(
                                     iconResId = UiR.drawable.ic_close,
                                     iconButtonStyle = IconButtonStyleDefaults.Secondary,
                                     iconButtonSize = IconButtonSizeDefaults.S,
-                                    onClick = { onClearQueryClicked(); searchMode = false },
+                                    onClick = {
+                                        if (viewState.searchQuery.isNotEmpty()) {
+                                            onClearQueryClicked()
+                                        }
+                                        searchMode = false
+                                    },
                                 )
                             },
                             modifier = Modifier
@@ -154,7 +160,9 @@ private fun ThemesScreen(
                             focusRequester.requestFocus()
                         }
                         BackHandler {
-                            onClearQueryClicked()
+                            if (viewState.searchQuery.isNotEmpty()) {
+                                onClearQueryClicked()
+                            }
                             searchMode = false
                         }
                     } else {
@@ -166,19 +174,6 @@ private fun ThemesScreen(
                     }
                 }
             )
-        },
-        floatingActionButton = {
-            /*AnimatedVisibility(
-                visible = showButton,
-                enter = scaleIn(),
-                exit = scaleOut(),
-            ) {
-                FloatingButton(
-                    iconResId = UiR.drawable.ic_plus,
-                    onClick = onCreateClicked,
-                    modifier = Modifier.padding(8.dp)
-                )
-            }*/
         },
         modifier = Modifier.imePadding()
     ) { contentPadding ->
@@ -213,7 +208,7 @@ private fun ThemesScreen(
                 ) { theme ->
                     ThemeOverview(
                         themeModel = theme,
-                        isSelected = theme.uuid == viewState.selectedTheme,
+                        isSelected = theme.uuid == viewState.selectedUuid,
                         typeface = viewState.typeface,
                         onSelectClicked = { onSelectClicked(theme) },
                         onRemoveClicked = { onRemoveClicked(theme) },
@@ -221,7 +216,7 @@ private fun ThemesScreen(
                     )
                 }
             }
-            if (viewState.themes.isEmpty()) {
+            if (viewState.isEmpty) {
                 EmptyView(
                     iconResId = UiR.drawable.ic_file_find,
                     title = stringResource(UiR.string.common_no_result),
@@ -254,7 +249,7 @@ private fun ThemesScreenPreview() {
                         isExternal = false,
                     ),
                 ),
-                selectedTheme = "1",
+                selectedUuid = "1",
                 typeface = Typeface.MONOSPACE,
                 isLoading = false,
             ),

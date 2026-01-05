@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.fonts.ui.fonts.store.reducer
+package com.blacksquircle.ui.feature.themes.ui.themes.store.reducer
 
 import com.blacksquircle.ui.core.provider.resources.StringProvider
-import com.blacksquircle.ui.feature.fonts.R
-import com.blacksquircle.ui.feature.fonts.ui.fonts.store.FontsAction
-import com.blacksquircle.ui.feature.fonts.ui.fonts.store.FontsEvent
-import com.blacksquircle.ui.feature.fonts.ui.fonts.store.FontsState
+import com.blacksquircle.ui.feature.themes.R
+import com.blacksquircle.ui.feature.themes.ui.themes.store.ThemesAction
+import com.blacksquircle.ui.feature.themes.ui.themes.store.ThemesEvent
+import com.blacksquircle.ui.feature.themes.ui.themes.store.ThemesState
 import com.blacksquircle.ui.redux.reducer.Reducer
 import javax.inject.Inject
 import com.blacksquircle.ui.ds.R as UiR
 
-internal class FontsReducer @Inject constructor(
+internal class ThemesReducer @Inject constructor(
     private val stringProvider: StringProvider,
-) : Reducer<FontsState, FontsAction, FontsEvent>() {
+) : Reducer<ThemesState, ThemesAction, ThemesEvent>() {
 
-    override fun reduce(action: FontsAction) {
+    override fun reduce(action: ThemesAction) {
         when (action) {
-            is FontsAction.QueryAction.OnQueryChanged -> {
+            is ThemesAction.QueryAction.OnQueryChanged -> {
                 state {
                     copy(
                         searchQuery = action.query,
@@ -40,7 +40,7 @@ internal class FontsReducer @Inject constructor(
                 }
             }
 
-            is FontsAction.QueryAction.OnClearQueryClicked -> {
+            is ThemesAction.QueryAction.OnClearQueryClicked -> {
                 state {
                     copy(
                         searchQuery = "",
@@ -49,66 +49,60 @@ internal class FontsReducer @Inject constructor(
                 }
             }
 
-            is FontsAction.OnFontsLoaded -> {
+            is ThemesAction.OnThemesLoaded -> {
                 state {
                     copy(
-                        fonts = action.fonts,
+                        themes = action.themes,
                         selectedUuid = action.selectedUuid,
+                        typeface = action.typeface,
                         isLoading = false,
                     )
                 }
             }
 
-            is FontsAction.OnError -> {
+            is ThemesAction.OnError -> {
                 state {
                     copy(isLoading = false)
                 }
                 event(
-                    FontsEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred))
+                    ThemesEvent.Toast(stringProvider.getString(UiR.string.common_error_occurred))
                 )
             }
 
-            is FontsAction.OnSelectClicked -> {
+            is ThemesAction.OnSelectClicked -> {
                 state {
-                    copy(selectedUuid = action.font.uuid)
+                    copy(selectedUuid = action.theme.uuid)
                 }
             }
 
-            is FontsAction.OnFontSelected -> {
+            is ThemesAction.OnThemeSelected -> {
                 event(
-                    FontsEvent.Toast(
+                    ThemesEvent.Toast(
                         stringProvider.getString(
-                            R.string.fonts_toast_font_selected,
-                            action.font.name,
+                            R.string.themes_toast_theme_selected,
+                            action.theme.name,
                         )
                     )
                 )
             }
 
-            is FontsAction.OnFontRemoved -> {
+            is ThemesAction.OnThemeRemoved -> {
                 state {
                     copy(
-                        fonts = fonts.filterNot {
-                            it.uuid == action.font.uuid
+                        themes = themes.filterNot {
+                            it.uuid == action.theme.uuid
                         },
                         selectedUuid = action.selectedUuid,
                     )
                 }
                 event(
-                    FontsEvent.Toast(
+                    ThemesEvent.Toast(
                         stringProvider.getString(
-                            R.string.fonts_toast_font_removed,
-                            action.font.name,
+                            R.string.themes_toast_theme_removed,
+                            action.theme.name,
                         )
                     )
                 )
-            }
-
-            is FontsAction.OnFontImported -> {
-                state {
-                    copy(searchQuery = "")
-                }
-                event(FontsEvent.Toast(stringProvider.getString(R.string.fonts_toast_font_added)))
             }
 
             else -> Unit

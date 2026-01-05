@@ -39,10 +39,10 @@ internal class FontsSearchMiddleware @Inject constructor(
 
     override fun bind(state: Flow<FontsState>, actions: Flow<FontsAction>): Flow<FontsAction> {
         return actions.filterIsInstance<FontsAction.QueryAction>()
-            .flatMapLatest { queryIntent ->
-                when (queryIntent) {
+            .flatMapLatest { action ->
+                when (action) {
                     is FontsAction.QueryAction.OnQueryChanged -> {
-                        val fonts = loadFonts(query = queryIntent.query)
+                        val fonts = loadFonts(query = action.query)
                         val selectedUuid = settingsManager.fontType
                         flowOf(FontsAction.OnFontsLoaded(fonts, selectedUuid))
                     }
@@ -54,7 +54,7 @@ internal class FontsSearchMiddleware @Inject constructor(
                     }
                 }
             }.catch<FontsAction> {
-                emit(FontsAction.OnFontsFailed(it))
+                emit(FontsAction.OnError(it))
             }
     }
 

@@ -54,10 +54,10 @@ internal class FontsMiddleware @Inject constructor(
         return actions.filterIsInstance<FontsAction.OnInit>()
             .map {
                 val fonts = fontsRepository.loadFonts(query = "")
-                val selectedFont = settingsManager.fontType
-                FontsAction.OnFontsLoaded(fonts, selectedFont)
+                val selectedUuid = settingsManager.fontType
+                FontsAction.OnFontsLoaded(fonts, selectedUuid)
             }.catch<FontsAction> {
-                emit(FontsAction.OnFontsFailed(it))
+                emit(FontsAction.OnError(it))
             }
     }
 
@@ -75,7 +75,7 @@ internal class FontsMiddleware @Inject constructor(
                 fontsRepository.selectFont(action.font)
                 FontsAction.OnFontSelected(action.font)
             }.catch<FontsAction> {
-                emit(FontsAction.OnFontsFailed(it))
+                emit(FontsAction.OnError(it))
             }
     }
 
@@ -85,7 +85,7 @@ internal class FontsMiddleware @Inject constructor(
                 fontsRepository.removeFont(action.font)
                 FontsAction.OnFontRemoved(action.font, settingsManager.fontType)
             }.catch<FontsAction> {
-                emit(FontsAction.OnFontsFailed(it))
+                emit(FontsAction.OnError(it))
             }
     }
 
@@ -99,7 +99,7 @@ internal class FontsMiddleware @Inject constructor(
                     FontsAction.OnInit
                 )
             }.catch {
-                emit(FontsAction.OnFontsFailed(it))
+                emit(FontsAction.OnError(it))
             }
     }
 }
