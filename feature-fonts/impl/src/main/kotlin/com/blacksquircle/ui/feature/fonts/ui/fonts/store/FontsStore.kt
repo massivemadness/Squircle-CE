@@ -29,7 +29,7 @@ internal class FontsStore @Inject constructor(
     fontsSearchMiddleware: FontsSearchMiddleware,
 ) : Store<FontsState, FontsAction, FontsEvent> by produceStore(
         initialState = FontsState(),
-        initialAction = FontsAction.OnInit,
+        initialAction = FontsAction.Init,
         reducer = fontsReducer,
         middlewares = listOf(
             fontsMiddleware,

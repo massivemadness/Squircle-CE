@@ -92,10 +92,10 @@ class ThemesMiddlewareTest {
 
         fontsMiddleware.bind(state, actions).test {
             // When
-            actions.emit(ThemesAction.OnInit)
+            actions.emit(ThemesAction.Init)
 
             // Then
-            val expected = ThemesAction.OnThemesLoaded(themes, selectedUuid, state.value.typeface)
+            val expected = ThemesAction.CommandAction.ThemesLoaded(themes, selectedUuid, state.value.typeface)
             assertEquals(expected, awaitItem())
             coVerify(exactly = 1) { themeRepository.loadThemes("") }
 
@@ -107,7 +107,7 @@ class ThemesMiddlewareTest {
     fun `When back clicked Then return to previous screen`() = runTest {
         fontsMiddleware.bind(state, actions).test {
             // When
-            actions.emit(ThemesAction.OnBackClicked)
+            actions.emit(ThemesAction.UiAction.OnBackClicked)
 
             // Then
             verify(exactly = 1) { navigator.goBack() }
@@ -123,10 +123,10 @@ class ThemesMiddlewareTest {
 
         fontsMiddleware.bind(state, actions).test {
             // When
-            actions.emit(ThemesAction.OnSelectClicked(themeModel))
+            actions.emit(ThemesAction.UiAction.OnSelectClicked(themeModel))
 
             // Then
-            assertEquals(ThemesAction.OnThemeSelected(themeModel), awaitItem())
+            assertEquals(ThemesAction.CommandAction.ThemeSelected(themeModel), awaitItem())
             coVerify(exactly = 1) { themeRepository.selectTheme(themeModel) }
 
             cancelAndIgnoreRemainingEvents()
@@ -141,10 +141,10 @@ class ThemesMiddlewareTest {
 
         fontsMiddleware.bind(state, actions).test {
             // When
-            actions.emit(ThemesAction.OnRemoveClicked(themeModel))
+            actions.emit(ThemesAction.UiAction.OnRemoveClicked(themeModel))
 
             // Then
-            assertEquals(ThemesAction.OnThemeRemoved(themeModel, "1"), awaitItem())
+            assertEquals(ThemesAction.CommandAction.ThemeRemoved(themeModel, "1"), awaitItem())
             coVerify(exactly = 1) { themeRepository.removeTheme(themeModel) }
 
             cancelAndIgnoreRemainingEvents()

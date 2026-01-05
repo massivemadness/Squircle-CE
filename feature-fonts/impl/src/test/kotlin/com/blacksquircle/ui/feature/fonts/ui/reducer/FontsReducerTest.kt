@@ -42,7 +42,7 @@ class FontsReducerTest {
         )
 
         // When
-        val action = FontsAction.OnSelectClicked(fontModel)
+        val action = FontsAction.UiAction.OnSelectClicked(fontModel)
         val update = reducer.reduce(state, action)
 
         // Then
@@ -60,7 +60,7 @@ class FontsReducerTest {
         )
 
         // When
-        val action = FontsAction.OnFontRemoved(fontModel, "1")
+        val action = FontsAction.CommandAction.FontRemoved(fontModel, "1")
         val update = reducer.reduce(state, action)
 
         // Then
@@ -77,7 +77,7 @@ class FontsReducerTest {
         val state = FontsState(searchQuery = "")
 
         // When
-        val action = FontsAction.QueryAction.OnQueryChanged("qwerty")
+        val action = FontsAction.UiAction.OnQueryChanged("qwerty")
         val update = reducer.reduce(state, action)
 
         // Then
@@ -91,7 +91,7 @@ class FontsReducerTest {
         val state = FontsState(searchQuery = "qwerty")
 
         // When
-        val action = FontsAction.QueryAction.OnClearQueryClicked
+        val action = FontsAction.UiAction.OnClearQueryClicked
         val update = reducer.reduce(state, action)
 
         // Then

@@ -31,7 +31,7 @@ internal class FontsReducer @Inject constructor(
 
     override fun reduce(action: FontsAction) {
         when (action) {
-            is FontsAction.QueryAction.OnQueryChanged -> {
+            is FontsAction.UiAction.OnQueryChanged -> {
                 state {
                     copy(
                         searchQuery = action.query,
@@ -40,7 +40,7 @@ internal class FontsReducer @Inject constructor(
                 }
             }
 
-            is FontsAction.QueryAction.OnClearQueryClicked -> {
+            is FontsAction.UiAction.OnClearQueryClicked -> {
                 state {
                     copy(
                         searchQuery = "",
@@ -49,7 +49,7 @@ internal class FontsReducer @Inject constructor(
                 }
             }
 
-            is FontsAction.OnFontsLoaded -> {
+            is FontsAction.CommandAction.FontsLoaded -> {
                 state {
                     copy(
                         fonts = action.fonts,
@@ -59,7 +59,7 @@ internal class FontsReducer @Inject constructor(
                 }
             }
 
-            is FontsAction.OnError -> {
+            is FontsAction.Error -> {
                 state {
                     copy(isLoading = false)
                 }
@@ -68,13 +68,13 @@ internal class FontsReducer @Inject constructor(
                 )
             }
 
-            is FontsAction.OnSelectClicked -> {
+            is FontsAction.UiAction.OnSelectClicked -> {
                 state {
                     copy(selectedUuid = action.font.uuid)
                 }
             }
 
-            is FontsAction.OnFontSelected -> {
+            is FontsAction.CommandAction.FontSelected -> {
                 event(
                     FontsEvent.Toast(
                         stringProvider.getString(
@@ -85,7 +85,7 @@ internal class FontsReducer @Inject constructor(
                 )
             }
 
-            is FontsAction.OnFontRemoved -> {
+            is FontsAction.CommandAction.FontRemoved -> {
                 state {
                     copy(
                         fonts = fonts.filterNot {
@@ -104,7 +104,7 @@ internal class FontsReducer @Inject constructor(
                 )
             }
 
-            is FontsAction.OnFontImported -> {
+            is FontsAction.CommandAction.FontImported -> {
                 state {
                     copy(searchQuery = "")
                 }

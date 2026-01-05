@@ -75,10 +75,10 @@ class FontsMiddlewareTest {
 
         fontsMiddleware.bind(state, actions).test {
             // When
-            actions.emit(FontsAction.OnInit)
+            actions.emit(FontsAction.Init)
 
             // Then
-            assertEquals(FontsAction.OnFontsLoaded(fonts, selectedUuid), awaitItem())
+            assertEquals(FontsAction.CommandAction.FontsLoaded(fonts, selectedUuid), awaitItem())
             coVerify(exactly = 1) { fontsRepository.loadFonts("") }
 
             cancelAndIgnoreRemainingEvents()
@@ -89,7 +89,7 @@ class FontsMiddlewareTest {
     fun `When back clicked Then return to previous screen`() = runTest {
         fontsMiddleware.bind(state, actions).test {
             // When
-            actions.emit(FontsAction.OnBackClicked)
+            actions.emit(FontsAction.UiAction.OnBackClicked)
 
             // Then
             verify(exactly = 1) { navigator.goBack() }
@@ -105,10 +105,10 @@ class FontsMiddlewareTest {
 
         fontsMiddleware.bind(state, actions).test {
             // When
-            actions.emit(FontsAction.OnSelectClicked(fontModel))
+            actions.emit(FontsAction.UiAction.OnSelectClicked(fontModel))
 
             // Then
-            assertEquals(FontsAction.OnFontSelected(fontModel), awaitItem())
+            assertEquals(FontsAction.CommandAction.FontSelected(fontModel), awaitItem())
             coVerify(exactly = 1) { fontsRepository.selectFont(fontModel) }
 
             cancelAndIgnoreRemainingEvents()
@@ -123,10 +123,10 @@ class FontsMiddlewareTest {
 
         fontsMiddleware.bind(state, actions).test {
             // When
-            actions.emit(FontsAction.OnRemoveClicked(fontModel))
+            actions.emit(FontsAction.UiAction.OnRemoveClicked(fontModel))
 
             // Then
-            assertEquals(FontsAction.OnFontRemoved(fontModel, "1"), awaitItem())
+            assertEquals(FontsAction.CommandAction.FontRemoved(fontModel, "1"), awaitItem())
             coVerify(exactly = 1) { fontsRepository.removeFont(fontModel) }
 
             cancelAndIgnoreRemainingEvents()
@@ -140,11 +140,11 @@ class FontsMiddlewareTest {
 
         fontsMiddleware.bind(state, actions).test {
             // When
-            actions.emit(FontsAction.OnImportFont(fontUri))
+            actions.emit(FontsAction.UiAction.OnImportFont(fontUri))
 
             // Then
-            assertEquals(FontsAction.OnFontImported, awaitItem())
-            assertEquals(FontsAction.OnInit, awaitItem())
+            assertEquals(FontsAction.CommandAction.FontImported, awaitItem())
+            assertEquals(FontsAction.Init, awaitItem())
             coVerify(exactly = 1) { fontsRepository.importFont(fontUri) }
 
             cancelAndIgnoreRemainingEvents()

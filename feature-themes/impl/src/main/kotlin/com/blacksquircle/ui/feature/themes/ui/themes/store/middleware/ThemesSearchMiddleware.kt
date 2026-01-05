@@ -39,24 +39,30 @@ internal class ThemesSearchMiddleware @Inject constructor(
 ) : Middleware<ThemesState, ThemesAction> {
 
     override fun bind(state: Flow<ThemesState>, actions: Flow<ThemesAction>): Flow<ThemesAction> {
-        return actions.filterIsInstance<ThemesAction.QueryAction>()
+        return actions.filterIsInstance<ThemesAction.UiAction.QueryAction>()
             .withLatestFrom(state)
             .flatMapLatest { (action, state) ->
                 when (action) {
-                    is ThemesAction.QueryAction.OnQueryChanged -> {
-                        val themes = loadThemes(query = action.query)
-                        val selectedUuid = settingsManager.editorTheme
-                        flowOf(ThemesAction.OnThemesLoaded(themes, selectedUuid, state.typeface))
+                    is ThemesAction.UiAction.OnQueryChanged -> {
+                        val action = ThemesAction.CommandAction.ThemesLoaded(
+                            themes = loadThemes(query = action.query),
+                            selectedUuid = settingsManager.editorTheme,
+                            typeface = state.typeface
+                        )
+                        flowOf(action)
                     }
 
-                    is ThemesAction.QueryAction.OnClearQueryClicked -> {
-                        val themes = loadThemes(query = "")
-                        val selectedUuid = settingsManager.editorTheme
-                        flowOf(ThemesAction.OnThemesLoaded(themes, selectedUuid, state.typeface))
+                    is ThemesAction.UiAction.OnClearQueryClicked -> {
+                        val action = ThemesAction.CommandAction.ThemesLoaded(
+                            themes = loadThemes(query = ""),
+                            selectedUuid = settingsManager.editorTheme,
+                            typeface = state.typeface
+                        )
+                        flowOf(action)
                     }
                 }
             }.catch<ThemesAction> {
-                emit(ThemesAction.OnError(it))
+                emit(ThemesAction.Error(it))
             }
     }
 

@@ -54,7 +54,7 @@ class ThemesReducerTest {
         )
 
         // When
-        val action = ThemesAction.OnSelectClicked(themeModel)
+        val action = ThemesAction.UiAction.OnSelectClicked(themeModel)
         val update = reducer.reduce(state, action)
 
         // Then
@@ -72,7 +72,7 @@ class ThemesReducerTest {
         )
 
         // When
-        val action = ThemesAction.OnThemeRemoved(themeModel, "1")
+        val action = ThemesAction.CommandAction.ThemeRemoved(themeModel, "1")
         val update = reducer.reduce(state, action)
 
         // Then
@@ -89,7 +89,7 @@ class ThemesReducerTest {
         val state = ThemesState(searchQuery = "")
 
         // When
-        val action = ThemesAction.QueryAction.OnQueryChanged("qwerty")
+        val action = ThemesAction.UiAction.OnQueryChanged("qwerty")
         val update = reducer.reduce(state, action)
 
         // Then
@@ -103,7 +103,7 @@ class ThemesReducerTest {
         val state = ThemesState(searchQuery = "qwerty")
 
         // When
-        val action = ThemesAction.QueryAction.OnClearQueryClicked
+        val action = ThemesAction.UiAction.OnClearQueryClicked
         val update = reducer.reduce(state, action)
 
         // Then

@@ -90,7 +90,7 @@ internal fun FontsScreen(
     val openFileContract = rememberOpenFileContract { result ->
         when (result) {
             is ContractResult.Success -> {
-                viewModel.dispatch(FontsAction.OnImportFont(result.uri))
+                viewModel.dispatch(FontsAction.UiAction.OnImportFont(result.uri))
             }
 
             is ContractResult.Canceled -> Unit
@@ -99,11 +99,11 @@ internal fun FontsScreen(
 
     FontsScreen(
         viewState = viewState,
-        onBackClicked = { viewModel.dispatch(FontsAction.OnBackClicked) },
-        onQueryChanged = { viewModel.dispatch(FontsAction.QueryAction.OnQueryChanged(it)) },
-        onClearQueryClicked = { viewModel.dispatch(FontsAction.QueryAction.OnClearQueryClicked) },
-        onSelectClicked = { viewModel.dispatch(FontsAction.OnSelectClicked(it)) },
-        onRemoveClicked = { viewModel.dispatch(FontsAction.OnRemoveClicked(it)) },
+        onBackClicked = { viewModel.dispatch(FontsAction.UiAction.OnBackClicked) },
+        onQueryChanged = { viewModel.dispatch(FontsAction.UiAction.OnQueryChanged(it)) },
+        onClearQueryClicked = { viewModel.dispatch(FontsAction.UiAction.OnClearQueryClicked) },
+        onSelectClicked = { viewModel.dispatch(FontsAction.UiAction.OnSelectClicked(it)) },
+        onRemoveClicked = { viewModel.dispatch(FontsAction.UiAction.OnRemoveClicked(it)) },
         onImportClicked = {
             openFileContract.launch(
                 arrayOf(MimeType.OCTET_STREAM, MimeType.X_FONT, MimeType.FONT)

@@ -51,19 +51,20 @@ internal class ThemesMiddleware @Inject constructor(
     }
 
     private fun onInit(actions: Flow<ThemesAction>): Flow<ThemesAction> {
-        return actions.filterIsInstance<ThemesAction.OnInit>()
+        return actions.filterIsInstance<ThemesAction.Init>()
             .map {
-                val themes = themeRepository.loadThemes(query = "")
-                val selectedUuid = settingsManager.editorTheme
-                val typeface = fontsInteractor.loadFont(settingsManager.fontType)
-                ThemesAction.OnThemesLoaded(themes, selectedUuid, typeface)
+                ThemesAction.CommandAction.ThemesLoaded(
+                    themes = themeRepository.loadThemes(query = ""),
+                    selectedUuid = settingsManager.editorTheme,
+                    typeface = fontsInteractor.loadFont(settingsManager.fontType)
+                )
             }.catch<ThemesAction> {
-                emit(ThemesAction.OnError(it))
+                emit(ThemesAction.Error(it))
             }
     }
 
     private fun onBackClicked(actions: Flow<ThemesAction>): Flow<ThemesAction> {
-        return actions.filterIsInstance<ThemesAction.OnBackClicked>()
+        return actions.filterIsInstance<ThemesAction.UiAction.OnBackClicked>()
             .flatMapLatest {
                 navigator.goBack()
                 emptyFlow()
@@ -71,22 +72,27 @@ internal class ThemesMiddleware @Inject constructor(
     }
 
     private fun onSelectClicked(actions: Flow<ThemesAction>): Flow<ThemesAction> {
-        return actions.filterIsInstance<ThemesAction.OnSelectClicked>()
+        return actions.filterIsInstance<ThemesAction.UiAction.OnSelectClicked>()
             .map { action ->
                 themeRepository.selectTheme(action.theme)
-                ThemesAction.OnThemeSelected(action.theme)
+
+                ThemesAction.CommandAction.ThemeSelected(action.theme)
             }.catch<ThemesAction> {
-                emit(ThemesAction.OnError(it))
+                emit(ThemesAction.Error(it))
             }
     }
 
     private fun onRemoveClicked(actions: Flow<ThemesAction>): Flow<ThemesAction> {
-        return actions.filterIsInstance<ThemesAction.OnRemoveClicked>()
+        return actions.filterIsInstance<ThemesAction.UiAction.OnRemoveClicked>()
             .map { action ->
                 themeRepository.removeTheme(action.theme)
-                ThemesAction.OnThemeRemoved(action.theme, settingsManager.editorTheme)
+
+                ThemesAction.CommandAction.ThemeRemoved(
+                    theme = action.theme,
+                    selectedUuid = settingsManager.editorTheme
+                )
             }.catch<ThemesAction> {
-                emit(ThemesAction.OnError(it))
+                emit(ThemesAction.Error(it))
             }
     }
 }

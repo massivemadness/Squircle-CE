@@ -51,18 +51,19 @@ internal class FontsMiddleware @Inject constructor(
     }
 
     private fun onInit(actions: Flow<FontsAction>): Flow<FontsAction> {
-        return actions.filterIsInstance<FontsAction.OnInit>()
+        return actions.filterIsInstance<FontsAction.Init>()
             .map {
-                val fonts = fontsRepository.loadFonts(query = "")
-                val selectedUuid = settingsManager.fontType
-                FontsAction.OnFontsLoaded(fonts, selectedUuid)
+                FontsAction.CommandAction.FontsLoaded(
+                    fonts = fontsRepository.loadFonts(query = ""),
+                    selectedUuid = settingsManager.fontType
+                )
             }.catch<FontsAction> {
-                emit(FontsAction.OnError(it))
+                emit(FontsAction.Error(it))
             }
     }
 
     private fun onBackClicked(actions: Flow<FontsAction>): Flow<FontsAction> {
-        return actions.filterIsInstance<FontsAction.OnBackClicked>()
+        return actions.filterIsInstance<FontsAction.UiAction.OnBackClicked>()
             .flatMapLatest {
                 navigator.goBack()
                 emptyFlow()
@@ -70,36 +71,39 @@ internal class FontsMiddleware @Inject constructor(
     }
 
     private fun onSelectClicked(actions: Flow<FontsAction>): Flow<FontsAction> {
-        return actions.filterIsInstance<FontsAction.OnSelectClicked>()
+        return actions.filterIsInstance<FontsAction.UiAction.OnSelectClicked>()
             .map { action ->
                 fontsRepository.selectFont(action.font)
-                FontsAction.OnFontSelected(action.font)
+                FontsAction.CommandAction.FontSelected(action.font)
             }.catch<FontsAction> {
-                emit(FontsAction.OnError(it))
+                emit(FontsAction.Error(it))
             }
     }
 
     private fun onRemoveClicked(actions: Flow<FontsAction>): Flow<FontsAction> {
-        return actions.filterIsInstance<FontsAction.OnRemoveClicked>()
+        return actions.filterIsInstance<FontsAction.UiAction.OnRemoveClicked>()
             .map { action ->
                 fontsRepository.removeFont(action.font)
-                FontsAction.OnFontRemoved(action.font, settingsManager.fontType)
+                FontsAction.CommandAction.FontRemoved(
+                    font = action.font,
+                    selectedUuid = settingsManager.fontType
+                )
             }.catch<FontsAction> {
-                emit(FontsAction.OnError(it))
+                emit(FontsAction.Error(it))
             }
     }
 
     private fun onImportFont(actions: Flow<FontsAction>): Flow<FontsAction> {
-        return actions.filterIsInstance<FontsAction.OnImportFont>()
+        return actions.filterIsInstance<FontsAction.UiAction.OnImportFont>()
             .flatMapLatest { action ->
                 fontsRepository.importFont(action.uri)
 
                 flowOf(
-                    FontsAction.OnFontImported,
-                    FontsAction.OnInit
+                    FontsAction.CommandAction.FontImported,
+                    FontsAction.Init
                 )
             }.catch {
-                emit(FontsAction.OnError(it))
+                emit(FontsAction.Error(it))
             }
     }
 }

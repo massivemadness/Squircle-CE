@@ -22,25 +22,29 @@ import com.blacksquircle.ui.redux.MVIAction
 
 internal sealed interface ThemesAction : MVIAction {
 
-    data object OnInit : ThemesAction
+    data object Init : ThemesAction
+    data class Error(val error: Throwable) : ThemesAction
 
-    data object OnBackClicked : ThemesAction
+    sealed interface UiAction : ThemesAction {
 
-    sealed interface QueryAction : ThemesAction {
+        data object OnBackClicked : UiAction
+        data class OnSelectClicked(val theme: ThemeModel) : UiAction
+        data class OnRemoveClicked(val theme: ThemeModel) : UiAction
+
+        sealed interface QueryAction : UiAction
         data class OnQueryChanged(val query: String) : QueryAction
         data object OnClearQueryClicked : QueryAction
     }
 
-    data class OnThemesLoaded(
-        val themes: List<ThemeModel>,
-        val selectedUuid: String,
-        val typeface: Typeface
-    ) : ThemesAction
-    data class OnError(val error: Throwable) : ThemesAction
+    sealed interface CommandAction : ThemesAction {
 
-    data class OnSelectClicked(val theme: ThemeModel) : ThemesAction
-    data class OnThemeSelected(val theme: ThemeModel) : ThemesAction
+        data class ThemesLoaded(
+            val themes: List<ThemeModel>,
+            val selectedUuid: String,
+            val typeface: Typeface
+        ) : CommandAction
 
-    data class OnRemoveClicked(val theme: ThemeModel) : ThemesAction
-    data class OnThemeRemoved(val theme: ThemeModel, val selectedUuid: String) : ThemesAction
+        data class ThemeSelected(val theme: ThemeModel) : CommandAction
+        data class ThemeRemoved(val theme: ThemeModel, val selectedUuid: String) : CommandAction
+    }
 }

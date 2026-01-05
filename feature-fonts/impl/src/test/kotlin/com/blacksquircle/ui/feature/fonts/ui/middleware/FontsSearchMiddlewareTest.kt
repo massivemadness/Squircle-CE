@@ -32,7 +32,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
@@ -70,10 +70,10 @@ class FontsSearchMiddlewareTest {
 
         fontsMiddleware.bind(state, actions).test {
             // When
-            actions.emit(FontsAction.QueryAction.OnQueryChanged(query))
+            actions.emit(FontsAction.UiAction.OnQueryChanged(query))
 
             // Then
-            Assert.assertEquals(FontsAction.OnFontsLoaded(fonts, selectedUuid), awaitItem())
+            assertEquals(FontsAction.CommandAction.FontsLoaded(fonts, selectedUuid), awaitItem())
             coVerify(exactly = 1) { fontsRepository.loadFonts(query) }
 
             cancelAndIgnoreRemainingEvents()
@@ -95,8 +95,8 @@ class FontsSearchMiddlewareTest {
 
         fontsMiddleware.bind(state, actions).test {
             // When
-            actions.emit(FontsAction.QueryAction.OnQueryChanged(query))
-            actions.emit(FontsAction.QueryAction.OnClearQueryClicked)
+            actions.emit(FontsAction.UiAction.OnQueryChanged(query))
+            actions.emit(FontsAction.UiAction.OnClearQueryClicked)
 
             // Then
             coVerify(exactly = 1) { fontsRepository.loadFonts(query) }

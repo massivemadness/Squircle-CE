@@ -84,10 +84,10 @@ class ThemesSearchMiddlewareTest {
 
         fontsMiddleware.bind(state, actions).test {
             // When
-            actions.emit(ThemesAction.QueryAction.OnQueryChanged(query))
+            actions.emit(ThemesAction.UiAction.OnQueryChanged(query))
 
             // Then
-            val expected = ThemesAction.OnThemesLoaded(themes, selectedUuid, state.value.typeface)
+            val expected = ThemesAction.CommandAction.ThemesLoaded(themes, selectedUuid, state.value.typeface)
             assertEquals(expected, awaitItem())
             coVerify(exactly = 1) { themeRepository.loadThemes(query) }
 
@@ -110,8 +110,8 @@ class ThemesSearchMiddlewareTest {
 
         fontsMiddleware.bind(state, actions).test {
             // When
-            actions.emit(ThemesAction.QueryAction.OnQueryChanged(query))
-            actions.emit(ThemesAction.QueryAction.OnClearQueryClicked)
+            actions.emit(ThemesAction.UiAction.OnQueryChanged(query))
+            actions.emit(ThemesAction.UiAction.OnClearQueryClicked)
 
             // Then
             coVerify(exactly = 1) { themeRepository.loadThemes(query) }

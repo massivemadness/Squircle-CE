@@ -31,7 +31,7 @@ internal class ThemesReducer @Inject constructor(
 
     override fun reduce(action: ThemesAction) {
         when (action) {
-            is ThemesAction.QueryAction.OnQueryChanged -> {
+            is ThemesAction.UiAction.OnQueryChanged -> {
                 state {
                     copy(
                         searchQuery = action.query,
@@ -40,7 +40,7 @@ internal class ThemesReducer @Inject constructor(
                 }
             }
 
-            is ThemesAction.QueryAction.OnClearQueryClicked -> {
+            is ThemesAction.UiAction.OnClearQueryClicked -> {
                 state {
                     copy(
                         searchQuery = "",
@@ -49,7 +49,7 @@ internal class ThemesReducer @Inject constructor(
                 }
             }
 
-            is ThemesAction.OnThemesLoaded -> {
+            is ThemesAction.CommandAction.ThemesLoaded -> {
                 state {
                     copy(
                         themes = action.themes,
@@ -60,7 +60,7 @@ internal class ThemesReducer @Inject constructor(
                 }
             }
 
-            is ThemesAction.OnError -> {
+            is ThemesAction.Error -> {
                 state {
                     copy(isLoading = false)
                 }
@@ -69,13 +69,13 @@ internal class ThemesReducer @Inject constructor(
                 )
             }
 
-            is ThemesAction.OnSelectClicked -> {
+            is ThemesAction.UiAction.OnSelectClicked -> {
                 state {
                     copy(selectedUuid = action.theme.uuid)
                 }
             }
 
-            is ThemesAction.OnThemeSelected -> {
+            is ThemesAction.CommandAction.ThemeSelected -> {
                 event(
                     ThemesEvent.Toast(
                         stringProvider.getString(
@@ -86,7 +86,7 @@ internal class ThemesReducer @Inject constructor(
                 )
             }
 
-            is ThemesAction.OnThemeRemoved -> {
+            is ThemesAction.CommandAction.ThemeRemoved -> {
                 state {
                     copy(
                         themes = themes.filterNot {

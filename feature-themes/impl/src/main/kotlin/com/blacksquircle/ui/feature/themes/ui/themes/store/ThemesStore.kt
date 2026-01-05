@@ -29,7 +29,7 @@ internal class ThemesStore @Inject constructor(
     themesSearchMiddleware: ThemesSearchMiddleware,
 ) : Store<ThemesState, ThemesAction, ThemesEvent> by produceStore(
         initialState = ThemesState(),
-        initialAction = ThemesAction.OnInit,
+        initialAction = ThemesAction.Init,
         reducer = themesReducer,
         middlewares = listOf(
             themesMiddleware,

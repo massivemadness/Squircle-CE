@@ -22,24 +22,25 @@ import com.blacksquircle.ui.redux.MVIAction
 
 internal sealed interface FontsAction : MVIAction {
 
-    data object OnInit : FontsAction
+    data object Init : FontsAction
+    data class Error(val error: Throwable) : FontsAction
 
-    data object OnBackClicked : FontsAction
+    sealed interface UiAction : FontsAction {
 
-    sealed interface QueryAction : FontsAction {
-        data class OnQueryChanged(val query: String) : QueryAction
-        data object OnClearQueryClicked : QueryAction
+        data object OnBackClicked : UiAction
+        data class OnSelectClicked(val font: FontModel) : UiAction
+        data class OnRemoveClicked(val font: FontModel) : UiAction
+        data class OnImportFont(val uri: Uri) : UiAction
+
+        sealed interface OnQueryAction : UiAction
+        data class OnQueryChanged(val query: String) : OnQueryAction
+        data object OnClearQueryClicked : OnQueryAction
     }
 
-    data class OnFontsLoaded(val fonts: List<FontModel>, val selectedUuid: String) : FontsAction
-    data class OnError(val error: Throwable) : FontsAction
-
-    data class OnSelectClicked(val font: FontModel) : FontsAction
-    data class OnFontSelected(val font: FontModel) : FontsAction
-
-    data class OnRemoveClicked(val font: FontModel) : FontsAction
-    data class OnFontRemoved(val font: FontModel, val selectedUuid: String) : FontsAction
-
-    data class OnImportFont(val uri: Uri) : FontsAction
-    data object OnFontImported : FontsAction
+    sealed interface CommandAction : FontsAction {
+        data class FontsLoaded(val fonts: List<FontModel>, val selectedUuid: String) : CommandAction
+        data class FontSelected(val font: FontModel) : CommandAction
+        data class FontRemoved(val font: FontModel, val selectedUuid: String) : CommandAction
+        data object FontImported : CommandAction
+    }
 }

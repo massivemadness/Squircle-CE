@@ -82,11 +82,11 @@ internal fun ThemesScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ThemesScreen(
         viewState = viewState,
-        onBackClicked = { viewModel.dispatch(ThemesAction.OnBackClicked) },
-        onQueryChanged = { viewModel.dispatch(ThemesAction.QueryAction.OnQueryChanged(it)) },
-        onClearQueryClicked = { viewModel.dispatch(ThemesAction.QueryAction.OnClearQueryClicked) },
-        onSelectClicked = { viewModel.dispatch(ThemesAction.OnSelectClicked(it)) },
-        onRemoveClicked = { viewModel.dispatch(ThemesAction.OnRemoveClicked(it)) },
+        onBackClicked = { viewModel.dispatch(ThemesAction.UiAction.OnBackClicked) },
+        onQueryChanged = { viewModel.dispatch(ThemesAction.UiAction.OnQueryChanged(it)) },
+        onClearQueryClicked = { viewModel.dispatch(ThemesAction.UiAction.OnClearQueryClicked) },
+        onSelectClicked = { viewModel.dispatch(ThemesAction.UiAction.OnSelectClicked(it)) },
+        onRemoveClicked = { viewModel.dispatch(ThemesAction.UiAction.OnRemoveClicked(it)) },
     )
 
     val context = LocalContext.current
