@@ -57,9 +57,7 @@ internal class FetchViewModel @AssistedInject constructor(
     }
 
     fun onBackClicked() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.PopBackStack)
-        }
+        navigator.goBack()
     }
 
     private fun fetch() {

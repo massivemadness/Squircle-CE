@@ -21,6 +21,8 @@ import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 internal sealed class ExplorerViewEvent : ViewEvent {
 
+    data object CloseDrawer : ExplorerViewEvent()
+
     data object RequestPermission : ExplorerViewEvent()
     data object StartService : ExplorerViewEvent()
 

@@ -140,7 +140,7 @@ internal class ExplorerViewModel @Inject constructor(
             }
         } else {
             viewModelScope.launch {
-                _viewEvent.send(ViewEvent.PopBackStack)
+                _viewEvent.send(ExplorerViewEvent.CloseDrawer)
             }
         }
     }
@@ -283,7 +283,7 @@ internal class ExplorerViewModel @Inject constructor(
                     FileType.ARCHIVE -> extractFiles(fileNode)
                     FileType.DEFAULT -> {
                         editorInteractor.openFile(fileNode.file)
-                        _viewEvent.send(ViewEvent.PopBackStack)
+                        _viewEvent.send(ExplorerViewEvent.CloseDrawer)
                     }
 
                     else -> onOpenWithClicked(fileNode)

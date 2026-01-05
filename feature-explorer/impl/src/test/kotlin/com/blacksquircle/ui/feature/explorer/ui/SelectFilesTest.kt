@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.explorer.ui
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
@@ -27,6 +26,7 @@ import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
 import com.blacksquircle.ui.feature.explorer.defaultWorkspaces
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
+import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
@@ -209,7 +209,7 @@ class SelectFilesTest {
         viewModel.onBackClicked()
 
         // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
+        assertEquals(ExplorerViewEvent.CloseDrawer, viewModel.viewEvent.first())
     }
 
     private fun createViewModel(): ExplorerViewModel {

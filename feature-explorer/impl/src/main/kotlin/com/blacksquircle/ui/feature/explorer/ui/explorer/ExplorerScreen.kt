@@ -131,7 +131,7 @@ internal fun ExplorerScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.PopBackStack -> closeDrawer()
+                is ExplorerViewEvent.CloseDrawer -> closeDrawer()
                 is ExplorerViewEvent.RequestPermission -> {
                     storageContract.launch(
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

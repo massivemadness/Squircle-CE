@@ -18,6 +18,4 @@ package com.blacksquircle.ui.core.mvi
 
 interface ViewEvent {
     data class Toast(val message: String) : ViewEvent
-    data class Navigation(val screen: Any) : ViewEvent
-    data object PopBackStack : ViewEvent
 }
