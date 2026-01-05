@@ -99,7 +99,6 @@ private fun AddWorkspaceScreen(
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

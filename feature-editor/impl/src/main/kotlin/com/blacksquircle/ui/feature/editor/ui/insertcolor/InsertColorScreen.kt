@@ -43,6 +43,5 @@ internal fun InsertColorScreen(
             viewModel.onInsertClicked()
         },
         onDismissClicked = viewModel::onCancelClicked,
-        onDismiss = viewModel::onCancelClicked,
     )
 }

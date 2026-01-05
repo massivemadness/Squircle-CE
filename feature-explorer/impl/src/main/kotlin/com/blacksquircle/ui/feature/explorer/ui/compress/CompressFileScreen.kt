@@ -83,7 +83,6 @@ private fun CompressFileScreen(
             }
         },
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

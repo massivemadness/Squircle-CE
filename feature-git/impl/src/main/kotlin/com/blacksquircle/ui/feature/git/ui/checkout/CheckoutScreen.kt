@@ -169,7 +169,6 @@ private fun CheckoutScreen(
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
-        onDismiss = onBackClicked,
         confirmButton = if (viewState.isNewBranch) {
             stringResource(R.string.git_checkout_dialog_button_create)
         } else {

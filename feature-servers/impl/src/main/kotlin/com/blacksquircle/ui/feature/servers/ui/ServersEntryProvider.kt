@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.feature.servers.ui
 
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.scene.DialogSceneStrategy
@@ -31,7 +32,11 @@ internal class ServersEntryProvider : EntryProvider {
         entry<ServerListRoute> {
             ServerListScreen()
         }
-        entry<ServerDetailsRoute>(metadata = DialogSceneStrategy.dialog()) { navArgs ->
+        entry<ServerDetailsRoute>(
+            metadata = DialogSceneStrategy.dialog(
+                dialogProperties = DialogProperties(dismissOnClickOutside = false)
+            )
+        ) { navArgs ->
             ServerDetailsScreen(navArgs)
         }
     }

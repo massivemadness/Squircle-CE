@@ -79,7 +79,6 @@ private fun DeleteFileScreen(
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = onConfirmClicked,
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

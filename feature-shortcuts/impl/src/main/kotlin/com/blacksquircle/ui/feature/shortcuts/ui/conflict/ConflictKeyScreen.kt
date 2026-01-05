@@ -62,7 +62,6 @@ private fun ConflictKeyScreen(
         onConfirmClicked = { onReassignClicked(true) },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = { onReassignClicked(false) },
-        onDismiss = { onReassignClicked(false) },
     )
 }
 

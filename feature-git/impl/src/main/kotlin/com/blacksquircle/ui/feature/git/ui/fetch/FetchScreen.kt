@@ -102,7 +102,6 @@ private fun FetchScreen(
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
-        onDismiss = onBackClicked
     )
 }
 

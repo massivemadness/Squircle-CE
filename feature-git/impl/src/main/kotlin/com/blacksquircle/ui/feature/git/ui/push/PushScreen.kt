@@ -148,7 +148,6 @@ private fun PushScreen(
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
-        onDismiss = onBackClicked,
         confirmButton = stringResource(R.string.git_push_dialog_button_push),
         confirmButtonEnabled = viewState.isPushButtonEnabled,
         onConfirmClicked = onPushClicked

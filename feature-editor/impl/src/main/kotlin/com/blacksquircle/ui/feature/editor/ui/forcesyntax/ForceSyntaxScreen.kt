@@ -114,7 +114,6 @@ private fun ForceSyntaxScreen(
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

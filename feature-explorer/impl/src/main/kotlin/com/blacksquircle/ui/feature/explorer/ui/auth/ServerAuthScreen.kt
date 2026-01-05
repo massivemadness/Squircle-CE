@@ -89,7 +89,6 @@ private fun ServerAuthScreen(
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = { onConfirmClicked(credentials) },
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

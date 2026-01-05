@@ -16,6 +16,7 @@
 
 package com.blacksquircle.ui.application
 
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.scene.DialogSceneStrategy
@@ -25,7 +26,11 @@ import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 internal class AppEntryProvider : EntryProvider {
 
     override fun EntryProviderScope<NavKey>.builder() {
-        entry<UpdateRoute>(metadata = DialogSceneStrategy.dialog()) {
+        entry<UpdateRoute>(
+            metadata = DialogSceneStrategy.dialog(
+                dialogProperties = DialogProperties(dismissOnClickOutside = false)
+            )
+        ) {
             UpdateScreen()
         }
     }

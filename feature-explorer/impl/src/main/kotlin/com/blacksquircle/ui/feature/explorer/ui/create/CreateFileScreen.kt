@@ -102,7 +102,6 @@ private fun CreateFileScreen(
             }
         },
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

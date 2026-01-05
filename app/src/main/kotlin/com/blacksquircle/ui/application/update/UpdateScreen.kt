@@ -20,7 +20,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.window.DialogProperties
 import com.blacksquircle.ui.R
 import com.blacksquircle.ui.core.effect.ResultEventBus
 import com.blacksquircle.ui.core.extensions.daggerViewModel
@@ -65,10 +64,6 @@ private fun UpdateScreen(
         dismissButton = stringResource(R.string.app_update_dialog_button_later),
         onConfirmClicked = onConfirmClicked,
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
-        properties = DialogProperties(
-            dismissOnClickOutside = false,
-        )
     )
 }
 

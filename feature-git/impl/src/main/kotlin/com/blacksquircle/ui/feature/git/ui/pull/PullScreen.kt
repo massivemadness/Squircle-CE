@@ -110,7 +110,6 @@ private fun PullScreen(
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
-        onDismiss = onBackClicked
     )
 }
 

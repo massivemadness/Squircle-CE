@@ -87,7 +87,6 @@ private fun RenameFileScreen(
             }
         },
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

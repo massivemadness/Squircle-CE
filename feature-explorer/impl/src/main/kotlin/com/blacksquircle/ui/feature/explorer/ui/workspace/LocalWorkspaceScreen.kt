@@ -80,7 +80,6 @@ private fun LocalWorkspaceScreen(
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = { onConfirmClicked(filePath) },
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

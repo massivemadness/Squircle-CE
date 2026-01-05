@@ -47,6 +47,7 @@ fun AlertDialog(
     title: String,
     content: @Composable (BoxScope.() -> Unit),
     onDismiss: () -> Unit,
+    properties: DialogProperties,
     modifier: Modifier = Modifier,
     verticalScroll: Boolean = true,
     horizontalPadding: Boolean = true,
@@ -54,7 +55,6 @@ fun AlertDialog(
     dismissButton: String? = null,
     onConfirmClicked: () -> Unit = {},
     onDismissClicked: () -> Unit = {},
-    properties: DialogProperties = DialogProperties(),
     confirmButtonEnabled: Boolean = true,
     dismissButtonEnabled: Boolean = true,
 ) {
@@ -62,70 +62,99 @@ fun AlertDialog(
         onDismissRequest = onDismiss,
         properties = properties
     ) {
-        Surface(
+        AlertDialog(
+            title = title,
+            content = content,
+            verticalScroll = verticalScroll,
+            horizontalPadding = horizontalPadding,
+            confirmButton = confirmButton,
+            dismissButton = dismissButton,
+            onConfirmClicked = onConfirmClicked,
+            onDismissClicked = onDismissClicked,
+            confirmButtonEnabled = confirmButtonEnabled,
+            dismissButtonEnabled = dismissButtonEnabled,
             modifier = modifier,
-            shape = RoundedCornerShape(8.dp),
-            color = SquircleTheme.colors.colorBackgroundSecondary,
-        ) {
-            Column(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = title,
-                    style = SquircleTheme.typography.text18Medium,
-                    color = SquircleTheme.colors.colorTextAndIconPrimary,
-                    textAlign = TextAlign.Start,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 2,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = 24.dp,
-                            end = 24.dp,
-                            top = 24.dp,
-                            bottom = 16.dp,
-                        )
-                )
+        )
+    }
+}
 
-                val scrollState = rememberScrollState()
-                val scrollableModifier = if (verticalScroll) {
-                    Modifier.verticalScroll(scrollState)
-                } else {
-                    Modifier
+@Composable
+fun AlertDialog(
+    title: String,
+    content: @Composable (BoxScope.() -> Unit),
+    modifier: Modifier = Modifier,
+    verticalScroll: Boolean = true,
+    horizontalPadding: Boolean = true,
+    confirmButton: String? = null,
+    dismissButton: String? = null,
+    onConfirmClicked: () -> Unit = {},
+    onDismissClicked: () -> Unit = {},
+    confirmButtonEnabled: Boolean = true,
+    dismissButtonEnabled: Boolean = true,
+) {
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(8.dp),
+        color = SquircleTheme.colors.colorBackgroundSecondary,
+    ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = title,
+                style = SquircleTheme.typography.text18Medium,
+                color = SquircleTheme.colors.colorTextAndIconPrimary,
+                textAlign = TextAlign.Start,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 2,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 24.dp,
+                        end = 24.dp,
+                        top = 24.dp,
+                        bottom = 16.dp,
+                    )
+            )
+
+            val scrollState = rememberScrollState()
+            val scrollableModifier = if (verticalScroll) {
+                Modifier.verticalScroll(scrollState)
+            } else {
+                Modifier
+            }
+            val paddingModifier = if (horizontalPadding) {
+                Modifier.padding(horizontal = 24.dp)
+            } else {
+                Modifier
+            }
+            Box(
+                content = content,
+                modifier = Modifier
+                    .weight(1f, fill = false)
+                    .then(scrollableModifier)
+                    .then(paddingModifier)
+            )
+            Row(
+                horizontalArrangement = Arrangement.End,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp)
+            ) {
+                if (dismissButton != null) {
+                    TextButton(
+                        text = dismissButton,
+                        onClick = onDismissClicked,
+                        enabled = dismissButtonEnabled
+                    )
                 }
-                val paddingModifier = if (horizontalPadding) {
-                    Modifier.padding(horizontal = 24.dp)
-                } else {
-                    Modifier
+                if (dismissButton != null && confirmButton != null) {
+                    Spacer(Modifier.width(8.dp))
                 }
-                Box(
-                    content = content,
-                    modifier = Modifier
-                        .weight(1f, fill = false)
-                        .then(scrollableModifier)
-                        .then(paddingModifier)
-                )
-                Row(
-                    horizontalArrangement = Arrangement.End,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(12.dp)
-                ) {
-                    if (dismissButton != null) {
-                        TextButton(
-                            text = dismissButton,
-                            onClick = onDismissClicked,
-                            enabled = dismissButtonEnabled
-                        )
-                    }
-                    if (dismissButton != null && confirmButton != null) {
-                        Spacer(Modifier.width(8.dp))
-                    }
-                    if (confirmButton != null) {
-                        TextButton(
-                            text = confirmButton,
-                            onClick = onConfirmClicked,
-                            enabled = confirmButtonEnabled
-                        )
-                    }
+                if (confirmButton != null) {
+                    TextButton(
+                        text = confirmButton,
+                        onClick = onConfirmClicked,
+                        enabled = confirmButtonEnabled
+                    )
                 }
             }
         }
@@ -147,8 +176,6 @@ private fun AlertDialogPreview() {
             },
             confirmButton = "Confirm",
             dismissButton = "Cancel",
-            onDismissClicked = {},
-            onDismiss = {},
         )
     }
 }

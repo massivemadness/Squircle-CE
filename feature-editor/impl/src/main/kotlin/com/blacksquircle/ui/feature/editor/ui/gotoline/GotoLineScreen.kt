@@ -93,7 +93,6 @@ private fun GotoLineScreen(
             onConfirmClicked(intValue - 1)
         },
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

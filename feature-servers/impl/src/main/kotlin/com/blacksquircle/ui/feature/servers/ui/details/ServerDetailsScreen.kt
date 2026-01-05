@@ -27,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.MimeType
@@ -252,10 +251,6 @@ private fun ServerDetailsScreen(
                 onCancelClicked()
             }
         },
-        onDismiss = onCancelClicked,
-        properties = DialogProperties(
-            dismissOnClickOutside = false,
-        )
     )
 }
 

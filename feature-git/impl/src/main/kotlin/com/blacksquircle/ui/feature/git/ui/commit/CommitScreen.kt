@@ -154,7 +154,6 @@ private fun CommitScreen(
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
-        onDismiss = onBackClicked,
         confirmButton = stringResource(R.string.git_commit_dialog_button_commit),
         confirmButtonEnabled = viewState.isCommitButtonEnabled,
         onConfirmClicked = onCommitClicked

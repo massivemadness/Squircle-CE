@@ -200,7 +200,6 @@ private fun TaskScreen(
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = onRunInBackgroundClicked,
         onDismissClicked = onCancelClicked,
-        onDismiss = onBackClicked,
     )
 }
 

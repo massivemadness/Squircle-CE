@@ -261,7 +261,6 @@ private fun KeybindingScreen(
         onConfirmClicked = onSaveClicked,
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

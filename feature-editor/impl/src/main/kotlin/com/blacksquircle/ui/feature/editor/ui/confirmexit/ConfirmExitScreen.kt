@@ -64,7 +64,6 @@ private fun ConfirmExitScreen(
         dismissButton = stringResource(UiR.string.common_no),
         onConfirmClicked = onConfirmClicked,
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

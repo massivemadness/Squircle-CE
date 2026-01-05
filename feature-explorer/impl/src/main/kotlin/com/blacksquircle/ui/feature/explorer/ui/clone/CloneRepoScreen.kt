@@ -83,7 +83,6 @@ private fun CloneRepoScreen(
             }
         },
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 
