@@ -32,30 +32,19 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.navigation.ui)
-    implementation(libs.google.dagger)
-    implementation(libs.jakewharton.timber)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.core)
-    testImplementation(libs.kotlinx.coroutines.test)
-
-    ksp(libs.google.dagger.compiler)
-
     implementation(project(":core-common"))
     implementation(project(":core-navigation:api"))
     implementation(project(":core-ui"))
-    testImplementation(project(":core-test"))
 
     implementation(project(":feature-servers:api"))
     implementation(project(":filesystems:filesystem-ftp"))
     implementation(project(":filesystems:filesystem-ftps"))
     implementation(project(":filesystems:filesystem-sftp"))
 
-    testImplementation(libs.test.junit)
-    testImplementation(libs.test.mockk)
+    implementation(libs.google.dagger)
+    ksp(libs.google.dagger.compiler)
+
+    testImplementation(project(":core-test"))
     androidTestImplementation(libs.test.junit.ext)
     androidTestImplementation(libs.test.runner)
 }

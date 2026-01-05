@@ -39,33 +39,23 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.navigation.ui)
-    implementation(libs.google.dagger)
-    implementation(libs.jakewharton.timber)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.core)
-    testImplementation(libs.kotlinx.coroutines.test)
-    implementation(libs.sora.editor)
-    implementation(libs.sora.textmate)
-
     implementation(project(":core-common"))
     implementation(project(":core-navigation:api"))
     implementation(project(":core-redux"))
     implementation(project(":core-ui"))
-    testImplementation(project(":core-test"))
 
     implementation(project(":feature-fonts:api"))
     implementation(project(":feature-themes:api"))
 
+    implementation(libs.sora.editor)
+    implementation(libs.sora.textmate)
+
     coreLibraryDesugaring(libs.android.tools.desugaring)
+
+    implementation(libs.google.dagger)
     ksp(libs.google.dagger.compiler)
 
-    testImplementation(libs.test.junit)
-    testImplementation(libs.test.mockk)
-    testImplementation(libs.test.turbine)
+    testImplementation(project(":core-test"))
     androidTestImplementation(libs.test.junit.ext)
     androidTestImplementation(libs.test.runner)
 }

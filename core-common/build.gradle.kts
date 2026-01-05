@@ -43,23 +43,23 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.lifecycle.service)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.navigation.ui)
-    implementation(libs.androidx.room)
-    implementation(libs.google.dagger)
-    implementation(libs.jakewharton.timber)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.core)
-    testImplementation(libs.kotlinx.coroutines.test)
-    implementation(libs.kotlinx.serialization)
-    api(libs.squareup.retrofit)
-    implementation(libs.squareup.retrofit.converter)
+    implementation(project(":core-ui"))
 
+    implementation(libs.androidx.lifecycle.service)
+
+    api(libs.androidx.core)
+    api(libs.androidx.navigation.ui)
+    api(libs.jakewharton.timber)
+    api(libs.kotlinx.coroutines.android)
+    api(libs.kotlinx.coroutines.core)
+    api(libs.kotlinx.serialization)
+    api(libs.squareup.retrofit)
+    api(libs.squareup.retrofit.converter)
+
+    implementation(libs.androidx.room)
     ksp(libs.androidx.room.compiler)
+
+    implementation(libs.google.dagger)
     ksp(libs.google.dagger.compiler)
 
     testImplementation(libs.test.junit)

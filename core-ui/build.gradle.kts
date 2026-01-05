@@ -36,6 +36,9 @@ dependencies {
     implementation(libs.skydoves.colorpicker.compose)
 
     api(libs.androidx.activity.compose)
+    api(libs.androidx.lifecycle.runtime.compose)
+    api(libs.androidx.lifecycle.viewmodel.compose)
+
     api(libs.androidx.compose.foundation)
     api(libs.androidx.compose.material)
     api(libs.androidx.compose.tooling.preview)

@@ -10,10 +10,10 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.navigation.ui)
-
     implementation(project(":core-common"))
     implementation(project(":core-navigation:api"))
+
+    implementation(libs.androidx.navigation.ui)
 
     implementation(libs.google.dagger)
     ksp(libs.google.dagger.compiler)

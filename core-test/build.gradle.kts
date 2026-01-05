@@ -26,13 +26,14 @@ android {
 
 dependencies {
 
+    implementation(project(":core-common"))
+
     implementation(libs.jakewharton.timber)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.test)
+    api(libs.kotlinx.coroutines.test)
 
-    implementation(project(":core-common"))
-
-    implementation(libs.test.junit)
-    implementation(libs.test.mockk)
+    api(libs.test.junit)
+    api(libs.test.mockk)
+    api(libs.test.turbine)
 }

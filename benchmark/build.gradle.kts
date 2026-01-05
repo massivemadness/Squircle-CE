@@ -41,7 +41,6 @@ baselineProfile {
 }
 
 dependencies {
-
     implementation(libs.test.junit)
     implementation(libs.test.junit.ext)
     implementation(libs.test.runner)

@@ -49,34 +49,11 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.tooling.preview)
-    implementation(libs.androidx.compose.ui)
-    debugImplementation(libs.androidx.compose.manifest)
-    debugImplementation(libs.androidx.compose.tooling)
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.navigation)
-    implementation(libs.androidx.navigation.ui)
-    implementation(libs.androidx.profileinstaller)
-
-    gmsImplementation(libs.google.appupdate)
-    implementation(libs.google.dagger)
-    implementation(libs.jakewharton.timber)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.core)
-    testImplementation(libs.kotlinx.coroutines.test)
-    implementation(libs.kotlinx.serialization)
     implementation(project(":core-common"))
     implementation(project(":core-navigation:api"))
     implementation(project(":core-navigation:impl"))
     implementation(project(":core-redux"))
     implementation(project(":core-ui"))
-    testImplementation(project(":core-test"))
 
     implementation(project(":feature-editor:api"))
     implementation(project(":feature-editor:impl"))
@@ -98,11 +75,17 @@ dependencies {
     implementation(project(":feature-themes:impl"))
     baselineProfile(project(":benchmark"))
 
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation)
+    implementation(libs.androidx.profileinstaller)
+    gmsImplementation(libs.google.appupdate)
+
     coreLibraryDesugaring(libs.android.tools.desugaring)
+
+    implementation(libs.google.dagger)
     ksp(libs.google.dagger.compiler)
 
-    testImplementation(libs.test.junit)
-    testImplementation(libs.test.mockk)
+    testImplementation(project(":core-test"))
     androidTestImplementation(libs.test.junit.ext)
     androidTestImplementation(libs.test.runner)
 }
