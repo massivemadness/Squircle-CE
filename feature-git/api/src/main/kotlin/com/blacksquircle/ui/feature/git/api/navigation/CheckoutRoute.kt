@@ -23,6 +23,6 @@ import kotlinx.serialization.Serializable
 data class CheckoutRoute(val repository: String) : NavKey {
 
     companion object {
-        const val KEY_CHECKOUT = "KEY_CHECKOUT"
+        const val KEY_CHECKOUT = "KEY_CHECKOUT_BRANCH"
     }
 }

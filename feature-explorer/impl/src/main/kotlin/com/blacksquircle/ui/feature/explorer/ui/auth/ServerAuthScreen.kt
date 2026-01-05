@@ -34,7 +34,7 @@ import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.api.navigation.ServerAuthRoute
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
-import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_AUTHENTICATION
+import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_SERVER_AUTHENTICATE
 import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 
 @Composable
@@ -48,7 +48,7 @@ internal fun ServerAuthScreen(
     ServerAuthScreen(
         authMethod = navArgs.authMethod,
         onConfirmClicked = { credentials ->
-            ResultEventBus.sendResult(KEY_AUTHENTICATION, credentials)
+            ResultEventBus.sendResult(KEY_SERVER_AUTHENTICATE, credentials)
             viewModel.onBackClicked()
         },
         onCancelClicked = viewModel::onBackClicked,

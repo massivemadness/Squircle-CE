@@ -65,7 +65,7 @@ import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.blacksquircle.ui.ds.R as UiR
 
-internal const val KEY_AUTHENTICATION = "KEY_AUTHENTICATION"
+internal const val KEY_SERVER_AUTHENTICATE = "KEY_SERVER_AUTHENTICATE"
 internal const val KEY_COMPRESS_FILE = "KEY_COMPRESS_FILE"
 internal const val KEY_CREATE_FILE = "KEY_CREATE_FILE"
 internal const val KEY_CREATE_FOLDER = "KEY_CREATE_FOLDER"
@@ -151,7 +151,7 @@ internal fun ExplorerScreen(
         }
     }
 
-    ResultEffect<String>(KEY_AUTHENTICATION) { credentials ->
+    ResultEffect<String>(KEY_SERVER_AUTHENTICATE) { credentials ->
         viewModel.onCredentialsEntered(credentials)
     }
     ResultEffect<String>(KEY_CREATE_FILE) { fileName ->

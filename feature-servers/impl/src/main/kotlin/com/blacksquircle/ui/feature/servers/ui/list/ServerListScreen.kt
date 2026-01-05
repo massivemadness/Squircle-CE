@@ -49,8 +49,8 @@ import com.blacksquircle.ui.filesystem.base.model.ServerConfig
 import com.blacksquircle.ui.filesystem.base.model.ServerType
 import com.blacksquircle.ui.ds.R as UiR
 
-internal const val KEY_SAVE = "KEY_SAVE"
-internal const val KEY_DELETE = "KEY_DELETE"
+internal const val KEY_SAVE = "KEY_SERVER_SAVE"
+internal const val KEY_DELETE = "KEY_SERVER_DELETE"
 
 @Composable
 internal fun ServerListScreen(

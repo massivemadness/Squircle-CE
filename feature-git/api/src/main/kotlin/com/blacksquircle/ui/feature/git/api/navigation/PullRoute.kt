@@ -23,6 +23,6 @@ import kotlinx.serialization.Serializable
 data class PullRoute(val repository: String) : NavKey {
 
     companion object {
-        const val KEY_PULL = "KEY_PULL"
+        const val KEY_PULL = "KEY_PULL_CHANGES"
     }
 }

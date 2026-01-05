@@ -28,7 +28,7 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.internal.AppComponent
 
-internal const val KEY_INSTALL_UPDATE = "KEY_UPDATE"
+internal const val KEY_INSTALL_UPDATE = "KEY_INSTALL_UPDATE"
 
 @Composable
 internal fun UpdateScreen(

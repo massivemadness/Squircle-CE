@@ -55,8 +55,8 @@ import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.compose.Combination
 import com.blacksquircle.ui.ds.R as UiR
 
-internal const val KEY_SAVE = "KEY_SAVE"
-internal const val KEY_RESOLVE = "KEY_RESOLVE"
+internal const val KEY_SAVE = "KEY_SHORTCUT_SAVE"
+internal const val KEY_RESOLVE = "KEY_SHORTCUT_RESOLVE"
 
 @Composable
 internal fun ShortcutsScreen(
