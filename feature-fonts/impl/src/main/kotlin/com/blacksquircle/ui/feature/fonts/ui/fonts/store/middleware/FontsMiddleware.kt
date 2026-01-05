@@ -26,12 +26,12 @@ import jakarta.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.onEach
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class FontsMiddleware @Inject constructor(
@@ -63,8 +63,9 @@ internal class FontsMiddleware @Inject constructor(
 
     private fun onBackClicked(actions: Flow<FontsAction>): Flow<FontsAction> {
         return actions.filterIsInstance<FontsAction.OnBackClicked>()
-            .onEach {
+            .flatMapLatest {
                 navigator.goBack()
+                emptyFlow()
             }
     }
 
