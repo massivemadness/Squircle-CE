@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -148,6 +148,13 @@ internal class DocumentRepositoryImpl(
         }
     }
 
+    override suspend fun updateDocument(document: DocumentModel) {
+        withContext(dispatcherProvider.io()) {
+            val documentEntity = DocumentMapper.toEntity(document)
+            documentDao.update(documentEntity)
+        }
+    }
+
     override suspend fun refreshDocument(document: DocumentModel) {
         withContext(dispatcherProvider.io()) {
             cacheManager.delete(document)
@@ -216,12 +223,15 @@ internal class DocumentRepositoryImpl(
                 DocumentsContract.isDocumentUri(context, fileUri) -> {
                     context.openUriAsDocument(fileUri)
                 }
+
                 fileUri.scheme == ContentResolver.SCHEME_CONTENT -> {
                     context.openUriAsContent(fileUri)
                 }
+
                 fileUri.scheme == ContentResolver.SCHEME_FILE -> {
                     openUriAsFile(fileUri)
                 }
+
                 else -> throw IllegalArgumentException("File $fileUri not found")
             }
             openDocument(fileModel, position)

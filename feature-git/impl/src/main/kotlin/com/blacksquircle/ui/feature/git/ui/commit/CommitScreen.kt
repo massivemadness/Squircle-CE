@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -44,7 +43,7 @@ import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.git.R
-import com.blacksquircle.ui.feature.git.api.navigation.CommitDialog
+import com.blacksquircle.ui.feature.git.api.navigation.CommitRoute
 import com.blacksquircle.ui.feature.git.domain.model.ChangeType
 import com.blacksquircle.ui.feature.git.domain.model.GitChange
 import com.blacksquircle.ui.feature.git.internal.GitComponent
@@ -52,8 +51,7 @@ import com.blacksquircle.ui.feature.git.ui.commit.compose.ChangeList
 
 @Composable
 internal fun CommitScreen(
-    navArgs: CommitDialog,
-    navController: NavController,
+    navArgs: CommitRoute,
     viewModel: CommitViewModel = daggerViewModel { context ->
         val component = GitComponent.buildOrGet(context)
         CommitViewModel.ParameterizedFactory(navArgs.repository).also(component::inject)
@@ -66,7 +64,7 @@ internal fun CommitScreen(
         onCommitMessageChanged = viewModel::onCommitMessageChanged,
         onAmendClicked = viewModel::onAmendClicked,
         onCommitClicked = viewModel::onCommitClicked,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
     )
 
     val context = LocalContext.current
@@ -74,8 +72,6 @@ internal fun CommitScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
             }
         }
     }
@@ -158,7 +154,6 @@ private fun CommitScreen(
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
-        onDismiss = onBackClicked,
         confirmButton = stringResource(R.string.git_commit_dialog_button_commit),
         confirmButtonEnabled = viewState.isCommitButtonEnabled,
         onConfirmClicked = onCommitClicked

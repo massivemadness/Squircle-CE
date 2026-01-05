@@ -1,0 +1,37 @@
+<!--
+  ~ Copyright Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="288dp"
+    android:height="288dp"
+    android:viewportWidth="288"
+    android:viewportHeight="288">
+    <group>
+        <clip-path android:pathData="M48,144C48,197.02 90.98,240 144,240C197.02,240 240,197.02 240,144C240,90.98 197.02,48 144,48C90.98,48 48,90.98 48,144Z" />
+        <path
+            android:fillColor="#D9D9D9"
+            android:pathData="M86.91,148.13L129.73,181.17V194.94L86.91,161.9V148.13ZM158.27,181.17L201.09,148.13V161.9L158.27,194.94V181.17ZM81,137.12C81,141.42 83.26,145.31 86.91,148.13V161.9C83.26,159.08 81,155.18 81,150.88V137.12ZM207,137.12V150.88C207,155.18 204.74,159.08 201.09,161.9V148.13C204.74,145.31 207,141.42 207,137.12ZM129.73,181.17C137.61,187.25 150.39,187.25 158.27,181.17V194.94C150.39,201.02 137.61,201.02 129.73,194.94V181.17ZM129.73,93.06C137.61,86.98 150.39,86.98 158.27,93.06L201.09,126.1C208.97,132.19 208.97,142.05 201.09,148.13L158.27,181.17C150.39,187.25 137.61,187.25 129.73,181.17L86.91,148.13C79.03,142.05 79.03,132.19 86.91,126.1L129.73,93.06Z" />
+        <path
+            android:fillColor="#ffffff"
+            android:pathData="M129.73,93.06C137.61,86.98 150.39,86.98 158.27,93.06L201.09,126.1C208.97,132.19 208.97,142.05 201.09,148.13L158.27,181.17C150.39,187.25 137.61,187.25 129.73,181.17L86.91,148.13C79.03,142.05 79.03,132.19 86.91,126.1L129.73,93.06Z" />
+        <path
+            android:fillColor="#000000"
+            android:pathData="M103.21,137.12L119.53,124.53L128.29,131.29L120.73,137.12L144.04,155.1L151.59,149.27L160.31,156L144,168.59L103.21,137.12Z" />
+        <path
+            android:fillColor="#000000"
+            android:pathData="M160.33,142.53L169.05,149.25L184.78,137.12L144,105.64L128.26,117.78L137.03,124.54L144.04,119.13L167.35,137.12L160.33,142.53Z" />
+    </group>
+</vector>

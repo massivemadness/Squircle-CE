@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,12 @@
 
 package com.blacksquircle.ui.feature.themes.api.internal
 
+import android.content.Context
+
 interface ThemesApiProvider {
-    fun provideThemesApiDepsProvider(): ThemesApiDepsProvider
+    fun provideThemesApi(): ThemesApi
+}
+
+fun Context.provideThemesApi(): ThemesApi {
+    return (applicationContext as ThemesApiProvider).provideThemesApi()
 }

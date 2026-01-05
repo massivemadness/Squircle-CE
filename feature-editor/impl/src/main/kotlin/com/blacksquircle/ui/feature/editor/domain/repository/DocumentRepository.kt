@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ internal interface DocumentRepository {
     suspend fun loadDocument(document: DocumentModel): Content
     suspend fun saveDocument(document: DocumentModel, content: Content)
     suspend fun cacheDocument(document: DocumentModel, content: Content)
+    suspend fun updateDocument(document: DocumentModel)
     suspend fun refreshDocument(document: DocumentModel)
 
     suspend fun reorderDocuments(from: DocumentModel, to: DocumentModel)

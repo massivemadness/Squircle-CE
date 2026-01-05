@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import com.blacksquircle.ui.feature.git.domain.exception.GitException
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import com.blacksquircle.ui.feature.git.ui.push.PushViewModel
 import com.blacksquircle.ui.feature.git.ui.push.PushViewState
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
@@ -42,6 +43,7 @@ class PushViewModelTest {
 
     private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val gitRepository = mockk<GitRepository>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Test
     fun `When screen opens Then load branch and commits`() = runTest {
@@ -134,9 +136,10 @@ class PushViewModelTest {
 
     private fun createViewModel(): PushViewModel {
         return PushViewModel(
+            repository = REPOSITORY,
             stringProvider = stringProvider,
             gitRepository = gitRepository,
-            repository = REPOSITORY,
+            navigator = navigator
         )
     }
 

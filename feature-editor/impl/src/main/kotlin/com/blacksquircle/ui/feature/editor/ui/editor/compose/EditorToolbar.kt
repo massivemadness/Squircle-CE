@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,11 +29,11 @@ import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.button.IconButton
 import com.blacksquircle.ui.ds.toolbar.Toolbar
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.ui.editor.menu.EditMenu
-import com.blacksquircle.ui.feature.editor.ui.editor.menu.FileMenu
-import com.blacksquircle.ui.feature.editor.ui.editor.menu.GitMenu
-import com.blacksquircle.ui.feature.editor.ui.editor.menu.OtherMenu
-import com.blacksquircle.ui.feature.editor.ui.editor.menu.ToolsMenu
+import com.blacksquircle.ui.feature.editor.ui.editor.compose.menu.EditMenu
+import com.blacksquircle.ui.feature.editor.ui.editor.compose.menu.FileMenu
+import com.blacksquircle.ui.feature.editor.ui.editor.compose.menu.GitMenu
+import com.blacksquircle.ui.feature.editor.ui.editor.compose.menu.OtherMenu
+import com.blacksquircle.ui.feature.editor.ui.editor.compose.menu.ToolsMenu
 import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.editor.model.MenuType
 import com.blacksquircle.ui.ds.R as UiR

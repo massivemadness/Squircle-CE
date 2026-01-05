@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
+import com.blacksquircle.ui.navigation.api.Navigator
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -32,6 +33,7 @@ import javax.inject.Provider
 
 internal class LocalWorkspaceViewModel @Inject constructor(
     private val explorerRepository: ExplorerRepository,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
@@ -41,7 +43,7 @@ internal class LocalWorkspaceViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 explorerRepository.createWorkspace(filePath)
-                _viewEvent.send(ViewEvent.PopBackStack)
+                navigator.goBack()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -49,6 +51,10 @@ internal class LocalWorkspaceViewModel @Inject constructor(
                 _viewEvent.send(ViewEvent.Toast(e.message.orEmpty()))
             }
         }
+    }
+
+    fun onBackClicked() {
+        navigator.goBack()
     }
 
     class Factory : ViewModelProvider.Factory {

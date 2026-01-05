@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,26 +20,27 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.core.os.bundleOf
-import androidx.navigation.NavController
-import com.blacksquircle.ui.core.effect.sendNavigationResult
+import com.blacksquircle.ui.core.effect.ResultEventBus
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.shortcuts.R
-import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ARG_REASSIGN
+import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.KEY_RESOLVE
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun ConflictKeyScreen(navController: NavController) {
+internal fun ConflictKeyScreen(
+    viewModel: ConflictKeyViewModel = daggerViewModel { context ->
+        val component = ShortcutsComponent.buildOrGet(context)
+        ConflictKeyViewModel.Factory().also(component::inject)
+    }
+) {
     ConflictKeyScreen(
         onReassignClicked = { reassign ->
-            sendNavigationResult(
-                key = KEY_RESOLVE,
-                result = bundleOf(ARG_REASSIGN to reassign)
-            )
-            navController.popBackStack()
+            ResultEventBus.sendResult(KEY_RESOLVE, reassign)
+            viewModel.onReassignClicked()
         }
     )
 }
@@ -61,7 +62,6 @@ private fun ConflictKeyScreen(
         onConfirmClicked = { onReassignClicked(true) },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = { onReassignClicked(false) },
-        onDismiss = { onReassignClicked(false) },
     )
 }
 
@@ -69,6 +69,6 @@ private fun ConflictKeyScreen(
 @Composable
 private fun ConflictKeyScreenPreview() {
     PreviewBackground {
-        ConflictKeyScreen()
+        ConflictKeyScreen(onReassignClicked = {})
     }
 }

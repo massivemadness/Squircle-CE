@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,11 +34,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.contract.PermissionResult
 import com.blacksquircle.ui.core.contract.rememberStorageContract
 import com.blacksquircle.ui.core.effect.CleanupEffect
-import com.blacksquircle.ui.core.effect.NavResultEffect
+import com.blacksquircle.ui.core.effect.ResultEffect
 import com.blacksquircle.ui.core.extensions.copyText
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
@@ -66,7 +65,7 @@ import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
 import com.blacksquircle.ui.ds.R as UiR
 
-internal const val KEY_AUTHENTICATION = "KEY_AUTHENTICATION"
+internal const val KEY_SERVER_AUTHENTICATE = "KEY_SERVER_AUTHENTICATE"
 internal const val KEY_COMPRESS_FILE = "KEY_COMPRESS_FILE"
 internal const val KEY_CREATE_FILE = "KEY_CREATE_FILE"
 internal const val KEY_CREATE_FOLDER = "KEY_CREATE_FOLDER"
@@ -74,11 +73,14 @@ internal const val KEY_CLONE_REPO = "KEY_CLONE_REPO"
 internal const val KEY_RENAME_FILE = "KEY_RENAME_FILE"
 internal const val KEY_DELETE_FILE = "KEY_DELETE_FILE"
 
-internal const val ARG_USER_INPUT = "ARG_USER_INPUT"
+// FIXME requires :feature-explorer:impl dependency
+@Composable
+fun DrawerExplorer(closeDrawer: () -> Unit = {}) {
+    ExplorerScreen(closeDrawer = closeDrawer)
+}
 
 @Composable
 internal fun ExplorerScreen(
-    navController: NavController,
     viewModel: ExplorerViewModel = daggerViewModel { context ->
         val component = ExplorerComponent.buildOrGet(context)
         ExplorerViewModel.Factory().also(component::inject)
@@ -129,8 +131,7 @@ internal fun ExplorerScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> closeDrawer()
+                is ExplorerViewEvent.CloseDrawer -> closeDrawer()
                 is ExplorerViewEvent.RequestPermission -> {
                     storageContract.launch(
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -150,31 +151,25 @@ internal fun ExplorerScreen(
         }
     }
 
-    NavResultEffect(KEY_AUTHENTICATION) { bundle ->
-        val credentials = bundle.getString(ARG_USER_INPUT).orEmpty()
+    ResultEffect<String>(KEY_SERVER_AUTHENTICATE) { credentials ->
         viewModel.onCredentialsEntered(credentials)
     }
-    NavResultEffect(KEY_CREATE_FILE) { bundle ->
-        val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+    ResultEffect<String>(KEY_CREATE_FILE) { fileName ->
         viewModel.createFile(fileName)
     }
-    NavResultEffect(KEY_CREATE_FOLDER) { bundle ->
-        val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+    ResultEffect<String>(KEY_CREATE_FOLDER) { fileName ->
         viewModel.createFolder(fileName)
     }
-    NavResultEffect(KEY_CLONE_REPO) { bundle ->
-        val url = bundle.getString(ARG_USER_INPUT).orEmpty()
+    ResultEffect<String>(KEY_CLONE_REPO) { url ->
         viewModel.cloneRepository(url)
     }
-    NavResultEffect(KEY_RENAME_FILE) { bundle ->
-        val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+    ResultEffect<String>(KEY_RENAME_FILE) { fileName ->
         viewModel.renameFile(fileName)
     }
-    NavResultEffect(KEY_DELETE_FILE) {
+    ResultEffect<Unit>(KEY_DELETE_FILE) {
         viewModel.deleteFile()
     }
-    NavResultEffect(KEY_COMPRESS_FILE) { bundle ->
-        val fileName = bundle.getString(ARG_USER_INPUT).orEmpty()
+    ResultEffect<String>(KEY_COMPRESS_FILE) { fileName ->
         viewModel.compressFiles(fileName)
     }
 

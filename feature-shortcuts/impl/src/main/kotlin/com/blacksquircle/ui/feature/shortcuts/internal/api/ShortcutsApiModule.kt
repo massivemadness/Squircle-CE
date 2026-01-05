@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,11 @@ import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.shortcuts.data.interactor.ShortcutInteractorImpl
 import com.blacksquircle.ui.feature.shortcuts.data.repository.ShortcutRepositoryImpl
 import com.blacksquircle.ui.feature.shortcuts.domain.ShortcutRepository
+import com.blacksquircle.ui.feature.shortcuts.ui.ShortcutsEntryProvider
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 import javax.inject.Singleton
 
 @Module
@@ -42,5 +45,11 @@ object ShortcutsApiModule {
     @Singleton
     fun provideShortcutInteractor(shortcutRepository: ShortcutRepository): ShortcutsInteractor {
         return ShortcutInteractorImpl(shortcutRepository)
+    }
+
+    @IntoSet
+    @Provides
+    fun provideShortcutsEntryProvider(): EntryProvider {
+        return ShortcutsEntryProvider()
     }
 }

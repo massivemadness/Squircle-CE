@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -51,7 +50,6 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun GitHeaderScreen(
-    navController: NavController,
     viewModel: GitHeaderViewModel = daggerViewModel { context ->
         val component = SettingsComponent.buildOrGet(context)
         GitHeaderViewModel.Factory().also(component::inject)
@@ -60,7 +58,7 @@ internal fun GitHeaderScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     GitHeaderScreen(
         viewState = viewState,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
         onCredentialsChanged = viewModel::onCredentialsChanged,
         onUserChanged = viewModel::onUserChanged,
         onSubmodulesChanged = viewModel::onSubmodulesChanged,
@@ -72,8 +70,6 @@ internal fun GitHeaderScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
             }
         }
     }

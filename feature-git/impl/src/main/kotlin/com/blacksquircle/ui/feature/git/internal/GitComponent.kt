@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,15 @@
 package com.blacksquircle.ui.feature.git.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
-import com.blacksquircle.ui.core.internal.CoreApiProvider
+import com.blacksquircle.ui.core.internal.CoreApi
+import com.blacksquircle.ui.core.internal.provideCoreApi
 import com.blacksquircle.ui.feature.git.ui.checkout.CheckoutViewModel
 import com.blacksquircle.ui.feature.git.ui.commit.CommitViewModel
 import com.blacksquircle.ui.feature.git.ui.fetch.FetchViewModel
 import com.blacksquircle.ui.feature.git.ui.pull.PullViewModel
 import com.blacksquircle.ui.feature.git.ui.push.PushViewModel
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @GitScope
@@ -32,7 +34,8 @@ import dagger.Component
         GitModule::class,
     ],
     dependencies = [
-        CoreApiDepsProvider::class,
+        CoreApi::class,
+        NavigationApi::class,
     ]
 )
 internal interface GitComponent {
@@ -45,7 +48,10 @@ internal interface GitComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(coreApiDepsProvider: CoreApiDepsProvider): GitComponent
+        fun create(
+            coreApi: CoreApi,
+            navigationApi: NavigationApi,
+        ): GitComponent
     }
 
     companion object {
@@ -54,8 +60,8 @@ internal interface GitComponent {
 
         fun buildOrGet(context: Context): GitComponent {
             return component ?: DaggerGitComponent.factory().create(
-                coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
-                    .provideCoreApiDepsProvider(),
+                coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
             ).also {
                 component = it
             }

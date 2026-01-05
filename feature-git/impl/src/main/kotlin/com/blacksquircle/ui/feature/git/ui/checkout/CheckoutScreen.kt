@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.git.ui.checkout
 
-import android.os.Bundle
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,8 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import com.blacksquircle.ui.core.effect.sendNavigationResult
+import com.blacksquircle.ui.core.effect.ResultEventBus
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -46,15 +44,14 @@ import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.git.R
-import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog
-import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog.Companion.KEY_CHECKOUT
+import com.blacksquircle.ui.feature.git.api.navigation.CheckoutRoute
+import com.blacksquircle.ui.feature.git.api.navigation.CheckoutRoute.Companion.KEY_CHECKOUT
 import com.blacksquircle.ui.feature.git.internal.GitComponent
 import com.blacksquircle.ui.feature.git.ui.checkout.compose.BranchList
 
 @Composable
 internal fun CheckoutScreen(
-    navArgs: CheckoutDialog,
-    navController: NavController,
+    navArgs: CheckoutRoute,
     viewModel: CheckoutViewModel = daggerViewModel { context ->
         val component = GitComponent.buildOrGet(context)
         CheckoutViewModel.ParameterizedFactory(navArgs.repository).also(component::inject)
@@ -67,7 +64,7 @@ internal fun CheckoutScreen(
         onBranchSelected = viewModel::onBranchSelected,
         onBranchNameChanged = viewModel::onBranchNameChanged,
         onNewBranchClicked = viewModel::onNewBranchClicked,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
     )
 
     val context = LocalContext.current
@@ -75,8 +72,6 @@ internal fun CheckoutScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
                 is CheckoutViewEvent.CheckoutComplete -> {
                     context.showToast(
                         text = context.getString(
@@ -84,9 +79,7 @@ internal fun CheckoutScreen(
                             event.branchName
                         )
                     )
-
-                    sendNavigationResult(KEY_CHECKOUT, Bundle.EMPTY)
-                    navController.popBackStack()
+                    ResultEventBus.sendResult(KEY_CHECKOUT, Unit)
                 }
             }
         }
@@ -176,7 +169,6 @@ private fun CheckoutScreen(
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onBackClicked,
-        onDismiss = onBackClicked,
         confirmButton = if (viewState.isNewBranch) {
             stringResource(R.string.git_checkout_dialog_button_create)
         } else {

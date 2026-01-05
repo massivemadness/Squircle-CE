@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,14 @@
 package com.blacksquircle.ui.feature.fonts.ui.fonts
 
 import androidx.compose.runtime.Immutable
-import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.fonts.domain.model.FontModel
+import com.blacksquircle.ui.redux.mapper.ViewState
 
 @Immutable
 internal data class FontsViewState(
     val searchQuery: String = "",
     val fonts: List<FontModel> = emptyList(),
-    val selectedFont: String = "",
+    val selectedUuid: String = "",
     val isLoading: Boolean = true,
+    val isEmpty: Boolean = false,
 ) : ViewState

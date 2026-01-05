@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,34 +20,31 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.core.os.bundleOf
-import androidx.navigation.NavController
-import com.blacksquircle.ui.core.effect.sendNavigationResult
+import com.blacksquircle.ui.core.effect.ResultEventBus
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileDialog
-import com.blacksquircle.ui.feature.editor.ui.editor.ARG_FILE_UUID
+import com.blacksquircle.ui.feature.editor.api.navigation.CloseFileRoute
+import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.editor.KEY_CLOSE_FILE
 
 @Composable
 internal fun CloseFileScreen(
-    navArgs: CloseFileDialog,
-    navController: NavController,
+    navArgs: CloseFileRoute,
+    viewModel: CloseFileViewModel = daggerViewModel { context ->
+        val component = EditorComponent.buildOrGet(context)
+        CloseFileViewModel.Factory().also(component::inject)
+    }
 ) {
     CloseFileScreen(
         fileName = navArgs.fileName,
         onConfirmClicked = {
-            sendNavigationResult(
-                key = KEY_CLOSE_FILE,
-                result = bundleOf(ARG_FILE_UUID to navArgs.fileUuid)
-            )
-            navController.popBackStack()
+            ResultEventBus.sendResult(KEY_CLOSE_FILE, navArgs.fileUuid)
+            viewModel.onCloseClicked()
         },
-        onCancelClicked = {
-            navController.popBackStack()
-        }
+        onCancelClicked = viewModel::onCancelClicked
     )
 }
 
@@ -70,7 +67,6 @@ private fun CloseFileScreen(
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = onConfirmClicked,
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

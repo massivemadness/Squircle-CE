@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,15 @@
 package com.blacksquircle.ui.feature.themes.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
-import com.blacksquircle.ui.core.internal.CoreApiProvider
-import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiDepsProvider
-import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiProvider
-import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiDepsProvider
-import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiProvider
+import com.blacksquircle.ui.core.internal.CoreApi
+import com.blacksquircle.ui.core.internal.provideCoreApi
+import com.blacksquircle.ui.feature.fonts.api.internal.FontsApi
+import com.blacksquircle.ui.feature.fonts.api.internal.provideFontsApi
+import com.blacksquircle.ui.feature.themes.api.internal.ThemesApi
+import com.blacksquircle.ui.feature.themes.api.internal.provideThemesApi
 import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewModel
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @ThemesScope
@@ -32,9 +34,10 @@ import dagger.Component
         ThemesModule::class,
     ],
     dependencies = [
-        CoreApiDepsProvider::class,
-        FontsApiDepsProvider::class,
-        ThemesApiDepsProvider::class,
+        CoreApi::class,
+        NavigationApi::class,
+        FontsApi::class,
+        ThemesApi::class,
     ]
 )
 internal interface ThemesComponent {
@@ -44,9 +47,10 @@ internal interface ThemesComponent {
     @Component.Factory
     interface Factory {
         fun create(
-            coreApiDepsProvider: CoreApiDepsProvider,
-            fontsApiDepsProvider: FontsApiDepsProvider,
-            themesApiDepsProvider: ThemesApiDepsProvider,
+            coreApi: CoreApi,
+            navigationApi: NavigationApi,
+            fontsApi: FontsApi,
+            themesApi: ThemesApi,
         ): ThemesComponent
     }
 
@@ -56,12 +60,10 @@ internal interface ThemesComponent {
 
         fun buildOrGet(context: Context): ThemesComponent {
             return component ?: DaggerThemesComponent.factory().create(
-                coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
-                    .provideCoreApiDepsProvider(),
-                fontsApiDepsProvider = (context.applicationContext as FontsApiProvider)
-                    .provideFontsApiDepsProvider(),
-                themesApiDepsProvider = (context.applicationContext as ThemesApiProvider)
-                    .provideThemesApiDepsProvider(),
+                coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
+                fontsApi = context.provideFontsApi(),
+                themesApi = context.provideThemesApi(),
             ).also {
                 component = it
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,5 +23,6 @@ sealed class EditorApiEvent {
 
     data class OpenFile(val fileModel: FileModel) : EditorApiEvent()
     data class OpenFileUri(val fileUri: Uri) : EditorApiEvent()
+    data class RenameFile(val fileModel: FileModel, val newName: String) : EditorApiEvent()
     data class DeleteFile(val fileModel: FileModel) : EditorApiEvent()
 }

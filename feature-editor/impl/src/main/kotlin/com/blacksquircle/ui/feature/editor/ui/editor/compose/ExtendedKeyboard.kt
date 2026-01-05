@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -160,6 +160,7 @@ internal fun ExtendedKeyboard(
             contentType = TypeIcon,
         ) {
             ExtraKey(
+                iconResId = UiR.drawable.ic_keyboard_tab,
                 text = stringResource(UiR.string.common_tab),
                 onClick = { onExtraKeyClicked('\t') },
                 modifier = Modifier.animateItem(),
@@ -223,11 +224,7 @@ private fun ExtraKey(
                 } else {
                     SquircleTheme.colors.colorTextAndIconDisabled
                 },
-                style = if (text.length > 1) {
-                    SquircleTheme.typography.text14Medium
-                } else {
-                    SquircleTheme.typography.text16Medium
-                },
+                style = SquircleTheme.typography.text16Medium,
                 fontFamily = FontFamily(Typeface.MONOSPACE),
                 textAlign = TextAlign.Center,
                 maxLines = 1,

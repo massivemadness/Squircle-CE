@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,5 +27,6 @@ interface EditorInteractor {
 
     suspend fun openFile(fileModel: FileModel)
     suspend fun openFileUri(fileUri: Uri)
+    suspend fun renameFile(fileModel: FileModel, newName: String)
     suspend fun deleteFile(fileModel: FileModel)
 }

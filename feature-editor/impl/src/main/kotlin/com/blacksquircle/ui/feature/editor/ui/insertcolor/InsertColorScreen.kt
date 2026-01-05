@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,29 +19,29 @@ package com.blacksquircle.ui.feature.editor.ui.insertcolor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.core.graphics.toColorInt
-import androidx.core.os.bundleOf
-import androidx.navigation.NavController
-import com.blacksquircle.ui.core.effect.sendNavigationResult
+import com.blacksquircle.ui.core.effect.ResultEventBus
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.dialog.ColorPickerDialog
 import com.blacksquircle.ui.ds.extensions.toHexString
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.ui.editor.ARG_COLOR
+import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.feature.editor.ui.editor.KEY_INSERT_COLOR
 
 @Composable
-internal fun InsertColorScreen(navController: NavController) {
+internal fun InsertColorScreen(
+    viewModel: InsertColorViewModel = daggerViewModel { context ->
+        val component = EditorComponent.buildOrGet(context)
+        InsertColorViewModel.Factory().also(component::inject)
+    }
+) {
     ColorPickerDialog(
         title = stringResource(R.string.editor_color_picker_dialog_title),
         confirmButton = stringResource(R.string.editor_color_picker_dialog_button_insert),
         dismissButton = stringResource(android.R.string.cancel),
         onColorSelected = { color ->
-            sendNavigationResult(
-                key = KEY_INSERT_COLOR,
-                result = bundleOf(ARG_COLOR to color.toHexString().toColorInt())
-            )
-            navController.popBackStack()
+            ResultEventBus.sendResult(KEY_INSERT_COLOR, color.toHexString().toColorInt())
+            viewModel.onInsertClicked()
         },
-        onDismissClicked = { navController.popBackStack() },
-        onDismiss = { navController.popBackStack() },
+        onDismissClicked = viewModel::onCancelClicked,
     )
 }

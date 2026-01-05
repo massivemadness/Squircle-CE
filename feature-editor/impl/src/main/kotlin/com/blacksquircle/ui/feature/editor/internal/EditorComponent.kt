@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,28 @@
 package com.blacksquircle.ui.feature.editor.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
-import com.blacksquircle.ui.core.internal.CoreApiProvider
-import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider
-import com.blacksquircle.ui.feature.editor.api.internal.EditorApiProvider
+import com.blacksquircle.ui.core.internal.CoreApi
+import com.blacksquircle.ui.core.internal.provideCoreApi
+import com.blacksquircle.ui.feature.editor.api.internal.EditorApi
+import com.blacksquircle.ui.feature.editor.api.internal.provideEditorApi
+import com.blacksquircle.ui.feature.editor.ui.closefile.CloseFileViewModel
+import com.blacksquircle.ui.feature.editor.ui.confirmexit.ConfirmExitViewModel
 import com.blacksquircle.ui.feature.editor.ui.editor.EditorViewModel
 import com.blacksquircle.ui.feature.editor.ui.forcesyntax.ForceSyntaxViewModel
-import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvider
-import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiProvider
-import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiDepsProvider
-import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiProvider
-import com.blacksquircle.ui.feature.git.api.internal.GitApiDepsProvider
-import com.blacksquircle.ui.feature.git.api.internal.GitApiProvider
-import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiDepsProvider
-import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiProvider
-import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiDepsProvider
-import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiProvider
+import com.blacksquircle.ui.feature.editor.ui.gotoline.GoToLineViewModel
+import com.blacksquircle.ui.feature.editor.ui.insertcolor.InsertColorViewModel
+import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApi
+import com.blacksquircle.ui.feature.explorer.api.internal.provideExplorerApi
+import com.blacksquircle.ui.feature.fonts.api.internal.FontsApi
+import com.blacksquircle.ui.feature.fonts.api.internal.provideFontsApi
+import com.blacksquircle.ui.feature.git.api.internal.GitApi
+import com.blacksquircle.ui.feature.git.api.internal.provideGitApi
+import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApi
+import com.blacksquircle.ui.feature.shortcuts.api.internal.provideShortcutsApi
+import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApi
+import com.blacksquircle.ui.feature.terminal.api.internal.provideTerminalApi
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @EditorScope
@@ -41,30 +47,36 @@ import dagger.Component
         EditorModule::class,
     ],
     dependencies = [
-        CoreApiDepsProvider::class,
-        EditorApiDepsProvider::class,
-        ExplorerApiDepsProvider::class,
-        FontsApiDepsProvider::class,
-        GitApiDepsProvider::class,
-        ShortcutsApiDepsProvider::class,
-        TerminalApiDepsProvider::class,
+        CoreApi::class,
+        NavigationApi::class,
+        EditorApi::class,
+        ExplorerApi::class,
+        FontsApi::class,
+        GitApi::class,
+        ShortcutsApi::class,
+        TerminalApi::class,
     ]
 )
 internal interface EditorComponent {
 
     fun inject(factory: EditorViewModel.Factory)
+    fun inject(factory: CloseFileViewModel.Factory)
     fun inject(factory: ForceSyntaxViewModel.ParameterizedFactory)
+    fun inject(factory: GoToLineViewModel.Factory)
+    fun inject(factory: InsertColorViewModel.Factory)
+    fun inject(factory: ConfirmExitViewModel.Factory)
 
     @Component.Factory
     interface Factory {
         fun create(
-            coreApiDepsProvider: CoreApiDepsProvider,
-            editorApiDepsProvider: EditorApiDepsProvider,
-            explorerApiDepsProvider: ExplorerApiDepsProvider,
-            fontsApiDepsProvider: FontsApiDepsProvider,
-            gitApiDepsProvider: GitApiDepsProvider,
-            shortcutsApiDepsProvider: ShortcutsApiDepsProvider,
-            terminalApiDepsProvider: TerminalApiDepsProvider,
+            coreApi: CoreApi,
+            navigationApi: NavigationApi,
+            editorApi: EditorApi,
+            explorerApi: ExplorerApi,
+            fontsApi: FontsApi,
+            gitApi: GitApi,
+            shortcutsApi: ShortcutsApi,
+            terminalApi: TerminalApi,
         ): EditorComponent
     }
 
@@ -74,20 +86,14 @@ internal interface EditorComponent {
 
         fun buildOrGet(context: Context): EditorComponent {
             return component ?: DaggerEditorComponent.factory().create(
-                coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
-                    .provideCoreApiDepsProvider(),
-                editorApiDepsProvider = (context.applicationContext as EditorApiProvider)
-                    .provideEditorApiDepsProvider(),
-                explorerApiDepsProvider = (context.applicationContext as ExplorerApiProvider)
-                    .provideExplorerApiDepsProvider(),
-                fontsApiDepsProvider = (context.applicationContext as FontsApiProvider)
-                    .provideFontsApiDepsProvider(),
-                gitApiDepsProvider = (context.applicationContext as GitApiProvider)
-                    .provideGitApiDepsProvider(),
-                shortcutsApiDepsProvider = (context.applicationContext as ShortcutsApiProvider)
-                    .provideShortcutsApiDepsProvider(),
-                terminalApiDepsProvider = (context.applicationContext as TerminalApiProvider)
-                    .provideTerminalApiDepsProvider(),
+                coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
+                editorApi = context.provideEditorApi(),
+                explorerApi = context.provideExplorerApi(),
+                fontsApi = context.provideFontsApi(),
+                gitApi = context.provideGitApi(),
+                shortcutsApi = context.provideShortcutsApi(),
+                terminalApi = context.provideTerminalApi(),
             ).also {
                 component = it
             }

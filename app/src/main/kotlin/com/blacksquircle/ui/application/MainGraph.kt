@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,8 @@
 
 package com.blacksquircle.ui.application
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.dialog
-import com.blacksquircle.ui.application.update.UpdateScreen
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object UpdateDialog
-
-fun NavGraphBuilder.mainGraph(navController: NavHostController) {
-    dialog<UpdateDialog> {
-        UpdateScreen(navController)
-    }
-}
+data object UpdateRoute : NavKey

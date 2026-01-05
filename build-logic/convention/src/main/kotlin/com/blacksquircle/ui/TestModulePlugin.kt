@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,10 @@
 package com.blacksquircle.ui
 
 import com.android.build.api.dsl.TestExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 class TestModulePlugin : Plugin<Project> {
@@ -34,11 +32,11 @@ class TestModulePlugin : Plugin<Project> {
             }
 
             configure<TestExtension> {
-                compileSdk = BuildConst.COMPILE_SDK
+                compileSdk = BuildSettings.Versions.COMPILE_SDK
 
                 defaultConfig {
-                    minSdk = BuildConst.MIN_SDK
-                    targetSdk = BuildConst.TARGET_SDK
+                    minSdk = BuildSettings.Versions.MIN_SDK
+                    targetSdk = BuildSettings.Versions.TARGET_SDK
 
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
@@ -54,12 +52,12 @@ class TestModulePlugin : Plugin<Project> {
                 }
 
                 compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_17
-                    targetCompatibility = JavaVersion.VERSION_17
+                    sourceCompatibility = BuildSettings.Versions.JAVA
+                    targetCompatibility = BuildSettings.Versions.JAVA
                 }
                 tasks.withType<KotlinJvmCompile>().configureEach {
                     compilerOptions {
-                        jvmTarget.set(JvmTarget.JVM_17)
+                        jvmTarget.set(BuildSettings.Versions.JVM_TARGET)
                     }
                 }
                 sourceSets {

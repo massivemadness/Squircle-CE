@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 
 internal sealed class ExplorerViewEvent : ViewEvent {
+
+    data object CloseDrawer : ExplorerViewEvent()
 
     data object RequestPermission : ExplorerViewEvent()
     data object StartService : ExplorerViewEvent()

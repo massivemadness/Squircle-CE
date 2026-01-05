@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,17 @@
 
 package com.blacksquircle.ui.feature.settings
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.fonts.api.navigation.FontsScreen
+import com.blacksquircle.ui.feature.fonts.api.navigation.FontsRoute
 import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderViewModel
 import com.blacksquircle.ui.feature.settings.ui.editor.EditorHeaderViewState
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -41,6 +40,7 @@ class EditorHeaderViewModelTest {
     val timberConsoleRule = TimberConsoleRule()
 
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Test
     fun `When screen opens Then read settings`() = runTest {
@@ -107,8 +107,7 @@ class EditorHeaderViewModelTest {
         viewModel.onFontTypeClicked()
 
         // Then
-        val expected = ViewEvent.Navigation(FontsScreen)
-        assertEquals(expected, viewModel.viewEvent.first())
+        verify(exactly = 1) { navigator.navigate(FontsRoute) }
     }
 
     @Test
@@ -320,6 +319,9 @@ class EditorHeaderViewModelTest {
     }
 
     private fun createViewModel(): EditorHeaderViewModel {
-        return EditorHeaderViewModel(settingsManager)
+        return EditorHeaderViewModel(
+            settingsManager = settingsManager,
+            navigator = navigator
+        )
     }
 }

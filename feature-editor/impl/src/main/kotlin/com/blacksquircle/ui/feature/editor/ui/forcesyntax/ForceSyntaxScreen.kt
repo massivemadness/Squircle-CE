@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,10 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.core.os.bundleOf
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import com.blacksquircle.ui.core.effect.sendNavigationResult
+import com.blacksquircle.ui.core.effect.ResultEventBus
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.indexOrNull
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -40,17 +38,15 @@ import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.preference.ListSelection
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.feature.editor.R
-import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxDialog
+import com.blacksquircle.ui.feature.editor.api.navigation.ForceSyntaxRoute
 import com.blacksquircle.ui.feature.editor.data.model.LanguageScope
 import com.blacksquircle.ui.feature.editor.domain.model.GrammarModel
 import com.blacksquircle.ui.feature.editor.internal.EditorComponent
-import com.blacksquircle.ui.feature.editor.ui.editor.ARG_LANGUAGE
 import com.blacksquircle.ui.feature.editor.ui.editor.KEY_SELECT_LANGUAGE
 
 @Composable
 internal fun ForceSyntaxScreen(
-    navArgs: ForceSyntaxDialog,
-    navController: NavController,
+    navArgs: ForceSyntaxRoute,
     viewModel: ForceSyntaxViewModel = daggerViewModel { context ->
         val component = EditorComponent.buildOrGet(context)
         ForceSyntaxViewModel.ParameterizedFactory(navArgs.language).also(component::inject)
@@ -60,15 +56,10 @@ internal fun ForceSyntaxScreen(
     ForceSyntaxScreen(
         viewState = viewState,
         onLanguageSelected = { scopeName ->
-            sendNavigationResult(
-                key = KEY_SELECT_LANGUAGE,
-                result = bundleOf(ARG_LANGUAGE to scopeName)
-            )
-            navController.popBackStack()
+            ResultEventBus.sendResult(KEY_SELECT_LANGUAGE, scopeName)
+            viewModel.onLanguageSelected()
         },
-        onCancelClicked = {
-            navController.popBackStack()
-        },
+        onCancelClicked = viewModel::onCancelClicked,
     )
 }
 
@@ -123,7 +114,6 @@ private fun ForceSyntaxScreen(
         },
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

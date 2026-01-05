@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,7 +60,8 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation)
+    implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.profileinstaller)
 
     gmsImplementation(libs.google.appupdate)
@@ -70,10 +71,12 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     testImplementation(libs.kotlinx.coroutines.test)
     implementation(libs.kotlinx.serialization)
-
-    implementation(project(":common-core"))
-    implementation(project(":common-ui"))
-    testImplementation(project(":common-test"))
+    implementation(project(":core-common"))
+    implementation(project(":core-navigation:api"))
+    implementation(project(":core-navigation:impl"))
+    implementation(project(":core-redux"))
+    implementation(project(":core-ui"))
+    testImplementation(project(":core-test"))
 
     implementation(project(":feature-editor:api"))
     implementation(project(":feature-editor:impl"))

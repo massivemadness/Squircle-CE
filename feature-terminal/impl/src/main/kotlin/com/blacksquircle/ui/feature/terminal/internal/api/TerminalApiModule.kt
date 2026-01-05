@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,11 @@ import android.content.Context
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.feature.terminal.data.interactor.TerminalInteractorImpl
+import com.blacksquircle.ui.feature.terminal.ui.TerminalEntryProvider
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 import javax.inject.Singleton
 
 @Module
@@ -37,5 +40,11 @@ object TerminalApiModule {
             settingsManager = settingsManager,
             context = context
         )
+    }
+
+    @IntoSet
+    @Provides
+    fun provideTerminalEntryProvider(): EntryProvider {
+        return TerminalEntryProvider()
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,19 +21,28 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.navigation.NavController
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.editor.R
+import com.blacksquircle.ui.feature.editor.internal.EditorComponent
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun ConfirmExitScreen(navController: NavController) {
+internal fun ConfirmExitScreen(
+    viewModel: ConfirmExitViewModel = daggerViewModel { context ->
+        val component = EditorComponent.buildOrGet(context)
+        ConfirmExitViewModel.Factory().also(component::inject)
+    }
+) {
     val activity = LocalActivity.current
     ConfirmExitScreen(
-        onConfirmClicked = { activity?.finish() },
-        onCancelClicked = { navController.popBackStack() }
+        onConfirmClicked = {
+            viewModel.onExitClicked()
+            activity?.finish()
+        },
+        onCancelClicked = viewModel::onExitClicked
     )
 }
 
@@ -55,7 +64,6 @@ private fun ConfirmExitScreen(
         dismissButton = stringResource(UiR.string.common_no),
         onConfirmClicked = onConfirmClicked,
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

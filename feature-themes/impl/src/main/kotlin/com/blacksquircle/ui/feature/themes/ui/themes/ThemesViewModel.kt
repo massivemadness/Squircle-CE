@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import com.blacksquircle.ui.feature.fonts.api.interactor.FontsInteractor
 import com.blacksquircle.ui.feature.themes.R
 import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemeRepository
+import com.blacksquircle.ui.navigation.api.Navigator
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -47,6 +48,7 @@ internal class ThemesViewModel @Inject constructor(
     private val fontsInteractor: FontsInteractor,
     private val themeRepository: ThemeRepository,
     private val settingsManager: SettingsManager,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(ThemesViewState())
@@ -59,6 +61,10 @@ internal class ThemesViewModel @Inject constructor(
 
     init {
         loadThemes()
+    }
+
+    fun onBackClicked() {
+        navigator.goBack()
     }
 
     fun onQueryChanged(query: String) {

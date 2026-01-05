@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
 import com.blacksquircle.ui.feature.git.ui.commit.CommitViewModel
 import com.blacksquircle.ui.feature.git.ui.commit.CommitViewState
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
@@ -40,6 +41,7 @@ class CommitViewModelTest {
 
     private val stringProvider = mockk<StringProvider>(relaxed = true)
     private val gitRepository = mockk<GitRepository>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     @Test
     fun `When screen opens Then load git changes`() = runTest {
@@ -174,9 +176,10 @@ class CommitViewModelTest {
 
     private fun createViewModel(): CommitViewModel {
         return CommitViewModel(
+            repository = REPOSITORY,
             stringProvider = stringProvider,
             gitRepository = gitRepository,
-            repository = REPOSITORY,
+            navigator = navigator
         )
     }
 

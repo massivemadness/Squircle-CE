@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,31 +23,30 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.core.os.bundleOf
-import androidx.navigation.NavController
-import com.blacksquircle.ui.core.effect.sendNavigationResult
+import com.blacksquircle.ui.core.effect.ResultEventBus
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.textfield.TextField
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.utils.isValidUrl
-import com.blacksquircle.ui.feature.explorer.ui.explorer.ARG_USER_INPUT
+import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.KEY_CLONE_REPO
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
-internal fun CloneRepoScreen(navController: NavController) {
+internal fun CloneRepoScreen(
+    viewModel: CloneRepoViewModel = daggerViewModel { context ->
+        val component = ExplorerComponent.buildOrGet(context)
+        CloneRepoViewModel.Factory().also(component::inject)
+    }
+) {
     CloneRepoScreen(
         onConfirmClicked = { url ->
-            sendNavigationResult(
-                key = KEY_CLONE_REPO,
-                result = bundleOf(ARG_USER_INPUT to url)
-            )
-            navController.popBackStack()
+            ResultEventBus.sendResult(KEY_CLONE_REPO, url)
+            viewModel.onBackClicked()
         },
-        onCancelClicked = {
-            navController.popBackStack()
-        }
+        onCancelClicked = viewModel::onBackClicked,
     )
 }
 
@@ -84,7 +83,6 @@ private fun CloneRepoScreen(
             }
         },
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

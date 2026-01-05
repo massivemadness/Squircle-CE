@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,9 +38,12 @@ dependencyResolutionManagement {
 include(":app", ":benchmark")
 
 include(
-    ":common-core",
-    ":common-test",
-    ":common-ui",
+    ":core-common",
+    ":core-navigation:api",
+    ":core-navigation:impl",
+    ":core-redux",
+    ":core-test",
+    ":core-ui",
     ":feature-editor:api",
     ":feature-editor:impl",
     ":feature-explorer:api",

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +22,11 @@ import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.extensions.map
 import com.blacksquircle.ui.core.extensions.onEach
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.feature.explorer.api.navigation.NotificationDeniedDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.NotificationDeniedRoute
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewEvent
+import com.blacksquircle.ui.navigation.api.Navigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -36,8 +37,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class TaskViewModel @AssistedInject constructor(
-    private val taskManager: TaskManager,
     @Assisted private val taskId: String,
+    private val taskManager: TaskManager,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     /** `viewEvent` must be declared before `viewState` to avoid crash on initialization */
@@ -47,7 +49,7 @@ internal class TaskViewModel @AssistedInject constructor(
     val viewState = taskManager.monitor(taskId)
         .onEach(viewModelScope) { task ->
             if (task.isFinished) {
-                _viewEvent.send(ViewEvent.PopBackStack)
+                navigator.goBack()
             }
         }
         .map(viewModelScope) { task ->
@@ -67,10 +69,7 @@ internal class TaskViewModel @AssistedInject constructor(
     }
 
     fun onPermissionDenied() {
-        viewModelScope.launch {
-            val screen = NotificationDeniedDialog
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
+        navigator.navigate(NotificationDeniedRoute)
     }
 
     fun onPermissionGranted() {
@@ -81,6 +80,10 @@ internal class TaskViewModel @AssistedInject constructor(
 
     fun onCancelClicked() {
         taskManager.cancel(taskId)
+    }
+
+    fun onBackClicked() {
+        navigator.goBack()
     }
 
     class ParameterizedFactory(private val taskId: String) : ViewModelProvider.Factory {

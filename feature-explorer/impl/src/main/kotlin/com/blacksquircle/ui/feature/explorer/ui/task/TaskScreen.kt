@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.contract.PermissionResult
 import com.blacksquircle.ui.core.contract.rememberNotificationContract
 import com.blacksquircle.ui.core.extensions.daggerViewModel
@@ -53,7 +52,7 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.ds.progress.LinearProgress
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.api.navigation.TaskDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.TaskRoute
 import com.blacksquircle.ui.feature.explorer.data.utils.formatDate
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
@@ -63,8 +62,7 @@ import kotlinx.coroutines.isActive
 
 @Composable
 internal fun TaskScreen(
-    navArgs: TaskDialog,
-    navController: NavController,
+    navArgs: TaskRoute,
     viewModel: TaskViewModel = daggerViewModel { context ->
         val component = ExplorerComponent.buildOrGet(context)
         TaskViewModel.ParameterizedFactory(navArgs.taskId).also(component::inject)
@@ -73,7 +71,7 @@ internal fun TaskScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     TaskScreen(
         viewState = viewState,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
         onCancelClicked = viewModel::onCancelClicked,
         onRunInBackgroundClicked = viewModel::onRunInBackgroundClicked,
     )
@@ -91,8 +89,6 @@ internal fun TaskScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
                 is ExplorerViewEvent.StartService -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         val notificationManager = context.getSystemService<NotificationManager>()
@@ -108,7 +104,7 @@ internal fun TaskScreen(
                     }
                     ContextCompat.startForegroundService(context, intent)
 
-                    navController.popBackStack() // close dialog
+                    viewModel.onBackClicked()
                 }
             }
         }
@@ -204,7 +200,6 @@ private fun TaskScreen(
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = onRunInBackgroundClicked,
         onDismissClicked = onCancelClicked,
-        onDismiss = onBackClicked,
     )
 }
 

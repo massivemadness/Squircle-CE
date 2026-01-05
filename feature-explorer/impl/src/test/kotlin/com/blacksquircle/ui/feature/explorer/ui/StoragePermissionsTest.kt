@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,11 @@
 package com.blacksquircle.ui.feature.explorer.ui
 
 import com.blacksquircle.ui.core.extensions.PermissionException
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.editor.api.provider.FileIconProvider
-import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedRoute
 import com.blacksquircle.ui.feature.explorer.createNode
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
@@ -33,6 +32,7 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
@@ -41,7 +41,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.flow.first
+import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -67,6 +67,7 @@ class StoragePermissionsTest {
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
     private val terminalInteractor = mockk<TerminalInteractor>(relaxed = true)
     private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     private val workspaces = defaultWorkspaces()
     private val selectedWorkspace = workspaces[0]
@@ -114,8 +115,7 @@ class StoragePermissionsTest {
         viewModel.onPermissionDenied()
 
         // Then
-        val expected = ViewEvent.Navigation(StorageDeniedDialog)
-        assertEquals(expected, viewModel.viewEvent.first())
+        verify(exactly = 1) { navigator.navigate(StorageDeniedRoute) }
     }
 
     @Test
@@ -142,6 +142,7 @@ class StoragePermissionsTest {
             serverInteractor = serverInteractor,
             asyncNodeBuilder = asyncNodeBuilder,
             terminalInteractor = terminalInteractor,
+            navigator = navigator
         )
     }
 }

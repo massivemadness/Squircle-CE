@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,12 @@
 
 package com.blacksquircle.ui
 
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 class KotlinModulePlugin : Plugin<Project> {
@@ -36,12 +34,12 @@ class KotlinModulePlugin : Plugin<Project> {
             }
 
             configure<JavaPluginExtension> {
-                sourceCompatibility = JavaVersion.VERSION_17
-                targetCompatibility = JavaVersion.VERSION_17
+                sourceCompatibility = BuildSettings.Versions.JAVA
+                targetCompatibility = BuildSettings.Versions.JAVA
             }
             tasks.withType<KotlinJvmCompile>().configureEach {
                 compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_17)
+                    jvmTarget.set(BuildSettings.Versions.JVM_TARGET)
                     if (System.getProperty("idea.active") == "true") {
                         freeCompilerArgs.add("-Xdebug")
                     }

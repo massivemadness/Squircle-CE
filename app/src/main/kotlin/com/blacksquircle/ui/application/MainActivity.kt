@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,15 +22,30 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.blacksquircle.ui.internal.AppComponent
+import com.blacksquircle.ui.navigation.api.Navigator
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
+import javax.inject.Inject
 
 internal class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var navigator: Navigator
+
+    @Inject
+    lateinit var entryProviders: Set<@JvmSuppressWildcards EntryProvider>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        AppComponent.buildOrGet(this).inject(this)
         setContent {
-            MainScreen(savedInstanceState)
+            MainScreen(
+                savedInstanceState = savedInstanceState,
+                navigator = navigator,
+                entryProviders = entryProviders,
+            )
         }
     }
 

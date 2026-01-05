@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,24 +17,34 @@
 package com.blacksquircle.ui.feature.explorer.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
-import com.blacksquircle.ui.core.internal.CoreApiProvider
-import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider
-import com.blacksquircle.ui.feature.editor.api.internal.EditorApiProvider
-import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvider
-import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiProvider
+import com.blacksquircle.ui.core.internal.CoreApi
+import com.blacksquircle.ui.core.internal.provideCoreApi
+import com.blacksquircle.ui.feature.editor.api.internal.EditorApi
+import com.blacksquircle.ui.feature.editor.api.internal.provideEditorApi
+import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApi
+import com.blacksquircle.ui.feature.explorer.api.internal.provideExplorerApi
+import com.blacksquircle.ui.feature.explorer.ui.auth.ServerAuthViewModel
+import com.blacksquircle.ui.feature.explorer.ui.clone.CloneRepoViewModel
+import com.blacksquircle.ui.feature.explorer.ui.compress.CompressFileViewModel
+import com.blacksquircle.ui.feature.explorer.ui.create.CreateFileViewModel
+import com.blacksquircle.ui.feature.explorer.ui.delete.DeleteFileViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.permissions.PermissionViewModel
+import com.blacksquircle.ui.feature.explorer.ui.properties.PropertiesViewModel
+import com.blacksquircle.ui.feature.explorer.ui.rename.RenameFileViewModel
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskService
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskViewModel
 import com.blacksquircle.ui.feature.explorer.ui.workspace.AddWorkspaceViewModel
 import com.blacksquircle.ui.feature.explorer.ui.workspace.DeleteWorkspaceViewModel
 import com.blacksquircle.ui.feature.explorer.ui.workspace.LocalWorkspaceViewModel
-import com.blacksquircle.ui.feature.git.api.internal.GitApiDepsProvider
-import com.blacksquircle.ui.feature.git.api.internal.GitApiProvider
-import com.blacksquircle.ui.feature.servers.api.internal.ServersApiDepsProvider
-import com.blacksquircle.ui.feature.servers.api.internal.ServersApiProvider
-import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiDepsProvider
-import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiProvider
+import com.blacksquircle.ui.feature.git.api.internal.GitApi
+import com.blacksquircle.ui.feature.git.api.internal.provideGitApi
+import com.blacksquircle.ui.feature.servers.api.internal.ServersApi
+import com.blacksquircle.ui.feature.servers.api.internal.provideServersApi
+import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApi
+import com.blacksquircle.ui.feature.terminal.api.internal.provideTerminalApi
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @ExplorerScope
@@ -43,12 +53,13 @@ import dagger.Component
         ExplorerModule::class,
     ],
     dependencies = [
-        CoreApiDepsProvider::class,
-        ExplorerApiDepsProvider::class,
-        EditorApiDepsProvider::class,
-        GitApiDepsProvider::class,
-        ServersApiDepsProvider::class,
-        TerminalApiDepsProvider::class,
+        CoreApi::class,
+        NavigationApi::class,
+        ExplorerApi::class,
+        EditorApi::class,
+        GitApi::class,
+        ServersApi::class,
+        TerminalApi::class,
     ]
 )
 internal interface ExplorerComponent {
@@ -56,6 +67,14 @@ internal interface ExplorerComponent {
     fun inject(service: TaskService)
     fun inject(factory: TaskViewModel.ParameterizedFactory)
     fun inject(factory: ExplorerViewModel.Factory)
+    fun inject(factory: ServerAuthViewModel.Factory)
+    fun inject(factory: CreateFileViewModel.Factory)
+    fun inject(factory: RenameFileViewModel.Factory)
+    fun inject(factory: DeleteFileViewModel.Factory)
+    fun inject(factory: PropertiesViewModel.Factory)
+    fun inject(factory: CloneRepoViewModel.Factory)
+    fun inject(factory: CompressFileViewModel.Factory)
+    fun inject(factory: PermissionViewModel.Factory)
     fun inject(factory: AddWorkspaceViewModel.Factory)
     fun inject(factory: DeleteWorkspaceViewModel.Factory)
     fun inject(factory: LocalWorkspaceViewModel.Factory)
@@ -63,12 +82,13 @@ internal interface ExplorerComponent {
     @Component.Factory
     interface Factory {
         fun create(
-            coreApiDepsProvider: CoreApiDepsProvider,
-            editorApiDepsProvider: EditorApiDepsProvider,
-            explorerApiDepsProvider: ExplorerApiDepsProvider,
-            gitApiDepsProvider: GitApiDepsProvider,
-            serversApiDepsProvider: ServersApiDepsProvider,
-            terminalApiDepsProvider: TerminalApiDepsProvider,
+            coreApi: CoreApi,
+            navigationApi: NavigationApi,
+            editorApi: EditorApi,
+            explorerApi: ExplorerApi,
+            gitApi: GitApi,
+            serversApi: ServersApi,
+            terminalApi: TerminalApi,
         ): ExplorerComponent
     }
 
@@ -78,18 +98,13 @@ internal interface ExplorerComponent {
 
         fun buildOrGet(context: Context): ExplorerComponent {
             return component ?: DaggerExplorerComponent.factory().create(
-                coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
-                    .provideCoreApiDepsProvider(),
-                editorApiDepsProvider = (context.applicationContext as EditorApiProvider)
-                    .provideEditorApiDepsProvider(),
-                explorerApiDepsProvider = (context.applicationContext as ExplorerApiProvider)
-                    .provideExplorerApiDepsProvider(),
-                gitApiDepsProvider = (context.applicationContext as GitApiProvider)
-                    .provideGitApiDepsProvider(),
-                serversApiDepsProvider = (context.applicationContext as ServersApiProvider)
-                    .provideServersApiDepsProvider(),
-                terminalApiDepsProvider = (context.applicationContext as TerminalApiProvider)
-                    .provideTerminalApiDepsProvider(),
+                coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
+                editorApi = context.provideEditorApi(),
+                explorerApi = context.provideExplorerApi(),
+                gitApi = context.provideGitApi(),
+                serversApi = context.provideServersApi(),
+                terminalApi = context.provideTerminalApi(),
             ).also {
                 component = it
             }

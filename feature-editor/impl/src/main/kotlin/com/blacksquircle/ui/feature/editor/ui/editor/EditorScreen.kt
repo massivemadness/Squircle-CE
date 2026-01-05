@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,13 +42,12 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.contract.ContractResult
 import com.blacksquircle.ui.core.contract.MimeType
 import com.blacksquircle.ui.core.contract.rememberCreateFileContract
 import com.blacksquircle.ui.core.contract.rememberOpenFileContract
 import com.blacksquircle.ui.core.effect.CleanupEffect
-import com.blacksquircle.ui.core.effect.NavResultEffect
+import com.blacksquircle.ui.core.effect.ResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -72,9 +71,9 @@ import com.blacksquircle.ui.feature.editor.ui.editor.model.DocumentState
 import com.blacksquircle.ui.feature.editor.ui.editor.model.EditorController
 import com.blacksquircle.ui.feature.editor.ui.editor.model.ErrorAction
 import com.blacksquircle.ui.feature.editor.ui.editor.model.rememberEditorController
-import com.blacksquircle.ui.feature.explorer.ui.DrawerExplorer
-import com.blacksquircle.ui.feature.git.api.navigation.CheckoutDialog.Companion.KEY_CHECKOUT
-import com.blacksquircle.ui.feature.git.api.navigation.PullDialog.Companion.KEY_PULL
+import com.blacksquircle.ui.feature.explorer.ui.explorer.DrawerExplorer
+import com.blacksquircle.ui.feature.git.api.navigation.CheckoutRoute.Companion.KEY_CHECKOUT
+import com.blacksquircle.ui.feature.git.api.navigation.PullRoute.Companion.KEY_PULL
 import kotlinx.coroutines.launch
 import com.blacksquircle.ui.ds.R as UiR
 
@@ -83,14 +82,8 @@ internal const val KEY_SELECT_LANGUAGE = "KEY_SELECT_LANGUAGE"
 internal const val KEY_GOTO_LINE = "KEY_GOTO_LINE"
 internal const val KEY_INSERT_COLOR = "KEY_INSERT_COLOR"
 
-internal const val ARG_FILE_UUID = "ARG_FILE_UUID"
-internal const val ARG_LANGUAGE = "ARG_LANGUAGE"
-internal const val ARG_LINE_NUMBER = "ARG_LINE_NUMBER"
-internal const val ARG_COLOR = "ARG_COLOR"
-
 @Composable
 internal fun EditorScreen(
-    navController: NavController,
     viewModel: EditorViewModel = daggerViewModel { context ->
         val component = EditorComponent.buildOrGet(context)
         EditorViewModel.Factory().also(component::inject)
@@ -188,12 +181,11 @@ internal fun EditorScreen(
     LaunchedEffect(Unit) {
         viewModel.viewEvent.collect { event ->
             when (event) {
-                is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> {
-                    if (!navController.popBackStack()) {
-                        activity?.finish()
-                    }
+                is ViewEvent.Toast -> {
+                    context.showToast(text = event.message)
+                }
+                is EditorViewEvent.Finish -> {
+                    activity?.finish()
                 }
                 is EditorViewEvent.ScrollToEnd -> {
                     tabsState.animateScrollToItem(viewState.documents.size)
@@ -216,26 +208,22 @@ internal fun EditorScreen(
         }
     }
 
-    NavResultEffect(KEY_CLOSE_FILE) { bundle ->
-        val fileUuid = bundle.getString(ARG_FILE_UUID).orEmpty()
+    ResultEffect<String>(KEY_CLOSE_FILE) { fileUuid ->
         viewModel.onCloseModifiedClicked(fileUuid)
     }
-    NavResultEffect(KEY_SELECT_LANGUAGE) { bundle ->
-        val language = bundle.getString(ARG_LANGUAGE).orEmpty()
+    ResultEffect<String>(KEY_SELECT_LANGUAGE) { language ->
         viewModel.onLanguageChanged(language)
     }
-    NavResultEffect(KEY_GOTO_LINE) { bundle ->
-        val lineNumber = bundle.getInt(ARG_LINE_NUMBER)
+    ResultEffect<Int>(KEY_GOTO_LINE) { lineNumber ->
         viewModel.onLineSelected(lineNumber)
     }
-    NavResultEffect(KEY_INSERT_COLOR) { bundle ->
-        val color = bundle.getInt(ARG_COLOR)
+    ResultEffect<Int>(KEY_INSERT_COLOR) { color ->
         viewModel.onColorSelected(color)
     }
-    NavResultEffect(KEY_PULL) {
+    ResultEffect<Unit>(KEY_PULL) {
         viewModel.onReloadFileClicked()
     }
-    NavResultEffect(KEY_CHECKOUT) {
+    ResultEffect<Unit>(KEY_CHECKOUT) {
         viewModel.onReloadFileClicked()
     }
 

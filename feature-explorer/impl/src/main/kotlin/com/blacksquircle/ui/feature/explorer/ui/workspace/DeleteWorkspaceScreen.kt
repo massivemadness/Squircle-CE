@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,20 +20,18 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.navigation.NavController
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
 import com.blacksquircle.ui.feature.explorer.R
-import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteWorkspaceDialog
+import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteWorkspaceRoute
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun DeleteWorkspaceScreen(
-    navArgs: DeleteWorkspaceDialog,
-    navController: NavController,
+    navArgs: DeleteWorkspaceRoute,
     viewModel: DeleteWorkspaceViewModel = daggerViewModel { context ->
         val component = ExplorerComponent.buildOrGet(context)
         DeleteWorkspaceViewModel.Factory().also(component::inject)
@@ -43,11 +41,8 @@ internal fun DeleteWorkspaceScreen(
         name = navArgs.name,
         onConfirmClicked = {
             viewModel.onDeleteWorkspaceClicked(navArgs.uuid)
-            navController.popBackStack()
         },
-        onCancelClicked = {
-            navController.popBackStack()
-        },
+        onCancelClicked = viewModel::onBackClicked,
     )
 }
 
@@ -70,7 +65,6 @@ private fun DeleteWorkspaceScreen(
         dismissButton = stringResource(android.R.string.cancel),
         onConfirmClicked = onConfirmClicked,
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

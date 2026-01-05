@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,29 +39,22 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.compose.tooling.preview)
-    implementation(libs.androidx.compose.ui)
-    debugImplementation(libs.androidx.compose.manifest)
-    debugImplementation(libs.androidx.compose.tooling)
     implementation(libs.androidx.core)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.ui)
     implementation(libs.google.dagger)
     implementation(libs.jakewharton.timber)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
     testImplementation(libs.kotlinx.coroutines.test)
-    implementation(libs.kotlinx.serialization)
     implementation(libs.sora.editor)
     implementation(libs.sora.textmate)
 
-    implementation(project(":common-core"))
-    implementation(project(":common-ui"))
-    testImplementation(project(":common-test"))
+    implementation(project(":core-common"))
+    implementation(project(":core-navigation:api"))
+    implementation(project(":core-ui"))
+    testImplementation(project(":core-test"))
 
     implementation(project(":feature-fonts:api"))
     implementation(project(":feature-themes:api"))

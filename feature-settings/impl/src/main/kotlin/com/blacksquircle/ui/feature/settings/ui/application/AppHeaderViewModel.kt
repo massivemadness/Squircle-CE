@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.settings.SettingsManager
-import com.blacksquircle.ui.feature.themes.api.navigation.ThemesScreen
+import com.blacksquircle.ui.feature.themes.api.navigation.ThemesRoute
+import com.blacksquircle.ui.navigation.api.Navigator
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,6 +35,7 @@ import javax.inject.Provider
 
 internal class AppHeaderViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(updateViewState())
@@ -42,11 +44,12 @@ internal class AppHeaderViewModel @Inject constructor(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
+    fun onBackClicked() {
+        navigator.goBack()
+    }
+
     fun onColorSchemeClicked() {
-        viewModelScope.launch {
-            val screen = ThemesScreen
-            _viewEvent.send(ViewEvent.Navigation(screen))
-        }
+        navigator.navigate(ThemesRoute)
     }
 
     fun onFullscreenChanged(value: Boolean) {

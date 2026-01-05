@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,13 @@
 package com.blacksquircle.ui.feature.shortcuts.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
-import com.blacksquircle.ui.core.internal.CoreApiProvider
+import com.blacksquircle.ui.core.internal.CoreApi
+import com.blacksquircle.ui.core.internal.provideCoreApi
+import com.blacksquircle.ui.feature.shortcuts.ui.conflict.ConflictKeyViewModel
 import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.KeybindingViewModel
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.ShortcutsViewModel
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @ShortcutsScope
@@ -29,17 +32,22 @@ import dagger.Component
         ShortcutsModule::class,
     ],
     dependencies = [
-        CoreApiDepsProvider::class,
+        CoreApi::class,
+        NavigationApi::class,
     ]
 )
 internal interface ShortcutsComponent {
 
     fun inject(factory: ShortcutsViewModel.Factory)
     fun inject(factory: KeybindingViewModel.ParameterizedFactory)
+    fun inject(factory: ConflictKeyViewModel.Factory)
 
     @Component.Factory
     interface Factory {
-        fun create(coreApiDepsProvider: CoreApiDepsProvider): ShortcutsComponent
+        fun create(
+            coreApi: CoreApi,
+            navigationApi: NavigationApi,
+        ): ShortcutsComponent
     }
 
     companion object {
@@ -48,8 +56,8 @@ internal interface ShortcutsComponent {
 
         fun buildOrGet(context: Context): ShortcutsComponent {
             return component ?: DaggerShortcutsComponent.factory().create(
-                coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
-                    .provideCoreApiDepsProvider(),
+                coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
             ).also {
                 component = it
             }

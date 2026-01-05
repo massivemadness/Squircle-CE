@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ import com.blacksquircle.ui.feature.git.api.interactor.GitInteractor
 import com.blacksquircle.ui.feature.shortcuts.api.interactor.ShortcutsInteractor
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.filesystem.base.model.FileModel
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.github.rosemoe.sora.text.Content
@@ -68,6 +69,7 @@ class SelectFileTest {
     private val shortcutsInteractor = mockk<ShortcutsInteractor>(relaxed = true)
     private val terminalInteractor = mockk<TerminalInteractor>(relaxed = true)
     private val languageInteractor = mockk<LanguageInteractor>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     private val eventBus = MutableSharedFlow<EditorApiEvent>()
 
@@ -268,6 +270,7 @@ class SelectFileTest {
             shortcutsInteractor = shortcutsInteractor,
             terminalInteractor = terminalInteractor,
             languageInteractor = languageInteractor,
+            navigator = navigator
         )
     }
 }

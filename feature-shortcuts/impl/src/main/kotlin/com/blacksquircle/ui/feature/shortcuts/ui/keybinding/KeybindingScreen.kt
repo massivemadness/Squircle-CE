@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,8 +41,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import com.blacksquircle.ui.core.effect.sendNavigationResult
+import com.blacksquircle.ui.core.effect.ResultEventBus
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -55,8 +54,7 @@ import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.api.extensions.keyCodeToChar
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
-import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingDialog
-import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
+import com.blacksquircle.ui.feature.shortcuts.api.navigation.EditKeybindingRoute
 import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
 import com.blacksquircle.ui.feature.shortcuts.ui.keybinding.compose.keybindingResource
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.KEY_SAVE
@@ -64,8 +62,7 @@ import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun KeybindingScreen(
-    navArgs: EditKeybindingDialog,
-    navController: NavController,
+    navArgs: EditKeybindingRoute,
     viewModel: KeybindingViewModel = daggerViewModel { context ->
         val component = ShortcutsComponent.buildOrGet(context)
         val keybinding = Keybinding(
@@ -86,7 +83,17 @@ internal fun KeybindingScreen(
         onCtrlClicked = viewModel::onCtrlClicked,
         onShiftClicked = viewModel::onShiftClicked,
         onAltClicked = viewModel::onAltClicked,
-        onSaveClicked = viewModel::onSaveClicked,
+        onSaveClicked = {
+            val keybinding = Keybinding(
+                shortcut = viewState.shortcut,
+                isCtrl = viewState.isCtrl,
+                isShift = viewState.isShift,
+                isAlt = viewState.isAlt,
+                key = viewState.key,
+            )
+            ResultEventBus.sendResult(KEY_SAVE, keybinding)
+            viewModel.onSaveClicked()
+        },
         onCancelClicked = viewModel::onCancelClicked,
     )
 
@@ -94,15 +101,8 @@ internal fun KeybindingScreen(
     LaunchedEffect(Unit) {
         viewModel.viewEvent.collect { event ->
             when (event) {
-                is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
-                is KeybindingViewEvent.SendSaveResult -> {
-                    sendNavigationResult(
-                        key = KEY_SAVE,
-                        result = ShortcutMapper.toBundle(event.keybinding)
-                    )
-                    navController.popBackStack()
+                is ViewEvent.Toast -> {
+                    context.showToast(text = event.message)
                 }
             }
         }
@@ -261,7 +261,6 @@ private fun KeybindingScreen(
         onConfirmClicked = onSaveClicked,
         dismissButton = stringResource(android.R.string.cancel),
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
     )
 }
 

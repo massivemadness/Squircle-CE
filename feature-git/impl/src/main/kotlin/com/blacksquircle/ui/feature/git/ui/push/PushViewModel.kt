@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.git.R
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
+import com.blacksquircle.ui.navigation.api.Navigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -39,9 +40,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class PushViewModel @AssistedInject constructor(
+    @Assisted private val repository: String,
     private val stringProvider: StringProvider,
     private val gitRepository: GitRepository,
-    @Assisted private val repository: String,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(PushViewState())
@@ -75,7 +77,7 @@ internal class PushViewModel @AssistedInject constructor(
                 val message = stringProvider.getString(R.string.git_toast_push_complete)
                 _viewEvent.send(ViewEvent.Toast(message))
 
-                _viewEvent.send(ViewEvent.PopBackStack)
+                navigator.goBack()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -88,6 +90,10 @@ internal class PushViewModel @AssistedInject constructor(
                 }
             }
         }
+    }
+
+    fun onBackClicked() {
+        navigator.goBack()
     }
 
     private fun loadCommits() {

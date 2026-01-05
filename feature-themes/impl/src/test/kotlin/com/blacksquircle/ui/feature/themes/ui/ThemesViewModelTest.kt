@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemeRepository
 import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewModel
 import com.blacksquircle.ui.feature.themes.ui.themes.ThemesViewState
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
 import io.mockk.coEvery
@@ -54,6 +55,7 @@ class ThemesViewModelTest {
     private val fontsInteractor = mockk<FontsInteractor>(relaxed = true)
     private val themeRepository = mockk<ThemeRepository>(relaxed = true)
     private val settingsManager = mockk<SettingsManager>(relaxed = true)
+    private val navigator = mockk<Navigator>(relaxed = true)
     private val typeface = mockk<Typeface>()
 
     @Before
@@ -234,6 +236,7 @@ class ThemesViewModelTest {
             fontsInteractor = fontsInteractor,
             themeRepository = themeRepository,
             settingsManager = settingsManager,
+            navigator = navigator
         )
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,30 +17,33 @@
 package com.blacksquircle.ui
 
 import android.app.Application
-import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
+import com.blacksquircle.ui.core.internal.CoreApi
 import com.blacksquircle.ui.core.internal.CoreApiProvider
 import com.blacksquircle.ui.core.logger.AndroidTree
-import com.blacksquircle.ui.feature.editor.api.internal.EditorApiDepsProvider
+import com.blacksquircle.ui.feature.editor.api.internal.EditorApi
 import com.blacksquircle.ui.feature.editor.api.internal.EditorApiProvider
-import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiDepsProvider
+import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApi
 import com.blacksquircle.ui.feature.explorer.api.internal.ExplorerApiProvider
-import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiDepsProvider
+import com.blacksquircle.ui.feature.fonts.api.internal.FontsApi
 import com.blacksquircle.ui.feature.fonts.api.internal.FontsApiProvider
-import com.blacksquircle.ui.feature.git.api.internal.GitApiDepsProvider
+import com.blacksquircle.ui.feature.git.api.internal.GitApi
 import com.blacksquircle.ui.feature.git.api.internal.GitApiProvider
-import com.blacksquircle.ui.feature.servers.api.internal.ServersApiDepsProvider
+import com.blacksquircle.ui.feature.servers.api.internal.ServersApi
 import com.blacksquircle.ui.feature.servers.api.internal.ServersApiProvider
-import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiDepsProvider
+import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApi
 import com.blacksquircle.ui.feature.shortcuts.api.internal.ShortcutsApiProvider
-import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiDepsProvider
+import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApi
 import com.blacksquircle.ui.feature.terminal.api.internal.TerminalApiProvider
-import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiDepsProvider
+import com.blacksquircle.ui.feature.themes.api.internal.ThemesApi
 import com.blacksquircle.ui.feature.themes.api.internal.ThemesApiProvider
-import com.blacksquircle.ui.internal.di.AppComponent
+import com.blacksquircle.ui.internal.AppComponent
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.NavigationApiProvider
 import timber.log.Timber
 
 internal class SquircleApp : Application(),
     CoreApiProvider,
+    NavigationApiProvider,
     EditorApiProvider,
     ExplorerApiProvider,
     FontsApiProvider,
@@ -61,23 +64,25 @@ internal class SquircleApp : Application(),
 
     // region DAGGER
 
-    override fun provideCoreApiDepsProvider(): CoreApiDepsProvider = appComponent
+    override fun provideCoreApi(): CoreApi = appComponent
 
-    override fun provideEditorApiDepsProvider(): EditorApiDepsProvider = appComponent
+    override fun provideNavigationApi(): NavigationApi = appComponent
 
-    override fun provideExplorerApiDepsProvider(): ExplorerApiDepsProvider = appComponent
+    override fun provideEditorApi(): EditorApi = appComponent
 
-    override fun provideFontsApiDepsProvider(): FontsApiDepsProvider = appComponent
+    override fun provideExplorerApi(): ExplorerApi = appComponent
 
-    override fun provideGitApiDepsProvider(): GitApiDepsProvider = appComponent
+    override fun provideFontsApi(): FontsApi = appComponent
 
-    override fun provideServersApiDepsProvider(): ServersApiDepsProvider = appComponent
+    override fun provideGitApi(): GitApi = appComponent
 
-    override fun provideShortcutsApiDepsProvider(): ShortcutsApiDepsProvider = appComponent
+    override fun provideServersApi(): ServersApi = appComponent
 
-    override fun provideTerminalApiDepsProvider(): TerminalApiDepsProvider = appComponent
+    override fun provideShortcutsApi(): ShortcutsApi = appComponent
 
-    override fun provideThemesApiDepsProvider(): ThemesApiDepsProvider = appComponent
+    override fun provideTerminalApi(): TerminalApi = appComponent
+
+    override fun provideThemesApi(): ThemesApi = appComponent
 
     // endregion
 }

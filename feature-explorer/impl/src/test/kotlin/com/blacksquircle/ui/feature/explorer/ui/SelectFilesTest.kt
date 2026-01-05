@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package com.blacksquircle.ui.feature.explorer.ui
 
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
@@ -27,10 +26,12 @@ import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
 import com.blacksquircle.ui.feature.explorer.defaultWorkspaces
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
+import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.test.provider.TestDispatcherProvider
 import com.blacksquircle.ui.test.rule.MainDispatcherRule
 import com.blacksquircle.ui.test.rule.TimberConsoleRule
@@ -63,6 +64,7 @@ class SelectFilesTest {
     private val serverInteractor = mockk<ServerInteractor>(relaxed = true)
     private val terminalInteractor = mockk<TerminalInteractor>(relaxed = true)
     private val asyncNodeBuilder = AsyncNodeBuilder(dispatcherProvider)
+    private val navigator = mockk<Navigator>(relaxed = true)
 
     private val workspaces = defaultWorkspaces()
     private val selectedWorkspace = workspaces[0]
@@ -207,7 +209,7 @@ class SelectFilesTest {
         viewModel.onBackClicked()
 
         // Then
-        assertEquals(ViewEvent.PopBackStack, viewModel.viewEvent.first())
+        assertEquals(ExplorerViewEvent.CloseDrawer, viewModel.viewEvent.first())
     }
 
     private fun createViewModel(): ExplorerViewModel {
@@ -221,6 +223,7 @@ class SelectFilesTest {
             serverInteractor = serverInteractor,
             terminalInteractor = terminalInteractor,
             asyncNodeBuilder = asyncNodeBuilder,
+            navigator = navigator
         )
     }
 }

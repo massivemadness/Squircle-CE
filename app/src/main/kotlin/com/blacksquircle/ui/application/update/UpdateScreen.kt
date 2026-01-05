@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,31 +16,33 @@
 
 package com.blacksquircle.ui.application.update
 
-import android.os.Bundle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.window.DialogProperties
-import androidx.navigation.NavController
 import com.blacksquircle.ui.R
-import com.blacksquircle.ui.core.effect.sendNavigationResult
+import com.blacksquircle.ui.core.effect.ResultEventBus
+import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.dialog.AlertDialog
+import com.blacksquircle.ui.internal.AppComponent
 
-internal const val KEY_INSTALL_UPDATE = "KEY_UPDATE"
+internal const val KEY_INSTALL_UPDATE = "KEY_INSTALL_UPDATE"
 
 @Composable
-internal fun UpdateScreen(navController: NavController) {
+internal fun UpdateScreen(
+    viewModel: UpdateViewModel = daggerViewModel { context ->
+        val component = AppComponent.buildOrGet(context)
+        UpdateViewModel.Factory().also(component::inject)
+    }
+) {
     UpdateScreen(
         onConfirmClicked = {
-            sendNavigationResult(KEY_INSTALL_UPDATE, Bundle.EMPTY)
-            navController.popBackStack()
+            ResultEventBus.sendResult(KEY_INSTALL_UPDATE, Unit)
+            viewModel.onCloseClicked()
         },
-        onCancelClicked = {
-            navController.popBackStack()
-        },
+        onCancelClicked = viewModel::onCloseClicked,
     )
 }
 
@@ -62,10 +64,6 @@ private fun UpdateScreen(
         dismissButton = stringResource(R.string.app_update_dialog_button_later),
         onConfirmClicked = onConfirmClicked,
         onDismissClicked = onCancelClicked,
-        onDismiss = onCancelClicked,
-        properties = DialogProperties(
-            dismissOnClickOutside = false,
-        )
     )
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,11 @@
 package com.blacksquircle.ui.feature.fonts.internal
 
 import android.content.Context
-import com.blacksquircle.ui.core.internal.CoreApiDepsProvider
-import com.blacksquircle.ui.core.internal.CoreApiProvider
+import com.blacksquircle.ui.core.internal.CoreApi
+import com.blacksquircle.ui.core.internal.provideCoreApi
 import com.blacksquircle.ui.feature.fonts.ui.fonts.FontsViewModel
+import com.blacksquircle.ui.navigation.api.internal.NavigationApi
+import com.blacksquircle.ui.navigation.api.internal.provideNavigationApi
 import dagger.Component
 
 @FontsScope
@@ -28,7 +30,8 @@ import dagger.Component
         FontsModule::class,
     ],
     dependencies = [
-        CoreApiDepsProvider::class,
+        CoreApi::class,
+        NavigationApi::class,
     ]
 )
 internal interface FontsComponent {
@@ -37,7 +40,10 @@ internal interface FontsComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(coreApiDepsProvider: CoreApiDepsProvider): FontsComponent
+        fun create(
+            coreApi: CoreApi,
+            navigationApi: NavigationApi,
+        ): FontsComponent
     }
 
     companion object {
@@ -46,8 +52,8 @@ internal interface FontsComponent {
 
         fun buildOrGet(context: Context): FontsComponent {
             return component ?: DaggerFontsComponent.factory().create(
-                coreApiDepsProvider = (context.applicationContext as CoreApiProvider)
-                    .provideCoreApiDepsProvider(),
+                coreApi = context.provideCoreApi(),
+                navigationApi = context.provideNavigationApi(),
             ).also {
                 component = it
             }

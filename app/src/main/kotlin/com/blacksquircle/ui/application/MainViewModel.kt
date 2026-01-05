@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_EDITOR_T
 import com.blacksquircle.ui.core.settings.SettingsManager.Companion.KEY_FULLSCREEN_MODE
 import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.themes.api.interactor.ThemeInteractor
+import com.blacksquircle.ui.navigation.api.Navigator
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -44,6 +45,7 @@ internal class MainViewModel @Inject constructor(
     private val settingsManager: SettingsManager,
     private val themeInteractor: ThemeInteractor,
     private val editorInteractor: EditorInteractor,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(initialViewState())
@@ -63,9 +65,7 @@ internal class MainViewModel @Inject constructor(
     }
 
     fun onUpdateAvailable() {
-        viewModelScope.launch {
-            _viewEvent.send(ViewEvent.Navigation(UpdateDialog))
-        }
+        navigator.navigate(UpdateRoute)
     }
 
     fun onNewIntent(intent: Intent) {

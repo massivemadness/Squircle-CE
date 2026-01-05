@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.feature.git.domain.repository.GitRepository
+import com.blacksquircle.ui.navigation.api.Navigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -37,8 +38,9 @@ import timber.log.Timber
 import javax.inject.Inject
 
 internal class CheckoutViewModel @AssistedInject constructor(
-    private val gitRepository: GitRepository,
     @Assisted private val repository: String,
+    private val gitRepository: GitRepository,
+    private val navigator: Navigator,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(CheckoutViewState())
@@ -97,6 +99,8 @@ internal class CheckoutViewModel @AssistedInject constructor(
                     )
                     _viewEvent.send(CheckoutViewEvent.CheckoutComplete(currentBranch))
                 }
+
+                navigator.goBack()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -109,6 +113,10 @@ internal class CheckoutViewModel @AssistedInject constructor(
                 }
             }
         }
+    }
+
+    fun onBackClicked() {
+        navigator.goBack()
     }
 
     private fun loadBranches() {

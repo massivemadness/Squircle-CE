@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@ import com.blacksquircle.ui.feature.terminal.api.model.ShellArgs
 import com.blacksquircle.ui.feature.terminal.domain.manager.SessionManager
 import com.blacksquircle.ui.feature.terminal.domain.model.SessionModel
 import com.blacksquircle.ui.feature.terminal.domain.runtime.TerminalRuntime
-import com.blacksquircle.ui.feature.terminal.ui.model.TerminalCommand
-import com.blacksquircle.ui.feature.terminal.ui.view.TerminalSessionClientImpl
+import com.blacksquircle.ui.feature.terminal.ui.terminal.model.TerminalCommand
+import com.blacksquircle.ui.feature.terminal.ui.terminal.view.TerminalSessionClientImpl
 import com.termux.shared.shell.command.environment.ShellEnvironmentUtils.convertEnvironmentToEnviron
 import com.termux.shared.shell.command.environment.ShellEnvironmentUtils.putToEnvIfInSystemEnv
 import com.termux.shared.shell.command.environment.UnixShellEnvironment.ENV_COLORTERM

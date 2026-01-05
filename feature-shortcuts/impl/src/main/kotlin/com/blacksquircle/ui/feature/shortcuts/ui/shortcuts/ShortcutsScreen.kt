@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import com.blacksquircle.ui.core.effect.NavResultEffect
+import com.blacksquircle.ui.core.effect.ResultEffect
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.core.mvi.ViewEvent
@@ -52,19 +51,15 @@ import com.blacksquircle.ui.feature.shortcuts.R
 import com.blacksquircle.ui.feature.shortcuts.api.model.KeyGroup
 import com.blacksquircle.ui.feature.shortcuts.api.model.Keybinding
 import com.blacksquircle.ui.feature.shortcuts.api.model.Shortcut
-import com.blacksquircle.ui.feature.shortcuts.data.mapper.ShortcutMapper
 import com.blacksquircle.ui.feature.shortcuts.internal.ShortcutsComponent
 import com.blacksquircle.ui.feature.shortcuts.ui.shortcuts.compose.Combination
 import com.blacksquircle.ui.ds.R as UiR
 
-internal const val KEY_SAVE = "KEY_SAVE"
-internal const val KEY_RESOLVE = "KEY_RESOLVE"
-
-internal const val ARG_REASSIGN = "ARG_REASSIGN"
+internal const val KEY_SAVE = "KEY_SHORTCUT_SAVE"
+internal const val KEY_RESOLVE = "KEY_SHORTCUT_RESOLVE"
 
 @Composable
 internal fun ShortcutsScreen(
-    navController: NavController,
     viewModel: ShortcutsViewModel = daggerViewModel { context ->
         val component = ShortcutsComponent.buildOrGet(context)
         ShortcutsViewModel.Factory().also(component::inject)
@@ -73,7 +68,7 @@ internal fun ShortcutsScreen(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
     ShortcutsScreen(
         viewState = viewState,
-        onBackClicked = navController::popBackStack,
+        onBackClicked = viewModel::onBackClicked,
         onRestoreClicked = viewModel::onRestoreClicked,
         onKeyClicked = viewModel::onKeyClicked,
     )
@@ -83,18 +78,14 @@ internal fun ShortcutsScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ViewEvent.Navigation -> navController.navigate(event.screen)
-                is ViewEvent.PopBackStack -> navController.popBackStack()
             }
         }
     }
 
-    NavResultEffect(KEY_SAVE) { bundle ->
-        val keybinding = ShortcutMapper.fromBundle(bundle)
+    ResultEffect<Keybinding>(KEY_SAVE) { keybinding ->
         viewModel.onSaveClicked(keybinding)
     }
-    NavResultEffect(KEY_RESOLVE) { bundle ->
-        val reassign = bundle.getBoolean(ARG_REASSIGN)
+    ResultEffect<Boolean>(KEY_RESOLVE) { reassign ->
         viewModel.onResolveClicked(reassign)
     }
 }

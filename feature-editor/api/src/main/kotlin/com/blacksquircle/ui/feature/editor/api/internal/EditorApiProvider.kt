@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,12 @@
 
 package com.blacksquircle.ui.feature.editor.api.internal
 
+import android.content.Context
+
 interface EditorApiProvider {
-    fun provideEditorApiDepsProvider(): EditorApiDepsProvider
+    fun provideEditorApi(): EditorApi
+}
+
+fun Context.provideEditorApi(): EditorApi {
+    return (applicationContext as EditorApiProvider).provideEditorApi()
 }

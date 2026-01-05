@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +35,10 @@ internal class EditorInteractorImpl : EditorInteractor {
 
     override suspend fun openFileUri(fileUri: Uri) {
         _eventBus.send(EditorApiEvent.OpenFileUri(fileUri))
+    }
+
+    override suspend fun renameFile(fileModel: FileModel, newName: String) {
+        _eventBus.send(EditorApiEvent.RenameFile(fileModel, newName))
     }
 
     override suspend fun deleteFile(fileModel: FileModel) {

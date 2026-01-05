@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,13 @@ package com.blacksquircle.ui.feature.explorer.internal.api
 import android.content.Context
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.factory.FilesystemFactoryImpl
+import com.blacksquircle.ui.feature.explorer.ui.ExplorerEntryProvider
 import com.blacksquircle.ui.feature.servers.api.factory.ServerFactory
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
+import com.blacksquircle.ui.navigation.api.provider.EntryProvider
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 import javax.inject.Singleton
 
 @Module
@@ -40,5 +43,11 @@ object ExplorerApiModule {
             serverInteractor = serverInteractor,
             context = context,
         )
+    }
+
+    @IntoSet
+    @Provides
+    fun provideExplorerEntryProvider(): EntryProvider {
+        return ExplorerEntryProvider()
     }
 }

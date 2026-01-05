@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Squircle CE contributors.
+ * Copyright Squircle CE contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,11 @@ plugins {
 
 dependencies {
 
+    implementation(project(":core-navigation:api"))
+
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.serialization)
+
+    compileOnly(libs.android.tools.platform)
 
     api(project(":filesystems:filesystem-base"))
 }
