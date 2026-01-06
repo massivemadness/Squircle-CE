@@ -37,7 +37,7 @@ internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEvent>(
     private val middlewares: List<Middleware<S, A>>,
 ) : Store<S, A, E> {
 
-    private val actions = MutableSharedFlow<A>()
+    private val actions = MutableSharedFlow<A>(extraBufferCapacity = BUFFER_SIZE)
 
     private val _state = MutableStateFlow(initialState)
     override val state: StateFlow<S> = _state
@@ -78,5 +78,9 @@ internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEvent>(
         scope.launch {
             actions.emit(action)
         }
+    }
+
+    companion object {
+        private const val BUFFER_SIZE = 64
     }
 }
