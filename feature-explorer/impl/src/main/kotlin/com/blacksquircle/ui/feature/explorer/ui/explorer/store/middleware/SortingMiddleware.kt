@@ -26,12 +26,12 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerState
 import com.blacksquircle.ui.redux.middleware.Middleware
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -73,7 +73,7 @@ internal class SortingMiddleware @Inject constructor(
                                 compactPackages = currentState.compactPackages,
                             )
                         )
-                        flowOf(ExplorerAction.CommandAction.UpdateFiles(fileNodes))
+                        flowOf(ExplorerAction.CommandAction.RenderNodeList(fileNodes))
                     }
 
                     is ExplorerAction.UiAction.OnClearQueryClicked -> {
@@ -88,7 +88,7 @@ internal class SortingMiddleware @Inject constructor(
                                 compactPackages = currentState.compactPackages,
                             )
                         )
-                        flowOf(ExplorerAction.CommandAction.UpdateFiles(fileNodes))
+                        flowOf(ExplorerAction.CommandAction.RenderNodeList(fileNodes))
                     }
                 }
             }
@@ -96,9 +96,8 @@ internal class SortingMiddleware @Inject constructor(
 
     private fun onShowHiddenFilesChanged(actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return actions.filterIsInstance<ExplorerAction.UiAction.OnShowHiddenFilesChanged>()
-            .flatMapLatest { action ->
+            .transform { action ->
                 settingsManager.showHidden = action.showHiddenFiles
-                emptyFlow()
             }
     }
 
@@ -108,7 +107,7 @@ internal class SortingMiddleware @Inject constructor(
     ): Flow<ExplorerAction> {
         return actions.filterIsInstance<ExplorerAction.Init>()
             .flatMapLatest { settingsManager.collect(SettingsManager.KEY_SHOW_HIDDEN_FILES) }
-            .flatMapLatest {
+            .transform {
                 val currentState = state.first()
                 val showHiddenFiles = settingsManager.showHidden
                 val fileNodes = asyncNodeBuilder.buildNodeList(
@@ -121,18 +120,15 @@ internal class SortingMiddleware @Inject constructor(
                         compactPackages = currentState.compactPackages,
                     )
                 )
-                flowOf(
-                    ExplorerAction.CommandAction.UpdateFiles(fileNodes),
-                    ExplorerAction.CommandAction.ShowHiddenFilesUpdated(showHiddenFiles)
-                )
+                emit(ExplorerAction.CommandAction.RenderNodeList(fileNodes))
+                emit(ExplorerAction.CommandAction.ShowHiddenFilesUpdated(showHiddenFiles))
             }
     }
 
     private fun onCompactPackagesChanged(actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return actions.filterIsInstance<ExplorerAction.UiAction.OnCompactPackagesChanged>()
-            .flatMapLatest { action ->
+            .transform { action ->
                 settingsManager.compactPackages = action.compactPackages
-                emptyFlow()
             }
     }
 
@@ -142,7 +138,7 @@ internal class SortingMiddleware @Inject constructor(
     ): Flow<ExplorerAction> {
         return actions.filterIsInstance<ExplorerAction.Init>()
             .flatMapLatest { settingsManager.collect(SettingsManager.KEY_COMPACT_PACKAGES) }
-            .flatMapLatest {
+            .transform {
                 val currentState = state.first()
                 val compactPackages = settingsManager.compactPackages
                 val fileNodes = asyncNodeBuilder.buildNodeList(
@@ -155,18 +151,15 @@ internal class SortingMiddleware @Inject constructor(
                         compactPackages = compactPackages,
                     )
                 )
-                flowOf(
-                    ExplorerAction.CommandAction.UpdateFiles(fileNodes),
-                    ExplorerAction.CommandAction.CompactPackagesUpdated(compactPackages)
-                )
+                emit(ExplorerAction.CommandAction.RenderNodeList(fileNodes))
+                emit(ExplorerAction.CommandAction.CompactPackagesUpdated(compactPackages))
             }
     }
 
     private fun onSortModeChanged(actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return actions.filterIsInstance<ExplorerAction.UiAction.OnSortModeChanged>()
-            .flatMapLatest { action ->
+            .transform { action ->
                 settingsManager.sortMode = action.sortMode.value
-                emptyFlow()
             }
     }
 
@@ -176,7 +169,7 @@ internal class SortingMiddleware @Inject constructor(
     ): Flow<ExplorerAction> {
         return actions.filterIsInstance<ExplorerAction.Init>()
             .flatMapLatest { settingsManager.collect(SettingsManager.KEY_SORT_MODE) }
-            .flatMapLatest {
+            .transform {
                 val currentState = state.first()
                 val sortMode = SortMode.of(settingsManager.sortMode)
                 val fileNodes = asyncNodeBuilder.buildNodeList(
@@ -189,10 +182,8 @@ internal class SortingMiddleware @Inject constructor(
                         compactPackages = currentState.compactPackages,
                     )
                 )
-                flowOf(
-                    ExplorerAction.CommandAction.UpdateFiles(fileNodes),
-                    ExplorerAction.CommandAction.SortModeUpdated(sortMode)
-                )
+                emit(ExplorerAction.CommandAction.RenderNodeList(fileNodes))
+                emit(ExplorerAction.CommandAction.SortModeUpdated(sortMode))
             }
     }
 
@@ -202,7 +193,7 @@ internal class SortingMiddleware @Inject constructor(
     ): Flow<ExplorerAction> {
         return actions.filterIsInstance<ExplorerAction.Init>()
             .flatMapLatest { settingsManager.collect(SettingsManager.KEY_FOLDERS_ON_TOP) }
-            .flatMapLatest {
+            .transform {
                 val currentState = state.first()
                 val foldersOnTop = settingsManager.foldersOnTop
                 val fileNodes = asyncNodeBuilder.buildNodeList(
@@ -215,10 +206,8 @@ internal class SortingMiddleware @Inject constructor(
                         compactPackages = currentState.compactPackages,
                     )
                 )
-                flowOf(
-                    ExplorerAction.CommandAction.UpdateFiles(fileNodes),
-                    ExplorerAction.CommandAction.FoldersOnTopUpdated(foldersOnTop)
-                )
+                emit(ExplorerAction.CommandAction.RenderNodeList(fileNodes))
+                emit(ExplorerAction.CommandAction.FoldersOnTopUpdated(foldersOnTop))
             }
     }
 }

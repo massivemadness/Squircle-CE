@@ -38,8 +38,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import javax.inject.Inject
 import com.blacksquircle.ui.ds.R as UiR
@@ -56,12 +57,14 @@ internal class FileTreeMiddleware @Inject constructor(
     override fun bind(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return merge(
             loadFiles(state, actions),
+            onExpandClicked(state, actions),
+            onCollapseClicked(state, actions),
         )
     }
 
     private fun loadFiles(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return actions.filterIsInstance<ExplorerAction.CommandAction.LoadFiles>()
-            .flatMapConcat { action ->
+            .flatMapMerge { action ->
                 val currentState = state.first()
 
                 flow {
@@ -75,7 +78,7 @@ internal class FileTreeMiddleware @Inject constructor(
                         )
                     }
                     val fileNodes = buildNodeList(currentState)
-                    emit(ExplorerAction.CommandAction.UpdateFiles(fileNodes))
+                    emit(ExplorerAction.CommandAction.RenderNodeList(fileNodes))
 
                     // Load files
                     val fileList = explorerRepository.listFiles(action.fileNode.file)
@@ -119,7 +122,7 @@ internal class FileTreeMiddleware @Inject constructor(
                         emit(ExplorerAction.CommandAction.LoadFiles(nestedNode))
                     } else {
                         val fileNodes = buildNodeList(currentState)
-                        emit(ExplorerAction.CommandAction.UpdateFiles(fileNodes))
+                        emit(ExplorerAction.CommandAction.RenderNodeList(fileNodes))
                     }
                 }.catch<ExplorerAction> { error ->
                     val fileNode = action.fileNode
@@ -133,7 +136,37 @@ internal class FileTreeMiddleware @Inject constructor(
                     }
 
                     val fileNodes = buildNodeList(currentState)
-                    emit(ExplorerAction.CommandAction.UpdateFiles(fileNodes))
+                    emit(ExplorerAction.CommandAction.RenderNodeList(fileNodes))
+                }
+            }
+    }
+
+    private fun onExpandClicked(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
+        return actions.filterIsInstance<ExplorerAction.UiAction.OnExpandClicked>()
+            .map { action ->
+                fileNodeCache.updateNode(action.fileNode) {
+                    it.copy(isExpanded = true)
+                }
+                if (fileNodeCache.contains(action.fileNode.key)) {
+                    val fileNodes = buildNodeList(state.first())
+                    ExplorerAction.CommandAction.RenderNodeList(fileNodes)
+                } else {
+                    ExplorerAction.CommandAction.LoadFiles(action.fileNode)
+                }
+            }
+    }
+
+    private fun onCollapseClicked(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
+        return actions.filterIsInstance<ExplorerAction.UiAction.OnCollapseClicked>()
+            .map { action ->
+                fileNodeCache.updateNode(action.fileNode) {
+                    it.copy(isExpanded = false)
+                }
+                if (fileNodeCache.contains(action.fileNode.key)) {
+                    val fileNodes = buildNodeList(state.first())
+                    ExplorerAction.CommandAction.RenderNodeList(fileNodes)
+                } else {
+                    ExplorerAction.CommandAction.LoadFiles(action.fileNode)
                 }
             }
     }

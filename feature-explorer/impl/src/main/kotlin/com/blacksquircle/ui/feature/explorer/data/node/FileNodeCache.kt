@@ -60,6 +60,16 @@ internal class FileNodeCache {
         }
     }
 
+    fun parentNode(fileNode: FileNode): FileNode? {
+        val parentKey = cache.findParentKey(fileNode.key) ?: return null
+        val parentNode = cache.findNodeByKey(parentKey) ?: return null
+        return parentNode
+    }
+
+    fun contains(key: NodeKey): Boolean {
+        return cache[key] != null
+    }
+
     fun get(key: NodeKey): List<FileNode> {
         return cache[key].orEmpty()
     }

@@ -22,12 +22,14 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.CopyFi
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.CreateFileMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.DeleteFileMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.ExplorerMiddleware
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.ExtractFileMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.FileTreeMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.RenameFileMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.ServerMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.SortingMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.WorkspaceMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer.ExplorerReducer
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer.FileTaskReducer
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer.FileTreeReducer
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer.SortingReducer
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer.WorkspaceReducer
@@ -38,6 +40,7 @@ import javax.inject.Inject
 
 internal class ExplorerStore @Inject constructor(
     private val explorerReducer: ExplorerReducer,
+    private val fileTaskReducer: FileTaskReducer,
     private val fileTreeReducer: FileTreeReducer,
     private val sortingReducer: SortingReducer,
     private val workspaceReducer: WorkspaceReducer,
@@ -50,6 +53,7 @@ internal class ExplorerStore @Inject constructor(
     private val deleteFileMiddleware: DeleteFileMiddleware,
     private val copyFileMiddleware: CopyFileMiddleware,
     private val compressFileMiddleware: CompressFileMiddleware,
+    private val extractFileMiddleware: ExtractFileMiddleware,
     private val cloneRepoMiddleware: CloneRepoMiddleware,
     private val serverMiddleware: ServerMiddleware,
 ) : Store<ExplorerState, ExplorerAction, ExplorerEvent> by produceStore(
@@ -58,6 +62,7 @@ internal class ExplorerStore @Inject constructor(
         reducer = CompoundReducer(
             reducers = listOf(
                 explorerReducer,
+                fileTaskReducer,
                 fileTreeReducer,
                 sortingReducer,
                 workspaceReducer,
@@ -73,6 +78,7 @@ internal class ExplorerStore @Inject constructor(
             deleteFileMiddleware,
             copyFileMiddleware,
             compressFileMiddleware,
+            extractFileMiddleware,
             cloneRepoMiddleware,
             serverMiddleware,
         )

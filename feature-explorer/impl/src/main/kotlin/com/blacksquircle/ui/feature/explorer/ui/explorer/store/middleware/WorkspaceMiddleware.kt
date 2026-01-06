@@ -32,12 +32,13 @@ import com.blacksquircle.ui.redux.middleware.Middleware
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 import kotlin.collections.set
 
@@ -91,10 +92,10 @@ internal class WorkspaceMiddleware @Inject constructor(
 
     private fun onWorkspaceClicked(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return actions.filterIsInstance<ExplorerAction.UiAction.OnWorkspaceClicked>()
-            .map { action ->
+            .mapNotNull { action ->
                 val currentState = state.first()
                 if (action.workspace.uuid == currentState.selectedWorkspace?.uuid) {
-                    return@map ExplorerAction.Empty
+                    return@mapNotNull null
                 }
                 explorerRepository.selectWorkspace(action.workspace)
 
@@ -109,22 +110,21 @@ internal class WorkspaceMiddleware @Inject constructor(
                     workspace = action.workspace,
                     fileNode = fileNode,
                 )
-            }.catch {
+            }.catch<ExplorerAction> {
                 emit(ExplorerAction.Error(it))
             }
     }
 
     private fun onAddWorkspaceClicked(actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return actions.filterIsInstance<ExplorerAction.UiAction.OnAddWorkspaceClicked>()
-            .flatMapLatest {
+            .transform {
                 navigator.navigate(AddWorkspaceRoute)
-                emptyFlow()
             }
     }
 
     private fun onDeleteWorkspaceClicked(actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return actions.filterIsInstance<ExplorerAction.UiAction.OnDeleteWorkspaceClicked>()
-            .flatMapLatest { action ->
+            .transform { action ->
                 when (action.workspace.type) {
                     WorkspaceType.CUSTOM -> {
                         val screen = DeleteWorkspaceRoute(
@@ -141,7 +141,6 @@ internal class WorkspaceMiddleware @Inject constructor(
 
                     else -> Unit
                 }
-                emptyFlow()
             }
     }
 }

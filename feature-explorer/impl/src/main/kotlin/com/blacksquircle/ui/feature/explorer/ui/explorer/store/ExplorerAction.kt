@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.explorer.ui.explorer.store
 
 import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
+import com.blacksquircle.ui.feature.explorer.domain.model.Task
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.redux.MVIAction
@@ -25,7 +26,6 @@ import com.blacksquircle.ui.redux.MVIAction
 internal sealed interface ExplorerAction : MVIAction {
 
     data object Init : ExplorerAction
-    data object Empty : ExplorerAction
     data class Error(val error: Throwable) : ExplorerAction
 
     sealed interface UiAction : ExplorerAction {
@@ -58,8 +58,13 @@ internal sealed interface ExplorerAction : MVIAction {
         data object OnCopyPathClicked : UiAction
         data class OnErrorActionClicked(val errorAction: ErrorAction) : UiAction
 
+        data class OnExtractFileClicked(val fileNode: FileNode) : UiAction
+
         data class OnFileClicked(val fileNode: FileNode) : UiAction
         data class OnFileSelected(val fileNode: FileNode) : UiAction
+        data class OnExpandClicked(val fileNode: FileNode) : UiAction
+        data class OnCollapseClicked(val fileNode: FileNode) : UiAction
+
         data object OnRefreshClicked : UiAction
     }
 
@@ -82,11 +87,15 @@ internal sealed interface ExplorerAction : MVIAction {
 
         data class LoadFiles(val fileNode: FileNode) : CommandAction
         data class LoadFilesError(val fileNode: FileNode, val error: Throwable) : CommandAction
-        data class UpdateFiles(val fileNodes: List<FileNode>) : CommandAction
 
         data class ShowHiddenFilesUpdated(val showHiddenFiles: Boolean) : CommandAction
         data class CompactPackagesUpdated(val compactPackages: Boolean) : CommandAction
         data class FoldersOnTopUpdated(val foldersOnTop: Boolean) : CommandAction
         data class SortModeUpdated(val sortMode: SortMode) : CommandAction
+
+        data class RenderNodeList(val fileNodes: List<FileNode>) : CommandAction
+
+        data class OnTaskComplete(val task: Task) : CommandAction
+        data class OnTaskFailed(val error: Throwable) : CommandAction
     }
 }

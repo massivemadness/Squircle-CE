@@ -19,6 +19,7 @@ package com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerEvent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerState
+import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.redux.reducer.Reducer
 import javax.inject.Inject
 
@@ -26,7 +27,36 @@ internal class FileTreeReducer @Inject constructor() : Reducer<ExplorerState, Ex
 
     override fun reduce(action: ExplorerAction) {
         when (action) {
-            is ExplorerAction.CommandAction.UpdateFiles -> {
+            is ExplorerAction.UiAction.OnFileClicked -> {
+                when {
+                    state.selection.isNotEmpty() -> {
+                        action(ExplorerAction.UiAction.OnFileSelected(action.fileNode))
+                    }
+                    action.fileNode.isDirectory -> {
+                        if (action.fileNode.isExpanded) {
+                            action(ExplorerAction.UiAction.OnCollapseClicked(action.fileNode))
+                        } else {
+                            action(ExplorerAction.UiAction.OnExpandClicked(action.fileNode))
+                        }
+                    }
+                    else -> when (action.fileNode.file.type) {
+                        FileType.ARCHIVE -> {
+                            action(ExplorerAction.UiAction.OnExtractFileClicked(action.fileNode))
+                        }
+
+                        FileType.DEFAULT -> {
+                            // editorInteractor open file
+                            event(ExplorerEvent.CloseDrawer)
+                        }
+
+                        else -> {
+                            // open with
+                        }
+                    }
+                }
+            }
+
+            is ExplorerAction.CommandAction.RenderNodeList -> {
                 state {
                     copy(fileNodes = action.fileNodes)
                 }

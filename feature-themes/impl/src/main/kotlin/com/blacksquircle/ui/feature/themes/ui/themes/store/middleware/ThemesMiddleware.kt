@@ -27,11 +27,10 @@ import jakarta.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.transform
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class ThemesMiddleware @Inject constructor(
@@ -65,9 +64,8 @@ internal class ThemesMiddleware @Inject constructor(
 
     private fun onBackClicked(actions: Flow<ThemesAction>): Flow<ThemesAction> {
         return actions.filterIsInstance<ThemesAction.UiAction.OnBackClicked>()
-            .flatMapLatest {
+            .transform {
                 navigator.goBack()
-                emptyFlow()
             }
     }
 
