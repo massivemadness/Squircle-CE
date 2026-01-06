@@ -37,7 +37,7 @@ internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEvent>(
     private val middlewares: List<Middleware<S, A>>,
 ) : Store<S, A, E> {
 
-    private val actions = MutableSharedFlow<A>(extraBufferCapacity = 64)
+    private val actions = MutableSharedFlow<A>()
 
     private val _state = MutableStateFlow(initialState)
     override val state: StateFlow<S> = _state
@@ -45,7 +45,11 @@ internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEvent>(
     private val _events = Channel<E>(Channel.UNLIMITED)
     override val events: Flow<E> = _events.receiveAsFlow()
 
+    private lateinit var scope: CoroutineScope
+
     override fun wire(scope: CoroutineScope) {
+        this.scope = scope
+
         scope.launch {
             actions.collect { action ->
                 val update = reducer.reduce(_state.value, action)
@@ -63,14 +67,16 @@ internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEvent>(
             }
         }
 
-        scope.launch {
-            initialAction?.let { action ->
+        initialAction?.let { action ->
+            scope.launch {
                 actions.emit(action)
             }
         }
     }
 
     override fun dispatch(action: A) {
-        actions.tryEmit(action)
+        scope.launch {
+            actions.emit(action)
+        }
     }
 }
