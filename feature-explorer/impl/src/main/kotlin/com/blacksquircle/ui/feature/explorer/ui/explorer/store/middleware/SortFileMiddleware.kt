@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.redux.extensions
+package com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware
 
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerState
+import com.blacksquircle.ui.redux.middleware.Middleware
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.emptyFlow
+import javax.inject.Inject
 
-fun <T1, T2> Flow<T1>.withLatestFrom(flow: Flow<T2>): Flow<Pair<T1, T2>> {
-    return combine(flow) { action, state -> action to state }
+internal class SortFileMiddleware @Inject constructor() : Middleware<ExplorerState, ExplorerAction> {
+
+    override fun bind(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
+        return emptyFlow()
+    }
 }

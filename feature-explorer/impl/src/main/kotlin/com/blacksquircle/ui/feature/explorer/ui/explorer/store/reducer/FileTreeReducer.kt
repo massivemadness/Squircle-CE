@@ -16,21 +16,28 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer
 
-import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerEvent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerState
 import com.blacksquircle.ui.redux.reducer.Reducer
 import javax.inject.Inject
 
-internal class ExplorerReducer @Inject constructor(
-    private val stringProvider: StringProvider,
-) : Reducer<ExplorerState, ExplorerAction, ExplorerEvent>() {
+internal class FileTreeReducer @Inject constructor() : Reducer<ExplorerState, ExplorerAction, ExplorerEvent>() {
 
     override fun reduce(action: ExplorerAction) {
         when (action) {
-            is ExplorerAction.Init -> Unit
-            is ExplorerAction.Error -> Unit
+            is ExplorerAction.CommandAction.UpdateFiles -> {
+                state {
+                    copy(fileNodes = action.fileNodes)
+                }
+            }
+
+            is ExplorerAction.CommandAction.LoadFilesError -> {
+                if (!action.fileNode.isRoot) {
+                    event(ExplorerEvent.Toast(action.error.message.orEmpty()))
+                }
+            }
+
             else -> Unit
         }
     }

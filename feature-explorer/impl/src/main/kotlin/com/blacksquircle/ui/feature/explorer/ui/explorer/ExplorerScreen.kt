@@ -49,8 +49,6 @@ import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
 import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
-import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
-import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
@@ -59,7 +57,7 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ExplorerActionB
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ExplorerToolbar
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.FileExplorer
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.Workspaces
-import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
@@ -85,37 +83,17 @@ internal fun ExplorerScreen(
         val component = ExplorerComponent.buildOrGet(context)
         ExplorerViewModel.Factory().also(component::inject)
     },
+    viewModel2: ExplorerViewModel2 = daggerViewModel { context ->
+        val component = ExplorerComponent.buildOrGet(context)
+        ExplorerViewModel2.Factory().also(component::inject)
+    },
     closeDrawer: () -> Unit = {},
 ) {
-    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+    val viewState by viewModel2.viewState.collectAsStateWithLifecycle()
+
     ExplorerScreen(
         viewState = viewState,
-        onBackClicked = viewModel::onBackClicked,
-        onWorkspaceClicked = viewModel::onWorkspaceClicked,
-        onAddWorkspaceClicked = viewModel::onAddWorkspaceClicked,
-        onDeleteWorkspaceClicked = viewModel::onDeleteWorkspaceClicked,
-        onQueryChanged = viewModel::onQueryChanged,
-        onClearQueryClicked = viewModel::onClearQueryClicked,
-        onShowHiddenClicked = viewModel::onShowHiddenClicked,
-        onCompactPackagesClicked = viewModel::onCompactPackagesClicked,
-        onSortModeSelected = viewModel::onSortModeSelected,
-        onCreateClicked = viewModel::onCreateClicked,
-        onCloneClicked = viewModel::onCloneClicked,
-        onCopyClicked = viewModel::onCopyClicked,
-        onPasteClicked = viewModel::onPasteClicked,
-        onClearBufferClicked = viewModel::onClearBufferClicked,
-        onDeleteClicked = viewModel::onDeleteClicked,
-        onCutClicked = viewModel::onCutClicked,
-        onOpenWithClicked = viewModel::onOpenWithClicked,
-        onOpenTerminalClicked = viewModel::onOpenTerminalClicked,
-        onRenameClicked = viewModel::onRenameClicked,
-        onPropertiesClicked = viewModel::onPropertiesClicked,
-        onCopyPathClicked = viewModel::onCopyPathClicked,
-        onCompressClicked = viewModel::onCompressClicked,
-        onErrorActionClicked = viewModel::onErrorActionClicked,
-        onFileClicked = viewModel::onFileClicked,
-        onFileSelected = viewModel::onFileSelected,
-        onRefreshClicked = viewModel::onRefreshClicked,
+        dispatch = viewModel2::dispatch,
     )
 
     val storageContract = rememberStorageContract { result ->
@@ -181,40 +159,21 @@ internal fun ExplorerScreen(
 @Composable
 private fun ExplorerScreen(
     viewState: ExplorerViewState,
-    onBackClicked: () -> Unit = {},
-    onWorkspaceClicked: (WorkspaceModel) -> Unit = {},
-    onAddWorkspaceClicked: () -> Unit = {},
-    onDeleteWorkspaceClicked: (WorkspaceModel) -> Unit = {},
-    onQueryChanged: (String) -> Unit = {},
-    onClearQueryClicked: () -> Unit = {},
-    onShowHiddenClicked: () -> Unit = {},
-    onCompactPackagesClicked: () -> Unit = {},
-    onSortModeSelected: (SortMode) -> Unit = {},
-    onCreateClicked: () -> Unit = {},
-    onCloneClicked: () -> Unit = {},
-    onCopyClicked: () -> Unit = {},
-    onPasteClicked: () -> Unit = {},
-    onClearBufferClicked: () -> Unit = {},
-    onDeleteClicked: () -> Unit = {},
-    onCutClicked: () -> Unit = {},
-    onOpenWithClicked: () -> Unit = {},
-    onOpenTerminalClicked: () -> Unit = {},
-    onRenameClicked: () -> Unit = {},
-    onPropertiesClicked: () -> Unit = {},
-    onCopyPathClicked: () -> Unit = {},
-    onCompressClicked: () -> Unit = {},
-    onErrorActionClicked: (ErrorAction) -> Unit = {},
-    onFileClicked: (FileNode) -> Unit = {},
-    onFileSelected: (FileNode) -> Unit = {},
-    onRefreshClicked: () -> Unit = {},
+    dispatch: (ExplorerAction.UiAction) -> Unit = {},
 ) {
     Row(Modifier.fillMaxSize()) {
         Workspaces(
             workspaces = viewState.workspaces,
             selectedWorkspace = viewState.selectedWorkspace,
-            onWorkspaceClicked = onWorkspaceClicked,
-            onAddWorkspaceClicked = onAddWorkspaceClicked,
-            onDeleteWorkspaceClicked = onDeleteWorkspaceClicked,
+            onWorkspaceClicked = {
+                dispatch(ExplorerAction.UiAction.OnWorkspaceClicked(it))
+            },
+            onAddWorkspaceClicked = {
+                dispatch(ExplorerAction.UiAction.OnAddWorkspaceClicked)
+            },
+            onDeleteWorkspaceClicked = {
+                dispatch(ExplorerAction.UiAction.OnDeleteWorkspaceClicked(it))
+            },
         )
 
         if (!SquircleTheme.colors.isDark) {
@@ -227,25 +186,11 @@ private fun ExplorerScreen(
                     workspaceType = viewState.selectedWorkspace
                         ?.type ?: WorkspaceType.LOCAL,
                     searchQuery = viewState.searchQuery,
-                    selection = viewState.selectedNodes,
-                    showHidden = viewState.showHidden,
+                    selection = viewState.selection,
+                    showHidden = viewState.showHiddenFiles,
                     compactPackages = viewState.compactPackages,
                     sortMode = viewState.sortMode,
-                    onQueryChanged = onQueryChanged,
-                    onClearQueryClicked = onClearQueryClicked,
-                    onShowHiddenClicked = onShowHiddenClicked,
-                    onCompactPackagesClicked = onCompactPackagesClicked,
-                    onSortModeSelected = onSortModeSelected,
-                    onCopyClicked = onCopyClicked,
-                    onDeleteClicked = onDeleteClicked,
-                    onCutClicked = onCutClicked,
-                    onOpenWithClicked = onOpenWithClicked,
-                    onOpenTerminalClicked = onOpenTerminalClicked,
-                    onRenameClicked = onRenameClicked,
-                    onPropertiesClicked = onPropertiesClicked,
-                    onCopyPathClicked = onCopyPathClicked,
-                    onCompressClicked = onCompressClicked,
-                    onBackClicked = onBackClicked,
+                    dispatch = dispatch,
                 )
             },
             bottomBar = {
@@ -256,11 +201,7 @@ private fun ExplorerScreen(
                 ) {
                     ExplorerActionBar(
                         taskType = viewState.taskType,
-                        onRefreshClicked = onRefreshClicked,
-                        onCloneClicked = onCloneClicked,
-                        onCreateClicked = onCreateClicked,
-                        onPasteClicked = onPasteClicked,
-                        onClearBufferClicked = onClearBufferClicked,
+                        dispatch = dispatch,
                     )
                 }
             },
@@ -271,9 +212,13 @@ private fun ExplorerScreen(
                 FileExplorer(
                     contentPadding = contentPadding,
                     fileNodes = if (viewState.showFiles) viewState.fileNodes else emptyList(),
-                    selectedNodes = viewState.selectedNodes,
-                    onFileClicked = onFileClicked,
-                    onFileSelected = onFileSelected,
+                    selectedNodes = viewState.selection,
+                    onFileClicked = {
+                        dispatch(ExplorerAction.UiAction.OnFileClicked(it))
+                    },
+                    onFileSelected = {
+                        dispatch(ExplorerAction.UiAction.OnFileSelected(it))
+                    },
                 )
                 if (viewState.isLoading) {
                     CircularProgress(
@@ -283,7 +228,9 @@ private fun ExplorerScreen(
                 if (viewState.isError && !viewState.isLoading) {
                     ErrorStatus(
                         errorState = viewState.errorState,
-                        onActionClicked = onErrorActionClicked,
+                        onActionClicked = {
+                            dispatch(ExplorerAction.UiAction.OnErrorActionClicked(it))
+                        },
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }

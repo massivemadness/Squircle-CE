@@ -22,12 +22,14 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.CopyFi
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.CreateFileMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.DeleteFileMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.ExplorerMiddleware
-import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.FileSortMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.FileTreeMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.RenameFileMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.ServerMiddleware
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.SortFileMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.WorkspaceMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer.ExplorerReducer
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer.FileTreeReducer
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer.WorkspaceReducer
 import com.blacksquircle.ui.redux.reducer.CompoundReducer
 import com.blacksquircle.ui.redux.store.Store
 import com.blacksquircle.ui.redux.store.produceStore
@@ -35,10 +37,12 @@ import javax.inject.Inject
 
 internal class ExplorerStore @Inject constructor(
     private val explorerReducer: ExplorerReducer,
+    private val fileTreeReducer: FileTreeReducer,
+    private val workspaceReducer: WorkspaceReducer,
     private val explorerMiddleware: ExplorerMiddleware,
     private val workspaceMiddleware: WorkspaceMiddleware,
     private val fileTreeMiddleware: FileTreeMiddleware,
-    private val fileSortMiddleware: FileSortMiddleware,
+    private val sortFileMiddleware: SortFileMiddleware,
     private val createFileMiddleware: CreateFileMiddleware,
     private val renameFileMiddleware: RenameFileMiddleware,
     private val deleteFileMiddleware: DeleteFileMiddleware,
@@ -50,13 +54,17 @@ internal class ExplorerStore @Inject constructor(
         initialState = ExplorerState(),
         initialAction = ExplorerAction.Init,
         reducer = CompoundReducer(
-            reducers = listOf(explorerReducer)
+            reducers = listOf(
+                explorerReducer,
+                fileTreeReducer,
+                workspaceReducer,
+            )
         ),
         middlewares = listOf(
             explorerMiddleware,
             workspaceMiddleware,
             fileTreeMiddleware,
-            fileSortMiddleware,
+            sortFileMiddleware,
             createFileMiddleware,
             renameFileMiddleware,
             deleteFileMiddleware,

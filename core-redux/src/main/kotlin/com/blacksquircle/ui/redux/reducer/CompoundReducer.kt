@@ -26,11 +26,10 @@ class CompoundReducer<S : MVIState, A : MVIAction, E : MVIEvent>(
 
     override fun reduce(action: A) {
         val update = reducers.fold(Update<S, A, E>()) { acc, reducer ->
-            val update = reducer.reduce(state, action)
-            update.state?.let { state { it } }
-            update.merge(acc)
+            acc.merge(reducer.reduce(acc.state ?: state, action))
         }
         update.state?.let { state { it } }
+        update.actions.forEach { action(it) }
         update.events.forEach { event(it) }
     }
 }

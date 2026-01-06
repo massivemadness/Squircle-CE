@@ -107,7 +107,7 @@ class SelectFilesTest {
 
         // Then
         val expected = listOf(fileNodes[1], fileNodes[2])
-        assertEquals(expected, viewModel.viewState.value.selectedNodes)
+        assertEquals(expected, viewModel.viewState.value.selection)
     }
 
     @Test
@@ -122,7 +122,7 @@ class SelectFilesTest {
 
         // Then
         val expected = listOf(fileNodes[1], fileNodes[2])
-        assertEquals(expected, viewModel.viewState.value.selectedNodes)
+        assertEquals(expected, viewModel.viewState.value.selection)
     }
 
     @Test
@@ -137,7 +137,7 @@ class SelectFilesTest {
 
         // Then
         val expected = listOf(fileNodes[0])
-        assertEquals(expected, viewModel.viewState.value.selectedNodes)
+        assertEquals(expected, viewModel.viewState.value.selection)
     }
 
     @Test
@@ -151,7 +151,7 @@ class SelectFilesTest {
 
         // Then
         val expected = emptyList<FileNode>()
-        assertEquals(expected, viewModel.viewState.value.selectedNodes)
+        assertEquals(expected, viewModel.viewState.value.selection)
     }
 
     @Test
@@ -166,7 +166,7 @@ class SelectFilesTest {
 
         // Then
         val expected = listOf(fileNodes[1], fileNodes[2], fileNodes[3])
-        assertEquals(expected, viewModel.viewState.value.selectedNodes)
+        assertEquals(expected, viewModel.viewState.value.selection)
     }
 
     @Test
@@ -181,7 +181,7 @@ class SelectFilesTest {
 
         // Then
         val expected = listOf(fileNodes[1])
-        assertEquals(expected, viewModel.viewState.value.selectedNodes)
+        assertEquals(expected, viewModel.viewState.value.selection)
     }
 
     @Test
@@ -197,7 +197,7 @@ class SelectFilesTest {
 
         // Then
         val expected = emptyList<FileNode>()
-        assertEquals(expected, viewModel.viewState.value.selectedNodes)
+        assertEquals(expected, viewModel.viewState.value.selection)
     }
 
     @Test

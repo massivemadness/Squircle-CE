@@ -23,6 +23,7 @@ import com.blacksquircle.ui.core.provider.coroutine.DispatcherProvider
 import com.blacksquircle.ui.core.settings.SettingsManager
 import com.blacksquircle.ui.feature.explorer.api.factory.FilesystemFactory
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.data.node.FileNodeCache
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
 import com.blacksquircle.ui.feature.explorer.data.repository.ExplorerRepositoryImpl
 import com.blacksquircle.ui.feature.explorer.data.workspace.DefaultWorkspaceSource
@@ -37,6 +38,12 @@ import dagger.Provides
 
 @Module
 internal object ExplorerModule {
+
+    @Provides
+    @ExplorerScope
+    fun provideNodeCache(): FileNodeCache {
+        return FileNodeCache()
+    }
 
     @Provides
     @ExplorerScope

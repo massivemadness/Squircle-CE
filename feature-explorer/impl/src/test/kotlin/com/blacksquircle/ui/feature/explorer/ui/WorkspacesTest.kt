@@ -137,7 +137,7 @@ class WorkspacesTest {
 
         // When
         viewModel.onFileSelected(fileNode)
-        assertEquals(listOf(fileNode), viewModel.viewState.value.selectedNodes)
+        assertEquals(listOf(fileNode), viewModel.viewState.value.selection)
 
         viewModel.onCopyClicked()
         assertEquals(TaskType.COPY, viewModel.viewState.value.taskType)
@@ -150,7 +150,7 @@ class WorkspacesTest {
 
         // Then
         assertEquals(TaskType.CREATE, viewModel.viewState.value.taskType)
-        assertEquals(emptyList<FileNode>(), viewModel.viewState.value.selectedNodes)
+        assertEquals(emptyList<FileNode>(), viewModel.viewState.value.selection)
     }
 
     @Test
@@ -161,7 +161,7 @@ class WorkspacesTest {
 
         // When
         viewModel.onFileSelected(fileNode)
-        assertEquals(listOf(fileNode), viewModel.viewState.value.selectedNodes)
+        assertEquals(listOf(fileNode), viewModel.viewState.value.selection)
 
         viewModel.onCopyClicked()
         assertEquals(TaskType.COPY, viewModel.viewState.value.taskType)
@@ -174,7 +174,7 @@ class WorkspacesTest {
 
         // Then
         assertEquals(TaskType.COPY, viewModel.viewState.value.taskType)
-        assertEquals(emptyList<FileNode>(), viewModel.viewState.value.selectedNodes)
+        assertEquals(emptyList<FileNode>(), viewModel.viewState.value.selection)
     }
 
     @Test

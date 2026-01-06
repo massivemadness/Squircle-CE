@@ -29,19 +29,19 @@ internal data class ExplorerViewState(
     val workspaces: List<WorkspaceModel> = emptyList(),
     val selectedWorkspace: WorkspaceModel? = null,
     val fileNodes: List<FileNode> = emptyList(),
-    val selectedNodes: List<FileNode> = emptyList(),
+    val selection: List<FileNode> = emptyList(),
     val searchQuery: String = "",
-    val showHidden: Boolean = true,
+    val showHiddenFiles: Boolean = true,
     val compactPackages: Boolean = true,
     val sortMode: SortMode = SortMode.SORT_BY_NAME,
     val taskType: TaskType = TaskType.CREATE,
-) : ViewState {
+) : ViewState, com.blacksquircle.ui.redux.mapper.ViewState {
 
     val showFiles: Boolean
         get() = !isLoading && !isError
 
     val showActionBar: Boolean
-        get() = selectedNodes.size == 1 && selectedNodes[0].isDirectory
+        get() = selection.size == 1 && selection[0].isDirectory
 
     val errorState: ErrorState?
         get() = fileNodes.getOrNull(0)?.errorState

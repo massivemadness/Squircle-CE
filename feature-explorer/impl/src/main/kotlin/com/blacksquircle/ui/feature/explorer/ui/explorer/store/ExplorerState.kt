@@ -16,8 +16,22 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer.store
 
+import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.redux.MVIState
 
 internal data class ExplorerState(
-    val isLoading: Boolean = true,
+    val workspaces: List<WorkspaceModel> = emptyList(),
+    val selectedWorkspace: WorkspaceModel? = null,
+    val searchQuery: String = "",
+    val showHiddenFiles: Boolean = true,
+    val compactPackages: Boolean = true,
+    val foldersOnTop: Boolean = true,
+    val sortMode: SortMode = SortMode.SORT_BY_NAME,
+    val taskType: TaskType = TaskType.CREATE,
+    val taskBuffer: List<FileNode> = emptyList(),
+    val fileNodes: List<FileNode> = emptyList(),
+    val selection: List<FileNode> = emptyList(),
 ) : MVIState

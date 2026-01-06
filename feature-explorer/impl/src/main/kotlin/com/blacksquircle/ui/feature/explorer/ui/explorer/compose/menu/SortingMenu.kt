@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.explorer.menu
+package com.blacksquircle.ui.feature.explorer.ui.explorer.compose.menu
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,6 +26,7 @@ import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.ds.radio.Radio
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 
 @Composable
 internal fun SortingMenu(
@@ -35,9 +36,7 @@ internal fun SortingMenu(
     showHidden: Boolean = true,
     compactPackages: Boolean = true,
     sortMode: SortMode = SortMode.SORT_BY_NAME,
-    onShowHiddenClicked: () -> Unit = {},
-    onCompactPackagesClicked: () -> Unit = {},
-    onSortModeSelected: (SortMode) -> Unit = {},
+    dispatch: (ExplorerAction.UiAction) -> Unit = {},
 ) {
     PopupMenu(
         expanded = expanded,
@@ -47,51 +46,51 @@ internal fun SortingMenu(
     ) {
         PopupMenuItem(
             title = stringResource(R.string.explorer_menu_sort_show_hidden),
-            onClick = onShowHiddenClicked,
+            onClick = { dispatch(ExplorerAction.UiAction.OnShowHiddenFilesClicked) },
             trailing = {
                 CheckBox(
                     checked = showHidden,
-                    onClick = onShowHiddenClicked,
+                    onClick = { dispatch(ExplorerAction.UiAction.OnShowHiddenFilesClicked) },
                 )
             }
         )
         PopupMenuItem(
             title = stringResource(R.string.explorer_menu_sort_compact_packages),
-            onClick = onCompactPackagesClicked,
+            onClick = { dispatch(ExplorerAction.UiAction.OnCompactPackagesClicked) },
             trailing = {
                 CheckBox(
                     checked = compactPackages,
-                    onClick = onCompactPackagesClicked,
+                    onClick = { dispatch(ExplorerAction.UiAction.OnCompactPackagesClicked) },
                 )
             }
         )
         PopupMenuItem(
             title = stringResource(R.string.explorer_menu_sort_by_name),
-            onClick = { onSortModeSelected(SortMode.SORT_BY_NAME) },
+            onClick = { dispatch(ExplorerAction.UiAction.OnSortModeSelected(SortMode.SORT_BY_NAME)) },
             trailing = {
                 Radio(
                     checked = sortMode == SortMode.SORT_BY_NAME,
-                    onClick = { onSortModeSelected(SortMode.SORT_BY_NAME) },
+                    onClick = { dispatch(ExplorerAction.UiAction.OnSortModeSelected(SortMode.SORT_BY_NAME)) },
                 )
             }
         )
         PopupMenuItem(
             title = stringResource(R.string.explorer_menu_sort_by_size),
-            onClick = { onSortModeSelected(SortMode.SORT_BY_SIZE) },
+            onClick = { dispatch(ExplorerAction.UiAction.OnSortModeSelected(SortMode.SORT_BY_SIZE)) },
             trailing = {
                 Radio(
                     checked = sortMode == SortMode.SORT_BY_SIZE,
-                    onClick = { onSortModeSelected(SortMode.SORT_BY_SIZE) },
+                    onClick = { dispatch(ExplorerAction.UiAction.OnSortModeSelected(SortMode.SORT_BY_SIZE)) },
                 )
             }
         )
         PopupMenuItem(
             title = stringResource(R.string.explorer_menu_sort_by_date),
-            onClick = { onSortModeSelected(SortMode.SORT_BY_DATE) },
+            onClick = { dispatch(ExplorerAction.UiAction.OnSortModeSelected(SortMode.SORT_BY_DATE)) },
             trailing = {
                 Radio(
                     checked = sortMode == SortMode.SORT_BY_DATE,
-                    onClick = { onSortModeSelected(SortMode.SORT_BY_DATE) },
+                    onClick = { dispatch(ExplorerAction.UiAction.OnSortModeSelected(SortMode.SORT_BY_DATE)) },
                 )
             }
         )

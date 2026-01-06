@@ -136,7 +136,7 @@ internal class ExplorerViewModel @Inject constructor(
         if (selectedNodes.isNotEmpty()) {
             selectedNodes = emptyList()
             _viewState.update {
-                it.copy(selectedNodes = selectedNodes)
+                it.copy(selection = selectedNodes)
             }
         } else {
             viewModelScope.launch {
@@ -230,7 +230,7 @@ internal class ExplorerViewModel @Inject constructor(
         this.showHidden = !showHidden
         settingsManager.showHidden = showHidden
         _viewState.update {
-            it.copy(showHidden = showHidden)
+            it.copy(showHiddenFiles = showHidden)
         }
         viewModelScope.launch {
             updateNodeList()
@@ -306,7 +306,7 @@ internal class ExplorerViewModel @Inject constructor(
             selectedNodes -= fileNode
         }
         _viewState.update {
-            it.copy(selectedNodes = selectedNodes)
+            it.copy(selection = selectedNodes)
         }
     }
 
@@ -317,7 +317,7 @@ internal class ExplorerViewModel @Inject constructor(
 
             selectedNodes = emptyList()
             _viewState.update {
-                it.copy(selectedNodes = selectedNodes)
+                it.copy(selection = selectedNodes)
             }
         }
     }
@@ -332,7 +332,7 @@ internal class ExplorerViewModel @Inject constructor(
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedNodes = selectedNodes,
+                    selection = selectedNodes,
                 )
             }
 
@@ -350,7 +350,7 @@ internal class ExplorerViewModel @Inject constructor(
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedNodes = selectedNodes,
+                    selection = selectedNodes,
                 )
             }
 
@@ -368,7 +368,7 @@ internal class ExplorerViewModel @Inject constructor(
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedNodes = selectedNodes,
+                    selection = selectedNodes,
                 )
             }
 
@@ -385,7 +385,7 @@ internal class ExplorerViewModel @Inject constructor(
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedNodes = selectedNodes,
+                    selection = selectedNodes,
                 )
             }
 
@@ -403,7 +403,7 @@ internal class ExplorerViewModel @Inject constructor(
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedNodes = selectedNodes,
+                    selection = selectedNodes,
                 )
             }
             val message = stringProvider.getString(R.string.explorer_toast_select_folder_to_paste)
@@ -419,7 +419,7 @@ internal class ExplorerViewModel @Inject constructor(
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedNodes = selectedNodes,
+                    selection = selectedNodes,
                 )
             }
             val message = stringProvider.getString(R.string.explorer_toast_select_folder_to_paste)
@@ -499,7 +499,7 @@ internal class ExplorerViewModel @Inject constructor(
             _viewState.update {
                 it.copy(
                     taskType = taskType,
-                    selectedNodes = selectedNodes,
+                    selection = selectedNodes,
                 )
             }
 
@@ -514,7 +514,7 @@ internal class ExplorerViewModel @Inject constructor(
         _viewState.update {
             it.copy(
                 taskType = taskType,
-                selectedNodes = selectedNodes,
+                selection = selectedNodes,
             )
         }
     }
@@ -911,7 +911,7 @@ internal class ExplorerViewModel @Inject constructor(
                             workspaces = workspaces,
                             selectedWorkspace = selectedWorkspace,
                             searchQuery = searchQuery,
-                            showHidden = showHidden,
+                            showHiddenFiles = showHidden,
                             compactPackages = compactPackages,
                             sortMode = sortMode,
                         )
@@ -934,7 +934,7 @@ internal class ExplorerViewModel @Inject constructor(
             }
             showHidden = newValue
             _viewState.update {
-                it.copy(showHidden = showHidden)
+                it.copy(showHiddenFiles = showHidden)
             }
             viewModelScope.launch {
                 updateNodeList()
@@ -995,7 +995,7 @@ internal class ExplorerViewModel @Inject constructor(
         _viewState.update {
             it.copy(
                 taskType = taskType,
-                selectedNodes = selectedNodes,
+                selection = selectedNodes,
             )
         }
     }

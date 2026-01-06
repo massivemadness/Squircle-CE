@@ -21,7 +21,6 @@ import com.blacksquircle.ui.feature.themes.domain.model.ThemeModel
 import com.blacksquircle.ui.feature.themes.domain.repository.ThemeRepository
 import com.blacksquircle.ui.feature.themes.ui.themes.store.ThemesAction
 import com.blacksquircle.ui.feature.themes.ui.themes.store.ThemesState
-import com.blacksquircle.ui.redux.extensions.withLatestFrom
 import com.blacksquircle.ui.redux.middleware.Middleware
 import jakarta.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,6 +28,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 
@@ -40,23 +40,24 @@ internal class ThemesSearchMiddleware @Inject constructor(
 
     override fun bind(state: Flow<ThemesState>, actions: Flow<ThemesAction>): Flow<ThemesAction> {
         return actions.filterIsInstance<ThemesAction.UiAction.QueryAction>()
-            .withLatestFrom(state)
-            .flatMapLatest { (action, state) ->
+            .flatMapLatest { action ->
                 when (action) {
                     is ThemesAction.UiAction.OnQueryChanged -> {
+                        val currentState = state.first()
                         val action = ThemesAction.CommandAction.ThemesLoaded(
                             themes = loadThemes(query = action.query),
                             selectedUuid = settingsManager.editorTheme,
-                            typeface = state.typeface
+                            typeface = currentState.typeface
                         )
                         flowOf(action)
                     }
 
                     is ThemesAction.UiAction.OnClearQueryClicked -> {
+                        val currentState = state.first()
                         val action = ThemesAction.CommandAction.ThemesLoaded(
                             themes = loadThemes(query = ""),
                             selectedUuid = settingsManager.editorTheme,
-                            typeface = state.typeface
+                            typeface = currentState.typeface
                         )
                         flowOf(action)
                     }

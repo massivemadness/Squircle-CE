@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.explorer.menu
+package com.blacksquircle.ui.feature.explorer.ui.explorer.compose.menu
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,6 +25,7 @@ import com.blacksquircle.ui.ds.popupmenu.PopupMenuItem
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 
 @Composable
 internal fun SelectionMenu(
@@ -33,13 +34,7 @@ internal fun SelectionMenu(
     expanded: Boolean,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
-    onCutClicked: () -> Unit = {},
-    onOpenWithClicked: () -> Unit = {},
-    onOpenTerminalClicked: () -> Unit = {},
-    onRenameClicked: () -> Unit = {},
-    onPropertiesClicked: () -> Unit = {},
-    onCopyPathClicked: () -> Unit = {},
-    onCompressClicked: () -> Unit = {},
+    dispatch: (ExplorerAction.UiAction) -> Unit = {},
 ) {
     PopupMenu(
         expanded = expanded,
@@ -49,38 +44,38 @@ internal fun SelectionMenu(
     ) {
         PopupMenuItem(
             title = stringResource(android.R.string.cut),
-            onClick = onCutClicked,
+            onClick = { dispatch(ExplorerAction.UiAction.OnCutClicked) },
             enabled = workspaceType.isLocal(),
         )
         if (selection.size == 1) {
             if (workspaceType != WorkspaceType.SERVER) {
                 PopupMenuItem(
                     title = stringResource(R.string.explorer_menu_selection_open_with),
-                    onClick = onOpenWithClicked,
+                    onClick = { dispatch(ExplorerAction.UiAction.OnOpenWithClicked) },
                 )
                 if (selection.first().isDirectory) {
                     PopupMenuItem(
                         title = stringResource(R.string.explorer_menu_selection_open_terminal),
-                        onClick = onOpenTerminalClicked,
+                        onClick = { dispatch(ExplorerAction.UiAction.OnOpenTerminalClicked) },
                     )
                 }
             }
             PopupMenuItem(
                 title = stringResource(R.string.explorer_menu_selection_rename),
-                onClick = onRenameClicked,
+                onClick = { dispatch(ExplorerAction.UiAction.OnRenameClicked) },
             )
             PopupMenuItem(
                 title = stringResource(R.string.explorer_menu_selection_properties),
-                onClick = onPropertiesClicked,
+                onClick = { dispatch(ExplorerAction.UiAction.OnPropertiesClicked) },
             )
             PopupMenuItem(
                 title = stringResource(R.string.explorer_menu_selection_copy_path),
-                onClick = onCopyPathClicked,
+                onClick = { dispatch(ExplorerAction.UiAction.OnCopyPathClicked) },
             )
         }
         PopupMenuItem(
             title = stringResource(R.string.explorer_menu_selection_compress),
-            onClick = onCompressClicked,
+            onClick = { dispatch(ExplorerAction.UiAction.OnCompressClicked) },
             enabled = workspaceType.isLocal(),
         )
     }

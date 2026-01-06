@@ -29,17 +29,14 @@ import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.navigationitem.NavigationItem
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
 internal fun ExplorerActionBar(
     taskType: TaskType,
     modifier: Modifier = Modifier,
-    onRefreshClicked: () -> Unit = {},
-    onCloneClicked: () -> Unit = {},
-    onCreateClicked: () -> Unit = {},
-    onPasteClicked: () -> Unit = {},
-    onClearBufferClicked: () -> Unit = {},
+    dispatch: (ExplorerAction.UiAction) -> Unit = {},
 ) {
     val hasBuffer = taskType == TaskType.MOVE ||
         taskType == TaskType.COPY
@@ -54,38 +51,38 @@ internal fun ExplorerActionBar(
             NavigationItem(
                 iconResId = UiR.drawable.ic_autorenew,
                 label = stringResource(R.string.explorer_menu_selection_refresh),
-                onClick = onRefreshClicked,
+                onClick = { dispatch(ExplorerAction.UiAction.OnRefreshClicked) },
                 modifier = Modifier.weight(1f),
             )
             NavigationItem(
                 iconResId = UiR.drawable.ic_paste,
                 label = stringResource(android.R.string.paste),
-                onClick = onPasteClicked,
+                onClick = { dispatch(ExplorerAction.UiAction.OnPasteClicked) },
                 modifier = Modifier.weight(1f),
             )
             NavigationItem(
                 iconResId = UiR.drawable.ic_close,
                 label = stringResource(android.R.string.cancel),
-                onClick = onClearBufferClicked,
+                onClick = { dispatch(ExplorerAction.UiAction.OnClearBufferClicked) },
                 modifier = Modifier.weight(1f),
             )
         } else {
             NavigationItem(
                 iconResId = UiR.drawable.ic_autorenew,
                 label = stringResource(R.string.explorer_menu_selection_refresh),
-                onClick = onRefreshClicked,
+                onClick = { dispatch(ExplorerAction.UiAction.OnRefreshClicked) },
                 modifier = Modifier.weight(1f),
             )
             NavigationItem(
                 iconResId = UiR.drawable.ic_git,
                 label = stringResource(R.string.explorer_menu_selection_clone),
-                onClick = onCloneClicked,
+                onClick = { dispatch(ExplorerAction.UiAction.OnCloneClicked) },
                 modifier = Modifier.weight(1f),
             )
             NavigationItem(
                 iconResId = UiR.drawable.ic_plus,
                 label = stringResource(R.string.explorer_menu_selection_create),
-                onClick = onCreateClicked,
+                onClick = { dispatch(ExplorerAction.UiAction.OnCreateClicked) },
                 modifier = Modifier.weight(1f),
             )
         }

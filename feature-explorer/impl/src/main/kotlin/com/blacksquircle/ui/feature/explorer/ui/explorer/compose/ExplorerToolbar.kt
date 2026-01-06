@@ -45,9 +45,10 @@ import com.blacksquircle.ui.ds.toolbar.ToolbarSizeDefaults
 import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
-import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SelectionMenu
-import com.blacksquircle.ui.feature.explorer.ui.explorer.menu.SortingMenu
+import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.menu.SelectionMenu
+import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.menu.SortingMenu
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.ds.R as UiR
 
 @Composable
@@ -59,21 +60,7 @@ internal fun ExplorerToolbar(
     compactPackages: Boolean,
     sortMode: SortMode,
     modifier: Modifier = Modifier,
-    onQueryChanged: (String) -> Unit = {},
-    onClearQueryClicked: () -> Unit = {},
-    onShowHiddenClicked: () -> Unit = {},
-    onCompactPackagesClicked: () -> Unit = {},
-    onSortModeSelected: (SortMode) -> Unit = {},
-    onCopyClicked: () -> Unit = {},
-    onDeleteClicked: () -> Unit = {},
-    onCutClicked: () -> Unit = {},
-    onOpenWithClicked: () -> Unit = {},
-    onOpenTerminalClicked: () -> Unit = {},
-    onRenameClicked: () -> Unit = {},
-    onPropertiesClicked: () -> Unit = {},
-    onCopyPathClicked: () -> Unit = {},
-    onCompressClicked: () -> Unit = {},
-    onBackClicked: () -> Unit = {},
+    dispatch: (ExplorerAction.UiAction) -> Unit = {},
 ) {
     val selectionMode = selection.isNotEmpty()
     val rootSelected = selection.size == 1 && selection[0].isRoot
@@ -84,17 +71,19 @@ internal fun ExplorerToolbar(
     Toolbar(
         title = if (selectionMode) selection.size.toString() else null,
         navigationIcon = if (selectionMode) UiR.drawable.ic_back else null,
-        onNavigationClicked = onBackClicked,
+        onNavigationClicked = {
+            dispatch(ExplorerAction.UiAction.OnBackClicked)
+        },
         navigationActions = {
             if (selectionMode) {
                 BackHandler {
-                    onBackClicked()
+                    dispatch(ExplorerAction.UiAction.OnBackClicked)
                 }
             } else if (searchMode) {
                 val focusRequester = remember { FocusRequester() }
                 TextField(
                     inputText = searchQuery,
-                    onInputChanged = onQueryChanged,
+                    onInputChanged = { dispatch(ExplorerAction.UiAction.OnQueryChanged(it)) },
                     placeholderText = stringResource(android.R.string.search_go),
                     startContent = {
                         Icon(
@@ -109,7 +98,12 @@ internal fun ExplorerToolbar(
                             iconResId = UiR.drawable.ic_close,
                             iconButtonStyle = IconButtonStyleDefaults.Secondary,
                             iconButtonSize = IconButtonSizeDefaults.S,
-                            onClick = { onClearQueryClicked(); searchMode = false },
+                            onClick = {
+                                if (searchQuery.isNotEmpty()) {
+                                    dispatch(ExplorerAction.UiAction.OnClearQueryClicked)
+                                }
+                                searchMode = false
+                            },
                         )
                     },
                     modifier = Modifier
@@ -121,7 +115,9 @@ internal fun ExplorerToolbar(
                     focusRequester.requestFocus()
                 }
                 BackHandler {
-                    onClearQueryClicked()
+                    if (searchQuery.isNotEmpty()) {
+                        dispatch(ExplorerAction.UiAction.OnClearQueryClicked)
+                    }
                     searchMode = false
                 }
             } else {
@@ -145,13 +141,13 @@ internal fun ExplorerToolbar(
                 if (workspaceType.isLocal()) {
                     IconButton(
                         iconResId = UiR.drawable.ic_copy,
-                        onClick = onCopyClicked,
+                        onClick = { dispatch(ExplorerAction.UiAction.OnCopyClicked) },
                         contentDescription = stringResource(android.R.string.copy),
                     )
                 }
                 IconButton(
                     iconResId = UiR.drawable.ic_delete,
-                    onClick = onDeleteClicked,
+                    onClick = { dispatch(ExplorerAction.UiAction.OnDeleteClicked) },
                     contentDescription = stringResource(R.string.explorer_menu_selection_delete)
                 )
             }
@@ -167,13 +163,10 @@ internal fun ExplorerToolbar(
                             workspaceType = workspaceType,
                             expanded = expanded,
                             onDismiss = { expanded = false },
-                            onCutClicked = { expanded = false; onCutClicked() },
-                            onOpenWithClicked = { expanded = false; onOpenWithClicked() },
-                            onOpenTerminalClicked = { expanded = false; onOpenTerminalClicked() },
-                            onRenameClicked = { expanded = false; onRenameClicked() },
-                            onPropertiesClicked = { expanded = false; onPropertiesClicked() },
-                            onCopyPathClicked = { expanded = false; onCopyPathClicked() },
-                            onCompressClicked = { expanded = false; onCompressClicked() },
+                            dispatch = { action ->
+                                expanded = false
+                                dispatch(action)
+                            }
                         )
                     } else {
                         SortingMenu(
@@ -182,18 +175,10 @@ internal fun ExplorerToolbar(
                             showHidden = showHidden,
                             compactPackages = compactPackages,
                             sortMode = sortMode,
-                            onShowHiddenClicked = {
+                            dispatch = { action ->
                                 expanded = false
-                                onShowHiddenClicked()
-                            },
-                            onCompactPackagesClicked = {
-                                expanded = false
-                                onCompactPackagesClicked()
-                            },
-                            onSortModeSelected = {
-                                expanded = false
-                                onSortModeSelected(it)
-                            },
+                                dispatch(action)
+                            }
                         )
                     }
                 }
