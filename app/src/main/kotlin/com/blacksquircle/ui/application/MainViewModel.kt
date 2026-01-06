@@ -34,6 +34,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -56,12 +58,18 @@ internal class MainViewModel @Inject constructor(
 
     init {
         loadTheme()
-        registerOnPreferenceChangeListeners()
-    }
 
-    override fun onCleared() {
-        super.onCleared()
-        unregisterOnPreferenceChangeListeners()
+        settingsManager.collect(KEY_EDITOR_THEME)
+            .onEach { loadTheme() }
+            .launchIn(viewModelScope)
+
+        settingsManager.collect(KEY_FULLSCREEN_MODE)
+            .onEach {
+                _viewState.update {
+                    it.copy(fullscreenMode = settingsManager.fullScreenMode)
+                }
+            }
+            .launchIn(viewModelScope)
     }
 
     fun onUpdateAvailable() {
@@ -106,24 +114,6 @@ internal class MainViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    private fun registerOnPreferenceChangeListeners() {
-        settingsManager.registerListener(KEY_EDITOR_THEME) {
-            loadTheme()
-        }
-        settingsManager.registerListener(KEY_FULLSCREEN_MODE) {
-            viewModelScope.launch {
-                _viewState.update {
-                    it.copy(fullscreenMode = settingsManager.fullScreenMode)
-                }
-            }
-        }
-    }
-
-    private fun unregisterOnPreferenceChangeListeners() {
-        settingsManager.unregisterListener(KEY_EDITOR_THEME)
-        settingsManager.unregisterListener(KEY_FULLSCREEN_MODE)
     }
 
     private fun initialViewState(): MainViewState {

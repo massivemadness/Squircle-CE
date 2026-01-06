@@ -189,13 +189,15 @@ internal class FileTreeMiddleware @Inject constructor(
     }
 
     private suspend fun buildNodeList(state: ExplorerState): List<FileNode> {
-        val options = NodeBuilderOptions(
-            searchQuery = state.searchQuery,
-            showHidden = state.showHiddenFiles,
-            sortMode = state.sortMode,
-            foldersOnTop = state.foldersOnTop,
-            compactPackages = state.compactPackages,
+        return asyncNodeBuilder.buildNodeList(
+            nodes = fileNodeCache.getAll(),
+            options = NodeBuilderOptions(
+                searchQuery = state.searchQuery,
+                showHidden = state.showHiddenFiles,
+                sortMode = state.sortMode,
+                foldersOnTop = state.foldersOnTop,
+                compactPackages = state.compactPackages,
+            )
         )
-        return asyncNodeBuilder.buildNodeList(fileNodeCache.getAll(), options)
     }
 }

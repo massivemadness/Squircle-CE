@@ -25,10 +25,11 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.Explor
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.FileTreeMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.RenameFileMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.ServerMiddleware
-import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.SortFileMiddleware
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.SortingMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.WorkspaceMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer.ExplorerReducer
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer.FileTreeReducer
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer.SortingReducer
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer.WorkspaceReducer
 import com.blacksquircle.ui.redux.reducer.CompoundReducer
 import com.blacksquircle.ui.redux.store.Store
@@ -38,11 +39,12 @@ import javax.inject.Inject
 internal class ExplorerStore @Inject constructor(
     private val explorerReducer: ExplorerReducer,
     private val fileTreeReducer: FileTreeReducer,
+    private val sortingReducer: SortingReducer,
     private val workspaceReducer: WorkspaceReducer,
     private val explorerMiddleware: ExplorerMiddleware,
     private val workspaceMiddleware: WorkspaceMiddleware,
     private val fileTreeMiddleware: FileTreeMiddleware,
-    private val sortFileMiddleware: SortFileMiddleware,
+    private val sortingMiddleware: SortingMiddleware,
     private val createFileMiddleware: CreateFileMiddleware,
     private val renameFileMiddleware: RenameFileMiddleware,
     private val deleteFileMiddleware: DeleteFileMiddleware,
@@ -57,6 +59,7 @@ internal class ExplorerStore @Inject constructor(
             reducers = listOf(
                 explorerReducer,
                 fileTreeReducer,
+                sortingReducer,
                 workspaceReducer,
             )
         ),
@@ -64,7 +67,7 @@ internal class ExplorerStore @Inject constructor(
             explorerMiddleware,
             workspaceMiddleware,
             fileTreeMiddleware,
-            sortFileMiddleware,
+            sortingMiddleware,
             createFileMiddleware,
             renameFileMiddleware,
             deleteFileMiddleware,

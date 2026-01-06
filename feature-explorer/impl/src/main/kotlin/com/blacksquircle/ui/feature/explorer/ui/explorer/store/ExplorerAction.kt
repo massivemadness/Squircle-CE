@@ -25,6 +25,7 @@ import com.blacksquircle.ui.redux.MVIAction
 internal sealed interface ExplorerAction : MVIAction {
 
     data object Init : ExplorerAction
+    data object Empty : ExplorerAction
     data class Error(val error: Throwable) : ExplorerAction
 
     sealed interface UiAction : ExplorerAction {
@@ -38,9 +39,9 @@ internal sealed interface ExplorerAction : MVIAction {
         data class OnQueryChanged(val query: String) : QueryAction
         data object OnClearQueryClicked : QueryAction
 
-        data object OnShowHiddenFilesClicked : UiAction
-        data object OnCompactPackagesClicked : UiAction
-        data class OnSortModeSelected(val sortMode: SortMode) : UiAction
+        data class OnShowHiddenFilesChanged(val showHiddenFiles: Boolean) : UiAction
+        data class OnCompactPackagesChanged(val compactPackages: Boolean) : UiAction
+        data class OnSortModeChanged(val sortMode: SortMode) : UiAction
 
         data object OnCreateClicked : UiAction
         data object OnRenameClicked : UiAction
@@ -74,8 +75,18 @@ internal sealed interface ExplorerAction : MVIAction {
             val fileNode: FileNode,
         ) : CommandAction
 
+        data class WorkspaceSelected(
+            val workspace: WorkspaceModel,
+            val fileNode: FileNode,
+        ) : CommandAction
+
         data class LoadFiles(val fileNode: FileNode) : CommandAction
         data class LoadFilesError(val fileNode: FileNode, val error: Throwable) : CommandAction
         data class UpdateFiles(val fileNodes: List<FileNode>) : CommandAction
+
+        data class ShowHiddenFilesUpdated(val showHiddenFiles: Boolean) : CommandAction
+        data class CompactPackagesUpdated(val compactPackages: Boolean) : CommandAction
+        data class FoldersOnTopUpdated(val foldersOnTop: Boolean) : CommandAction
+        data class SortModeUpdated(val sortMode: SortMode) : CommandAction
     }
 }

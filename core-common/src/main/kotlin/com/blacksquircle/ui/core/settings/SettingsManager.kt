@@ -18,8 +18,9 @@ package com.blacksquircle.ui.core.settings
 
 import android.content.Context
 import android.content.SharedPreferences
-
-typealias OnChangedListener = () -> Unit
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
 class SettingsManager(private val context: Context) {
 
@@ -241,17 +242,6 @@ class SettingsManager(private val context: Context) {
         get() = sharedPreferences.getBoolean(KEY_GIT_RECURSIVE_SUBMODULES, false)
         set(value) = sharedPreferences.edit().putBoolean(KEY_GIT_RECURSIVE_SUBMODULES, value).apply()
 
-    private val listeners = HashMap<String, OnChangedListener>()
-    private val callback = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-        if (key in listeners.keys) {
-            listeners[key]?.invoke()
-        }
-    }
-
-    init {
-        sharedPreferences.registerOnSharedPreferenceChangeListener(callback)
-    }
-
     fun load(key: String, defaultValue: String): String {
         return sharedPreferences.getString(key, defaultValue) ?: defaultValue
     }
@@ -264,11 +254,16 @@ class SettingsManager(private val context: Context) {
         sharedPreferences.edit().remove(key).apply()
     }
 
-    fun registerListener(key: String, onValueChanged: OnChangedListener) {
-        listeners[key] = onValueChanged
-    }
+    fun collect(key: String): Flow<Unit> = callbackFlow {
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, changedKey ->
+            if (changedKey == key) {
+                trySend(Unit)
+            }
+        }
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
 
-    fun unregisterListener(key: String) {
-        listeners.remove(key)
+        awaitClose {
+            sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
+        }
     }
 }

@@ -16,8 +16,6 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer
 
-import android.Manifest
-import android.os.Build
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -38,17 +36,14 @@ import com.blacksquircle.ui.core.contract.PermissionResult
 import com.blacksquircle.ui.core.contract.rememberStorageContract
 import com.blacksquircle.ui.core.effect.CleanupEffect
 import com.blacksquircle.ui.core.effect.ResultEffect
-import com.blacksquircle.ui.core.extensions.copyText
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
-import com.blacksquircle.ui.core.mvi.ViewEvent
 import com.blacksquircle.ui.ds.PreviewBackground
 import com.blacksquircle.ui.ds.SquircleTheme
 import com.blacksquircle.ui.ds.divider.VerticalDivider
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
-import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
@@ -58,6 +53,7 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.ExplorerToolbar
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.FileExplorer
 import com.blacksquircle.ui.feature.explorer.ui.explorer.compose.Workspaces
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerEvent
 import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.filesystem.local.LocalFilesystem
 import com.blacksquircle.ui.filesystem.root.RootFilesystem
@@ -100,17 +96,19 @@ internal fun ExplorerScreen(
         when (result) {
             PermissionResult.DENIED,
             PermissionResult.DENIED_FOREVER -> viewModel.onPermissionDenied()
+
             PermissionResult.GRANTED -> viewModel.onPermissionGranted()
         }
     }
 
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        viewModel.viewEvent.collect { event ->
+        viewModel2.events.collect { event ->
             when (event) {
-                is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ExplorerViewEvent.CloseDrawer -> closeDrawer()
-                is ExplorerViewEvent.RequestPermission -> {
+                is ExplorerEvent.Toast -> context.showToast(text = event.message)
+                is ExplorerEvent.CloseDrawer -> closeDrawer()
+
+                /*is ExplorerViewEvent.RequestPermission -> {
                     storageContract.launch(
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                             Manifest.permission.MANAGE_EXTERNAL_STORAGE
@@ -124,7 +122,7 @@ internal fun ExplorerScreen(
                 }
                 is ExplorerViewEvent.CopyPath -> {
                     context.copyText(event.fileModel.path)
-                }
+                }*/
             }
         }
     }

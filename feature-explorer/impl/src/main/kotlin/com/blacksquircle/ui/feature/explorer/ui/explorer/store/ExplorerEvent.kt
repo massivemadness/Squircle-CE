@@ -20,4 +20,5 @@ import com.blacksquircle.ui.redux.MVIEvent
 
 internal sealed interface ExplorerEvent : MVIEvent {
     data class Toast(val message: String) : ExplorerEvent
+    data object CloseDrawer : ExplorerEvent
 }

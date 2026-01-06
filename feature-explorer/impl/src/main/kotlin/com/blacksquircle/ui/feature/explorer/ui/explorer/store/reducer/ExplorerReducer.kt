@@ -31,6 +31,16 @@ internal class ExplorerReducer @Inject constructor(
         when (action) {
             is ExplorerAction.Init -> Unit
             is ExplorerAction.Error -> Unit
+            is ExplorerAction.UiAction.OnBackClicked -> {
+                if (state.selection.isNotEmpty()) {
+                    state {
+                        copy(selection = emptyList())
+                    }
+                } else {
+                    event(ExplorerEvent.CloseDrawer)
+                }
+            }
+
             else -> Unit
         }
     }

@@ -16,11 +16,13 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer
 
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerEvent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerState
 import com.blacksquircle.ui.redux.reducer.Reducer
 import javax.inject.Inject
+import kotlin.collections.emptyList
 
 internal class WorkspaceReducer @Inject constructor() : Reducer<ExplorerState, ExplorerAction, ExplorerEvent>() {
 
@@ -37,10 +39,29 @@ internal class WorkspaceReducer @Inject constructor() : Reducer<ExplorerState, E
                         sortMode = action.sortMode,
                     )
                 }
-
-                // Load files automatically
                 action(ExplorerAction.CommandAction.LoadFiles(action.fileNode))
             }
+
+            is ExplorerAction.UiAction.OnWorkspaceClicked -> {
+                if (action.workspace.uuid == state.selectedWorkspace?.uuid) {
+                    return
+                }
+                state {
+                    copy(
+                        taskType = TaskType.CREATE,
+                        taskBuffer = emptyList(),
+                        selection = emptyList(),
+                    )
+                }
+            }
+
+            is ExplorerAction.CommandAction.WorkspaceSelected -> {
+                state {
+                    copy(selectedWorkspace = action.workspace)
+                }
+                action(ExplorerAction.CommandAction.LoadFiles(action.fileNode))
+            }
+
             else -> Unit
         }
     }
