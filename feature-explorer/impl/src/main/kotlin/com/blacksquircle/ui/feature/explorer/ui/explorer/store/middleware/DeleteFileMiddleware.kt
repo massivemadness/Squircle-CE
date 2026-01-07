@@ -89,35 +89,35 @@ internal class DeleteFileMiddleware @Inject constructor(
 
                 emit(ExplorerAction.CommandAction.ResetBuffer)
 
-                taskManager.monitor(taskId).collect { task ->
-                    when (val status = task.status) {
-                        is TaskStatus.Error -> {
-                            emit(ExplorerAction.CommandAction.TaskFailed(status.exception))
-                        }
+                val task = taskManager.monitor(taskId).first { it.isFinished }
 
-                        is TaskStatus.Done -> {
-                            emit(ExplorerAction.CommandAction.TaskComplete(task))
-
-                            fileNodes.forEach { removedNode ->
-                                fileNodeCache.removeNode(removedNode)
-                                editorInteractor.deleteFile(removedNode.file)
-                            }
-
-                            val fileNodes = asyncNodeBuilder.buildNodeList(
-                                nodes = fileNodeCache.getAll(),
-                                options = NodeBuilderOptions(
-                                    searchQuery = currentState.searchQuery,
-                                    showHidden = currentState.showHiddenFiles,
-                                    sortMode = currentState.sortMode,
-                                    foldersOnTop = currentState.foldersOnTop,
-                                    compactPackages = currentState.compactPackages,
-                                )
-                            )
-                            emit(ExplorerAction.CommandAction.RenderNodeList(fileNodes))
-                        }
-
-                        else -> Unit
+                when (val status = task.status) {
+                    is TaskStatus.Error -> {
+                        emit(ExplorerAction.CommandAction.TaskFailed(status.exception))
                     }
+
+                    is TaskStatus.Done -> {
+                        emit(ExplorerAction.CommandAction.TaskComplete(task))
+
+                        fileNodes.forEach { removedNode ->
+                            fileNodeCache.removeNode(removedNode)
+                            editorInteractor.deleteFile(removedNode.file)
+                        }
+
+                        val fileNodes = asyncNodeBuilder.buildNodeList(
+                            nodes = fileNodeCache.getAll(),
+                            options = NodeBuilderOptions(
+                                searchQuery = currentState.searchQuery,
+                                showHidden = currentState.showHiddenFiles,
+                                sortMode = currentState.sortMode,
+                                foldersOnTop = currentState.foldersOnTop,
+                                compactPackages = currentState.compactPackages,
+                            )
+                        )
+                        emit(ExplorerAction.CommandAction.RenderNodeList(fileNodes))
+                    }
+
+                    else -> Unit
                 }
             }
     }

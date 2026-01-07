@@ -22,12 +22,16 @@ import com.blacksquircle.ui.redux.MVIState
 import com.blacksquircle.ui.redux.middleware.Middleware
 import com.blacksquircle.ui.redux.reducer.Reducer
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 
 internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEvent>(
@@ -37,7 +41,8 @@ internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEvent>(
     private val middlewares: List<Middleware<S, A>>,
 ) : Store<S, A, E> {
 
-    private val actions = MutableSharedFlow<A>(extraBufferCapacity = DEFAULT_BUFFER_SIZE)
+    private val actions = Channel<A>(Channel.UNLIMITED)
+    private val commands = MutableSharedFlow<A>()
 
     private val _state = MutableStateFlow(initialState)
     override val state: StateFlow<S> = _state
@@ -45,44 +50,32 @@ internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEvent>(
     private val _events = Channel<E>(Channel.UNLIMITED)
     override val events: Flow<E> = _events.receiveAsFlow()
 
-    private lateinit var scope: CoroutineScope
-
     override fun wire(scope: CoroutineScope) {
-        this.scope = scope
-
         scope.launch {
-            actions.collect { action ->
+            for (action in actions) {
                 val update = reducer.reduce(_state.value, action)
                 update.state?.let { _state.value = it }
                 update.events.forEach { _events.send(it) }
-                update.actions.forEach { actions.emit(it) }
+                update.actions.forEach { commands.emit(it) }
+
+                commands.emit(action)
             }
         }
 
         middlewares.forEach { middleware ->
             scope.launch {
-                middleware.bind(state, actions).collect { action ->
-                    actions.emit(action)
+                middleware.bind(state, commands).collect { action ->
+                    actions.send(action)
                 }
             }
         }
 
         initialAction?.let { action ->
-            scope.launch {
-                actions.emit(action)
-            }
+            dispatch(action)
         }
     }
 
     override fun dispatch(action: A) {
-        if (!actions.tryEmit(action)) {
-            scope.launch {
-                actions.emit(action)
-            }
-        }
-    }
-
-    companion object {
-        private const val DEFAULT_BUFFER_SIZE = 64
+        actions.trySend(action)
     }
 }

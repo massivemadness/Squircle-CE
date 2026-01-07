@@ -34,7 +34,7 @@ internal class FileTreeReducer @Inject constructor() : Reducer<ExplorerState, Ex
             is ExplorerAction.UiAction.OnFileClicked -> {
                 when {
                     state.selection.isNotEmpty() -> {
-                        action(ExplorerAction.UiAction.OnFileSelected(action.fileNode))
+                        reduce(ExplorerAction.UiAction.OnFileSelected(action.fileNode))
                     }
                     action.fileNode.isDirectory -> {
                         if (action.fileNode.isExpanded) {

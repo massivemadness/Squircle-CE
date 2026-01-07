@@ -78,25 +78,25 @@ internal class RenameFileMiddleware @Inject constructor(
 
                 emit(ExplorerAction.CommandAction.ResetBuffer)
 
-                taskManager.monitor(taskId).collect { task ->
-                    when (val status = task.status) {
-                        is TaskStatus.Error -> {
-                            emit(ExplorerAction.CommandAction.TaskFailed(status.exception))
-                        }
+                val task = taskManager.monitor(taskId).first { it.isFinished }
 
-                        is TaskStatus.Done -> {
-                            emit(ExplorerAction.CommandAction.TaskComplete(task))
-
-                            editorInteractor.renameFile(fileNode.file, action.fileName)
-
-                            val parentNode = fileNodeCache.parentNode(fileNode)
-                            if (parentNode != null) {
-                                emit(ExplorerAction.CommandAction.LoadFiles(parentNode))
-                            }
-                        }
-
-                        else -> Unit
+                when (val status = task.status) {
+                    is TaskStatus.Error -> {
+                        emit(ExplorerAction.CommandAction.TaskFailed(status.exception))
                     }
+
+                    is TaskStatus.Done -> {
+                        emit(ExplorerAction.CommandAction.TaskComplete(task))
+
+                        editorInteractor.renameFile(fileNode.file, action.fileName)
+
+                        val parentNode = fileNodeCache.parentNode(fileNode)
+                        if (parentNode != null) {
+                            emit(ExplorerAction.CommandAction.LoadFiles(parentNode))
+                        }
+                    }
+
+                    else -> Unit
                 }
             }
     }

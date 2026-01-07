@@ -77,21 +77,21 @@ internal class MoveFileMiddleware @Inject constructor(
 
                 emit(ExplorerAction.CommandAction.ResetBuffer)
 
-                taskManager.monitor(taskId).collect { task ->
-                    when (val status = task.status) {
-                        is TaskStatus.Error -> {
-                            emit(ExplorerAction.CommandAction.TaskFailed(status.exception))
-                        }
+                val task = taskManager.monitor(taskId).first { it.isFinished }
 
-                        is TaskStatus.Done -> {
-                            fileNodes.forEach(fileNodeCache::removeNode)
-
-                            emit(ExplorerAction.CommandAction.TaskComplete(task))
-                            emit(ExplorerAction.CommandAction.LoadFiles(parentNode))
-                        }
-
-                        else -> Unit
+                when (val status = task.status) {
+                    is TaskStatus.Error -> {
+                        emit(ExplorerAction.CommandAction.TaskFailed(status.exception))
                     }
+
+                    is TaskStatus.Done -> {
+                        fileNodes.forEach(fileNodeCache::removeNode)
+
+                        emit(ExplorerAction.CommandAction.TaskComplete(task))
+                        emit(ExplorerAction.CommandAction.LoadFiles(parentNode))
+                    }
+
+                    else -> Unit
                 }
             }
     }

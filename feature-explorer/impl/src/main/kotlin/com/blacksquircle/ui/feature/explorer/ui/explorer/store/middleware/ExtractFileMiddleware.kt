@@ -28,6 +28,7 @@ import com.blacksquircle.ui.redux.middleware.Middleware
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
@@ -57,19 +58,19 @@ internal class ExtractFileMiddleware @Inject constructor(
 
                 emit(ExplorerAction.CommandAction.ResetBuffer)
 
-                taskManager.monitor(taskId).collect { task ->
-                    when (val status = task.status) {
-                        is TaskStatus.Error -> {
-                            emit(ExplorerAction.CommandAction.TaskFailed(status.exception))
-                        }
+                val task = taskManager.monitor(taskId).first { it.isFinished }
 
-                        is TaskStatus.Done -> {
-                            emit(ExplorerAction.CommandAction.TaskComplete(task))
-                            emit(ExplorerAction.CommandAction.LoadFiles(parent))
-                        }
-
-                        else -> Unit
+                when (val status = task.status) {
+                    is TaskStatus.Error -> {
+                        emit(ExplorerAction.CommandAction.TaskFailed(status.exception))
                     }
+
+                    is TaskStatus.Done -> {
+                        emit(ExplorerAction.CommandAction.TaskComplete(task))
+                        emit(ExplorerAction.CommandAction.LoadFiles(parent))
+                    }
+
+                    else -> Unit
                 }
             }
     }
