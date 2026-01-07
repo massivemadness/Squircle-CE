@@ -22,16 +22,12 @@ import com.blacksquircle.ui.redux.MVIState
 import com.blacksquircle.ui.redux.middleware.Middleware
 import com.blacksquircle.ui.redux.reducer.Reducer
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 
 internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEvent>(

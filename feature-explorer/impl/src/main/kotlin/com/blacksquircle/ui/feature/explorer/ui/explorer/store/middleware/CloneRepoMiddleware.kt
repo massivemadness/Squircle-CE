@@ -17,7 +17,11 @@
 package com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware
 
 import com.blacksquircle.ui.feature.explorer.api.navigation.CloneRepoRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.TaskRoute
+import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerState
 import com.blacksquircle.ui.navigation.api.Navigator
@@ -27,19 +31,23 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 
 internal class CloneRepoMiddleware @Inject constructor(
+    private val explorerRepository: ExplorerRepository,
+    private val taskManager: TaskManager,
     private val navigator: Navigator,
 ) : Middleware<ExplorerState, ExplorerAction> {
 
     override fun bind(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return merge(
-            onCloneRepoClicked(state, actions)
+            onCloneClicked(state, actions),
+            onCloneRepoClicked(state, actions),
         )
     }
 
-    private fun onCloneRepoClicked(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
+    private fun onCloneClicked(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return actions.filterIsInstance<ExplorerAction.UiAction.OnCloneClicked>()
             .map {
                 val currentState = state.first()
@@ -50,6 +58,36 @@ internal class CloneRepoMiddleware @Inject constructor(
                     taskType = TaskType.CLONE,
                     taskBuffer = listOf(fileNode),
                 )
+            }
+    }
+
+    private fun onCloneRepoClicked(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
+        return actions.filterIsInstance<ExplorerAction.UiAction.OnCloneRepoClicked>()
+            .transform { action ->
+                val currentState = state.first()
+
+                val parentNode = currentState.taskBuffer.first()
+
+                val taskId = explorerRepository.cloneRepository(parentNode.file, action.url)
+                val screen = TaskRoute(taskId)
+                navigator.navigate(screen)
+
+                emit(ExplorerAction.CommandAction.ResetBuffer)
+
+                val task = taskManager.monitor(taskId).first { it.isFinished }
+
+                when (val status = task.status) {
+                    is TaskStatus.Error -> {
+                        emit(ExplorerAction.CommandAction.TaskFailed(status.exception))
+                    }
+
+                    is TaskStatus.Done -> {
+                        emit(ExplorerAction.CommandAction.TaskComplete(task))
+                        emit(ExplorerAction.CommandAction.LoadFiles(parentNode))
+                    }
+
+                    else -> Unit
+                }
             }
     }
 }

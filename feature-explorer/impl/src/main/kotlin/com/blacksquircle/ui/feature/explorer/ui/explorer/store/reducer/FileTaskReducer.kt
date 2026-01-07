@@ -81,6 +81,18 @@ internal class FileTaskReducer @Inject constructor(
                 }
             }
 
+            is ExplorerAction.UiAction.OnCopyPathClicked -> {
+                val fileNode = state.selection.firstOrNull() ?: return
+                event(ExplorerEvent.CopyFilePath(fileNode.file))
+                state {
+                    copy(
+                        taskType = TaskType.CREATE,
+                        taskBuffer = emptyList(),
+                        selection = emptyList(),
+                    )
+                }
+            }
+
             is ExplorerAction.CommandAction.TaskComplete -> {
                 val message = stringProvider.getString(R.string.explorer_toast_done)
                 event(ExplorerEvent.Toast(message))

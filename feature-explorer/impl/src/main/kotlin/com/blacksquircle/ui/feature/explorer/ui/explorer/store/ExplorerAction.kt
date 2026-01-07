@@ -65,7 +65,9 @@ internal sealed interface ExplorerAction : MVIAction {
         data object OnDeleteFileClicked : UiAction
         data class OnCopyFileClicked(val parent: FileNode) : UiAction
         data class OnMoveFileClicked(val parent: FileNode) : UiAction
+        data class OnCompressFileClicked(val fileName: String) : UiAction
         data class OnExtractFileClicked(val fileNode: FileNode) : UiAction
+        data class OnCloneRepoClicked(val url: String) : UiAction
 
         data class OnFileClicked(val fileNode: FileNode) : UiAction
         data class OnFileSelected(val fileNode: FileNode) : UiAction

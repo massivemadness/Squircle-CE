@@ -66,6 +66,18 @@ internal class FileNodeCache {
         return parentNode
     }
 
+    fun ensureCommonParentKey(fileNodes: List<FileNode>): Boolean {
+        if (fileNodes.isEmpty()) {
+            return false
+        }
+        val parentKey = cache.findParentKey(fileNodes.first().key)
+            ?: return false
+
+        return fileNodes.all { node ->
+            cache.findParentKey(node.key) == parentKey
+        }
+    }
+
     fun contains(key: NodeKey): Boolean {
         return cache[key] != null
     }

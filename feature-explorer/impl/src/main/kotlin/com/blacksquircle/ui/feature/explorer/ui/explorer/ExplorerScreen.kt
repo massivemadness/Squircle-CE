@@ -36,6 +36,7 @@ import com.blacksquircle.ui.core.contract.PermissionResult
 import com.blacksquircle.ui.core.contract.rememberStorageContract
 import com.blacksquircle.ui.core.effect.CleanupEffect
 import com.blacksquircle.ui.core.effect.ResultEffect
+import com.blacksquircle.ui.core.extensions.copyText
 import com.blacksquircle.ui.core.extensions.daggerViewModel
 import com.blacksquircle.ui.core.extensions.showToast
 import com.blacksquircle.ui.ds.PreviewBackground
@@ -106,12 +107,21 @@ internal fun ExplorerScreen(
     LaunchedEffect(Unit) {
         viewModel2.events.collect { event ->
             when (event) {
-                is ExplorerEvent.Toast -> context.showToast(text = event.message)
+                is ExplorerEvent.Toast -> {
+                    context.showToast(text = event.message)
+                }
+
                 is ExplorerEvent.OpenFileWith -> {
                     context.openFileWith(event.fileModel)
                 }
 
-                is ExplorerEvent.CloseDrawer -> closeDrawer()
+                is ExplorerEvent.CopyFilePath -> {
+                    context.copyText(event.fileModel.path)
+                }
+
+                is ExplorerEvent.CloseDrawer -> {
+                    closeDrawer()
+                }
 
                 /*is ExplorerViewEvent.RequestPermission -> {
                     storageContract.launch(
@@ -121,9 +131,6 @@ internal fun ExplorerScreen(
                             Manifest.permission.WRITE_EXTERNAL_STORAGE
                         }
                     )
-                }
-                is ExplorerViewEvent.CopyPath -> {
-                    context.copyText(event.fileModel.path)
                 }*/
             }
         }
@@ -139,7 +146,7 @@ internal fun ExplorerScreen(
         viewModel2.dispatch(ExplorerAction.UiAction.OnCreateFileClicked(fileName, isFolder = true))
     }
     ResultEffect<String>(KEY_CLONE_REPO) { url ->
-        viewModel.cloneRepository(url)
+        viewModel2.dispatch(ExplorerAction.UiAction.OnCloneRepoClicked(url))
     }
     ResultEffect<String>(KEY_RENAME_FILE) { fileName ->
         viewModel2.dispatch(ExplorerAction.UiAction.OnRenameFileClicked(fileName))

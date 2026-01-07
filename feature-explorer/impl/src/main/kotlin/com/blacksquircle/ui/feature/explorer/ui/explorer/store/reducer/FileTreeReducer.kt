@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer
 
 import com.blacksquircle.ui.core.extensions.indexOf
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerEvent
@@ -36,6 +37,7 @@ internal class FileTreeReducer @Inject constructor() : Reducer<ExplorerState, Ex
                     state.selection.isNotEmpty() -> {
                         reduce(ExplorerAction.UiAction.OnFileSelected(action.fileNode))
                     }
+
                     action.fileNode.isDirectory -> {
                         if (action.fileNode.isExpanded) {
                             action(ExplorerAction.UiAction.OnCollapseClicked(action.fileNode))
@@ -43,6 +45,7 @@ internal class FileTreeReducer @Inject constructor() : Reducer<ExplorerState, Ex
                             action(ExplorerAction.UiAction.OnExpandClicked(action.fileNode))
                         }
                     }
+
                     else -> when (action.fileNode.file.type) {
                         FileType.ARCHIVE -> {
                             action(ExplorerAction.UiAction.OnExtractFileClicked(action.fileNode))
@@ -79,6 +82,21 @@ internal class FileTreeReducer @Inject constructor() : Reducer<ExplorerState, Ex
                         } else {
                             selection - fileNode
                         }
+                    )
+                }
+            }
+
+            is ExplorerAction.UiAction.OnOpenWithClicked -> {
+                val fileNode = state.selection.firstOrNull()
+                if (fileNode != null) {
+                    event(ExplorerEvent.OpenFileWith(fileNode.file))
+                }
+
+                state {
+                    copy(
+                        taskType = TaskType.CREATE,
+                        taskBuffer = emptyList(),
+                        selection = emptyList(),
                     )
                 }
             }
