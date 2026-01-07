@@ -63,7 +63,7 @@ internal fun ExplorerActionBar(
             NavigationItem(
                 iconResId = UiR.drawable.ic_close,
                 label = stringResource(android.R.string.cancel),
-                onClick = { dispatch(ExplorerAction.UiAction.OnClearBufferClicked) },
+                onClick = { dispatch(ExplorerAction.UiAction.OnResetBufferClicked) },
                 modifier = Modifier.weight(1f),
             )
         } else {

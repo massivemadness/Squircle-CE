@@ -17,7 +17,11 @@
 package com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware
 
 import com.blacksquircle.ui.feature.explorer.api.navigation.CreateFileRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.TaskRoute
+import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerState
 import com.blacksquircle.ui.navigation.api.Navigator
@@ -27,15 +31,19 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 
 internal class CreateFileMiddleware @Inject constructor(
+    private val explorerRepository: ExplorerRepository,
+    private val taskManager: TaskManager,
     private val navigator: Navigator,
 ) : Middleware<ExplorerState, ExplorerAction> {
 
     override fun bind(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return merge(
-            onCreateClicked(state, actions)
+            onCreateClicked(state, actions),
+            onCreateFileClicked(state, actions),
         )
     }
 
@@ -50,6 +58,36 @@ internal class CreateFileMiddleware @Inject constructor(
                     taskType = TaskType.CREATE,
                     taskBuffer = listOf(fileNode)
                 )
+            }
+    }
+
+    private fun onCreateFileClicked(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
+        return actions.filterIsInstance<ExplorerAction.UiAction.OnCreateFileClicked>()
+            .transform { action ->
+                val currentState = state.first()
+
+                val parentNode = currentState.taskBuffer.first()
+
+                val taskId = explorerRepository.createFile(parentNode.file, action.fileName, action.isFolder)
+                val screen = TaskRoute(taskId)
+                navigator.navigate(screen)
+
+                emit(ExplorerAction.CommandAction.ResetBuffer)
+
+                taskManager.monitor(taskId).collect { task ->
+                    when (val status = task.status) {
+                        is TaskStatus.Error -> {
+                            emit(ExplorerAction.CommandAction.TaskFailed(status.exception))
+                        }
+
+                        is TaskStatus.Done -> {
+                            emit(ExplorerAction.CommandAction.TaskComplete(task))
+                            emit(ExplorerAction.CommandAction.LoadFiles(parentNode))
+                        }
+
+                        else -> Unit
+                    }
+                }
             }
     }
 }

@@ -48,6 +48,7 @@ internal class FileTaskReducer @Inject constructor(
                 }
             }
 
+            is ExplorerAction.UiAction.OnResetBufferClicked,
             is ExplorerAction.CommandAction.ResetBuffer -> {
                 state {
                     copy(

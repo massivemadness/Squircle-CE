@@ -44,6 +44,7 @@ import com.blacksquircle.ui.ds.divider.VerticalDivider
 import com.blacksquircle.ui.ds.emptyview.EmptyView
 import com.blacksquircle.ui.ds.progress.CircularProgress
 import com.blacksquircle.ui.ds.scaffold.ScaffoldSuite
+import com.blacksquircle.ui.feature.explorer.data.utils.openFileWith
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceType
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
@@ -106,6 +107,10 @@ internal fun ExplorerScreen(
         viewModel2.events.collect { event ->
             when (event) {
                 is ExplorerEvent.Toast -> context.showToast(text = event.message)
+                is ExplorerEvent.OpenFileWith -> {
+                    context.openFileWith(event.fileModel)
+                }
+
                 is ExplorerEvent.CloseDrawer -> closeDrawer()
 
                 /*is ExplorerViewEvent.RequestPermission -> {
@@ -116,9 +121,6 @@ internal fun ExplorerScreen(
                             Manifest.permission.WRITE_EXTERNAL_STORAGE
                         }
                     )
-                }
-                is ExplorerViewEvent.OpenFileWith -> {
-                    context.openFileWith(event.fileModel)
                 }
                 is ExplorerViewEvent.CopyPath -> {
                     context.copyText(event.fileModel.path)
@@ -131,19 +133,19 @@ internal fun ExplorerScreen(
         viewModel.onCredentialsEntered(credentials)
     }
     ResultEffect<String>(KEY_CREATE_FILE) { fileName ->
-        viewModel.createFile(fileName)
+        viewModel2.dispatch(ExplorerAction.UiAction.OnCreateFileClicked(fileName, isFolder = false))
     }
     ResultEffect<String>(KEY_CREATE_FOLDER) { fileName ->
-        viewModel.createFolder(fileName)
+        viewModel2.dispatch(ExplorerAction.UiAction.OnCreateFileClicked(fileName, isFolder = true))
     }
     ResultEffect<String>(KEY_CLONE_REPO) { url ->
         viewModel.cloneRepository(url)
     }
     ResultEffect<String>(KEY_RENAME_FILE) { fileName ->
-        viewModel.renameFile(fileName)
+        viewModel2.dispatch(ExplorerAction.UiAction.OnRenameFileClicked(fileName))
     }
     ResultEffect<Unit>(KEY_DELETE_FILE) {
-        viewModel.deleteFile()
+        viewModel2.dispatch(ExplorerAction.UiAction.OnDeleteFileClicked)
     }
     ResultEffect<String>(KEY_COMPRESS_FILE) { fileName ->
         viewModel.compressFiles(fileName)

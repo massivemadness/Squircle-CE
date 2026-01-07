@@ -51,7 +51,7 @@ internal sealed interface ExplorerAction : MVIAction {
         data object OnCopyClicked : UiAction
         data object OnPasteClicked : UiAction
         data object OnCompressClicked : UiAction
-        data object OnClearBufferClicked : UiAction
+        data object OnResetBufferClicked : UiAction
         data object OnCloneClicked : UiAction
         data object OnOpenWithClicked : UiAction
         data object OnOpenTerminalClicked : UiAction
@@ -59,6 +59,10 @@ internal sealed interface ExplorerAction : MVIAction {
         data object OnCopyPathClicked : UiAction
         data class OnErrorActionClicked(val errorAction: ErrorAction) : UiAction
 
+        data class OnOpenFileClicked(val fileNode: FileNode) : UiAction
+        data class OnCreateFileClicked(val fileName: String, val isFolder: Boolean) : UiAction
+        data class OnRenameFileClicked(val fileName: String) : UiAction
+        data object OnDeleteFileClicked : UiAction
         data class OnCopyFileClicked(val parent: FileNode) : UiAction
         data class OnMoveFileClicked(val parent: FileNode) : UiAction
         data class OnExtractFileClicked(val fileNode: FileNode) : UiAction

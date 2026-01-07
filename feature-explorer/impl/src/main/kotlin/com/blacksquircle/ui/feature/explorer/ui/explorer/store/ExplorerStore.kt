@@ -25,6 +25,7 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.Explor
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.ExtractFileMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.FileTreeMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.MoveFileMiddleware
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.OpenFileMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.RenameFileMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.ServerMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.SortingMiddleware
@@ -49,6 +50,7 @@ internal class ExplorerStore @Inject constructor(
     private val workspaceMiddleware: WorkspaceMiddleware,
     private val fileTreeMiddleware: FileTreeMiddleware,
     private val sortingMiddleware: SortingMiddleware,
+    private val openFileMiddleware: OpenFileMiddleware,
     private val createFileMiddleware: CreateFileMiddleware,
     private val renameFileMiddleware: RenameFileMiddleware,
     private val deleteFileMiddleware: DeleteFileMiddleware,
@@ -75,6 +77,7 @@ internal class ExplorerStore @Inject constructor(
             workspaceMiddleware,
             fileTreeMiddleware,
             sortingMiddleware,
+            openFileMiddleware,
             createFileMiddleware,
             renameFileMiddleware,
             deleteFileMiddleware,

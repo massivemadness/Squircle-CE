@@ -16,8 +16,14 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware
 
+import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.api.navigation.RenameFileRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.TaskRoute
+import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.data.node.FileNodeCache
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerState
 import com.blacksquircle.ui.navigation.api.Navigator
@@ -27,15 +33,21 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 
 internal class RenameFileMiddleware @Inject constructor(
+    private val explorerRepository: ExplorerRepository,
+    private val editorInteractor: EditorInteractor,
+    private val taskManager: TaskManager,
+    private val fileNodeCache: FileNodeCache,
     private val navigator: Navigator,
 ) : Middleware<ExplorerState, ExplorerAction> {
 
     override fun bind(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return merge(
-            onRenameClicked(state, actions)
+            onRenameClicked(state, actions),
+            onRenameFileClicked(state, actions),
         )
     }
 
@@ -50,6 +62,42 @@ internal class RenameFileMiddleware @Inject constructor(
                     taskType = TaskType.RENAME,
                     taskBuffer = listOf(fileNode)
                 )
+            }
+    }
+
+    private fun onRenameFileClicked(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
+        return actions.filterIsInstance<ExplorerAction.UiAction.OnRenameFileClicked>()
+            .transform { action ->
+                val currentState = state.first()
+
+                val fileNode = currentState.taskBuffer.first()
+
+                val taskId = explorerRepository.renameFile(fileNode.file, action.fileName)
+                val screen = TaskRoute(taskId)
+                navigator.navigate(screen)
+
+                emit(ExplorerAction.CommandAction.ResetBuffer)
+
+                taskManager.monitor(taskId).collect { task ->
+                    when (val status = task.status) {
+                        is TaskStatus.Error -> {
+                            emit(ExplorerAction.CommandAction.TaskFailed(status.exception))
+                        }
+
+                        is TaskStatus.Done -> {
+                            emit(ExplorerAction.CommandAction.TaskComplete(task))
+
+                            editorInteractor.renameFile(fileNode.file, action.fileName)
+
+                            val parentNode = fileNodeCache.parentNode(fileNode)
+                            if (parentNode != null) {
+                                emit(ExplorerAction.CommandAction.LoadFiles(parentNode))
+                            }
+                        }
+
+                        else -> Unit
+                    }
+                }
             }
     }
 }

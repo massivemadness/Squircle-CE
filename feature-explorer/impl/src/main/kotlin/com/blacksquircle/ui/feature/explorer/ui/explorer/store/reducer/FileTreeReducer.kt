@@ -49,12 +49,12 @@ internal class FileTreeReducer @Inject constructor() : Reducer<ExplorerState, Ex
                         }
 
                         FileType.DEFAULT -> {
-                            // TODO editorInteractor open file
+                            action(ExplorerAction.UiAction.OnOpenFileClicked(action.fileNode))
                             event(ExplorerEvent.CloseDrawer)
                         }
 
                         else -> {
-                            // TODO open with
+                            event(ExplorerEvent.OpenFileWith(action.fileNode.file))
                         }
                     }
                 }

@@ -16,8 +16,18 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware
 
+import com.blacksquircle.ui.feature.editor.api.interactor.EditorInteractor
 import com.blacksquircle.ui.feature.explorer.api.navigation.DeleteFileRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.TaskRoute
+import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.data.node.FileNodeCache
+import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderOptions
+import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
+import com.blacksquircle.ui.feature.explorer.data.node.removeNode
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
+import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerState
 import com.blacksquircle.ui.navigation.api.Navigator
@@ -27,16 +37,24 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 import kotlin.collections.first
+import kotlin.collections.map
 
 internal class DeleteFileMiddleware @Inject constructor(
+    private val explorerRepository: ExplorerRepository,
+    private val editorInteractor: EditorInteractor,
+    private val taskManager: TaskManager,
+    private val fileNodeCache: FileNodeCache,
+    private val asyncNodeBuilder: AsyncNodeBuilder,
     private val navigator: Navigator,
 ) : Middleware<ExplorerState, ExplorerAction> {
 
     override fun bind(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return merge(
-            onDeleteClicked(state, actions)
+            onDeleteClicked(state, actions),
+            onDeleteFileClicked(state, actions),
         )
     }
 
@@ -54,6 +72,53 @@ internal class DeleteFileMiddleware @Inject constructor(
                     taskType = TaskType.DELETE,
                     taskBuffer = fileNodes,
                 )
+            }
+    }
+
+    private fun onDeleteFileClicked(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
+        return actions.filterIsInstance<ExplorerAction.UiAction.OnDeleteFileClicked>()
+            .transform {
+                val currentState = state.first()
+
+                val fileNodes = currentState.taskBuffer.toList()
+                val fileModels = currentState.taskBuffer.map(FileNode::file)
+
+                val taskId = explorerRepository.deleteFiles(fileModels)
+                val screen = TaskRoute(taskId)
+                navigator.navigate(screen)
+
+                emit(ExplorerAction.CommandAction.ResetBuffer)
+
+                taskManager.monitor(taskId).collect { task ->
+                    when (val status = task.status) {
+                        is TaskStatus.Error -> {
+                            emit(ExplorerAction.CommandAction.TaskFailed(status.exception))
+                        }
+
+                        is TaskStatus.Done -> {
+                            emit(ExplorerAction.CommandAction.TaskComplete(task))
+
+                            fileNodes.forEach { removedNode ->
+                                fileNodeCache.removeNode(removedNode)
+                                editorInteractor.deleteFile(removedNode.file)
+                            }
+
+                            val fileNodes = asyncNodeBuilder.buildNodeList(
+                                nodes = fileNodeCache.getAll(),
+                                options = NodeBuilderOptions(
+                                    searchQuery = currentState.searchQuery,
+                                    showHidden = currentState.showHiddenFiles,
+                                    sortMode = currentState.sortMode,
+                                    foldersOnTop = currentState.foldersOnTop,
+                                    compactPackages = currentState.compactPackages,
+                                )
+                            )
+                            emit(ExplorerAction.CommandAction.RenderNodeList(fileNodes))
+                        }
+
+                        else -> Unit
+                    }
+                }
             }
     }
 }

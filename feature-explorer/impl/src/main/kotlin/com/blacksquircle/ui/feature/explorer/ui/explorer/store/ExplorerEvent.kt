@@ -16,9 +16,11 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer.store
 
+import com.blacksquircle.ui.filesystem.base.model.FileModel
 import com.blacksquircle.ui.redux.MVIEvent
 
 internal sealed interface ExplorerEvent : MVIEvent {
     data class Toast(val message: String) : ExplorerEvent
+    data class OpenFileWith(val fileModel: FileModel) : ExplorerEvent
     data object CloseDrawer : ExplorerEvent
 }
