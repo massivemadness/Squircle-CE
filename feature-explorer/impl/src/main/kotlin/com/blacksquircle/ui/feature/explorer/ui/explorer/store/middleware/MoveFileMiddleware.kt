@@ -18,6 +18,7 @@ package com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware
 
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskRoute
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
+import com.blacksquircle.ui.feature.explorer.data.node.FileNodeCache
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
@@ -34,34 +35,35 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 
-internal class CopyFileMiddleware @Inject constructor(
+internal class MoveFileMiddleware @Inject constructor(
     private val explorerRepository: ExplorerRepository,
     private val taskManager: TaskManager,
+    private val fileNodeCache: FileNodeCache,
     private val navigator: Navigator,
 ) : Middleware<ExplorerState, ExplorerAction> {
 
     override fun bind(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return merge(
-            onCopyClicked(state, actions),
-            onCopyFileClicked(state, actions),
+            onCutClicked(state, actions),
+            onMoveFileClicked(state, actions),
         )
     }
 
-    private fun onCopyClicked(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
-        return actions.filterIsInstance<ExplorerAction.UiAction.OnCopyClicked>()
+    private fun onCutClicked(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
+        return actions.filterIsInstance<ExplorerAction.UiAction.OnCutClicked>()
             .map {
                 val currentState = state.first()
                 val fileNodes = currentState.selection.toList()
 
                 ExplorerAction.CommandAction.FillBuffer(
-                    taskType = TaskType.COPY,
+                    taskType = TaskType.MOVE,
                     taskBuffer = fileNodes,
                 )
             }
     }
 
-    private fun onCopyFileClicked(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
-        return actions.filterIsInstance<ExplorerAction.UiAction.OnCopyFileClicked>()
+    private fun onMoveFileClicked(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
+        return actions.filterIsInstance<ExplorerAction.UiAction.OnMoveFileClicked>()
             .transform { action ->
                 val currentState = state.first()
 
@@ -69,7 +71,7 @@ internal class CopyFileMiddleware @Inject constructor(
                 val fileNodes = currentState.taskBuffer
                 val fileModels = fileNodes.map(FileNode::file)
 
-                val taskId = explorerRepository.copyFiles(fileModels, parentNode.file)
+                val taskId = explorerRepository.moveFiles(fileModels, parentNode.file)
                 val screen = TaskRoute(taskId)
                 navigator.navigate(screen)
 
@@ -82,6 +84,8 @@ internal class CopyFileMiddleware @Inject constructor(
                         }
 
                         is TaskStatus.Done -> {
+                            fileNodes.forEach(fileNodeCache::removeNode)
+
                             emit(ExplorerAction.CommandAction.TaskComplete(task))
                             emit(ExplorerAction.CommandAction.LoadFiles(parentNode))
                         }

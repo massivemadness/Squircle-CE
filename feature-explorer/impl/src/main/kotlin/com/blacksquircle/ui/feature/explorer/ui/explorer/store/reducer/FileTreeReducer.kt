@@ -16,12 +16,16 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer
 
+import com.blacksquircle.ui.core.extensions.indexOf
+import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerEvent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerState
 import com.blacksquircle.ui.filesystem.base.model.FileType
 import com.blacksquircle.ui.redux.reducer.Reducer
 import javax.inject.Inject
+import kotlin.collections.minus
+import kotlin.collections.plus
 
 internal class FileTreeReducer @Inject constructor() : Reducer<ExplorerState, ExplorerAction, ExplorerEvent>() {
 
@@ -45,14 +49,37 @@ internal class FileTreeReducer @Inject constructor() : Reducer<ExplorerState, Ex
                         }
 
                         FileType.DEFAULT -> {
-                            // editorInteractor open file
+                            // TODO editorInteractor open file
                             event(ExplorerEvent.CloseDrawer)
                         }
 
                         else -> {
-                            // open with
+                            // TODO open with
                         }
                     }
+                }
+            }
+
+            is ExplorerAction.UiAction.OnFileSelected -> {
+                val fileNode = action.fileNode
+                val anySelected = state.selection.isNotEmpty()
+                val rootSelected = state.selection.any(FileNode::isRoot)
+
+                if (fileNode.isRoot && anySelected && !rootSelected) return
+                if (!fileNode.isRoot && rootSelected) return
+
+                val index = state.selection.indexOf {
+                    it.key == fileNode.key
+                }
+
+                state {
+                    copy(
+                        selection = if (index == -1) {
+                            selection + fileNode
+                        } else {
+                            selection - fileNode
+                        }
+                    )
                 }
             }
 

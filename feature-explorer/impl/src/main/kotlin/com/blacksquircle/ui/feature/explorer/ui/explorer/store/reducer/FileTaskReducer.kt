@@ -38,7 +38,17 @@ internal class FileTaskReducer @Inject constructor(
 
     override fun reduce(action: ExplorerAction) {
         when (action) {
-            is ExplorerAction.UiAction.OnExtractFileClicked -> {
+            is ExplorerAction.CommandAction.FillBuffer -> {
+                state {
+                    copy(
+                        taskType = action.taskType,
+                        taskBuffer = action.taskBuffer,
+                        selection = emptyList()
+                    )
+                }
+            }
+
+            is ExplorerAction.CommandAction.ResetBuffer -> {
                 state {
                     copy(
                         taskType = TaskType.CREATE,
@@ -48,12 +58,34 @@ internal class FileTaskReducer @Inject constructor(
                 }
             }
 
-            is ExplorerAction.CommandAction.OnTaskComplete -> {
+            is ExplorerAction.UiAction.OnCutClicked,
+            is ExplorerAction.UiAction.OnCopyClicked -> {
+                val message = stringProvider.getString(R.string.explorer_toast_select_folder_to_paste)
+                event(ExplorerEvent.Toast(message))
+            }
+
+            is ExplorerAction.UiAction.OnPasteClicked -> {
+                when (state.taskType) {
+                    TaskType.MOVE -> {
+                        val parent = state.selection.firstOrNull() ?: return
+                        action(ExplorerAction.UiAction.OnMoveFileClicked(parent))
+                    }
+
+                    TaskType.COPY -> {
+                        val parent = state.selection.firstOrNull() ?: return
+                        action(ExplorerAction.UiAction.OnCopyFileClicked(parent))
+                    }
+
+                    else -> Unit
+                }
+            }
+
+            is ExplorerAction.CommandAction.TaskComplete -> {
                 val message = stringProvider.getString(R.string.explorer_toast_done)
                 event(ExplorerEvent.Toast(message))
             }
 
-            is ExplorerAction.CommandAction.OnTaskFailed -> {
+            is ExplorerAction.CommandAction.TaskFailed -> {
                 when (action.error) {
                     is FileNotFoundException -> {
                         val message = stringProvider.getString(R.string.explorer_toast_file_not_found)

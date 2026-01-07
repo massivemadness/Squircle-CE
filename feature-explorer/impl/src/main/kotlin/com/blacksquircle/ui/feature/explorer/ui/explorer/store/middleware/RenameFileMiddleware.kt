@@ -16,16 +16,40 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware
 
+import com.blacksquircle.ui.feature.explorer.api.navigation.RenameFileRoute
+import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerState
+import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.redux.middleware.Middleware
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 import javax.inject.Inject
 
-internal class RenameFileMiddleware @Inject constructor() : Middleware<ExplorerState, ExplorerAction> {
+internal class RenameFileMiddleware @Inject constructor(
+    private val navigator: Navigator,
+) : Middleware<ExplorerState, ExplorerAction> {
 
     override fun bind(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
-        return emptyFlow()
+        return merge(
+            onRenameClicked(state, actions)
+        )
+    }
+
+    private fun onRenameClicked(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
+        return actions.filterIsInstance<ExplorerAction.UiAction.OnRenameClicked>()
+            .map {
+                val currentState = state.first()
+                val fileNode = currentState.selection.first()
+                navigator.navigate(RenameFileRoute(fileNode.file.name))
+
+                ExplorerAction.CommandAction.FillBuffer(
+                    taskType = TaskType.RENAME,
+                    taskBuffer = listOf(fileNode)
+                )
+            }
     }
 }

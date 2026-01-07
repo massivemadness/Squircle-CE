@@ -29,8 +29,6 @@ internal class ExplorerReducer @Inject constructor(
 
     override fun reduce(action: ExplorerAction) {
         when (action) {
-            is ExplorerAction.Init -> Unit
-            is ExplorerAction.Error -> Unit
             is ExplorerAction.UiAction.OnBackClicked -> {
                 if (state.selection.isNotEmpty()) {
                     state {
@@ -39,6 +37,14 @@ internal class ExplorerReducer @Inject constructor(
                 } else {
                     event(ExplorerEvent.CloseDrawer)
                 }
+            }
+
+            is ExplorerAction.UiAction.OnRefreshClicked -> {
+                val fileNode = state.selection.firstOrNull() ?: return
+                state {
+                    copy(selection = emptyList())
+                }
+                action(ExplorerAction.CommandAction.LoadFiles(fileNode))
             }
 
             else -> Unit

@@ -55,14 +55,16 @@ internal class ExtractFileMiddleware @Inject constructor(
                 val screen = TaskRoute(taskId)
                 navigator.navigate(screen)
 
+                emit(ExplorerAction.CommandAction.ResetBuffer)
+
                 taskManager.monitor(taskId).collect { task ->
                     when (val status = task.status) {
                         is TaskStatus.Error -> {
-                            emit(ExplorerAction.CommandAction.OnTaskFailed(status.exception))
+                            emit(ExplorerAction.CommandAction.TaskFailed(status.exception))
                         }
 
                         is TaskStatus.Done -> {
-                            emit(ExplorerAction.CommandAction.OnTaskComplete(task))
+                            emit(ExplorerAction.CommandAction.TaskComplete(task))
                             emit(ExplorerAction.CommandAction.LoadFiles(parent))
                         }
 
