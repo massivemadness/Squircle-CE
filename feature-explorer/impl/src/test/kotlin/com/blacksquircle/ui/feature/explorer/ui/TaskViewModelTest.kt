@@ -21,7 +21,7 @@ import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.domain.model.Task
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
-import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewEvent
+import com.blacksquircle.ui.feature.explorer.ui.task.TaskViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskViewModel
 import com.blacksquircle.ui.feature.explorer.ui.task.TaskViewState
 import com.blacksquircle.ui.navigation.api.Navigator
@@ -142,7 +142,7 @@ class TaskViewModelTest {
         viewModel.onRunInBackgroundClicked()
 
         // Then
-        assertEquals(ExplorerViewEvent.StartService, viewModel.viewEvent.first())
+        assertEquals(TaskViewEvent.StartService, viewModel.viewEvent.first())
     }
 
     @Test
@@ -166,7 +166,7 @@ class TaskViewModelTest {
         viewModel.onPermissionGranted()
 
         // Then
-        assertEquals(ExplorerViewEvent.StartService, viewModel.viewEvent.first())
+        assertEquals(TaskViewEvent.StartService, viewModel.viewEvent.first())
     }
 
     @Test

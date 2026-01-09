@@ -26,6 +26,7 @@ import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.Extrac
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.FileTreeMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.MoveFileMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.OpenFileMiddleware
+import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.PermissionMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.RenameFileMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.ServerMiddleware
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware.SortingMiddleware
@@ -60,6 +61,7 @@ internal class ExplorerStore @Inject constructor(
     private val extractFileMiddleware: ExtractFileMiddleware,
     private val cloneRepoMiddleware: CloneRepoMiddleware,
     private val serverMiddleware: ServerMiddleware,
+    private val permissionMiddleware: PermissionMiddleware,
 ) : Store<ExplorerState, ExplorerAction, ExplorerEvent> by produceStore(
         initialState = ExplorerState(),
         initialAction = ExplorerAction.Init,
@@ -87,5 +89,6 @@ internal class ExplorerStore @Inject constructor(
             extractFileMiddleware,
             cloneRepoMiddleware,
             serverMiddleware,
+            permissionMiddleware,
         )
     )

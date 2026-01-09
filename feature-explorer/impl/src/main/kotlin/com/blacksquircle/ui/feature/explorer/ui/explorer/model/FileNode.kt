@@ -29,14 +29,12 @@ internal data class FileNode(
     val displayIcon: Int = -1,
     val isExpanded: Boolean = false,
     val isLoading: Boolean = false,
-    val errorState: ErrorState? = null,
+    val isError: Boolean = false,
 ) {
+    val isRoot: Boolean
+        get() = depth == 0
     val isDirectory: Boolean
         get() = file.isDirectory
     val isHidden: Boolean
         get() = displayName.startsWith('.')
-    val isError: Boolean
-        get() = errorState != null
-    val isRoot: Boolean
-        get() = depth == 0
 }

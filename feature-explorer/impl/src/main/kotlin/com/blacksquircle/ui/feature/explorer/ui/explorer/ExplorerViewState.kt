@@ -17,12 +17,12 @@
 package com.blacksquircle.ui.feature.explorer.ui.explorer
 
 import androidx.compose.runtime.Immutable
-import com.blacksquircle.ui.core.mvi.ViewState
 import com.blacksquircle.ui.feature.explorer.domain.model.SortMode
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
+import com.blacksquircle.ui.redux.mapper.ViewState
 
 @Immutable
 internal data class ExplorerViewState(
@@ -35,24 +35,10 @@ internal data class ExplorerViewState(
     val compactPackages: Boolean = true,
     val sortMode: SortMode = SortMode.SORT_BY_NAME,
     val taskType: TaskType = TaskType.CREATE,
-) : ViewState, com.blacksquircle.ui.redux.mapper.ViewState {
-
-    val showFiles: Boolean
-        get() = !isLoading && !isError
-
-    val showActionBar: Boolean
-        get() = selection.size == 1 && selection[0].isDirectory
-
-    val errorState: ErrorState?
-        get() = fileNodes.getOrNull(0)?.errorState
-
-    val isLoading: Boolean
-        get() = fileNodes.size == 1 && fileNodes[0].isRoot && fileNodes[0].isLoading
-
-    val isError: Boolean
-        get() = fileNodes.size == 1 && fileNodes[0].isRoot && fileNodes[0].isError
-
-    val isEmpty: Boolean
-        get() = fileNodes.isEmpty() ||
-            (fileNodes.size == 1 && fileNodes[0].isRoot && fileNodes[0].isExpanded)
-}
+    val errorState: ErrorState? = null,
+    val showFiles: Boolean = false,
+    val showActionBar: Boolean = false,
+    val isLoading: Boolean = true,
+    val isError: Boolean = false,
+    val isEmpty: Boolean = false,
+) : ViewState

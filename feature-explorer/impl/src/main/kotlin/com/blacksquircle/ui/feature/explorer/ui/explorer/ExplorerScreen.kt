@@ -16,6 +16,8 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer
 
+import android.Manifest
+import android.os.Build
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -81,31 +83,30 @@ internal fun ExplorerScreen(
         val component = ExplorerComponent.buildOrGet(context)
         ExplorerViewModel.Factory().also(component::inject)
     },
-    viewModel2: ExplorerViewModel2 = daggerViewModel { context ->
-        val component = ExplorerComponent.buildOrGet(context)
-        ExplorerViewModel2.Factory().also(component::inject)
-    },
     closeDrawer: () -> Unit = {},
 ) {
-    val viewState by viewModel2.viewState.collectAsStateWithLifecycle()
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     ExplorerScreen(
         viewState = viewState,
-        dispatch = viewModel2::dispatch,
+        dispatch = viewModel::dispatch,
     )
 
     val storageContract = rememberStorageContract { result ->
         when (result) {
             PermissionResult.DENIED,
-            PermissionResult.DENIED_FOREVER -> viewModel.onPermissionDenied()
-
-            PermissionResult.GRANTED -> viewModel.onPermissionGranted()
+            PermissionResult.DENIED_FOREVER -> {
+                viewModel.dispatch(ExplorerAction.UiAction.OnPermissionDenied)
+            }
+            PermissionResult.GRANTED -> {
+                viewModel.dispatch(ExplorerAction.UiAction.OnPermissionGranted)
+            }
         }
     }
 
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        viewModel2.events.collect { event ->
+        viewModel.events.collect { event ->
             when (event) {
                 is ExplorerEvent.Toast -> {
                     context.showToast(text = event.message)
@@ -119,11 +120,7 @@ internal fun ExplorerScreen(
                     context.copyText(event.fileModel.path)
                 }
 
-                is ExplorerEvent.CloseDrawer -> {
-                    closeDrawer()
-                }
-
-                /*is ExplorerViewEvent.RequestPermission -> {
+                is ExplorerEvent.RequestPermission -> {
                     storageContract.launch(
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                             Manifest.permission.MANAGE_EXTERNAL_STORAGE
@@ -131,31 +128,35 @@ internal fun ExplorerScreen(
                             Manifest.permission.WRITE_EXTERNAL_STORAGE
                         }
                     )
-                }*/
+                }
+
+                is ExplorerEvent.CloseDrawer -> {
+                    closeDrawer()
+                }
             }
         }
     }
 
     ResultEffect<String>(KEY_SERVER_AUTHENTICATE) { credentials ->
-        viewModel.onCredentialsEntered(credentials)
+        viewModel.dispatch(ExplorerAction.UiAction.OnServerCredentials(credentials))
     }
     ResultEffect<String>(KEY_CREATE_FILE) { fileName ->
-        viewModel2.dispatch(ExplorerAction.UiAction.OnCreateFileClicked(fileName, isFolder = false))
+        viewModel.dispatch(ExplorerAction.UiAction.OnCreateFileClicked(fileName, isFolder = false))
     }
     ResultEffect<String>(KEY_CREATE_FOLDER) { fileName ->
-        viewModel2.dispatch(ExplorerAction.UiAction.OnCreateFileClicked(fileName, isFolder = true))
+        viewModel.dispatch(ExplorerAction.UiAction.OnCreateFileClicked(fileName, isFolder = true))
     }
     ResultEffect<String>(KEY_CLONE_REPO) { url ->
-        viewModel2.dispatch(ExplorerAction.UiAction.OnCloneRepoClicked(url))
+        viewModel.dispatch(ExplorerAction.UiAction.OnCloneRepoClicked(url))
     }
     ResultEffect<String>(KEY_RENAME_FILE) { fileName ->
-        viewModel2.dispatch(ExplorerAction.UiAction.OnRenameFileClicked(fileName))
+        viewModel.dispatch(ExplorerAction.UiAction.OnRenameFileClicked(fileName))
     }
     ResultEffect<Unit>(KEY_DELETE_FILE) {
-        viewModel2.dispatch(ExplorerAction.UiAction.OnDeleteFileClicked)
+        viewModel.dispatch(ExplorerAction.UiAction.OnDeleteFileClicked)
     }
     ResultEffect<String>(KEY_COMPRESS_FILE) { fileName ->
-        viewModel.compressFiles(fileName)
+        viewModel.dispatch(ExplorerAction.UiAction.OnCompressFileClicked(fileName))
     }
 
     CleanupEffect {

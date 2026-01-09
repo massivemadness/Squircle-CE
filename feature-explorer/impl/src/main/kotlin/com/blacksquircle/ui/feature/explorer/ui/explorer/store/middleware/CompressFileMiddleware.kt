@@ -22,7 +22,6 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.CompressFileRoute
 import com.blacksquircle.ui.feature.explorer.api.navigation.TaskRoute
 import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.FileNodeCache
-import com.blacksquircle.ui.feature.explorer.data.node.ensureCommonParentKey
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskStatus
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository

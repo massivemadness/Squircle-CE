@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-package com.blacksquircle.ui.feature.explorer.ui.explorer
+package com.blacksquircle.ui.feature.explorer.ui.task
 
 import com.blacksquircle.ui.core.mvi.ViewEvent
-import com.blacksquircle.ui.filesystem.base.model.FileModel
 
-internal sealed class ExplorerViewEvent : ViewEvent {
-
-    data object CloseDrawer : ExplorerViewEvent()
-
-    data object RequestPermission : ExplorerViewEvent()
-    data object StartService : ExplorerViewEvent()
-
-    data class OpenFileWith(val fileModel: FileModel) : ExplorerViewEvent()
-    data class CopyPath(val fileModel: FileModel) : ExplorerViewEvent()
+internal sealed class TaskViewEvent : ViewEvent {
+    data object StartService : TaskViewEvent()
 }

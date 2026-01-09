@@ -22,6 +22,7 @@ import com.blacksquircle.ui.feature.explorer.domain.model.Task
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.domain.model.WorkspaceModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.redux.MVIAction
 
 internal sealed interface ExplorerAction : MVIAction {
@@ -57,7 +58,13 @@ internal sealed interface ExplorerAction : MVIAction {
         data object OnOpenTerminalClicked : UiAction
         data object OnPropertiesClicked : UiAction
         data object OnCopyPathClicked : UiAction
+
         data class OnErrorActionClicked(val errorAction: ErrorAction) : UiAction
+        data class OnServerAuthClicked(val authMethod: AuthMethod) : UiAction
+        data class OnServerCredentials(val credentials: String) : UiAction
+
+        data object OnPermissionGranted : UiAction
+        data object OnPermissionDenied : UiAction
 
         data class OnOpenFileClicked(val fileNode: FileNode) : UiAction
         data class OnCreateFileClicked(val fileName: String, val isFolder: Boolean) : UiAction
@@ -96,7 +103,6 @@ internal sealed interface ExplorerAction : MVIAction {
 
         data class LoadFiles(val fileNode: FileNode) : CommandAction
         data class LoadFilesError(val fileNode: FileNode, val error: Throwable) : CommandAction
-
         data class RenderNodeList(val fileNodes: List<FileNode>) : CommandAction
 
         data class ShowHiddenFilesUpdated(val showHiddenFiles: Boolean) : CommandAction

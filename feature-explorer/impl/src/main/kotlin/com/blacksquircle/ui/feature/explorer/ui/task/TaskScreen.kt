@@ -56,7 +56,6 @@ import com.blacksquircle.ui.feature.explorer.api.navigation.TaskRoute
 import com.blacksquircle.ui.feature.explorer.data.utils.formatDate
 import com.blacksquircle.ui.feature.explorer.domain.model.TaskType
 import com.blacksquircle.ui.feature.explorer.internal.ExplorerComponent
-import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
@@ -89,7 +88,7 @@ internal fun TaskScreen(
         viewModel.viewEvent.collect { event ->
             when (event) {
                 is ViewEvent.Toast -> context.showToast(text = event.message)
-                is ExplorerViewEvent.StartService -> {
+                is TaskViewEvent.StartService -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         val notificationManager = context.getSystemService<NotificationManager>()
                         if (notificationManager?.areNotificationsEnabled() == false) {

@@ -16,55 +16,46 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware
 
-import com.blacksquircle.ui.feature.explorer.api.navigation.ServerAuthRoute
+import com.blacksquircle.ui.feature.explorer.api.navigation.StorageDeniedRoute
 import com.blacksquircle.ui.feature.explorer.data.node.FileNodeCache
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.NodeKey
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerState
-import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.navigation.api.Navigator
 import com.blacksquircle.ui.redux.middleware.Middleware
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 import kotlin.collections.firstOrNull
 
-internal class ServerMiddleware @Inject constructor(
-    private val serverInteractor: ServerInteractor,
+internal class PermissionMiddleware @Inject constructor(
     private val fileNodeCache: FileNodeCache,
     private val navigator: Navigator,
 ) : Middleware<ExplorerState, ExplorerAction> {
 
     override fun bind(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
         return merge(
-            onServerAuthClicked(actions),
-            onServerCredentials(state, actions),
+            onPermissionGranted(actions),
+            onPermissionDenied(actions),
         )
     }
 
-    private fun onServerAuthClicked(actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
-        return actions.filterIsInstance<ExplorerAction.UiAction.OnServerAuthClicked>()
-            .transform { action ->
-                val screen = ServerAuthRoute(action.authMethod)
-                navigator.navigate(screen)
-            }
-    }
-
-    private fun onServerCredentials(state: Flow<ExplorerState>, actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
-        return actions.filterIsInstance<ExplorerAction.UiAction.OnServerCredentials>()
-            .transform { action ->
-                val currentState = state.first()
-                val workspace = currentState.selectedWorkspace ?: return@transform
-
-                serverInteractor.authenticate(workspace.uuid, action.credentials)
-
+    private fun onPermissionGranted(actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
+        return actions.filterIsInstance<ExplorerAction.UiAction.OnPermissionGranted>()
+            .transform {
                 val fileNode = fileNodeCache.get(NodeKey.Root).firstOrNull()
                 if (fileNode != null) {
                     emit(ExplorerAction.CommandAction.LoadFiles(fileNode))
                 }
+            }
+    }
+
+    private fun onPermissionDenied(actions: Flow<ExplorerAction>): Flow<ExplorerAction> {
+        return actions.filterIsInstance<ExplorerAction.UiAction.OnPermissionDenied>()
+            .transform {
+                navigator.navigate(StorageDeniedRoute)
             }
     }
 }

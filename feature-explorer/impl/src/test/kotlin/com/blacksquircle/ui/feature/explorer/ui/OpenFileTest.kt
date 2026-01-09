@@ -25,8 +25,8 @@ import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
 import com.blacksquircle.ui.feature.explorer.defaultWorkspaces
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
+import com.blacksquircle.ui.feature.explorer.ui.task.TaskViewEvent
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.navigation.api.Navigator
@@ -111,7 +111,7 @@ class OpenFileTest {
         viewModel.onFileClicked(fileNode)
 
         // Then
-        val expected = ExplorerViewEvent.OpenFileWith(fileModel)
+        val expected = TaskViewEvent.OpenFileWith(fileModel)
         assertEquals(expected, viewModel.viewEvent.first())
         coVerify(exactly = 0) { editorInteractor.openFile(fileModel) }
     }
@@ -129,7 +129,7 @@ class OpenFileTest {
         viewModel.onOpenWithClicked()
 
         // Then
-        val expected = ExplorerViewEvent.OpenFileWith(fileModel)
+        val expected = TaskViewEvent.OpenFileWith(fileModel)
         assertEquals(expected, viewModel.viewEvent.first())
         coVerify(exactly = 0) { editorInteractor.openFile(fileModel) }
     }
@@ -147,7 +147,7 @@ class OpenFileTest {
         viewModel.onCopyPathClicked()
 
         // Then
-        val expected = ExplorerViewEvent.CopyPath(fileModel)
+        val expected = TaskViewEvent.CopyPath(fileModel)
         assertEquals(expected, viewModel.viewEvent.first())
     }
 

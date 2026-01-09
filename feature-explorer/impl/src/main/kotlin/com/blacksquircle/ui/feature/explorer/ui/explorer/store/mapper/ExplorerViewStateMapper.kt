@@ -24,6 +24,15 @@ import javax.inject.Inject
 internal class ExplorerViewStateMapper @Inject constructor() : ViewStateMapper<ExplorerState, ExplorerViewState> {
 
     override fun map(state: ExplorerState): ExplorerViewState {
+        val isLoading = state.fileNodes.size == 1 &&
+            state.fileNodes[0].isRoot &&
+            state.fileNodes[0].isLoading
+        val isError = state.fileNodes.size == 1 &&
+            state.fileNodes[0].isRoot &&
+            state.fileNodes[0].isError
+        val isEmpty = state.fileNodes.isEmpty() ||
+            (state.fileNodes.size == 1 && state.fileNodes[0].isRoot && state.fileNodes[0].isExpanded)
+
         return ExplorerViewState(
             workspaces = state.workspaces,
             selectedWorkspace = state.selectedWorkspace,
@@ -34,6 +43,12 @@ internal class ExplorerViewStateMapper @Inject constructor() : ViewStateMapper<E
             compactPackages = state.compactPackages,
             sortMode = state.sortMode,
             taskType = state.taskType,
+            errorState = state.errorState,
+            showFiles = !isLoading && !isError,
+            showActionBar = state.selection.size == 1 && state.selection[0].isDirectory,
+            isLoading = isLoading,
+            isError = isError,
+            isEmpty = isEmpty,
         )
     }
 }

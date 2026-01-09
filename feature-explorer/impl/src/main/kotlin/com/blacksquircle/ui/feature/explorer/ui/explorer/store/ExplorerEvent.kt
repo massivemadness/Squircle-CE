@@ -23,5 +23,6 @@ internal sealed interface ExplorerEvent : MVIEvent {
     data class Toast(val message: String) : ExplorerEvent
     data class OpenFileWith(val fileModel: FileModel) : ExplorerEvent
     data class CopyFilePath(val fileModel: FileModel) : ExplorerEvent
+    data object RequestPermission : ExplorerEvent
     data object CloseDrawer : ExplorerEvent
 }

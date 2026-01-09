@@ -16,9 +16,11 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer.store.reducer
 
+import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerEvent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerState
+import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.redux.reducer.Reducer
 import javax.inject.Inject
 
@@ -33,6 +35,24 @@ internal class ExplorerReducer @Inject constructor() : Reducer<ExplorerState, Ex
                     }
                 } else {
                     event(ExplorerEvent.CloseDrawer)
+                }
+            }
+
+            is ExplorerAction.UiAction.OnErrorActionClicked -> {
+                when (state.errorState?.action) {
+                    ErrorAction.REQUEST_PERMISSIONS -> {
+                        event(ExplorerEvent.RequestPermission)
+                    }
+
+                    ErrorAction.ENTER_PASSWORD -> {
+                        action(ExplorerAction.UiAction.OnServerAuthClicked(AuthMethod.PASSWORD))
+                    }
+
+                    ErrorAction.ENTER_PASSPHRASE -> {
+                        action(ExplorerAction.UiAction.OnServerAuthClicked(AuthMethod.KEY))
+                    }
+
+                    else -> Unit
                 }
             }
 

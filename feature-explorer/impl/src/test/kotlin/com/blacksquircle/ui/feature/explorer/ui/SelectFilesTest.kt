@@ -26,9 +26,9 @@ import com.blacksquircle.ui.feature.explorer.data.manager.TaskManager
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
 import com.blacksquircle.ui.feature.explorer.defaultWorkspaces
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewEvent
 import com.blacksquircle.ui.feature.explorer.ui.explorer.ExplorerViewModel
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
+import com.blacksquircle.ui.feature.explorer.ui.task.TaskViewEvent
 import com.blacksquircle.ui.feature.servers.api.interactor.ServerInteractor
 import com.blacksquircle.ui.feature.terminal.api.interactor.TerminalInteractor
 import com.blacksquircle.ui.navigation.api.Navigator
@@ -209,7 +209,7 @@ class SelectFilesTest {
         viewModel.onBackClicked()
 
         // Then
-        assertEquals(ExplorerViewEvent.CloseDrawer, viewModel.viewEvent.first())
+        assertEquals(TaskViewEvent.CloseDrawer, viewModel.viewEvent.first())
     }
 
     private fun createViewModel(): ExplorerViewModel {

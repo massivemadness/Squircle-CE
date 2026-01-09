@@ -16,22 +16,14 @@
 
 package com.blacksquircle.ui.feature.explorer.ui.explorer.store.middleware
 
-import com.blacksquircle.ui.core.extensions.PermissionException
-import com.blacksquircle.ui.core.provider.resources.StringProvider
 import com.blacksquircle.ui.feature.editor.api.provider.FileIconProvider
-import com.blacksquircle.ui.feature.explorer.R
 import com.blacksquircle.ui.feature.explorer.data.node.FileNodeCache
 import com.blacksquircle.ui.feature.explorer.data.node.NodeBuilderOptions
 import com.blacksquircle.ui.feature.explorer.data.node.async.AsyncNodeBuilder
-import com.blacksquircle.ui.feature.explorer.domain.model.ErrorAction
 import com.blacksquircle.ui.feature.explorer.domain.repository.ExplorerRepository
-import com.blacksquircle.ui.feature.explorer.ui.explorer.model.ErrorState
 import com.blacksquircle.ui.feature.explorer.ui.explorer.model.FileNode
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerAction
 import com.blacksquircle.ui.feature.explorer.ui.explorer.store.ExplorerState
-import com.blacksquircle.ui.filesystem.base.exception.AuthRequiredException
-import com.blacksquircle.ui.filesystem.base.exception.AuthenticationException
-import com.blacksquircle.ui.filesystem.base.model.AuthMethod
 import com.blacksquircle.ui.redux.middleware.Middleware
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -43,13 +35,11 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import javax.inject.Inject
-import com.blacksquircle.ui.ds.R as UiR
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class FileTreeMiddleware @Inject constructor(
     private val explorerRepository: ExplorerRepository,
     private val fileIconProvider: FileIconProvider,
-    private val stringProvider: StringProvider,
     private val asyncNodeBuilder: AsyncNodeBuilder,
     private val fileNodeCache: FileNodeCache,
 ) : Middleware<ExplorerState, ExplorerAction> {
@@ -74,7 +64,7 @@ internal class FileTreeMiddleware @Inject constructor(
                     fileNodeCache.updateNode(fileNode) {
                         it.copy(
                             isLoading = true,
-                            errorState = null,
+                            isError = false
                         )
                     }
                     val fileNodes = buildNodeList(currentState)
@@ -93,7 +83,7 @@ internal class FileTreeMiddleware @Inject constructor(
                             displayIcon = fileIconProvider.fileIcon(fileModel),
                             isExpanded = currentNode?.isExpanded ?: false,
                             isLoading = currentNode?.isLoading ?: false,
-                            errorState = currentNode?.errorState,
+                            isError = currentNode?.isError ?: false,
                         )
                     }
                     fileNodeCache.put(fileNode.key, updatedNodes)
@@ -102,7 +92,7 @@ internal class FileTreeMiddleware @Inject constructor(
                     fileNodeCache.updateNode(fileNode) {
                         it.copy(
                             isLoading = false,
-                            errorState = null,
+                            isError = false,
                         )
                     }
 
@@ -131,7 +121,7 @@ internal class FileTreeMiddleware @Inject constructor(
                     fileNodeCache.updateNode(fileNode) {
                         it.copy(
                             isLoading = false,
-                            errorState = errorState(error)
+                            isError = true,
                         )
                     }
 
@@ -169,56 +159,6 @@ internal class FileTreeMiddleware @Inject constructor(
                     ExplorerAction.CommandAction.LoadFiles(action.fileNode)
                 }
             }
-    }
-
-    private fun errorState(e: Throwable): ErrorState {
-        return when (e) {
-            is PermissionException -> ErrorState(
-                icon = UiR.drawable.ic_file_error,
-                title = stringProvider.getString(UiR.string.common_access_denied_dialog_title),
-                subtitle = stringProvider.getString(UiR.string.common_access_denied_dialog_message),
-                action = ErrorAction.REQUEST_PERMISSIONS,
-            )
-
-            is AuthRequiredException -> ErrorState(
-                icon = UiR.drawable.ic_file_error,
-                title = stringProvider.getString(R.string.explorer_error_view_title_auth),
-                subtitle = when (e.authMethod) {
-                    AuthMethod.PASSWORD ->
-                        stringProvider.getString(R.string.explorer_error_view_message_password)
-
-                    AuthMethod.KEY ->
-                        stringProvider.getString(R.string.explorer_error_view_message_passphrase)
-                },
-                action = when (e.authMethod) {
-                    AuthMethod.PASSWORD -> ErrorAction.ENTER_PASSWORD
-                    AuthMethod.KEY -> ErrorAction.ENTER_PASSPHRASE
-                }
-            )
-
-            is AuthenticationException -> ErrorState(
-                icon = UiR.drawable.ic_file_error,
-                title = stringProvider.getString(UiR.string.common_error_occurred),
-                subtitle = when (e.authMethod) {
-                    AuthMethod.PASSWORD ->
-                        stringProvider.getString(R.string.explorer_error_view_message_password)
-
-                    AuthMethod.KEY ->
-                        stringProvider.getString(R.string.explorer_error_view_message_passphrase)
-                },
-                action = when (e.authMethod) {
-                    AuthMethod.PASSWORD -> ErrorAction.ENTER_PASSWORD
-                    AuthMethod.KEY -> ErrorAction.ENTER_PASSPHRASE
-                }
-            )
-
-            else -> ErrorState(
-                icon = UiR.drawable.ic_file_error,
-                title = stringProvider.getString(UiR.string.common_error_occurred),
-                subtitle = e.message.orEmpty(),
-                action = ErrorAction.UNDEFINED,
-            )
-        }
     }
 
     private suspend fun buildNodeList(state: ExplorerState): List<FileNode> {
