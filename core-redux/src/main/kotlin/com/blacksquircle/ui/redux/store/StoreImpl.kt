@@ -24,10 +24,12 @@ import com.blacksquircle.ui.redux.reducer.Reducer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 
 internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEvent>(
@@ -38,7 +40,7 @@ internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEvent>(
 ) : Store<S, A, E> {
 
     private val actions = Channel<A>(Channel.UNLIMITED)
-    private val commands = MutableSharedFlow<A>()
+    private val commands = Channel<A>(Channel.UNLIMITED)
 
     private val _state = MutableStateFlow(initialState)
     override val state: StateFlow<S> = _state
@@ -52,15 +54,19 @@ internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEvent>(
                 val update = reducer.reduce(_state.value, action)
                 update.state?.let { _state.value = it }
                 update.events.forEach { _events.send(it) }
-                update.actions.forEach { commands.emit(it) }
+                update.actions.forEach { commands.send(it) }
 
-                commands.emit(action)
+                commands.send(action)
             }
         }
 
+        val sharedCommands = commands
+            .consumeAsFlow()
+            .shareIn(scope, SharingStarted.Eagerly)
+
         middlewares.forEach { middleware ->
             scope.launch {
-                middleware.bind(state, commands).collect { action ->
+                middleware.bind(state, sharedCommands).collect { action ->
                     actions.send(action)
                 }
             }
