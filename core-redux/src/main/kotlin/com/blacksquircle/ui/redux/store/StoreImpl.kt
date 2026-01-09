@@ -22,6 +22,7 @@ import com.blacksquircle.ui.redux.MVIState
 import com.blacksquircle.ui.redux.middleware.Middleware
 import com.blacksquircle.ui.redux.reducer.Reducer
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -65,7 +66,7 @@ internal class StoreImpl<S : MVIState, A : MVIAction, E : MVIEvent>(
             .shareIn(scope, SharingStarted.Eagerly)
 
         middlewares.forEach { middleware ->
-            scope.launch {
+            scope.launch(start = CoroutineStart.UNDISPATCHED) {
                 middleware.bind(state, sharedCommands).collect { action ->
                     actions.send(action)
                 }
