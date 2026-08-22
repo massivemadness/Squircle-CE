@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="app_splash_loading">Načítam…</string>
+    <string name="app_splash_loading">Načítání…</string>
     <string name="app_update_dialog_title">Aktualizace k dispozici</string>
     <string name="app_update_dialog_message">Je k dispozici nová verze aplikace. Můžete si ji nainstalovat nyní nebo aktualizovat později prostřednictvím obchodu s aplikacemi.</string>
     <string name="app_update_dialog_button_install">Instaluj</string>
