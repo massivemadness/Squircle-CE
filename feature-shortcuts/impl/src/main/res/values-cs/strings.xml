@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="shortcuts_toolbar_title">Klávesové zkratky</string>
+    <string name="shortcuts_menu_restore">Obnovit výchozí nastavení</string>
+    <string name="shortcuts_category_file">Souborové klávesové zkratky</string>
+    <string name="shortcuts_category_editor">Klávesové zkratky editoru</string>
+    <string name="shortcuts_category_tools">Nástroje klávesové zkratky</string>
+    <string name="shortcuts_new_file_title">Nový soubor</string>
+    <string name="shortcuts_open_file_title">Otevřít soubor</string>
+    <string name="shortcuts_save_file_title">Uložit soubor</string>
+    <string name="shortcuts_save_file_as_title">Uložit jako</string>
+    <string name="shortcuts_close_file_title">Zavřít soubor</string>
+    <string name="shortcuts_select_line_title">Vybrat řádek</string>
+    <string name="shortcuts_delete_line_title">Smazat řádek</string>
+    <string name="shortcuts_duplicate_line_title">Duplicitní řádek</string>
+    <string name="shortcuts_toggle_case_title">Přepni velikost písmen</string>
+    <string name="shortcuts_previous_word_title">Předchozí slovo</string>
+    <string name="shortcuts_next_word_title">Další slovo</string>
+    <string name="shortcuts_start_of_line_title">Začátek řádku</string>
+    <string name="shortcuts_end_of_line_title">Konec řádku</string>
+    <string name="shortcuts_undo_title">Vrátit zpět</string>
+    <string name="shortcuts_redo_title">Provést znovu</string>
+    <string name="shortcuts_find_title">Najít</string>
+    <string name="shortcuts_replace_title">Nahradit</string>
+    <string name="shortcuts_goto_line_title">Jít na řádek</string>
+    <string name="shortcuts_force_syntax_title">Vynutit syntaxi</string>
+    <string name="shortcuts_insert_color_title">Vložit barvu</string>
+    <string name="shortcuts_none_set">Není nastaveno</string>
+    <string name="shortcuts_assign_dialog_message">Stiskněte novou klávesovou zkratku (musí obsahovat Ctrl nebo Alt)</string>
+    <string name="shortcuts_conflict_dialog_title">Pozor</string>
+    <string name="shortcuts_conflict_dialog_message">Tato zkratka je již přiřazena k dalším akcím. Chcete odstranit ostatní zadání?</string>
+</resources>
