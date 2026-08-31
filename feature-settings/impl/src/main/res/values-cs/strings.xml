@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="settings_toolbar_title">Nastavení</string>
+    <string name="settings_header_application_title">Aplikace</string>
+    <string name="settings_header_application_subtitle">Konfigurovat nastavení globální aplikace</string>
+    <string name="settings_header_editor_title">Editor</string>
+    <string name="settings_header_editor_subtitle">Konfigurace editoru</string>
+    <string name="settings_header_codestyle_title">Styl Kódu</string>
+    <string name="settings_header_codestyle_subtitle">Konfigurace stylu kódu</string>
+    <string name="settings_header_files_title">Soubory</string>
+    <string name="settings_header_files_subtitle">Konfigurovat způsob zpracovávání souborů</string>
+    <string name="settings_header_terminal_title">Terminál</string>
+    <string name="settings_header_terminal_subtitle">Konfigurace terminálu</string>
+    <string name="settings_header_keybindings_title">Klávesové zkratky</string>
+    <string name="settings_header_keybindings_subtitle">Konfigurace klávesových zkratek</string>
+    <string name="settings_header_cloud_title">Cloud &amp; Servery</string>
+    <string name="settings_header_cloud_subtitle">Nastavení cloudového úložiště a serverů</string>
+    <string name="settings_header_git_subtitle">Konfigurovat systém kontroly verze</string>
+    <string name="settings_header_about_title">O aplikaci</string>
+    <string name="settings_header_about_subtitle">Zobrazit info o Squircle CE</string>
+    <string name="settings_category_look_and_feel">Vzhled a Chování</string>
+    <string name="settings_color_scheme_title">Barevné Schéma</string>
+    <string name="settings_color_scheme_subtitle">Konfigurace barevného schéma zvýraznění syntaxe</string>
+    <string name="settings_fullscreen_title">Celá obrazovka</string>
+    <string name="settings_fullscreen_subtitle">Spustit aplikaci v režimu celé obrazovky</string>
+    <string name="settings_category_other">Ostatní</string>
+    <string name="settings_confirm_exit_title">Potvrdit ukončení aplikace</string>
+    <string name="settings_confirm_exit_subtitle">Pokud stisknete zpět, vřeteno Squircle CE požádá o potvrzení ukončení</string>
+    <string name="settings_category_font">Písmo</string>
+    <string name="settings_font_size_title">Velikost písma Editoru</string>
+    <string name="settings_font_size_subtitle">Zadejte výchozí velikost písma editoru</string>
+    <string name="settings_font_type_title">Typ písma v editoru</string>
+    <string name="settings_font_type_subtitle">Zadejte výchozí typ písma editoru</string>
+    <string name="settings_category_editor">Editor</string>
+    <string name="settings_word_wrap_title">Zalamování slov</string>
+    <string name="settings_word_wrap_subtitle">Povolit zalamování slov, aby se vešla šířka obrazovky</string>
+    <string name="settings_sticky_scroll_title">Rychlý posun</string>
+    <string name="settings_sticky_scroll_subtitle">Umístěte záhlaví kódu nahoru při rolování</string>
+    <string name="settings_code_completion_title">Dokončování kódu</string>
+    <string name="settings_code_completion_subtitle">Zobrazit návrhy automatického dokončování</string>
+    <string name="settings_pinch_zoom_title">Přiblížení rozevřením prstů</string>
+    <string name="settings_pinch_zoom_subtitle">Povolit gesto přiblížení v editoru</string>
+    <string name="settings_line_numbers_title">Čísla řádků</string>
+    <string name="settings_line_numbers_subtitle">Zobrazit čísla řádků vlevo od editoru kódu</string>
+    <string name="settings_highlight_line_title">Zvýraznit aktuální řádek</string>
+    <string name="settings_highlight_line_subtitle">Zvýrazněte řádek, kde se aktuálně nachází stříška</string>
+    <string name="settings_highlight_delimiters_title">Zvýraznit oddělovače</string>
+    <string name="settings_highlight_delimiters_subtitle">Zvýraznit otevírací nebo zavírací oddělovač při nastavení stříšky na jeho pár</string>
+    <string name="settings_highlight_block_title">Zvýraznit bloky kódu</string>
+    <string name="settings_highlight_block_subtitle">Nakreslit svislé čáry spojující odpovídající závorky</string>
+    <string name="settings_invisible_chars_title">Zobrazit neviditelné znaky</string>
+    <string name="settings_invisible_chars_subtitle">Zobrazí symboly přerušování karty, místa a řádků</string>
+    <string name="settings_read_only_title">Pouze pro čtení</string>
+    <string name="settings_read_only_subtitle">Omezit editaci a změny souborů</string>
+    <string name="settings_category_tabs">Záložky</string>
+    <string name="settings_auto_save_files_title">Automaticky ukládat soubory</string>
+    <string name="settings_auto_save_files_subtitle">Automaticky uložit soubor při přepínání záložky nebo zavření aplikace</string>
+    <string name="settings_category_keyboard">Klávesnice</string>
+    <string name="settings_extended_keyboard_title">Rozšířená klávesnice</string>
+    <string name="settings_extended_keyboard_subtitle">Zobrazit další tlačítka nad klávesnicí</string>
+    <string name="settings_keyboard_preset_title">Předvolba klávesnice</string>
+    <string name="settings_keyboard_preset_subtitle">Zvolte předvolbu pro rozšířenou klávesnici</string>
+    <string name="settings_keyboard_preset_input_label">Zadejte znaky (bez oddělení)</string>
+    <string name="settings_keyboard_preset_button_reset">Obnovit</string>
+    <string name="settings_soft_keyboard_title">Softwarová klávesnice</string>
+    <string name="settings_soft_keyboard_subtitle">Vždy zobrazovat softwarovou klávesnici, i když je připojena hardwarová klávesnice</string>
+    <string name="settings_category_code_style">Styl Kódu</string>
+    <string name="settings_auto_indent_title">Automatické odsazení</string>
+    <string name="settings_auto_indent_subtitle">Automaticky odsazovat nové řádky odpovídající výše uvedenému řádku</string>
+    <string name="settings_auto_close_pairs_title">Automaticky zavřít páry</string>
+    <string name="settings_auto_close_pairs_subtitle">Automaticky zavřít kulaté závorky/hranaté závorky/složené závorky při psaní</string>
+    <string name="settings_category_tab_options">Možnosti záložek</string>
+    <string name="settings_use_spaces_not_tabs_title">Použít mezery namísto tabulace</string>
+    <string name="settings_use_spaces_not_tabs_subtitle">Vložit mezery namísto tabulace při použití automatického vsazení</string>
+    <string name="settings_tab_width_title">Šířka tabulace</string>
+    <string name="settings_tab_width_subtitle">Zadejte zobrazenou šířku tabulace v editoru</string>
+    <string name="settings_category_permissions">Přístupová práva</string>
+    <string name="settings_storage_access_title">Přístup k úložišti</string>
+    <string name="settings_storage_access_subtitle">Otevřete nastavení pro udělení přístupu do úložiště zařízení</string>
+    <string name="settings_category_encoding">Kódování</string>
+    <string name="settings_encoding_auto_detect_title">Enkódování automatické detekce</string>
+    <string name="settings_encoding_auto_detect_subtitle">Automatická detekce enkódování je užitečná pro vícenásobný jazyk</string>
+    <string name="settings_encoding_for_opening_title">Kódování pro otevírání souborů</string>
+    <string name="settings_encoding_for_opening_subtitle">Kódování použité při otevírání souborů</string>
+    <string name="settings_encoding_for_saving_title">Kódování pro ukládání souborů</string>
+    <string name="settings_encoding_for_saving_subtitle">Kódování používané při ukládání souborů</string>
+    <string name="settings_category_linebreaks">Zalomení řádků</string>
+    <string name="settings_linebreaks_for_saving_files_title">Zalomení řádků pro ukládání souborů</string>
+    <string name="settings_linebreaks_for_saving_files_subtitle">Typ Zalomení řádků použitý při ukládání souborů</string>
+    <string name="settings_linebreak_lf">Unix a macOS (\\n)</string>
+    <string name="settings_linebreak_crlf">Windows (\\r\\n)</string>
+    <string name="settings_linebreak_cr">Klasický Mac OS (\\r)</string>
+    <string name="settings_category_file_manager">Správce souborů</string>
+    <string name="settings_show_hidden_files_title">Zobrazit skryté soubory</string>
+    <string name="settings_show_hidden_files_subtitle">Zobrazí se skryté soubory a složky (začínající tečkou).</string>
+    <string name="settings_compact_packages_title">Kompaktní střední balíčky</string>
+    <string name="settings_compact_packages_subtitle">Následné složky budou zobrazeny jako jedna sloučená položka</string>
+    <string name="settings_folders_on_top_title">Složky nahoře</string>
+    <string name="settings_folders_on_top_subtitle">Složky budou zobrazeny nahoře</string>
+    <string name="settings_sort_mode_title">Seřadit podle</string>
+    <string name="settings_sort_by_name">Seřadit podle názvu</string>
+    <string name="settings_sort_by_size">Seřadit podle velikosti</string>
+    <string name="settings_sort_by_date">Seřadit podle datumu</string>
+    <string name="settings_category_environment">Prostředí</string>
+    <string name="settings_terminal_runtime_title">Terminál</string>
+    <string name="settings_terminal_runtime_subtitle">Vyberte prostředí běhu</string>
+    <string name="settings_terminal_exec_permission_title">Oprávnění k provedení</string>
+    <string name="settings_terminal_exec_permission_subtitle">Udělit oprávnění k provádění příkazů v Termuxu</string>
+    <string name="settings_terminal_allow_external_apps_title">Povolit externí aplikace</string>
+    <string name="settings_terminal_allow_external_apps_subtitle">Otevřete soubor termux.properties a přidejte následující řádek pro povolení spuštění z externích aplikací:</string>
+    <string name="settings_category_behavior">Nastavení chování</string>
+    <string name="settings_terminal_cursor_blinking_title">Blikání kurzoru</string>
+    <string name="settings_terminal_cursor_blinking_subtitle">Řídí, zda kurzor terminálu bliká</string>
+    <string name="settings_terminal_keep_screen_on_title">Nevypínat obrazovku</string>
+    <string name="settings_terminal_keep_screen_on_subtitle">Zabránit přechodu zařízení do režimu spánku při otevření terminálu</string>
+    <string name="settings_category_account">Účet</string>
+    <string name="settings_git_credentials_title">Git přihlašovací údaje</string>
+    <string name="settings_git_credentials_subtitle">Přihlašovací údaje pro přístup k vzdáleným repositářům</string>
+    <string name="settings_git_credentials_input_username_label">Uživatelské jméno</string>
+    <string name="settings_git_credentials_input_password_label">Heslo</string>
+    <string name="settings_git_user_title">Git uživatel</string>
+    <string name="settings_git_user_subtitle">Uživatelská data, která se zobrazí ve vašich Git Historie projektu</string>
+    <string name="settings_git_user_input_name_label">Jméno</string>
+    <string name="settings_git_user_input_email_label">Email</string>
+    <string name="settings_category_repository">Repozitář</string>
+    <string name="settings_submodules_title">Submoduly</string>
+    <string name="settings_submodules_subtitle">Zahrnout submoduly při klonování repozitáře</string>
+    <string name="settings_recursive_submodules_title">Rekurzivní podmoduly</string>
+    <string name="settings_recursive_submodules_subtitle">Načíst submoduly a jejich závislosti rekurzivně</string>
+    <string name="settings_category_about">O aplikaci</string>
+    <string name="settings_about_subtitle">Squircle CE je open source projekt publikovaný pod Apache 2.0 licencí\n\nVerze %1$s (%2$d)</string>
+    <string name="settings_privacy_policy_title">Ochrana osobních údajů</string>
+    <string name="settings_category_contribute">Přispět</string>
+    <string name="settings_translation_title">Překlad platformy</string>
+    <string name="settings_translation_subtitle">Přeložte tuto aplikaci do vašeho jazyka</string>
+    <string name="settings_contribute_title">Přispějte k vývoji</string>
+    <string name="settings_contribute_subtitle">Můžete vytvořit problém na GitHubu nebo přeložit tuto aplikaci do svého rodného jazyka.\n\n Děkujeme!</string>
+</resources>

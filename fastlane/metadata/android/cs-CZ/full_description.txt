@@ -1,0 +1,39 @@
+<b>Squircle CE</b> je rychlý a lehký editor kódu a správce souborů s podporou více než 30 programovacích jazyků, vzdáleným přístupem k souborům přes SFTP/FTP(S) a integrací Git VCS. Ať už jste student, amatér nebo profesionální vývojář, Squircle CE vám umožňuje psát, spravovat a verzovat zdrojový kód kdekoli a kdykoli – přímo na telefonu nebo tabletu.
+
+Zde jsou některé z funkcí, které ti pomáhají programovat efektivněji:
+
+<b>• Podpora více jazyků</b>
+Kód ve 30+ jazycích: Java, Kotlin, Python, C/C++, HTML, JavaScript, TypeScript, PHP, Rust, Go a další.
+
+<b>• Zvýraznění syntaxe</b>
+Čisté a barevné zvýraznění syntaxe vám pomůže pochopit váš kód na pohled.
+
+<b>• Dokončení kódu</b>
+Zrychlete kódování pomocí chytrých návrhů pro proměnné, funkce a klíčová slova na základě obsahu souboru.
+
+<b>• Git integrace</b>
+Verze řídí váš kód přímo v editoru. Snadné potvrzování, odesílání, stahování a správa větví
+
+<b>• Správce souborů</b>
+Spravujte soubory lokálně nebo vzdáleně s podporou SFTP/FTP(S) - nepotřebujete žádnou jinou aplikaci pro správu souborů.
+
+<b>• Úprava mezi relacemi</b>
+Nikdy neztratíte svou práci — všechny změny jsou ukládány automaticky, takže můžete pokračovat vpravo tam, kde jste skončili.
+
+Neomezené vrácení/opakování
+Opravit chyby snadno s neomezeným zrušením a opětovným provedením, i po restartu aplikace.
+
+<b>• Odpovídající</b>
+Rychlé pochopení struktury kódu s automatickým zvýrazněním odpovídajících závorek (), [] a {}.
+
+<b>• Vzhled kódu</b>
+Napsat čistší kód s automatickým odsazením a inteligentním uzavíráním závorek, závorek a uvozovek.
+
+<b>• Rozšířené editační nástroje</b>
+Snadno vybírat, smazat nebo duplikovat řádky s pohodlnými možnostmi úprav.
+
+<b>• Barevné schémata</b>
+Vyberte si z různých motivů, které odpovídají vašemu upřednostňovanému programovacímu prostředí.
+
+<b>• Otevřený zdroj</b>
+Prozkoumejte a přispívejte: <u>https://github.com/massivemadness/Squircle-CE</u>

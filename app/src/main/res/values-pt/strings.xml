@@ -15,9 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="app_splash_loading">…</string>
-    <string name="app_update_dialog_title">Actualización Válida</string>
-    <string name="app_update_dialog_message">A new version of the app is available. You can install it now, or update later through the app store.</string>
+    <string name="app_splash_loading">Carregando…</string>
+    <string name="app_update_dialog_title">Atualização disponível</string>
+    <string name="app_update_dialog_message">Está disponível uma nova versão da aplicação. Pode instalar agora ou atualizar mais tarde através da loja de aplicações.</string>
     <string name="app_update_dialog_button_install">Instalar</string>
-    <string name="app_update_dialog_button_later">Después</string>
+    <string name="app_update_dialog_button_later">Mais tarde</string>
 </resources>
