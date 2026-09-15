@@ -120,7 +120,7 @@
     <string name="settings_terminal_runtime_title">Terminal</string>
     <string name="settings_terminal_runtime_subtitle">Select the runtime environment</string>
     <string name="settings_terminal_exec_permission_title">Execution permission</string>
-    <string name="settings_terminal_exec_permission_subtitle">Grant permission to run commands in Termux</string>
+    <string name="settings_terminal_exec_permission_subtitle">Grant permission to run commands in Term</string>
     <string name="settings_terminal_allow_external_apps_title">Allow external apps</string>
     <string name="settings_terminal_allow_external_apps_subtitle">Open terminal allow execution from external apps:</string>
     <string name="settings_category_behavior">Behavior</string>
