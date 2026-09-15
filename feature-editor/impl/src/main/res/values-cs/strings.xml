@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="editor_menu_file">Soubor</string>
+    <string name="editor_menu_file_new">Nový</string>
+    <string name="editor_menu_file_open">Otevři</string>
+    <string name="editor_menu_file_save">Ulož</string>
+    <string name="editor_menu_file_save_as">Ulož jak</string>
+    <string name="editor_menu_file_reload">Znovu načíst</string>
+    <string name="editor_menu_file_close">Zavři</string>
+    <string name="editor_menu_file_close_others">Zavřít ostatní</string>
+    <string name="editor_menu_file_close_all">Zavřít všechno</string>
+    <string name="editor_menu_file_read_only">Pouze pro čtení</string>
+    <string name="editor_menu_edit">Upravit</string>
+    <string name="editor_menu_edit_select_line">Vybrat řádek</string>
+    <string name="editor_menu_edit_delete_line">Vymaž řádek</string>
+    <string name="editor_menu_edit_duplicate_line">Duplicitní řádek</string>
+    <string name="editor_menu_edit_undo">Vrátit zpět</string>
+    <string name="editor_menu_edit_redo">Provést znovu</string>
+    <string name="editor_menu_find">Najít</string>
+    <string name="editor_menu_find_regex">Regulární výraz</string>
+    <string name="editor_menu_find_match_case">Totožné písmo</string>
+    <string name="editor_menu_find_words_only">Pouze slova</string>
+    <string name="editor_menu_find_prev">Předchozí</string>
+    <string name="editor_menu_find_next">Další</string>
+    <string name="editor_menu_find_replace">Nahradit</string>
+    <string name="editor_menu_find_replace_all">Nahradit vše</string>
+    <string name="editor_menu_tools">Nástroje</string>
+    <string name="editor_menu_tools_force_syntax">Syntaxe vynucení</string>
+    <string name="editor_menu_tools_insert_color">Vložit barvu</string>
+    <string name="editor_menu_git_fetch">Načíst změny</string>
+    <string name="editor_menu_git_pull">Stáhnout a sloučit změny</string>
+    <string name="editor_menu_git_commit">Uložit změny /vytvořit nový bod v historii/</string>
+    <string name="editor_menu_git_push">Odeslat</string>
+    <string name="editor_menu_git_checkout">Zahození neuložených změn</string>
+    <string name="editor_menu_terminal">Terminál</string>
+    <string name="editor_menu_settings">Nastavení</string>
+    <string name="editor_empty_view_title">Žádné otevřené soubory</string>
+    <string name="editor_toast_file_saved">Uloženo</string>
+    <string name="editor_toast_git_invalid_credentials">Git vyžaduje konfiguraci v nastavení</string>
+    <string name="editor_goto_line_dialog_title">Jdi na řádek…</string>
+    <string name="editor_goto_line_dialog_input_label">Řádek:</string>
+    <string name="editor_goto_line_dialog_button_go_to">Jít na</string>
+    <string name="editor_force_syntax_dialog_title">Zvýraznění syntaxe</string>
+    <string name="editor_force_syntax_dialog_plain_text">Prostý text</string>
+    <string name="editor_color_picker_dialog_title">Výběr barev</string>
+    <string name="editor_color_picker_dialog_button_insert">Vložit</string>
+    <string name="editor_close_tab_dialog_message">Opravdu chcete tento soubor zavřít? Všechny neuložené změny budou zahozeny</string>
+    <string name="editor_close_tab_dialog_button_close">Zavřít</string>
+    <string name="editor_exit_dialog_title">Odejít</string>
+    <string name="editor_exit_dialog_message">Opravdu chcete ukončit? Všechny změny budou uloženy do mezipaměti</string>
+</resources>

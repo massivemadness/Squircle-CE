@@ -15,9 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="app_splash_loading">…</string>
-    <string name="app_update_dialog_title">Actualización Válida</string>
-    <string name="app_update_dialog_message">A new version of the app is available. You can install it now, or update later through the app store.</string>
-    <string name="app_update_dialog_button_install">Instalar</string>
-    <string name="app_update_dialog_button_later">Después</string>
+    <string name="app_splash_loading">Načítání…</string>
+    <string name="app_update_dialog_title">Aktualizace k dispozici</string>
+    <string name="app_update_dialog_message">Je k dispozici nová verze aplikace. Můžete si ji nainstalovat nyní nebo aktualizovat později prostřednictvím obchodu s aplikacemi.</string>
+    <string name="app_update_dialog_button_install">Instaluj</string>
+    <string name="app_update_dialog_button_later">Později</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright Squircle CE contributors.
+  ~ Copyright 2025 Squircle CE contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="app_splash_loading">…</string>
-    <string name="app_update_dialog_title">Actualización Válida</string>
-    <string name="app_update_dialog_message">A new version of the app is available. You can install it now, or update later through the app store.</string>
-    <string name="app_update_dialog_button_install">Instalar</string>
-    <string name="app_update_dialog_button_later">Después</string>
+    <string name="fonts_toolbar_title">Phông chữ</string>
+    <string name="fonts_item_button_remove">Gỡ bỏ</string>
+    <string name="fonts_toast_font_selected">Đã chọn «%1$s»</string>
+    <string name="fonts_toast_font_removed">Đã xóa «%1$s» phông chữ</string>
+    <string name="fonts_toast_font_added">Phông chữ mới có sẵn</string>
 </resources>
