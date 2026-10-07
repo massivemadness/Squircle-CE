@@ -17,6 +17,7 @@
 package com.blacksquircle.ui.feature.editor.ui.editor.view
 
 import com.blacksquircle.ui.core.extensions.showToast
+import com.blacksquircle.ui.feature.editor.data.model.LanguageKeywords
 import com.blacksquircle.ui.feature.editor.data.model.LanguageScope
 import io.github.rosemoe.sora.lang.EmptyLanguage
 import io.github.rosemoe.sora.lang.Language
@@ -90,6 +91,9 @@ internal fun CodeEditor.createFromRegistry(
             newlineHandler.isEnabled = autoIndentation
             symbolPairs.setEnabled(autoClosePairs)
             useTab(useTab)
+            if (codeCompletion) {
+                LanguageKeywords.forScope(context, language)?.let { setCompleterKeywords(it) }
+            }
         }
     } catch (e: Exception) {
         context.showToast(text = "Couldn't load grammar from registry: ${e.message}")

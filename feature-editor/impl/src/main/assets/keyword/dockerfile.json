@@ -1,0 +1,21 @@
+[
+  "FROM",
+  "RUN",
+  "CMD",
+  "LABEL",
+  "MAINTAINER",
+  "EXPOSE",
+  "ENV",
+  "ADD",
+  "COPY",
+  "ENTRYPOINT",
+  "VOLUME",
+  "USER",
+  "WORKDIR",
+  "ARG",
+  "ONBUILD",
+  "STOPSIGNAL",
+  "HEALTHCHECK",
+  "SHELL",
+  "AS"
+]

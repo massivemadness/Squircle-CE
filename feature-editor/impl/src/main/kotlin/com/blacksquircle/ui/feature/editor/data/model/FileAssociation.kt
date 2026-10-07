@@ -51,7 +51,6 @@ internal object FileAssociation {
         associations[".csx"] = LanguageScope.CSHARP
         associations[".cake"] = LanguageScope.CSHARP
         associations[".css"] = LanguageScope.CSS
-        associations[".scss"] = LanguageScope.CSS
         associations[".dart"] = LanguageScope.DART
         associations[".Dockerfile"] = LanguageScope.DOCKER
         associations[".Containerfile"] = LanguageScope.DOCKER
@@ -302,6 +301,29 @@ internal object FileAssociation {
         associations[".zig"] = LanguageScope.ZIG
         associations[".zon"] = LanguageScope.ZIG
         associations[".vue"] = LanguageScope.VUE
+        associations[".swift"] = LanguageScope.SWIFT
+        associations[".r"] = LanguageScope.R
+        associations[".R"] = LanguageScope.R
+        associations[".ps1"] = LanguageScope.POWERSHELL
+        associations[".psm1"] = LanguageScope.POWERSHELL
+        associations[".psd1"] = LanguageScope.POWERSHELL
+        associations[".pssc"] = LanguageScope.POWERSHELL
+        associations[".psrc"] = LanguageScope.POWERSHELL
+        associations[".cdxml"] = LanguageScope.POWERSHELL
+        associations[".m"] = LanguageScope.OBJC
+        associations[".less"] = LanguageScope.LESS
+        associations[".scss"] = LanguageScope.SCSS
+        associations[".coffee"] = LanguageScope.COFFEESCRIPT
+        associations[".cson"] = LanguageScope.COFFEESCRIPT
+        associations[".iced"] = LanguageScope.COFFEESCRIPT
+        associations[".pug"] = LanguageScope.PUG
+        associations[".jade"] = LanguageScope.PUG
+        associations[".diff"] = LanguageScope.DIFF
+        associations[".patch"] = LanguageScope.DIFF
+        associations[".rej"] = LanguageScope.DIFF
+        associations[".hbs"] = LanguageScope.HANDLEBARS
+        associations[".handlebars"] = LanguageScope.HANDLEBARS
+        associations[".hjs"] = LanguageScope.HANDLEBARS
     }
 
     fun guessLanguage(extension: String): String? {

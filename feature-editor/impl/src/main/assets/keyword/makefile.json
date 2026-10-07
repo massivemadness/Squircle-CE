@@ -1,0 +1,17 @@
+[
+  "ifeq",
+  "ifneq",
+  "ifdef",
+  "ifndef",
+  "else",
+  "endif",
+  "include",
+  "define",
+  "endef",
+  "export",
+  "override",
+  "vpath",
+  "all",
+  "clean",
+  "install"
+]

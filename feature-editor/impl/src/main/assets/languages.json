@@ -21,6 +21,16 @@
     "languageConfiguration": "languages/clojure/language-configuration.json"
   },
   {
+    "name": "coffeescript",
+    "displayName": "CoffeeScript",
+    "scopeName": "source.coffee",
+    "grammar": "languages/coffeescript/syntaxes/coffeescript.tmLanguage.json",
+    "languageConfiguration": "languages/coffeescript/language-configuration.json",
+    "embeddedLanguages": {
+      "source.js": "javascript"
+    }
+  },
+  {
     "name": "cpp",
     "displayName": "C++",
     "scopeName": "source.cpp",
@@ -47,6 +57,13 @@
     "scopeName": "source.dart",
     "grammar": "languages/dart/syntaxes/dart.tmLanguage.json",
     "languageConfiguration": "languages/dart/language-configuration.json"
+  },
+  {
+    "name": "diff",
+    "displayName": "Diff",
+    "scopeName": "source.diff",
+    "grammar": "languages/diff/syntaxes/diff.tmLanguage.json",
+    "languageConfiguration": "languages/diff/language-configuration.json"
   },
   {
     "name": "dockerfile",
@@ -82,6 +99,19 @@
     "scopeName": "source.groovy",
     "grammar": "languages/groovy/syntaxes/groovy.tmLanguage.json",
     "languageConfiguration": "languages/groovy/language-configuration.json"
+  },
+  {
+    "name": "handlebars",
+    "displayName": "Handlebars",
+    "scopeName": "text.html.handlebars",
+    "grammar": "languages/handlebars/syntaxes/Handlebars.tmLanguage.json",
+    "languageConfiguration": "languages/handlebars/language-configuration.json",
+    "embeddedLanguages": {
+      "text.html.basic": "html",
+      "source.css": "css",
+      "source.js": "javascript",
+      "source.yaml": "yaml"
+    }
   },
   {
     "name": "html",
@@ -151,6 +181,13 @@
     "scopeName": "text.tex",
     "grammar": "languages/latex/syntaxes/tex.tmLanguage.json",
     "languageConfiguration": "languages/latex/language-configuration.json"
+  },
+  {
+    "name": "less",
+    "displayName": "Less",
+    "scopeName": "source.css.less",
+    "grammar": "languages/less/syntaxes/less.tmLanguage.json",
+    "languageConfiguration": "languages/less/language-configuration.json"
   },
   {
     "name": "lisp",
@@ -227,6 +264,13 @@
     }
   },
   {
+    "name": "objc",
+    "displayName": "Objective-C",
+    "scopeName": "source.objc",
+    "grammar": "languages/objc/syntaxes/objective-c.tmLanguage.json",
+    "languageConfiguration": "languages/objc/language-configuration.json"
+  },
+  {
     "name": "perl",
     "displayName": "Perl",
     "scopeName": "source.perl",
@@ -250,11 +294,40 @@
     }
   },
   {
+    "name": "powershell",
+    "displayName": "PowerShell",
+    "scopeName": "source.powershell",
+    "grammar": "languages/powershell/syntaxes/powershell.tmLanguage.json",
+    "languageConfiguration": "languages/powershell/language-configuration.json"
+  },
+  {
+    "name": "pug",
+    "displayName": "Pug",
+    "scopeName": "text.pug",
+    "grammar": "languages/pug/syntaxes/pug.tmLanguage.json",
+    "languageConfiguration": "languages/pug/language-configuration.json",
+    "embeddedLanguages": {
+      "text.html.basic": "html",
+      "source.css": "css",
+      "source.js": "javascript",
+      "source.coffee": "coffeescript",
+      "source.css.scss": "scss",
+      "source.less": "less"
+    }
+  },
+  {
     "name": "python",
     "displayName": "Python",
     "scopeName": "source.python",
     "grammar": "languages/python/syntaxes/python.tmLanguage.json",
     "languageConfiguration": "languages/python/language-configuration.json"
+  },
+  {
+    "name": "r",
+    "displayName": "R",
+    "scopeName": "source.r",
+    "grammar": "languages/r/syntaxes/r.tmLanguage.json",
+    "languageConfiguration": "languages/r/language-configuration.json"
   },
   {
     "name": "ruby",
@@ -269,6 +342,16 @@
     "scopeName": "source.rust",
     "grammar": "languages/rust/syntaxes/rust.tmLanguage.json",
     "languageConfiguration": "languages/rust/language-configuration.json"
+  },
+  {
+    "name": "scss",
+    "displayName": "SCSS",
+    "scopeName": "source.css.scss",
+    "grammar": "languages/scss/syntaxes/scss.tmLanguage.json",
+    "languageConfiguration": "languages/scss/language-configuration.json",
+    "embeddedLanguages": {
+      "source.css": "css"
+    }
   },
   {
     "name": "shellscript",
@@ -290,6 +373,13 @@
     "scopeName": "source.sql",
     "grammar": "languages/sql/syntaxes/sql.tmLanguage.json",
     "languageConfiguration": "languages/sql/language-configuration.json"
+  },
+  {
+    "name": "swift",
+    "displayName": "Swift",
+    "scopeName": "source.swift",
+    "grammar": "languages/swift/syntaxes/swift.tmLanguage.json",
+    "languageConfiguration": "languages/swift/language-configuration.json"
   },
   {
     "name": "toml",

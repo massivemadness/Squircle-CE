@@ -1,0 +1,126 @@
+name: Release FOSS APK
+
+on:
+  push:
+    branches:
+      - 'master'
+    tags:
+      - 'v*'
+    paths-ignore:
+      - '**.md'
+      - '.github/ISSUE_TEMPLATE/**'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (foss-latest = rolling latest build)'
+        required: true
+        default: 'foss-latest'
+      prerelease:
+        description: 'Mark as pre-release'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+env:
+  APK_NAME: Modded-Squircel-CE-foss.apk
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle Cache
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Setup Keystore and local.properties
+        env:
+          KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE_FILE" ] && [ -n "$KEYSTORE_PASSWORD" ] && [ -n "$KEY_ALIAS" ] && [ -n "$KEY_PASSWORD" ]; then
+            echo "Using signing key from repository secrets"
+            echo "$KEYSTORE_FILE" | base64 -d > app/keystore.jks
+          else
+            echo "No signing secrets found, generating a temporary keystore"
+            KEYSTORE_PASSWORD=android
+            KEY_ALIAS=modded
+            KEY_PASSWORD=android
+            keytool -genkeypair -keystore app/keystore.jks \
+              -storepass "$KEYSTORE_PASSWORD" -alias "$KEY_ALIAS" -keypass "$KEY_PASSWORD" \
+              -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Modded Squircle CE"
+          fi
+          {
+            echo "KEYSTORE_PATH=keystore.jks"
+            echo "KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD"
+            echo "KEY_ALIAS=$KEY_ALIAS"
+            echo "KEY_PASSWORD=$KEY_PASSWORD"
+          } > local.properties
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build FOSS release APK
+        run: ./gradlew :app:assembleFossRelease --no-configuration-cache
+
+      - name: Rename APK
+        run: |
+          APK=app/build/outputs/apk/foss/release/app-foss-release.apk
+          test -f "$APK"
+          cp "$APK" "$APK_NAME"
+
+      - name: Create or update release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.inputs.tag || (github.ref_type == 'tag' && github.ref_name) || 'foss-latest' }}
+          PRERELEASE: ${{ github.event.inputs.prerelease }}
+        run: |
+          FLAGS=""
+          if [ "$PRERELEASE" = "true" ]; then FLAGS="--prerelease"; fi
+          SUBJECT=$(git log -1 --pretty=%s)
+          if [ "$TAG" = "foss-latest" ]; then
+            # Rolling release: replace the previous one so the tag points at this commit
+            gh release delete "$TAG" --cleanup-tag --yes || true
+            gh release create "$TAG" "$APK_NAME" \
+              --title "Modded Squircle CE - latest FOSS build" \
+              --notes "Automatic build of commit ${GITHUB_SHA::7}: $SUBJECT" \
+              --target "$GITHUB_SHA" \
+              $FLAGS
+          elif gh release view "$TAG" > /dev/null 2>&1; then
+            gh release upload "$TAG" "$APK_NAME" --clobber
+          else
+            gh release create "$TAG" "$APK_NAME" \
+              --title "Modded Squircle CE $TAG (FOSS)" \
+              --generate-notes \
+              --target "$GITHUB_SHA" \
+              $FLAGS
+          fi
+
+      - name: Delete Keystore
+        if: always()
+        run: rm -f app/keystore.jks local.properties
