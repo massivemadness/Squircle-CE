@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="explorer_menu_sort_show_hidden">Zobraz skryté soubory</string>
+    <string name="explorer_menu_sort_compact_packages">Kompaktní balení</string>
+    <string name="explorer_menu_sort_by_name">Seřadit podle názvu</string>
+    <string name="explorer_menu_sort_by_size">Seřadit podle velikosti</string>
+    <string name="explorer_menu_sort_by_date">Seřadit podle data</string>
+    <string name="explorer_menu_selection_delete">Zmazat</string>
+    <string name="explorer_menu_selection_open_with">Jak otevřít</string>
+    <string name="explorer_menu_selection_open_terminal">Otevři terminál</string>
+    <string name="explorer_menu_selection_rename">Přejmenovat</string>
+    <string name="explorer_menu_selection_properties">Vlastnosti</string>
+    <string name="explorer_menu_selection_copy_path">Kopíruj cestu</string>
+    <string name="explorer_menu_selection_compress">Komprimovat</string>
+    <string name="explorer_menu_selection_refresh">Obnovit</string>
+    <string name="explorer_menu_selection_clone">Přesná kopie</string>
+    <string name="explorer_menu_selection_create">Vytvořit</string>
+    <string name="explorer_create_dialog_title">Vytvoř…</string>
+    <string name="explorer_create_dialog_input_label">Název souboru</string>
+    <string name="explorer_create_dialog_input_error">Neplatný název souboru</string>
+    <string name="explorer_create_dialog_checkbox_folder">Složka</string>
+    <string name="explorer_create_dialog_button_create">Vytvoř</string>
+    <string name="explorer_rename_dialog_title">Přejmenovat…</string>
+    <string name="explorer_rename_dialog_input_label">Název souboru</string>
+    <string name="explorer_rename_dialog_input_error">Neplatný název souboru</string>
+    <string name="explorer_rename_dialog_button_rename">Přejmenovat</string>
+    <string name="explorer_compress_dialog_title">Název archivu</string>
+    <string name="explorer_compress_dialog_input_label">Zadat název archivu</string>
+    <string name="explorer_compress_dialog_input_error">Neplatný název archivu</string>
+    <string name="explorer_compress_dialog_button_compress">Komprimovat</string>
+    <string name="explorer_auth_dialog_title">Ověřování</string>
+    <string name="explorer_auth_dialog_input_password_label">Vložit heslo</string>
+    <string name="explorer_auth_dialog_input_passphrase_label">Zadejte přístupovou frázi</string>
+    <string name="explorer_auth_dialog_button_authenticate">Ověřování</string>
+    <string name="explorer_clone_dialog_title">Duplikovat…</string>
+    <string name="explorer_clone_dialog_input_label">Vlož web adresu</string>
+    <string name="explorer_clone_dialog_input_error">Neplatná adresa URL</string>
+    <string name="explorer_clone_dialog_button_clone">Duplikovat</string>
+    <string name="explorer_multidelete_dialog_title">Vícenásobné mazání</string>
+    <string name="explorer_multidelete_dialog_message">Opravdu chcete smazat vybrané soubory?</string>
+    <string name="explorer_delete_dialog_message">Opravdu chcete tento soubor smazat?</string>
+    <string name="explorer_delete_dialog_button_delete">Odstranit</string>
+    <string name="explorer_properties_dialog_title">Vlastnosti</string>
+    <string name="explorer_properties_dialog_name">Název souboru:</string>
+    <string name="explorer_properties_dialog_path">Cesta k souboru:</string>
+    <string name="explorer_properties_dialog_date">Naposledy změněno:</string>
+    <string name="explorer_properties_dialog_date_format">dd/MM/rrrr EEE HH:mm</string>
+    <string name="explorer_properties_dialog_size">Velikost souboru:</string>
+    <string name="explorer_task_dialog_title_creating">Vytváření…</string>
+    <string name="explorer_task_dialog_title_renaming">Přejmenování…</string>
+    <string name="explorer_task_dialog_title_deleting">Mazání…</string>
+    <string name="explorer_task_dialog_title_copying">Kopíruji…</string>
+    <string name="explorer_task_dialog_title_compressing">Komprimování…</string>
+    <string name="explorer_task_dialog_title_extracting">Rozbaluji…</string>
+    <string name="explorer_task_dialog_title_cloning">Klonování…</string>
+    <string name="explorer_task_dialog_message_creating">Vytvářím…%1$s</string>
+    <string name="explorer_task_dialog_message_renaming">Přejmenovávání…%1$s</string>
+    <string name="explorer_task_dialog_message_deleting">Mazání…%1$s</string>
+    <string name="explorer_task_dialog_message_copying">Kopírování…%1$s</string>
+    <string name="explorer_task_dialog_message_compressing">Komprimuji…%1$s</string>
+    <string name="explorer_task_dialog_message_extracting">Extrahuji…%1$s</string>
+    <string name="explorer_task_dialog_message_cloning">Klonování…%1$s</string>
+    <string name="explorer_task_dialog_progress_time">Uplynulý čas: %1$s</string>
+    <string name="explorer_task_dialog_button_background">Spustit na pozadí</string>
+    <string name="explorer_task_service_channel_name">Správce souborů</string>
+    <string name="explorer_task_service_channel_description">Zobrazení a ovládání operací se soubory</string>
+    <string name="explorer_task_service_message">Probíhají operace na pozadí</string>
+    <string name="explorer_storage_permission_dialog_title">Přístup k úložišti</string>
+    <string name="explorer_storage_permission_dialog_message">Squircle CE potřebuje plný přístup k vašim souborům, aby správně fungovaly\n\nProsím, udělte oprávnění v nadcházejícím nastavení systému</string>
+    <string name="explorer_notification_permission_dialog_title">Oznámení</string>
+    <string name="explorer_notification_permission_dialog_message">Squircle CE potřebuje přístup k oznámením pro spuštění na pozadí\n\nProsím udělte oprávnění v nadcházejícím nastavení systému</string>
+    <string name="explorer_workspace_add_dialog_title">Přidat pracovní prostor</string>
+    <string name="explorer_workspace_delete_dialog_message">Opravdu chcete smazat tento pracovní prostor?</string>
+    <string name="explorer_workspace_local_dialog_input_label">Zadejte cestu k adresáři</string>
+    <string name="explorer_workspace_local_storage_title">Místní adresář</string>
+    <string name="explorer_workspace_local_storage_description">Otevřít složku pomocí absolutní cesty</string>
+    <string name="explorer_workspace_internal_storage_title">Vnitřní úložiště</string>
+    <string name="explorer_workspace_internal_storage_description">Otevřít složku pomocí systémové aplikace</string>
+    <string name="explorer_workspace_remote_server_title">Vzdálený server</string>
+    <string name="explorer_workspace_remote_server_description">Připojit ke vzdálenému serveru s adresou a přihlašovacími údaji uživatele</string>
+    <string name="explorer_workspace_button_files">Soubory</string>
+    <string name="explorer_workspace_button_root">Root</string>
+    <string name="explorer_workspace_button_add">Přidat</string>
+    <string name="explorer_toast_select_folder_to_paste">Vyberte složku pro vložení</string>
+    <string name="explorer_toast_file_cannot_be_opened">Soubor nelze otevřít</string>
+    <string name="explorer_toast_file_already_exists">Soubor již existuje</string>
+    <string name="explorer_toast_file_not_found">Soubor nenalezen</string>
+    <string name="explorer_toast_unsupported_archive">Nepodporovaný archiv</string>
+    <string name="explorer_toast_invalid_archive">Neplatný archiv</string>
+    <string name="explorer_toast_split_archive">Archiv je rozdělen</string>
+    <string name="explorer_toast_encrypted_archive">Archiv je zašifrován</string>
+    <string name="explorer_toast_operation_cancelled">Operace zrušena</string>
+    <string name="explorer_toast_operation_not_supported">Činnost není podporována</string>
+    <string name="explorer_toast_same_directory_required">Soubory musí být umístěny ve stejném adresáři</string>
+    <string name="explorer_toast_done">Hotovo</string>
+    <string name="explorer_error_view_title_auth">Vyžadováno ověření</string>
+    <string name="explorer_error_view_button_authenticate">Ověřit</string>
+    <string name="explorer_error_view_message_password">Zadejte heslo pro připojení ke vzdálenému serveru</string>
+    <string name="explorer_error_view_message_passphrase">Zadejte přístupovou frázi pro připojení k vzdálenému serveru</string>
+</resources>

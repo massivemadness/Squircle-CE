@@ -17,7 +17,7 @@
 <resources>
     <string name="app_splash_loading">…</string>
     <string name="app_update_dialog_title">Actualización Válida</string>
-    <string name="app_update_dialog_message">Una nueva versión de la aplicación, puedes instalarlo ahora, o después directamente de la app atore.</string>
+    <string name="app_update_dialog_message">A new version of the app is available. You can install it now, or update later through the app store.</string>
     <string name="app_update_dialog_button_install">Instalar</string>
     <string name="app_update_dialog_button_later">Después</string>
 </resources>

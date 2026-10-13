@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2025 Squircle CE contributors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="git_fetch_dialog_title">Načíst změny</string>
+    <string name="git_fetch_dialog_message">Načítání aktualizací ze vzdáleného repositáře…</string>
+    <string name="git_pull_dialog_title">Stáhnout a sloučit změny</string>
+    <string name="git_pull_dialog_message">Stahování změn ze vzdáleného repositáře…</string>
+    <string name="git_commit_dialog_title">Uložit bod</string>
+    <string name="git_commit_dialog_message">Uložit body do místního repositáře…</string>
+    <string name="git_commit_dialog_input_label">Popis změn</string>
+    <string name="git_commit_dialog_selection_label">Neprovedené změny</string>
+    <string name="git_commit_dialog_selection_empty">Beze změn</string>
+    <string name="git_commit_dialog_checkbox_amend">Pozměnit</string>
+    <string name="git_commit_dialog_button_commit">Uložit bod</string>
+    <string name="git_push_dialog_title">Odeslat</string>
+    <string name="git_push_dialog_message">Odesílání změn do vzdáleného repositáře…</string>
+    <string name="git_push_dialog_message_branch">Tato větev ve vzdáleném repozitáři neexistuje. Odeslat ji pro vytvoření nové vzdálené větve?</string>
+    <string name="git_push_dialog_message_commits">Chystáte se odeslat %1$d commit(y) do %2$s. Pokračovat?</string>
+    <string name="git_push_dialog_message_empty">Žádné změny k odeslání</string>
+    <string name="git_push_dialog_checkbox_force">Vynutit</string>
+    <string name="git_push_dialog_button_push">Odeslat</string>
+    <string name="git_checkout_dialog_title">Přepnout</string>
+    <string name="git_checkout_dialog_message">Kontrola větve…</string>
+    <string name="git_checkout_dialog_selection_label">Větve</string>
+    <string name="git_checkout_dialog_input_label">Název větve</string>
+    <string name="git_checkout_dialog_input_help">Vaše větev bude založena na %1$s</string>
+    <string name="git_checkout_dialog_checkbox_new">Nová větev</string>
+    <string name="git_checkout_dialog_button_create">Vytvoř</string>
+    <string name="git_checkout_dialog_button_checkout">Přepnout</string>
+    <string name="git_toast_fetch_complete">Načítání dokončeno</string>
+    <string name="git_toast_pull_complete">Stáhnutí dokončeno</string>
+    <string name="git_toast_commit_created">Kontrolní bod vytvořen</string>
+    <string name="git_toast_push_complete">Nahrávání dokončeno</string>
+    <string name="git_toast_checked_out">Zkontrolováno %1$s</string>
+    <string name="git_change_added">Přidáno</string>
+    <string name="git_change_modified">Změněno</string>
+    <string name="git_change_deleted">Odstraněno</string>
+</resources>
